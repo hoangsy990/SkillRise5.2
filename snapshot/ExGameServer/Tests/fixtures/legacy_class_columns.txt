@@ -1,0 +1,6 @@
+// Isolated tokenizer fixture. Not a complete Skill/Quest configuration.
+901 "First row" 1 0 2 3 0 1 0 // seven columns only
+
+// The next ID must not be consumed as an eighth class column.
+902 "Second row" 0 3 2 1 0 0 1
+end

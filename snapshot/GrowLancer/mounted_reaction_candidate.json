@@ -1,0 +1,25 @@
+{
+  "status": "IN_PROCESS",
+  "activation": "candidate_only_not_loaded_by_runtime",
+  "source": "D:/MU FICA Season 21/Data/Player/player.bmd",
+  "sourceSha256": "E0F4CB5A0956192D04026135766C566BC6B9B7B559D2F196F74D24D28E2E755A",
+  "sourceFormat": "BMD v0F",
+  "base": "ExMain_RISE_PC/Tests/GrowLancerBuild/RuntimeQA/Client/Data/Player/player.bmd",
+  "baseSha256": "0CC3D22D5BBD426128E6BFFE9C3766585F9F28BBDA5B3DD50122EC7AD6B9CA63",
+  "candidate": "artifacts/grow_lancer/mounted_reaction_candidate/player.bmd",
+  "candidateSha256": "24EC40D7A367ED393D4B0832C3F55BB2560805531817FEFCD893166B76E434D4",
+  "candidateFormat": "BMD v0C",
+  "conversionTool": "tools/grow_lancer/merge_player_actions.py",
+  "conversionActionsArgument": "335-338",
+  "baseActionsPreserved": 294,
+  "candidateActionCount": 298,
+  "skeleton": "60 canonical bone names/parents/dummy flags match; zero meshes",
+  "snapshotSpeedEvidence": "tools/grow_lancer/inspect_player_shock_snapshot.py; cached values only, not proof of all subsequent writes",
+  "actions": [
+    {"source":335,"candidate":294,"role":"unarmed_or_safe_state","keys":6,"snapshotSpeed":0.4,"clipSha256":"5735068A113B70A95F12BDED5314E63BBB28A7AAF489558B3EEAC63F53C88CDB"},
+    {"source":336,"candidate":295,"role":"hand0","keys":6,"snapshotSpeed":0.4,"clipSha256":"5A6FB5AF94433ECF467C5CEEA39AA209804BF4412B778AD7FAC70741DBAFFF26"},
+    {"source":337,"candidate":296,"role":"hand1","keys":6,"snapshotSpeed":0.4,"clipSha256":"18C20BD027446576D8021BDB87D1DE76A86003BBDA4EE8CEA44CDAC3AD0C28B2"},
+    {"source":338,"candidate":297,"role":"both_hands","keys":6,"snapshotSpeed":0.4,"clipSha256":"745C0BB96D2901250EF063D8ED755B623AB7830217E355350461D6254F55B0D6"}
+  ],
+  "openGates": ["native mapping and capacity guards", "CRC authorization and coherent isolated staging", "runtime animation speed registration", "full mounted lifecycle", "new class integration", "GameServer authority", "ingame visual acceptance"]
+}

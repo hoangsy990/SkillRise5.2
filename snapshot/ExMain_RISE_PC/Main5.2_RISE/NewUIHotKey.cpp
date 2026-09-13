@@ -1,0 +1,563 @@
+
+
+#include "stdafx.h"
+
+#include "NewUIHotKey.h"
+#include "NewUISystem.h"
+#include "NewUICommonMessageBox.h"
+#include "NewUICustomMessageBox.h"
+#include "DSPlaySound.h"
+#include "GMBattleCastle.h"
+#include "CSChaosCastle.h"
+#include "w_CursedTemple.h"
+#include "ZzzInterface.h"
+#include "ZzzLodTerrain.h"
+#include "wsclientinline.h"
+#include "ZzzEffect.h"
+#include "UIMng.h"
+#include "MapManager.h"
+#include "CharacterManager.h"
+#ifdef KJH_ADD_INGAMESHOP_UI_SYSTEM
+#include "GameShop/InGameShopSystem.h"
+#endif // KJH_ADD_INGAMESHOP_UI_SYSTEM
+#include "RISE/WideData.h"
+#include "RISE/TrayModeNew.h"
+#include "RISE/ZzzToolKit.h"
+#include "RISE/GrowLancerRuntimeQA.h"
+#include <GameShop/MsgBoxIGSCommon.h>
+using namespace SEASON3B;
+
+SEASON3B::CNewUIHotKey::CNewUIHotKey() : m_pNewUIMng(NULL) , m_bStateGameOver(false)
+{
+
+}
+
+SEASON3B::CNewUIHotKey::~CNewUIHotKey() 
+{ 
+	Release(); 
+}
+
+bool SEASON3B::CNewUIHotKey::Create(CNewUIManager* pNewUIMng)
+{
+	if(NULL == pNewUIMng)
+		return false;
+	
+	m_pNewUIMng = pNewUIMng;
+	m_pNewUIMng->AddUIObj(SEASON3B::INTERFACE_HOTKEY, this);
+	Show(true);
+	return true;
+}
+
+void SEASON3B::CNewUIHotKey::Release()
+{
+	if(m_pNewUIMng)
+	{
+		m_pNewUIMng->RemoveUIObj(this);
+		m_pNewUIMng = NULL;
+	}
+}
+
+bool SEASON3B::CNewUIHotKey::UpdateMouseEvent()
+{
+	extern int SelectedCharacter;
+	
+	if(g_isCharacterBuff((&Hero->Object), eBuff_DuelWatch))
+	{
+		return true;
+	}
+
+	if(SelectedCharacter >= 0)
+	{
+		if (SEASON3B::IsRepeat(VK_MENU) && SEASON3B::IsRelease(VK_RBUTTON) && gMapManager.InChaosCastle() == false && gMapManager.IsCursedTemple() == false)
+		{
+			// RISE Lock Trade Use CommandQuick
+			if (g_pNewUISystem->IsVisible(SEASON3B::INTERFACE_TRADE)
+				|| g_pNewUISystem->IsVisible(SEASON3B::INTERFACE_MYSHOP_INVENTORY)
+				|| g_pNewUISystem->IsVisible(SEASON3B::INTERFACE_PURCHASESHOP_INVENTORY)
+				)
+			{
+				return false;
+			}
+
+			CHARACTER* pCha = &CharactersClient[SelectedCharacter];	
+			
+			if(pCha->Object.Kind != KIND_PLAYER)
+			{
+				return false;
+			}
+			
+			if( (pCha->Object.SubType == MODEL_XMAS_EVENT_CHA_DEER)
+				|| (pCha->Object.SubType == MODEL_XMAS_EVENT_CHA_SNOWMAN)
+				|| (pCha->Object.SubType == MODEL_XMAS_EVENT_CHA_SSANTA)
+				)
+			{
+				return false;
+			}
+
+			if (::IsStrifeMap(gMapManager.WorldActive) && Hero->m_byGensInfluence != pCha->m_byGensInfluence)
+				return false;
+
+			float fPos_x = pCha->Object.Position[0] - Hero->Object.Position[0];
+			float fPos_y = pCha->Object.Position[1] - Hero->Object.Position[1];
+			float fDistance = sqrtf((fPos_x * fPos_x) + (fPos_y * fPos_y));
+			
+			if(fDistance < 300.f)
+			{
+				int x, y;
+				x = MouseX + 10;
+				y = MouseY - 50;
+				if(y < 0)
+				{
+					y = 0;
+				}
+				g_pQuickCommand->OpenQuickCommand(pCha->ID, SelectedCharacter, x, y);
+			}
+			else
+			{
+				g_pChatListBox->AddText("", GlobalText[1388], SEASON3B::TYPE_ERROR_MESSAGE);
+				g_pQuickCommand->CloseQuickCommand();
+			}
+			
+			return false;
+		}
+	}
+
+	return true;
+}
+
+bool SEASON3B::CNewUIHotKey::UpdateKeyEvent()
+{
+	if(SEASON3B::IsPress(VK_ESCAPE) == true)
+	{
+		if(g_MessageBox->IsEmpty())
+		{
+			SEASON3B::CreateMessageBox(MSGBOX_LAYOUT_CLASS(SEASON3B::CSystemMenuMsgBoxLayout));
+			PlayBuffer(SOUND_CLICK01);
+			return false;
+		}
+	}
+
+	if( m_bStateGameOver == true )
+	{
+		return false;
+	}
+
+	if(SEASON3B::IsPress(VK_TAB) == false && g_pNewUISystem->IsVisible(SEASON3B::INTERFACE_MINI_MAP) == true)
+	{
+		return false;
+	}
+
+	if(g_isCharacterBuff((&Hero->Object), eBuff_DuelWatch))
+	{
+		if (SEASON3B::IsPress('M') == true)
+		{
+			g_pNewUISystem->Toggle(SEASON3B::INTERFACE_MOVEMAP);
+			PlayBuffer(SOUND_CLICK01);
+		}
+		return false;
+	}
+
+	if(AutoGetItem() == true)
+	{
+		return false;
+	}
+
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+	if (rise::growlancer::HandleRuntimeQAHotKey())
+	{
+		return false;
+	}
+#endif
+
+	if (SEASON3B::IsPress(VK_F5))
+	{
+		g_pNewUISystem->Toggle(SEASON3B::INTERFACE_MEMNUOPTION);
+		PlayBuffer(SOUND_CLICK01);
+		return false;
+	}
+
+	if(CanUpdateKeyEventRelatedMyInventory() == true)
+	{
+		if(SEASON3B::IsPress('I') || SEASON3B::IsPress('V'))
+		{
+			if (g_pNPCShop->IsSellingItem() == false)
+			{
+				if (pKit->CheckPickedItem())
+				{
+					return false;
+				}
+
+				g_pNewUISystem->Toggle(SEASON3B::INTERFACE_INVENTORY);
+				PlayBuffer(SOUND_CLICK01);
+				return false;
+			}
+		}
+
+		return true;
+	}
+	else if(CanUpdateKeyEvent() == false)
+	{
+		return true;
+	}
+
+	if(SEASON3B::IsPress('F'))
+	{
+		//g_pNewUISystem->Toggle(SEASON3B::INTERFACE_DEMOFORM);
+
+		PlayBuffer(SOUND_CLICK01);
+		return false;
+	}
+	else if(SEASON3B::IsPress('I') || SEASON3B::IsPress('V'))
+	{
+		if (g_pNPCShop->IsSellingItem() == false)
+		{
+			if (pKit->CheckPickedItem())
+			{
+				return false;
+			}
+
+			g_pNewUISystem->Toggle(SEASON3B::INTERFACE_INVENTORY);
+			PlayBuffer(SOUND_CLICK01);
+			return false;
+		}
+	}
+	else if(SEASON3B::IsPress('C'))
+	{
+		g_pNewUISystem->Toggle(SEASON3B::INTERFACE_CHARACTER);
+		PlayBuffer(SOUND_CLICK01);
+		return false;
+	}
+	else if(SEASON3B::IsPress('T'))
+	{
+		//g_pNewUISystem->Toggle(SEASON3B::INTERFACE_MYQUEST);
+		PlayBuffer(SOUND_CLICK01);
+		return false;
+	}
+	else if(SEASON3B::IsPress('P'))
+	{
+		g_pNewUISystem->Toggle(SEASON3B::INTERFACE_PARTY);
+		PlayBuffer(SOUND_CLICK01);
+		return false;
+	}
+	else if(SEASON3B::IsPress('G'))
+	{
+		g_pNewUISystem->Toggle(SEASON3B::INTERFACE_GUILDINFO);
+		PlayBuffer(SOUND_CLICK01);
+		return false;
+	}
+
+	else if (SEASON3B::IsPress('A'))
+	{
+		if (gCharacterManager.IsMasterLevel(Hero->Class) == true)
+		{
+			g_pNewUISystem->Toggle(SEASON3B::INTERFACE_MASTER_LEVEL);
+		}
+
+		PlayBuffer(SOUND_CLICK01);
+		return false;
+	}
+
+	else if(SEASON3B::IsPress('U'))	
+	{
+		g_pNewUISystem->Toggle(SEASON3B::INTERFACE_WINDOW_MENU);
+		PlayBuffer(SOUND_CLICK01);
+		return false;
+	}
+	else if(gMapManager.InChaosCastle() == false && SEASON3B::IsPress('D'))
+	{
+		if (::IsStrifeMap(gMapManager.WorldActive))
+		{
+			if (g_pChatListBox->CheckChatRedundancy(GlobalText[2989]) == FALSE)
+				g_pChatListBox->AddText("", GlobalText[2989], SEASON3B::TYPE_SYSTEM_MESSAGE);
+		}
+		else
+		{
+			g_pNewUISystem->Toggle(SEASON3B::INTERFACE_COMMAND);
+		}
+
+		PlayBuffer(SOUND_CLICK01);
+		return false;
+	}
+	else if(SEASON3B::IsPress(VK_F1) == true)
+	{
+		/*g_pNewUISystem->Toggle(SEASON3B::INTERFACE_HELP);*/
+		PlayBuffer(SOUND_CLICK01);
+		return false;
+	}
+	else if(SEASON3B::IsPress('M') == true)
+	{
+		g_pNewUISystem->Toggle(SEASON3B::INTERFACE_MOVEMAP);
+		PlayBuffer(SOUND_CLICK01);
+
+		return false;
+	}
+	else if(SEASON3B::IsPress(VK_TAB) == true && gMapManager.InBattleCastle() == true )
+	{
+		g_pNewUISystem->Toggle( SEASON3B::INTERFACE_SIEGEWARFARE );
+		PlayBuffer(SOUND_CLICK01);
+		return false;
+	}
+	else if (SEASON3B::IsPress(VK_HOME))
+	{
+		if (g_pNewUISystem->IsVisible(SEASON3B::INTERFACE_MUHELPER))
+		{
+			CMsgBoxIGSCommon* pMsgBox = NULL;
+			CreateMessageBox(MSGBOX_LAYOUT_CLASS(CMsgBoxIGSCommonLayout), &pMsgBox);
+			pMsgBox->Initialize(GlobalText[3028], GlobalText[3186]);
+			return false;
+		}
+		else if (CharacterAttribute->Level < CharacterAttribute->MuHelperLevel)
+		{
+			unicode::t_char szText[MAX_TEXT_LENGTH] = { '\0', };
+			sprintf(szText, GlobalText[3188], CharacterAttribute->MuHelperLevel);
+			CMsgBoxIGSCommon* pMsgBox = NULL;
+			CreateMessageBox(MSGBOX_LAYOUT_CLASS(CMsgBoxIGSCommonLayout), &pMsgBox);
+			pMsgBox->Initialize(GlobalText[3028], szText);
+			return false;
+		}
+		else
+		{
+			MUHelper::g_MuHelper.Toggle();
+		}
+		return false;
+	}
+	else if (SEASON3B::IsPress(VK_F8) == true)
+	{
+		g_pNewUISystem->Hide(SEASON3B::INTERFACE_BANK);
+		g_pNewUISystem->Hide(SEASON3B::INTERFACE_RANKING);
+		g_pNewUISystem->Hide(SEASON3B::INTERFACE_EVENTITME);
+		g_pNewUISystem->Hide(SEASON3B::INTERFACE_EVENRELIFE);
+		g_pNewUISystem->Hide(SEASON3B::INTERFACE_EVENRSCHANGE);
+		g_pNewUISystem->Hide(SEASON3B::INTERFACE_EVENDANHHIEU);
+		g_pNewUISystem->Hide(SEASON3B::INTERFACE_NEWSPIN);
+		g_pNewUISystem->Hide(SEASON3B::INTERFACE_IDLEVEL);
+		g_pNewUISystem->Hide(SEASON3B::INTERFACE_MOCNAP);
+		g_pNewUISystem->Hide(SEASON3B::INTERFACE_CHANGECLASS);
+		g_pNewUISystem->Hide(SEASON3B::INTERFACE_CHANGEPASS);
+		g_pNewUISystem->Hide(SEASON3B::INTERFACE_EVENHONHOAN);
+		g_pNewUISystem->Hide(SEASON3B::INTERFACE_NEWSHOP);
+
+		if (g_pNewUISystem->IsVisible(SEASON3B::INTERFACE_MEMNUOPTION))
+		{
+			g_pNewUISystem->Hide(SEASON3B::INTERFACE_MEMNUOPTION);
+		}
+		else
+		{
+			g_pNewUISystem->Toggle(SEASON3B::INTERFACE_MEMNUOPTION);
+		}
+	}
+	else if (SEASON3B::IsPress(VK_TAB) == true)
+	{
+		if(g_pNewUIMiniMap->m_bSuccess == false)
+		{
+			g_pNewUISystem->Hide(SEASON3B::INTERFACE_MINI_MAP);
+		}
+		else
+			g_pNewUISystem->Toggle( SEASON3B::INTERFACE_MINI_MAP );
+		PlayBuffer(SOUND_CLICK01);
+		return false;
+	}
+	else if(SEASON3B::IsPress('X') == true)
+	{
+		g_pNewShop->SendMenuKey();
+		return false;
+	}
+
+	else if(SEASON3B::IsPress('B'))
+	{
+		if(!g_pNewUIGensRanking->SetGensInfo())
+			return false;
+
+		g_pNewUISystem->Toggle(SEASON3B::INTERFACE_GENSRANKING);
+		PlayBuffer(SOUND_CLICK01);
+		return false;
+	}
+	else if (SEASON3B::IsPress('J'))
+	{
+		if (pKit->CheckPickedItem())
+		{
+			return false;
+		}
+
+		if (g_pNewUISystem->IsCloseWindows())
+		{
+			return false;
+		}
+
+		if (g_pNewUISystem->IsVisible(INTERFACE_CHARACTER) || (g_pNewUISystem->IsVisible(INTERFACE_INVENTORY) && g_pNewUISystem->IsVisible(INTERFACE_CHARACTER)))
+		{
+			return false;
+		}
+
+		if (g_pNewUISystem->IsVisible(INTERFACE_INVENTORY))
+		{
+			g_pNewUISystem->Toggle(SEASON3B::INTERFACE_BANK);
+		}
+		else if (g_pNewUISystem->IsVisible(INTERFACE_BANK))
+		{
+			g_pNewUISystem->Hide(INTERFACE_BANK);
+		}
+		else
+		{
+			g_pNewUISystem->Toggle(SEASON3B::INTERFACE_INVENTORY);
+			g_pNewUISystem->Show(SEASON3B::INTERFACE_BANK);
+		}
+
+		PlayBuffer(SOUND_CLICK01);
+		return false;
+	}
+	else if (SEASON3B::IsPress('H'))
+	{
+		g_pNewUISystem->Toggle(SEASON3B::INTERFACE_EVENTITME);
+		SystemDataSendTwo(0xF3, 0xE8);
+
+		PlayBuffer(SOUND_CLICK01);
+		return false;
+	}
+	else if (SEASON3B::IsPress('Z'))
+	{
+		g_pNewUISystem->Toggle(SEASON3B::INTERFACE_MUHELPER);
+		PlayBuffer(SOUND_CLICK01);
+		return false;
+	}
+	else if (SEASON3B::IsPress('O'))
+	{
+		g_pNewUISystem->Toggle(SEASON3B::INTERFACE_OPTION);
+		PlayBuffer(SOUND_CLICK01);
+		return false;
+	}
+	else if (SEASON3B::IsPress(VK_F12))
+	{
+		if (gTrayMode.TempWindowProc == NULL)
+		{
+			gTrayMode.TempWindowProc = SetWindowLong(g_hWnd, GWL_WNDPROC, (long)gTrayMode.Window);
+		}
+		gTrayMode.SwitchState();
+		PlayBuffer(SOUND_CLICK01);
+		return false;
+	}
+	else
+	if (SEASON3B::IsPress(VK_END) == true)
+	{
+		pKit->EndKeyPressed ^= 1;
+		return true;
+	}
+
+	return true;
+}
+
+bool SEASON3B::CNewUIHotKey::Update()
+{
+	return true;
+}
+
+bool SEASON3B::CNewUIHotKey::Render()
+{
+	return true;
+}
+
+bool SEASON3B::CNewUIHotKey::CanUpdateKeyEventRelatedMyInventory()
+{
+	if(g_pNewUISystem->IsVisible(SEASON3B::INTERFACE_MIXINVENTORY)
+		|| g_pNewUISystem->IsVisible(SEASON3B::INTERFACE_TRADE)
+		|| g_pNewUISystem->IsVisible(SEASON3B::INTERFACE_STORAGE)
+		|| g_pNewUISystem->IsVisible(SEASON3B::INTERFACE_NPCSHOP)
+		|| g_pNewUISystem->IsVisible(SEASON3B::INTERFACE_MYSHOP_INVENTORY)
+		|| g_pNewUISystem->IsVisible(SEASON3B::INTERFACE_PURCHASESHOP_INVENTORY)
+#ifdef LEM_ADD_LUCKYITEM
+		|| g_pNewUISystem->IsVisible(SEASON3B::INTERFACE_LUCKYITEMWND)
+#endif // LEM_ADD_LUCKYITEM
+
+		)
+	{
+		return true;	
+	}
+	return false;
+}
+
+bool SEASON3B::CNewUIHotKey::CanUpdateKeyEvent()
+{
+	if(g_pNewUISystem->IsVisible(SEASON3B::INTERFACE_KANTURU2ND_ENTERNPC)
+		|| g_pNewUISystem->IsVisible(SEASON3B::INTERFACE_CATAPULT)
+		|| g_pNewUISystem->IsVisible(SEASON3B::INTERFACE_NPCQUEST)
+		|| g_pNewUISystem->IsVisible(SEASON3B::INTERFACE_SENATUS)
+		|| g_pNewUISystem->IsVisible(SEASON3B::INTERFACE_GATEKEEPER)
+		|| g_pNewUISystem->IsVisible(SEASON3B::INTERFACE_GUARDSMAN)
+		|| g_pNewUISystem->IsVisible(SEASON3B::INTERFACE_GATESWITCH)
+		|| g_pNewUISystem->IsVisible(SEASON3B::INTERFACE_NPCGUILDMASTER)
+		|| g_pNewUISystem->IsVisible(SEASON3B::INTERFACE_BLOODCASTLE)
+		|| g_pNewUISystem->IsVisible(SEASON3B::INTERFACE_DEVILSQUARE)
+		|| g_pNewUISystem->IsVisible(SEASON3B::INTERFACE_CURSEDTEMPLE_NPC)
+		|| g_pNewUISystem->IsVisible(SEASON3B::INTERFACE_MASTER_LEVEL)
+		|| g_pNewUISystem->IsVisible(SEASON3B::INTERFACE_DUELWATCH)
+		|| g_pNewUISystem->IsVisible(SEASON3B::INTERFACE_DOPPELGANGER_NPC)
+		|| g_pNewUISystem->IsVisible(SEASON3B::INTERFACE_NPC_DIALOGUE)
+		|| g_pNewUISystem->IsVisible(SEASON3B::INTERFACE_QUEST_PROGRESS)
+		|| g_pNewUISystem->IsVisible(SEASON3B::INTERFACE_QUEST_PROGRESS_ETC)
+		|| g_pNewUISystem->IsVisible(SEASON3B::INTERFACE_GOLD_BOWMAN)
+		|| g_pNewUISystem->IsVisible(SEASON3B::INTERFACE_GOLD_BOWMAN_LENA)
+		|| g_pNewUISystem->IsVisible(SEASON3B::INTERFACE_LUCKYCOIN_REGISTRATION)
+		|| g_pNewUISystem->IsVisible(SEASON3B::INTERFACE_EXCHANGE_LUCKYCOIN)
+		|| g_pNewUISystem->IsVisible(SEASON3B::INTERFACE_EMPIREGUARDIAN_NPC)
+		|| g_pNewUISystem->IsVisible(SEASON3B::INTERFACE_UNITEDMARKETPLACE_NPC_JULIA)
+		)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+float SEASON3B::CNewUIHotKey::GetLayerDepth() 
+{ 
+	return 1.0f; 
+}
+
+float SEASON3B::CNewUIHotKey::GetKeyEventOrder() 
+{ 
+	return 1.0f; 
+}
+
+void SEASON3B::CNewUIHotKey::SetStateGameOver( bool bGameOver )
+{
+	m_bStateGameOver = bGameOver;
+}
+
+bool SEASON3B::CNewUIHotKey::IsStateGameOver()
+{
+	return m_bStateGameOver;
+}
+
+bool SEASON3B::CNewUIHotKey::AutoGetItem()
+{
+	if (
+		CNewUIInventoryCtrl::GetPickedItem() == NULL 
+		&& SEASON3B::IsPress(VK_SPACE) 
+		&& g_pChatInputBox->HaveFocus() == false
+		&& CheckMouseIn(0, 0, GetScreenWidth(), (GetWindowsY() - 51))
+		)
+	{
+		for(int i=0; i<MAX_ITEMS; ++i)
+		{
+			OBJECT* pObj = &Items[i].Object;
+			if(pObj->Live && pObj->Visible)
+			{
+				vec3_t vDir;
+				VectorSubtract(pObj->Position, Hero->Object.Position, vDir);
+				if(VectorLength(vDir) < 300)
+				{
+					Hero->MovementType = MOVEMENT_GET;
+					ItemKey = i;
+					g_bAutoGetItem = true;
+					Action(Hero, pObj, true);
+					Hero->MovementType = MOVEMENT_MOVE;
+					g_bAutoGetItem = false;
+					
+					return true;
+				}
+			}
+		}
+	}
+
+	return false;
+}

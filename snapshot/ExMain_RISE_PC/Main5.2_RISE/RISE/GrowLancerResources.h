@@ -1,0 +1,146 @@
+#pragma once
+
+#include "../_enum.h"
+#include "../DSPlaySound.h"
+#include "GrowLancerRuntimeCapacity.h"
+
+namespace rise { namespace growlancer {
+
+enum SkillId
+{
+    kSpinStepSkill = 271,
+    kCircleShieldSkill = 272,
+    kObsidianSkill = 273,
+    kMagicPinSkill = 274,
+    kClashSkill = 275,
+    kHarshStrikeSkill = 276,
+    kShiningPeakSkill = 277,
+    kWrathSkill = 278,
+    kBrecheSkill = 279,
+    kSpinStepExplosionSkill = 280,
+    kMagicPinExplosionSkill = 281
+};
+
+enum ModelId
+{
+    kWrathAuraModel = MAX_MODELS + 0,
+    kWrathTravelModel = MAX_MODELS + 1,
+    kObsidianRotatingModel = MAX_MODELS + 2,
+    kObsidianAuraModel = MAX_MODELS + 3,
+    kCircleShieldModel = MAX_MODELS + 4,
+    kSpinCrossModel = MAX_MODELS + 5,
+    kMagicPin01Model = MAX_MODELS + 6,
+    kMagicPin03Model = MAX_MODELS + 7,
+    kMagicPinRootModel = MAX_MODELS + 8,
+    kMagicPinAuxModel = MAX_MODELS + 9,
+    kShiningPeakBodyModel = MAX_MODELS + 10,
+    kShiningPeakPinModel = MAX_MODELS + 11,
+    kShiningPeakSpinModel = MAX_MODELS + 12,
+    kShiningPeakShockwaveModel = MAX_MODELS + 13,
+    kHarshWind01Model = MAX_MODELS + 14,
+    kHarshWind02Model = MAX_MODELS + 15,
+    kClashFrontModel = MAX_MODELS + 16,
+    kClashRearModel = MAX_MODELS + 17,
+    kSpinControllerModel = MAX_MODELS + 18,
+    kMagicPinControllerModel = MAX_MODELS + 19,
+    kShiningPeakControllerModel = MAX_MODELS + 20,
+    kCircleShieldControllerModel = MAX_MODELS + 21,
+    kHarshStrikeControllerModel = MAX_MODELS + 22,
+    kWrathControllerModel = MAX_MODELS + 23,
+    kClashControllerModel = MAX_MODELS + 24,
+    // Bitmap-backed layers that are true sprite nodes use this native effect-
+    // pool carrier. Particle/effect resources with recovered SS21 lifecycle
+    // contracts are dispatched directly by their private runtime IDs.
+    kSpriteCarrierModel = MAX_MODELS + 25,
+    kBrecheControllerModel = MAX_MODELS + 26,
+    kBrecheLightMarksModel = MAX_MODELS + 27,
+    kBrecheTwilight02Model = MAX_MODELS + 28,
+    kBrecheTwilight01Model = MAX_MODELS + 29,
+    kBrecheEmitterModel = MAX_MODELS + 30,
+    kFirstModel = kWrathAuraModel,
+    kLastVisibleModel = kClashRearModel,
+    kLastModel = kBrecheEmitterModel
+};
+
+static_assert(31 <= kDynamicModelCapacity,
+    "Grow Lancer dynamic model tail is too small");
+
+// Reserved unused slots inside RISE's native effect-texture range. Do not use
+// the >=33001 nonamed/custom-item stream.
+enum BitmapId
+{
+    kWrathComboBitmap = 32940,
+    kWrathAlphaLightBitmap = 32941,
+    kWrathBrokenBitmap = 32942,
+    // 32943 remains deliberately unused: Thunder01 is byte-identical to the
+    // native BITMAP_ENERGY resource and must stay in that particle family.
+    // 32944 remains deliberately unused: force_Pillar is byte-identical to
+    // native BITMAP_FORCEPILLAR and Circle Shield uses CreateJoint subtype 2.
+    kCircleShinyBitmap = 32945,
+    // 32946 remains deliberately unused: flare01 is byte-identical to the
+    // native SS6 BITMAP_LIGHT and Circle Shield uses CreateParticle directly.
+    kFlareBlueBitmap = 32947,
+    kHoleBitmap = 32948,
+    kSpinGroundBitmap = 32949,
+    // 32950 remains deliberately unused: clud64 is byte-identical to native
+    // BITMAP_CLUD64; subtype 19 renders native BITMAP_SMOKE.
+    kShockwave2Bitmap = 32951,
+    // 32952 remains deliberately unused: pin_lights is byte-identical to the
+    // native BITMAP_PIN_LIGHT resource and runs through CreateJoint.
+    kXsuper0001Bitmap = 32953,
+    kMagicGround2Bitmap = 32954,
+    kFlare01RedBitmap = 32955,
+    kImpact03Bitmap = 32956,
+    kMagicGround3Bitmap = 32957,
+    kDamageMonoBitmap = 32958,
+    kBrecheRedBitmap = 32959,
+    // S21 renders the xsuper particle as Type + its 0..5 animation subtype.
+    // Extra frames use unused effect-texture slots while the base ID remains
+    // stable for the isolated particle dispatcher.
+    kXsuper0002Bitmap = 32960,
+    kXsuper0003Bitmap = 32961,
+    kXsuper0004Bitmap = 32962,
+    kXsuper0005Bitmap = 32963,
+    kXsuper0006Bitmap = 32964,
+    // Exact S21 512x512 skill atlases. Kept outside the shared SS6 UI IDs so
+    // Grow Lancer does not replace icons used by existing classes.
+    kSkillIconAtlasBitmap = 32965,
+    kDisabledSkillIconAtlasBitmap = 32966,
+    // Private native slots, NOT the S21 runtime resource numbers.
+    kBrecheLightMarksBitmap = 32967,
+    kBrecheTwilight02Bitmap = 32968,
+    kBrecheTwilight01Bitmap = 32969
+};
+
+enum SkillIconContract
+{
+    kSkillIconAtlasColumns = 25,
+    kSkillIconWidth = 20,
+    kSkillIconHeight = 28,
+    kSkillIconAtlasSize = 512
+};
+
+enum SoundId
+{
+    kSpinStepCastSound = MAX_BUFFER + 0,
+    kSpinStepHitSound = MAX_BUFFER + 1,
+    kCircleShieldSound = MAX_BUFFER + 2,
+    kObsidianSound = MAX_BUFFER + 3,
+    kMagicPinCastSound = MAX_BUFFER + 4,
+    kMagicPinHitSound = MAX_BUFFER + 5,
+    kClashSound = MAX_BUFFER + 6,
+    kHarshStrikeSound = MAX_BUFFER + 7,
+    kShiningPeakSound = MAX_BUFFER + 8,
+    kWrathSound = MAX_BUFFER + 9,
+    kBrecheSound = MAX_BUFFER + 10,
+    kSoundBufferCapacity = MAX_BUFFER + 11
+};
+
+bool EnsureModel(int modelId);
+bool IsVisibleModel(int modelId);
+bool EnsureBitmaps();
+bool EnsureBrecheBitmaps();
+void LoadSounds();
+void ApplySkillCatalog();
+
+}}

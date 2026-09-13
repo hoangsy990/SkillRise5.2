@@ -1,0 +1,978 @@
+{
+  "package": "RISE.GrowLancerSkills.S21",
+  "status": "IN_PROCESS",
+  "class": {
+    "name": "Grow Lancer",
+    "s21TableField": "GrowLancer",
+    "s21RequiredTier": 1,
+    "ss6NativeClassAvailable": false,
+    "ss6CompatibilityClass": null,
+    "finalRecipientDecision": "new native Grow Lancer class (owner requested)",
+    "temporaryQAActor": "Dark Knight; isolated local visual testing only",
+    "temporaryQAActorIsServerMapping": false
+  },
+  "actionAdapter": {
+    "source": "D:\\MU FICA Season 21\\Data\\Player\\player.bmd",
+    "base": "D:\\RISE-CrossPlatform\\Client\\Data\\Player\\player.bmd",
+    "isolatedOutput": "ExMain_RISE_PC\\Tests\\GrowLancerBuild\\Client\\Data\\Player\\player.bmd",
+    "strategy": "preserve all 284 SS6 actions byte-exact and append S21 actions 185..194 as 284..293",
+    "s21ToRise": {
+      "185": 284,
+      "186": 285,
+      "187": 286,
+      "188": 287,
+      "189": 288,
+      "190": 289,
+      "191": 290,
+      "192": 291,
+      "193": 292,
+      "194": 293
+    },
+    "evidence": "GrowLancer/PLAYER_ACTIONS_REVERSE.md",
+    "runtimeStatus": "not loaded or visually validated in RISE"
+  },
+  "sources": {
+    "skillList": {
+      "path": "C:\\Users\\DELL\\Desktop\\Skills\\SkillList.xml",
+      "sha256": "3E238C786ECAB3445A0DB4756FE3D2A3923FBC0594506BB9C3FF206020A7E0A0"
+    },
+    "regularSkillCalc": {
+      "path": "C:\\Users\\DELL\\Desktop\\Skills\\RegularSkillCalc.lua",
+      "sha256": "F735D95E32C70E38AC6E65086E4AA21CDE1CD1A1C6E4B6549D124E502F9D3847"
+    },
+    "masterSkillCalc3rd": {
+      "path": "C:\\Users\\DELL\\Desktop\\Skills\\MasterSkillCalc_3rd.lua",
+      "sha256": "771066684E4478A69659D46C27EEB87A9242D8B6D8566E73A4D31AD0F479F699"
+    },
+    "skillSettings": {
+      "path": "C:\\Users\\DELL\\Desktop\\Skills\\SkillSettings.ini",
+      "sha256": "7CF1FF432D337EF3420B8037C2D26F95D768E317A0DFC6CA7E46C4EAF2F847C9"
+    },
+    "skillAoeTargetting": {
+      "path": "C:\\Users\\DELL\\Desktop\\Skills\\SkillAOETargetting.xml",
+      "sha256": "CE5C501CB82D2179DB5ED5407DC89BEA4CB118446BA444D8FF95D7DE96F984D9"
+    },
+    "skillUseArea": {
+      "path": "C:\\Users\\DELL\\Desktop\\Skills\\Skill_UseArea.xml",
+      "sha256": "7C6B0C57A33F2E288AF106D8E19D43D9093279D01CE9DFB9C0E03EB62621BFC2"
+    },
+    "skillRequire": {
+      "path": "C:\\Users\\DELL\\Desktop\\Skills\\SkillRequire.xml",
+      "sha256": "4E6B765FF7DCFB62E58AD9720F5E8C8E81DC8ECC5BA30C3BC3B842B390C9AC58"
+    },
+    "skillDirectionalHitMask": {
+      "path": "C:\\Users\\DELL\\Desktop\\Skills\\SkillElect.hit",
+      "sha256": "809B8D5724DB063EB497C09722B894E1BEB6A66D7103FD075B9331858455BE10",
+      "shape": [36, 21, 21],
+      "scope": "generic directional mask; not per-skill damage evidence"
+    },
+    "skillTree3rd": {
+      "path": "C:\\Users\\DELL\\Desktop\\Skills\\SkillTreeData_3rd.xml",
+      "sha256": "CE19B7482839524A6FC8B76563F60D0D0EAEA89F4F4E534DFC835046366539F0"
+    },
+    "s21MainDump": "D:\\RISE-CrossPlatform\\Source\\artifacts\\visual_studio\\season21_client_qa\\memory_dump\\process_23824\\400000.main.exe",
+    "upstreamReverseTaskAudit": {
+      "threadId": "01a07f74-c681-7f63-b7ba-8a222d49e7fe",
+      "growLancerBaseRowsInInventory": 0,
+      "growLancerBaseRowsInGapMatrix": 0,
+      "policy": "use dump, registries and asset strings as read-only leads; do not inherit completion",
+      "evidence": "GrowLancer/UPSTREAM_REVERSE_TASK_AUDIT.md"
+    },
+    "s21ClientSkillTable": {
+      "path": "D:\\MU FICA Season 21\\Data\\Local\\skill.bmd",
+      "sha256": "AC74B3A175D08B50D8C5C3D5BD8C05420E9F6690BC7A5C6C95EF3D7F8278BF79",
+      "recordSize": 120,
+      "recordCount": 750,
+      "iconFieldOffset": 74,
+      "stableCoreFieldOffsets": {
+        "requiredLevel": 32,
+        "damage": 34,
+        "mana": 36,
+        "ag": 38,
+        "range": 40,
+        "delay": 44
+      },
+      "evidence": [
+        "GrowLancer/SKILL_ICON_REVERSE.md",
+        "GrowLancer/CLIENT_SERVER_CATALOG_DIFF.md"
+      ]
+    }
+  },
+  "catalogProfiles": {
+    "clientReference": "exact S21 client skill.bmd; authoritative for client identity/icon/action/visual evidence",
+    "serverAuthority": "user-supplied SkillList.xml; authoritative seed for RISE cost/range/delay/damage contract",
+    "exactCoreRows": [271, 272, 273, 275, 276],
+    "divergentCoreRows": [274, 277, 278, 279],
+    "mergePolicy": "keep profiles explicit; never silently substitute one for the other",
+    "evidence": "GrowLancer/CLIENT_SERVER_CATALOG_DIFF.md"
+  },
+  "skillIconContract": {
+    "normalAtlas": "Data\\RISE\\GrowLancer\\Interface\\newui_skill00.OZJ",
+    "normalAtlasSha256": "8C3140438BFE4829507A257BBA9591BDDC858C751944086E431F79207B6FAC29",
+    "disabledAtlas": "Data\\RISE\\GrowLancer\\Interface\\newui_skill00_Non_Icon.OZJ",
+    "disabledAtlasSha256": "658EE7BC6CB19F0654AB783FAA22E41031065F6D36E530BBE573BE899BBEEC19",
+    "atlasSize": [512, 512],
+    "columns": 25,
+    "cellSize": [20, 28],
+    "iconIds": [271, 272, 273, 274, 275, 276, 277, 278, 279],
+    "nativeBitmapIds": [32965, 32966],
+    "sharedSs6AtlasModified": false,
+    "runtimeStatus": "not visually validated in RISE"
+  },
+  "serverCompatibility": {
+    "evidence": "GrowLancer/SERVER_RULES_REVERSE.md",
+    "riseMaxSkillIdExclusive": 629,
+    "riseOwnedSkillSlots": 60,
+    "packetSkillIdBits": 16,
+    "packetSkillIdWidthValidated": true,
+    "baseIdsFitExistingIdCapacity": true,
+    "requiresOwnedSlotIncrease": false,
+    "riseNativeClassCount": 7,
+    "riseGrowLancerClassAvailable": false,
+    "itemLearnMapping": {
+      "verifiedCount": 7,
+      "items": [
+        "12:271 -> 271",
+        "12:272 -> 273",
+        "12:273 -> 274",
+        "12:274 -> 276",
+        "12:275 -> 277",
+        "12:276 -> 278",
+        "12:277 -> 279"
+      ],
+      "circleShield": null,
+      "clash": null,
+      "evidence": "decoded S21 item.bmd records 2891..2897"
+    },
+    "serverCatalogSeeded": true,
+    "serverCatalogClassPolicy": "all seven SS6 class columns zero; fail closed because Grow Lancer class is absent",
+    "serverBuildValidated": true,
+    "castHandlersImplemented": false,
+    "runtimeValidated": false
+  },
+  "masterSkillMapping": {
+    "evidence": "GrowLancer/MASTER_SKILL_REVERSE.md",
+    "runtimeEnabled": false,
+    "activeThirdMasterRows": [
+      { "id": 687, "name": "Spin Step Strengthener", "brand": 271, "treeParent": 0, "minPoints": 1, "maxPoints": 20, "mana": 14, "ag": 0, "range": 2, "delayMs": 500, "buffIndex": 0, "luaFormula": true },
+      { "id": 690, "name": "Spin Step Mastery", "brand": 687, "treeParent": 687, "minPoints": 1, "maxPoints": 20, "mana": 16, "ag": 0, "range": 2, "delayMs": 500, "buffIndex": 0, "luaFormula": true },
+      { "id": 688, "name": "Harsh Strike Strengthener", "brand": 276, "treeParent": 0, "minPoints": 1, "maxPoints": 20, "mana": 14, "ag": 0, "range": 3, "delayMs": 500, "buffIndex": 0, "luaFormula": true },
+      { "id": 691, "name": "Harsh Strike Mastery", "brand": 688, "treeParent": 688, "minPoints": 10, "maxPoints": 10, "mana": 16, "ag": 0, "range": 3, "delayMs": 500, "buffIndex": 0, "luaFormula": true },
+      { "id": 692, "name": "Magic Pin Strengthener", "brand": 274, "treeParent": 0, "minPoints": 1, "maxPoints": 20, "mana": 17, "ag": 10, "range": 2, "delayMs": 500, "buffIndex": 0, "luaFormula": true },
+      { "id": 695, "name": "Magic Pin Mastery", "brand": 692, "treeParent": 692, "minPoints": 10, "maxPoints": 10, "mana": 20, "ag": 13, "range": 3, "delayMs": 500, "buffIndex": 0, "luaFormula": true },
+      { "id": 693, "name": "Obsidian Strengthener", "brand": 273, "treeParent": 0, "minPoints": 1, "maxPoints": 20, "mana": 50, "ag": 50, "range": 0, "delayMs": 0, "buffIndex": 220, "luaFormula": true },
+      { "id": 696, "name": "Breche Strengthener", "brand": 279, "treeParent": 0, "minPoints": 1, "maxPoints": 20, "mana": 16, "ag": 10, "range": 5, "delayMs": 0, "buffIndex": 0, "luaFormula": true },
+      { "id": 698, "name": "Breche Mastery", "brand": 696, "treeParent": 696, "minPoints": 10, "maxPoints": 10, "mana": 16, "ag": 10, "range": 6, "delayMs": 0, "buffIndex": 0, "luaFormula": true },
+      { "id": 699, "name": "Shining Peak Strengthener", "brand": 277, "treeParent": 698, "minPoints": 1, "maxPoints": 20, "mana": 10, "ag": 7, "range": 4, "delayMs": 0, "buffIndex": 0, "luaFormula": true },
+      { "id": 703, "name": "Circle Shield PowUp", "brand": 272, "treeParent": 0, "minPoints": 1, "maxPoints": 20, "mana": 100, "ag": 50, "range": 0, "delayMs": 0, "buffIndex": 221, "luaFormula": false },
+      { "id": 706, "name": "Circle Shield Mastery", "brand": 703, "treeParent": 703, "minPoints": 1, "maxPoints": 20, "mana": 100, "ag": 50, "range": 0, "delayMs": 0, "buffIndex": 222, "luaFormula": false },
+      { "id": 895, "name": "Wrath Strengthener", "brand": 278, "treeParent": 0, "minPoints": 1, "maxPoints": 10, "mana": 50, "ag": 40, "range": 0, "delayMs": 0, "buffIndex": 425, "luaFormula": false }
+    ],
+    "legacySkillListOnlyRows": [708, 709, 710],
+    "anomalies": [
+      "699 has Brand=277 but active tree ParentSkill1=698",
+      "MasterSkillCalc_3rd.lua comment labels Shining Peak function as 688; tables identify it as 699"
+    ]
+  },
+  "clientPacketContracts": {
+    "evidence": "GrowLancer/CLIENT_PACKET_REVERSE.md",
+    "runtimeMappedToRise52": false,
+    "commonTargetPacket": {
+      "s21Header": "C1:35",
+      "wireOrder": ["targetHigh", "skillHigh", "targetLow", "skillLow"],
+      "selectedTargetSkills": [271, 274, 276],
+      "selfTargetSkills": [272, 273, 278]
+    },
+    "extendedPositionPacket": {
+      "s21Header": "C1:57",
+      "skills": [277, 279],
+      "builderVA": "0x10EEB1E",
+      "wireOrder": ["casterX32", "skillHigh", "casterY32", "skillLow", "callerValue4", "targetHigh", "zero", "targetLow", "zero", "serialZero"]
+    },
+    "clashMovementPacket": {
+      "s21Header": "C1:59",
+      "skill": 275,
+      "wireOrder": ["constant1", "targetHigh", "skillHigh", "targetLow", "skillLow", "destinationX", "destinationY"],
+      "localMoveCallVA": "0xD6DC05"
+    },
+    "rise52Collision": "top-level 0x57 is already guild-create cancellation",
+    "mappingPolicy": "do not transplant S21 opcode numbers; keep native adapter disabled until authoritative server handlers are available"
+  },
+  "skills": [
+    {
+      "id": 271,
+      "name": "Spin Step",
+      "requiredLevel": 83,
+      "damage": 100,
+      "mana": 12,
+      "ag": 0,
+      "range": 2,
+      "delayMs": 500,
+      "requiredDexterity": 150,
+      "formula": {
+        "primary": "(InDamage*1.1)*(Dexterity/10+97+SkillTreeBonus)/100",
+        "explosion": "(InDamage*0.7)*(Dexterity/10+97+SkillTreeBonus)/100"
+      },
+      "serverSecondarySkill": {
+        "id": 280,
+        "name": "Explosion",
+        "useType": 6,
+        "damage": 50,
+        "range": 2,
+        "clientReceiveEffectSubtype": 2
+      },
+      "scroll": { "itemGroup": 12, "itemIndex": 271, "name": "Spin Step Scroll", "itemBmdRecord": 2891 },
+      "action": 186,
+      "riseAction": 285,
+      "sound": {
+        "cast": { "s21Id": 1109, "file": "Data\\Sound\\SpinStep_Cast.wav" },
+        "hit": { "s21Id": 1110, "file": "Data\\Sound\\SpinStep_Hit.wav" }
+      },
+      "visualLayers": [
+        {
+          "role": "cast_controller",
+          "s21Type": 1528,
+          "subtype": 0,
+          "visibleModel": false,
+          "owner": "caster",
+          "lifetime": 32,
+          "destroyWhenOwnerActionDiffers": 186,
+          "oneShotFrame": [4.7, 6.5],
+          "oneShotFrameBounds": "lower exclusive, upper inclusive; S21 JBE at 0x157CA97",
+          "fanoutTarget": "packet target index retained as native m_sTargetIndex; resolve at frame gate; no caster fallback",
+          "fanoutOwnership": "secondary/crosses target-owned; ground owner null; blur stays caster-owned",
+          "crossAngleContract": "three same input angles; subtype0 constructor overwrites Z with absolute120 degrees"
+        },
+        {
+          "role": "cast_secondary_controller",
+          "s21Type": 1528,
+          "subtype": 1,
+          "lifetime": 10,
+          "initialAngleZ": "rand()%180 (absolute)",
+          "initialAlpha": 0,
+          "emissionRgb": [1, 1, 1],
+          "flare": {
+            "s21Type": 32733, "file": "Data\\Effect\\flareBlue.OZJ", "scale": 5.0,
+            "subtype": 0, "lifetime": 10, "initialAlpha": 0,
+            "initialAngleZ": "absolute rand()%180",
+            "update": "alpha +=0.2 while life>5; -=0.2 otherwise; whole ticks including life0; no clamp",
+            "render": "terrain bitmap; RGB=Light*Alpha; size=Scale; rotation=Angle.z; alpha argument1; height5; terrain heights enabled; flipV false",
+            "evidence": "ctor1481D69; update157D468; renderer15ACE16..15ACF70",
+            "acceptance": "native implementation and helper tests; visual parity pending"
+          },
+          "particles": {
+            "s21Type": 32733, "count": 5, "subtype": 4, "scale": 0.2,
+            "lifetime": "rand()%20+20", "initialAlpha": 1,
+            "initialRotation": 0, "initialVelocity": [0, 0, 0], "movementEnabled": true,
+            "positionJitter": "independent integer X/Y[-50,50], Z[0,100]",
+            "update": "move by rotated old velocity; alpha-=1/maxLife; XYZ velocity each+=(rand()%20-10)*0.2; rotation+=rand()%16; then decrement life",
+            "lifecycle": "whole ticks; pre-update expiry check; native Live pool; per-slot remainder reset on every allocation",
+            "render": "sprite with Light*Alpha and stored rotation",
+            "evidence": "ctor164917E; update16B2472; renderer1628EAA; movement13272A0",
+            "acceptance": "native implementation and helper tests; owner snapshot, matrix and visual parity pending"
+          },
+          "delayedHoleScales": [2.0, 3.0]
+        },
+        {
+          "role": "cast_crosses",
+          "s21Type": 1529,
+          "file": "Data\\Effect\\spin_cross.bmd",
+          "count": 3,
+          "lifetime": 10,
+          "callerScale": 17.0,
+          "initialScaleFactor": 0.5,
+          "scaleStepFactor": 0.1,
+          "scaleEnvelope": "add callerScale*0.1 while life>5; subtract at life<=5; no clamp",
+          "updateContract": "whole ticks, includes life0 update before destructor",
+          "light": [0.2, 0.6, 1.0],
+          "alphaStep": -0.1,
+          "render": "mesh 0; flags 0x42; stored effect RGB multiplied by alpha; blendMesh 0; blendLight alpha; UV from effect fields; texture -1",
+          "renderEvidence": "registration0xA1B334 binds5F9 to0xA49FEF..0xA4A0FA;0xA49422 belongs to5EB, not Spin Step cross"
+        },
+        {
+          "role": "cast_ground",
+          "s21Type": 33093,
+          "file": "Data\\Effect\\magic_ground1_3.OZJ",
+          "subtype": 1,
+          "scale": 5.0,
+          "light": [0.1, 0.15, 0.4],
+          "s21Lifetime": 10,
+          "s21InitialAlpha": 1,
+          "s21Update": "size multiplier=(11-life)*0.1; alpha-=0.1; current RGB=preserved initial RGB*alpha",
+          "s21Render": "terrain bitmap, size=Scale*multiplier; stored RGB; rotation0; alpha argument1; height5; terrain heights enabled; flipV false",
+          "evidence": "ctor1474E38/1474E8F; update152894A/15289F2; renderer15AACE9..15AADBE",
+          "s21InitialSizeMultiplier": 0,
+          "initialSizeEvidence": "143E71F invokes reset1315E97;131607C zeros B4",
+          "nativeMapping": "private carrier Distance=multiplier, StartPosition=initial RGB; whole ticks; terrain renderer; zero-area draw skipped to avoid native division by zero",
+          "acceptance": "native correction implemented; helper tests pass; terrain pass/culling and visual parity pending"
+        },
+        {
+          "role": "hit_controller",
+          "s21Type": 1528,
+          "subtype": 2,
+          "owner": "received hit actor",
+          "lifetime": 15,
+          "flareScale": 3.5,
+          "particleCount": 5,
+          "crossCount": 3,
+          "crossScale": 12.0,
+          "crossLight": [0.2, 0.6, 1.0],
+          "delayedHoleScales": [1.4, 2.1]
+        }
+      ],
+      "reverseEvidence": "GrowLancer/SPIN_STEP_REVERSE.md",
+      "serverTargeting": null
+    },
+    {
+      "id": 272,
+      "name": "Circle Shield",
+      "requiredLevel": 220,
+      "damage": 0,
+      "mana": 100,
+      "ag": 50,
+      "range": 0,
+      "delayMs": 0,
+      "buffIndex": 216,
+      "pvpOnly": true,
+      "scroll": null,
+      "scrollEvidence": "No Circle Shield item-name record was found in the decoded S21 item.bmd; do not assign one by adjacency.",
+      "action": 187,
+      "riseAction": 286,
+      "actionArgument": 316,
+      "sound": {
+        "cast": { "s21Id": 1111, "file": "Data\\Sound\\CircleShield.wav", "registrationVA": "0x18E2D4F" }
+      },
+      "receivedDispatch": { "functionVA": "0x12C5540", "jumpTableSlot": 22, "handlerVA": "0x12CB2F7" },
+      "visualLayers": [
+        {
+          "role": "invisible_controller",
+          "s21Type": 1501,
+          "subtype": 0,
+          "owner": "caster",
+          "visibleModel": false,
+          "lifetime": 30,
+          "constructorBurst": {
+            "api": "CreateJoint",
+            "s21Type": 32995,
+            "file": "Data\\Effect\\force_Pillar.OZJ",
+            "count": 20,
+            "subtype": 2,
+            "scale": 20.0,
+            "randomAngleX": [0, 89],
+            "randomAngleZ": [0, 359],
+            "targetPositionZOffset": 100.0,
+            "initialVelocity": 0.0,
+            "velocityStep": 2.0,
+            "homingTurn": 10.0,
+            "homingWhileLifetimeAbove": 10,
+            "lifetime": 18,
+            "maxTails": 10,
+            "rgb": [0.2, 0.45, 0.65],
+            "reverseUV": 2,
+            "riseRuntimeId": "BITMAP_FORCEPILLAR"
+          },
+          "timedChildren": [
+            { "s21Type": 32619, "file": "Data\\Effect\\shiny04.OZJ", "api": "CreateEffect", "remainingLifetime": [20, 24], "lifetime": 15, "initialScale": 3, "initialAlpha": 0, "alphaUpdate": "life>=10:+0.2; otherwise:-0.1; negative alpha sets life0; no clamp", "spriteOwner": "Shiny04 effect itself", "origin": "controller transformed local(0,-60,100)" },
+            { "s21Type": 32503, "file": "Data\\Effect\\flare01.OZJ", "api": "CreateSprite", "remainingLifetime": [20, 24], "scale": 10.0 },
+            { "s21Type": 1502, "api": "CreateEffect", "origin": "controller transformed local(0,-50,110); bone42 lookup precedes but does not supply final position", "remainingLifetime": [12, 15, 18], "periodTicks": 3 }
+          ],
+          "timingContract": "whole ticks: five Shiny/flare pairs and three visible children for valid owner/model; no extra bone pair",
+          "timingEvidence": "1575B60..15766EE, both subtypes; shared native gate test across four FPS factors"
+        },
+        {
+          "role": "visible_shield_child",
+          "s21Type": 1502,
+          "file": "Data\\Effect\\circle_shields.bmd",
+          "subtypes": [0, 1],
+          "lifetime": 10,
+          "initialScale": 1.0,
+          "angleYConstructorStep": 70.0,
+          "localMovementPerTick": [0.0, -3.0, 0.0],
+          "scaleStep": -0.05,
+          "render": "native BMD mesh selector -2; effect alpha; mode argument 2"
+        }
+      ],
+      "reverseEvidence": "GrowLancer/CIRCLE_SHIELD_REVERSE.md",
+      "serverEffect": null
+    },
+    {
+      "id": 273,
+      "name": "Obsidian",
+      "requiredLevel": 74,
+      "damage": 0,
+      "mana": 50,
+      "ag": 50,
+      "range": 0,
+      "delayMs": 0,
+      "requiredEnergy": 200,
+      "buffIndex": 217,
+      "formula": {
+        "skillEffect": "Strength/20",
+        "durationSeconds": 240
+      },
+      "partyBuff": true,
+      "scroll": { "itemGroup": 12, "itemIndex": 272, "name": "Obsidian Scroll", "itemBmdRecord": 2892 },
+      "action": 191,
+      "riseAction": 290,
+      "actionArgument": 317,
+      "alternateActionContract": {
+        "status": "SOURCE_CONDITION_VERIFIED_NATIVE_MAPPING_OPEN",
+        "s21Action": 317,
+        "riseAction": null,
+        "selectionHelperVA": "0x1327DE8",
+        "localMetadataKeySource": "cast context +0x0C, same value used by dispatcher; 273 or 693",
+        "sourceCondition": "manager predicate true, character suppression byte zero, alternate action argument not -1",
+        "registeredCondition": "record active flag: character object Live AND NOT temporary suppression",
+        "unregisteredCondition": "after manager prerequisite, selected item catalog KindB equals 64",
+        "base273Metadata": { "byte0": 0, "dword4": 273, "dword90": 1, "setsSuppressionWithFalseArgument": false },
+        "doesNotClearPriorSuppression": true,
+        "sourceClip": { "keys": 10, "rootPositionLocked": false, "sha256": "9641BE400ABD1039026335A2AED8B9CB96C0E27325B89138FE7E6C72779CC5F7" },
+        "nativeActivation": "disabled until matching native auxiliary state and pose contract exist",
+        "evidence": "OBSIDIAN_REVERSE.md"
+      },
+      "sound": {
+        "cast": { "s21Id": 1112, "file": "Data\\Sound\\Obsidian.wav", "registrationVA": "0x18E2D8E" }
+      },
+      "receivedDispatch": { "functionVA": "0x12C5540", "jumpTableSlot": 23, "handlerVA": "0x12CB59E" },
+      "visualLayers": [
+        {
+          "role": "rotating_aura_model",
+          "s21Type": 1507,
+          "file": "Data\\Effect\\obsidiana.bmd",
+          "owner": "caster",
+          "lifetime": 15,
+          "initialScale": 0.85,
+          "initialAlpha": 0.0,
+          "constructorAngleZStep": 20.0,
+          "angleZStepPerTick": 60.0,
+          "alphaEnvelope": { "shape": "integer-half triangle", "halfLife": 7, "denominator": 8, "multiplier": 0.9, "observedScalarPeak": 0.7875, "includesLifeZeroUpdate": true },
+          "render": "mesh 0; flags 0x42; RGB [0.48,1,1] multiplied by alpha; raw AC -1 and B0 +0.075 per render"
+        },
+        {
+          "role": "caster_aura_model",
+          "s21Type": 1508,
+          "file": "Data\\Effect\\obsidian.bmd",
+          "owner": "caster",
+          "lifetime": 20,
+          "initialScale": 0.7,
+          "initialAlpha": 0.0,
+          "constructorAngleZStep": 0.1,
+          "destroyUnlessOwnerAction": [191, 317],
+          "alphaStep": { "firstHalf": 0.1, "secondHalf": -0.1 },
+          "constructorParticle": { "s21Type": 32555, "file": "Data\\Effect\\Thunder01.OZJ", "subtype": 8, "scale": 2.0, "light": [0.5, 0.95, 1.0], "localOffset": [-10.0, 0.0, 170.0] },
+          "render": [
+            { "mesh": 0, "flags": "0x42", "light": [0.21, 0.26, 1.0] },
+            { "mesh": 1, "flags": "0x42", "light": [0.46, 0.53, 1.0], "renderArgument": 1 }
+          ]
+        }
+      ],
+      "reverseEvidence": "GrowLancer/OBSIDIAN_REVERSE.md"
+    },
+    {
+      "id": 274,
+      "name": "Magic Pin",
+      "requiredLevel": 30,
+      "damage": 80,
+      "mana": 5,
+      "ag": 3,
+      "range": 2,
+      "delayMs": 500,
+      "requiredStrength": 200,
+      "requiredDexterity": 200,
+      "barrageCount": 3,
+      "formulaMultipliers": [0.8, 1.0, 1.1],
+      "formulaBase": "InDamage*multiplier*(Dexterity/10+97+SkillTreeBonus)/100",
+      "serverSecondarySkill": {
+        "id": 281,
+        "name": "Magic Pin Explosion",
+        "useType": 6,
+        "clientReceiveBranch": "0x12CB4A8"
+      },
+      "scroll": { "itemGroup": 12, "itemIndex": 273, "name": "Magic Pin Scroll", "itemBmdRecord": 2893 },
+      "action": 188,
+      "riseAction": 287,
+      "sound": {
+        "cast": { "s21Id": 1113, "file": "Data\\Sound\\MagicPin.wav" },
+        "hit": { "s21Id": 1114, "file": "Data\\Sound\\MagicPinExplode.wav" }
+      },
+      "visualLayers": [
+        {
+          "role": "cast_controller",
+          "s21Type": 1509,
+          "subtype": 0,
+          "owner": "caster",
+          "visibleModel": false,
+          "lifetime": 75,
+          "destroyWhenOwnerActionDiffers": 188,
+          "stages": [
+            { "frame": [5.2, 5.8], "children": [1510, 1511], "child1511Subtype": 0, "localOffset": [0.0, 20.0, 30.0] },
+            { "frame": [7.0, 7.5], "children": [1511], "child1511Subtype": 0, "origin": "retained stage-0 point" },
+            { "frame": [10.0, 10.5], "children": [1511], "child1511Subtype": 1, "origin": "retained stage-0 point" }
+          ]
+        },
+        {
+          "role": "timed_primary_model",
+          "s21Type": 1510,
+          "file": "Data\\Effect\\magicpin01.bmd",
+          "lifetime": 10,
+          "scale": 0.7,
+          "alphaEnvelope": { "shape": "triangular", "peak": 0.8 },
+          "render": "mesh 0; flags 0x42; light [0.48,0.73,1.0] multiplied by alpha"
+        },
+        {
+          "role": "three_timed_models",
+          "s21Type": 1511,
+          "file": "Data\\Effect\\magicpin03_new.bmd",
+          "lifetime": 10,
+          "scale": 0.85,
+          "alphaEnvelope": { "shape": "triangular", "peak": 0.8 },
+          "localMovementPerTick": [0.0, 1.0, 0.0],
+          "movementSpace": "rotated by object angle then added to world position",
+          "constructorChildren": [
+            { "type": 32555, "file": "Data\\Effect\\Thunder01.OZJ", "subtypeByParentSubtype": { "0": 9, "1": 10 }, "scale": 1.0, "localOffset": [0.0, -330.0, 95.0] },
+            { "type": 1513, "file": "Data\\Effect\\magicpina02.bmd", "localOffset": [0.0, 0.0, -30.0] }
+          ],
+          "render": "mesh 0; flags 0x42; animated texture V +0.035 per render"
+        },
+        {
+          "role": "caster_rotating_model",
+          "s21Type": 1512,
+          "file": "Data\\Effect\\magicpina01_new.bmd",
+          "lifetime": 14,
+          "scale": 0.7,
+          "angleZStep": 20.0,
+          "alphaStep": -0.038,
+          "render": "mesh 0; flags 0x42; light [0.48,0.73,1.0] multiplied by alpha"
+        },
+        {
+          "role": "auxiliary_model",
+          "s21Type": 1513,
+          "file": "Data\\Effect\\magicpina02.bmd",
+          "lifetime": 10,
+          "scale": 1.2,
+          "alphaEnvelope": { "shape": "triangular", "peak": 0.75 },
+          "rawFieldA0Step": "-sinf(30.0)*0.005; semantic field name intentionally unresolved",
+          "render": "mesh 0; flags 0x42; animated texture V +0.035 per render"
+        },
+        {
+          "role": "target_hit_controller",
+          "s21Type": 1465,
+          "subtype": 1,
+          "owner": "target",
+          "position": "received target position +140 Z",
+          "visibleModel": false,
+          "lifetime": 8,
+          "activation": "remaining lifetime below 5",
+          "children": [
+            { "type": 32765, "file": "Data\\Effect\\clud64.OZJ", "renderedFile": "Data\\Effect\\smoke01.OZJ", "count": 6, "subtype": 19, "randomRadius": 20, "light": [0.6, 0.7, 1.0], "scaleChoices": [2.5, 3.5], "lifetime": 20, "alpha": 1.0, "randomRotation": [0, 359], "riseRuntimeId": "BITMAP_CLUD64", "riseRenderedRuntimeId": "BITMAP_SMOKE" },
+            { "type": 33095, "file": "Data\\Effect\\Shockwave2.OZJ", "count": 2, "subtype": 1, "light": [0.3, 0.3, 0.5], "scale": 0.69, "owner": "controller", "lifetime": 8, "initialAlpha": 0.6, "initialExpansion": 1.3, "expansionStep": 0.133333, "renderScale": "0.69 * expansion", "fade": "alpha -= 0.08 while remaining lifetime < 6", "renderLight": "input light * alpha", "destroy": "native lifetime or null controller owner" }
+          ]
+        }
+      ],
+      "reverseEvidence": "GrowLancer/MAGIC_PIN_REVERSE.md",
+      "serverTargeting": null
+    },
+    {
+      "id": 275,
+      "name": "Clash",
+      "requiredLevel": 0,
+      "damage": 50,
+      "mana": 50,
+      "ag": 50,
+      "range": 6,
+      "delayMs": 10000,
+      "brand": 75,
+      "siegeOnly": true,
+      "scroll": null,
+      "scrollEvidence": "No Clash item-name record was found in the decoded S21 item.bmd; siege activation must not be treated as a learn scroll.",
+      "action": 194,
+      "riseAction": 293,
+      "sound": {
+        "cast": { "s21Id": 1115, "file": "Data\\Sound\\Crash.wav", "registrationVA": "0x18E2E4B" },
+        "excludedNameLead": "Data\\Sound\\shieldclash.wav exists on disk but is not the registered/called 1115 resource"
+      },
+      "visualLayers": [
+        {
+          "role": "invisible_target_controller",
+          "s21Type": 1530,
+          "subtype": 0,
+          "owner": "caster",
+          "target": "target character index retained at effect +0x364",
+          "visibleModel": false,
+          "lifetime": 30,
+          "destroyWhenOwnerActionDiffers": 194,
+          "activationProgress": [0.0, 6.5],
+          "activationProgressBounds": "lower exclusive, upper inclusive",
+          "tickContract": { "step": 1, "includesLifeZeroUpdate": true, "updateVisits": 31 },
+          "missingTarget": "skip current update without consuming one-shot; normal lifetime still decrements",
+          "oneShot": true,
+          "children": [1532, 1531]
+        },
+        {
+          "role": "forward_flash",
+          "s21Type": 1531,
+          "file": "Data\\Effect\\crasha01.bmd",
+          "owner": "caster",
+          "lifetime": 27,
+          "initialAlpha": 0.0,
+          "position": "caster position + constructor-cached normalize(target-caster)*30 + [0,0,150]; does not re-aim after creation",
+          "initialScale": 0.75,
+          "scaleStep": 0.005,
+          "angleYStep": 10.0,
+          "alphaEnvelope": "integer half-life: 27/2=13, denominator 14, multiplier 0.7, attainable peak 0.65",
+          "tickContract": { "step": 1, "includesLifeZeroUpdate": true, "updateVisits": 28 },
+          "render": "mesh 0; flags 0x42; blend-mesh index 0; RGB multiplied by alpha; render-time blend texture U -= 0.05 and V -= 0.01"
+        },
+        {
+          "role": "rear_flash",
+          "s21Type": 1532,
+          "file": "Data\\Effect\\crasha02.bmd",
+          "owner": "caster",
+          "lifetime": 10,
+          "initialAlpha": 0.0,
+          "position": "creation input caster+unitXYZ; constructor retains input position and caches normalizeXYZ(target-caster)*-50; updates use current caster+cached vector without re-aim",
+          "normalization": "all XYZ, length < 0.000001 produces zero vector without aborting emission",
+          "tickContract": { "step": 1, "includesLifeZeroUpdate": true, "updateVisits": 11 },
+          "initialScale": 0.75,
+          "scaleStep": 0.05,
+          "alphaEnvelope": "symmetric half-life with peak 0.9",
+          "render": "mesh 0; flags 0x42; blend-mesh index 0; RGB multiplied by alpha"
+        }
+      ],
+      "movementContract": "local cast derives a normalized cursor-tile minus caster-tile vector, collision-checks the resulting map tile and emits movement/cast packets; receive path independently faces target and owns the visible root",
+      "receivedDispatch": { "functionVA": "0x12E03xx", "skillCompareVA": "0x12E042F", "handlerVA": "0x12E0690" },
+      "reverseEvidence": "GrowLancer/CLASH_REVERSE.md",
+      "serverPushback": null
+    },
+    {
+      "id": 276,
+      "name": "Harsh Strike",
+      "requiredLevel": 74,
+      "damage": 100,
+      "mana": 12,
+      "ag": 0,
+      "range": 3,
+      "delayMs": 500,
+      "requiredStrength": 150,
+      "barrageCount": 2,
+      "formulaMultipliers": [1.0, 1.1],
+      "formulaBase": "InDamage*multiplier*(Strength/10+97+SkillTreeBonus)/100",
+      "scroll": { "itemGroup": 12, "itemIndex": 274, "name": "Harsh Strike Scroll", "itemBmdRecord": 2894 },
+      "action": 185,
+      "riseAction": 284,
+      "sound": {
+        "s21Id": 1116,
+        "file": "Data\\Sound\\HashStrike.wav",
+        "registrationVA": "0x18E2E8A"
+      },
+      "visualLayers": [
+        {
+          "role": "controller_and_blur",
+          "s21Type": 1504,
+          "visibleModel": false,
+          "owner": "caster",
+          "lifetime": 40,
+          "scale": 3.8,
+          "destroyWhenOwnerActionDiffers": 185,
+          "blur": {
+            "type": 11,
+            "subtype": 0,
+            "bones": [8, 5],
+            "localOffset": [-30.0, 0.0, 100.0],
+            "light": [1.0, 1.0, 1.0],
+            "interpolationDenominator": 6
+          }
+        },
+        {
+          "role": "wind_primary",
+          "s21Type": 1505,
+          "file": "Data\\Effect\\h_strike_wind01.bmd",
+          "spawnFrame": [5.2, 5.8],
+          "localOffset": [0.0, -120.0, 90.0],
+          "lifetime": 8,
+          "scale": 1.0,
+          "scaleStep": 0.1,
+          "alphaStep": -0.125,
+          "render": "four meshes; RENDER_TEXTURE|RENDER_BRIGHT"
+        },
+        {
+          "role": "wind_secondary_near",
+          "s21Type": 1506,
+          "file": "Data\\Effect\\h_strike_wind02.bmd",
+          "spawnFrame": [5.2, 5.8],
+          "localOffset": [0.0, -180.0, 90.0],
+          "lifetime": 7,
+          "scale": 1.0,
+          "scaleStep": 0.45,
+          "light": [1.0, 0.6, 0.2],
+          "lightFactorPerTick": 0.9,
+          "render": "mesh 0; RENDER_TEXTURE|RENDER_BRIGHT"
+        },
+        {
+          "role": "wind_secondary_far",
+          "s21Type": 1506,
+          "file": "Data\\Effect\\h_strike_wind02.bmd",
+          "spawnFrame": [5.3, 6.0],
+          "localOffset": [0.0, -380.0, 90.0],
+          "lifetime": 7,
+          "scale": 1.0,
+          "scaleStep": 0.45,
+          "light": [1.0, 0.6, 0.2],
+          "lightFactorPerTick": 0.9,
+          "render": "mesh 0; RENDER_TEXTURE|RENDER_BRIGHT"
+        }
+      ],
+      "clientTargetContract": "no target pointer/index in the recovered visual root",
+      "reverseEvidence": "GrowLancer/HARSH_STRIKE_REVERSE.md"
+    },
+    {
+      "id": 277,
+      "name": "Shining Peak",
+      "requiredLevel": 92,
+      "damage": 50,
+      "mana": 8,
+      "ag": 5,
+      "range": 4,
+      "delayMs": 0,
+      "requiredStrength": 600,
+      "formula": "InDamage*(((Strength/10+97+RetaliationBonus)+(Dexterity/10+97+RageBonus))*0.8)/100/3",
+      "scroll": { "itemGroup": 12, "itemIndex": 275, "name": "Shining Peak Scroll", "itemBmdRecord": 2895 },
+      "action": 189,
+      "riseAction": 288,
+      "sound": {
+        "cast": { "s21Id": 1117, "file": "Data\\Sound\\ShiningPeak.wav", "registrationVA": "0x18E2EC9" }
+      },
+      "visualLayers": [
+        {
+          "role": "pin_light_launch_controller",
+          "s21Type": 1526,
+          "owner": "caster",
+          "visibleModel": false,
+          "lifetime": 60,
+          "constructorChildren": {
+            "nativeApi": "CreateJoint",
+            "s21Type": 32883,
+            "riseType": "BITMAP_PIN_LIGHT",
+            "file": "Data\\Effect\\pin_lights.OZJ",
+            "count": 3,
+            "scale": 12.0,
+            "localOffset": [0.0, 0.0, 35.0],
+            "calls": [
+              { "subtype": 2, "zOffset": 0.0, "angleY": "ownerAngleY + rand()%40-20" },
+              { "subtype": 3, "zOffset": 80.0, "angleY": "rand()%360" },
+              { "subtype": 4, "zOffset": 80.0, "angleY": "-(rand()%360)" }
+            ],
+            "nativeHashMatch": true
+          }
+        },
+        {
+          "role": "staged_controller",
+          "s21Type": 1523,
+          "owner": "caster",
+          "visibleModel": false,
+          "lifetime": 100,
+          "destroyWhenOwnerActionDiffers": 189,
+          "stageFrames": [[3.3, 3.8], [5.0, 5.6], [5.8, 6.6], [6.8, 7.6]],
+          "provenChildren": [1524, 1525, 1527, 2774, 32733, 32765, 33024],
+          "dynamicParticle": { "s21Type": 33024, "files": ["Data\\Effect\\xsuper0001.OZJ", "Data\\Effect\\xsuper0002.OZJ", "Data\\Effect\\xsuper0003.OZJ", "Data\\Effect\\xsuper0004.OZJ", "Data\\Effect\\xsuper0005.OZJ", "Data\\Effect\\xsuper0006.OZJ"], "registrationLoopVA": "0x18D1EA9", "subtype": 1, "lifetime": 6, "scale": 1.8, "initialLight": [0.7, 0.7, 1.0], "randomRotation": [0, 359], "update": "subtype=6-remainingLifetime; light*=0.95/tick", "renderTexture": "base type + subtype" },
+          "stages": [
+            {
+              "frame": [3.3, 3.8],
+              "emissions": [
+                { "api": "CreateParticle", "s21Type": 33024, "subtype": 1, "count": 1, "scale": 1.8, "light": [1.0, 1.0, 1.0], "localOffset": [0.0, -50.0, 110.0], "worldRandom": { "x": [-50, 49], "y": [-50, 49] } },
+                { "api": "CreateEffect", "s21Type": 1525, "subtype": 0, "count": 2, "owner": "caster", "localOffset": [0.0, 150.0, 90.0] }
+              ]
+            },
+            {
+              "frame": [5.0, 5.6],
+              "emissions": [
+                { "api": "CreateParticle", "s21Type": 33024, "subtype": 1, "count": 1, "scale": 1.8, "light": [1.0, 1.0, 1.0], "localOffset": [0.0, 0.0, 110.0], "worldRandom": { "x": [-50, 49], "y": [-50, 49] } },
+                { "api": "CreateEffect", "s21Type": 1524, "subtypes": [0, 1], "count": 2, "owner": "caster", "localOffset": [0.0, -220.0, 90.0] },
+                { "api": "CreateEffect", "s21Type": 1525, "subtype": 0, "count": 2, "owner": "caster", "localOffset": [0.0, 150.0, 90.0] },
+                { "api": "CreateEffect", "s21Type": 1527, "subtype": 0, "count": 1, "owner": "caster", "localOffset": [0.0, -100.0, 90.0] },
+                { "api": "CreateParticle", "s21Type": 32733, "subtype": 5, "count": 2, "scale": 2.5, "owner": null, "localOffset": [0.0, -100.0, 90.0], "lifetime": 20, "initialAlpha": 0.0, "randomRotation": [0, 359], "constructorLight": [1.0, 1.0, 1.0], "alphaEnvelope": "symmetric half-life, peak 0.85" }
+              ]
+            },
+            {
+              "frame": [5.8, 6.6],
+              "emissions": [
+                { "api": "CreateEffect", "s21Type": 2774, "subtype": 6, "count": 1, "scale": 0.3, "localOffset": [0.0, -350.0, 90.0] },
+                { "api": "CreateEffect", "s21Type": 2774, "subtype": 6, "count": 1, "scale": 1.05, "localOffset": [0.0, 0.0, 90.0] },
+                { "api": "CreateParticle", "s21Type": 33024, "subtype": 1, "count": 1, "scale": 1.8, "light": [1.0, 1.0, 1.0], "localOffset": [0.0, -350.0, 110.0], "worldRandom": { "x": [-150, 49], "z": [-100, 99] } },
+                { "api": "CreateEffect", "s21Type": 1525, "subtype": 0, "count": 2, "owner": "caster", "localOffset": [0.0, 150.0, 90.0] }
+              ]
+            },
+            {
+              "frame": [6.8, 7.6],
+              "emissions": [
+                { "api": "CreateParticle", "s21Type": 33024, "subtype": 1, "count": 3, "scale": 1.8, "light": [1.0, 1.0, 1.0], "localOffset": [0.0, -450.0, 110.0], "worldRandom": { "x": [-50, 49], "y": [-30, 29], "z": [-50, 49] } },
+                { "api": "CreateParticle", "s21Type": 32765, "renderedType": 32602, "subtype": 19, "count": 4, "scale": 2.0, "light": [3.0, 3.0, 3.0], "owner": null, "lifetime": 20, "alpha": 1.0, "localOffset": [0.0, -120.0, 110.0], "worldRandom": { "x": [-25, 24], "y": [-25, 24], "z": [-25, 24] } }
+              ]
+            }
+          ]
+        },
+        {
+          "role": "body_model",
+          "s21Type": 1524,
+          "file": "Data\\Effect\\shiningpeakbody.bmd",
+          "lifetime": 12,
+          "initialAlpha": 0.2,
+          "scale": 0.9,
+          "scaleStepSubtype0": 0.01,
+          "alphaUpdate": "h=floor(maxLife/2)+1; remaining>h ? alpha+=1/h : alpha-=1/h",
+          "render": "mesh 0; flags 0x42"
+        },
+        {
+          "role": "pin_model",
+          "s21Type": 1525,
+          "file": "Data\\Effect\\shiningpeakpin.bmd",
+          "lifetime": 8,
+          "initialAlpha": 0.0,
+          "scale": 1.8,
+          "scaleStep": 0.15,
+          "movementLocalPerTick": [0.0, -50.0, 0.0],
+          "alphaUpdate": "0.2 + normalizedHalfLife*0.3",
+          "light": [0.65, 0.8, 1.0],
+          "render": "mesh 0; flags 0x42; light multiplied by alpha"
+        },
+        {
+          "role": "spin_magic_model",
+          "s21Type": 1527,
+          "file": "Data\\Effect\\shiningpeakspinmagic.bmd",
+          "lifetime": 20,
+          "scale": 0.8,
+          "angleYStep": 20.0,
+          "alphaUpdate": "0.1 + normalizedHalfLife*0.7",
+          "render": "registered callback issues mesh 0, 1 and 2 draws with flags 0x42; source BMD reports two meshes, pending runtime guard validation"
+        },
+        {
+          "role": "generic_shockwave",
+          "s21Type": 2774,
+          "file": "Data\\Effect\\shockwave01.bmd",
+          "countAtStage2": 2,
+          "subtype": 6,
+          "owner": "caster",
+          "lifetime": 6,
+          "alpha": 0.85,
+          "light": [0.2, 0.3, 1.0],
+          "angleAdjustment": [0.0, -90.0, -90.0],
+          "movement": "generic rotate(Direction,Angle)+Position with zero Direction; stationary",
+          "render": "native object calc/draw wrapper with default arguments"
+        }
+      ],
+      "reverseEvidence": "GrowLancer/SHINING_PEAK_REVERSE.md",
+      "receivedDispatch": { "functionVA": "0x12CEA40", "compareVA": "0x12CEEB0", "skillId": 277, "handlerVA": "0x12D09E7" },
+      "clientTargetContract": "caster-owned visual only; received base-277 handler does not read decoded target index and creates no target/contact/reaction child",
+      "lineTargeting": null
+    },
+    {
+      "id": 278,
+      "name": "Wrath",
+      "requiredLevel": 66,
+      "damage": 0,
+      "mana": 40,
+      "ag": 30,
+      "range": 0,
+      "delayMs": 0,
+      "requiredStrength": 200,
+      "requiredDexterity": 200,
+      "buffIndex": 424,
+      "scroll": { "itemGroup": 12, "itemIndex": 276, "name": "Wrath Scroll", "itemBmdRecord": 2896 },
+      "action": 192,
+      "riseAction": 291,
+      "actionArgument": 321,
+      "sound": {
+        "cast": { "s21Id": 1118, "file": "Data\\Sound\\Wrath.wav", "registrationVA": "0x18E2F08" }
+      },
+      "receivedDispatch": { "functionVA": "0x12C5540", "handlerVA": "0x12CB6AC" },
+      "visualLayers": [
+        {
+          "role": "staged_controller", "s21Type": 1514, "subtype": 0,
+          "owner": "caster", "visibleModel": false, "lifetime": 70,
+          "stages": [
+            { "frame": [3.0, 3.5], "api": "CreateParticle", "s21Type": 33252, "file": "Data\\Effect\\!Combo3.OZJ", "localOffset": [0.0, -70.0, 250.0], "subtype": 0, "owner": null, "lifetime": 10, "initialScale": 2.0, "initialAlpha": 1.0, "initialLight": [1.0, 1.0, 0.62], "update": "scale += sin(30 radians)*0.18; light *= 0.85/tick", "render": { "nativeApi": "RenderSprite", "s21TextureType": 33252, "file": "Data\\Effect\\!Combo3.OZJ", "rotation": "particle Rotation", "dispatcherVA": "0x1640DD2" } },
+            { "frame": [3.5, 4.2], "api": "CreateEffect", "s21Type": 1516, "subtype": 0, "localOffset": [0.0, -80.0, 30.0] },
+            { "frame": [5.0, 5.5], "api": "CreateEffect", "s21Type": 1515, "subtype": 0, "localOffset": [0.0, -30.0, -40.0] },
+            { "frame": [5.6, 6.5], "emissions": [
+              { "api": "CreateParticle", "s21Type": 33254, "file": "Data\\Effect\\alpha_light.OZT", "localOffset": [0.0, -80.0, 220.0], "subtype": 0, "owner": null, "lifetime": 20, "initialScale": 3.0, "initialAlpha": 0.5, "initialLight": [1.0, 3.0, 10.0], "update": "alpha -= 0.03/tick", "render": "native sprite; submitted light = stored light * alpha" },
+              { "api": "CreateEffect", "s21Type": 33251, "file": "Data\\Effect\\brocken.OZJ", "localOffset": [0.0, -80.0, 5.0], "subtype": 0, "owner": null, "lifetime": 30, "initialScale": 4.0, "initialAlpha": 1.0, "initialLight": [1.0, 1.0, 1.0], "update": "when remaining lifetime < 11: alpha -= 0.11; stored light *= alpha/tick", "render": "RenderTerrainAlphaBitmap; rotation 0; alpha argument 1; height 5" }
+            ] }
+          ]
+        },
+        {
+          "role": "traveling_child", "s21Type": 1515, "file": "Data\\Effect\\wratha02.bmd",
+          "lifetime": 20, "initialScale": 0.6, "initialAlpha": 0.6,
+          "alphaStep": -0.065, "localMovementPerTick": [0.0, 0.0, -65.0],
+          "render": "mesh 0; flags 0x42; RGB multiplied by alpha"
+        },
+        {
+          "role": "persistent_buff_aura", "s21Type": 1516, "file": "Data\\Effect\\wratha01.bmd",
+          "owner": "caster", "subtypes": [0, 1], "lifetime": 30,
+          "subtype0": { "initialScale": 0.95, "initialAlpha": 0.0, "onExpireCreateSubtype": 1 },
+          "subtype1": { "initialScale": 0.7, "initialAlpha": 0.0, "recreateOnExpireWhileOwnerHasBuff": [424, 425] },
+          "angleZStepPerTick": 1.5,
+          "render": "native BMD mesh 0; flags 0x42; subtype 1 uses per-channel effect light"
+        }
+      ],
+      "reverseEvidence": "GrowLancer/WRATH_REVERSE.md",
+      "serverEffect": null
+    },
+    {
+      "id": 279,
+      "name": "Breche",
+      "requiredLevel": 300,
+      "damage": 230,
+      "mana": 15,
+      "ag": 6,
+      "range": 5,
+      "delayMs": 0,
+      "requiredStrength": 300,
+      "requiredDexterity": 300,
+      "formula": "(InDamage*0.5)*(Strength/10+97+SkillTreeBonus)/100",
+      "scroll": { "itemGroup": 12, "itemIndex": 277, "name": "Breche Scroll", "itemBmdRecord": 2897 },
+      "action": 190,
+      "riseAction": 289,
+      "sound": {
+        "cast": { "s21Id": 1119, "file": "Data\\Sound\\Breche.wav", "registrationVA": "0x18E2F47" }
+      },
+      "visualLayers": [
+        {
+          "role": "target_owned_receive_controller",
+          "status": "IN_PROCESS",
+          "reason": "Receive root and five children implemented; full-dump model cache proves empty root geometry. Runtime visual acceptance remains open.",
+          "receiveRootLead": { "s21Type": 1533, "subtype": 1, "createCallVA": "0x12CB854", "nativeImplementation": true, "riseType": "kBrecheControllerModel", "owner": "resolved packet target", "lifetimeTicks": 20, "bones": 0, "meshes": 0, "actions": 0 },
+          "children": [
+            { "s21Type": 33260, "subtype": 0, "riseType": "kBrecheLightMarksModel", "bitmap": 32967, "scale": 2.0, "rgb": [1, 0.07, 0.07], "initialAlpha": 0, "flipV": false, "renderAlpha": 1 },
+            { "s21Type": 32927, "subtype": 0, "riseType": "kBrecheTwilight02Model", "bitmap": 32968, "scale": 2.5, "rgb": [1, 0.07, 0.07], "initialAlpha": 0.1, "flipV": true, "renderAlpha": "storedAlpha" },
+            { "s21Type": 32926, "subtype": 14, "riseType": "kBrecheTwilight01Model", "bitmap": 32969, "scale": 0.9, "suppliedScale": 0, "rgb": [1, 0.7, 0.2], "initialAlpha": 0.1, "flipV": true, "renderAlpha": "storedAlpha" },
+            { "s21Type": 32926, "subtype": 14, "riseType": "kBrecheTwilight01Model", "bitmap": 32969, "scale": 0.2, "rgb": [1, 0.7, 0.2], "initialAlpha": 0.1, "flipV": true, "renderAlpha": "storedAlpha" },
+            { "s21Type": 32878, "subtype": 15, "riseType": "kBrecheEmitterModel", "scale": 0.9, "suppliedScale": 0, "rgb": "root inherited", "emissionsPerTick": 2, "bone": "random valid owner bone", "sprite": "7EF7 -> native BITMAP_LIGHT", "particles": ["8084/0", "806E/4", "8085/0"] }
+          ],
+          "sharedContract": { "owner": "root.Owner, not root object", "origin": "copied target position/angle", "lifetimeTicks": 20, "updateAtZeroBeforeDestroy": true, "terrainHeight": 5, "groundRgb": "storedLight * storedAlpha", "nativeCleanup": "EffectDestructor", "runtimeEntry": "CreateBrecheHit", "localQA": "F9 selected target" },
+          "evidence": ["GrowLancer/BRECHE_REVERSE.md", "GrowLancer/BRECHE_CHILDREN_REVERSE.md", "tools/grow_lancer/inspect_breche_full_dump.py"],
+          "remainingAcceptance": ["native sprite visibility/FPS behavior", "terrain world eligibility", "contact/movement and visual reference comparison", "pool exhaustion/reuse", "GameServer targeting and damage"]
+        }
+      ],
+      "excludedVisualLeads": [
+        {
+          "role": "generic_item_equipment_mesh_passes_not_proven_breche",
+          "s21RootEffect": null,
+          "owner": "caster equipped Armor/Pants/Gloves/Boots models",
+          "itemIndex": 190,
+          "nativeApi": "BMD::RenderMesh",
+          "jumpTables": ["0x1805F53", "0x1805F83", "0x1805FB3", "0x1805FE3"],
+          "handlers": ["0x17D1082", "0x17D40F7", "0x17D50C9", "0x17D5AA5"],
+          "itemGroupSelector": "(Type - 0xAE9) / 512; tables are groups 8 Armor, 9 Pants, 10 Gloves, 11 Boots",
+          "meshCoverage": "Armor normal 2,4,5,0,1 plus conditional red 3; Pants normal 0,1,2,4 plus conditional red 3; Gloves native whole-body; Boots normal 0 plus conditional red 1",
+          "conditionalTexture": { "s21Type": 33080, "file": "Data\\Item\\texture\\Item1130_L_red.OZJ", "registrationVA": "0x18C990E" },
+          "renderFlags": { "brightPass": "0x42", "alternatePass": "0x200002", "ss6MissingBit": "0x200000", "missingBitContract": "omit triangle only if V threshold is strictly greater than transformed Z of all 3 vertices", "riseAdapter": "RenderBrecheClippedMesh implemented with temporary Triangle_t filtering plus native BMD::RenderMesh; not connected until recipient equipment is proven" },
+          "transition": { "sceneState": "global 0x1E05010 equals 6; symbolic enum name unresolved", "brecheActionPath": "action 190 is outside 1..49 and 348..410, so threshold decreases by 0.1*40 per update and clamps to model bound", "equipmentWhitelist": [185, 205, 217, 246, 264, 311, 346, 400], "equipmentRange": [189, 199] },
+          "lifetime": "equipment render path; attribution to Breche action lifetime RETRACTED",
+          "exclusionEvidence": "0x17D085D..0x17D0873 computes (Type-0xAE9)%512 into local -0x25F4; 0x17D0B9A..0x17D0BE6 dispatches that item index, not OBJECT action"
+        }
+      ],
+      "reverseEvidence": "GrowLancer/BRECHE_REVERSE.md",
+      "serverTargeting": null
+    }
+  ]
+}

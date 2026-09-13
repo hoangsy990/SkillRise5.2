@@ -1,0 +1,6 @@
+// ID Name Damage Mana BP Range Radio Delay Type Effect Level Energy Leadership KillCount GuildStatus DW DK ELF MG DL SU RF
+// Synthetic sentinels only; never deploy this fixture as a skill table.
+901 "First row" 10 11 12 13 14 15 16 17 18 19 20 21 22 1 0 2 3 0 1 0
+// A second complete row proves no class read consumed its ID.
+902 "Second row" 110 111 112 113 114 115 116 117 118 119 120 121 122 0 3 2 1 0 0 1
+end
