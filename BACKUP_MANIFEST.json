@@ -435,8 +435,13 @@
     },
     {
       "path": "snapshot/GROW_LANCER_RECOVERY_STATE.md",
-      "bytes": 2414,
-      "sha256": "c70f7d1ea20cd24a759803334ce28692957ef0a68942a530047361c167d1abd3"
+      "bytes": 3061,
+      "sha256": "beceadc7ba982d299dae785ad07ac3bdbace9b2daf55a3da7f734838b1d84a72"
+    },
+    {
+      "path": "snapshot/GROW_LANCER_STATE.md",
+      "bytes": 355022,
+      "sha256": "578f704d6718ff976374472aad9150039358863fa51baf2945c2e56e4708a8dc"
     },
     {
       "path": "snapshot/GrowLancer/ACCEPTANCE_GATE_MATRIX.md",
@@ -489,6 +494,11 @@
       "sha256": "3b4106b062edd7396841536222cfb3bed58fe189a9d815c488fc64dfa884f87b"
     },
     {
+      "path": "snapshot/GrowLancer/DOCUMENT_RECOVERY.md",
+      "bytes": 2885,
+      "sha256": "becec3dfa5d65da3e87e9890bb93c6147870f5511fa2095134d86d1373227605"
+    },
+    {
       "path": "snapshot/GrowLancer/HARSH_STRIKE_REVERSE.md",
       "bytes": 14757,
       "sha256": "d6308de2a2ca8c207f5db1999da5a62cd52592eaa9fb2bac9bb3b4408bd099af"
@@ -512,6 +522,11 @@
       "path": "snapshot/GrowLancer/PLAYER_ACTIONS_REVERSE.md",
       "bytes": 1575,
       "sha256": "21b9b9925d26892d0eca94c1a4e2b5683dc9a1074d16922d558f45e0a93a54bb"
+    },
+    {
+      "path": "snapshot/GrowLancer/RUNTIME_QA.md",
+      "bytes": 7731,
+      "sha256": "c05dfedc29ac86fe4f5a057e99b096c536a8797e24922e652f6f7abaf3024f73"
     },
     {
       "path": "snapshot/GrowLancer/S21_LIVE_CRASH_20260913.md",
@@ -1104,7 +1119,9 @@
       "sha256": "c6325c69c154795e7b0943a7c561ac197baefa25e2a25ff46b43b07204783c02"
     }
   ],
-  "excludedDamagedOrUnavailable": [
+  "reviewRequired": [],
+  "omitted": "Git history; raw memory dumps; executable outputs; client/data assets; production configuration; runtime captures.",
+  "initialDamagedDocuments": [
     {
       "path": "GROW_LANCER_STATE.md",
       "reason": "NUL bytes in source/text",
@@ -1120,6 +1137,11 @@
       "sha256": "eda0ee2bb87f2e904e0586462d9dfd6728abab20ab353ad4e2f2a58a69ce9fc7"
     }
   ],
-  "reviewRequired": [],
-  "omitted": "Git history; raw memory dumps; executable outputs; client/data assets; production configuration; runtime captures."
+  "excludedDamagedOrUnavailable": [],
+  "documentRecovery": {
+    "method": "Successful task-history patch replay; 406 operations; zero context failures.",
+    "report": "snapshot/GrowLancer/DOCUMENT_RECOVERY.md",
+    "preCorruptionHashAvailable": false,
+    "preservedDamagedOriginals": "Local-only; not uploaded."
+  }
 }

@@ -5,7 +5,7 @@ This backup does not declare the nine skills complete or visually accepted.
 
 ## Scope
 
-220 surviving files (4,826,956 bytes) from the isolated Grow Lancer worktree:
+223 files from the isolated Grow Lancer worktree (including restored documents):
 client/server changes, skill descriptor, reverse notes, provenance metadata,
 focused tests and tools. Shared integration files are stored in full, not as
 patches. Wind Soul implementation and the Pegasus worktree are not included;
@@ -36,20 +36,23 @@ Files under `snapshot/` preserve their paths relative to that checkout.
 Hash verification proves this backup's byte integrity, not correctness or
 completeness of the port. Git text conversion is disabled to preserve bytes.
 
-## Known recovery gaps
+## Document recovery
 
 Two original documents were found entirely zero-filled after the I/O incident
-and deliberately excluded without modifying their originals:
+and excluded from the initial backup. Both have now been reconstructed from
+successful task-history writes and restored:
 
 - `GROW_LANCER_STATE.md`: 355,022 bytes.
 - `GrowLancer/RUNTIME_QA.md`: 7,731 bytes.
 
-Their hashes and exclusion reasons are in the manifest. Start with
-`snapshot/GROW_LANCER_RECOVERY_STATE.md`, the surviving per-skill reverse
-documents and `snapshot/GrowLancer/ACCEPTANCE_GATE_MATRIX.md`; these do not
-reconstruct the missing full checkpoint/QA history.
+All 406 recovery operations replayed with zero context failures; sizes match
+the originals. No independent pre-corruption document hash was available, so
+this is history-based reconstruction, not a certified intact-original match.
+Damaged originals were preserved locally before restoring the original paths.
+See `snapshot/GrowLancer/DOCUMENT_RECOVERY.md` for hashes and provenance.
+The manifest retains the initial incident records separately from restored files.
 
-The recovery note predates discovery of the second damaged document.
+The recovered files retain historical statements, including older next actions.
 `verify_runtime_qa_stage.py` still pins the older `0EA22D64...` executable;
 do not treat it as validation of the latest `E6FED7D0...` build. No new build
 or runtime acceptance was performed to create this backup. Final Grow Lancer

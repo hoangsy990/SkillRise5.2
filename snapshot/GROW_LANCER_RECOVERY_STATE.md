@@ -2,6 +2,18 @@
 
 STATUS: IN_PROCESS
 
+## RECOVERY UPDATE — 2026-09-13
+
+Both zero-filled documents have now been restored to their original paths by
+replaying successful writes from this task's local history. The damaged originals
+were preserved on C: before restoration. See `GrowLancer/DOCUMENT_RECOVERY.md`
+for hashes, provenance, verification and remaining limitations.
+
+The sections below describe the earlier integrity check, BEFORE recovery.
+They are retained as incident history, not the current file-integrity status.
+The restored state/QA documents retain their historical content unchanged;
+old next-action fields and PASS statements require chronological cross-checking.
+
 ## CURRENT PHASE
 
 Read-only integrity assessment before resuming port work. This is NOT a
