@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "status": "IN_PROCESS",
+  "destinationRoot": "ExMain_RISE_PC\\Tests\\PegasusBuild\\Client\\Data\\RISE\\WindSoulBase737",
+  "assets": [
+    {
+      "source": "D:\\RISE-CrossPlatform\\Source\\Client\\Data\\Skill\\2line_gost.OZJ",
+      "destination": "Skill\\2line_gost.OZJ",
+      "length": 19361,
+      "sha256": "212EF2D058A636E2BB04F943686CE6C6B31B45AE7E47567BFDF580D401A9F4D0"
+    },
+    {
+      "source": "D:\\RISE-CrossPlatform\\Source\\Client\\Data\\Skill\\desair.bmd",
+      "destination": "Skill\\desair.bmd",
+      "length": 13444,
+      "sha256": "9EFF8DB86EE8E5113D247A53178B392D14360EB110D253BA220CFFB4E3678362",
+      "note": "native RISE v0C; decoded payload matches SS21 v0F"
+    },
+    {
+      "source": "D:\\RISE-CrossPlatform\\Source\\Client\\Data\\Skill\\dark_skill01.OZJ",
+      "destination": "Skill\\dark_skill01.OZJ",
+      "length": 20559,
+      "sha256": "6E30DCE3AF78D77E4E8ECD7D35DA430D17E7534231C2260D708BFDF6329C2175",
+      "note": "texture referenced by the decoded desair mesh"
+    },
+    {
+      "source": "D:\\RISE-CrossPlatform\\Source\\Client\\Data\\Effect\\smoke01.OZJ",
+      "destination": "Effect\\smoke01.OZJ",
+      "length": 6818,
+      "sha256": "05D93565B3E9DC6ADE98A4F6C50BEC676E7E205CE1CFD464B7173359B397DA58"
+    },
+    {
+      "source": "D:\\RISE-CrossPlatform\\Source\\Client\\Data\\Sound\\caotic.wav",
+      "destination": "Sound\\caotic.wav",
+      "length": 140316,
+      "sha256": "2F046401AD9374B1D368DFA55EB2691391F6974A39D8CF4FBF30E0AD9E54B224"
+    }
+  ]
+}

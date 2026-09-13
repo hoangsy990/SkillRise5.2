@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "status": "IN_PROCESS",
+  "identity": {
+    "name": "Wind Soul",
+    "skillId": 737,
+    "scroll": "12:303",
+    "class": "Dark Lord",
+    "classTier": 3,
+    "itemLevel": 400,
+    "requiredStrength": 717,
+    "prerequisites": { "regularSkill": 238, "masterSkill": 523, "masterLevel": 10 }
+  },
+  "skill": { "mana": 35, "bp": 17, "damage": 130, "range": 6, "delay": 0 },
+  "server": {
+    "primaryTargetPackets": 3,
+    "damageMultiplier": "Energy / 25 + 200 percent",
+    "aoe": "UNRESOLVED_FAIL_CLOSED_PRIMARY_ONLY"
+  },
+  "client": {
+    "season21Action": 144,
+    "rise52ActionPolicy": "native mount-aware Chaotic Diseier compatibility",
+    "sound": "caotic.wav",
+    "root": "three BITMAP_2LINE_GHOST subtype 4 joints",
+    "birdChild": "MODEL_DESAIR subtype 2; inherits cyan-white root light; RENDER_TEXTURE | RENDER_BRIGHT",
+    "smoke": "BITMAP_SMOKE subtype 80; lifetime 40; SS21 random scale, rotation and gravity constructor",
+    "relatedSkillsExcluded": [1099, 2054, 2096]
+  },
+  "runtimeAcceptance": "PENDING_OWNER_INGAME_QA"
+}

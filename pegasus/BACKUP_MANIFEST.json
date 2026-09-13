@@ -1,0 +1,1292 @@
+{
+  "kind": "source-overlay",
+  "base_repository": "https://github.com/hoangsy990/Rise-CrossPlatform",
+  "base_commit": "f2e8e558874005708312becbb8273ecb8d7d61bf",
+  "branch": "feature/pegasus-high-skills",
+  "status": "IN_PROCESS",
+  "files": [
+    {
+      "path": "ExGameServer/GameServer/Attack.cpp",
+      "bytes": 83524,
+      "sha256": "2fe703231073480a316a5c054c2f403bc7f3364784e0db29a2ea443b52b2a327"
+    },
+    {
+      "path": "ExGameServer/GameServer/CommandManager.cpp",
+      "bytes": 139339,
+      "sha256": "9bc3f74a67fda43f72267fd96b5656e5c67b9aa7998383c343aef00b0def272e"
+    },
+    {
+      "path": "ExGameServer/GameServer/EffectManager.cpp",
+      "bytes": 71152,
+      "sha256": "110ef4cbbf7858d319c1d7a2db0aedd617771b83abcd2e9e77dc368ea43b1817"
+    },
+    {
+      "path": "ExGameServer/GameServer/GameServer.vcxproj",
+      "bytes": 33288,
+      "sha256": "87ad3cde8cb0018b0eb697677df41877be1a98b5e85315c7c2a50afd3db68d88"
+    },
+    {
+      "path": "ExGameServer/GameServer/MemoryAllocatorInfo.cpp",
+      "bytes": 2462,
+      "sha256": "17fc76f0a13ee473ff6b904bdc01d42372ba70c472129c39801e4fcead4c736f"
+    },
+    {
+      "path": "ExGameServer/GameServer/ObjectManager.cpp",
+      "bytes": 144822,
+      "sha256": "12212dcdb6a6ecb5e97ea56fe0653029befa5a887011e7ed11a44fc82d9d7901"
+    },
+    {
+      "path": "ExGameServer/GameServer/RISE/WindSoulServerContract.h",
+      "bytes": 430,
+      "sha256": "08c05e0d3864843aae973f8fd850fc87e6ba0b6f82107074ea8bad4cc4fb27d4"
+    },
+    {
+      "path": "ExGameServer/GameServer/Skill.cpp",
+      "bytes": 964,
+      "sha256": "cea0fedf97d3a7bb730f1ae6a0c723d5fc06633d036ab64749eb5279f7357565"
+    },
+    {
+      "path": "ExGameServer/GameServer/SkillManager.cpp",
+      "bytes": 178299,
+      "sha256": "a8b80368223022d030531217f7828717d41023f7f4c455a4df48fea93880cca0"
+    },
+    {
+      "path": "ExGameServer/GameServer/SkillManager.h",
+      "bytes": 18498,
+      "sha256": "e068bef7deb7b339e1a0faae4fa9a6cc856ad30995071e6771c2d97c7c7ecbba"
+    },
+    {
+      "path": "ExGameServer/GameServer/User.cpp",
+      "bytes": 100265,
+      "sha256": "12f63e6c57be756dd714aaa8a1cf9e1fb4378c71db467e48d318f94e2708547a"
+    },
+    {
+      "path": "ExGameServer/Tests/BuildPegasusIsolated.cmd",
+      "bytes": 602,
+      "sha256": "5da6b90e995c62ba2f844be5e689e20be5e729d4416f08f7d0c2423edeb50000"
+    },
+    {
+      "path": "ExGameServer/Tests/GeneratePegasusBuffLifecycleTest.py",
+      "bytes": 4693,
+      "sha256": "7b7a0768336b5d170413fe0df3ad4ef42824ff6de20dc2feb813a8d5cc785d8a"
+    },
+    {
+      "path": "ExGameServer/Tests/GenerateShiningBirdGeometryTest.py",
+      "bytes": 7505,
+      "sha256": "8da7618827b5cc240a04e3613459e5ebfcc12097d54a719239b7ec42bc909f70"
+    },
+    {
+      "path": "ExGameServer/Tests/PegasusChargeRangeServerContractTest.cpp",
+      "bytes": 2619,
+      "sha256": "5ff402b3e23a19b6230b9f7789445451dd5248c3840b5e791048268fb22af4fe"
+    },
+    {
+      "path": "ExGameServer/Tests/PegasusRuntimeQa15ContractTest.cpp",
+      "bytes": 3205,
+      "sha256": "f9e3e37a3a275a00d65d9f6395f94f591f50c28f0146ae00cfee5ceca0d5ffa8"
+    },
+    {
+      "path": "ExGameServer/Tests/PegasusSwordWrathServerContractTest.cpp",
+      "bytes": 1457,
+      "sha256": "bd6eefe2343414e80c378bff5d02c0c0e528d39b2caf587f0b97b87eeae65768"
+    },
+    {
+      "path": "ExGameServer/Tests/RunPegasusBuffLifecycleTest.cmd",
+      "bytes": 532,
+      "sha256": "f5b36101cfba1c84faea191de4b77902433b6ef7a0f297c50569bf74d3f6cad7"
+    },
+    {
+      "path": "ExGameServer/Tests/RunPegasusChargeRangeServerContractTest.cmd",
+      "bytes": 672,
+      "sha256": "929148e488ebc1d8a580224e6d9c7de18972a54d147aeeb7239d45bf0e3311e6"
+    },
+    {
+      "path": "ExGameServer/Tests/RunPegasusDamageFamilyRoutingTest.cmd",
+      "bytes": 136,
+      "sha256": "982de428d345aaa8c9bc098c68a01d2f83d18e1646465a2117245c1b81344066"
+    },
+    {
+      "path": "ExGameServer/Tests/RunPegasusQaCommandSafetyTest.cmd",
+      "bytes": 132,
+      "sha256": "8525a1b47aa12a324311af4d66736b0e8d761852dac1a6c3f4fe5baaf259357a"
+    },
+    {
+      "path": "ExGameServer/Tests/RunPegasusRuntimeQa15ContractTest.cmd",
+      "bytes": 488,
+      "sha256": "7389ece7a8672a6f39dcac77b7e97a42a56e26e98586a5bba64c625fa5744f71"
+    },
+    {
+      "path": "ExGameServer/Tests/RunPegasusSkillLearningRouteTest.cmd",
+      "bytes": 135,
+      "sha256": "3e2a14267f2c839a15d4f8c8b648e8cecacf705f53f34f6cbbb789614ba3641c"
+    },
+    {
+      "path": "ExGameServer/Tests/RunPegasusSwordWrathServerContractTest.cmd",
+      "bytes": 535,
+      "sha256": "79d591de4abe2818d6c388191c424740ff30bbe951aa792acd0a656f5e48278c"
+    },
+    {
+      "path": "ExGameServer/Tests/RunShiningBirdGeometryTest.cmd",
+      "bytes": 545,
+      "sha256": "f766886d44166ca7575f431ead5d1109b07367cfca52ced74ced61d4c74d4bea"
+    },
+    {
+      "path": "ExGameServer/Tests/VerifyPegasusCastEchoes.ps1",
+      "bytes": 1975,
+      "sha256": "942b0e61f658be63d6fd50310dea6656ef8415b1a89e8faee5d72676f3a8bf8f"
+    },
+    {
+      "path": "ExGameServer/Tests/VerifyPegasusChargeWeaponRouting.ps1",
+      "bytes": 1227,
+      "sha256": "80216bb6947dcff1911ae106aa688216c23b2a68913c6527eef36b0b901c225d"
+    },
+    {
+      "path": "ExGameServer/Tests/VerifyPegasusDamageFamilyRouting.ps1",
+      "bytes": 2811,
+      "sha256": "33a9b78fb0bcf7d8914c90a70e31a27537dbb49afc78e2be7e19a38ed3256a91"
+    },
+    {
+      "path": "ExGameServer/Tests/VerifyPegasusQaCommandSafety.ps1",
+      "bytes": 3353,
+      "sha256": "d17bb55b1d1e74758bc9a3885b266c4dd12f669023e73b3e726c0fc44b19e66f"
+    },
+    {
+      "path": "ExGameServer/Tests/VerifyPegasusSkillLearningRoute.ps1",
+      "bytes": 1441,
+      "sha256": "5cc888e81c5a8ac86c9d2fd1e8fb6e80679deafbdd54e72b724229a4c9c85ce7"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main.vcxproj",
+      "bytes": 79809,
+      "sha256": "e7e1490125e972a7eb949f76e2698704632829bec519675c7211e9fd92d1f6b8"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/DSplaysound.cpp",
+      "bytes": 14330,
+      "sha256": "748ec7e697aff5173549191757deae4eb7e329b191bcd4e2d8dd5ea8fe21e5e6"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/LoginWin.cpp",
+      "bytes": 16795,
+      "sha256": "992fde6c6340d491304b8b638cdda0bf3084c973f0db23ce35c60204db2ed6b7"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/LoginWin.h",
+      "bytes": 1093,
+      "sha256": "d4757648a06ffd3c481bc7022f606d4a72fa8b99e88bf86e9e7e4177d030d4c6"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/NewUIMainFrameWindow.cpp",
+      "bytes": 71024,
+      "sha256": "be3624653b6dede935c75ba4135f84636fa02a0dbe7930467a50a4b3cee7ff2f"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/NewUIMasterSkillTree.cpp",
+      "bytes": 35141,
+      "sha256": "b3dfd61ed6cc6b42911cec3b528b970e0285f2f5a1dde70f646858e645a0adf7"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/NewUIMuHelper.cpp",
+      "bytes": 56876,
+      "sha256": "e35cfb7b4b4cc99d04a8b7aca2ce1b939e60b9933bc78d0c3f70333a784352c4"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/New_ModelBMD.cpp",
+      "bytes": 20056,
+      "sha256": "0b1861f23b15abbcacfd7a02e16ffe4a6177fccef9e563c515298f61ffd1e304"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/New_RenderBMD.cpp",
+      "bytes": 12235,
+      "sha256": "e50fb76e8767c51bdc8d3963f160282e923a7fa0d1a814dd2cb2e14017f61c2e"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/CProtect.cpp",
+      "bytes": 5129,
+      "sha256": "b9877acfa144c1f8d387a9bf4afdc4f7860a8b19ef70ca4ac36067baab908cf4"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusCastRootGate.h",
+      "bytes": 591,
+      "sha256": "2e963f2e245dffb56802bbf59b883ce7655f8c95df38f86db4ffe69ec2c960c3"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusCasterActionTrace.cpp",
+      "bytes": 4102,
+      "sha256": "d93b64aa1e6bd13fc4da4e395115e5a6103b881a03f7062f757d62387cc64a24"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusCasterActionTrace.h",
+      "bytes": 200,
+      "sha256": "29eb74cc01cca8274b39db73cc0efedf97f916f9610a0245638dc7c473c356fe"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusChaosBladeRuntime.cpp",
+      "bytes": 13316,
+      "sha256": "617f4ee9ae43a26f29a38d2bf0387d16b20318af72278c999f878acd26cf4ead"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusChaosBladeRuntime.h",
+      "bytes": 804,
+      "sha256": "6cfba0493fa1c8fd1bd08d6992f685991ffb3439191fae64d8c513554e0698c6"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusCrusherChargeMath.h",
+      "bytes": 1137,
+      "sha256": "dc684485e3b29f8dde4932ea70467e71c9c8ac1c40199dcb1827f672a6382ffb"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusCrusherChargeRuntime.cpp",
+      "bytes": 11890,
+      "sha256": "4de53e70c908eef18aa3f7690710051b47474683a5305948e9dcb77a99c9e6ad"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusCrusherChargeRuntime.h",
+      "bytes": 1142,
+      "sha256": "881093e24d9bbeed8a9b82021527101dae43c7845557e12c1cbeec54c48a7cc0"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusDeathsideRuntime.cpp",
+      "bytes": 23891,
+      "sha256": "e4720f75a71e4d94a86613cd1b6d14acda13359e79b3e6123f4b4df6c1ea1bb2"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusDeathsideRuntime.h",
+      "bytes": 2574,
+      "sha256": "9c5d0b8d3bc0edc3105cd82463cd3a7241dfce74632412c4081bde9a316bb4db"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusDexBoosterContract.h",
+      "bytes": 3106,
+      "sha256": "113d6dc70ff426800b100b6a0176b528b02abf614e338eb59a47f5f00146e47c"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusDexBoosterRuntime.cpp",
+      "bytes": 9091,
+      "sha256": "928fd775ce7afb01b7215a5f2a3ea45c4fd58379cdc635ba99db60912ba205ca"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusDexBoosterRuntime.h",
+      "bytes": 844,
+      "sha256": "3f7444b862ba6d0b99af7db6672dfe71ac20f33870bb2db4f6a6a3a1f132442f"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusDragonViolentMath.h",
+      "bytes": 519,
+      "sha256": "c6756d1ad7160c6ed2b94efdb46f0bcb2eb53151f610071c1d445eb7e57c7c43"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusDragonViolentRuntime.cpp",
+      "bytes": 20768,
+      "sha256": "bd5f439be15e931868b3c38afda25ed7248dc1d788a5f061aacc654aa2b3b47e"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusDragonViolentRuntime.h",
+      "bytes": 986,
+      "sha256": "26a3aacb62a752d0673c5dabc6a5bc571c5d9429d3259ccf10288b472177bbbf"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusElementalChargeMath.h",
+      "bytes": 1895,
+      "sha256": "806d2af8f4c6364d279e399a02969f8f29c2e22b80af2060834f16fa69a74a50"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusElementalChargeRuntime.cpp",
+      "bytes": 11362,
+      "sha256": "78bbb2ad078c70752ca1878399ff4878adb4e4c24b291a23d853dc018801f3b3"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusElementalChargeRuntime.h",
+      "bytes": 763,
+      "sha256": "69f4f21556d014ae45da4572a669ab43475f423fe989457eb60330df55409e52"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusHavocSpearMath.h",
+      "bytes": 2702,
+      "sha256": "d6e784972b512fbccbc133c5a39e9e176c839db5e3297cc513e957046f20beb0"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusHavocSpearRuntime.cpp",
+      "bytes": 19485,
+      "sha256": "72993317c8c6353006ce154af2a476617835b473b3ead18ba8016f05c82d0ceb"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusHavocSpearRuntime.h",
+      "bytes": 901,
+      "sha256": "194015adb2de57a5725f0aa85712aacc040f8817213bfd1995231c5c93f832b8"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusHighSkillCatalog.cpp",
+      "bytes": 1516,
+      "sha256": "b094409bd2b0a9308bc313bbcdd314954f59260e2dc0f53a49659b954041734c"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusHighSkillCatalog.h",
+      "bytes": 84,
+      "sha256": "6f311450ef1eb164cd55284f7248841c06f738e3751f4424c98db53a6f241a3b"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusHighSkillDispatch.h",
+      "bytes": 3032,
+      "sha256": "7f9e5641e5ca43de344ec89a462146ad1f7e9dab29e5992978d1453d17d47019"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusHighSkillInput.h",
+      "bytes": 755,
+      "sha256": "c51940ce2a2a49ef72b161b9951439ac595dfb337ef82be4a905a711c6fdefee"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusLocalVisualQa.h",
+      "bytes": 336,
+      "sha256": "377b9d6ffd59f5b9f6ac3612b0a7c2bdb4a2720f2375339426f6a4b0c12370b0"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusQaCastBoundary.h",
+      "bytes": 1537,
+      "sha256": "21a665debdc4b7bf3245ca4131d2729b784a30f03249b4077dc1052cb99454d0"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusQaEvidence.h",
+      "bytes": 971,
+      "sha256": "e84e901cca55e20cb662fc6787617e9f286177a8af1f477e2409cd9e5124f5a4"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusRainingArrowMath.h",
+      "bytes": 2282,
+      "sha256": "f5deda388964336871af0ba7cf6bd82ff25aab4844060e399b4dbe1bff42c828"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusRainingArrowRuntime.cpp",
+      "bytes": 28978,
+      "sha256": "9c7f8c0ff4f70de7130a441326047e5713079393f6117ecc91478068424c5da0"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusRainingArrowRuntime.h",
+      "bytes": 1715,
+      "sha256": "b990ac36c5d3ae10426b71081aa3afbeb3c945819478916909f4ccad1e58ca49"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusRuntimeCapacity.h",
+      "bytes": 523,
+      "sha256": "f9cf2ae082306a053eac447b457485a2dc2700390d8a9287667cc32e16e60450"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusRuntimeTrace.h",
+      "bytes": 4113,
+      "sha256": "9f58f9f7a6f884d5838f27b8f5099a7f2771cf76e9b18fb171f3b0cea4f50768"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusShiningBirdMath.h",
+      "bytes": 1010,
+      "sha256": "0a3ba57251575ab805b10f6f77a89c9588909df96260672618edad2facb94dc1"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusShiningBirdRuntime.cpp",
+      "bytes": 10147,
+      "sha256": "fb1f0d287ec0b6e36347dda7b8660ff74ed9ac1f1d4b75173857fae131117ae9"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusShiningBirdRuntime.h",
+      "bytes": 500,
+      "sha256": "007ff3a2465adcfd6e5e921fa82a5c2abac4ac412868df9f2e298be78bb9d0b4"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusSkillIconCatalog.h",
+      "bytes": 2591,
+      "sha256": "885b5e48e03f17ef4795de730f130836fdb5d63d7f34c08e2aa4a052d612fd78"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusSoundRuntime.h",
+      "bytes": 1526,
+      "sha256": "79d05936c47079776ea87eb17105227f2c497318cc84f24c1f9d9a309c597e8a"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusSpearstormMath.h",
+      "bytes": 2472,
+      "sha256": "919c56ec69a6712b430a1c3fd85a2c7a6b04c9c9c20d57168295ef744128e8c5"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusSpearstormRuntime.cpp",
+      "bytes": 15735,
+      "sha256": "afe637531b97d20a45e45a054532c52c263e07105391f8cc6a7166275fad7929"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusSpearstormRuntime.h",
+      "bytes": 711,
+      "sha256": "ec702e1cd4a8517919be8c49cf88300e5f61463dbde142bd4b38304b22d942fa"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusSpiralChargeContract.h",
+      "bytes": 1858,
+      "sha256": "49515244476a40a422c84f776877bd7189cb8edc3721a0692a2900114465b7f4"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusSpiralChargeRuntime.cpp",
+      "bytes": 11151,
+      "sha256": "e52112c01ef3800939985ff06def81d65b8304ea93fb89e0f545f9ae5e7c90df"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusSpiralChargeRuntime.h",
+      "bytes": 1064,
+      "sha256": "2aa732505dc3f518859f393721e0c51b7702d60afac956cf752a1b5fb685f2bf"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusSwordBlowMath.h",
+      "bytes": 9050,
+      "sha256": "778df0bf0c91359811b2f95312e3b2e3e9e2cfb9413766ee37d0b04f686ad938"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusSwordBlowRuntime.cpp",
+      "bytes": 40246,
+      "sha256": "6763515a91b71e5a40e3d9c40536e33b44e7449ae1dce1503b4ce6c88bc85f89"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusSwordBlowRuntime.h",
+      "bytes": 2321,
+      "sha256": "7d30b621b5567d7a0141a6a5b4a5933664ee8d273164e829c707d584480512d9"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusSwordWrathMath.h",
+      "bytes": 3125,
+      "sha256": "f239571950907039b7276b2aa6075e8a96c85bec2cbf9f57ee146a0387ae48ab"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusSwordWrathRuntime.cpp",
+      "bytes": 11228,
+      "sha256": "7a0d875893facf64754b94920c7ad5abc9cb3c4c31d0242648ebd3af11bfe112"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusSwordWrathRuntime.h",
+      "bytes": 898,
+      "sha256": "75b312a71fd1ffe1217b74e0459452c11368f810d1ff6531c102f5c5d2ce16a4"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/PegasusTextureIds.h",
+      "bytes": 2954,
+      "sha256": "7c998ad757447242b4a955f93b7487216e5b2b345c9302dba2576244f19a2a3d"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/WindSoulContract.h",
+      "bytes": 1836,
+      "sha256": "18caef27b1ab1cfbd7812159d0e9469c53373f1c6895d5004f9161848aa8549b"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/WindSoulRuntime.cpp",
+      "bytes": 2895,
+      "sha256": "c442ed52cc2f79b260aaf6a38e0c30fd9cdbe2961324772d5f8d18b862c4afd6"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/WindSoulRuntime.h",
+      "bytes": 512,
+      "sha256": "844916d308e7cbb29f4d065548bb906313b2daed0cab0d1ddad0932fa8f4eb4d"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/RISE/ZzzToolKit.cpp",
+      "bytes": 23922,
+      "sha256": "3d695f52e3181885fcad3b4bf78bb89541bdfd7fef8a0f6406fc6ca3ff009934"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/ServerSelWin.cpp",
+      "bytes": 15163,
+      "sha256": "76495deacdcda2f446676e257d6d15c585b98d5614717deb3e3c13b34d440bd8"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/ServerSelWin.h",
+      "bytes": 1771,
+      "sha256": "644efb883858fcde064a290de2ec639c6cdc3643eb490dd704f46334c103bb55"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/SkillManager.cpp",
+      "bytes": 10635,
+      "sha256": "93dc6b4ebe2bdf91f372d53c8efccc8793be4873675cdebbb7400efcae602666"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/SkillManager.h",
+      "bytes": 23688,
+      "sha256": "ceb83a241d916b0c0f8cad2ae84eec4be183c3b2822cb1cc19c59dbe2fd69e49"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/WSclient.cpp",
+      "bytes": 464432,
+      "sha256": "3d613540bdc3bf9a4dbc0b6fe1ac9a3c07296d3b53c56cbceca6981cb31f4191"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/Winmain.cpp",
+      "bytes": 52437,
+      "sha256": "2c67a952b78ff78d3c14f2ef0e542ddf1892f52e19de6e47f433e69126ce48c7"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/ZzzCharacter.cpp",
+      "bytes": 604803,
+      "sha256": "0d49c70fa2b47943c193c4baed7187abae1f7939a87cf7d0fd44b1db02b6d7f1"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/ZzzEffect.cpp",
+      "bytes": 817208,
+      "sha256": "a5daa738670bafe4c7b62b9647c610a9de38ad09ea8d84ca9ed00664ccafe267"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/ZzzEffect.h",
+      "bytes": 7177,
+      "sha256": "381a4cd228a01078955c59e8d2bea3b682a1c93eff1cde14e885fceab71481c1"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/ZzzEffectBlurSpark.cpp",
+      "bytes": 20330,
+      "sha256": "e97b594acd809921151635eb146a227b6e01b897de3b6a5dcb282c8e66f267a6"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/ZzzEffectJoint.cpp",
+      "bytes": 315230,
+      "sha256": "9a318812cbc13e1e175480474a8945be0b9a9935afc556a02ed846237c947ad3"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/ZzzEffectParticle.cpp",
+      "bytes": 453936,
+      "sha256": "97563a271a0cfa5000dc9a7ba319fbe86a4541e24601225bfbfc15be676f432c"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/ZzzInfomation.cpp",
+      "bytes": 148662,
+      "sha256": "41d5ba9273526d4c5316ff1b6d62df5f9c2afe5a73cf392bb00b44b933d6c1ec"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/ZzzInterface.cpp",
+      "bytes": 281392,
+      "sha256": "a299520973585d0d6649d2450f71240aa3f9e2b3421955a4bb6af1615591150e"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/ZzzObject.cpp",
+      "bytes": 538275,
+      "sha256": "3ab4391981e3a991b042f73ff12227fdd9969ff038aacae18124ba3fe720ac6f"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/ZzzOpenData.cpp",
+      "bytes": 296525,
+      "sha256": "ae36cafe5b63889e81f9f7a1eda06a8c37789be7ea3bc8efd91c310f2d43f269"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/ZzzScene.cpp",
+      "bytes": 84228,
+      "sha256": "efaef4f835ce7a58678958e5ec18a688197fbb79ff03b5641ae8197e7e238982"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/ZzzScene.h",
+      "bytes": 1280,
+      "sha256": "5030ae6d234ba512b5b965972f731ae9db3a1b56ef0eaae25b84baf379bda708"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/_define.h",
+      "bytes": 20284,
+      "sha256": "fc676ba058c85483225c871b5f3324385e4af1788929c4aa0de997036a9e1e76"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/_enum.h",
+      "bytes": 89873,
+      "sha256": "3870bf74f22c64def7b6dfcc2b8a4579144f0c423119177951f02c55ab171eca"
+    },
+    {
+      "path": "ExMain_RISE_PC/Main5.2_RISE/zzzeffectsprite.cpp",
+      "bytes": 5187,
+      "sha256": "75e81afe70f99c85fc5226cd663be9ced44a44bfcbcc96251aef7aa2cc761bf9"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/AnalyzePegasusRuntimeQa.ps1",
+      "bytes": 30125,
+      "sha256": "751e1969ec9672c9c4821e98a1735d18af12bd6b3ab87fb1860a4a7d0642b0ad"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/BackupPegasusSource.py",
+      "bytes": 2229,
+      "sha256": "26ca8fc397c9d99aa2273439411234b194205a2f9a153f0e80a5f2e844323e91"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/BuildPegasusIsolated.cmd",
+      "bytes": 453,
+      "sha256": "4499e72df82010dbbdbd41fdb7f20c1e2f3b6611894db9fe87a646a7df9c01e6"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/BuildPegasusQaContactSheet.ps1",
+      "bytes": 2703,
+      "sha256": "455536b7cc3e795ca13fa9187032c17bbdbfbb3c05507f24feb5508fb6eb6d43"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/CapturePegasusDispatchFrames.ps1",
+      "bytes": 3852,
+      "sha256": "344a15dca081df2d8cdfd442a1bd1ea425cef9af62d3b5e5145cd919b4db529a"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/CapturePegasusQaFrames.ps1",
+      "bytes": 1951,
+      "sha256": "57e6868bf658042f021c11f73af861ffb3bf5318220bdc5658f56932e0d07eb2"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/CaptureSwordBlowFlightPreview.ps1",
+      "bytes": 3265,
+      "sha256": "6d30d64574bc69d4cdbfabde23dd0a6e7334e66e1894c59c10e14bae3da635d0"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/CompareBmdActions.py",
+      "bytes": 3262,
+      "sha256": "522d5f30ced98839b3bdf12c6782fa6c08ab7645aaaef4b07ae6c64b9e800847"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/DeployPegasusRuntimeClient.ps1",
+      "bytes": 2949,
+      "sha256": "0cae10878ad9e74d9688ca9e03a108db2afb1a644bfaec8ec3e27eca60ca2ef6"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/DisassemblePegasusRange.py",
+      "bytes": 1308,
+      "sha256": "f7b9198e9cf4110f1792c0de5c30f311fa7c2e36aaa88ba02d585def5974f58a"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/DisassembleSs21Range.py",
+      "bytes": 1359,
+      "sha256": "f18a131a8fe81f3d747bea6049d1e273c9b89b0ea3a329e129036cb4e2d0c71e"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/FindPegasusCallContexts.py",
+      "bytes": 2406,
+      "sha256": "7e3323971a4e8e4380af35fa9954734d9d1a73a226f4f7027799ec76999dcf81"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/FindPegasusImmediateXrefs.py",
+      "bytes": 2818,
+      "sha256": "bdcbbc535d942193972d010240c84fdf5c788868f0fd052f9067b789b7ea558d"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/FindPegasusStringXrefs.py",
+      "bytes": 2133,
+      "sha256": "f0416ce1e7cb103fcb14b19993085712fd63dd28d5ff1ab315acaf4f10fc4efe"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/FindSs21ImmediateXrefs.py",
+      "bytes": 2053,
+      "sha256": "244052fdbc2e3746cdcc55a39da76640a6aaccddb949fd97a5718d6fdebf5090"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/FollowPegasusKnownComparisons.py",
+      "bytes": 2462,
+      "sha256": "62eab22b721ae5b25a2c21b13efa4516f0153d9b99299e5a1f177f2f45e0086d"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/InspectBmdAnimation.py",
+      "bytes": 2734,
+      "sha256": "11da9e42f94ee0d5e11e60bc27acc04d92f8408c2b50f6b7c69567f7c8f4447d"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/InspectPegasusBmd.py",
+      "bytes": 2722,
+      "sha256": "a27db5f1377075dc18507459296cf36320e32a29f941b3b61b5b5499b00b0b74"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/InspectPegasusRendererConfig.py",
+      "bytes": 2183,
+      "sha256": "f2b567524d9fbb3259146bf35399fc9bf10b6e50dbcdefdf91ec42eded32e931"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/InspectPegasusRuntimeState.cpp",
+      "bytes": 3360,
+      "sha256": "b5985a44632b96d8dd019a52860e9ac98451f5c318ef2ae48cdaf85384c8ecb4"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/MeasureSwordBlowReferenceDelta.py",
+      "bytes": 1665,
+      "sha256": "23222b5fffd0f18c7d4990b9da584426fba9d6e9795f548f055d0c5fd97d1e10"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/PegasusCastRootGateTest.cpp",
+      "bytes": 2129,
+      "sha256": "9890a74fc2403575e4e677a0f9277921ea527692d82305715f43627f9026e6ac"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/PegasusCrusherChargeMathTest.cpp",
+      "bytes": 1096,
+      "sha256": "a689794ae60716e91185d57221751d796bd39ad38f22345648fe12b3fe3f38bc"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/PegasusDeathsideContractTest.cpp",
+      "bytes": 3338,
+      "sha256": "358d296d43c4afbdde926f7f98f8b68706616dc5546536d7ae870d05387212f4"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/PegasusDexBoosterContractTest.cpp",
+      "bytes": 2804,
+      "sha256": "1a277b29118e367023aedb57ec13b39b3d59c956f2fc0683ff61dd5958c9b8c8"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/PegasusDragonViolentContractTest.cpp",
+      "bytes": 828,
+      "sha256": "4b72843b629f246e635bc5463a190680a0a7e0763c5522c15e04ed6ebdfe6bb3"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/PegasusDynamicModelIdTest.cpp",
+      "bytes": 3291,
+      "sha256": "9b3d484646f1c2163fa19de1bcc501a12ba8a35c898e60113fc63f525557c90c"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/PegasusElementalChargeMathTest.cpp",
+      "bytes": 2903,
+      "sha256": "3d5f14da25008b36c6c920656f7e0c26672f3eaaf1c24508dcf8ade6d07ac263"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/PegasusHavocSpearMathTest.cpp",
+      "bytes": 2722,
+      "sha256": "fba2502fb26201f691f5e764566e5a4b3dbfbc741cc3e48a1f9d9bf1941b8c29"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/PegasusHighSkillCatalogTest.cpp",
+      "bytes": 4794,
+      "sha256": "be92df2af24f32d292b6dda5c83ebb47e1dcfa1b4328897b407a3f018a7dd165"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/PegasusHighSkillInputTest.cpp",
+      "bytes": 1825,
+      "sha256": "37f736fbfecceb3462c6e08d6ecf1384256923b04238ea35593e3326aeb93a16"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/PegasusQaEvidenceTest.cpp",
+      "bytes": 954,
+      "sha256": "e4cc83c4234216f28ddcd4626ffed9b9f9a5119318b3d1f733b73069733cf478"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/PegasusRainingArrowMathTest.cpp",
+      "bytes": 2236,
+      "sha256": "571c4811883abefebdd7c1a4fc9280baf9379fbaa89517d05a5f8910719dbd17"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/PegasusRuntimeIdTest.cpp",
+      "bytes": 3345,
+      "sha256": "a8e4e3eb48b46c24368df32c4b66ae25ca15473a813dfd6ee88c0b638fd4e17a"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/PegasusShaderModelCapacityTest.cpp",
+      "bytes": 968,
+      "sha256": "b020c2602c6eb538214fc0febc0d2f85f1c55ca4765ebad62310467817af110b"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/PegasusShiningBirdMathTest.cpp",
+      "bytes": 1437,
+      "sha256": "af0490f59b5cdaf0a9df6fde4546b3bc76d23c9fbd5d28f196ecb71d1131b03b"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/PegasusSkillIconCatalogTest.cpp",
+      "bytes": 993,
+      "sha256": "c9ba55487b9d580b7e85f73f64318454d971b2f3da0e09adaaeee21bd38c7b15"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/PegasusSpearstormMathTest.cpp",
+      "bytes": 2244,
+      "sha256": "9be3a7dae0960fe0fc4e0503c9aae9df2bf77abcf8642ac19d8025d552952f60"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/PegasusSpiralChargeContractTest.cpp",
+      "bytes": 2356,
+      "sha256": "a5d014937566fc397d53ce1e19d897c56e322e3658770e6dd69dacb3a693f834"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/PegasusSwordBlowMathTest.cpp",
+      "bytes": 8305,
+      "sha256": "26a9a34304550e30e31314151d9a0b3c560dc98b355f77af38b037162580cb9c"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/PegasusSwordWrathMathTest.cpp",
+      "bytes": 3145,
+      "sha256": "24077a3ca391f658d31c30da61376a416c860756de814479fa36461bf4a896af"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/ReadPegasusFloat.py",
+      "bytes": 510,
+      "sha256": "452410124ede1fc79d8467e231f8b8d3bed78fd46f660820107beaeff617030f"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/RunInspectPegasusRuntimeState.cmd",
+      "bytes": 571,
+      "sha256": "1bc3a70a324a77907d14eaf2cd1f90bb2602f7a74c0dfa360d9be6507844463d"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/RunPegasus12FullChainGateSuite.cmd",
+      "bytes": 132,
+      "sha256": "a4bd09783c41548444a0591a67196787198cd40f4b75b4c06fad397b3d08fcef"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/RunPegasusAnimatedBmdRoutingTest.cmd",
+      "bytes": 135,
+      "sha256": "bf9697be4fb33b0326624b5e768a6a4f711f773cd70fceb62632040513e4b9fa"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/RunPegasusAutoQaTest.cmd",
+      "bytes": 123,
+      "sha256": "ae3a02d2345f5a4b2f5a44b3864555cd5a425ed4897afe9ee25633cf74d88b3c"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/RunPegasusCastRootGateTest.cmd",
+      "bytes": 514,
+      "sha256": "442fa3e8cf3b5c1dd0a9b8cd70525cdbaf9fa4ed31421bc12cc0781c2e25b12d"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/RunPegasusChaosBladeRoutingTest.cmd",
+      "bytes": 134,
+      "sha256": "0223c49366d738750378b966f50c3d2f62c573f0915ebd3db6bde69520587a0a"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/RunPegasusCrusherChargeMathTest.cmd",
+      "bytes": 546,
+      "sha256": "1666528582cea321154b038a072f3268b7aa558f4410ed74ecc67c2dfabd2ed7"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/RunPegasusDarknessRoutingTest.cmd",
+      "bytes": 132,
+      "sha256": "1bd5db3d9b29eca7a5ea8b30d14e85bd0095a6878b780c68c4d10dedca00de48"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/RunPegasusDeathsideContractTest.cmd",
+      "bytes": 679,
+      "sha256": "7fef813ceadb27d11a70c3e4ca3f6c88b85bb036582bf8225351f47c6259fb6e"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/RunPegasusDexBoosterContractTest.cmd",
+      "bytes": 575,
+      "sha256": "5fc3f72543402c2d9325942235833b2c1a38436d019957f2bac823d001c636fb"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/RunPegasusDragonViolentContractTest.cmd",
+      "bytes": 584,
+      "sha256": "8ee942a8d8f75a1cb7f8937a0e228f3385cc7b5f32485ee85baf7cb62dc3ddfa"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/RunPegasusDynamicModelIdTest.cmd",
+      "bytes": 395,
+      "sha256": "2a5dd13a3cd4761b2e2a9fc251643c1f4659d0f4b18e27aaa2d9b4f3196e90c2"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/RunPegasusElementalChargeMathTest.cmd",
+      "bytes": 655,
+      "sha256": "c4eecbaab7eabbf9518ba1526b37393a871c381dc8200c16889f785749888f9c"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/RunPegasusFullChainGateSuite.ps1",
+      "bytes": 2314,
+      "sha256": "56925cf9e2986da717c78d687b763cad8e98a59e88271b78d6844db7b9a6d21e"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/RunPegasusHavocSpearMathTest.cmd",
+      "bytes": 612,
+      "sha256": "d259ad527e2cd2462aa4da609f847a4b570f9b34ad8401dddab8257d735d8d2f"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/RunPegasusHighSkillCatalogTest.cmd",
+      "bytes": 462,
+      "sha256": "e755d2044e4427753d673b89a13b74fa61bf1ed96049583788e890e02aa4b7d1"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/RunPegasusHighSkillInputTest.cmd",
+      "bytes": 541,
+      "sha256": "bf4126917f5132e7e339c9636db22615bd98fce0ca28553f1de3f9d63c48f85f"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/RunPegasusLifecycleCoverageTest.cmd",
+      "bytes": 138,
+      "sha256": "59710ce44cfa98db8db1d65f83af528f2a7d69c9a5c61bf46847fc010212d404"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/RunPegasusLocalVisualQaTest.cmd",
+      "bytes": 130,
+      "sha256": "3fa066220792e185d6fd2537e5312e82f5392a03f9c51fbdc1b86c36e21e1dd6"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/RunPegasusPinnedMetadataTest.cmd",
+      "bytes": 131,
+      "sha256": "216b867dfed80cdfbd8006c3c996fe3f53490ce791fd59b0b2a4589d49f8e095"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/RunPegasusPlayerActionBmdTest.cmd",
+      "bytes": 85,
+      "sha256": "a6b909dfe0438aa9acd122a8735a1286da23e353fa6e38ac8fbd45f1fd1eab82"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/RunPegasusQaEvidenceTest.cmd",
+      "bytes": 807,
+      "sha256": "211401acf38c2bfe2a281fa6021fefa88d6f5e518a18418304946e04b258a7c3"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/RunPegasusRainingArrowMathTest.cmd",
+      "bytes": 629,
+      "sha256": "ae382fa3e118ae0eba5a4eb6d80c2cff35da0614ff995551a06872c81e780ed8"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/RunPegasusRuntimeIdTest.cmd",
+      "bytes": 467,
+      "sha256": "7fa46f68fda76d1f429d28e3b948d47a6c63473dd0acdc39a8a9ad5bbdc732d9"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/RunPegasusRuntimeTraceTest.cmd",
+      "bytes": 129,
+      "sha256": "34b59212dd5f9a4f2e9f762402223c15da35857065b51fc04a3bd4a0b8af8613"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/RunPegasusShaderModelCapacityTest.cmd",
+      "bytes": 516,
+      "sha256": "a1788cc222e14f754c6055a992246c42373a9a4b996c0ed8f91ba203cad2ddf0"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/RunPegasusShiningBirdMathTest.cmd",
+      "bytes": 523,
+      "sha256": "b952e8180f92f65d24c7db5f32c883f6527513ef1cec30fa9a735dc4be2cfd36"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/RunPegasusSkillIconCatalogTest.cmd",
+      "bytes": 488,
+      "sha256": "abdaf1bbea4c1d89febf9404c3765540e24eb494dbbbe7f6465dfa32ec98a47d"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/RunPegasusSpearstormMathTest.cmd",
+      "bytes": 627,
+      "sha256": "8ee386000a363de0df06afc70cb81f6c9a8c5e0ebd27789f6fa703046ef26781"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/RunPegasusSpiralChargeContractTest.cmd",
+      "bytes": 714,
+      "sha256": "070f605b05d6879e20e8989f827a1821f7dc8f6b7bb85d3a50837478441b98bf"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/RunPegasusSwordBlowFlightTest.cmd",
+      "bytes": 132,
+      "sha256": "fcc5b6b4f7c483bc7bd965e97130c349d811245e5540932eaf41ec2cf0334358"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/RunPegasusSwordBlowMathTest.cmd",
+      "bytes": 462,
+      "sha256": "5abfc3dd3e49a36912ff9a3ee54f194db7dd1af10680f90aef32d16693209552"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/RunPegasusSwordBlowPreviewTest.cmd",
+      "bytes": 124,
+      "sha256": "0c4d927eb14e3931455dbd6a46db4410b440ca59910b8d18cdade1daff7e01ee"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/RunPegasusSwordWrathMathTest.cmd",
+      "bytes": 519,
+      "sha256": "1f88a54e29ea9e691a5550f409d200791ce09341bfcc45962d7da32cc81335da"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/RunPegasusTerrainBlendStateTest.cmd",
+      "bytes": 125,
+      "sha256": "7143d10bfab92bf7b8110acd39723ce9d76f60f8ed452a35fb874f9d4995b336"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/RunWindSoulContractTest.cmd",
+      "bytes": 555,
+      "sha256": "09be2ec28a8f156436bf85c07e465a5ea3349cf3a1f0b8b7d5801a25b33ffa55"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/ScanPegasusSkillDispatch.py",
+      "bytes": 2460,
+      "sha256": "993e78f5d05f4b7e42b0b481b36ba7fefec3e0ae116f2278047d69115a28ae95"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/StagePegasusAssets.ps1",
+      "bytes": 24139,
+      "sha256": "5d82be541ca9fcddad1f8663be4e155ac20a7a24527cf561106cb76a97499460"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/StagePegasusSkillIcons.py",
+      "bytes": 4935,
+      "sha256": "44410b2e3e50a713e63f82462b3ad03d3f818b4566c131489b7a6d5988fa60c6"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/StageWindSoulAssets.ps1",
+      "bytes": 1804,
+      "sha256": "4a57f78bd96ecd6055913e4c4e359e22e3f56a4c8da97c6487a801b1181ab598"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/TestPegasusQaLogSharing.ps1",
+      "bytes": 1764,
+      "sha256": "b0abebd747c6718a543ed4a27410348b74a16f9e63247ba1b46ba40203c49153"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/TestPegasusRainingQaPhases.ps1",
+      "bytes": 1700,
+      "sha256": "7698ee24ad08cac35dab84c3a3b52dfd81c20212d816ae0e943870d0b3add73a"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/TestPegasusReactionGateReport.ps1",
+      "bytes": 1868,
+      "sha256": "fac1c7d478f77eeea5a4ec921f614023d895a66d03f7f4267fbe4a33a3ae3761"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/VerifyPegasusAnimatedBmdRouting.ps1",
+      "bytes": 2856,
+      "sha256": "9d11c9973cbf0335c922ae95351206bc6705e5b1346a72cbb751ecb80cb64b7e"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/VerifyPegasusAssetPreflight.ps1",
+      "bytes": 1848,
+      "sha256": "9bbc01c8203ead8e0f3cb3a654231683c540808098cc42f03cfce35ccf39a9fe"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/VerifyPegasusAutoQa.ps1",
+      "bytes": 5324,
+      "sha256": "8c310e02d9fc084552dfd88b6123f473792b55647c9de89bb95c253ed39d97e7"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/VerifyPegasusBmdDependencies.py",
+      "bytes": 2016,
+      "sha256": "8d1193d8d31b7dd2e848ba111166f40c9dd5072e5fed3ab5097f90bf91cf0d52"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/VerifyPegasusCastRootOwners.ps1",
+      "bytes": 563,
+      "sha256": "14a8b260eba0673f42f2f3981e3cdd4d2c9490ad2636b713e13d1bb0f620e7dc"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/VerifyPegasusChaosBladeRouting.ps1",
+      "bytes": 5531,
+      "sha256": "1789cd0e701a2c1ae2bfda07d128214109c1a45b0f3584c96ec517dfcae2f946"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/VerifyPegasusChargeAuraLiveGates.ps1",
+      "bytes": 1040,
+      "sha256": "ce3cc12e161eefa248bb0f771fd7c07062ec83e63ee67b8b8890bb42fd1065ff"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/VerifyPegasusCrusherChargeRouting.ps1",
+      "bytes": 4049,
+      "sha256": "e7a6ff55696b4e7bc7676da976a13a506590355630ca549a94718fbf2f257700"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/VerifyPegasusDarknessRouting.ps1",
+      "bytes": 2586,
+      "sha256": "0a66b881ca651a9a62d75182a4ed87e1ab5ac516d79e8e8c69e25e4cca1c019f"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/VerifyPegasusDeathsideTrailRouting.ps1",
+      "bytes": 4165,
+      "sha256": "22c460963840d28cb2df3aa9448747908660a5ffd84f99ec9656592de6d4987b"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/VerifyPegasusDeployment.ps1",
+      "bytes": 1667,
+      "sha256": "742f389618f31ac2f2b475d70a26ece13f7197e2b94db70bf72e164fc6200bf0"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/VerifyPegasusDexBoosterRouting.ps1",
+      "bytes": 3210,
+      "sha256": "ceb3ea2e657eca5c0e959e8d39282ef55b3a4a30256998378252e5ca6af70271"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/VerifyPegasusDragonViolentRouting.ps1",
+      "bytes": 5470,
+      "sha256": "86df5485a700bb5366256e6db2c4ba48a98201834b7ea6ef4e0023323333f798"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/VerifyPegasusElementalChargeRouting.ps1",
+      "bytes": 2825,
+      "sha256": "d37c7485d0bda2eb7a98c3f12d90a94ce59d9ac3e6204cc4d31c4b71c30421ee"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/VerifyPegasusHavocSpearRouting.ps1",
+      "bytes": 4577,
+      "sha256": "581bf033f6a3ba570e69e686664fb78d7930539b5ae3b4004c6035b26e20c759"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/VerifyPegasusLifecycleCoverage.ps1",
+      "bytes": 8282,
+      "sha256": "3e75c08dd2579c4c01728370ab523ca3f2dc6eacc6e0bc33535220f98daebfd5"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/VerifyPegasusLocalVisualQa.ps1",
+      "bytes": 1715,
+      "sha256": "da880abfe79c1210e564c5c3a8cc7e0c07a4827943c38e303da85995522bd6a1"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/VerifyPegasusModelLoadGuards.ps1",
+      "bytes": 938,
+      "sha256": "a85cf3274fe06fccbc150eff6ce9f3d5b99a1cc345dc558f3eda7e2e2b1bd6d7"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/VerifyPegasusModelStorage.ps1",
+      "bytes": 805,
+      "sha256": "92f707b2263b0b43f4a58360890d73ac494beb7f5a6216d946bebc3bde25f9da"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/VerifyPegasusPinnedMetadata.ps1",
+      "bytes": 7738,
+      "sha256": "2430acdc3f0a9b33526c186fccfa24412a4a4dc109cf1eb63186d82e42dbc814"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/VerifyPegasusPlayerActionBmd.py",
+      "bytes": 2629,
+      "sha256": "f743c42db283482cf97b17563182603615f42ebd254c0013801f8dfbf4e4c213"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/VerifyPegasusRainingArrowRenderer.ps1",
+      "bytes": 4138,
+      "sha256": "044a641232f60b950a6e895c83b8c8ca619f8986454e0c345b5ac34e40de0e98"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/VerifyPegasusRuntimeRouting.ps1",
+      "bytes": 5129,
+      "sha256": "e3b61f59956035a7dbf9d1505e73126815319901c9057a1d5f3a1c8e069a2d03"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/VerifyPegasusRuntimeTrace.ps1",
+      "bytes": 14276,
+      "sha256": "bc5166cf517c00745c8f8f41c54e2e05a31251463be33050130d7ae56c9cebe0"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/VerifyPegasusShiningBirdRouting.ps1",
+      "bytes": 3538,
+      "sha256": "a1e1254684e0e003871f1ee6bec3223ad6b611ce77c140c17e348f07a26561d8"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/VerifyPegasusSoundAssets.py",
+      "bytes": 1926,
+      "sha256": "10908525abfc0fdfb589db6e42272da64dc3831cc88d17fe3781997bb929d742"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/VerifyPegasusSpearstormRouting.ps1",
+      "bytes": 4346,
+      "sha256": "f8f6f2efd1219e7637fb4328776d6019c08bbc838f9e908c34e53900a900d2e3"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/VerifyPegasusSpiralChargeRouting.ps1",
+      "bytes": 5614,
+      "sha256": "9407f41f05d8d731d53d2798861b0b008a0ab21c111a0bf466e3ff6c4fcb8f4f"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/VerifyPegasusSwordBlowFlight.ps1",
+      "bytes": 5088,
+      "sha256": "d5b2efbf32961d198db1c8676770dcf4e571f14cd3fecc912519e3d01cfb16d0"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/VerifyPegasusSwordBlowPreview.ps1",
+      "bytes": 1024,
+      "sha256": "c374ae8b4c18b41be636bb2c40ce34f5e2b788ffecb041a34b5c46e520701479"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/VerifyPegasusSwordWrathRouting.ps1",
+      "bytes": 5280,
+      "sha256": "d6e772fbdaf7c60c3b5ee5330d46bbafb8449649a5634431d7292cbb1ff4a1f0"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/VerifyPegasusTerrainBlendState.ps1",
+      "bytes": 1510,
+      "sha256": "7cb07fb3917e77b696e6c1942472d4d3deda22142ce8e51be5554853d7f2bf33"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/VerifyPegasusTranslatedBoneAnchors.ps1",
+      "bytes": 999,
+      "sha256": "899119252b745dec1a7018bbf7b1dd4a67899f0edd33cb152d5c3b6e3f23df8f"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/VerifyPegasusTrigHelpers.py",
+      "bytes": 1956,
+      "sha256": "7d6cb3e44f81461f92254bc94e19c8f2ce3e1dd0404b948ecadc53ddf1f968cc"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/VerifyWindSoulCastPaths.ps1",
+      "bytes": 2801,
+      "sha256": "d0f4011b6f4a948643912aac50f7a408d9a340382ff657715c135ec3a62b1b4f"
+    },
+    {
+      "path": "ExMain_RISE_PC/Tests/WindSoulContractTest.cpp",
+      "bytes": 1976,
+      "sha256": "970f19f1d5b718c91673bcafe92bd5fd5e982f3707ba08949aec236f2fbce046"
+    },
+    {
+      "path": "NEW_CODEX_TASK_PROMPT.md",
+      "bytes": 1791,
+      "sha256": "c29072312d5e436f942ae9310bdc6cde6f77037fa965285892483d7dd6323a65"
+    },
+    {
+      "path": "PEGASUS_CHARGE_THIRD_ATTACK_AUDIT.md",
+      "bytes": 10940,
+      "sha256": "25550cfc484dd1afbf803e167ba58345eda313ec4f145b80f52ad7a241a6fee0"
+    },
+    {
+      "path": "PEGASUS_EFFECT_SKILL_ARGUMENT_AUDIT.md",
+      "bytes": 3095,
+      "sha256": "75edea04f22ede5af51bde4c905f267294977e25e0831576bd32c2aa922e7a17"
+    },
+    {
+      "path": "PEGASUS_FULL_CHAIN_AUDIT.md",
+      "bytes": 23509,
+      "sha256": "3661d1850a226ff2babb2d22506a19f4cc9cc9dfe98bf56a400bc163ac0c2bcb"
+    },
+    {
+      "path": "PEGASUS_IMPORT_STATE.md",
+      "bytes": 364130,
+      "sha256": "2a1c1206820fd25a22897b99ac1a1e1304112b1d346ea67a27faffec102c3c04"
+    },
+    {
+      "path": "PEGASUS_RUNTIME_QA15.md",
+      "bytes": 9503,
+      "sha256": "236fd2e254b8dd7a2a434ae9e5706f887cd79fe75fdb535baaf00d30f6c5146c"
+    },
+    {
+      "path": "PEGASUS_SKILL_IMPORT_LESSONS.md",
+      "bytes": 19351,
+      "sha256": "9c2d635226ac4517ffde50d7d2ff12983ae0719790f441b45d5a84b6dac641f5"
+    },
+    {
+      "path": "PEGASUS_SS21_COLOR_AUDIT.md",
+      "bytes": 4270,
+      "sha256": "068b7def47ac094ddabaf3e73ccce69f4ad32bc43ca17939753dbacdd96b0b55"
+    },
+    {
+      "path": "PEGASUS_SWORD_WRATH_REGISTRY_AUDIT.md",
+      "bytes": 9157,
+      "sha256": "2b051bfd03e0d2fe4869c1b3307967b4a723b90dc2c7f0f1a71913c8b176f3bd"
+    },
+    {
+      "path": "Shared/PegasusChargeRangeServerContract.h",
+      "bytes": 1856,
+      "sha256": "42c9d641fee6ebc04ac86ec8cf976f67abec2e90230bb94d854befb130177085"
+    },
+    {
+      "path": "Shared/PegasusHighSkillCatalogData.h",
+      "bytes": 6488,
+      "sha256": "a76caa88f21cb1be97a8f27b931bcc260657d82e98bcc3e2a14073600648a066"
+    },
+    {
+      "path": "Shared/PegasusHighSkillSoundCatalog.h",
+      "bytes": 3820,
+      "sha256": "e43808f762e702357afa7ede85435fa120501bc925f8c6e56c9b9f3b0cdaadf1"
+    },
+    {
+      "path": "Shared/PegasusRuntimeQa15.h",
+      "bytes": 3580,
+      "sha256": "776e38e904e052e9658e75f10f4fd6b4c2420c0165821fac6a0cbf1c14743296"
+    },
+    {
+      "path": "Shared/PegasusSwordBlowProtocol.h",
+      "bytes": 2674,
+      "sha256": "b910ddf916266cb652eaf827d911bc9ce8de6c719154b04c98215f3f69577e63"
+    },
+    {
+      "path": "Shared/PegasusSwordWrathServerContract.h",
+      "bytes": 990,
+      "sha256": "a9eb9459a3068d35dec3d6419449db00d3d86f32c1317410f545bb41c36dc388"
+    },
+    {
+      "path": "WindSoul/asset_provenance.json",
+      "bytes": 1540,
+      "sha256": "a6ad95e6140679f8fcd68016ca07e80b341fe66b18b8749a32752c2ec1d57aec"
+    },
+    {
+      "path": "WindSoul/wind_soul_descriptor.json",
+      "bytes": 1069,
+      "sha256": "46e2dc6e087af492b207e8ec56c62c4a2f41ea29f597d0c5f13a2bf421151b62"
+    }
+  ],
+  "deleted_paths": [],
+  "excluded": [
+    "generated builds",
+    "runtime game data",
+    "saved accounts/config",
+    "logs",
+    "original Pegasus binaries/assets"
+  ]
+}

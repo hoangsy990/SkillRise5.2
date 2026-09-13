@@ -1,0 +1,1227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Global Debug|Win32">
+      <Configuration>Global Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Global Debug|x64">
+      <Configuration>Global Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Global Release|Win32">
+      <Configuration>Global Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Global Release|x64">
+      <Configuration>Global Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{83C6A8DE-5418-41B5-BD9C-471F99FEAAA0}</ProjectGuid>
+    <RootNamespace>Main</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Engine</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Global Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <EnableUnitySupport>false</EnableUnitySupport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Global Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <EnableUnitySupport>false</EnableUnitySupport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Global Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Global Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Global Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Global Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Global Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Global Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>14.0.25431.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Global Debug|Win32'">
+    <OutDir>..\..\Client\</OutDir>
+    <IntDir>$(SolutionDir)Build\EngineDebug\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);C:\Libraries\boost_1_75_0;$(DXSDK_DIR)DXSDK61\Include;</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86;C:\Libraries\boost_1_75_0\stage\lib;$(DXSDK_DIR)DXSDK61\Lib;</LibraryPath>
+    <SourcePath>$(VC_SourcePath)</SourcePath>
+    <PublicIncludeDirectories>
+    </PublicIncludeDirectories>
+    <PublicModuleDirectories>
+    </PublicModuleDirectories>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Global Debug|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);C:\Libraries\boost_1_75_0;$(DXSDK_DIR)DXSDK61\Include;</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86;C:\Libraries\boost_1_75_0\stage\lib;$(DXSDK_DIR)DXSDK61\Lib;</LibraryPath>
+    <SourcePath>$(VC_SourcePath)</SourcePath>
+    <PublicIncludeDirectories />
+    <PublicModuleDirectories />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Global Release|Win32'">
+    <OutDir>..\..\Client\</OutDir>
+    <IntDir>$(SolutionDir)Build\EngineRelease\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
+    <ExecutablePath>$(VC_ExecutablePath_x86);$(CommonExecutablePath)</ExecutablePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Global Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
+    <ExecutablePath>$(VC_ExecutablePath_x86);$(CommonExecutablePath)</ExecutablePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Global Debug|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\tmp/Global_Debug/Main.tlb</TypeLibraryName>
+      <HeaderFileName />
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)Main5.2_RISE\;$(SolutionDir)..\Dependencies\include;$(SolutionDir)..\Dependencies\include\asio;$(SolutionDir)..\Dependencies\include\cryptopp820;</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_FOREIGN_DEBUG;_LANGUAGE_FOREIGN;_LANGUAGE_ENG;_ALLOW_RTCc_IN_STL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <SmallerTypeCheck>true</SmallerTypeCheck>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>$(IntDir)Main.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>$(IntDir)</ProgramDataBaseFileName>
+      <XMLDocumentationFileName>$(IntDir)</XMLDocumentationFileName>
+      <BrowseInformation>false</BrowseInformation>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <Optimization>Custom</Optimization>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0412</Culture>
+    </ResourceCompile>
+    <Link>
+      <AdditionalOptions>/libpath:""NPGGuard"" %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>d3dx9.lib;Gdi32.lib;imm32.lib;vfw32.lib;dsound.lib;dxguid.lib;turbojpeg.lib;glew32.lib;opengl32.lib;glu32.lib;winmm.lib;odbc32.lib;odbccp32.lib;ws2_32.lib;version.lib;glprocs.lib;ShareMemory.lib;SimpleModulus.lib;wzAudio.lib;cryptlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\Dependencies\lib;$(MU_SDK)\DXSDK\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>libc.lib;libcmt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>$(OutDir)$(TargetName).map</MapFileName>
+      <MapExports>true</MapExports>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention />
+      <TargetMachine>MachineX86</TargetMachine>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+    </Link>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\tmp/Global_Debug/Main.bsc</OutputFile>
+    </Bscmake>
+    <PostBuildEvent Condition="'$(PegasusIsolatedBuild)' != 'true'">
+      <Command>if not exist "$(ProjectDir)..\..\Client\Data\Interface\Pegasus\Pegasus_Main" mkdir "$(ProjectDir)..\..\Client\Data\Interface\Pegasus\Pegasus_Main"
+if not exist "$(ProjectDir)..\..\Client\Data\Interface\HUD" mkdir "$(ProjectDir)..\..\Client\Data\Interface\HUD"
+if not exist "$(ProjectDir)..\..\Client\Data\Logo" mkdir "$(ProjectDir)..\..\Client\Data\Logo"
+if not exist "$(ProjectDir)..\..\Client\Data\World94" mkdir "$(ProjectDir)..\..\Client\Data\World94"
+if not exist "$(ProjectDir)..\..\Client\Data\Object94" mkdir "$(ProjectDir)..\..\Client\Data\Object94"
+if not exist "$(ProjectDir)..\..\Client\Data\World95" mkdir "$(ProjectDir)..\..\Client\Data\World95"
+if not exist "$(ProjectDir)..\..\Client\Data\Object95" mkdir "$(ProjectDir)..\..\Client\Data\Object95"
+if not exist "$(ProjectDir)..\..\Client\Data\RISE\Item" mkdir "$(ProjectDir)..\..\Client\Data\RISE\Item"
+xcopy /Y /D "$(ProjectDir)Assets\PegasusHUD\*.tga" "$(ProjectDir)..\..\Client\Data\Interface\Pegasus\Pegasus_Main\"
+xcopy /Y /D "$(ProjectDir)Assets\PegasusHUD\*.OZT" "$(ProjectDir)..\..\Client\Data\Interface\Pegasus\Pegasus_Main\"
+xcopy /Y /D "$(ProjectDir)Assets\EquipmentSlots\*.ozt" "$(ProjectDir)..\..\Client\Data\Interface\HUD\"
+xcopy /Y /D /I "$(ProjectDir)Assets\Logo\*.*" "$(ProjectDir)..\..\Client\Data\Logo\"
+xcopy /Y /D /I "$(ProjectDir)Assets\World94\*.*" "$(ProjectDir)..\..\Client\Data\World94\"
+xcopy /Y /D /I "$(ProjectDir)Assets\Object94\*.*" "$(ProjectDir)..\..\Client\Data\Object94\"
+xcopy /Y /D /I "$(ProjectDir)Assets\World95\*.*" "$(ProjectDir)..\..\Client\Data\World95\"
+xcopy /Y /D /I "$(ProjectDir)Assets\Object95\*.*" "$(ProjectDir)..\..\Client\Data\Object95\"
+xcopy /Y /D /E /I "$(ProjectDir)Assets\EquipmentItems\Data\*.*" "$(ProjectDir)..\..\Client\Data\"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Global Release|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\tmp/Global_Release/Main.tlb</TypeLibraryName>
+      <HeaderFileName />
+    </Midl>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)Main5.2_RISE\;$(SolutionDir)..\Dependencies\include;$(SolutionDir)..\Dependencies\include\asio;$(SolutionDir)..\Dependencies\include\cryptopp820</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_FOREIGN_NDEBUG;_LANGUAGE_FOREIGN;_LANGUAGE_ENG;LDS_PATCH_GLOBAL_100520;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeTypeInfo>
+      </RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>$(IntDir)Main.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>$(IntDir)</ProgramDataBaseFileName>
+      <XMLDocumentationFileName>$(IntDir)</XMLDocumentationFileName>
+      <BrowseInformation>false</BrowseInformation>
+      <BrowseInformationFile>$(IntDir)</BrowseInformationFile>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalOptions>
+      </AdditionalOptions>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>
+      </PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>imm32.lib;vfw32.lib;dsound.lib;dxguid.lib;turbojpeg.lib;glew32.lib;opengl32.lib;glu32.lib;winmm.lib;odbc32.lib;odbccp32.lib;ws2_32.lib;version.lib;glprocs.lib;ShareMemory.lib;SimpleModulus.lib;wzAudio.lib;cryptlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\Dependencies\lib;$(MU_SDK)\DXSDK\Lib;%(AdditionalLibraryDirectories);C:\Libraries\boost_1_75_0\stage\lib</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>libc.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>$(OutDir)$(TargetName).map</MapFileName>
+      <MapExports>true</MapExports>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention />
+      <TargetMachine>MachineX86</TargetMachine>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+    </Link>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\tmp/Global_Release/Main.bsc</OutputFile>
+    </Bscmake>
+    <PostBuildEvent Condition="'$(PegasusIsolatedBuild)' != 'true'">
+      <Command>if not exist "$(ProjectDir)..\..\Client\Data\Interface\Pegasus\Pegasus_Main" mkdir "$(ProjectDir)..\..\Client\Data\Interface\Pegasus\Pegasus_Main"
+if not exist "$(ProjectDir)..\..\Client\Data\Interface\HUD" mkdir "$(ProjectDir)..\..\Client\Data\Interface\HUD"
+if not exist "$(ProjectDir)..\..\Client\Data\Logo" mkdir "$(ProjectDir)..\..\Client\Data\Logo"
+if not exist "$(ProjectDir)..\..\Client\Data\World94" mkdir "$(ProjectDir)..\..\Client\Data\World94"
+if not exist "$(ProjectDir)..\..\Client\Data\Object94" mkdir "$(ProjectDir)..\..\Client\Data\Object94"
+if not exist "$(ProjectDir)..\..\Client\Data\World95" mkdir "$(ProjectDir)..\..\Client\Data\World95"
+if not exist "$(ProjectDir)..\..\Client\Data\Object95" mkdir "$(ProjectDir)..\..\Client\Data\Object95"
+if not exist "$(ProjectDir)..\..\Client\Data\RISE\Item" mkdir "$(ProjectDir)..\..\Client\Data\RISE\Item"
+xcopy /Y /D "$(ProjectDir)Assets\PegasusHUD\*.tga" "$(ProjectDir)..\..\Client\Data\Interface\Pegasus\Pegasus_Main\"
+xcopy /Y /D "$(ProjectDir)Assets\PegasusHUD\*.OZT" "$(ProjectDir)..\..\Client\Data\Interface\Pegasus\Pegasus_Main\"
+xcopy /Y /D "$(ProjectDir)Assets\EquipmentSlots\*.ozt" "$(ProjectDir)..\..\Client\Data\Interface\HUD\"
+xcopy /Y /D /I "$(ProjectDir)Assets\Logo\*.*" "$(ProjectDir)..\..\Client\Data\Logo\"
+xcopy /Y /D /I "$(ProjectDir)Assets\World94\*.*" "$(ProjectDir)..\..\Client\Data\World94\"
+xcopy /Y /D /I "$(ProjectDir)Assets\Object94\*.*" "$(ProjectDir)..\..\Client\Data\Object94\"
+xcopy /Y /D /I "$(ProjectDir)Assets\World95\*.*" "$(ProjectDir)..\..\Client\Data\World95\"
+xcopy /Y /D /I "$(ProjectDir)Assets\Object95\*.*" "$(ProjectDir)..\..\Client\Data\Object95\"
+xcopy /Y /D /E /I "$(ProjectDir)Assets\EquipmentItems\Data\*.*" "$(ProjectDir)..\..\Client\Data\"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(PegasusIsolatedBuild)'=='true'">
+    <ClCompile>
+      <PreprocessorDefinitions>PEGASUS_ISOLATED_TEST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Image Include="..\Addon\256.ico" />
+    <Image Include="..\Addon\48.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Main5.2_RISE\resource.rc">
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Global Debug|Win32'">source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Global Release|Win32'">source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main5.2_RISE\MuCrypto\MuCrypto.cpp" />
+    <ClCompile Include="Main5.2_RISE\MuHelper\MuHelper.cpp" />
+    <ClCompile Include="Main5.2_RISE\MuHelper\MuHelperData.cpp" />
+    <ClCompile Include="Main5.2_RISE\MuHelper\OffMuHelper.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIMasterSkillTree.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIMuHelperConfig.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIMuHelperSkillList.cpp" />
+    <ClCompile Include="Main5.2_RISE\ProtectSend\SendMessage.cpp" />
+    <ClCompile Include="Main5.2_RISE\ProtectSend\AntiStreamClient.cpp" />
+    <ClCompile Include="Main5.2_RISE\ServerInfo.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\WindSoulRuntime.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\PegasusHighSkillCatalog.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\PegasusSwordBlowRuntime.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\PegasusCasterActionTrace.cpp" />
+      <ClCompile Include="Main5.2_RISE\RISE\PegasusSwordWrathRuntime.cpp" />
+      <ClCompile Include="Main5.2_RISE\RISE\PegasusSpiralChargeRuntime.cpp" />
+      <ClCompile Include="Main5.2_RISE\RISE\PegasusCrusherChargeRuntime.cpp" />
+      <ClCompile Include="Main5.2_RISE\RISE\PegasusShiningBirdRuntime.cpp" />
+      <ClCompile Include="Main5.2_RISE\RISE\PegasusDexBoosterRuntime.cpp" />
+      <ClCompile Include="Main5.2_RISE\RISE\PegasusChaosBladeRuntime.cpp" />
+      <ClCompile Include="Main5.2_RISE\RISE\PegasusDragonViolentRuntime.cpp" />
+      <ClCompile Include="Main5.2_RISE\RISE\PegasusElementalChargeRuntime.cpp" />
+      <ClCompile Include="Main5.2_RISE\RISE\PegasusHavocSpearRuntime.cpp" />
+      <ClCompile Include="Main5.2_RISE\RISE\PegasusSpearstormRuntime.cpp" />
+      <ClCompile Include="Main5.2_RISE\RISE\PegasusRainingArrowRuntime.cpp" />
+      <ClCompile Include="Main5.2_RISE\RISE\PegasusDeathsideRuntime.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\Camera3D.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\CustomBow.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\CustomGloves.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\CustomIconBuff.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\CustomItemColorName.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\CustomItemPosition.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\CustomItemRenderMesh.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\CustomRenderEffect.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\CustomJewel.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\CustomMonster.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\CustomMonsterGold.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\CustomNpcName.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\CustomModelNpc.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\CustomPet.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\CustomPetEffect.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\CustomPreview.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\CustomPrice.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\CustomReadGuildClient.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\CustomRingPen.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\CustomSetEffect.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\CustomWing.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\Font.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\HealthBarRender.cpp" />
+    <ClCompile Include="Main5.2_RISE\MemScript.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\ItemTooltip.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\MainProtocol.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\NewUIAccountLevel.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\NewUIBank.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\NewUIBossGuild.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\NewUICastleEvent.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\NewUIChangeClass.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\NewUIChangePass.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\NewUIChaosMixRate.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\NewUICharInfoStats.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\NewUIDanhHieu.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\NewUIDemoForm.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\NewUIDungLuyen.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\NewUIEventTime.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\NewUIExtendShop.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\NewUIExtOptionChar.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\NewUIGuildUpgrade.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\NewUIHarmony.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\NewUIHonHoan.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\NewUIItemTrader.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\NewUILoanChienPK.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\NewUIMenu.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\NewUIMixTrader.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\NewUIMocNap.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\NewUIMoveOption.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\NewUINewShop.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\NewUINewSpin.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\NewUIQQ.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\NewUIQuanHam.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\NewUIRanking.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\NewUIRelife.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\NewUIRenderColorItem.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\NewUIRenderDameBoss.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\NewUIRenderInvasion.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\NewUIResetChange.cpp" />
+    <ClCompile Include="Main5.2_RISE\CCRC32.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\CProtect.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIInventoryExtension.cpp" />
+    <ClCompile Include="Main5.2_RISE\BlackWin.cpp" />
+    <ClCompile Include="Main5.2_RISE\BoneManager.cpp" />
+    <ClCompile Include="Main5.2_RISE\Button.cpp" />
+    <ClCompile Include="Main5.2_RISE\CameraMove.cpp" />
+    <ClCompile Include="Main5.2_RISE\CBTMessageBox.cpp" />
+    <ClCompile Include="Main5.2_RISE\CComGem.cpp" />
+    <ClCompile Include="Main5.2_RISE\CDirection.cpp" />
+    <ClCompile Include="Main5.2_RISE\ChangeRingManager.cpp" />
+    <ClCompile Include="Main5.2_RISE\CharacterManager.cpp" />
+    <ClCompile Include="Main5.2_RISE\CharInfoBalloon.cpp" />
+    <ClCompile Include="Main5.2_RISE\CharInfoBalloonMng.cpp" />
+    <ClCompile Include="Main5.2_RISE\CharMakeWin.cpp" />
+    <ClCompile Include="Main5.2_RISE\CharSelMainWin.cpp" />
+    <ClCompile Include="Main5.2_RISE\CKANTURUDirection.cpp" />
+    <ClCompile Include="Main5.2_RISE\CMVP1stDirection.cpp" />
+    <ClCompile Include="Main5.2_RISE\CreditWin.cpp" />
+    <ClCompile Include="Main5.2_RISE\CSChaosCastle.cpp" />
+    <ClCompile Include="Main5.2_RISE\CSEventMatch.cpp" />
+    <ClCompile Include="Main5.2_RISE\CSItemOption.cpp" />
+    <ClCompile Include="Main5.2_RISE\CSMapServer.cpp" />
+    <ClCompile Include="Main5.2_RISE\CSParts.cpp" />
+    <ClCompile Include="Main5.2_RISE\CSPetSystem.cpp" />
+    <ClCompile Include="Main5.2_RISE\CSQuest.cpp" />
+    <ClCompile Include="Main5.2_RISE\CSWaterTerrain.cpp" />
+    <ClCompile Include="Main5.2_RISE\DSplaysound.cpp" />
+    <ClCompile Include="Main5.2_RISE\DSwaveIO.cpp" />
+    <ClCompile Include="Main5.2_RISE\DuelMgr.cpp" />
+    <ClCompile Include="Main5.2_RISE\Event.cpp" />
+    <ClCompile Include="Main5.2_RISE\ExternalObject\Leaf\callstackdmp.cpp" />
+    <ClCompile Include="Main5.2_RISE\ExternalObject\Leaf\checkintegrity.cpp" />
+    <ClCompile Include="Main5.2_RISE\ExternalObject\Leaf\ExceptionHandler.cpp" />
+    <ClCompile Include="Main5.2_RISE\ExternalObject\Leaf\html_log.cpp" />
+    <ClCompile Include="Main5.2_RISE\ExternalObject\Leaf\peimage.cpp" />
+    <ClCompile Include="Main5.2_RISE\ExternalObject\Leaf\stdleaf.cpp" />
+    <ClCompile Include="Main5.2_RISE\ExternalObject\Leaf\sysinfo.cpp" />
+    <ClCompile Include="Main5.2_RISE\ExternalObject\Leaf\xortrans.cpp" />
+    <ClCompile Include="Main5.2_RISE\ExternalObject\Leaf\xstreambuf.cpp" />
+    <ClCompile Include="Main5.2_RISE\GambleSystem.cpp" />
+    <ClCompile Include="Main5.2_RISE\GameCensorship.cpp" />
+    <ClCompile Include="Main5.2_RISE\GameShop\FileDownloader\DownloadInfo.cpp" />
+    <ClCompile Include="Main5.2_RISE\GameShop\FileDownloader\FileDownloader.cpp" />
+    <ClCompile Include="Main5.2_RISE\GameShop\FileDownloader\FTPConnecter.cpp" />
+    <ClCompile Include="Main5.2_RISE\GameShop\FileDownloader\HTTPConnecter.cpp" />
+    <ClCompile Include="Main5.2_RISE\GameShop\InGameShopSystem.cpp" />
+    <ClCompile Include="Main5.2_RISE\GameShop\MsgBoxIGSBuyConfirm.cpp" />
+    <ClCompile Include="Main5.2_RISE\GameShop\MsgBoxIGSBuyPackageItem.cpp" />
+    <ClCompile Include="Main5.2_RISE\GameShop\MsgBoxIGSBuySelectItem.cpp" />
+    <ClCompile Include="Main5.2_RISE\GameShop\MsgBoxIGSCommon.cpp" />
+    <ClCompile Include="Main5.2_RISE\GameShop\MsgBoxIGSDeleteItemConfirm.cpp" />
+    <ClCompile Include="Main5.2_RISE\GameShop\MsgBoxIGSGiftStorageItemInfo.cpp" />
+    <ClCompile Include="Main5.2_RISE\GameShop\MsgBoxIGSSendGift.cpp" />
+    <ClCompile Include="Main5.2_RISE\GameShop\MsgBoxIGSSendGiftConfirm.cpp" />
+    <ClCompile Include="Main5.2_RISE\GameShop\MsgBoxIGSStorageItemInfo.cpp" />
+    <ClCompile Include="Main5.2_RISE\GameShop\MsgBoxIGSUseBuffConfirm.cpp" />
+    <ClCompile Include="Main5.2_RISE\GameShop\MsgBoxIGSUseItemConfirm.cpp" />
+    <ClCompile Include="Main5.2_RISE\GameShop\NewUIInGameShop.cpp" />
+    <ClCompile Include="Main5.2_RISE\GameShop\ShopListManager\BannerInfo.cpp" />
+    <ClCompile Include="Main5.2_RISE\GameShop\ShopListManager\BannerInfoList.cpp" />
+    <ClCompile Include="Main5.2_RISE\GameShop\ShopListManager\BannerListManager.cpp" />
+    <ClCompile Include="Main5.2_RISE\GameShop\ShopListManager\FTPFileDownLoader.cpp" />
+    <ClCompile Include="Main5.2_RISE\GameShop\ShopListManager\interface\PathMethod\Path.cpp" />
+    <ClCompile Include="Main5.2_RISE\GameShop\ShopListManager\interface\WZResult\WZResult.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Global Debug|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Main5.2_RISE\GameShop\ShopListManager\ListManager.cpp" />
+    <ClCompile Include="Main5.2_RISE\GameShop\ShopListManager\ShopCategory.cpp" />
+    <ClCompile Include="Main5.2_RISE\GameShop\ShopListManager\ShopCategoryList.cpp" />
+    <ClCompile Include="Main5.2_RISE\GameShop\ShopListManager\ShopList.cpp" />
+    <ClCompile Include="Main5.2_RISE\GameShop\ShopListManager\ShopListManager.cpp" />
+    <ClCompile Include="Main5.2_RISE\GameShop\ShopListManager\ShopPackage.cpp" />
+    <ClCompile Include="Main5.2_RISE\GameShop\ShopListManager\ShopPackageList.cpp" />
+    <ClCompile Include="Main5.2_RISE\GameShop\ShopListManager\ShopProduct.cpp" />
+    <ClCompile Include="Main5.2_RISE\GameShop\ShopListManager\ShopProductList.cpp" />
+    <ClCompile Include="Main5.2_RISE\GameShop\ShopListManager\StringMethod.cpp" />
+    <ClCompile Include="Main5.2_RISE\GameShop\ShopListManager\StringToken.cpp" />
+    <ClCompile Include="Main5.2_RISE\GaugeBar.cpp" />
+    <ClCompile Include="Main5.2_RISE\GIPetManager.cpp" />
+    <ClCompile Include="Main5.2_RISE\GlobalBitmap.cpp" />
+    <ClCompile Include="Main5.2_RISE\GM3rdChangeUp.cpp" />
+    <ClCompile Include="Main5.2_RISE\GMAida.cpp" />
+    <ClCompile Include="Main5.2_RISE\GMBattleCastle.cpp" />
+    <ClCompile Include="Main5.2_RISE\GMCryingWolf2nd.cpp" />
+    <ClCompile Include="Main5.2_RISE\GMCrywolf1st.cpp" />
+    <ClCompile Include="Main5.2_RISE\GMDoppelGanger1.cpp" />
+    <ClCompile Include="Main5.2_RISE\GMDoppelGanger2.cpp" />
+    <ClCompile Include="Main5.2_RISE\GMDoppelGanger3.cpp" />
+    <ClCompile Include="Main5.2_RISE\GMDoppelGanger4.cpp" />
+    <ClCompile Include="Main5.2_RISE\GMDuelArena.cpp" />
+    <ClCompile Include="Main5.2_RISE\GMEmpireGuardian1.cpp" />
+    <ClCompile Include="Main5.2_RISE\GMEmpireGuardian2.cpp" />
+    <ClCompile Include="Main5.2_RISE\GMEmpireGuardian3.cpp" />
+    <ClCompile Include="Main5.2_RISE\GMEmpireGuardian4.cpp" />
+    <ClCompile Include="Main5.2_RISE\GMCharacterScene.cpp" />
+    <ClCompile Include="Main5.2_RISE\GMHellas.cpp" />
+    <ClCompile Include="Main5.2_RISE\GMHuntingGround.cpp" />
+    <ClCompile Include="Main5.2_RISE\GMKarutan1.cpp" />
+    <ClCompile Include="Main5.2_RISE\GMLogInScene.cpp" />
+    <ClCompile Include="Main5.2_RISE\GMNewTown.cpp" />
+    <ClCompile Include="Main5.2_RISE\GMSantaTown.cpp" />
+    <ClCompile Include="Main5.2_RISE\GMSwampOfQuiet.cpp" />
+    <ClCompile Include="Main5.2_RISE\GMUnitedMarketPlace.cpp" />
+    <ClCompile Include="Main5.2_RISE\GM_kanturu_1st.cpp" />
+    <ClCompile Include="Main5.2_RISE\GM_Kanturu_2nd.cpp" />
+    <ClCompile Include="Main5.2_RISE\GM_Kanturu_3rd.cpp" />
+    <ClCompile Include="Main5.2_RISE\GM_PK_Field.cpp" />
+    <ClCompile Include="Main5.2_RISE\GM_Raklion.cpp" />
+    <ClCompile Include="Main5.2_RISE\GOBoid.cpp" />
+    <ClCompile Include="Main5.2_RISE\GuildCache.cpp" />
+    <ClCompile Include="Main5.2_RISE\GuildManager.cpp" />
+    <ClCompile Include="Main5.2_RISE\Input.cpp" />
+    <ClCompile Include="Main5.2_RISE\ItemAddOptioninfo.cpp" />
+    <ClCompile Include="Main5.2_RISE\ItemManager.cpp" />
+    <ClCompile Include="Main5.2_RISE\KeyGenerater.cpp" />
+    <ClCompile Include="Main5.2_RISE\LoadData.cpp" />
+    <ClCompile Include="Main5.2_RISE\LoadingScene.cpp" />
+    <ClCompile Include="Main5.2_RISE\Local.cpp" />
+    <ClCompile Include="Main5.2_RISE\LoginMainWin.cpp" />
+    <ClCompile Include="Main5.2_RISE\LoginWin.cpp" />
+    <ClCompile Include="Main5.2_RISE\MapManager.cpp" />
+    <ClCompile Include="Main5.2_RISE\MatchEvent.cpp" />
+    <ClCompile Include="Main5.2_RISE\Math\ZzzMathLib.cpp" />
+    <ClCompile Include="Main5.2_RISE\MixMgr.cpp" />
+    <ClCompile Include="Main5.2_RISE\MonkSystem.cpp" />
+    <ClCompile Include="Main5.2_RISE\MoveCommandData.cpp" />
+    <ClCompile Include="Main5.2_RISE\MovieScene.cpp" />
+    <ClCompile Include="Main5.2_RISE\MsgWin.cpp" />
+    <ClCompile Include="Main5.2_RISE\MultiLanguage.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewBloodCastleSystem.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewChaosCastleSystem.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUI3DRenderMng.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIBattleSoccerScore.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIBloodCastleEnter.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIBloodCastleTime.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIBuffWindow.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIButton.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUICastleWindow.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUICatapultWindow.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIChaosCastleTime.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUICharacterInfoWindow.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIChatInputBox.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIChatLogWindow.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUICommandWindow.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUICommon.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUICommonMessageBox.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUICryWolf.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUICursedTempleEnter.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUICursedTempleResult.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUICursedTempleSystem.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUICustomMessageBox.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIDoppelGangerFrame.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIDoppelGangerWindow.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIDuelWatchMainFrameWindow.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIDuelWatchUserListWindow.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIDuelWatchWindow.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIDuelWindow.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIEmpireGuardianNPC.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIEmpireGuardianTimer.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIEnterDevilSquare.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIExchangeLuckyCoin.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIFriendWindow.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIGatemanWindow.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIGateSwitchWindow.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIGensRanking.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIGoldBowmanLena.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIGoldBowmanWindow.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIGroup.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIGuardWindow.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIGuildInfoWindow.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIGuildMakeWindow.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIHelpWindow.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIHeroPositionInfo.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIHotKey.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIInventoryCtrl.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIItemEnduranceInfo.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIItemExplanationWindow.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIItemMng.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIKanturuEvent.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUILuckyItemWnd.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIMainFrameWindow.cpp" />
+    <ClCompile Include="Main5.2_RISE\RisePegasusHud.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIManager.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIMessageBox.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIMiniMap.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIMixInventory.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIMoveCommandWindow.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIMuHelper.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIMyInventory.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIMyQuestInfoWindow.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIMyShopInventory.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUINameWindow.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUINPCDialogue.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUINPCQuest.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUINPCShop.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIOptionWindow.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIPartyInfoWindow.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIPartyListWindow.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIPetInfoWindow.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIPurchaseShopInventory.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIQuestProgress.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIQuestProgressByEtc.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIQuickCommandWindow.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIRegistrationLuckyCoin.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIRenderNumber.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIScrollBar.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUISeigeWarfare.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUISetItemExplanation.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUISiegeWarBase.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUISiegeWarCommander.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUISiegeWarObserver.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUISiegeWarSoldier.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUISlideWindow.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIStorageInventory.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIStorageInventoryExt.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUISystem.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUITextBox.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUITrade.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIUnitedMarketPlaceWindow.cpp" />
+    <ClCompile Include="Main5.2_RISE\NewUIWindowMenu.cpp" />
+    <ClCompile Include="Main5.2_RISE\npcBreeder.cpp" />
+    <ClCompile Include="Main5.2_RISE\npcCatapult.cpp" />
+    <ClCompile Include="Main5.2_RISE\npcGateSwitch.cpp" />
+    <ClCompile Include="Main5.2_RISE\Observer.cpp" />
+    <ClCompile Include="Main5.2_RISE\OptionWin.cpp" />
+    <ClCompile Include="Main5.2_RISE\PartyManager.cpp" />
+    <ClCompile Include="Main5.2_RISE\PersonalShopTitleImp.cpp" />
+    <ClCompile Include="Main5.2_RISE\PhysicsManager.cpp" />
+    <ClCompile Include="Main5.2_RISE\PList.cpp" />
+    <ClCompile Include="Main5.2_RISE\PortalMgr.cpp" />
+    <ClCompile Include="Main5.2_RISE\ProtectSysKey.cpp" />
+    <ClCompile Include="Main5.2_RISE\QuestMng.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\NewUIThanMa.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\NewUITuLuyen.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\NewUIViewItem.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\PetProtocol.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\Reconnect.cpp" />
+    <ClCompile Include="Main5.2_RISE\ServerGroup.cpp" />
+    <ClCompile Include="Main5.2_RISE\ServerListManager.cpp" />
+    <ClCompile Include="Main5.2_RISE\ServerMsgWin.cpp" />
+    <ClCompile Include="Main5.2_RISE\ServerSelWin.cpp" />
+    <ClCompile Include="Main5.2_RISE\ShadowVolume.cpp" />
+    <ClCompile Include="Main5.2_RISE\SideHair.cpp" />
+    <ClCompile Include="Main5.2_RISE\SkillEffectMgr.cpp" />
+    <ClCompile Include="Main5.2_RISE\SkillManager.cpp" />
+    <ClCompile Include="Main5.2_RISE\Slider.cpp" />
+    <ClCompile Include="Main5.2_RISE\SMD.cpp" />
+    <ClCompile Include="Main5.2_RISE\SMD2BMD.cpp" />
+    <ClCompile Include="Main5.2_RISE\SocketSystem.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\RenderCape.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\TrayModeNew.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\UIFormSystemRender.cpp" />
+    <ClCompile Include="Main5.2_RISE\Sprite.cpp" />
+    <ClCompile Include="Main5.2_RISE\StdAfx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Global Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Global Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Global Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Global Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Main5.2_RISE\SummonSystem.cpp" />
+    <ClCompile Include="Main5.2_RISE\SysMenuWin.cpp" />
+    <ClCompile Include="Main5.2_RISE\TestEventMap.cpp" />
+    <ClCompile Include="Main5.2_RISE\TextureScript.cpp" />
+    <ClCompile Include="Main5.2_RISE\Time\CTimCheck.cpp" />
+    <ClCompile Include="Main5.2_RISE\Time\Timer.cpp" />
+    <ClCompile Include="Main5.2_RISE\UIControls.cpp" />
+    <ClCompile Include="Main5.2_RISE\UIDefaultBase.cpp" />
+    <ClCompile Include="Main5.2_RISE\UIGateKeeper.cpp" />
+    <ClCompile Include="Main5.2_RISE\UIGuardsMan.cpp" />
+    <ClCompile Include="Main5.2_RISE\UIGuildInfo.cpp" />
+    <ClCompile Include="Main5.2_RISE\UIGuildMaster.cpp" />
+    <ClCompile Include="Main5.2_RISE\UIJewelHarmony.cpp" />
+    <ClCompile Include="Main5.2_RISE\UIManager.cpp" />
+    <ClCompile Include="Main5.2_RISE\UIMapName.cpp" />
+    <ClCompile Include="Main5.2_RISE\UIMng.cpp" />
+    <ClCompile Include="Main5.2_RISE\UIPopup.cpp" />
+    <ClCompile Include="Main5.2_RISE\UISenatus.cpp" />
+    <ClCompile Include="Main5.2_RISE\UIWindows.cpp" />
+    <ClCompile Include="Main5.2_RISE\UsefulDef.cpp" />
+    <ClCompile Include="Main5.2_RISE\Utilities\Log\DebugAngel.cpp" />
+    <ClCompile Include="Main5.2_RISE\Utilities\Log\muConsoleDebug.cpp" />
+    <ClCompile Include="Main5.2_RISE\Utilities\Log\WindowsConsole.cpp" />
+    <ClCompile Include="Main5.2_RISE\Utilities\Memory\MemoryLock.cpp" />
+    <ClCompile Include="Main5.2_RISE\Win.cpp" />
+    <ClCompile Include="Main5.2_RISE\WinEx.cpp" />
+    <ClCompile Include="Main5.2_RISE\Winmain.cpp" />
+    <ClCompile Include="Main5.2_RISE\WSclient.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Global Release|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Global Release|x64'">MaxSpeed</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Global Release|Win32'">AnySuitable</InlineFunctionExpansion>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Global Release|x64'">AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Global Release|Win32'">true</IntrinsicFunctions>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Global Release|x64'">true</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Global Release|Win32'">Speed</FavorSizeOrSpeed>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Global Release|x64'">Speed</FavorSizeOrSpeed>
+    </ClCompile>
+    <ClCompile Include="Main5.2_RISE\WSctlc.cpp" />
+    <ClCompile Include="Main5.2_RISE\w_BasePet.cpp" />
+    <ClCompile Include="Main5.2_RISE\w_Buff.cpp" />
+    <ClCompile Include="Main5.2_RISE\w_BuffScriptLoader.cpp" />
+    <ClCompile Include="Main5.2_RISE\w_BuffStateSystem.cpp" />
+    <ClCompile Include="Main5.2_RISE\w_BuffStateValueControl.cpp" />
+    <ClCompile Include="Main5.2_RISE\w_BuffTimeControl.cpp" />
+    <ClCompile Include="Main5.2_RISE\w_CharacterInfo.cpp" />
+    <ClCompile Include="Main5.2_RISE\w_CursedTemple.cpp" />
+    <ClCompile Include="Main5.2_RISE\w_MapProcess.cpp" />
+    <ClCompile Include="Main5.2_RISE\w_ObjectInfo.cpp" />
+    <ClCompile Include="Main5.2_RISE\w_PetActionCollecter.cpp" />
+    <ClCompile Include="Main5.2_RISE\w_PetActionCollecter_Add.cpp" />
+    <ClCompile Include="Main5.2_RISE\w_PetActionDemon.cpp" />
+    <ClCompile Include="Main5.2_RISE\w_PetActionRound.cpp" />
+    <ClCompile Include="Main5.2_RISE\w_PetActionStand.cpp" />
+    <ClCompile Include="Main5.2_RISE\w_PetActionUnicorn.cpp" />
+    <ClCompile Include="Main5.2_RISE\w_PetProcess.cpp" />
+    <ClCompile Include="Main5.2_RISE\ZzzAI.cpp" />
+    <ClCompile Include="Main5.2_RISE\ZzzBMD.cpp" />
+    <ClCompile Include="Main5.2_RISE\BMDShader330.cpp" />
+    <ClCompile Include="Main5.2_RISE\EffectBudget330.cpp" />
+    <ClCompile Include="Main5.2_RISE\MU_OpenGL.cpp" />
+    <ClCompile Include="Main5.2_RISE\New_ModelBMD.cpp" />
+    <ClCompile Include="Main5.2_RISE\New_RenderBMD.cpp" />
+    <ClCompile Include="Main5.2_RISE\SpriteBatch330.cpp" />
+    <ClCompile Include="Main5.2_RISE\ZzzCharacter.cpp" />
+    <ClCompile Include="Main5.2_RISE\ZzzEffect.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Global Release|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Global Release|x64'">MaxSpeed</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Global Release|Win32'">AnySuitable</InlineFunctionExpansion>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Global Release|x64'">AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Global Release|Win32'">true</IntrinsicFunctions>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Global Release|x64'">true</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Global Release|Win32'">Speed</FavorSizeOrSpeed>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Global Release|x64'">Speed</FavorSizeOrSpeed>
+    </ClCompile>
+    <ClCompile Include="Main5.2_RISE\ZzzEffectBlurSpark.cpp" />
+    <ClCompile Include="Main5.2_RISE\ZzzEffectFireLeave.cpp" />
+    <ClCompile Include="Main5.2_RISE\ZzzEffectJoint.cpp" />
+    <ClCompile Include="Main5.2_RISE\ZzzEffectMagicSkill.cpp" />
+    <ClCompile Include="Main5.2_RISE\ZzzEffectNoUse.cpp" />
+    <ClCompile Include="Main5.2_RISE\ZzzEffectParticle.cpp" />
+    <ClCompile Include="Main5.2_RISE\ZzzEffectPoint.cpp" />
+    <ClCompile Include="Main5.2_RISE\ZzzEffectPointer.cpp" />
+    <ClCompile Include="Main5.2_RISE\zzzeffectsprite.cpp" />
+    <ClCompile Include="Main5.2_RISE\ZzzInfomation.cpp" />
+    <ClCompile Include="Main5.2_RISE\ZzzInterface.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Global Release|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Global Release|x64'">MaxSpeed</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Global Release|Win32'">AnySuitable</InlineFunctionExpansion>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Global Release|x64'">AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Global Release|Win32'">true</IntrinsicFunctions>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Global Release|x64'">true</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Global Release|Win32'">Speed</FavorSizeOrSpeed>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Global Release|x64'">Speed</FavorSizeOrSpeed>
+    </ClCompile>
+    <ClCompile Include="Main5.2_RISE\ZzzInventory.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Global Release|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Global Release|x64'">MaxSpeed</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Global Release|Win32'">AnySuitable</InlineFunctionExpansion>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Global Release|x64'">AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Global Release|Win32'">true</IntrinsicFunctions>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Global Release|x64'">true</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Global Release|Win32'">Speed</FavorSizeOrSpeed>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Global Release|x64'">Speed</FavorSizeOrSpeed>
+    </ClCompile>
+    <ClCompile Include="Main5.2_RISE\ZzzLodTerrain.cpp" />
+    <ClCompile Include="Main5.2_RISE\zzzMixInvetory.cpp" />
+    <ClCompile Include="Main5.2_RISE\ZzzObject.cpp" />
+    <ClCompile Include="Main5.2_RISE\ZzzOpenData.cpp" />
+    <ClCompile Include="Main5.2_RISE\ZzzOpenglUtil.cpp" />
+    <ClCompile Include="Main5.2_RISE\zzzpath.cpp" />
+    <ClCompile Include="Main5.2_RISE\ZzzScene.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Global Release|Win32'">MaxSpeed</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Global Release|x64'">MaxSpeed</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Global Release|Win32'">AnySuitable</InlineFunctionExpansion>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Global Release|x64'">AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Global Release|Win32'">true</IntrinsicFunctions>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Global Release|x64'">true</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Global Release|Win32'">Speed</FavorSizeOrSpeed>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Global Release|x64'">Speed</FavorSizeOrSpeed>
+    </ClCompile>
+    <ClCompile Include="Main5.2_RISE\ZzzTexture.cpp" />
+    <ClCompile Include="Main5.2_RISE\_GlobalFunctions.cpp" />
+    <ClCompile Include="Main5.2_RISE\Util.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\StructSendGs.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\SystemPKSend.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\WideData.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\ZzzToolKit.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Main5.2_RISE\MuCrypto\MuCrypto.h" />
+    <ClInclude Include="afxres.h" />
+    <ClInclude Include="Main5.2_RISE\MuHelper\MuHelper.h" />
+    <ClInclude Include="Main5.2_RISE\MuHelper\MuHelperData.h" />
+    <ClInclude Include="Main5.2_RISE\MuHelper\OffMuHelper.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIMasterSkillTree.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIMuHelperConfig.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIMuHelperSkillList.h" />
+    <ClInclude Include="Main5.2_RISE\Nprotect.h" />
+    <ClInclude Include="Main5.2_RISE\ProtectSend\SendMessage.h" />
+    <ClInclude Include="Main5.2_RISE\ProtectSend\AntiStreamClient.h" />
+    <ClInclude Include="Main5.2_RISE\SpinLock.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\Camera3D.h" />
+    <ClInclude Include="Main5.2_RISE\MemScript.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\CustomBow.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\CustomGloves.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\CustomIconBuff.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\CustomItemColorName.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\CustomItemPosition.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\CustomItemRenderMesh.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\CustomRenderEffect.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\CustomJewel.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\CustomMonster.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\CustomMonsterGold.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\CustomNpcName.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\CustomModelNpc.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\CustomPet.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\CustomPetEffect.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\CustomPreview.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\CustomPrice.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\CustomReadGuildClient.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\CustomRingPen.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\CustomSetEffect.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\CustomWing.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\Font.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\HealthBarRender.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\ItemTooltip.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\MainProtocol.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\NewUIAccountLevel.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\NewUIBank.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\NewUIBossGuild.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\NewUICastleEvent.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\NewUIChangeClass.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\NewUIChangePass.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\NewUIChaosMixRate.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\NewUICharInfoStats.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\NewUIDanhHieu.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\NewUIDemoForm.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\NewUIDungLuyen.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\NewUIEventTime.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\NewUIExtendShop.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\NewUIExtOptionChar.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\NewUIGuildUpgrade.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\NewUIHonHoan.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\NewUIHarmony.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\NewUIItemTrader.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\NewUILoanChienPK.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\NewUIMenu.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\NewUIMixTrader.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\NewUIMocNap.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\NewUIMoveOption.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\NewUINewShop.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\NewUINewSpin.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\NewUIQQ.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\NewUIQuanHam.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\NewUIRanking.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\NewUIRelife.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\NewUIRenderColorItem.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\NewUIRenderDameBoss.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\NewUIRenderInvasion.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\NewUIResetChange.h" />
+    <ClInclude Include="Main5.2_RISE\CCRC32.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\CProtect.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIInventoryExtension.h" />
+    <ClInclude Include="Main5.2_RISE\BaseCls.h" />
+    <ClInclude Include="Main5.2_RISE\BlackWin.h" />
+    <ClInclude Include="Main5.2_RISE\BoneManager.h" />
+    <ClInclude Include="Main5.2_RISE\Button.h" />
+    <ClInclude Include="Main5.2_RISE\CameraMove.h" />
+    <ClInclude Include="Main5.2_RISE\CBTMessageBox.h" />
+    <ClInclude Include="Main5.2_RISE\CComGem.h" />
+    <ClInclude Include="Main5.2_RISE\CDirection.h" />
+    <ClInclude Include="Main5.2_RISE\ChangeRingManager.h" />
+    <ClInclude Include="Main5.2_RISE\CharacterManager.h" />
+    <ClInclude Include="Main5.2_RISE\CharInfoBalloon.h" />
+    <ClInclude Include="Main5.2_RISE\CharInfoBalloonMng.h" />
+    <ClInclude Include="Main5.2_RISE\CharMakeWin.h" />
+    <ClInclude Include="Main5.2_RISE\CharSelMainWin.h" />
+    <ClInclude Include="Main5.2_RISE\CKANTURUDirection.h" />
+    <ClInclude Include="Main5.2_RISE\CMVP1stDirection.h" />
+    <ClInclude Include="Main5.2_RISE\CreditWin.h" />
+    <ClInclude Include="Main5.2_RISE\CSChaosCastle.h" />
+    <ClInclude Include="Main5.2_RISE\CSEventMatch.h" />
+    <ClInclude Include="Main5.2_RISE\CSItemOption.h" />
+    <ClInclude Include="Main5.2_RISE\CSMapServer.h" />
+    <ClInclude Include="Main5.2_RISE\CSParts.h" />
+    <ClInclude Include="Main5.2_RISE\CSPetSystem.h" />
+    <ClInclude Include="Main5.2_RISE\CSQuest.h" />
+    <ClInclude Include="Main5.2_RISE\CSWaterTerrain.h" />
+    <ClInclude Include="Main5.2_RISE\Defined_Global.h" />
+    <ClInclude Include="Main5.2_RISE\DSPlaySound.h" />
+    <ClInclude Include="Main5.2_RISE\DSwaveIO.h" />
+    <ClInclude Include="Main5.2_RISE\DSWavRead.h" />
+    <ClInclude Include="Main5.2_RISE\DuelMgr.h" />
+    <ClInclude Include="Main5.2_RISE\Event.h" />
+    <ClInclude Include="Main5.2_RISE\ExternalObject\Leaf\callstackdmp.h" />
+    <ClInclude Include="Main5.2_RISE\ExternalObject\Leaf\checkintegrity.h" />
+    <ClInclude Include="Main5.2_RISE\ExternalObject\Leaf\ExceptionHandler.h" />
+    <ClInclude Include="Main5.2_RISE\ExternalObject\Leaf\html_log.h" />
+    <ClInclude Include="Main5.2_RISE\ExternalObject\Leaf\peimage.h" />
+    <ClInclude Include="Main5.2_RISE\ExternalObject\Leaf\rdtsc.h" />
+    <ClInclude Include="Main5.2_RISE\ExternalObject\Leaf\regkey.h" />
+    <ClInclude Include="Main5.2_RISE\ExternalObject\Leaf\stdleaf.h" />
+    <ClInclude Include="Main5.2_RISE\ExternalObject\Leaf\sysinfo.h" />
+    <ClInclude Include="Main5.2_RISE\ExternalObject\Leaf\xortrans.h" />
+    <ClInclude Include="Main5.2_RISE\ExternalObject\Leaf\xstreambuf.h" />
+    <ClInclude Include="Main5.2_RISE\ExternalObject\ResourceGuard\MuRGReport.h" />
+    <ClInclude Include="Main5.2_RISE\ExternalObject\ResourceGuard\ResourceGuard.h" />
+    <ClInclude Include="Main5.2_RISE\ExternalObject\ResourceGuard\RGReportConsole.h" />
+    <ClInclude Include="Main5.2_RISE\ExternalObject\ResourceGuard\RGReportObj.h" />
+    <ClInclude Include="Main5.2_RISE\GambleSystem.h" />
+    <ClInclude Include="Main5.2_RISE\GameCensorship.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\FileDownloader\FTPConnecter.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\FileDownloader\HTTPConnecter.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\FileDownloader\Include.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\InGameShopSystem.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\MsgBoxIGSBuyConfirm.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\MsgBoxIGSBuyPackageItem.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\MsgBoxIGSBuySelectItem.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\MsgBoxIGSCommon.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\MsgBoxIGSDeleteItemConfirm.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\MsgBoxIGSGiftStorageItemInfo.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\MsgBoxIGSSendGift.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\MsgBoxIGSSendGiftConfirm.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\MsgBoxIGSStorageItemInfo.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\MsgBoxIGSUseBuffConfirm.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\MsgBoxIGSUseItemConfirm.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\NewUIInGameShop.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\ShopListManager\BannerInfo.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\ShopListManager\BannerInfoList.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\ShopListManager\BannerListManager.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\ShopListManager\FTPFileDownLoader.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\ShopListManager\Include.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\ShopListManager\interface\DownloadInfo.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\ShopListManager\interface\FileDownloader.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\ShopListManager\interface\FTPConnecter.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\ShopListManager\interface\HTTPConnecter.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\ShopListManager\interface\IConnecter.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\ShopListManager\interface\IDownloaderStateEvent.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\ShopListManager\interface\Include.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\ShopListManager\interface\PathMethod\Path.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\ShopListManager\interface\WZResult\ErrorCodeDefine.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\ShopListManager\interface\WZResult\WZResult.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\ShopListManager\ListManager.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\ShopListManager\ShopCategory.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\ShopListManager\ShopCategoryList.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\ShopListManager\ShopList.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\ShopListManager\ShopListManager.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\ShopListManager\ShopPackage.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\ShopListManager\ShopPackageList.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\ShopListManager\ShopProduct.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\ShopListManager\ShopProductList.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\ShopListManager\StringMethod.h" />
+    <ClInclude Include="Main5.2_RISE\GameShop\ShopListManager\StringToken.h" />
+    <ClInclude Include="Main5.2_RISE\GaugeBar.h" />
+    <ClInclude Include="Main5.2_RISE\GIPetManager.h" />
+    <ClInclude Include="Main5.2_RISE\GlobalBitmap.h" />
+    <ClInclude Include="Main5.2_RISE\GlobalText.h" />
+    <ClInclude Include="Main5.2_RISE\GM3rdChangeUp.h" />
+    <ClInclude Include="Main5.2_RISE\GMAida.h" />
+    <ClInclude Include="Main5.2_RISE\GMBattleCastle.h" />
+    <ClInclude Include="Main5.2_RISE\GMCryingWolf2nd.h" />
+    <ClInclude Include="Main5.2_RISE\GMCrywolf1st.h" />
+    <ClInclude Include="Main5.2_RISE\GMDoppelGanger1.h" />
+    <ClInclude Include="Main5.2_RISE\GMDoppelGanger2.h" />
+    <ClInclude Include="Main5.2_RISE\GMDoppelGanger3.h" />
+    <ClInclude Include="Main5.2_RISE\GMDoppelGanger4.h" />
+    <ClInclude Include="Main5.2_RISE\GMDuelArena.h" />
+    <ClInclude Include="Main5.2_RISE\GMEmpireGuardian1.h" />
+    <ClInclude Include="Main5.2_RISE\GMEmpireGuardian2.h" />
+    <ClInclude Include="Main5.2_RISE\GMEmpireGuardian3.h" />
+    <ClInclude Include="Main5.2_RISE\GMEmpireGuardian4.h" />
+    <ClInclude Include="Main5.2_RISE\GMCharacterScene.h" />
+    <ClInclude Include="Main5.2_RISE\GMGmArea.h" />
+    <ClInclude Include="Main5.2_RISE\GMHellas.h" />
+    <ClInclude Include="Main5.2_RISE\GMHuntingGround.h" />
+    <ClInclude Include="Main5.2_RISE\GMKarutan1.h" />
+    <ClInclude Include="Main5.2_RISE\GMLogInScene.h" />
+    <ClInclude Include="Main5.2_RISE\GMNewTown.h" />
+    <ClInclude Include="Main5.2_RISE\GMSantaTown.h" />
+    <ClInclude Include="Main5.2_RISE\GMSwampOfQuiet.h" />
+    <ClInclude Include="Main5.2_RISE\GMUnitedMarketPlace.h" />
+    <ClInclude Include="Main5.2_RISE\GM_Kanturu_1st.h" />
+    <ClInclude Include="Main5.2_RISE\GM_Kanturu_2nd.h" />
+    <ClInclude Include="Main5.2_RISE\GM_Kanturu_3rd.h" />
+    <ClInclude Include="Main5.2_RISE\GM_PK_Field.h" />
+    <ClInclude Include="Main5.2_RISE\GM_Raklion.h" />
+    <ClInclude Include="Main5.2_RISE\GOBoid.h" />
+    <ClInclude Include="Main5.2_RISE\GuildCache.h" />
+    <ClInclude Include="Main5.2_RISE\GuildManager.h" />
+    <ClInclude Include="Main5.2_RISE\iexplorer.h" />
+    <ClInclude Include="Main5.2_RISE\Input.h" />
+    <ClInclude Include="Main5.2_RISE\ItemAddOptioninfo.h" />
+    <ClInclude Include="Main5.2_RISE\ItemManager.h" />
+    <ClInclude Include="Main5.2_RISE\KeyGenerater.h" />
+    <ClInclude Include="Main5.2_RISE\LoadData.h" />
+    <ClInclude Include="Main5.2_RISE\LoadingScene.h" />
+    <ClInclude Include="Main5.2_RISE\Local.h" />
+    <ClInclude Include="Main5.2_RISE\LoginMainWin.h" />
+    <ClInclude Include="Main5.2_RISE\LoginWin.h" />
+    <ClInclude Include="Main5.2_RISE\MapManager.h" />
+    <ClInclude Include="Main5.2_RISE\MatchEvent.h" />
+    <ClInclude Include="Main5.2_RISE\Math\ZzzMathLib.h" />
+    <ClInclude Include="Main5.2_RISE\MixMgr.h" />
+    <ClInclude Include="Main5.2_RISE\MonkSystem.h" />
+    <ClInclude Include="Main5.2_RISE\MoveCommandData.h" />
+    <ClInclude Include="Main5.2_RISE\MovieScene.h" />
+    <ClInclude Include="Main5.2_RISE\MsgWin.h" />
+    <ClInclude Include="Main5.2_RISE\MultiLanguage.h" />
+    <ClInclude Include="Main5.2_RISE\NewBloodCastleSystem.h" />
+    <ClInclude Include="Main5.2_RISE\NewChaosCastleSystem.h" />
+    <ClInclude Include="Main5.2_RISE\NewUI3DRenderMng.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIBase.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIBattleSoccerScore.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIBloodCastleEnter.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIBloodCastleTime.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIBuffWindow.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIButton.h" />
+    <ClInclude Include="Main5.2_RISE\NewUICastleWindow.h" />
+    <ClInclude Include="Main5.2_RISE\NewUICatapultWindow.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIChaosCastleTime.h" />
+    <ClInclude Include="Main5.2_RISE\NewUICharacterInfoWindow.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIChatInputBox.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIChatLogWindow.h" />
+    <ClInclude Include="Main5.2_RISE\NewUICommandWindow.h" />
+    <ClInclude Include="Main5.2_RISE\NewUICommon.h" />
+    <ClInclude Include="Main5.2_RISE\NewUICommonMessageBox.h" />
+    <ClInclude Include="Main5.2_RISE\NewUICryWolf.h" />
+    <ClInclude Include="Main5.2_RISE\NewUICursedTempleEnter.h" />
+    <ClInclude Include="Main5.2_RISE\NewUICursedTempleResult.h" />
+    <ClInclude Include="Main5.2_RISE\NewUICursedTempleSystem.h" />
+    <ClInclude Include="Main5.2_RISE\NewUICustomMessageBox.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIDoppelGangerFrame.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIDoppelGangerWindow.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIDuelWatchMainFrameWindow.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIDuelWatchUserListWindow.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIDuelWatchWindow.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIDuelWindow.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIEmpireGuardianNPC.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIEmpireGuardianTimer.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIEnterDevilSquare.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIExchangeLuckyCoin.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIFriendWindow.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIGatemanWindow.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIGateSwitchWindow.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIGensRanking.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIGoldBowmanLena.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIGoldBowmanWindow.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIGroup.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIGuardWindow.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIGuildInfoWindow.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIGuildMakeWindow.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIHelpWindow.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIHeroPositionInfo.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIHotKey.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIInventoryCtrl.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIItemEnduranceInfo.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIItemExplanationWindow.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIItemMng.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIKanturuEvent.h" />
+    <ClInclude Include="Main5.2_RISE\NewUILuckyItemWnd.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIMainFrameWindow.h" />
+    <ClInclude Include="Main5.2_RISE\RisePegasusHud.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIManager.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIMessageBox.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIMiniMap.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIMixInventory.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIMoveCommandWindow.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIMuHelper.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIMyInventory.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIMyQuestInfoWindow.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIMyShopInventory.h" />
+    <ClInclude Include="Main5.2_RISE\NewUINameWindow.h" />
+    <ClInclude Include="Main5.2_RISE\NewUINPCDialogue.h" />
+    <ClInclude Include="Main5.2_RISE\NewUINPCQuest.h" />
+    <ClInclude Include="Main5.2_RISE\NewUINPCShop.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIOptionWindow.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIPartyInfoWindow.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIPartyListWindow.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIPetInfoWindow.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIPurchaseShopInventory.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIQuestProgress.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIQuestProgressByEtc.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIQuickCommandWindow.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIRegistrationLuckyCoin.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIRenderNumber.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIScrollBar.h" />
+    <ClInclude Include="Main5.2_RISE\NewUISeigeWarfare.h" />
+    <ClInclude Include="Main5.2_RISE\NewUISetItemExplanation.h" />
+    <ClInclude Include="Main5.2_RISE\NewUISiegeWarBase.h" />
+    <ClInclude Include="Main5.2_RISE\NewUISiegeWarCommander.h" />
+    <ClInclude Include="Main5.2_RISE\NewUISiegeWarObserver.h" />
+    <ClInclude Include="Main5.2_RISE\NewUISiegeWarSoldier.h" />
+    <ClInclude Include="Main5.2_RISE\NewUISlideWindow.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIStorageInventory.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIStorageInventoryExt.h" />
+    <ClInclude Include="Main5.2_RISE\NewUISystem.h" />
+    <ClInclude Include="Main5.2_RISE\NewUITextBox.h" />
+    <ClInclude Include="Main5.2_RISE\NewUITrade.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIUnitedMarketPlaceWindow.h" />
+    <ClInclude Include="Main5.2_RISE\NewUIWindowMenu.h" />
+    <ClInclude Include="Main5.2_RISE\npcBreeder.h" />
+    <ClInclude Include="Main5.2_RISE\npcCatapult.h" />
+    <ClInclude Include="Main5.2_RISE\npcGateSwitch.h" />
+    <ClInclude Include="Main5.2_RISE\nvapi.h" />
+    <ClInclude Include="Main5.2_RISE\NvApiDriverSettings.h" />
+    <ClInclude Include="Main5.2_RISE\Observer.h" />
+    <ClInclude Include="Main5.2_RISE\OptionWin.h" />
+    <ClInclude Include="Main5.2_RISE\PartyManager.h" />
+    <ClInclude Include="Main5.2_RISE\PersonalShopTitleImp.h" />
+    <ClInclude Include="Main5.2_RISE\PhysicsManager.h" />
+    <ClInclude Include="Main5.2_RISE\PList.h" />
+    <ClInclude Include="Main5.2_RISE\PortalMgr.h" />
+    <ClInclude Include="Main5.2_RISE\ProtectSysKey.h" />
+    <ClInclude Include="Main5.2_RISE\ProtocolAsio.h" />
+    <ClInclude Include="Main5.2_RISE\QuestMng.h" />
+    <ClInclude Include="Main5.2_RISE\ReadScript.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\NewUIThanMa.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\NewUITuLuyen.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\NewUIViewItem.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\PetProtocol.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\Reconnect.h" />
+    <ClInclude Include="Main5.2_RISE\resource.h" />
+    <ClInclude Include="Main5.2_RISE\ServerGroup.h" />
+    <ClInclude Include="Main5.2_RISE\ServerInfo.h" />
+    <ClInclude Include="Main5.2_RISE\ServerListManager.h" />
+    <ClInclude Include="Main5.2_RISE\ServerMsgWin.h" />
+    <ClInclude Include="Main5.2_RISE\ServerSelWin.h" />
+    <ClInclude Include="Main5.2_RISE\ShadowVolume.h" />
+    <ClInclude Include="Main5.2_RISE\SideHair.h" />
+    <ClInclude Include="Main5.2_RISE\SimpleModulus.h" />
+    <ClInclude Include="Main5.2_RISE\Singleton.h" />
+    <ClInclude Include="Main5.2_RISE\SkillEffectMgr.h" />
+    <ClInclude Include="Main5.2_RISE\SkillManager.h" />
+    <ClInclude Include="Main5.2_RISE\Slider.h" />
+    <ClInclude Include="Main5.2_RISE\SMD.h" />
+    <ClInclude Include="Main5.2_RISE\SocketSystem.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\RenderCape.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\TrayModeNew.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\UIFormSystemRender.h" />
+    <ClInclude Include="Main5.2_RISE\Sprite.h" />
+    <ClInclude Include="Main5.2_RISE\stdafx.h" />
+    <ClInclude Include="Main5.2_RISE\StreamPacketEngine.h" />
+    <ClInclude Include="Main5.2_RISE\stringset.h" />
+    <ClInclude Include="Main5.2_RISE\SummonSystem.h" />
+    <ClInclude Include="Main5.2_RISE\SysMenuWin.h" />
+    <ClInclude Include="Main5.2_RISE\TestEventMap.h" />
+    <ClInclude Include="Main5.2_RISE\TextureScript.h" />
+    <ClInclude Include="Main5.2_RISE\Time\CTimCheck.h" />
+    <ClInclude Include="Main5.2_RISE\Time\Timer.h" />
+    <ClInclude Include="Main5.2_RISE\UIBaseDef.h" />
+    <ClInclude Include="Main5.2_RISE\UIControls.h" />
+    <ClInclude Include="Main5.2_RISE\UIDefaultBase.h" />
+    <ClInclude Include="Main5.2_RISE\UIGateKeeper.h" />
+    <ClInclude Include="Main5.2_RISE\UIGuardsMan.h" />
+    <ClInclude Include="Main5.2_RISE\UIGuildInfo.h" />
+    <ClInclude Include="Main5.2_RISE\UIGuildMaster.h" />
+    <ClInclude Include="Main5.2_RISE\UIJewelHarmony.h" />
+    <ClInclude Include="Main5.2_RISE\UIManager.h" />
+    <ClInclude Include="Main5.2_RISE\UIMapName.h" />
+    <ClInclude Include="Main5.2_RISE\UIMng.h" />
+    <ClInclude Include="Main5.2_RISE\UIPopup.h" />
+    <ClInclude Include="Main5.2_RISE\UISenatus.h" />
+    <ClInclude Include="Main5.2_RISE\UIWindows.h" />
+    <ClInclude Include="Main5.2_RISE\UsefulDef.h" />
+    <ClInclude Include="Main5.2_RISE\Utilities\Log\DebugAngel.h" />
+    <ClInclude Include="Main5.2_RISE\Utilities\Log\muConsoleDebug.h" />
+    <ClInclude Include="Main5.2_RISE\Utilities\Log\WindowsConsole.h" />
+    <ClInclude Include="Main5.2_RISE\Utilities\Memory\HashTable.h" />
+    <ClInclude Include="Main5.2_RISE\Utilities\Memory\MemoryLock.h" />
+    <ClInclude Include="Main5.2_RISE\Win.h" />
+    <ClInclude Include="Main5.2_RISE\WinEx.h" />
+    <ClInclude Include="Main5.2_RISE\Winmain.h" />
+    <ClInclude Include="Main5.2_RISE\WSclient.h" />
+    <ClInclude Include="Main5.2_RISE\wsclientinline.h" />
+    <ClInclude Include="Main5.2_RISE\wsctlc.h" />
+    <ClInclude Include="Main5.2_RISE\wsctlc_addon.h" />
+    <ClInclude Include="Main5.2_RISE\w_BaseMap.h" />
+    <ClInclude Include="Main5.2_RISE\w_BasePet.h" />
+    <ClInclude Include="Main5.2_RISE\w_Buff.h" />
+    <ClInclude Include="Main5.2_RISE\w_BuffScriptLoader.h" />
+    <ClInclude Include="Main5.2_RISE\w_BuffStateSystem.h" />
+    <ClInclude Include="Main5.2_RISE\w_BuffStateValueControl.h" />
+    <ClInclude Include="Main5.2_RISE\w_BuffTimeControl.h" />
+    <ClInclude Include="Main5.2_RISE\w_CharacterInfo.h" />
+    <ClInclude Include="Main5.2_RISE\w_CursedTemple.h" />
+    <ClInclude Include="Main5.2_RISE\w_MapHeaders.h" />
+    <ClInclude Include="Main5.2_RISE\w_MapProcess.h" />
+    <ClInclude Include="Main5.2_RISE\w_ObjectInfo.h" />
+    <ClInclude Include="Main5.2_RISE\w_PetAction.h" />
+    <ClInclude Include="Main5.2_RISE\w_PetActionCollecter.h" />
+    <ClInclude Include="Main5.2_RISE\w_PetActionCollecter_Add.h" />
+    <ClInclude Include="Main5.2_RISE\w_PetActionDemon.h" />
+    <ClInclude Include="Main5.2_RISE\w_PetActionRound.h" />
+    <ClInclude Include="Main5.2_RISE\w_PetActionStand.h" />
+    <ClInclude Include="Main5.2_RISE\w_PetActionUnicorn.h" />
+    <ClInclude Include="Main5.2_RISE\w_PetProcess.h" />
+    <ClInclude Include="Main5.2_RISE\w_WindowMessageHandler.h" />
+    <ClInclude Include="Main5.2_RISE\ZzzAI.h" />
+    <ClInclude Include="Main5.2_RISE\ZzzBMD.h" />
+    <ClInclude Include="Main5.2_RISE\EffectBudget330.h" />
+    <ClInclude Include="Main5.2_RISE\MU_OpenGL.h" />
+    <ClInclude Include="Main5.2_RISE\New_ModelBMD.h" />
+    <ClInclude Include="Main5.2_RISE\New_RenderBMD.h" />
+    <ClInclude Include="Main5.2_RISE\SpriteBatch330.h" />
+    <ClInclude Include="Main5.2_RISE\ZzzCharacter.h" />
+    <ClInclude Include="Main5.2_RISE\ZzzEffect.h" />
+    <ClInclude Include="Main5.2_RISE\ZzzInfomation.h" />
+    <ClInclude Include="Main5.2_RISE\ZzzInterface.h" />
+    <ClInclude Include="Main5.2_RISE\ZzzInventory.h" />
+    <ClInclude Include="Main5.2_RISE\ZzzLodTerrain.h" />
+    <ClInclude Include="Main5.2_RISE\zzzMixInventory.h" />
+    <ClInclude Include="Main5.2_RISE\ZzzObject.h" />
+    <ClInclude Include="Main5.2_RISE\ZzzOpenData.h" />
+    <ClInclude Include="Main5.2_RISE\ZzzOpenglUtil.h" />
+    <ClInclude Include="Main5.2_RISE\ZzzPath.h" />
+    <ClInclude Include="Main5.2_RISE\ZzzScene.h" />
+    <ClInclude Include="Main5.2_RISE\ZzzTexture.h" />
+    <ClInclude Include="Main5.2_RISE\_define.h" />
+    <ClInclude Include="Main5.2_RISE\_enum.h" />
+    <ClInclude Include="Main5.2_RISE\_GlobalFunctions.h" />
+    <ClInclude Include="Main5.2_RISE\_struct.h" />
+    <ClInclude Include="Main5.2_RISE\_TextureIndex.h" />
+    <ClInclude Include="Main5.2_RISE\_types.h" />
+    <ClInclude Include="Main5.2_RISE\Util.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\StructSendGs.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\SystemPKSend.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\WideData.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\ZzzToolKit.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".gitattributes" />
+    <None Include=".gitignore" />
+    <None Include="Rename.bat" />
+    <None Include="script\Mu_Chs.py" />
+    <None Include="script\Mu_Eng.py" />
+    <None Include="script\Mu_Jpn.py" />
+    <None Include="script\Mu_Kor_Blue.py" />
+    <None Include="script\Mu_Kor_Red.py" />
+    <None Include="script\Mu_Kor_Red_Test.py" />
+    <None Include="script\Mu_Phi.py" />
+    <None Include="script\Mu_Tai.py" />
+    <None Include="script\Mu_Tha.py" />
+    <None Include="script\Mu_Vie.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\Util\include\RenderFont.lib" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

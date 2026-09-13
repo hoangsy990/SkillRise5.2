@@ -1,0 +1,48 @@
+#pragma once
+
+#include <cstddef>
+
+namespace rise { namespace pegasus {
+
+enum class HighSkillSoundRole { Cast, Hit, Explosion, Attack, Appear, Disappear };
+
+struct HighSkillSoundSeed {
+    int skillId;
+    int pegasusBufferId;
+    HighSkillSoundRole role;
+    const char* relativePath;
+    const char* sha256;
+};
+
+// Buffer IDs are provenance from the pinned Pegasus sound-registration
+// function. They are not portable RISE buffer indices.
+static constexpr HighSkillSoundSeed kHighSkillSoundSeeds[] = {
+    {288,0x4B,HighSkillSoundRole::Attack,"ReaperAttack1.wav","FFFEB2620CBCF4BBBD46E0BF17645347E5DBE7F4D75168834032630F69ACEAE3"},
+    {288,0x4C,HighSkillSoundRole::Attack,"ReaperAttack2.wav","E62BFFC7A14A38B923E1B5618F093A4DDA0D8994EB25C3645FE5798325BF34D9"},
+    {288,0x4D,HighSkillSoundRole::Attack,"ReaperAttack3.wav","EBA804713FEBDE41C614777F24E2CC3FB08F1370B3C77CAFBA84EAD1C664BD5C"},
+    {288,0x4E,HighSkillSoundRole::Appear,"ReaperAppear.wav","CEB245E90CF924CBDCF41B0ABCC1930FFCB887E99C5077D5873E09B20D4BA369"},
+    {288,0x4F,HighSkillSoundRole::Disappear,"Reaperdisappear.wav","34C5F8D2CFD5F5FE5CDAA1207C67AFC070A8ACB8E22C240349C6E79F5AA6FB2A"},
+    {2023,0x62,HighSkillSoundRole::Cast,"Elf\\RainingArrow.wav","1F11A753E2D010869ECEE850C8478D4651125AE151829292A1143F1D5DB077EC"},
+    {2023,0x63,HighSkillSoundRole::Hit,"Elf\\RainingArrow-Hit.wav","CE00F53BABAA04964097149EDBA08C3208632335141D5991B8E066388ABDD46E"},
+    {2013,0x3D3,HighSkillSoundRole::Cast,"MG_Renewal_HavocSpear.wav","5EC5E9D38D2027EC4DC106960ECAC5330610880D94EDC9818DA2B711F8AA009E"},
+    {2013,0x3D4,HighSkillSoundRole::Hit,"MG_Renewal_HavocSpear_Hit_1.wav","50F4A4AD67C511418B3503D2566624A9236CC0D6F16913A463CD185D9EEAC554"},
+    {2013,0x3D5,HighSkillSoundRole::Hit,"MG_Renewal_HavocSpear_Hit_2.wav","45DEA41A3AB7BB002A79A67D252E9FB48D3D70950E473ABE73A5606C6C113E93"},
+    {2013,0x3D6,HighSkillSoundRole::Explosion,"MG_Renewal_HavocSpear_Explosion.wav","8F261CDA3E543531FCA9CEDB911B0FC29CF5E8E325F89E8FA7845C878A9E1A02"},
+    {2014,0x3D7,HighSkillSoundRole::Cast,"MG_Renewal_SpiralCharge.wav","F4A4B4941A8748B11A7E0079A94AF8220526107103E7CD11F5521E2D359D4C06"},
+    {2015,0x3D8,HighSkillSoundRole::Cast,"MG_Renewal_CrasherCharge.wav","A850F7A08D7F1DC0288ED065BDE183EC393760E9BD55CDC4B37BAA6BB4C22A5E"},
+    {2016,0x3D9,HighSkillSoundRole::Cast,"MG_Renewal_ElementalCharge.wav","CB13C248261B1F3B66C4A3E3CA872A95190FDE1DD473D2F098553548908517A6"},
+    {2012,0x3DA,HighSkillSoundRole::Cast,"MG_Renewal_ChaosBlade.wav","EE3F18B30FCEFF0562851E0A5633838FB322E85D435E0D536EC1A71EA5C8DBC1"},
+    {2012,0x3DB,HighSkillSoundRole::Hit,"MG_Renewal_ChaosBlade_Hit_1.wav","8B8AAFDCAE987812F1FEB6A2A8F7259960D550CBA2F818AD51AA17C193BFA60E"},
+    {2012,0x3DC,HighSkillSoundRole::Hit,"MG_Renewal_ChaosBlade_Hit_2.wav","43A4B0088F8DEE28E9A887B25E09C44F17EC5FE58584BF70FB60EB006E54EC93"},
+    {2012,0x3DD,HighSkillSoundRole::Explosion,"MG_Renewal_ChaosBlade_Explosion.wav","BE39315F3D53BF746E1B86E642A074535866C687F36B37EC942A72356933CA77"},
+    {242,0x3DE,HighSkillSoundRole::Cast,"Kundun\\DragonViolent.wav","BA5A71F66FCD4F905E2069A9AEB2144721F9782C62A6033575E42EEC5E16CE0A"},
+    {242,0x3DF,HighSkillSoundRole::Hit,"Kundun\\DragonViolent_Hit.wav","E6AB3BCC6D63A0C2423A797A30BDFB18F878A6D4F2F3A544A22EA453B8E1B9F2"},
+    {241,0x3E0,HighSkillSoundRole::Cast,"Kundun\\ShiningBird.wav","D33577D53D9C9C6DD7C14C4D1F6D6DEC5EC5E977E8222DA734A3372049D40106"},
+    {243,0x3E2,HighSkillSoundRole::Cast,"Kundun\\SpearStorm.wav","3BF6CA4A67B7D27BAA254D4B89452E07D8CE19EDB1D7DD80CECBEAC09B42C8B3"},
+    {243,0x3E1,HighSkillSoundRole::Hit,"Kundun\\SpearStorm_Hit.wav","4FEDD25C219913B4D48C198BC566DAA677A97AB5155688ADB773BC2083B83EE7"},
+};
+
+static constexpr std::size_t kHighSkillSoundSeedCount =
+    sizeof(kHighSkillSoundSeeds) / sizeof(kHighSkillSoundSeeds[0]);
+
+}}
