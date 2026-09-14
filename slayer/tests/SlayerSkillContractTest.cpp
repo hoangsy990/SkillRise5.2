@@ -40,12 +40,14 @@ public:
     int detections;
     int demolishBuffs;
     unsigned lastDotDuration;
+    unsigned lastDetectionDuration;
     unsigned lastDemolishDuration;
 
     RecordingEffectSink()
         : swordProjectiles(0), batHits(0), batDots(0), batTicks(0),
           pierceDashes(0), pierceHits(0), pierceReturns(0), detections(0),
-          demolishBuffs(0), lastDotDuration(0), lastDemolishDuration(0)
+          demolishBuffs(0), lastDotDuration(0), lastDetectionDuration(0),
+          lastDemolishDuration(0)
     {
     }
 
@@ -60,7 +62,11 @@ public:
     virtual void StartPierceDash(int, int) { ++pierceDashes; }
     virtual void SpawnPierceHit(int, int, int) { ++pierceHits; }
     virtual void FinishPierceReturn(int, int) { ++pierceReturns; }
-    virtual void MarkDetection(int) { ++detections; }
+    virtual void MarkDetection(int, unsigned durationMs)
+    {
+        ++detections;
+        lastDetectionDuration = durationMs;
+    }
     virtual void StartDemolishBuff(int, unsigned durationMs)
     {
         ++demolishBuffs;
@@ -157,8 +163,9 @@ int main()
     Require(sl::DemolishCooldownMs() == 60000 &&
         sl::DemolishDurationSeconds() == 60,
         "Demolish cooldown and duration follow S21");
-    Require(!sl::HasAuthoritativeDetectionDuration(),
-        "Detection mark duration is not invented");
+    Require(sl::DetectionDurationMs() == 60000 &&
+        sl::HasAuthoritativeDetectionDuration(),
+        "Detection mark duration follows BuffEffectManager.xml");
     Require(!sl::HasNativeClassSlot(7),
         "legacy 5.2 class capacity rejects Slayer slot");
     Require(sl::HasNativeClassSlot(10) && sl::HasNativeClassSlot(11),
@@ -322,7 +329,8 @@ int main()
         "Detection emits one minimap mark event");
     Require(sl::DispatchSlayerSkillEffect(events[0], sink),
         "Detection mark event dispatch");
-    Require(sink.detections == 1, "Detection bridge binds minimap mark");
+    Require(sink.detections == 1 && sink.lastDetectionDuration == 60000,
+        "Detection bridge binds one-minute minimap mark");
     events.clear();
     context.nowMs = 1000;
     Require(!runtime.Cast(sl::kDetection, context, events),

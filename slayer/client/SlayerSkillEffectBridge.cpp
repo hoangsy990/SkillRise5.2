@@ -45,7 +45,7 @@ bool DispatchSlayerSkillEffect(const RuntimeEvent& event,
     case kDetectionMarkEvent:
         if (event.skillId != kDetection || event.targetId != -1)
             return false;
-        sink.MarkDetection(event.actorId);
+        sink.MarkDetection(event.actorId, event.durationMs);
         return true;
     case kDemolishBuffEvent:
         if (event.skillId != kDemolish || event.targetId != event.actorId)

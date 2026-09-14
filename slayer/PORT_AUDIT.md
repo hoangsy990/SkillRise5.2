@@ -14,7 +14,7 @@ This audit separates recovered facts from work that still requires the actual
 | Sword Inertia three swords / one hit | Three cast-tagged events, effect/damage sinks and a per-cast target ledger helper | PASS (focused; native collision binding open) |
 | Bat Flock two hits and DOT | Two hit events, five-second duration, four one-second tick events | PASS (focused) |
 | Pierce prerequisite and bonus | Bat Flock + ten mastery gate; target debuff controls four-hit branch | PASS (focused) |
-| Detection minimap mark and cooldown | Self event and 5,000 ms cooldown; authoritative mark duration intentionally unset | PARTIAL |
+| Detection minimap mark and cooldown | Self event, 5,000 ms cooldown, and Buff 316 one-minute result from hash-pinned `BuffEffectManager.xml` | PASS (static/focused) |
 | Demolish self-buff | Self event, 60,000 ms recast/lifetime and ignore-defense formula boundary | PASS (focused; native class gate open) |
 | Mastery tree | IDs 779, 780, 781, 782, 787, 788 and 794 mirrored from `SkillTreeData_3rd.xml` | PASS (static) |
 | Skill bead/item mapping | Only known mapping group 12/index 479 is enabled from `SkillRequire.xml` | PARTIAL |

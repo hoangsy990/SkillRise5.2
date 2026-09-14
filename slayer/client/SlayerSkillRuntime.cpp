@@ -85,7 +85,8 @@ bool SlayerSkillRuntime::Cast(int skillId, const CastContext& context,
         break;
     case kDetection:
         events.push_back(MakeEvent(kDetectionMarkEvent, skillId,
-            context.actorId, -1, 0, 0, castId));
+            context.actorId, -1, 0,
+            static_cast<unsigned>(DetectionDurationMs()), castId));
         m_cooldowns[cooldownKey] = context.nowMs + DetectionCooldownMs();
         break;
     case kDemolish:

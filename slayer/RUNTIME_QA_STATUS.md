@@ -8,7 +8,7 @@ Last automated check: 2026-09-15 (Asia/Bangkok)
 - Stage verifier: PASS (private Player/RISE roots, root login keys, `Config\Mix.bmd`, no `Data\RISE\GrowLancer` overlay)
 - Build: PASS (Release x86; Slayer runtime QA and effect bridge linked)
 - Contract/data tests: PASS
-- Runtime process: PASS (`Engine-Slayer S21 - Slayer`, PID 34932, responsive after the sequence)
+- Runtime process: PASS (`Engine-Slayer S21 - Slayer`, PID 22224, responsive after the sequence)
 - Runtime capture: PASS (105 frames from the isolated client window)
 
 The captured in-game session recorded accepted native receive/effect chains for all five skills:
@@ -21,7 +21,7 @@ The captured in-game session recorded accepted native receive/effect chains for 
 | 295 Detection | accepted receive probe; visible cyan detection mark around the actor |
 | 297 Demolish | accepted receive probe; self-buff graph and particle create/render-submit telemetry |
 
-All five skills were exercised in one automated in-game sequence in PID 34932,
+All five skills were exercised in one automated in-game sequence in PID 22224,
 not as five independent test runs. The runtime used converted, hash-pinned S21
 models, textures, sounds and player actions from the owner's local reference
 client; those proprietary assets are intentionally not committed here.

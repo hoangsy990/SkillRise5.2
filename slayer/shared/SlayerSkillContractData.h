@@ -329,11 +329,17 @@ inline double ApplyRegularDamageFormula(int id, double inDamage,
     }
 }
 
-// Detection's mark lifetime is not specified in the public guide or the
-// supplied SkillList row.  Keep it unresolved instead of inventing a timer.
+// BuffEffectManager.xml binds Buff 316 (Detection) to a one-minute result
+// lifetime. The public guide omits this value, so keep the server data row
+// and the buff definition as separate evidence sources.
+inline int DetectionDurationMs()
+{
+    return 60000;
+}
+
 inline bool HasAuthoritativeDetectionDuration()
 {
-    return false;
+    return true;
 }
 
 // 5.2 has no class-9 array slot. Callers must reject activation until the

@@ -10,6 +10,7 @@ Reference material:
 - S21 executable dump: `D:\RISE-CrossPlatform\Source\artifacts\visual_studio\season21_client_qa\memory_dump\process_23824\400000.main.exe`
 - S21 server skill data: `D:\GameServer S21\Data\Skills\SkillList.xml` and `D:\GameServer S21\Data\Scripts\Skills\RegularSkillCalc.lua`
 - S21 mastery formulas: `D:\GameServer S21\Data\Scripts\Skills\MasterSkillCalc_3rd.lua`
+- S21 buff lifetime data: `D:\GameServer S21\Data\BuffEffectManager.xml`
 - Public guide: <https://muonline.webzen.com/th/gameinfo/guide/detail/100>
 - GrowLancer checkout: `D:\RISE-CrossPlatform\Source\_PC_GrowLancer` (process/reference only; no Slayer code or hooks are copied)
 
@@ -18,7 +19,9 @@ The S21 source files are hash-pinned: `SkillList.xml` =
 `RegularSkillCalc.lua` =
 `78A1502C187D9EA248E682CCAA62EA8C4510D7119192510D1A966A18E6992E4D`, and
 `MasterSkillCalc_3rd.lua` =
-`904A41053E9E4B12D0CC65D316FD661EE751B23ED7E73D1A89002ACDD810FD8C`.
+`904A41053E9E4B12D0CC65D316FD661EE751B23ED7E73D1A89002ACDD810FD8C`, while
+`BuffEffectManager.xml` =
+`201452C00D9D5CE0DB83820EF48EC4317A6654864C0BE9176A6389694A4AD6B0`.
 The executable dump hash and disassembly addresses are recorded in
 `S21_DUMP_CHAIN.md`.
 
@@ -29,7 +32,7 @@ The executable dump hash and disassembly addresses are recorded in
 | 292 | Sword Inertia | level 30, STR 50, DEX 100, Darkness | level 30 | three boomerang projectiles; one hit per target is a consumer-side collision rule |
 | 293 | Bat Flock | level 150, STR 100, DEX 380, Darkness | level 270 | two direct hits, then five-second DOT |
 | 294 | Pierce Attack | STR 300, DEX 1100, Darkness | Bat Flock + 10 mastery points | dash, two hits (four when target has Bat Flock), return |
-| 295 | Detection | level 350, DEX 800, no element, 5 s cooldown | level 400; bead table says level 300 | minimap mark event; mark lifetime remains unresolved |
+| 295 | Detection | level 350, DEX 800, no element, 5 s cooldown | level 400; bead table says level 300 | minimap mark event; Buff 316 keeps the result for 60 s |
 | 297 | Demolish | level 400, DEX 1450, no element, 60 s cooldown | level 400 | self-buff; 60 s ignore-defense aura |
 
 `SlayerSkillContractData.h` is the single source of truth for IDs,
