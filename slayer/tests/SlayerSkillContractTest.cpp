@@ -173,6 +173,9 @@ int main()
     Require(runtime.Cast(sl::kSwordInertia, context, events),
         "Sword Inertia cast accepted");
     Require(events.size() == 3, "Sword Inertia emits three projectile events");
+    Require(events[0].type == sl::kSwordProjectileEvent &&
+        events[1].ordinal == 1 && events[2].ordinal == 2,
+        "Sword Inertia projectile ordering");
     Require(events[0].castId != 0 && events[1].castId == events[0].castId &&
         events[2].castId == events[0].castId,
         "Sword Inertia projectiles share one cast identity");
@@ -206,6 +209,10 @@ int main()
     Require(runtime.Cast(sl::kBatFlock, context, events),
         "Bat Flock cast accepted");
     Require(events.size() == 3, "Bat Flock emits two hits and DOT application");
+    Require(events[0].type == sl::kBatFlockHitEvent &&
+        events[1].type == sl::kBatFlockHitEvent &&
+        events[2].type == sl::kBatFlockDotAppliedEvent,
+        "Bat Flock hit-before-DOT ordering");
     for (std::size_t i = 0; i < events.size(); ++i)
         Require(sl::DispatchSlayerSkillEffect(events[i], sink),
             "Bat Flock effect events dispatch");
@@ -240,6 +247,11 @@ int main()
     Require(runtime.Cast(sl::kPierceAttack, context, events),
         "Pierce Attack cast accepted with prerequisite");
     Require(events.size() == 6, "Pierce Attack emits dash, four hits and return");
+    Require(events[0].type == sl::kPierceDashEvent &&
+        events[1].type == sl::kPierceHitEvent &&
+        events[4].type == sl::kPierceHitEvent &&
+        events[5].type == sl::kPierceReturnEvent,
+        "Pierce Attack dash-hit-return ordering");
     for (std::size_t i = 0; i < events.size(); ++i)
         Require(sl::DispatchSlayerSkillEffect(events[i], sink),
             "Pierce Attack effect events dispatch");
