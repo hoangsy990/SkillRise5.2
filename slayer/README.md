@@ -71,9 +71,11 @@ The launcher verifies the base `Data\RISE` merge (including `Config\Mix.bmd`),
 private `Player/RISE` roots, login keys, and rejects a leaked GrowLancer overlay.
 In the running client, F10 toggles the Slayer panel, F6 selects 292→293→294→295,
 F7 casts, F9 records the target/contact checkpoint, and F11 advances the DOT
-clock. The resulting `SlayerRuntimeQA.log` is runtime evidence for the event
-adapter only; login, visual effects, server authority and owner acceptance must
-still be recorded separately.
+clock. `tests\VerifySlayerRuntimeQALog.ps1` checks a captured log for accepted
+casts and the expected event chains (including the four Bat Flock DOT ticks and
+the four-hit Pierce branch). The resulting `SlayerRuntimeQA.log` is runtime
+evidence for the event adapter only; login, visual effects, server authority
+and owner acceptance must still be recorded separately.
 
 Run the focused test from this directory with
 `tests\\RunSlayerSkillContractTest.cmd` (or compile the two C++ sources with
