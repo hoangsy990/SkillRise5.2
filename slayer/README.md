@@ -51,6 +51,8 @@ guide/bead gate explicitly instead of accidentally mixing the two profiles.
 The 5.2 snapshot still has seven native class columns (0..6). Slayer's S21
 script/table class number is 9, so `SlayerServerCatalog` refuses activation
 until both persistence and protocol migrations are explicitly complete.
+See `CLASS_MIGRATION.md` for the complete class-sized array/protocol/persistence
+gate before enabling the native class.
 The runtime adapter additionally requires an explicit Slayer class ID and an
 owner-enabled class gate; it cannot be invoked accidentally by another class.
 `SlayerPacketContract` keeps all opcodes at `-1`; no packet number is guessed.
