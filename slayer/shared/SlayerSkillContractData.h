@@ -208,6 +208,40 @@ inline bool MeetsStats(int id, int level, int strength, int dexterity)
         dexterity >= seed->requiredDexterity;
 }
 
+inline int RequiredBeadLevel(int id)
+{
+    const SkillSeed* seed = FindSkillSeed(id);
+    const RequirementOverride* overrideData = FindRequirementOverride(id);
+    if (seed == 0)
+        return -1;
+    return overrideData != 0 ? overrideData->beadLevel : seed->skillListLevel;
+}
+
+inline int RequiredGuideLevel(int id)
+{
+    const SkillSeed* seed = FindSkillSeed(id);
+    return seed == 0 ? -1 :
+        (seed->guideLevel >= 0 ? seed->guideLevel : seed->skillListLevel);
+}
+
+inline bool MeetsBeadStats(int id, int level, int strength, int dexterity)
+{
+    const SkillSeed* seed = FindSkillSeed(id);
+    const int beadLevel = RequiredBeadLevel(id);
+    return seed != 0 && (beadLevel < 0 || level >= beadLevel) &&
+        strength >= seed->requiredStrength &&
+        dexterity >= seed->requiredDexterity;
+}
+
+inline bool MeetsGuideStats(int id, int level, int strength, int dexterity)
+{
+    const SkillSeed* seed = FindSkillSeed(id);
+    const int guideLevel = RequiredGuideLevel(id);
+    return seed != 0 && (guideLevel < 0 || level >= guideLevel) &&
+        strength >= seed->requiredStrength &&
+        dexterity >= seed->requiredDexterity;
+}
+
 inline int SwordInertiaProjectileCount()
 {
     return 3;

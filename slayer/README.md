@@ -42,6 +42,10 @@ the two `SkillSettings` keys. They are wrapped as fragments on purpose: merge
 them into the production files only after checking the owner's current file
 hash and preserving unrelated rows.
 
+The contract exposes separate config, bead and guide stat gates. The runtime
+adapter uses the supplied 5.2 config gate; a production owner can select the
+guide/bead gate explicitly instead of accidentally mixing the two profiles.
+
 ## Activation boundary
 
 The 5.2 snapshot still has seven native class columns (0..6). Slayer's S21

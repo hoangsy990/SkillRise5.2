@@ -108,6 +108,16 @@ int main()
         "Webzen guide Detection level is kept separately");
     Require(sl::FindRequirementOverride(295)->beadLevel == 300,
         "Webzen bead table Detection level is retained");
+    Require(sl::RequiredBeadLevel(sl::kBatFlock) == 270 &&
+        sl::RequiredGuideLevel(sl::kBatFlock) == 270,
+        "Bat Flock bead/guide level profiles");
+    Require(sl::MeetsStats(sl::kBatFlock, 150, 100, 380) &&
+        !sl::MeetsBeadStats(sl::kBatFlock, 150, 100, 380),
+        "Bat Flock config and bead gates remain explicit");
+    Require(sl::MeetsStats(sl::kDetection, 350, 0, 800) &&
+        !sl::MeetsGuideStats(sl::kDetection, 350, 0, 800) &&
+        sl::MeetsBeadStats(sl::kDetection, 300, 0, 800),
+        "Detection config, guide and bead gates remain explicit");
     Require(sl::FindRequirementOverride(294)->requiredSkillId == sl::kBatFlock,
         "Pierce Attack requires Bat Flock");
     Require(sl::FindRequirementOverride(294)->requiredMasteryPoints == 10,
