@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Source SHA-256: CE19B7482839524A6FC8B76563F60D0D0EAEA89F4F4E534DFC835046366539F0 -->
+<SkillTreeRows>
+  <Skill Index="44" ReqMinPoint="1" MaxPoint="20" ParentSkill1="0" ParentSkill2="0" MagicNumber="779" ValueType="1" Name="Sword Inertia Strengthener" />
+  <Skill Index="48" ReqMinPoint="10" MaxPoint="10" ParentSkill1="779" ParentSkill2="0" MagicNumber="780" ValueType="0" Name="Sword Inertia Mastery" />
+  <Skill Index="58" ReqMinPoint="1" MaxPoint="20" ParentSkill1="0" ParentSkill2="0" MagicNumber="781" ValueType="1" Name="Bat Flock Strengthener" />
+  <Skill Index="62" ReqMinPoint="10" MaxPoint="10" ParentSkill1="781" ParentSkill2="0" MagicNumber="782" ValueType="0" Name="Bat Flock Mastery" />
+  <Skill Index="65" ReqMinPoint="10" MaxPoint="10" ParentSkill1="0" ParentSkill2="0" MagicNumber="794" ValueType="0" Name="Detection Strengthener" />
+</SkillTreeRows>

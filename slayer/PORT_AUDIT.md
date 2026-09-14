@@ -7,6 +7,7 @@ This audit separates recovered facts from work that still requires the actual
 |---|---|---|
 | Four skill IDs and names | `shared/SlayerSkillContractData.h` IDs 292..295 | PASS (static) |
 | Config stats and resource costs | `C:\Users\DELL\Desktop\Skills\\SkillList.xml` mirrored in shared/server records | PASS (static) |
+| Merge-ready data rows | `data/SkillList.slayers.fragment.xml`, `SkillRequire.slayers.fragment.xml`, `SkillTreeData_3rd.slayers.fragment.xml`, `SkillSettings.slayers.fragment.ini` | PASS (static) |
 | Public descriptions and Darkness/no-element attributes | Webzen guide 100; represented as flags/elements and event order | PASS (static) |
 | Config/guide level differences | Separate `skillListLevel`, `guideLevel`, and bead override; no silent substitution | PASS (static) |
 | Sword Inertia three swords / one hit | Three events; collision consumer must keep a per-cast target ledger | PARTIAL |

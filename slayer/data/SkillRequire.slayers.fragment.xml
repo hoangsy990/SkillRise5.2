@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Known base-skill requirement from the supplied SkillRequire.xml.
+  Source SHA-256: 4E6B765FF7DCFB62E58AD9720F5E8C8E81DC8ECC5BA30C3BC3B842B390C9AC58
+  Item indices for the other three base skills were not established, so no
+  adjacent/index-guess rows are emitted here.
+-->
+<SkillRequireRows>
+  <Skill Index="294" ItemGroup="12" ItemIndex="479" ReqIndex="293" ReqMasterSkillIndex="782" ReqMasterPoint="10" />
+</SkillRequireRows>

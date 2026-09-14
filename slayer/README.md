@@ -26,6 +26,12 @@ requirements, mastery IDs 779/780/781/782/794, the known Pierce bead mapping
 `SlayerSkillRuntime` turns an authorized cast into deterministic client/server
 events without assuming a renderer, packet opcode, or class array layout.
 
+The merge-ready data fragments under `data/` carry the four exact `SkillList`
+rows, the verified Pierce `SkillRequire` row, the five third-master rows, and
+the two `SkillSettings` keys. They are wrapped as fragments on purpose: merge
+them into the production files only after checking the owner's current file
+hash and preserving unrelated rows.
+
 ## Activation boundary
 
 The 5.2 snapshot still has seven native class columns (0..6). Slayer's S21
