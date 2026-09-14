@@ -21,7 +21,13 @@ enum ClassId
     // The 5.2 tree currently owns slots 0..6.  Slot 7 is the next reserved
     // native slot; S21's script/table class number remains 9.
     kRise52ReservedClassSlot = 7,
-    kS21ClassSlayer = 9
+    kS21ClassSlayer = 9,
+    // The legacy DB convention stores base class 9 as 9*16 and increments
+    // the low nibble for the three class stages.  These values are evidence
+    // for the future ABI adapter; they are not written into legacy packets.
+    kS21SlayerDbClass = 144,
+    kS21RoyalSlayerDbClass = 145,
+    kS21MasterSlayerDbClass = 146
 };
 
 enum Element
@@ -201,6 +207,18 @@ inline bool IsSlayerSkill(int id)
         id == kDetection || id == kDemolish;
 }
 
+inline bool IsSlayerDbClass(int dbClass)
+{
+    return dbClass == kS21SlayerDbClass ||
+        dbClass == kS21RoyalSlayerDbClass ||
+        dbClass == kS21MasterSlayerDbClass;
+}
+
+inline int SlayerBaseClassFromDb(int dbClass)
+{
+    return IsSlayerDbClass(dbClass) ? kS21ClassSlayer : -1;
+}
+
 inline bool IsDarknessSkill(int id)
 {
     const SkillSeed* seed = FindSkillSeed(id);
@@ -311,11 +329,17 @@ inline double ApplyRegularDamageFormula(int id, double inDamage,
     }
 }
 
-// Detection's mark lifetime is not specified in the public guide or the
-// supplied SkillList row.  Keep it unresolved instead of inventing a timer.
+// BuffEffectManager.xml binds Buff 316 (Detection) to a one-minute result
+// lifetime. The public guide omits this value, so keep the server data row
+// and the buff definition as separate evidence sources.
+inline int DetectionDurationMs()
+{
+    return 60000;
+}
+
 inline bool HasAuthoritativeDetectionDuration()
 {
-    return false;
+    return true;
 }
 
 // 5.2 has no class-9 array slot. Callers must reject activation until the
