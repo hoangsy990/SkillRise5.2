@@ -23,6 +23,9 @@ Reference material:
 `SlayerSkillContractData.h` is the single source of truth for IDs,
 requirements, mastery IDs 779/780/781/782/794, the known Pierce bead mapping
 (item group 12/index 479), and the recovered regular-damage formulas.
+`SlayerClassContractData.h` records the guide's class-creation metadata
+(Slayer/Royal Slayer/Master Slayer, Lorencia, and starting attributes) for the
+later native class migration.
 `SlayerSkillRuntime` turns an authorized cast into deterministic client/server
 events without assuming a renderer, packet opcode, or class array layout.
 `SlayerSkillEffectBridge` and `SlayerSkillDamageBridge` expose narrow sinks for

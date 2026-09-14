@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "../shared/SlayerSkillContractData.h"
+#include "../shared/SlayerClassContractData.h"
 #include "../server/SlayerPacketContract.h"
 #include "../server/SlayerServerCatalog.h"
 #include "../client/SlayerSkillRuntime.h"
@@ -80,6 +81,15 @@ public:
 int main()
 {
     Require(sl::SkillSeedCount() == 4, "four Slayer base skill rows");
+    Require(sl::kSlayerClassProfile.classId == sl::kS21ClassSlayer &&
+        sl::kSlayerClassProfile.createdByDefault &&
+        sl::IsSlayerClass(sl::kS21ClassSlayer),
+        "Slayer class profile is present");
+    Require(sl::kSlayerClassProfile.startingStrength == 28 &&
+        sl::kSlayerClassProfile.startingDexterity == 30 &&
+        sl::kSlayerClassProfile.startingVitality == 15 &&
+        sl::kSlayerClassProfile.startingEnergy == 10,
+        "Slayer starting attributes match the guide");
     Require(sl::FindSkillSeed(292)->id == sl::kSwordInertia,
         "Sword Inertia uses native SkillList ID 292");
     Require(sl::FindSkillSeed(293)->id == sl::kBatFlock,
