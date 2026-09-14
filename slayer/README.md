@@ -25,6 +25,10 @@ requirements, mastery IDs 779/780/781/782/794, the known Pierce bead mapping
 (item group 12/index 479), and the recovered regular-damage formulas.
 `SlayerSkillRuntime` turns an authorized cast into deterministic client/server
 events without assuming a renderer, packet opcode, or class array layout.
+`SlayerSkillEffectBridge` and `SlayerSkillDamageBridge` expose narrow sinks for
+binding those events to the native effect pool and authoritative damage path;
+they do not duplicate the engine's collision, PvP/PvM, resistance or rounding
+logic.
 
 The merge-ready data fragments under `data/` carry the four exact `SkillList`
 rows, the verified Pierce `SkillRequire` row, the five third-master rows, and

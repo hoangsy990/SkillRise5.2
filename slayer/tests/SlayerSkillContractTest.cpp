@@ -7,6 +7,8 @@
 #include "../server/SlayerPacketContract.h"
 #include "../server/SlayerServerCatalog.h"
 #include "../client/SlayerSkillRuntime.h"
+#include "../client/SlayerSkillEffectBridge.h"
+#include "../server/SlayerSkillDamageBridge.h"
 
 namespace sl = rise::slayer;
 
@@ -23,6 +25,57 @@ static void RequireNear(double actual, double expected, const char* message)
 {
     Require(std::fabs(actual - expected) < 0.000001, message);
 }
+
+class RecordingEffectSink : public sl::SlayerSkillEffectSink
+{
+public:
+    int swordProjectiles;
+    int batHits;
+    int batDots;
+    int batTicks;
+    int pierceDashes;
+    int pierceHits;
+    int pierceReturns;
+    int detections;
+    unsigned lastDotDuration;
+
+    RecordingEffectSink()
+        : swordProjectiles(0), batHits(0), batDots(0), batTicks(0),
+          pierceDashes(0), pierceHits(0), pierceReturns(0), detections(0),
+          lastDotDuration(0)
+    {
+    }
+
+    virtual void SpawnSwordProjectile(int, int, int) { ++swordProjectiles; }
+    virtual void SpawnBatFlockHit(int, int, int) { ++batHits; }
+    virtual void StartBatFlockDot(int, int, unsigned durationMs)
+    {
+        ++batDots;
+        lastDotDuration = durationMs;
+    }
+    virtual void TickBatFlockDot(int, int) { ++batTicks; }
+    virtual void StartPierceDash(int, int) { ++pierceDashes; }
+    virtual void SpawnPierceHit(int, int, int) { ++pierceHits; }
+    virtual void FinishPierceReturn(int, int) { ++pierceReturns; }
+    virtual void MarkDetection(int) { ++detections; }
+};
+
+class RecordingDamageSink : public sl::SlayerSkillDamageSink
+{
+public:
+    int directHits;
+    int dotTicks;
+    double lastDamage;
+
+    RecordingDamageSink() : directHits(0), dotTicks(0), lastDamage(0.0) {}
+
+    virtual void ApplyDirectDamage(int, int, int, int, double damage)
+    {
+        ++directHits;
+        lastDamage = damage;
+    }
+    virtual void ApplyBatFlockDotTick(int, int) { ++dotTicks; }
+};
 
 int main()
 {
@@ -102,6 +155,19 @@ int main()
     Require(runtime.Cast(sl::kSwordInertia, context, events),
         "Sword Inertia cast accepted");
     Require(events.size() == 3, "Sword Inertia emits three projectile events");
+    RecordingEffectSink sink;
+    RecordingDamageSink damageSink;
+    for (std::size_t i = 0; i < events.size(); ++i)
+        Require(sl::DispatchSlayerSkillEffect(events[i], sink),
+            "Sword Inertia effect events dispatch");
+    for (std::size_t i = 0; i < events.size(); ++i)
+        Require(sl::DispatchSlayerSkillDamage(events[i], 100.0, 50, 100,
+            damageSink), "Sword Inertia damage events dispatch");
+    Require(sink.swordProjectiles == 3,
+        "Sword Inertia bridge binds all three projectiles");
+    Require(damageSink.directHits == 3 &&
+        std::fabs(damageSink.lastDamage - 129.8214285714286) < 0.000001,
+        "Sword Inertia bridge applies recovered formula");
     events.clear();
 
     context.level = 150;
@@ -110,9 +176,26 @@ int main()
     Require(runtime.Cast(sl::kBatFlock, context, events),
         "Bat Flock cast accepted");
     Require(events.size() == 3, "Bat Flock emits two hits and DOT application");
+    for (std::size_t i = 0; i < events.size(); ++i)
+        Require(sl::DispatchSlayerSkillEffect(events[i], sink),
+            "Bat Flock effect events dispatch");
+    for (std::size_t i = 0; i < events.size(); ++i)
+        Require(sl::DispatchSlayerSkillDamage(events[i], 100.0, 100, 380,
+            damageSink), "Bat Flock damage events dispatch");
+    Require(sink.batHits == 2 && sink.batDots == 1 &&
+        sink.lastDotDuration == 5000,
+        "Bat Flock bridge binds hits and five-second DOT");
     events.clear();
     runtime.Tick(context.actorId, 5000, events);
     Require(events.size() == 4, "Bat Flock emits four one-second DOT ticks");
+    for (std::size_t i = 0; i < events.size(); ++i)
+        Require(sl::DispatchSlayerSkillEffect(events[i], sink),
+            "Bat Flock DOT events dispatch");
+    for (std::size_t i = 0; i < events.size(); ++i)
+        Require(sl::DispatchSlayerSkillDamage(events[i], 100.0, 100, 380,
+            damageSink), "Bat Flock DOT damage events dispatch");
+    Require(sink.batTicks == 4, "Bat Flock bridge binds all DOT ticks");
+    Require(damageSink.dotTicks == 4, "Bat Flock damage bridge binds all DOT ticks");
     events.clear();
 
     context.level = 160;
@@ -127,6 +210,18 @@ int main()
     Require(runtime.Cast(sl::kPierceAttack, context, events),
         "Pierce Attack cast accepted with prerequisite");
     Require(events.size() == 6, "Pierce Attack emits dash, four hits and return");
+    for (std::size_t i = 0; i < events.size(); ++i)
+        Require(sl::DispatchSlayerSkillEffect(events[i], sink),
+            "Pierce Attack effect events dispatch");
+    for (std::size_t i = 0; i < events.size(); ++i)
+        Require(sl::DispatchSlayerSkillDamage(events[i], 100.0, 300, 1100,
+            damageSink), "Pierce Attack damage events dispatch");
+    Require(sink.pierceDashes == 1 && sink.pierceHits == 4 &&
+        sink.pierceReturns == 1,
+        "Pierce Attack bridge binds dash, hits and return");
+    Require(damageSink.directHits == 9 &&
+        std::fabs(damageSink.lastDamage - 196.7857142857143) < 0.000001,
+        "Pierce Attack bridge applies recovered formula");
     events.clear();
     context.targetHasBatFlock = false;
     Require(runtime.Cast(sl::kPierceAttack, context, events),
@@ -144,6 +239,9 @@ int main()
         "Detection cast accepted without a selected target");
     Require(events.size() == 1 && events[0].type == sl::kDetectionMarkEvent,
         "Detection emits one minimap mark event");
+    Require(sl::DispatchSlayerSkillEffect(events[0], sink),
+        "Detection mark event dispatch");
+    Require(sink.detections == 1, "Detection bridge binds minimap mark");
     events.clear();
     context.nowMs = 1000;
     Require(!runtime.Cast(sl::kDetection, context, events),
