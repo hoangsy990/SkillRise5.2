@@ -1,6 +1,6 @@
 # Slayer S21 overlay for RISE 5.2
 
-This directory is an isolated, engine-independent port contract for the four
+This directory is an isolated, engine-independent port contract for the five
 Slayer skills documented by Webzen. It follows the integration discipline used
 by `snapshot/GrowLancer`: keep the native 5.2 source and the S21 reference
 checkout unchanged until the class, packet and persistence ABI are verified.
@@ -19,15 +19,17 @@ Reference material:
 | 293 | Bat Flock | level 150, STR 100, DEX 380, Darkness | level 270 | two direct hits, then five-second DOT |
 | 294 | Pierce Attack | STR 300, DEX 1100, Darkness | Bat Flock + 10 mastery points | dash, two hits (four when target has Bat Flock), return |
 | 295 | Detection | level 350, DEX 800, no element, 5 s cooldown | level 400; bead table says level 300 | minimap mark event; mark lifetime remains unresolved |
+| 297 | Demolish | level 400, DEX 1450, no element, 60 s cooldown | level 400 | self-buff; 60 s ignore-defense aura |
 
 `SlayerSkillContractData.h` is the single source of truth for IDs,
-requirements, mastery IDs 779/780/781/782/794, the known Pierce bead mapping
+requirements, mastery IDs 779/780/781/782/787/788/794, the known Pierce bead mapping
 (item group 12/index 479), and the recovered regular-damage formulas.
 `SlayerClassContractData.h` records the guide's class-creation metadata
 (Slayer/Royal Slayer/Master Slayer, Lorencia, and starting attributes) for the
 later native class migration.
 `SlayerSkillRuntime` turns an authorized cast into deterministic client/server
-events without assuming a renderer, packet opcode, or class array layout.
+events without assuming a renderer, packet opcode, or class array layout. The
+runtime now covers all five rows, including Demolish's self-buff lifetime.
 `SlayerSkillEffectBridge` and `SlayerSkillDamageBridge` expose narrow sinks for
 binding those events to the native effect pool and authoritative damage path;
 they do not duplicate the engine's collision, PvP/PvM, resistance or rounding
@@ -36,7 +38,7 @@ Every cast carries a monotonic `castId`; the included Sword Inertia ledger can
 therefore enforce one accepted contact per target without suppressing later
 casts or different targets.
 
-The merge-ready data fragments under `data/` carry the four exact `SkillList`
+The merge-ready data fragments under `data/` carry the five exact `SkillList`
 rows, the verified Pierce `SkillRequire` row, the five third-master rows, and
 the two `SkillSettings` keys. They are wrapped as fragments on purpose: merge
 them into the production files only after checking the owner's current file
@@ -60,7 +62,7 @@ The repository contains no proprietary S21 binaries, skill textures, models or
 sound files. Hash-guarded conversion/staging scripts under
 `snapshot/tools/slayer` consume the owner's local S21 reference data. Native
 5.2 dispatch, effect-pool binding, converted player actions and rendering are
-implemented for all four skills. The branch remains `IN_PROCESS` until the
+implemented for all five skills. The branch remains `IN_PROCESS` until the
 matching GameServer build is deployed for authoritative damage/network QA and
 the owner accepts the visual result.
 
@@ -73,8 +75,9 @@ working-directory launcher is `tools\slayer\start_runtime_qa_client.ps1`.
 The launcher verifies the base `Data\RISE` merge (including `Config\Mix.bmd`),
 private `Player/RISE` roots, login keys, and rejects a leaked GrowLancer overlay.
 The isolated runtime can select the saved `admin4` credential, enter character
-`Slayer`, and execute 292→293→294→295 as one sequence. F8 can trigger the same
-sequence manually. The September 14 capture recorded all four visible effects
+`Slayer`, and execute 292→293→294→295→297 as one sequence. F8 can trigger the same
+sequence manually. The September 14 capture recorded all five native effect
+graphs
 and the expected Bat Flock ticks in one responsive in-game process. The local
 receive probe validates the client pipeline only; server authority and owner
 acceptance remain separate gates.

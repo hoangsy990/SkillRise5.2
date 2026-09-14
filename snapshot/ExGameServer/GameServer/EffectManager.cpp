@@ -480,6 +480,23 @@ void CEffectManager::Load(char* path)
 		slayerBatFlock.Value[n] = -1;
 	}
 	this->SetInfo(slayerBatFlock);
+	// Demolish is the S21 Slayer ignore-defense party buff.  Keep its
+	// BuffEffectManager slot private to the isolated overlay and do not alter
+	// the shared Effect.txt table.
+	EFFECT_INFO slayerDemolish = {};
+	slayerDemolish.Index = EFFECT_SLAYER_DEMOLISH;
+	slayerDemolish.Group = EFFECT_SLAYER_DEMOLISH;
+	slayerDemolish.ItemIndex = -1;
+	strcpy_s(slayerDemolish.Name, "Slayer Demolish");
+	slayerDemolish.Save = 0;
+	slayerDemolish.Type = 0;
+	slayerDemolish.Flag = 0;
+	slayerDemolish.Count = -1;
+	for (int n = 0; n < 4; ++n)
+	{
+		slayerDemolish.Value[n] = -1;
+	}
+	this->SetInfo(slayerDemolish);
 	delete lpMemScript;
 }
 void CEffectManager::SetInfo(EFFECT_INFO info)
@@ -1025,6 +1042,9 @@ void CEffectManager::InsertEffect(LPOBJ lpObj, CEffect* lpEffect)
 		lpObj->EffectOption.AddItemDropRate += lpEffect->m_value[0];
 		break;
 	case EFFECT_GREATER_IGNORE_DEFENSE_RATE:
+		lpObj->EffectOption.AddIgnoreDefenseRate += lpEffect->m_value[0];
+		break;
+	case EFFECT_SLAYER_DEMOLISH:
 		lpObj->EffectOption.AddIgnoreDefenseRate += lpEffect->m_value[0];
 		break;
 	case EFFECT_FITNESS:
@@ -1573,6 +1593,9 @@ void CEffectManager::RemoveEffect(LPOBJ lpObj, CEffect* lpEffect)
 		lpObj->EffectOption.AddItemDropRate -= lpEffect->m_value[0];
 		break;
 	case EFFECT_GREATER_IGNORE_DEFENSE_RATE:
+		lpObj->EffectOption.AddIgnoreDefenseRate -= lpEffect->m_value[0];
+		break;
+	case EFFECT_SLAYER_DEMOLISH:
 		lpObj->EffectOption.AddIgnoreDefenseRate -= lpEffect->m_value[0];
 		break;
 	case EFFECT_FITNESS:

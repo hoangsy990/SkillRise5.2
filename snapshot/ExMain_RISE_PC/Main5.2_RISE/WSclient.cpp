@@ -3836,6 +3836,7 @@ BOOL ReceiveMagic(BYTE* ReceiveBuffer, int Size, BOOL bEncrypted)
 	case 293: // Bat Flock
 	case 294: // Pierce Attack
 	case 295: // Detection
+	case 297: // Demolish
 		rise::slayer::DispatchNativeReceive(sc, tc,
 			static_cast<int>(MagicNumber));
 		break;

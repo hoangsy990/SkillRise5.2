@@ -1,3 +1,16 @@
+# Engine-Port S21 — Slayer feature branch
+
+This branch layers the five-skill Slayer S21 port onto the source-only RISE
+5.2 snapshot below. The implementation and evidence are under `slayer/` and
+`snapshot/`; it is intentionally `IN_PROCESS` until class-9 persistence,
+authoritative server deployment, and owner ingame acceptance are completed.
+
+The imported rows are Sword Inertia (292), Bat Flock (293), Pierce Attack
+(294), Detection (295), and Demolish (297). The native mapping is pinned to
+the captured S21 `main.exe` dump; screenshots are not used as code evidence.
+
+---
+
 # Engine-Port S21 — Grow Lancer backup
 
 Source-only recovery snapshot dated 2026-09-13. Status: **IN_PROCESS**.

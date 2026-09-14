@@ -18,7 +18,8 @@ enum EventType
     kPierceDashEvent,
     kPierceHitEvent,
     kPierceReturnEvent,
-    kDetectionMarkEvent
+    kDetectionMarkEvent,
+    kDemolishBuffEvent
 };
 
 struct RuntimeEvent
