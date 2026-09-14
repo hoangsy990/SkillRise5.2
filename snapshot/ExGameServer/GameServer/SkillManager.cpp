@@ -33,8 +33,7 @@
 #include "Path.h"
 #include "GameServer.h"
 #include "../../Addon/DualColor.h"
-#include "RISE/GrowLancerServerCatalog.h"
-#include "../../Shared/LegacySkillClassColumns.h"
+#include "RISE/SlayerServerCatalog.h"
 CSkillManager gSkillManager;
 CSkillManager::CSkillManager()
 {
@@ -85,8 +84,7 @@ void CSkillManager::Load(char* path)
 			info.RequireLeadership = lpMemScript->GetAsNumber();
 			info.RequireKillCount = lpMemScript->GetAsNumber();
 			info.RequireGuildStatus = lpMemScript->GetAsNumber();
-			rise::growlancer::ReadLegacySkillClassColumns(info.RequireClass,
-				[lpMemScript]() { return lpMemScript->GetAsNumber(); });
+			for (int n = 0; n < MAX_CLASS; n++) { info.RequireClass[n] = lpMemScript->GetAsNumber(); }
 			this->m_SkillInfo.insert(std::pair<int, SKILL_INFO>(info.Index, info));
 		}
 	}
@@ -95,7 +93,7 @@ void CSkillManager::Load(char* path)
 		ErrorMessageBox(lpMemScript->GetLastError());
 	}
 	delete lpMemScript;
-	rise::growlancer::ApplyServerCatalog(this->m_SkillInfo);
+	rise::slayerserver::ApplyServerCatalog(this->m_SkillInfo);
 }
 bool CSkillManager::GetInfo(int index, SKILL_INFO* lpInfo)
 {
@@ -290,20 +288,6 @@ int CSkillManager::GetSkillNumber(int index, int level)
 		return SKILL_FITNESS;
 	case GET_ITEM(15, 36):
 		return SKILL_GREATER_DEFENSE_SUCCESS_RATE;
-	case GET_ITEM(12, 271):
-		return SKILL_SPIN_STEP;
-	case GET_ITEM(12, 272):
-		return SKILL_OBSIDIAN;
-	case GET_ITEM(12, 273):
-		return SKILL_MAGIC_PIN;
-	case GET_ITEM(12, 274):
-		return SKILL_HARSH_STRIKE;
-	case GET_ITEM(12, 275):
-		return SKILL_SHINING_PEAK;
-	case GET_ITEM(12, 276):
-		return SKILL_WRATH;
-	case GET_ITEM(12, 277):
-		return SKILL_BRECHE;
 	}
 	return -1;
 }
@@ -392,12 +376,6 @@ bool CSkillManager::CheckSkillFrustrum(int* SkillFrustrumX, int* SkillFrustrumY,
 }
 bool CSkillManager::CheckSkillDelay(LPOBJ lpObj, int index)
 {
-	// Receiver paths check delay before class authorization. Rejected GL casts
-	// must not consume a cooldown or take the RF continuation bypass.
-	if (!rise::growlancer::HasProvenServerRuntimeHandler(index))
-	{
-		return false;
-	}
 	SKILL_INFO SkillInfo;
 	if (this->GetInfo(index, &SkillInfo) == 0)
 	{
@@ -1037,12 +1015,6 @@ void CSkillManager::SkillByteConvert(BYTE* lpMsg, CSkill* lpSkill)
 }
 void CSkillManager::UseAttackSkill(int aIndex, int bIndex, CSkill* lpSkill)
 {
-	// Reject unimplemented GL dispatch before combo/Nova/resource side effects.
-	if (!rise::growlancer::HasProvenServerRuntimeHandler(lpSkill->m_index) ||
-		!rise::growlancer::HasProvenServerRuntimeHandler(lpSkill->m_skill))
-	{
-		return;
-	}
 	LPOBJ lpObj = &gObj[aIndex];
 	if (lpObj->Type == OBJECT_USER && this->CheckSkillRequireWeapon(lpObj, lpSkill->m_skill) == 0)
 	{
@@ -1088,12 +1060,6 @@ void CSkillManager::UseAttackSkill(int aIndex, int bIndex, CSkill* lpSkill)
 }
 void CSkillManager::UseDurationSkillAttack(int aIndex, int bIndex, CSkill* lpSkill, BYTE x, BYTE y, BYTE dir, BYTE angle)
 {
-	// In particular, do not broadcast a duration cast for a rejected GL skill.
-	if (!rise::growlancer::HasProvenServerRuntimeHandler(lpSkill->m_index) ||
-		!rise::growlancer::HasProvenServerRuntimeHandler(lpSkill->m_skill))
-	{
-		return;
-	}
 	LPOBJ lpObj = &gObj[aIndex];
 	if (lpObj->Type == OBJECT_USER && this->CheckSkillRequireWeapon(lpObj, lpSkill->m_skill) == 0)
 	{
@@ -1137,12 +1103,6 @@ void CSkillManager::UseDurationSkillAttack(int aIndex, int bIndex, CSkill* lpSki
 }
 bool CSkillManager::RunningSkill(int aIndex, int bIndex, CSkill* lpSkill, BYTE x, BYTE y, BYTE angle, bool combo)
 {
-	// Direct callers must also fail before changing shield/invisibility state.
-	if (!rise::growlancer::HasProvenServerRuntimeHandler(lpSkill->m_index) ||
-		!rise::growlancer::HasProvenServerRuntimeHandler(lpSkill->m_skill))
-	{
-		return false;
-	}
 	LPOBJ lpObj = &gObj[aIndex];
 	lpObj->ShieldDamageReductionTime = 0;
 	gEffectManager.DelEffect(lpObj, EFFECT_INVISIBILITY);
@@ -1318,21 +1278,14 @@ bool CSkillManager::RunningSkill(int aIndex, int bIndex, CSkill* lpSkill, BYTE x
 		return this->SkillCastleSiege(aIndex, bIndex, lpSkill, combo);
 	case SKILL_PHOENIX_SHOT:
 		return this->SkillPhoenixShot(aIndex, bIndex, lpSkill, combo);
-	case SKILL_SPIN_STEP:
-	case SKILL_CIRCLE_SHIELD:
-	case SKILL_OBSIDIAN:
-	case SKILL_MAGIC_PIN:
-	case SKILL_CLASH:
-	case SKILL_HARSH_STRIKE:
-	case SKILL_SHINING_PEAK:
-	case SKILL_WRATH:
-	case SKILL_BRECHE:
-	case SKILL_SPIN_STEP_EXPLOSION:
-	case SKILL_MAGIC_PIN_EXPLOSION:
-		// Fail closed: never fall through to BasicSkillAttack. The accepted
-		// S21 data proves IDs/costs/formulas, but its authoritative target,
-		// multi-hit, buff and recipient-class handlers are not yet available.
-		return false;
+	case rise::slayerserver::kSwordInertia:
+		return this->SkillSlayerSwordInertia(aIndex, bIndex, lpSkill);
+	case rise::slayerserver::kBatFlock:
+		return this->SkillSlayerBatFlock(aIndex, bIndex, lpSkill);
+	case rise::slayerserver::kPierceAttack:
+		return this->SkillSlayerPierceAttack(aIndex, bIndex, lpSkill);
+	case rise::slayerserver::kDetection:
+		return this->SkillSlayerDetection(aIndex, bIndex, lpSkill);
 	case SKILL_BLOOD_STORM:
 		return this->SkillBloodStorm(aIndex, bIndex, lpSkill, x, y, combo);
 	case SKILL_CURE:
@@ -4912,4 +4865,60 @@ void CSkillManager::GCSkillListSend(LPOBJ lpObj, BYTE type)
 	pMsg.header.size = size;
 	memcpy(send, &pMsg, sizeof(pMsg));
 	DataSend(lpObj->Index, send, size);
+}
+
+bool CSkillManager::SkillSlayerSwordInertia(int aIndex, int bIndex,
+	CSkill* lpSkill)
+{
+	// S21 creates three boomerang visuals but accepts a target only once per
+	// cast.  Keep damage server-authoritative and broadcast one native packet.
+	if (this->BasicSkillAttack(aIndex, bIndex, lpSkill, false) == 0)
+		return false;
+	this->GCSkillAttackSend(&gObj[aIndex], lpSkill->m_index, bIndex, 1);
+	return true;
+}
+
+bool CSkillManager::SkillSlayerBatFlock(int aIndex, int bIndex,
+	CSkill* lpSkill)
+{
+	// Initial two strikes.  The five-second DOT is represented by the skill
+	// effect entry and processed by the existing EffectManager tick path.
+	if (this->BasicSkillAttack(aIndex, bIndex, lpSkill, false) == 0)
+		return false;
+	this->BasicSkillAttack(aIndex, bIndex, lpSkill, false);
+	LPOBJ target = &gObj[bIndex];
+	const int slayerRate = ((gObj[aIndex].Strength + gObj[aIndex].AddStrength) / 8) +
+		((gObj[aIndex].Dexterity + gObj[aIndex].AddDexterity) / 28) + 120;
+	const int dotDamage = max(1, (lpSkill->m_DamageMin * slayerRate) / 200);
+	gEffectManager.AddEffect(target, 0, EFFECT_SLAYER_BAT_FLOCK,
+		5, aIndex, 1, SET_NUMBERHW(dotDamage), SET_NUMBERLW(dotDamage));
+	this->GCSkillAttackSend(&gObj[aIndex], lpSkill->m_index, bIndex, 1);
+	return true;
+}
+
+bool CSkillManager::SkillSlayerPierceAttack(int aIndex, int bIndex,
+	CSkill* lpSkill)
+{
+	// Native S21 performs two strikes, upgraded to four while the target carries
+	// the Bat Flock mark.
+	if (this->BasicSkillAttack(aIndex, bIndex, lpSkill, false) == 0)
+		return false;
+	this->BasicSkillAttack(aIndex, bIndex, lpSkill, false);
+	if (gEffectManager.CheckEffect(&gObj[bIndex], EFFECT_SLAYER_BAT_FLOCK) != 0)
+	{
+		this->BasicSkillAttack(aIndex, bIndex, lpSkill, false);
+		this->BasicSkillAttack(aIndex, bIndex, lpSkill, false);
+	}
+	this->GCSkillAttackSend(&gObj[aIndex], lpSkill->m_index, bIndex, 1);
+	return true;
+}
+
+bool CSkillManager::SkillSlayerDetection(int aIndex, int bIndex,
+	CSkill* lpSkill)
+{
+	if (OBJECT_RANGE(aIndex) == 0 || OBJECT_RANGE(bIndex) == 0 ||
+		bIndex != aIndex)
+		return false;
+	this->GCSkillAttackSend(&gObj[aIndex], lpSkill->m_index, aIndex, 1);
+	return true;
 }

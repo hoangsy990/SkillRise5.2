@@ -2,7 +2,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
-#include "RISE/GrowLancerResources.h"
+#ifdef RISE_SLAYER_PORT
+#include "RISE/Slayer/client/SlayerSkillResources.h"
+#endif
 #include "ZzzInfomation.h"
 #include "ZzzBMD.h"
 #include "ZzzObject.h"
@@ -285,7 +287,9 @@ void OpenSkillScript(char* FileName)
 			}
 		}
 		delete[] Buffer;
-		rise::growlancer::ApplySkillCatalog();
+#ifdef RISE_SLAYER_PORT
+		rise::slayer::ApplySkillCatalog();
+#endif
 	}
 	else
 	{

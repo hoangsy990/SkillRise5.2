@@ -1,6 +1,7 @@
 #include "stdafx.h"
-#include "RISE/GrowLancerRuntimeCapacity.h"
-#include "RISE/GrowLancerResources.h"
+#ifdef RISE_SLAYER_PORT
+#include "RISE/Slayer/client/SlayerSkillResources.h"
+#endif
 #include "UIControls.h"
 #include "ZzzOpenglUtil.h"
 #include "ZzzBMD.h"
@@ -113,16 +114,19 @@ void OpenModels(int Model, char* FileName, int i)
 
 void OpenPlayers()
 {
-	ModelsDump = new BMD[MAX_MODELS + 1024 + rise::growlancer::kDynamicModelCapacity];
+	#ifdef RISE_SLAYER_PORT
+	ModelsDump = new BMD[MAX_MODELS + 1024 + 44];
+	#else
+	ModelsDump = new BMD[MAX_MODELS + 1024];
+	#endif
 	Models = ModelsDump + (rand() % 1024);
-	ZeroMemory(Models, rise::growlancer::RuntimeModelLimit(MAX_MODELS) * sizeof(BMD));
+	#ifdef RISE_SLAYER_PORT
+	ZeroMemory(Models, (MAX_MODELS + 44) * sizeof(BMD));
+	#else
+	ZeroMemory(Models, MAX_MODELS * sizeof(BMD));
+	#endif
 
-#if defined(GROW_LANCER_ISOLATED_TEST)
-	gLoadData.AccessModel(MODEL_PLAYER,
-		"Data\\Player\\", "player");
-#else
 	gLoadData.AccessModel(MODEL_PLAYER, "Data\\Player\\", "Player");
-#endif
 
 	if (Models[MODEL_PLAYER].NumMeshs > 0)
 	{
@@ -4924,7 +4928,9 @@ void OpenSounds()
 	LoadWaveFile(SOUND_RAGESKILL_DRAGONKICK_ATTACK, "Data\\Sound\\Ragefighter\\Rage_Dragonkick_Att.wav");
 	LoadWaveFile(SOUND_RAGESKILL_BUFF_1, "Data\\Sound\\Ragefighter\\Rage_Buff_1.wav");
 	LoadWaveFile(SOUND_RAGESKILL_BUFF_2, "Data\\Sound\\Ragefighter\\Rage_Buff_2.wav");
-	rise::growlancer::LoadSounds();
+#ifdef RISE_SLAYER_PORT
+	rise::slayer::LoadSounds();
+#endif
 }
 
 extern int	g_iRenderTextType;

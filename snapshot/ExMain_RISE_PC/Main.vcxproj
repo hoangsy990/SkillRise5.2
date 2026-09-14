@@ -104,21 +104,21 @@
     <LibraryPath>$(LibraryPath)</LibraryPath>
     <ExecutablePath>$(VC_ExecutablePath_x86);$(CommonExecutablePath)</ExecutablePath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(SlayerIsolatedBuild)'=='true' and '$(SlayerRuntimeQA)'!='true'">
+    <OutDir>$(MSBuildProjectDirectory)\Tests\SlayerBuild\Bin\</OutDir>
+    <IntDir>$(MSBuildProjectDirectory)\Tests\SlayerBuild\Obj\$(Configuration)\$(Platform)\</IntDir>
+    <TargetName>Engine-Slayer S21</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(SlayerIsolatedBuild)'=='true' and '$(SlayerRuntimeQA)'=='true'">
+    <OutDir>$(MSBuildProjectDirectory)\Tests\SlayerBuild\RuntimeQA\Bin\</OutDir>
+    <IntDir>$(MSBuildProjectDirectory)\Tests\SlayerBuild\RuntimeQA\Obj\$(Configuration)\$(Platform)\</IntDir>
+    <TargetName>Engine-Slayer S21</TargetName>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Global Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <LibraryPath>$(LibraryPath)</LibraryPath>
     <ExecutablePath>$(VC_ExecutablePath_x86);$(CommonExecutablePath)</ExecutablePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(GrowLancerIsolatedBuild)'=='true' and '$(GrowLancerRuntimeQA)'!='true'">
-    <OutDir>$(MSBuildProjectDirectory)\Tests\GrowLancerBuild\Bin\</OutDir>
-    <IntDir>$(MSBuildProjectDirectory)\Tests\GrowLancerBuild\Obj\$(Configuration)\$(Platform)\</IntDir>
-    <TargetName>Engine-Port S21</TargetName>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(GrowLancerIsolatedBuild)'=='true' and '$(GrowLancerRuntimeQA)'=='true'">
-    <OutDir>$(MSBuildProjectDirectory)\Tests\GrowLancerBuild\RuntimeQA\Bin\</OutDir>
-    <IntDir>$(MSBuildProjectDirectory)\Tests\GrowLancerBuild\RuntimeQA\Obj\$(Configuration)\$(Platform)\</IntDir>
-    <TargetName>Engine-Port S21</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Global Debug|Win32'">
     <Midl>
@@ -182,7 +182,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <OutputFile>.\tmp/Global_Debug/Main.bsc</OutputFile>
     </Bscmake>
-    <PostBuildEvent Condition="'$(GrowLancerIsolatedBuild)'!='true'">
+    <PostBuildEvent>
       <Command>if not exist "$(ProjectDir)..\..\Client\Data\Interface\Pegasus\Pegasus_Main" mkdir "$(ProjectDir)..\..\Client\Data\Interface\Pegasus\Pegasus_Main"
 if not exist "$(ProjectDir)..\..\Client\Data\Interface\HUD" mkdir "$(ProjectDir)..\..\Client\Data\Interface\HUD"
 if not exist "$(ProjectDir)..\..\Client\Data\Logo" mkdir "$(ProjectDir)..\..\Client\Data\Logo"
@@ -215,7 +215,8 @@ xcopy /Y /D /E /I "$(ProjectDir)Assets\EquipmentItems\Data\*.*" "$(ProjectDir)..
       <Optimization>MaxSpeed</Optimization>
       <AdditionalIncludeDirectories>$(SolutionDir)Main5.2_RISE\;$(SolutionDir)..\Dependencies\include;$(SolutionDir)..\Dependencies\include\asio;$(SolutionDir)..\Dependencies\include\cryptopp820</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_FOREIGN_NDEBUG;_LANGUAGE_FOREIGN;_LANGUAGE_ENG;LDS_PATCH_GLOBAL_100520;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PreprocessorDefinitions Condition="'$(GrowLancerRuntimeQA)'=='true'">RISE_GROW_LANCER_RUNTIME_QA;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(SlayerIsolatedBuild)'=='true'">RISE_SLAYER_PORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(SlayerRuntimeQA)'=='true'">RISE_SLAYER_RUNTIME_QA;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <RuntimeTypeInfo>
       </RuntimeTypeInfo>
@@ -263,7 +264,7 @@ xcopy /Y /D /E /I "$(ProjectDir)Assets\EquipmentItems\Data\*.*" "$(ProjectDir)..
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <OutputFile>.\tmp/Global_Release/Main.bsc</OutputFile>
     </Bscmake>
-    <PostBuildEvent Condition="'$(GrowLancerIsolatedBuild)'!='true'">
+    <PostBuildEvent>
       <Command>if not exist "$(ProjectDir)..\..\Client\Data\Interface\Pegasus\Pegasus_Main" mkdir "$(ProjectDir)..\..\Client\Data\Interface\Pegasus\Pegasus_Main"
 if not exist "$(ProjectDir)..\..\Client\Data\Interface\HUD" mkdir "$(ProjectDir)..\..\Client\Data\Interface\HUD"
 if not exist "$(ProjectDir)..\..\Client\Data\Logo" mkdir "$(ProjectDir)..\..\Client\Data\Logo"
@@ -748,12 +749,14 @@ xcopy /Y /D /E /I "$(ProjectDir)Assets\EquipmentItems\Data\*.*" "$(ProjectDir)..
     <ClCompile Include="Main5.2_RISE\_GlobalFunctions.cpp" />
     <ClCompile Include="Main5.2_RISE\Util.cpp" />
     <ClCompile Include="Main5.2_RISE\RISE\StructSendGs.cpp" />
-    <ClCompile Include="Main5.2_RISE\RISE\GrowLancerResources.cpp" />
-    <ClCompile Include="Main5.2_RISE\RISE\GrowLancerEffectRuntime.cpp" />
-    <ClCompile Include="Main5.2_RISE\RISE\GrowLancerRuntimeQA.cpp" />
     <ClCompile Include="Main5.2_RISE\RISE\SystemPKSend.cpp" />
     <ClCompile Include="Main5.2_RISE\RISE\WideData.cpp" />
     <ClCompile Include="Main5.2_RISE\RISE\ZzzToolKit.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\SlayerRuntimeQA.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\Slayer\client\SlayerNativeRuntime.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\Slayer\client\SlayerSkillRuntime.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\Slayer\client\SlayerSkillEffectBridge.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\Slayer\client\SlayerSkillResources.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main5.2_RISE\MuCrypto\MuCrypto.h" />
@@ -1192,33 +1195,20 @@ xcopy /Y /D /E /I "$(ProjectDir)Assets\EquipmentItems\Data\*.*" "$(ProjectDir)..
     <ClInclude Include="Main5.2_RISE\_types.h" />
     <ClInclude Include="Main5.2_RISE\Util.h" />
     <ClInclude Include="Main5.2_RISE\RISE\StructSendGs.h" />
-    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerResources.h" />
-    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerEffectRuntime.h" />
-    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerRuntimeQA.h" />
-    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerRuntimeCapacity.h" />
-    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerTick.h" />
-    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerFireParticle.h" />
-    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerSpriteAdapter.h" />
-    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerTerrainAdapter.h" />
-    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerBrecheGround.h" />
-    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerSpinCross.h" />
-    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerSpinFlare.h" />
-    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerSpinParticle.h" />
-    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerSpinGround.h" />
-    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerCircleShiny.h" />
-    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerCircleJoint.h" />
-    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerPinJoint.h" />
-    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerXsuper.h" />
-    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerFlareParticle.h" />
-    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerShiningMesh.h" />
-    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerHarshWind.h" />
-    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerMagicPinTick.h" />
-    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerWrathParticle.h" />
-    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerObsidianTick.h" />
-    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerClashTick.h" />
     <ClInclude Include="Main5.2_RISE\RISE\SystemPKSend.h" />
     <ClInclude Include="Main5.2_RISE\RISE\WideData.h" />
     <ClInclude Include="Main5.2_RISE\RISE\ZzzToolKit.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\SlayerRuntimeQA.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\SlayerQaCredentials.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\Slayer\client\SlayerNativeRuntime.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\Slayer\client\SlayerSkillRuntime.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\Slayer\client\SlayerSkillEffectBridge.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\Slayer\client\SlayerSkillResources.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\Slayer\shared\SlayerSkillContractData.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\Slayer\shared\SlayerClassContractData.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\Slayer\server\SlayerPacketContract.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\Slayer\server\SlayerServerCatalog.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\Slayer\server\SlayerSkillDamageBridge.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitattributes" />
@@ -1239,9 +1229,9 @@ xcopy /Y /D /E /I "$(ProjectDir)Assets\EquipmentItems\Data\*.*" "$(ProjectDir)..
     <Library Include="..\Util\include\RenderFont.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <Target Name="RequireGrowLancerIsolatedBuild" BeforeTargets="PrepareForBuild">
-    <Error Condition="'$(GrowLancerIsolatedBuild)'!='true'"
-           Text="This Grow Lancer worktree requires /p:GrowLancerIsolatedBuild=true; refusing the legacy external OutDir." />
+  <Target Name="RequireSlayerIsolatedBuild" BeforeTargets="PrepareForBuild">
+    <Error Condition="'$(SlayerRuntimeQA)'=='true' and '$(SlayerIsolatedBuild)'!='true'"
+           Text="This Slayer QA build requires /p:SlayerIsolatedBuild=true; refusing the legacy external OutDir." />
   </Target>
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

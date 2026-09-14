@@ -1,4 +1,7 @@
 #include "Stdafx.h"
+#ifdef RISE_SLAYER_RUNTIME_QA
+#include "SlayerRuntimeQA.h"
+#endif
 #include "ZzzToolKit.h"
 #include "UIControls.h"
 #include "StructSendGs.h"
@@ -18,7 +21,6 @@
 #include <LoginWin.h>
 #include <UIMng.h>
 #include "Camera3D.h"
-#include "RISE/GrowLancerRuntimeCapacity.h"
 using namespace MUHelper;
 
 CGToolKit* CGToolKit::Instance()
@@ -126,11 +128,11 @@ void CGToolKit::WindowRename()
 	dwLastUpdate = dwNow;
 
 	char WindowName[500];
-	#ifdef RISE_GROW_LANCER_RUNTIME_QA
-	const char* baseWindowName = "Engine-Port S21";
-	#else
+#ifdef RISE_SLAYER_PORT
+	const char* baseWindowName = "Engine-Slayer S21";
+#else
 	const char* baseWindowName = gProtect->m_MainInfo.WindowName;
-	#endif
+#endif
 
 	if (SceneFlag == 5)
 	{
@@ -156,6 +158,14 @@ void CGToolKit::WindowRename()
 	}
 
 	SetWindowText(g_hWnd, WindowName);
+#ifdef RISE_SLAYER_RUNTIME_QA
+	static bool slayerTitleLogged = false;
+	if (!slayerTitleLogged)
+	{
+		slayerTitleLogged = true;
+		rise::slayerqa::AppendRuntimeQALog("window-title applied=Engine-Slayer-S21");
+	}
+#endif
 }
 
 POINT_F CGToolKit::iPos(int index)
@@ -657,8 +667,12 @@ int CGToolKit::BmdRISE()
 {
 	std::string filePath = "\x44\x61\x74\x61\x2F\x50\x6C\x61\x79\x65\x72\x2F\x50\x6C\x61\x79\x65\x72\x2E\x62\x6D\x64";
 	const unsigned int legacyPlayerCRC = 0x7D56FCEB;
-	const bool validPlayer = CheckFileCRC(filePath, legacyPlayerCRC)
-		|| CheckFileCRC(filePath, rise::growlancer::kMergedPlayerBmdCrc32);
+	bool validPlayer = CheckFileCRC(filePath, legacyPlayerCRC);
+#ifdef RISE_SLAYER_PORT
+	// SHA-256 64D6DA47...D6BFDB4, generated only by the hash-pinned
+	// four-action Slayer merger. Keep the production CRC policy unchanged.
+	validPlayer = validPlayer || CheckFileCRC(filePath, 0x3D93E336u);
+#endif
 
 	if (!validPlayer)
 	{

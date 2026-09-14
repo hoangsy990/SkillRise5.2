@@ -126,17 +126,6 @@ enum eSkillNumber
 	SKILL_GREATER_DEFENSE_SUCCESS_RATE = 268,
 	SKILL_CHARGE = 269,
 	SKILL_PHOENIX_SHOT = 270,
-	SKILL_SPIN_STEP = 271,
-	SKILL_CIRCLE_SHIELD = 272,
-	SKILL_OBSIDIAN = 273,
-	SKILL_MAGIC_PIN = 274,
-	SKILL_CLASH = 275,
-	SKILL_HARSH_STRIKE = 276,
-	SKILL_SHINING_PEAK = 277,
-	SKILL_WRATH = 278,
-	SKILL_BRECHE = 279,
-	SKILL_SPIN_STEP_EXPLOSION = 280,
-	SKILL_MAGIC_PIN_EXPLOSION = 281,
 	SKILL_BLOOD_STORM = 344,
 	SKILL_CURE = 425,
 	SKILL_PARTY_HEAL = 426,
@@ -424,6 +413,10 @@ public:
 	bool SkillEarthPrison(int aIndex,int bIndex,CSkill* lpSkill,bool combo);
 	bool SkillIronDefense(int aIndex,int bIndex,CSkill* lpSkill);
 	bool SkillBloodHowling(int aIndex,int bIndex,CSkill* lpSkill);
+	bool SkillSlayerSwordInertia(int aIndex,int bIndex,CSkill* lpSkill);
+	bool SkillSlayerBatFlock(int aIndex,int bIndex,CSkill* lpSkill);
+	bool SkillSlayerPierceAttack(int aIndex,int bIndex,CSkill* lpSkill);
+	bool SkillSlayerDetection(int aIndex,int bIndex,CSkill* lpSkill);
 	void ApplyVongTronLuaEffect(LPOBJ lpObj,LPOBJ lpTarget,CSkill* lpSkill,int damage);
 	void ApplyMeteoriteEffect(LPOBJ lpObj,LPOBJ lpTarget,CSkill* lpSkill,int damage);
 	void ApplyIceStormEffect(LPOBJ lpObj,LPOBJ lpTarget,CSkill* lpSkill,int damage);

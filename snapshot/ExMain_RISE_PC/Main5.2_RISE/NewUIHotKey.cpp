@@ -23,7 +23,9 @@
 #include "RISE/WideData.h"
 #include "RISE/TrayModeNew.h"
 #include "RISE/ZzzToolKit.h"
-#include "RISE/GrowLancerRuntimeQA.h"
+#ifdef RISE_SLAYER_RUNTIME_QA
+#include "RISE/SlayerRuntimeQA.h"
+#endif
 #include <GameShop/MsgBoxIGSCommon.h>
 using namespace SEASON3B;
 
@@ -127,6 +129,12 @@ bool SEASON3B::CNewUIHotKey::UpdateMouseEvent()
 
 bool SEASON3B::CNewUIHotKey::UpdateKeyEvent()
 {
+#ifdef RISE_SLAYER_RUNTIME_QA
+	if (rise::slayerqa::HandleRuntimeQAHotKey())
+	{
+		return false;
+	}
+#endif
 	if(SEASON3B::IsPress(VK_ESCAPE) == true)
 	{
 		if(g_MessageBox->IsEmpty())
@@ -161,13 +169,6 @@ bool SEASON3B::CNewUIHotKey::UpdateKeyEvent()
 	{
 		return false;
 	}
-
-#ifdef RISE_GROW_LANCER_RUNTIME_QA
-	if (rise::growlancer::HandleRuntimeQAHotKey())
-	{
-		return false;
-	}
-#endif
 
 	if (SEASON3B::IsPress(VK_F5))
 	{

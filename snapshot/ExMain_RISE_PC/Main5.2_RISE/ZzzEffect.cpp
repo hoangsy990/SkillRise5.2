@@ -2,9 +2,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
-#include "RISE/GrowLancerEffectRuntime.h"
-#include "RISE/GrowLancerTick.h"
-#include "RISE/GrowLancerResources.h"
 #include "ZzzOpenglUtil.h"
 #include "ZzzBMD.h"
 #include "ZzzInfomation.h"
@@ -27,6 +24,9 @@
 #include "SkillEffectMgr.h"]
 #include "CharacterManager.h"
 #include "SkillManager.h"
+#ifdef RISE_SLAYER_PORT
+#include "RISE/Slayer/client/SlayerSkillResources.h"
+#endif
 #define TEST_SKILL_CHEM_XOAY 1
 PARTICLE  Particles[MAX_PARTICLES];
 #ifdef DEVIAS_XMAS_EVENT
@@ -502,22 +502,18 @@ void CreateEffect(int Type, vec3_t Position, vec3_t Angle, vec3_t Light, int Sub
             VectorCopy(Angle, o->Angle);
             VectorCopy(Position, o->Position);
             Vector(0.f, 0.f, 0.f, o->Direction);
-            if (rise::growlancer::IsEffectType(Type))
+#ifdef RISE_SLAYER_PORT
+            if (rise::slayer::IsEffectType(Type))
             {
-                const bool resourceReady =
-                    (rise::growlancer::IsBrecheEffectType(Type)
-                        ? rise::growlancer::EnsureBrecheBitmaps()
-                        : rise::growlancer::EnsureBitmaps()) &&
-                    (!rise::growlancer::IsVisibleModel(Type) ||
-                     rise::growlancer::EnsureModel(Type));
-                if (!resourceReady)
+                if (!rise::slayer::EnsureModel(Type))
                 {
                     o->Live = false;
                     return;
                 }
-                rise::growlancer::InitializeEffect(*o);
+                rise::slayer::InitializeEffect(*o);
                 return;
             }
+#endif
             float Matrix[3][4];
             vec3_t p1, p2;
             switch (Type)
@@ -6923,52 +6919,16 @@ void MoveCharacter(CHARACTER* c, OBJECT* o);
 
 void MoveEffect(OBJECT* o, int iIndex)
 {
-    if (rise::growlancer::IsBrecheEffectType(o->Type) ||
-        rise::growlancer::IsSpinFlareEffect(*o) ||
-        rise::growlancer::IsSpinGroundEffect(*o) ||
-        rise::growlancer::IsCircleShinyEffect(*o) ||
-        o->Type == rise::growlancer::kCircleShieldModel ||
-        o->Type == rise::growlancer::kCircleShieldControllerModel ||
-        o->Type == rise::growlancer::kShiningPeakBodyModel ||
-        o->Type == rise::growlancer::kShiningPeakPinModel ||
-        o->Type == rise::growlancer::kShiningPeakSpinModel ||
-        o->Type == rise::growlancer::kShiningPeakShockwaveModel ||
-        o->Type == rise::growlancer::kHarshWind01Model ||
-        o->Type == rise::growlancer::kHarshStrikeControllerModel ||
-        o->Type == rise::growlancer::kMagicPin01Model ||
-        o->Type == rise::growlancer::kMagicPinControllerModel ||
-        o->Type == rise::growlancer::kMagicPin03Model ||
-        o->Type == rise::growlancer::kMagicPinRootModel ||
-        o->Type == rise::growlancer::kMagicPinAuxModel ||
-        o->Type == rise::growlancer::kHarshWind02Model ||
-        o->Type == rise::growlancer::kSpinCrossModel ||
-        o->Type == rise::growlancer::kWrathBrokenBitmap ||
-        o->Type == rise::growlancer::kWrathControllerModel ||
-        o->Type == rise::growlancer::kObsidianRotatingModel ||
-        o->Type == rise::growlancer::kObsidianAuraModel ||
-        (o->SubType == 0 &&
-            (o->Type == rise::growlancer::kClashControllerModel ||
-             o->Type == rise::growlancer::kClashFrontModel ||
-             o->Type == rise::growlancer::kClashRearModel)) ||
-        (o->Type == rise::growlancer::kWrathAuraModel &&
-            (o->SubType == 0 || o->SubType == 1)) ||
-        o->Type == rise::growlancer::kWrathTravelModel)
+#ifdef RISE_SLAYER_PORT
+    if (rise::slayer::IsEffectType(o->Type))
     {
-        // S21 0x1579AB4 multiplies stored light by the updated alpha once
-        // per integer tick. Fractional alpha plus per-render multiplication
-        // changes the envelope with FPS, so retain a local tick remainder.
-        rise::growlancer::AdvanceWholeTicks(*o, FPS_ANIMATION_FACTOR,
-            rise::growlancer::UpdateEffect, EffectDestructor);
-        return;
-    }
-    if (rise::growlancer::IsEffectType(o->Type))
-    {
-        rise::growlancer::UpdateEffect(*o, FPS_ANIMATION_FACTOR);
+        rise::slayer::UpdateEffect(*o, FPS_ANIMATION_FACTOR);
         o->LifeTime -= FPS_ANIMATION_FACTOR;
         if (o->LifeTime <= 0.0f)
             EffectDestructor(o);
         return;
     }
+#endif
     vec3_t Light;
     vec3_t Angle;
     int Index;
@@ -18433,12 +18393,14 @@ void RenderEffects(bool bRenderBlendMesh)
 
             if (o->Visible)
             {
-                if (rise::growlancer::IsEffectType(o->Type))
+#ifdef RISE_SLAYER_PORT
+                if (rise::slayer::IsEffectType(o->Type))
                 {
                     if (!bRenderBlendMesh)
-                        rise::growlancer::RenderEffect(*o);
+                        rise::slayer::RenderEffect(*o);
                     continue;
                 }
+#endif
                 if (bRenderBlendMesh)
                 {
                     if (o->BlendMesh == -1 || o->BlendMesh < -2) continue;

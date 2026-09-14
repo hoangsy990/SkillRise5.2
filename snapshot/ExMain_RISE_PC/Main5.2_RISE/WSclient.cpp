@@ -1,6 +1,10 @@
 #include "stdafx.h"
-#include "RISE/GrowLancerEffectRuntime.h"
-#include "RISE/GrowLancerResources.h"
+#ifdef RISE_SLAYER_PORT
+#include "RISE/Slayer/client/SlayerNativeRuntime.h"
+#endif
+#ifdef RISE_SLAYER_RUNTIME_QA
+#include "RISE/SlayerRuntimeQA.h"
+#endif
 #include "UIManager.h"
 #include "GuildCache.h"
 #include "ZzzBMD.h"
@@ -3777,8 +3781,6 @@ BOOL ReceiveMonsterSkill(const BYTE* ReceiveBuffer, int Size, BOOL bEncrypted)
 
 BOOL ReceiveMagic(BYTE* ReceiveBuffer, int Size, BOOL bEncrypted)
 {
-	if (!ReceiveBuffer || Size < static_cast<int>(sizeof(PRECEIVE_MAGIC)))
-		return FALSE;
 	LPPRECEIVE_MAGIC Data = (LPPRECEIVE_MAGIC)ReceiveBuffer;
 	int SourceKey = ((int)(Data->SourceKeyH) << 8) + Data->SourceKeyL;
 	int TargetKey = ((int)(Data->TargetKeyH) << 8) + Data->TargetKeyL;
@@ -3806,7 +3808,7 @@ BOOL ReceiveMagic(BYTE* ReceiveBuffer, int Size, BOOL bEncrypted)
 
 	int Index = FindCharacterIndex(SourceKey);
 	int TargetIndex = FindCharacterIndex(TargetKey);
-	if (Index == MAX_CHARACTERS_CLIENT || TargetIndex == MAX_CHARACTERS_CLIENT)
+	if (TargetIndex == MAX_CHARACTERS_CLIENT)
 		return (TRUE);
 
 	AttackPlayer = Index;
@@ -3829,52 +3831,15 @@ BOOL ReceiveMagic(BYTE* ReceiveBuffer, int Size, BOOL bEncrypted)
 	}
 	switch (MagicNumber)
 	{
-	case rise::growlancer::kSpinStepSkill:
-		rise::growlancer::CreateSpinStepRoot(*so, static_cast<short>(TargetIndex));
-		sc->AttackTime = 1;
+#ifdef RISE_SLAYER_PORT
+	case 292: // Sword Inertia
+	case 293: // Bat Flock
+	case 294: // Pierce Attack
+	case 295: // Detection
+		rise::slayer::DispatchNativeReceive(sc, tc,
+			static_cast<int>(MagicNumber));
 		break;
-	case rise::growlancer::kSpinStepExplosionSkill:
-		rise::growlancer::CreateSpinStepHit(*to);
-		break;
-	case rise::growlancer::kCircleShieldSkill:
-		rise::growlancer::CreateCircleShieldRoot(*so);
-		sc->AttackTime = 1;
-		break;
-	case rise::growlancer::kObsidianSkill:
-		rise::growlancer::CreateObsidianRoots(*so);
-		sc->AttackTime = 1;
-		break;
-	case rise::growlancer::kMagicPinSkill:
-		rise::growlancer::CreateMagicPinRoots(*so);
-		sc->AttackTime = 1;
-		break;
-	case rise::growlancer::kMagicPinExplosionSkill:
-		rise::growlancer::CreateMagicPinHit(*to);
-		break;
-	case rise::growlancer::kHarshStrikeSkill:
-		rise::growlancer::CreateHarshStrikeRoot(*so);
-		sc->AttackTime = 1;
-		break;
-	case rise::growlancer::kShiningPeakSkill:
-		rise::growlancer::CreateShiningPeakRoots(*so);
-		sc->AttackTime = 1;
-		break;
-	case rise::growlancer::kWrathSkill:
-		rise::growlancer::CreateWrathRoot(*so);
-		sc->AttackTime = 1;
-		break;
-	case rise::growlancer::kBrecheSkill:
-		rise::growlancer::CreateBrecheAction(*so);
-		// S21 receive12CB854 owns the root on the resolved secondary actor.
-		// Native packet19 fields/target mask above remain native; no S21 copy.
-		rise::growlancer::CreateBrecheHit(*to);
-		sc->AttackTime = 1;
-		break;
-	case rise::growlancer::kClashSkill:
-		rise::growlancer::CreateClashRoot(*so,
-			static_cast<short>(TargetIndex));
-		sc->AttackTime = 1;
-		break;
+#endif
 	case AT_SKILL_MONSTER_SUMMON:
 		SetPlayerAttack(sc);
 		break;

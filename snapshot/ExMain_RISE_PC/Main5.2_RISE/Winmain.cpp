@@ -1,5 +1,7 @@
 #include "stdafx.h"
-#include "RISE/GrowLancerRuntimeCapacity.h"
+#ifdef RISE_SLAYER_RUNTIME_QA
+#include "RISE/SlayerRuntimeQA.h"
+#endif
 #include <shellapi.h>
 
 #define WIN32_LEAN_AND_MEAN
@@ -178,7 +180,7 @@ GLvoid KillGLWindow(GLvoid)
 #ifdef jdk_shader_local330
 		if (Models != NULL)
 		{
-			for (int i = MODEL_LOGO; i < rise::growlancer::RuntimeModelLimit(MAX_MODELS); ++i)
+			for (int i = MODEL_LOGO; i < MAX_MODELS; ++i)
 			{
 				Models[i].ReleaseGpuMeshes();
 			}
@@ -214,19 +216,17 @@ GLvoid KillGLWindow(GLvoid)
 
 BOOL GetFileNameOfFilePath(char* lpszFile, char* lpszPath)
 {
-#ifdef RISE_GROW_LANCER_RUNTIME_QA
-    // All QA callers request the current executable, whose chosen name has
-    // spaces. Do not parse GetCommandLine as an unquoted filename token.
-    char modulePath[MAX_PATH];
-    const DWORD length = GetModuleFileNameA(NULL, modulePath, MAX_PATH);
-    if (length == 0 || length >= MAX_PATH)
-    {
-        lpszFile[0] = '\0';
-        return FALSE;
-    }
-    const char* separator = strrchr(modulePath, '\\');
-    strcpy(lpszFile, separator ? separator + 1 : modulePath);
-    return TRUE;
+#ifdef RISE_SLAYER_PORT
+	char modulePath[MAX_PATH];
+	const DWORD length = GetModuleFileNameA(NULL, modulePath, MAX_PATH);
+	if (length == 0 || length >= MAX_PATH)
+	{
+		lpszFile[0] = '\0';
+		return FALSE;
+	}
+	const char* separator = strrchr(modulePath, '\\');
+	strcpy(lpszFile, separator ? separator + 1 : modulePath);
+	return TRUE;
 #else
 	int iFind = (int)'\\';
 	char* lpFound = lpszPath;
@@ -416,7 +416,7 @@ void DestroyWindow()
 	gMapManager.DeleteObjects();
 
 	// Object.
-	for (int i = MODEL_LOGO; i < rise::growlancer::RuntimeModelLimit(MAX_MODELS); i++)
+	for (int i = MODEL_LOGO; i < MAX_MODELS; i++)
 	{
 		Models[i].Release();
 	}
@@ -867,11 +867,11 @@ HWND StartWindow(HINSTANCE hInstance, int nCmdShow)
 {
 	char* WindowNameMU = new char[MAX_LEN_CHAR];
 	memset(WindowNameMU, 0, sizeof(char) * MAX_LEN_CHAR);
-	#ifdef RISE_GROW_LANCER_RUNTIME_QA
-	strcpy_s(WindowNameMU, MAX_LEN_CHAR, "Engine-Port S21");
-	#else
+#ifdef RISE_SLAYER_PORT
+	strcpy_s(WindowNameMU, MAX_LEN_CHAR, "Engine-Slayer S21");
+#else
 	memcpy(WindowNameMU, gProtect->m_MainInfo.WindowName, sizeof(char) * MAX_LEN_CHAR);
-	#endif
+#endif
 	WNDCLASS wndClass;
 	HWND hWnd;
 
@@ -1489,14 +1489,6 @@ static void SendCrashReportChunks()
 
 void CrashReportOnConnectServer()
 {
-#ifdef RISE_GROW_LANCER_RUNTIME_QA
-	// The production ConnectServer used for isolated visual QA does not own
-	// the optional F4:E0/E1 crash-upload protocol and responds by closing the
-	// client. Preserve crash dumps locally and never transmit them in QA builds.
-	ResetCrashReportUpload();
-	WriteCrashBreadcrumb("Crash upload: disabled for Grow Lancer runtime QA");
-	return;
-#endif
 	ResetCrashReportUpload();
 	char directory[MAX_PATH] = { 0 };
 	if (!GetCrashDumpDirectory(directory, _countof(directory)))
@@ -1756,6 +1748,23 @@ extern "C"
 
 int __stdcall APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine, int nCmdShow)
 {
+#ifdef RISE_SLAYER_PORT
+	// Keep Mix.bmd and every relative Data path bound to the isolated package,
+	// even when a launcher or QA runner starts the process from another cwd.
+	wchar_t slayerModule[MAX_PATH] = {};
+	const DWORD slayerLength = GetModuleFileNameW(NULL, slayerModule, MAX_PATH);
+	if (!slayerLength || slayerLength >= MAX_PATH)
+		return 1;
+	wchar_t* slayerSlash = wcsrchr(slayerModule, L'\\');
+	if (!slayerSlash)
+		return 1;
+	*slayerSlash = L'\0';
+	if (!SetCurrentDirectoryW(slayerModule))
+		return 1;
+#ifdef RISE_SLAYER_RUNTIME_QA
+	rise::slayerqa::AppendRuntimeQALog("startup isolated-cwd-ready title=Engine-Slayer-S21");
+#endif
+#endif
 	/*if (strstr(szCmdLine, "RISELaunch") == NULL)
 	{
 		ShellExecute(NULL, "open", "Launcher.exe", NULL, NULL, SW_SHOWNORMAL);
