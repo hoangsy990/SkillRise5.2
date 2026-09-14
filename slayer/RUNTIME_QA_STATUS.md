@@ -18,6 +18,8 @@ Rebuild checkpoint after the DB-class compatibility adapter:
 - Client Release/QA build: PASS (x86; `SlayerRuntimeQA=true`, `SlayerIsolatedBuild=true`)
 - QA binary SHA-256: `A6DEB27851FA224DF1D70AB66DBD791BBE5040E6268049619DD0A936C485E6C7`
 - GameServer compatibility build: PASS (isolated `GameServer-Slayer-S21.exe`)
+- GameServer binary: `D:\RISE-CrossPlatform\Source_PC_Slayer\ExGameServer\Tests\SlayerBuild\Bin6\GameServer-Slayer-S21.exe`
+- GameServer SHA-256: `7935E102D1993FD0722B45558760A75A22C778A45F07DAE17937EE829B15C3CA` (includes the DBClass Slayer skill bootstrap)
 - Static class marker check: PASS (`DBClass` 144/145/146 -> legacy slot 1; packet byte `0xE0` -> client marker 7)
 - Fresh remote startup: reached `winhook complete`, completed all WinMain checkpoints, auto-selected server/login/Slayer, and completed the five-skill sequence in PID 3624.
 
