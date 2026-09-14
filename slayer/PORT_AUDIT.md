@@ -7,7 +7,7 @@ This audit separates recovered facts from work that still requires the actual
 |---|---|---|
 | Five skill IDs and names | `shared/SlayerSkillContractData.h` IDs 292..295,297 | PASS (static) |
 | Slayer class profile | `shared/SlayerClassContractData.h` records class 9, creation/evolution names, Lorencia start and guide starting attributes | PASS (static; native class arrays open) |
-| Config stats and resource costs | `C:\Users\DELL\Desktop\Skills\\SkillList.xml` mirrored in shared/server records | PASS (static) |
+| Config stats and resource costs | S21 `D:\GameServer S21\Data\Skills\SkillList.xml` (SHA-256 `3E238C786ECAB3445A0DB4756FE3D2A3923FBC0594506BB9C3FF206020A7E0A0`) mirrored in shared/server records | PASS (static) |
 | Merge-ready data rows | `data/SkillList.slayers.fragment.xml`, `SkillRequire.slayers.fragment.xml`, `SkillTreeData_3rd.slayers.fragment.xml`, `SkillSettings.slayers.fragment.ini` | PASS (static) |
 | Public descriptions and Darkness/no-element attributes | Webzen guide 100; represented as flags/elements and event order | PASS (static) |
 | Config/guide level differences | Separate `skillListLevel`, `guideLevel`, and bead override; no silent substitution | PASS (static) |
@@ -18,7 +18,7 @@ This audit separates recovered facts from work that still requires the actual
 | Demolish self-buff | Self event, 60,000 ms recast/lifetime and ignore-defense formula boundary | PASS (focused; native class gate open) |
 | Mastery tree | IDs 779, 780, 781, 782, 787, 788 and 794 mirrored from `SkillTreeData_3rd.xml` | PASS (static) |
 | Skill bead/item mapping | Only known mapping group 12/index 479 is enabled from `SkillRequire.xml` | PARTIAL |
-| Damage formulas | `RegularSkillCalc.lua` formulas mirrored as double-precision helper and damage sink | PASS (focused) |
+| Damage formulas | S21 `RegularSkillCalc.lua` (SHA-256 `78A1502C187D9EA248E682CCAA62EA8C4510D7119192510D1A966A18E6992E4D`) mirrored as double-precision helper and damage sink | PASS (focused) |
 | Class column | S21 class number 9 recorded; runtime also rejects non-Slayer/disabled-class contexts; legacy 5.2 `MAX_CLASS == 7` blocks writes | PARTIAL (ABI) |
 | Class migration checklist | `CLASS_MIGRATION.md` maps server/client/config/protocol/persistence/asset boundaries | PASS (audit) |
 | Packet send/receive | Existing targeted/self envelope `0x19` is used for all five rows; no dedicated skill opcode is guessed | PARTIAL |
