@@ -66,9 +66,12 @@ inline void ApplyServerCatalog(std::map<int, SKILL_INFO>& catalog)
         int level;
     } seeds[] =
     {
-        { kSwordInertia, "Sword Inertia", 10, 5, 0, 6, 0, 0, 6, 30 },
+        // S21 SkillList.xml has no server status effect for Sword Inertia;
+        // keep Effect zero instead of reusing the Darkness element number.
+        { kSwordInertia, "Sword Inertia", 10, 5, 0, 6, 0, 0, 0, 30 },
         { kBatFlock, "Bat Flock", 90, 20, 5, 6, 0, 0, kBatFlockEffect, 150 },
-        { kPierceAttack, "Pierce Attack", 170, 30, 10, 6, 0, 0, 6, 160 },
+        // Pierce Attack is also a damage row with no BuffEffectManager slot.
+        { kPierceAttack, "Pierce Attack", 170, 30, 10, 6, 0, 0, 0, 160 },
         { kDetection, "Detection", 0, 100, 100, 0, 5000, 1, 0, 350 },
         { kDemolish, "Demolish", 0, 50, 0, 0, 60000, 1, kDemolishEffect, 400 }
     };
