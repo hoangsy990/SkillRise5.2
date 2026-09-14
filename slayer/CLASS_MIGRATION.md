@@ -6,6 +6,14 @@ Slayer's verified S21 class number is 9. The following boundaries must be
 migrated together before setting the runtime `slayerClassEnabled` gate in a
 production build.
 
+The S21 `CalcCharacter.lua` declares `CLASS_SLAYER = 9`. The local 5.2 SQL
+reference contains a `DefaultClassType` row for DB class `144` with the
+Slayer-shaped starting attributes `STR=28, DEX=30, VIT=15, ENE=10` and
+`Life/MaxLife=130`, `Mana/MaxMana=10`. Under the existing DB convention this
+gives the stage candidates `144/145/146`; the shared contract records these
+values for validation only. The SQL row is not applied automatically because
+the authoritative owner database and protocol round-trip still need proof.
+
 | Boundary | Native 5.2 areas to migrate | Required proof |
 |---|---|---|
 | Server class constants/defaults | `ExGameServer/GameServer/DefaultClassInfo.h/.cpp`, `CustomStartItem*.h/.cpp` | `MAX_CLASS` capacity, class 9 defaults, creation/evolution names and start map |

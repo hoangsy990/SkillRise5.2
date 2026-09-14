@@ -92,6 +92,12 @@ int main()
         sl::kSlayerClassProfile.createdByDefault &&
         sl::IsSlayerClass(sl::kS21ClassSlayer),
         "Slayer class profile is present");
+    Require(sl::IsSlayerDbClass(sl::kS21SlayerDbClass) &&
+        sl::IsSlayerDbClass(sl::kS21RoyalSlayerDbClass) &&
+        sl::IsSlayerDbClass(sl::kS21MasterSlayerDbClass) &&
+        !sl::IsSlayerDbClass(128) &&
+        sl::SlayerBaseClassFromDb(sl::kS21SlayerDbClass) == sl::kS21ClassSlayer,
+        "Slayer DB class 144/145/146 mapping is explicit");
     Require(sl::kSlayerClassProfile.startingStrength == 28 &&
         sl::kSlayerClassProfile.startingDexterity == 30 &&
         sl::kSlayerClassProfile.startingVitality == 15 &&
