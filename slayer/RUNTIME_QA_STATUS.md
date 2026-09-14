@@ -9,7 +9,7 @@ Last automated check: 2026-09-15 (Asia/Bangkok)
 - Build: PASS (Release x86; Slayer runtime QA and effect bridge linked)
 - Contract/data tests: PASS
 - Runtime process: PASS (`Engine-Slayer S21 - Slayer`, PID 28816, responsive after the sequence)
-- Runtime capture: PASS (isolated loading/login/world window captured; no modal error)
+- Runtime window: PASS (target process responsive in world; no modal error)
 
 Rebuild checkpoint after the DB-class compatibility adapter:
 
@@ -22,6 +22,10 @@ Rebuild checkpoint after the DB-class compatibility adapter:
 The rebuilt QA binary also records startup checkpoints through `WinHook`, key
 loading, OpenGL/UI setup, character initialization, and main-loop entry. This
 separates a slow loading window from a real startup failure.
+
+The runtime stage uses the merged player model `player.bmd` SHA-256
+`64D6DA47F051ECAEC237FC8A0E454BB491DD5E200450D37978792A524D6BFDB4`; the
+base 5.2 model is not used for this Slayer action check.
 
 The captured in-game session recorded accepted native receive/effect chains for all five skills:
 
