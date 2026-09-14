@@ -5,7 +5,8 @@ namespace rise { namespace slayer {
 namespace {
 
 static RuntimeEvent MakeEvent(EventType type, int skillId, int actorId,
-    int targetId, int ordinal, unsigned durationMs = 0)
+    int targetId, int ordinal, unsigned durationMs = 0,
+    std::uint64_t castId = 0)
 {
     RuntimeEvent event = {};
     event.type = type;
@@ -14,6 +15,7 @@ static RuntimeEvent MakeEvent(EventType type, int skillId, int actorId,
     event.targetId = targetId;
     event.ordinal = ordinal;
     event.durationMs = durationMs;
+    event.castId = castId;
     return event;
 }
 
@@ -46,6 +48,8 @@ bool SlayerSkillRuntime::Cast(int skillId, const CastContext& context,
         (!context.hasBatFlock || context.batFlockMasteryPoints < 10))
         return false;
 
+    const std::uint64_t castId = m_nextCastId++;
+
     switch (skillId)
     {
     case kSwordInertia:
@@ -53,32 +57,33 @@ bool SlayerSkillRuntime::Cast(int skillId, const CastContext& context,
         // adapter; each target can receive damage only once.
         for (int i = 0; i < SwordInertiaProjectileCount(); ++i)
             events.push_back(MakeEvent(kSwordProjectileEvent, skillId,
-                context.actorId, context.targetId, i));
+                context.actorId, context.targetId, i, 0, castId));
         break;
     case kBatFlock:
         for (int i = 0; i < BatFlockHitCount(); ++i)
             events.push_back(MakeEvent(kBatFlockHitEvent, skillId,
-                context.actorId, context.targetId, i));
+                context.actorId, context.targetId, i, 0, castId));
         events.push_back(MakeEvent(kBatFlockDotAppliedEvent, skillId,
             context.actorId, context.targetId, 0,
-            static_cast<unsigned>(BatFlockDotDurationSeconds() * 1000)));
+            static_cast<unsigned>(BatFlockDotDurationSeconds() * 1000), castId));
         m_dots[ActorTargetKey(context.actorId, context.targetId)] =
             DotState{context.actorId, context.targetId,
                 context.nowMs + 1000,
-                context.nowMs + static_cast<std::uint64_t>(BatFlockDotDurationSeconds()) * 1000};
+                context.nowMs + static_cast<std::uint64_t>(BatFlockDotDurationSeconds()) * 1000,
+                castId};
         break;
     case kPierceAttack:
         events.push_back(MakeEvent(kPierceDashEvent, skillId,
-            context.actorId, context.targetId, 0));
+            context.actorId, context.targetId, 0, 0, castId));
         for (int i = 0; i < PierceAttackHitCount(context.targetHasBatFlock); ++i)
             events.push_back(MakeEvent(kPierceHitEvent, skillId,
-                context.actorId, context.targetId, i));
+                context.actorId, context.targetId, i, 0, castId));
         events.push_back(MakeEvent(kPierceReturnEvent, skillId,
-            context.actorId, context.targetId, 0));
+            context.actorId, context.targetId, 0, 0, castId));
         break;
     case kDetection:
         events.push_back(MakeEvent(kDetectionMarkEvent, skillId,
-            context.actorId, -1, 0));
+            context.actorId, -1, 0, 0, castId));
         m_cooldowns[cooldownKey] = context.nowMs + DetectionCooldownMs();
         break;
     default:
@@ -102,7 +107,7 @@ void SlayerSkillRuntime::Tick(int actorId, std::uint64_t nowMs,
         while (dot.nextTickMs <= nowMs && dot.nextTickMs < dot.expiresMs)
         {
             events.push_back(MakeEvent(kBatFlockDotTickEvent, kBatFlock,
-                dot.actorId, dot.targetId, 0));
+                dot.actorId, dot.targetId, 0, 0, dot.castId));
             dot.nextTickMs += 1000;
         }
         if (nowMs >= dot.expiresMs)

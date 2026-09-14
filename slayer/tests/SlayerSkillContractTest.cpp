@@ -163,6 +163,18 @@ int main()
     Require(runtime.Cast(sl::kSwordInertia, context, events),
         "Sword Inertia cast accepted");
     Require(events.size() == 3, "Sword Inertia emits three projectile events");
+    Require(events[0].castId != 0 && events[1].castId == events[0].castId &&
+        events[2].castId == events[0].castId,
+        "Sword Inertia projectiles share one cast identity");
+    sl::SwordInertiaHitLedger hitLedger;
+    Require(hitLedger.TryAccept(events[0].castId, context.actorId, 200),
+        "Sword Inertia accepts first contact");
+    Require(!hitLedger.TryAccept(events[0].castId, context.actorId, 200),
+        "Sword Inertia rejects duplicate target contact in one cast");
+    Require(hitLedger.TryAccept(events[0].castId, context.actorId, 201),
+        "Sword Inertia accepts a second target in one cast");
+    Require(hitLedger.TryAccept(events[0].castId + 1, context.actorId, 200),
+        "Sword Inertia accepts the target on a later cast");
     RecordingEffectSink sink;
     RecordingDamageSink damageSink;
     for (std::size_t i = 0; i < events.size(); ++i)

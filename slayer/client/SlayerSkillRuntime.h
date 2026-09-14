@@ -29,6 +29,7 @@ struct RuntimeEvent
     int targetId;
     int ordinal;
     unsigned durationMs;
+    std::uint64_t castId;
 };
 
 struct CastContext
@@ -61,6 +62,8 @@ struct CastContext
 class SlayerSkillRuntime
 {
 public:
+    SlayerSkillRuntime() : m_nextCastId(1) {}
+
     bool Cast(int skillId, const CastContext& context,
         std::vector<RuntimeEvent>& events);
     void Tick(int actorId, std::uint64_t nowMs, std::vector<RuntimeEvent>& events);
@@ -73,10 +76,12 @@ private:
         int targetId;
         std::uint64_t nextTickMs;
         std::uint64_t expiresMs;
+        std::uint64_t castId;
     };
 
     typedef std::pair<int, int> ActorSkillKey;
     typedef std::pair<int, int> ActorTargetKey;
+    std::uint64_t m_nextCastId;
     std::map<ActorSkillKey, std::uint64_t> m_cooldowns;
     std::map<ActorTargetKey, DotState> m_dots;
 };

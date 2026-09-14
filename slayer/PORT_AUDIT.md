@@ -10,7 +10,7 @@ This audit separates recovered facts from work that still requires the actual
 | Merge-ready data rows | `data/SkillList.slayers.fragment.xml`, `SkillRequire.slayers.fragment.xml`, `SkillTreeData_3rd.slayers.fragment.xml`, `SkillSettings.slayers.fragment.ini` | PASS (static) |
 | Public descriptions and Darkness/no-element attributes | Webzen guide 100; represented as flags/elements and event order | PASS (static) |
 | Config/guide level differences | Separate `skillListLevel`, `guideLevel`, and bead override; no silent substitution | PASS (static) |
-| Sword Inertia three swords / one hit | Three events plus effect/damage sinks; collision consumer must keep a per-cast target ledger | PARTIAL |
+| Sword Inertia three swords / one hit | Three cast-tagged events, effect/damage sinks and a per-cast target ledger helper | PASS (focused; native collision binding open) |
 | Bat Flock two hits and DOT | Two hit events, five-second duration, four one-second tick events | PASS (focused) |
 | Pierce prerequisite and bonus | Bat Flock + ten mastery gate; target debuff controls four-hit branch | PASS (focused) |
 | Detection minimap mark and cooldown | Self event and 5,000 ms cooldown; authoritative mark duration intentionally unset | PARTIAL |

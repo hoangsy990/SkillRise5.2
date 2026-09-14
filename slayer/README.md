@@ -29,6 +29,9 @@ events without assuming a renderer, packet opcode, or class array layout.
 binding those events to the native effect pool and authoritative damage path;
 they do not duplicate the engine's collision, PvP/PvM, resistance or rounding
 logic.
+Every cast carries a monotonic `castId`; the included Sword Inertia ledger can
+therefore enforce one accepted contact per target without suppressing later
+casts or different targets.
 
 The merge-ready data fragments under `data/` carry the four exact `SkillList`
 rows, the verified Pierce `SkillRequire` row, the five third-master rows, and
