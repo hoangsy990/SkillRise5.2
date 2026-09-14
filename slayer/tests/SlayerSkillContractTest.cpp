@@ -143,6 +143,10 @@ int main()
         "Detection mark duration is not invented");
     Require(!sl::HasNativeClassSlot(7),
         "legacy 5.2 class capacity rejects Slayer slot");
+    Require(sl::HasNativeClassSlot(10) && sl::HasNativeClassSlot(11),
+        "Slayer class 9 fits only after ten class slots are allocated");
+    Require(sl::HasReservedClassSlot(8),
+        "reserved slot 7 remains distinct from Slayer class 9");
     Require(!sl::CanInstallClassColumn(10, false, true),
         "class column cannot install before persistence migration");
     Require(sl::CanInstallClassColumn(10, true, true),

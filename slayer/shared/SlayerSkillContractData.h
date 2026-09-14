@@ -299,12 +299,18 @@ inline bool HasAuthoritativeDetectionDuration()
     return false;
 }
 
-// 5.2 has no class-9 array slot.  Callers must reject activation until the
+// 5.2 has no class-9 array slot. Callers must reject activation until the
 // class migration explicitly raises capacity and maps persistence/network
 // class bytes; this prevents an out-of-bounds RequireClass write.
 inline bool HasNativeClassSlot(int maxClass)
 {
-    return kRise52ReservedClassSlot >= 0 && kRise52ReservedClassSlot < maxClass;
+    return kS21ClassSlayer >= 0 && kS21ClassSlayer < maxClass;
+}
+
+inline bool HasReservedClassSlot(int maxClass)
+{
+    return kRise52ReservedClassSlot >= 0 &&
+        kRise52ReservedClassSlot < maxClass;
 }
 
 } }
