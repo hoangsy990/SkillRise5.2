@@ -1,6 +1,6 @@
 # Native Slayer class migration gate
 
-The four skill contracts are ready, but the supplied 5.2 repository is a
+The five skill contracts are ready, but the supplied 5.2 repository is a
 source-only Grow Lancer recovery snapshot and still owns seven class columns.
 Slayer's verified S21 class number is 9. The following boundaries must be
 migrated together before setting the runtime `slayerClassEnabled` gate in a
