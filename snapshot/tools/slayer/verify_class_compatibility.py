@@ -41,9 +41,9 @@ def main() -> int:
     require(catalog, "LegacyArrayClassForDbClass", "safe legacy array mapping")
     require(skill_manager, "IsSlayerDbClass(lpObj->DBClass)", "DB class skill gate")
     require(runtime, "IsSlayerClientClass(source->Class)", "client marker native gate")
-    require(object_manager_patch, "CharacterInfoSetSkill(LPOBJ lpObj)", "character skill bootstrap patch")
+    require(object_manager_patch, "In `CharacterInfoSetSkill`", "character skill bootstrap patch")
     require(object_manager_patch, "rise::slayerserver::kDemolish", "full Slayer skill bootstrap")
-    require(object_manager_patch, "A newly created Slayer receives its S21 starter skill", "starter skill bootstrap")
+    require(object_manager_patch, "give a new Slayer only", "starter skill bootstrap")
 
     print("PASS: Slayer class compatibility marker, DB identities, safe array mapping, and gates are wired")
     return 0
