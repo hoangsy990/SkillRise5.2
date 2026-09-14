@@ -141,6 +141,14 @@ int main()
         Require(!sl::HasEnabledRise52Opcode(skillId),
             "no guessed 5.2 opcode is enabled");
     }
+    Require(sl::FindPacketSeed(sl::kSwordInertia)->rise52EnvelopeOpcode == 0x19,
+        "Sword Inertia uses the recovered target envelope");
+    Require(sl::FindPacketSeed(sl::kBatFlock)->rise52EnvelopeOpcode == 0x19,
+        "Bat Flock uses the recovered target envelope");
+    Require(sl::FindPacketSeed(sl::kPierceAttack)->rise52EnvelopeOpcode == 0x1E,
+        "Pierce Attack uses the recovered duration envelope");
+    Require(sl::FindPacketSeed(sl::kDetection)->rise52EnvelopeOpcode == 0x19,
+        "Detection uses the recovered self envelope");
 
     sl::SlayerSkillRuntime runtime;
     sl::CastContext context;

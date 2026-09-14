@@ -22,17 +22,22 @@ struct PacketSeed
     int skillId;
     PacketFamily family;
     TargetSource source;
+    // Existing 5.2 envelope from wsclientinline.h/Protocol.cpp. This is not
+    // enough to enable a skill: the native handler still needs an explicit
+    // skill case and authoritative fan-out/validation.
+    int rise52EnvelopeOpcode;
     int rise52Opcode;
 };
 
-// Numeric opcodes are intentionally unresolved.  The 5.2 packet ABI must be
-// recovered from this checkout's send/receive pair before enabling casts.
+// The envelope opcodes are recovered from the 5.2 send/receive pair:
+// 0x19 = PMSG_SKILL_ATTACK, 0x1E = PMSG_DURATION_SKILL_ATTACK.  The
+// skill-specific opcode remains disabled (-1) until its handler is wired.
 static const PacketSeed kPacketSeeds[] =
 {
-    { kSwordInertia, kLegacyTargetPacket, kSelectedTarget, -1 },
-    { kBatFlock,     kLegacyTargetPacket, kSelectedTarget, -1 },
-    { kPierceAttack, kLegacyDashPacket,   kSelectedTarget, -1 },
-    { kDetection,    kLegacySelfPacket,   kLocalActor,     -1 }
+    { kSwordInertia, kLegacyTargetPacket, kSelectedTarget, 0x19, -1 },
+    { kBatFlock,     kLegacyTargetPacket, kSelectedTarget, 0x19, -1 },
+    { kPierceAttack, kLegacyDashPacket,   kSelectedTarget, 0x1E, -1 },
+    { kDetection,    kLegacySelfPacket,   kLocalActor,     0x19, -1 }
 };
 
 inline const PacketSeed* FindPacketSeed(int skillId)
