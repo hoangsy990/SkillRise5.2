@@ -23,7 +23,9 @@ The S21 source files are hash-pinned: `SkillList.xml` =
 `BuffEffectManager.xml` =
 `201452C00D9D5CE0DB83820EF48EC4317A6654864C0BE9176A6389694A4AD6B0`.
 The executable dump hash and disassembly addresses are recorded in
-`S21_DUMP_CHAIN.md`.
+`S21_DUMP_CHAIN.md`.  The provenance checker also reads the PE bytes directly
+at those addresses and decodes the conditional jump edges; it does not trust
+the checked-in disassembly text alone.
 
 ## Ported contract
 

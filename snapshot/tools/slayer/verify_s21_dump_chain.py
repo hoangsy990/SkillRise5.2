@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import hashlib
 import re
+import struct
 from pathlib import Path
 
 
@@ -31,6 +32,59 @@ ACTION_SWITCH = Path(
 EXPECTED_DUMP_SHA256 = (
     "6422CB4EBA9432130EB247B47723EA6FC0014F5100EA0C6E63DB8350F9275637"
 )
+
+# These byte prefixes are read directly from the hash-pinned PE below.  The
+# checked-in disassembly is useful for human review, but it must not be the
+# only source of truth: a hand-edited text disassembly could otherwise make a
+# false provenance claim.  The prefixes cover the five skill compares, the
+# handler prologues, and the action/sound pushes in the second switch.
+COMPARE_BYTES = {
+    292: (0x012CEF03, "81 bd b0 e9 ff ff 24 01 00 00 0f 84 fc 1f 00 00"),
+    293: (0x012CEF13, "81 bd b0 e9 ff ff 25 01 00 00 0f 84 7d 21 00 00"),
+    294: (0x012CEF23, "81 bd b0 e9 ff ff 26 01 00 00 0f 84 d6 22 00 00"),
+    # 295 has a range guard at 0x12CEE1E and the equality jump immediately
+    # after it.  Both are pinned below; the latter is the handler edge.
+    295: (0x012CEE1E, "81 bd b0 e9 ff ff 27 01 00 00 0f 87 0a 01 00 00"),
+    297: (0x012CEF58, "81 bd b0 e9 ff ff 29 01 00 00 0f 84 db 24 00 00"),
+}
+
+EQUALITY_BYTES = {
+    295: (0x012CEE2E, "81 bd b0 e9 ff ff 27 01 00 00 0f 84 5d 25 00 00"),
+}
+
+HANDLER_BYTES = {
+    292: (0x012D0F0F, "81 bd b4 e9 ff ff 18 08 00 00 0f 85 7c 01 00 00"),
+    293: (0x012D10A0, "8b 85 b8 e9 ff ff 3b 05 34 46 48 0a 0f 84 52 01 00"),
+    294: (0x012D1209, "81 bd b4 e9 ff ff 16 08 00 00 0f 85 7d 01 00 00"),
+    295: (0x012D139B, "8b 85 b8 e9 ff ff 3b 05 34 46 48 0a 0f 84 91 00 00"),
+    297: (0x012D1443, "8b 85 b8 e9 ff ff 3b 05 34 46 48 0a 0f 84 91 00 00"),
+}
+
+ACTION_BYTES = {
+    292: (0x010E68A3, "6a 01 6a 00 8b 45 d4 0f b7 40 14 50"),
+    293: (0x010E6B96, "6a 01 6a 00 8b 45 d4 0f b7 40 14 50"),
+    294: (0x010E6D1B, "6a 01 6a 00 8b 45 d4 0f b7 40 14 50"),
+    295: (0x010E6F2A, "6a 01 6a 00 8b 45 d4 0f b7 40 14 50"),
+    297: (0x010E6FF8, "6a 01 6a 00 8b 45 d4 0f b7 40 14 50"),
+}
+
+# Immediate pushes are stronger than checking the textual mnemonic: they
+# prove the action/sound values came from these exact bytes in the dump.
+ACTION_PUSH_BYTES = {
+    292: (0x010E68E1, "68 e0 00 00 00"),
+    293: (0x010E6BC7, "68 e3 00 00 00"),
+    294: (0x010E6D59, "68 e4 00 00 00"),
+    295: (0x010E6F68, "68 e8 00 00 00"),
+    297: (0x010E7036, "68 e9 00 00 00"),
+}
+
+SOUND_PUSH_BYTES = {
+    292: (0x010E68FD, "68 09 05 00 00"),
+    293: (0x010E6BE3, "68 0b 05 00 00"),
+    294: (0x010E6D75, "68 0d 05 00 00"),
+    295: (0x010E6F84, "68 11 05 00 00"),
+    297: (0x010E7052, "68 11 05 00 00"),
+}
 
 # skill: compare VA, handler VA, direct root values, handler action (when the
 # receive handler emits it), and sound.  292/294 set their player action in
@@ -68,6 +122,86 @@ def handler_window(text: str, handler: str, next_handler: str | None) -> str:
     return text[start:end if end >= 0 else len(text)]
 
 
+def rva_to_file_offset(data: bytes, rva: int) -> int:
+    """Map an RVA through the PE section table without external packages."""
+    if data[:2] != b"MZ":
+        raise AssertionError("dump is not an MZ image")
+    pe_offset = struct.unpack_from("<I", data, 0x3C)[0]
+    if data[pe_offset:pe_offset + 4] != b"PE\0\0":
+        raise AssertionError("dump has no PE signature")
+    number_of_sections = struct.unpack_from("<H", data, pe_offset + 6)[0]
+    optional_size = struct.unpack_from("<H", data, pe_offset + 20)[0]
+    section_table = pe_offset + 24 + optional_size
+    for index in range(number_of_sections):
+        section = section_table + index * 40
+        virtual_size, virtual_address, raw_size, raw_pointer = struct.unpack_from(
+            "<IIII", data, section + 8
+        )
+        span = max(virtual_size, raw_size)
+        if virtual_address <= rva < virtual_address + span:
+            delta = rva - virtual_address
+            if delta >= raw_size:
+                raise AssertionError(f"RVA 0x{rva:x} is not backed by file data")
+            return raw_pointer + delta
+    raise AssertionError(f"RVA 0x{rva:x} is outside PE sections")
+
+
+def read_va(data: bytes, va: int, size: int) -> bytes:
+    rva = va - 0x00400000
+    if rva < 0:
+        raise AssertionError(f"VA 0x{va:x} precedes the PE image")
+    offset = rva_to_file_offset(data, rva)
+    value = data[offset:offset + size]
+    if len(value) != size:
+        raise AssertionError(f"short read at VA 0x{va:x}")
+    return value
+
+
+def verify_dump_bytes(dump_data: bytes) -> None:
+    def check(table: dict[int, tuple[int, str]], label: str) -> None:
+        for skill, (va, hex_bytes) in table.items():
+            expected = bytes.fromhex(hex_bytes)
+            actual = read_va(dump_data, va, len(expected))
+            if actual != expected:
+                raise AssertionError(
+                    f"{label} bytes mismatch skill {skill} at 0x{va:x}: "
+                    f"{actual.hex(' ')}"
+                )
+            print(f"PASS: dump-bytes {label.lower()} skill={skill} va=0x{va:x}")
+
+    check(COMPARE_BYTES, "compare")
+    check(EQUALITY_BYTES, "equality-compare")
+    check(HANDLER_BYTES, "handler")
+    check(ACTION_BYTES, "action-branch")
+    check(ACTION_PUSH_BYTES, "action-push")
+    check(SOUND_PUSH_BYTES, "sound-push")
+
+    # Decode the actual conditional-jump displacement for every direct edge.
+    # The 295 edge is the second equality compare above; its first compare is
+    # intentionally only a range guard.
+    edge_sites = {skill: va for skill, (va, _) in COMPARE_BYTES.items() if skill != 295}
+    edge_sites.update({295: EQUALITY_BYTES[295][0]})
+    expected_handlers = {
+        292: 0x012D0F0F,
+        293: 0x012D10A0,
+        294: 0x012D1209,
+        295: 0x012D139B,
+        297: 0x012D1443,
+    }
+    for skill, va in edge_sites.items():
+        instruction = read_va(dump_data, va, 16)
+        if instruction[10:12] not in (b"\x0f\x84", b"\x0f\x85"):
+            raise AssertionError(f"skill {skill} compare has no equality edge at 0x{va:x}")
+        displacement = struct.unpack_from("<i", instruction, 12)[0]
+        target = va + 16 + displacement
+        if target != expected_handlers[skill]:
+            raise AssertionError(
+                f"skill {skill} jump target mismatch: 0x{target:x} "
+                f"!= 0x{expected_handlers[skill]:x}"
+            )
+        print(f"PASS: dump-edge skill={skill} compare=0x{va:x} -> handler=0x{target:x}")
+
+
 def main() -> int:
     if not DUMP.is_file():
         raise FileNotFoundError(DUMP)
@@ -76,10 +210,12 @@ def main() -> int:
     if not ACTION_SWITCH.is_file():
         raise FileNotFoundError(ACTION_SWITCH)
 
-    digest = hashlib.sha256(DUMP.read_bytes()).hexdigest().upper()
+    dump_data = DUMP.read_bytes()
+    digest = hashlib.sha256(dump_data).hexdigest().upper()
     if digest != EXPECTED_DUMP_SHA256:
         raise AssertionError(f"S21 dump hash mismatch: {digest}")
     print(f"PASS: S21 main dump sha256={digest}")
+    verify_dump_bytes(dump_data)
 
     dispatch_text = DISPATCH.read_text(encoding="utf-8", errors="replace")
     action_text = ACTION_SWITCH.read_text(encoding="utf-8", errors="replace")

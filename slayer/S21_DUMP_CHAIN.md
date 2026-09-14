@@ -57,10 +57,13 @@ python tools/slayer/verify_s21_dump_chain.py
 python tools/slayer/verify_port_surface.py
 ```
 
-The checker verifies the pinned dump hash and the five dispatcher/action-switch
-windows.  A PASS here proves the source mapping is present in the captured
-dump/disassembly; it is not a substitute for a live server cast or owner
-visual acceptance.
+The checker verifies the pinned dump hash, reads the PE section table itself,
+and compares the exact machine-code bytes at each skill compare, handler,
+action branch, action push, and sound push.  It also decodes the conditional
+jump displacements and verifies the five handler edges before checking the
+human-readable disassembly windows.  A PASS here proves the mapping is
+present in the captured binary, not merely in a guessed text note; it is not
+a substitute for a live server cast or owner visual acceptance.
 
 `verify_port_surface.py` is the companion static check for the 5.2 overlay: it
 requires every imported ID to be wired through the shared contract, server
