@@ -8,7 +8,7 @@ Last automated check: 2026-09-15 (Asia/Bangkok)
 - Stage verifier: PASS (private Player/RISE roots, root login keys, `Config\Mix.bmd`, no `Data\RISE\GrowLancer` overlay)
 - Build: PASS (Release x86; Slayer runtime QA and effect bridge linked)
 - Contract/data tests: PASS
-- Runtime process: PASS (`Engine-Slayer S21 - Slayer`, PID 28816, responsive after the sequence)
+- Runtime process: PASS (`Engine-Slayer S21 - Slayer`, PID 3624, responsive after the sequence)
 - Runtime window: PASS (target process responsive in world; no modal error)
 
 Rebuild checkpoint after the DB-class compatibility adapter:
@@ -17,7 +17,7 @@ Rebuild checkpoint after the DB-class compatibility adapter:
 - QA binary SHA-256: `A6DEB27851FA224DF1D70AB66DBD791BBE5040E6268049619DD0A936C485E6C7`
 - GameServer compatibility build: PASS (isolated `GameServer-Slayer-S21.exe`)
 - Static class marker check: PASS (`DBClass` 144/145/146 -> legacy slot 1; packet byte `0xE0` -> client marker 7)
-- Fresh remote startup: reached `winhook complete`, completed all WinMain checkpoints, auto-selected server/login/Slayer, and completed the five-skill sequence in PID 28816.
+- Fresh remote startup: reached `winhook complete`, completed all WinMain checkpoints, auto-selected server/login/Slayer, and completed the five-skill sequence in PID 3624.
 
 The rebuilt QA binary also records startup checkpoints through `WinHook`, key
 loading, OpenGL/UI setup, character initialization, and main-loop entry. This
@@ -37,7 +37,7 @@ The captured in-game session recorded accepted native receive/effect chains for 
 | 295 Detection | accepted receive probe; visible cyan detection mark around the actor |
 | 297 Demolish | accepted receive probe; self-buff graph and particle create/render-submit telemetry |
 
-All five skills were exercised in one automated in-game sequence in PID 28816,
+All five skills were exercised in one automated in-game sequence in PID 3624,
 not as five independent test runs. The runtime used converted, hash-pinned S21
 models, textures, sounds and player actions from the owner's local reference
 client; those proprietary assets are intentionally not committed here.

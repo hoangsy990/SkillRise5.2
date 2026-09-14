@@ -116,8 +116,8 @@ inline void ApplyServerCatalog(std::map<int, SKILL_INFO>& catalog)
         info.Effect = seeds[i].effect;
         info.RequireLevel = seeds[i].level;
         // No legacy class slot is populated here.  This prevents an out of
-        // bounds write and keeps activation blocked until class ABI work is
-        // completed in the same change.
+        // bounds write; CheckSkillRequireClass/RunningSkill use the explicit
+        // persisted Slayer DB-class gate above instead of this legacy array.
         catalog[info.Index] = info;
     }
 }
