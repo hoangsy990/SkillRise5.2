@@ -72,6 +72,11 @@
 #include <strsafe.h>
 #include <ProtectSend/AntiStreamClient.h>
 extern RISE_SHARED_INFO g_RISESharedInfo;
+#ifdef RISE_SLAYER_RUNTIME_QA
+#define SLAYER_QA_STEP(text) rise::slayerqa::AppendRuntimeQALog(text)
+#else
+#define SLAYER_QA_STEP(text) ((void)0)
+#endif
 #pragma comment (lib,"Gdiplus.lib")
 #pragma comment(lib, "dbghelp.lib")
 using namespace Gdiplus;
@@ -1772,6 +1777,7 @@ int __stdcall APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PST
 	}*/
 
 	pMain->WinHook(hInstance);
+	SLAYER_QA_STEP("winmain WinHook returned");
 
 	MSG msg;
 	ConfigureWindowsCrashDumps();
@@ -1810,16 +1816,19 @@ int __stdcall APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PST
 	{
 		return false;
 	}
+	SLAYER_QA_STEP("winmain OpenMainExe returned");
 
 	VM_START
 	g_SimpleModulusCS.LoadEncryptionKey("Data\\Enc1.dat");
 	g_SimpleModulusSC.LoadDecryptionKey("Data\\Dec2.dat");
 	VM_END
+	SLAYER_QA_STEP("winmain encryption keys loaded");
 
 	if (OpenInitFile() == FALSE)
 	{
 		return false;
 	}
+	SLAYER_QA_STEP("winmain OpenInitFile returned");
 
 	CreateThread(0, 0, (LPTHREAD_START_ROUTINE)StartAddress, 0, 0, 0);
 
@@ -1852,10 +1861,12 @@ int __stdcall APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PST
 	delete[] pDevmodes;
 	g_hInst = hInstance;
 	g_hWnd = StartWindow(hInstance, nCmdShow);
+	SLAYER_QA_STEP("winmain StartWindow returned");
 	if (!CreateOpenglWindow())
 	{
 		return FALSE;
 	}
+	SLAYER_QA_STEP("winmain CreateOpenglWindow returned");
 	ShowWindow(g_hWnd, nCmdShow);
 	UpdateWindow(g_hWnd);
 
@@ -1871,6 +1882,7 @@ int __stdcall APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PST
 	CInput::Instance().Create(g_hWnd, WindowWidth, WindowHeight);
 
 	g_pNewUISystem->Create();
+	SLAYER_QA_STEP("winmain NewUISystem created");
 	if (m_MusicOnOff)
 	{
 		wzAudioCreate(g_hWnd);
@@ -1915,6 +1927,7 @@ int __stdcall APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PST
 	memset(CharacterMachine, 0, sizeof(CHARACTER_MACHINE));
 	CharacterAttribute = &CharacterMachine->Character;
 	CharacterMachine->Init();
+	SLAYER_QA_STEP("winmain CharacterMachine initialized");
 	Hero = &CharactersClient[0];
 	if (g_iChatInputType == 1)
 	{
@@ -1959,6 +1972,7 @@ int __stdcall APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PST
 		SystemParametersInfo(SPI_GETSCREENSAVETIMEOUT, 0, &g_iScreenSaverOldValue, 0);
 		SystemParametersInfo(SPI_SETSCREENSAVETIMEOUT, 300 * 60, NULL, 0);
 	}
+	SLAYER_QA_STEP("winmain entering main loop");
 
 #ifdef SAVE_PACKET
 	DeleteFile(PACKET_SAVE_FILE);
