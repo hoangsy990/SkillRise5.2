@@ -365,7 +365,8 @@ void PlayCastSound(int skillId, OBJECT* actor)
     const int sound = skillId == kSwordInertia ? SOUND_SLAYER_SWORD_INERTIA_START :
         skillId == kBatFlock ? SOUND_SLAYER_BAT_FLOCK_START :
         skillId == kPierceAttack ? SOUND_SLAYER_PIERCE_START :
-        skillId == kDetection ? SOUND_SLAYER_DETECTION : -1;
+        (skillId == kDetection || skillId == kDemolish) ?
+            SOUND_SLAYER_DETECTION : -1;
     if (sound >= 0)
         PlayBuffer(sound, actor);
 #else

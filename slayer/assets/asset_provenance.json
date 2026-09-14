@@ -24,6 +24,26 @@
       "size": 966254
     },
     {
+      "name": "FierceAttackstart.wav",
+      "sha256": "E6D42AF732E2AD54DF8C33AA9FC54BC277E63ED619294ACC526D5DF3A5545F6E",
+      "size": 193160
+    },
+    {
+      "name": "FierceAttack_Attack_1.wav",
+      "sha256": "19D1ABF7AA3D3D473400F99946036BB20E64B4D4B91AAF2DDC04F2E29B436C2E",
+      "size": 75688
+    },
+    {
+      "name": "FierceAttack_Attack_2.wav",
+      "sha256": "1AA18550E48930E7EAC483CACFB4FABA1F1E0757306F9C266E46D18AB9721780",
+      "size": 75688
+    },
+    {
+      "name": "FierceAttack_Attack_3.wav",
+      "sha256": "832D2F84EB06797D688945DF9DA91B048F54B8A72B39D5B07FBD6E917A84B3FF",
+      "size": 75688
+    },
+    {
       "name": "Detection_3.wav",
       "sha256": "798BC237214A3A81152B648BA9F355B33CDF8DC02511BD000BDFAA26BF740473",
       "size": 324214
