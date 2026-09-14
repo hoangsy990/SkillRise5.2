@@ -7,6 +7,8 @@ Last automated check: 2026-09-15 (Asia/Bangkok)
 - Account/character requested by owner: saved credential `admin4` / `Slayer`
 - Stage verifier: PASS (private Player/RISE roots, root login keys, `Config\Mix.bmd`, no `Data\RISE\GrowLancer` overlay)
 - Build: PASS (Release x86; Slayer runtime QA and effect bridge linked)
+- Reproducible normal Release binary: `D:\RISE-CrossPlatform\Source_PC_Slayer\ExMain_RISE_PC\Tests\SlayerBuild\ClientBinRelease\Engine-Slayer S21.exe`
+- Normal Release SHA-256: `BC87812B40EB94DF91B94563E4F538E40231C20DAF903A94FB7536152B08BEC4`
 - Contract/data tests: PASS
 - Runtime process: PASS (`Engine-Slayer S21 - Slayer`, PID 3624, responsive after the sequence)
 - Runtime window: PASS (target process responsive in world; no modal error)
