@@ -151,7 +151,8 @@ bool DispatchNativeReceive(CHARACTER* source, CHARACTER* target, int skillId)
     if (!source || !source->Object.Live || !FindSkillSeed(skillId))
         return false;
 
-    const bool isSlayerClass = slayer::IsSlayerClass(source->Class);
+    const bool isSlayerClass = slayer::IsSlayerClass(source->Class) ||
+        slayer::IsSlayerClientClass(source->Class);
 #ifdef RISE_SLAYER_RUNTIME_QA
     const bool fixtureBypass = !isSlayerClass && IsQaFixtureBypassEnabled();
     if (!isSlayerClass && !fixtureBypass)

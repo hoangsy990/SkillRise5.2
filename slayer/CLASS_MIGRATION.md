@@ -1,10 +1,11 @@
 # Native Slayer class migration gate
 
-The five skill contracts are ready, but the supplied 5.2 repository is a
-source-only Grow Lancer recovery snapshot and still owns seven class columns.
-Slayer's verified S21 class number is 9. The following boundaries must be
-migrated together before setting the runtime `slayerClassEnabled` gate in a
-production build.
+The five skill contracts and an isolated compatibility adapter are now wired,
+but the supplied 5.2 repository is a source-only Grow Lancer recovery snapshot
+and still owns seven class columns. Slayer's verified S21 class number is 9.
+The adapter preserves DB classes 144/145/146, maps legacy server arrays to the
+safe DK slot, and reserves client base marker 7; the following boundaries must
+still be migrated together before calling the native class production-ready.
 
 The S21 `CalcCharacter.lua` declares `CLASS_SLAYER = 9`. The local 5.2 SQL
 reference contains a `DefaultClassType` row for DB class `144` with the
@@ -20,7 +21,7 @@ the authoritative owner database and protocol round-trip still need proof.
 | Server config readers | `SkillManager.cpp`, `ItemManager.cpp`, `ItemBagEx.cpp`, quest readers, `MasterSkillTree.cpp` | New 10-column grammar consumes legacy rows safely and preserves following row IDs |
 | Server class-sized state | `ServerInfo.h`, `MasterSkillTree.h`, item/quest structures and every `RequireClass` array | No out-of-bounds reads/writes; old seven-column files are migrated or rejected |
 | Client class arrays/UI | `_define.h`, `_struct.h`, `ZzzInfomation.*`, `CharMakeWin.*`, `NewUIMuHelper.*`, inventory/class model loaders | Class 9 is selectable, persisted and rendered without shifting legacy model IDs |
-| Client/server protocol | `ExGameServer/GameServer/Protocol.h/.cpp`, client `WSclient.h/.cpp` and send helpers | Class byte/evolution and skill list packets round-trip with fixed sizes |
+| Client/server protocol | `ExGameServer/GameServer/DSProtocol.cpp` emits reserved byte `0xE0`; client `CharacterManager` maps it to marker 7; existing skill list remains fixed-size | Marker round-trip is statically wired; creation/evolution packets still need full proof |
 | Persistence/database | character create/load/save and class/evolution fields | Reconnect, relogin and rollback retain Slayer identity and learned skills |
 | Assets/effects | player model/equipment files, icons 86–89, Slayer effects/sounds | Licensed assets hash-match and each skill is owner-accepted in-game |
 

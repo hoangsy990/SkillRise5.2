@@ -555,6 +555,13 @@ bool CSkillManager::CheckSkillRequireClass(LPOBJ lpObj, int index)
 	{
 		return 0;
 	}
+	// Slayer rows intentionally have no legacy RequireClass[0..6] column.
+	// Their class identity is carried by the persisted DB class, while
+	// CharacterInfoSet keeps lpObj->Class on a safe legacy array slot.
+	if (rise::slayerserver::IsSlayerSkill(index))
+	{
+		return rise::slayerserver::IsSlayerDbClass(lpObj->DBClass) ? 1 : 0;
+	}
 	if (CHECK_RANGE(lpObj->Class, MAX_CLASS) == 0)
 	{
 		return 0;
@@ -1107,7 +1114,8 @@ bool CSkillManager::RunningSkill(int aIndex, int bIndex, CSkill* lpSkill, BYTE x
 	// Keep imported S21 rows fail-closed until the legacy class/persistence
 	// ABI has a real class-9 mapping. A direct packet must not bypass this gate.
 	if (lpSkill != 0 && rise::slayerserver::IsSlayerSkill(lpSkill->m_skill) &&
-		!rise::slayerserver::IsSlayerClass(lpObj->Class))
+		!rise::slayerserver::IsSlayerClass(lpObj->Class) &&
+		!rise::slayerserver::IsSlayerDbClass(lpObj->DBClass))
 	{
 		return 0;
 	}

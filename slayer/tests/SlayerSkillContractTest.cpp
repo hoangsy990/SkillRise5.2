@@ -172,6 +172,10 @@ int main()
         "Slayer class 9 fits only after ten class slots are allocated");
     Require(sl::HasReservedClassSlot(8),
         "reserved slot 7 remains distinct from Slayer class 9");
+    Require(sl::IsSlayerClientClass(7) && sl::IsSlayerClientClass(15),
+        "reserved client marker survives class-stage bits");
+    Require(!sl::IsSlayerClientClass(6),
+        "legacy class 6 is not treated as Slayer");
     Require(!sl::CanInstallClassColumn(10, false, true),
         "class column cannot install before persistence migration");
     Require(sl::CanInstallClassColumn(10, true, true),

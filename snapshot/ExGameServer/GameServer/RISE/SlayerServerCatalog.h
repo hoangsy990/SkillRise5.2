@@ -1,11 +1,12 @@
 #pragma once
 
 #include <map>
+#include "../SkillManager.h"
 
 // Server-side catalog overlay for the five Slayer ids.  The legacy 5.2
-// RequireClass array is deliberately left untouched: class-column 9 still
-// needs the owner's full class/persistence migration before these rows can be
-// learned by ordinary characters.
+// RequireClass array remains untouched; Slayer rows use an explicit persisted
+// DB-class gate and a safe compatibility array slot until full class creation,
+// body assets, and persistence migration are completed.
 
 namespace rise { namespace slayerserver {
 
@@ -24,13 +25,39 @@ enum EffectId
     kDemolishEffect = 222
 };
 
-// S21 class identity.  The legacy server still has MAX_CLASS == 7, so this
-// value is used only as a guard; no legacy class array is indexed with it.
+// S21 class identity.  The legacy server still has MAX_CLASS == 7.  Keep the
+// persisted DB class values explicit, while the compatibility adapter maps
+// their internal array slot to the existing male sword class.  No legacy
+// class array is ever indexed with 9.
 static const int kS21ClassSlayer = 9;
+static const int kS21SlayerDbClass = 144;
+static const int kS21RoyalSlayerDbClass = 145;
+static const int kS21MasterSlayerDbClass = 146;
+static const int kSlayerLegacyArrayClass = 1; // CLASS_DK slot, 0..MAX_CLASS-1
+static const unsigned char kSlayerClientClassByte = 0xE0;
 
 inline bool IsSlayerClass(int classId)
 {
     return classId == kS21ClassSlayer;
+}
+
+inline bool IsSlayerDbClass(int dbClass)
+{
+    return dbClass == kS21SlayerDbClass ||
+        dbClass == kS21RoyalSlayerDbClass ||
+        dbClass == kS21MasterSlayerDbClass;
+}
+
+inline int LegacyArrayClassForDbClass(int dbClass)
+{
+    return IsSlayerDbClass(dbClass) ? kSlayerLegacyArrayClass : dbClass / 16;
+}
+
+inline unsigned char ClientClassByteForDbClass(int dbClass)
+{
+    return IsSlayerDbClass(dbClass) ? kSlayerClientClassByte :
+        static_cast<unsigned char>((dbClass % 16) * 16 - ((dbClass % 16) * 16 / 32) +
+            (dbClass / 16) * 32);
 }
 
 inline bool IsSlayerSkill(int id)

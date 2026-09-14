@@ -30,6 +30,15 @@ enum ClassId
     kS21MasterSlayerDbClass = 146
 };
 
+// Character-list packets in the legacy 5.2 client encode only three base
+// class bits.  The server compatibility adapter reserves base code 7 for
+// Slayer; generic class-array consumers are mapped to the existing DK slot,
+// while Slayer-specific gates use this marker explicitly.
+inline bool IsSlayerClientClass(int classId)
+{
+    return (classId & 0x7) == kRise52ReservedClassSlot;
+}
+
 enum Element
 {
     kNoElement = 0,
