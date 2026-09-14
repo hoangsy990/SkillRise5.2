@@ -11,6 +11,14 @@ Last automated check: 2026-09-15 (Asia/Bangkok)
 - Runtime process: PASS (`Engine-Slayer S21 - Slayer`, PID 22224, responsive after the sequence)
 - Runtime capture: PASS (105 frames from the isolated client window)
 
+Rebuild checkpoint after the DB-class compatibility adapter:
+
+- Client Release/QA build: PASS (x86; `SlayerRuntimeQA=true`, `SlayerIsolatedBuild=true`)
+- QA binary SHA-256: `46DA9A73B232C9DF32A2DE8D2D9C28594BA3F32BCC717B2FD0C232DA42509603`
+- GameServer compatibility build: PASS (isolated `GameServer-Slayer-S21.exe`)
+- Static class marker check: PASS (`DBClass` 144/145/146 -> legacy slot 1; packet byte `0xE0` -> client marker 7)
+- Fresh remote startup: reached `winhook complete` but did not reach server/character auto-select in the observation window; no new skill-cast evidence is claimed from this attempt.
+
 The captured in-game session recorded accepted native receive/effect chains for all five skills:
 
 | Skill | Runtime evidence |
