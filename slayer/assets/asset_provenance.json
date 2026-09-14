@@ -1,0 +1,32 @@
+{
+  "status": "reference-only",
+  "note": "No proprietary assets are copied into this branch; hashes identify the owner's read-only source files for a later licensed asset merge.",
+  "source_root": "D:\\MU FICA Season 21\\Data\\Sound",
+  "files": [
+    {
+      "name": "SwordInertiastart.wav",
+      "sha256": "2D87DCD8BC518F6FB50A23CDA182437B0C240A04E2D2B65BA27CE87925B7357D",
+      "size": 67668
+    },
+    {
+      "name": "SwordInertiaAttack.wav",
+      "sha256": "0FEB4AD8716C839276B51C29CA52D70FFABAB1FF9F2FF6AE5EE4B441F2C4B070",
+      "size": 155868
+    },
+    {
+      "name": "BatFlockstart.wav",
+      "sha256": "D79211099EDD59BE8056BBBFE9E04B05B3D47E88CB7A091670B1F4F002E0F374",
+      "size": 89750
+    },
+    {
+      "name": "BatFlockAttack.wav",
+      "sha256": "045DE62960CABEE8139CC412F74F3FF8C3D0FD6657377319DF0FCE881EE1C82F",
+      "size": 966254
+    },
+    {
+      "name": "Detection_3.wav",
+      "sha256": "798BC237214A3A81152B648BA9F355B33CDF8DC02511BD000BDFAA26BF740473",
+      "size": 324214
+    }
+  ]
+}
