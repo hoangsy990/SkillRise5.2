@@ -505,7 +505,8 @@ void CreateEffect(int Type, vec3_t Position, vec3_t Angle, vec3_t Light, int Sub
 #ifdef RISE_SLAYER_PORT
             if (rise::slayer::IsEffectType(Type))
             {
-                if (!rise::slayer::EnsureModel(Type))
+                if (rise::slayer::RequiresModel(Type) &&
+                    !rise::slayer::EnsureModel(Type))
                 {
                     o->Live = false;
                     return;

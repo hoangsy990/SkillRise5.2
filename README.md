@@ -1,60 +1,22 @@
-# Engine-Port S21 — Grow Lancer backup
+# Engine-Port S21 — Slayer
 
-Source-only recovery snapshot dated 2026-09-13. Status: **IN_PROCESS**.
-This backup does not declare the nine skills complete or visually accepted.
+This branch ports the five Slayer S21 skills to the RISE 5.2 source snapshot:
 
-## Scope
+- Sword Inertia (292)
+- Bat Flock (293)
+- Pierce Attack (294)
+- Detection (295)
+- Demolish (297)
 
-223 files from the isolated Grow Lancer worktree (including restored documents):
-client/server changes, skill descriptor, reverse notes, provenance metadata,
-focused tests and tools. Shared integration files are stored in full, not as
-patches. Wind Soul implementation and the Pegasus worktree are not included;
-the Wind Soul lessons document is reference material for Grow Lancer only.
+The client mappings come from the captured S21 `main.exe` dump, not from
+screenshots. The recovered dispatcher/handler/root/action/sound chains and
+SHA-256 are recorded in [`docs/SLAYER_S21_DUMP_CHAIN.md`](docs/SLAYER_S21_DUMP_CHAIN.md).
 
-No original RISE Git history, raw memory dumps, client assets, executable
-outputs, production configuration or runtime captures are included.
-This is **not a standalone buildable checkout or a complete machine backup**.
+`slayer/` contains the merge-ready contract, data fragments, native bridges,
+and focused tests. `snapshot/` contains the source overlay; existing GrowLancer
+files remain present and are not replaced by this Slayer branch.
 
-Source branch: `feature/grow-lancer-skills-s21`.
-Required RISE base commit: `f2e8e558874005708312becbb8273ecb8d7d61bf`.
-Files under `snapshot/` preserve their paths relative to that checkout.
-
-## Recovery
-
-1. Run `powershell -NoProfile -File ./Verify-Backup.ps1` from this repository.
-2. Obtain the original RISE repository separately and create a new isolated
-   checkout at the base commit above. Do not overlay a working production tree.
-3. Review and copy the files under `snapshot/` into that isolated checkout,
-   preserving relative paths. Shared files require comparison before merging
-   into any later branch. No automatic merge or deployment is performed here.
-4. Restore required assets and binary reverse evidence separately from trusted
-   originals, using the provenance documents. Review tool paths before running:
-   several tools refer to the original local Windows directories.
-5. Revalidate source, build, server authority and in-game visuals independently.
-
-`BACKUP_MANIFEST.json` records every snapshot file's size and SHA-256.
-Hash verification proves this backup's byte integrity, not correctness or
-completeness of the port. Git text conversion is disabled to preserve bytes.
-
-## Document recovery
-
-Two original documents were found entirely zero-filled after the I/O incident
-and excluded from the initial backup. Both have now been reconstructed from
-successful task-history writes and restored:
-
-- `GROW_LANCER_STATE.md`: 355,022 bytes.
-- `GrowLancer/RUNTIME_QA.md`: 7,731 bytes.
-
-All 406 recovery operations replayed with zero context failures; sizes match
-the originals. No independent pre-corruption document hash was available, so
-this is history-based reconstruction, not a certified intact-original match.
-Damaged originals were preserved locally before restoring the original paths.
-See `snapshot/GrowLancer/DOCUMENT_RECOVERY.md` for hashes and provenance.
-The manifest retains the initial incident records separately from restored files.
-
-The recovered files retain historical statements, including older next actions.
-`verify_runtime_qa_stage.py` still pins the older `0EA22D64...` executable;
-do not treat it as validation of the latest `E6FED7D0...` build. No new build
-or runtime acceptance was performed to create this backup. Final Grow Lancer
-class, authoritative server integration and visual acceptance remain open;
-DK activation is an isolated test arrangement only.
+Status is **IN_PROCESS**. Source/static checks and the isolated client QA pass;
+class-9 persistence, authoritative GameServer deployment, and owner in-game
+visual acceptance are still open. The isolated executable is named
+`Engine-Slayer S21.exe` to avoid collision with GrowLancer QA.

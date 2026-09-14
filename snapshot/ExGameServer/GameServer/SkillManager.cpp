@@ -1104,6 +1104,13 @@ void CSkillManager::UseDurationSkillAttack(int aIndex, int bIndex, CSkill* lpSki
 bool CSkillManager::RunningSkill(int aIndex, int bIndex, CSkill* lpSkill, BYTE x, BYTE y, BYTE angle, bool combo)
 {
 	LPOBJ lpObj = &gObj[aIndex];
+	// Keep imported S21 rows fail-closed until the legacy class/persistence
+	// ABI has a real class-9 mapping. A direct packet must not bypass this gate.
+	if (lpSkill != 0 && rise::slayerserver::IsSlayerSkill(lpSkill->m_skill) &&
+		!rise::slayerserver::IsSlayerClass(lpObj->Class))
+	{
+		return 0;
+	}
 	lpObj->ShieldDamageReductionTime = 0;
 	gEffectManager.DelEffect(lpObj, EFFECT_INVISIBILITY);
 	switch (lpSkill->m_skill)
@@ -1286,6 +1293,8 @@ bool CSkillManager::RunningSkill(int aIndex, int bIndex, CSkill* lpSkill, BYTE x
 		return this->SkillSlayerPierceAttack(aIndex, bIndex, lpSkill);
 	case rise::slayerserver::kDetection:
 		return this->SkillSlayerDetection(aIndex, bIndex, lpSkill);
+	case rise::slayerserver::kDemolish:
+		return this->SkillSlayerDemolish(aIndex, bIndex, lpSkill);
 	case SKILL_BLOOD_STORM:
 		return this->SkillBloodStorm(aIndex, bIndex, lpSkill, x, y, combo);
 	case SKILL_CURE:
@@ -4921,4 +4930,55 @@ bool CSkillManager::SkillSlayerDetection(int aIndex, int bIndex,
 		return false;
 	this->GCSkillAttackSend(&gObj[aIndex], lpSkill->m_index, aIndex, 1);
 	return true;
+}
+
+bool CSkillManager::SkillSlayerDemolish(int aIndex, int bIndex,
+	CSkill* lpSkill)
+{
+	LPOBJ lpObj = &gObj[aIndex];
+	if (lpObj->Type != OBJECT_USER || lpObj->Live == 0 ||
+		OBJECT_RANGE(bIndex) == 0 || bIndex != aIndex)
+	{
+		return 0;
+	}
+
+	// MasterSkillCalc_3rd.lua SlayerDemolish_MasterLevel1/2_Calc:
+	// ((Strength / 8) + (Dexterity / 28) + 120) * 0.03, duration 60s.
+	const double raw = ((lpObj->Strength + lpObj->AddStrength) / 8.0) +
+		((lpObj->Dexterity + lpObj->AddDexterity) / 28.0) + 120.0;
+	const int value = max(0, static_cast<int>(raw * 0.03));
+	const int duration = rise::slayerserver::DemolishDurationSeconds();
+
+	auto ApplyTo = [&](LPOBJ target)
+	{
+		gEffectManager.AddEffect(target, 0, EFFECT_SLAYER_DEMOLISH,
+			duration, value, 0, 0, 0);
+		this->GCSkillAttackSend(lpObj, lpSkill->m_index, target->Index, 1);
+	};
+
+	if (OBJECT_RANGE(lpObj->PartyNumber) == 0)
+	{
+		ApplyTo(lpObj);
+		return 1;
+	}
+
+	PARTY_INFO* lpParty = &gParty.m_PartyInfo[lpObj->PartyNumber];
+	for (int n = 0; n < MAX_PARTY_USER; ++n)
+	{
+		const int index = lpParty->Index[n];
+		if (OBJECT_RANGE(index) == 0 || gObj[index].Live == 0 ||
+			gObj[index].State != OBJECT_PLAYING ||
+			gObj[index].Map != lpObj->Map)
+		{
+			continue;
+		}
+		const int dx = gObj[index].X - lpObj->X;
+		const int dy = gObj[index].Y - lpObj->Y;
+		if ((dx * dx + dy * dy) > (9 * 9))
+		{
+			continue;
+		}
+		ApplyTo(&gObj[index]);
+	}
+	return 1;
 }

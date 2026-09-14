@@ -3,7 +3,7 @@
 // Slayer is intentionally kept in an overlay until the legacy 5.2 class
 // arrays, character encoding and persistence ABI are migrated together.
 // This header is engine-independent and is the single source of truth for
-// the four S21 skills being ported.
+// the five S21 skills being ported.
 
 namespace rise { namespace slayer {
 
@@ -12,7 +12,8 @@ enum SkillId
     kSwordInertia = 292,
     kBatFlock = 293,
     kPierceAttack = 294,
-    kDetection = 295
+    kDetection = 295,
+    kDemolish = 297
 };
 
 enum ClassId
@@ -74,7 +75,9 @@ static const SkillSeed kSkillSeeds[] =
     { kPierceAttack, "Pierce Attack", 160,  -1, 170,  30,  10, 6, 0,    kDarkness, 0, 0, 3, 88, 0,
       kRequiresTarget | kDash, 300, 1100 },
     { kDetection,    "Detection",     350, 400,   0, 100, 100, 0, 5000, kNoElement, 1, 0, 3, 89, 316,
-      kSelfTarget | kMarksMiniMap, 0, 800 }
+      kSelfTarget | kMarksMiniMap, 0, 800 },
+    { kDemolish,     "Demolish",      400, 400,   0,  50,   0, 0, 60000, kNoElement, 1, 0, 3, 90, 317,
+      kSelfTarget, 0, 1450 }
 };
 
 struct RequirementOverride
@@ -94,7 +97,8 @@ static const RequirementOverride kRequirementOverrides[] =
     { kSwordInertia, 30,  30,  0,           0  },
     { kBatFlock,     270, 270, 0,           0  },
     { kPierceAttack, -1,  -1, kBatFlock,   10  },
-    { kDetection,    300, 400, 0,           0  }
+    { kDetection,    300, 400, 0,           0  },
+    { kDemolish,     400, 400, 0,           0  }
 };
 
 struct ScrollMapping
@@ -130,6 +134,8 @@ static const MasterySeed kMasterySeeds[] =
     { 780, "Sword Inertia Mastery",      779,          779,          10, 10 },
     { 781, "Bat Flock Strengthener",     kBatFlock,     0,             1, 20 },
     { 782, "Bat Flock Mastery",          781,          781,          10, 10 },
+    { 787, "Demolish Strengthener",      kDemolish,     0,             1, 20 },
+    { 788, "Demolish Mastery",           787,          787,           1, 20 },
     { 794, "Detection Strengthener",     kDetection,    0,            10, 10 }
 };
 
@@ -191,7 +197,8 @@ inline int FindSkillForScroll(int itemGroup, int itemIndex)
 
 inline bool IsSlayerSkill(int id)
 {
-    return id >= kSwordInertia && id <= kDetection;
+    return id == kSwordInertia || id == kBatFlock || id == kPierceAttack ||
+        id == kDetection || id == kDemolish;
 }
 
 inline bool IsDarknessSkill(int id)
@@ -270,6 +277,18 @@ inline int PierceAttackHitCount(bool targetHasBatFlock)
 inline int DetectionCooldownMs()
 {
     return 5000;
+}
+
+inline int DemolishCooldownMs()
+{
+    return 60000;
+}
+
+inline int DemolishDurationSeconds()
+{
+    // MasterSkillCalc_3rd.lua sets SkillTime=60 for both Slayer Demolish
+    // mastery levels.  This is independent of the 60000 ms recast delay.
+    return 60;
 }
 
 // Exact formulas from RegularSkillCalc.lua.  The incoming damage is kept as

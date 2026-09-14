@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "SlayerSkillRuntime.h"
 
 namespace rise { namespace slayer {
@@ -88,6 +87,15 @@ bool SlayerSkillRuntime::Cast(int skillId, const CastContext& context,
         events.push_back(MakeEvent(kDetectionMarkEvent, skillId,
             context.actorId, -1, 0, 0, castId));
         m_cooldowns[cooldownKey] = context.nowMs + DetectionCooldownMs();
+        break;
+    case kDemolish:
+        // Demolish is a self-buff. The authoritative server computes the
+        // ignore-defense percentage; the runtime event carries its recovered
+        // 60-second lifetime and ownership.
+        events.push_back(MakeEvent(kDemolishBuffEvent, skillId,
+            context.actorId, context.actorId, 0,
+            static_cast<unsigned>(DemolishDurationSeconds() * 1000), castId));
+        m_cooldowns[cooldownKey] = context.nowMs + DemolishCooldownMs();
         break;
     default:
         return false;

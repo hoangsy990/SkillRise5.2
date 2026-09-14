@@ -36,7 +36,9 @@ static const ServerSkillRecord kServerSkillRecords[] =
     { kPierceAttack, "Pierce Attack", 160, 170,  30,  10, 6,    0, 0, kDarkness, kS21ClassSlayer, 88,   0,
       kRequiresTarget | kDash, 300, 1100 },
     { kDetection,    "Detection",     350,   0, 100, 100, 0, 5000, 1, kNoElement, kS21ClassSlayer, 89, 316,
-      kSelfTarget | kMarksMiniMap, 0, 800 }
+      kSelfTarget | kMarksMiniMap, 0, 800 },
+    { kDemolish,     "Demolish",      400,   0,  50,   0, 0, 60000, 1, kNoElement, kS21ClassSlayer, 90, 317,
+      kSelfTarget, 0, 1450 }
 };
 
 inline std::size_t ServerSkillRecordCount()

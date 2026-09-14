@@ -115,13 +115,16 @@ void OpenModels(int Model, char* FileName, int i)
 void OpenPlayers()
 {
 	#ifdef RISE_SLAYER_PORT
-	ModelsDump = new BMD[MAX_MODELS + 1024 + 44];
+	// The isolated Slayer renderer owns model slots through MAX_MODELS + 44.
+	// Keep a small private tail so the inclusive final slot is addressable even
+	// after the randomized 1024-entry alignment offset is applied.
+	ModelsDump = new BMD[MAX_MODELS + 1024 + 64];
 	#else
 	ModelsDump = new BMD[MAX_MODELS + 1024];
 	#endif
 	Models = ModelsDump + (rand() % 1024);
 	#ifdef RISE_SLAYER_PORT
-	ZeroMemory(Models, (MAX_MODELS + 44) * sizeof(BMD));
+	ZeroMemory(Models, (MAX_MODELS + 64) * sizeof(BMD));
 	#else
 	ZeroMemory(Models, MAX_MODELS * sizeof(BMD));
 	#endif

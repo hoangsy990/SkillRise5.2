@@ -38,6 +38,10 @@ bool DispatchSlayerSkillDamage(const RuntimeEvent& event, double baseDamage,
     case kPierceReturnEvent:
     case kDetectionMarkEvent:
         return true;
+    case kDemolishBuffEvent:
+        return event.skillId == kDemolish &&
+            event.targetId == event.actorId &&
+            event.durationMs == static_cast<unsigned>(DemolishDurationSeconds() * 1000);
     default:
         return false;
     }

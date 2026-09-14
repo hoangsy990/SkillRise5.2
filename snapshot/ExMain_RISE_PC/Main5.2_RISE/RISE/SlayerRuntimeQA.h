@@ -23,7 +23,7 @@ unsigned RuntimeQALastEventCount();
 const char* RuntimeQALastResult();
 
 // ReceiveMagic bridge used by the isolated Slayer client.  This is the
-// actual 5.2 packet-to-runtime entrypoint; it only binds the four Slayer
+// actual 5.2 packet-to-runtime entrypoint; it only binds the five Slayer
 // skill ids and leaves the legacy skill receive switch untouched.
 bool DispatchSlayerNativeReceive(CHARACTER* source, CHARACTER* target,
     int skillId);

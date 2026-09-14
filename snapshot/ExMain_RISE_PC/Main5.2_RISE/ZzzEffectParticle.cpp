@@ -29,6 +29,11 @@
 #include "RISE/GrowLancerFlareParticle.h"
 #include "SpriteBatch330.h"
 #include "RISE/GrowLancerSpriteAdapter.h"
+#ifdef RISE_SLAYER_RUNTIME_QA
+#include "RISE/SlayerRuntimeQA.h"
+#include "RISE/Slayer/client/SlayerSkillResources.h"
+#include "RISE/Slayer/shared/SlayerSkillContractData.h"
+#endif
 
 vec3_t g_vParticleWind = { 0.0f, 0.0f, 0.0f };
 vec3_t g_vParticleWindVelo = { 0.0f, 0.0f, 0.0f };
@@ -46,6 +51,58 @@ namespace
     float g_magicSmokeRemainder[MAX_PARTICLES] = {};
     float g_wrathParticleRemainder[MAX_PARTICLES] = {};
     float g_obsidianThunderRemainder[MAX_PARTICLES] = {};
+#ifdef RISE_SLAYER_RUNTIME_QA
+    unsigned g_slayerParticleCreateSamples[5] = {};
+    unsigned g_slayerParticleRenderSamples[5] = {};
+
+    int SlayerParticleSkillSlot(const OBJECT* owner)
+    {
+        if (!owner || !rise::slayer::IsEffectType(owner->Type))
+            return -1;
+        switch (owner->Skill)
+        {
+        case rise::slayer::kSwordInertia: return 0;
+        case rise::slayer::kBatFlock: return 1;
+        case rise::slayer::kPierceAttack: return 2;
+        case rise::slayer::kDetection: return 3;
+        case rise::slayer::kDemolish: return 4;
+        default: return -1;
+        }
+    }
+
+    const char* SlayerParticleSkillName(int slot)
+    {
+        switch (slot)
+        {
+        case 0: return "Sword Inertia";
+        case 1: return "Bat Flock";
+        case 2: return "Pierce Attack";
+        case 3: return "Detection";
+        case 4: return "Demolish";
+        default: return "unknown";
+        }
+    }
+
+    void LogSlayerParticleEvent(const char* phase, const PARTICLE& particle,
+        int slot, unsigned* samples)
+    {
+        if (slot < 0 || slot >= 5 || samples[slot] >= 128)
+            return;
+        ++samples[slot];
+        char line[320];
+        sprintf_s(line, sizeof(line),
+            "native-particle-%s skill=%s skillId=%d type=%lld tex=%d "
+            "subtype=%d live=%d life=%.3f scale=%.3f ownerType=%lld",
+            phase, SlayerParticleSkillName(slot),
+            static_cast<int>(particle.Target ? particle.Target->Skill : 0),
+            static_cast<long long>(particle.Type), particle.TexType,
+            particle.SubType, particle.Live ? 1 : 0,
+            static_cast<double>(particle.LifeTime),
+            static_cast<double>(particle.Scale),
+            static_cast<long long>(particle.Target ? particle.Target->Type : 0));
+        rise::slayerqa::AppendRuntimeQALog(line);
+    }
+#endif
 }
 
 static int CreateParticleInternal(int Type, vec3_t Position, vec3_t Angle,
@@ -176,6 +233,12 @@ static int CreateParticleInternal(int Type, vec3_t Position, vec3_t Angle,
             o->LifeTime = 2;
             o->Frame = 0;
             o->Target = Owner;
+#ifdef RISE_SLAYER_RUNTIME_QA
+            const int slayerParticleSlot = SlayerParticleSkillSlot(Owner);
+            if (slayerParticleSlot >= 0)
+                LogSlayerParticleEvent("create", *o, slayerParticleSlot,
+                    g_slayerParticleCreateSamples);
+#endif
             o->Rotation = 0.f;
             o->bEnableMove = true;
             VectorCopy(Angle, o->Angle);
@@ -9260,6 +9323,12 @@ void RenderParticles(BYTE byRenderOneMore)
         PARTICLE* o = &Particles[i];
         if (o->Live)
         {
+#ifdef RISE_SLAYER_RUNTIME_QA
+            const int slayerParticleSlot = SlayerParticleSkillSlot(o->Target);
+            if (slayerParticleSlot >= 0)
+                LogSlayerParticleEvent("render-submit", *o,
+                    slayerParticleSlot, g_slayerParticleRenderSamples);
+#endif
             if (byRenderOneMore == 1)
             {
                 if (o->Position[2] > 350.f) continue;
