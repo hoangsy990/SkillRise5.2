@@ -30,6 +30,7 @@ def main() -> int:
     catalog = read("ExGameServer/GameServer/RISE/SlayerServerCatalog.h")
     runtime = read("ExMain_RISE_PC/Main5.2_RISE/RISE/Slayer/client/SlayerNativeRuntime.cpp")
     skill_manager = read("ExGameServer/GameServer/SkillManager.cpp")
+    object_manager_patch = read("ExGameServer/GameServer/ObjectManagerSlayerSkillGate.md")
 
     require(shared, "inline bool IsSlayerClientClass", "client marker helper")
     require(shared, "return (classId & 0x7) == kRise52ReservedClassSlot;", "reserved client marker")
@@ -40,6 +41,9 @@ def main() -> int:
     require(catalog, "LegacyArrayClassForDbClass", "safe legacy array mapping")
     require(skill_manager, "IsSlayerDbClass(lpObj->DBClass)", "DB class skill gate")
     require(runtime, "IsSlayerClientClass(source->Class)", "client marker native gate")
+    require(object_manager_patch, "CharacterInfoSetSkill(LPOBJ lpObj)", "character skill bootstrap patch")
+    require(object_manager_patch, "rise::slayerserver::kDemolish", "full Slayer skill bootstrap")
+    require(object_manager_patch, "A newly created Slayer receives its S21 starter skill", "starter skill bootstrap")
 
     print("PASS: Slayer class compatibility marker, DB identities, safe array mapping, and gates are wired")
     return 0

@@ -6,6 +6,7 @@ This audit separates recovered facts from work that still requires the actual
 | Requirement | Evidence / implementation | State |
 |---|---|---|
 | Five skill IDs and names | `shared/SlayerSkillContractData.h` IDs 292..295,297 | PASS (static) |
+| Character skill bootstrap | `ObjectManagerSlayerSkillGate.md` adds DBClass 144/145/146 full-skill and starter-skill branches before legacy class branches | PASS (source patch; GameServer build) |
 | Slayer class profile | `shared/SlayerClassContractData.h` records class 9, creation/evolution names, Lorencia start and guide starting attributes | PASS (static; native class arrays open) |
 | Config stats and resource costs | S21 `D:\GameServer S21\Data\Skills\SkillList.xml` (SHA-256 `3E238C786ECAB3445A0DB4756FE3D2A3923FBC0594506BB9C3FF206020A7E0A0`) mirrored in shared/server records | PASS (static) |
 | Merge-ready data rows | `data/SkillList.slayers.fragment.xml`, `SkillRequire.slayers.fragment.xml`, `BuffEffectManager.slayers.fragment.xml`, `SkillTreeData_3rd.slayers.fragment.xml`, `SkillSettings.slayers.fragment.ini` | PASS (static) |
