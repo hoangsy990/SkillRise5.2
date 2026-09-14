@@ -59,8 +59,21 @@ owner-enabled class gate; it cannot be invoked accidentally by another class.
 The repository contains no proprietary S21 binaries, skill textures, models or
 sound files. This branch is therefore `IN_PROCESS`: contract and focused
 runtime behavior are covered, but native class creation, live networking,
-asset/effect binding, build integration and owner in-game acceptance remain
-open.
+asset/effect binding and owner in-game acceptance remain open.
+
+## Isolated Slayer runtime QA
+
+The full PC checkout is tested in the separate `D:\RISE-CrossPlatform\Source\_PC_Slayer`
+copy so GrowLancer's worktree and QA package are not reused. Its private QA
+output is named `SlayerBuild\RuntimeQA\Client\Engine-Slayer S21.exe` and its
+working-directory launcher is `tools\slayer\start_runtime_qa_client.ps1`.
+The launcher verifies the base `Data\RISE` merge (including `Config\Mix.bmd`),
+private `Player/RISE` roots, login keys, and rejects a leaked GrowLancer overlay.
+In the running client, F10 toggles the Slayer panel, F6 selects 292→293→294→295,
+F7 casts, F9 records the target/contact checkpoint, and F11 advances the DOT
+clock. The resulting `SlayerRuntimeQA.log` is runtime evidence for the event
+adapter only; login, visual effects, server authority and owner acceptance must
+still be recorded separately.
 
 Run the focused test from this directory with
 `tests\\RunSlayerSkillContractTest.cmd` (or compile the two C++ sources with

@@ -23,7 +23,7 @@ This audit separates recovered facts from work that still requires the actual
 | Packet send/receive | Existing envelopes recovered (`0x19` target/self, `0x1E` duration/dash); skill-specific activation remains `-1` until handler/fan-out validation | PARTIAL |
 | Client effects, icons, sounds, minimap UI | IDs/icons are recorded; native binding and proprietary assets are not copied | OPEN |
 | Server authority, persistence, reconnect/rollback | No live server or database mutation performed | OPEN |
-| Native build and in-game QA | Focused adapter test only; no claim of full build or owner acceptance | OPEN |
+| Native build and in-game QA | Isolated `_PC_Slayer` Win32 QA build/stage passes with `Engine-Slayer S21.exe`; no login/cast or owner acceptance recorded yet | PARTIAL |
 
 The Grow Lancer package is used as a process/reference source only. No Grow
 Lancer hooks, addresses, layouts, or binaries are transplanted into Slayer.
