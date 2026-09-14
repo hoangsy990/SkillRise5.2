@@ -754,6 +754,8 @@ xcopy /Y /D /E /I "$(ProjectDir)Assets\EquipmentItems\Data\*.*" "$(ProjectDir)..
     <ClCompile Include="Main5.2_RISE\RISE\ZzzToolKit.cpp" />
     <ClCompile Include="Main5.2_RISE\RISE\SlayerRuntimeQA.cpp" />
     <ClCompile Include="Main5.2_RISE\RISE\Slayer\client\SlayerNativeRuntime.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\Slayer\client\SlayerSkillRuntime.cpp" />
+    <ClCompile Include="Main5.2_RISE\RISE\Slayer\client\SlayerSkillEffectBridge.cpp" />
     <ClCompile Include="Main5.2_RISE\RISE\Slayer\client\SlayerSkillResources.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -1199,11 +1201,14 @@ xcopy /Y /D /E /I "$(ProjectDir)Assets\EquipmentItems\Data\*.*" "$(ProjectDir)..
     <ClInclude Include="Main5.2_RISE\RISE\SlayerRuntimeQA.h" />
     <ClInclude Include="Main5.2_RISE\RISE\SlayerQaCredentials.h" />
     <ClInclude Include="Main5.2_RISE\RISE\Slayer\client\SlayerNativeRuntime.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\Slayer\client\SlayerSkillRuntime.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\Slayer\client\SlayerSkillEffectBridge.h" />
     <ClInclude Include="Main5.2_RISE\RISE\Slayer\client\SlayerSkillResources.h" />
     <ClInclude Include="Main5.2_RISE\RISE\Slayer\shared\SlayerSkillContractData.h" />
     <ClInclude Include="Main5.2_RISE\RISE\Slayer\shared\SlayerClassContractData.h" />
     <ClInclude Include="Main5.2_RISE\RISE\Slayer\server\SlayerPacketContract.h" />
     <ClInclude Include="Main5.2_RISE\RISE\Slayer\server\SlayerServerCatalog.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\Slayer\server\SlayerSkillDamageBridge.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitattributes" />

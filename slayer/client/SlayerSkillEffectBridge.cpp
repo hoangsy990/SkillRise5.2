@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "SlayerSkillEffectBridge.h"
 
 namespace rise { namespace slayer {
@@ -46,11 +47,6 @@ bool DispatchSlayerSkillEffect(const RuntimeEvent& event,
         if (event.skillId != kDetection || event.targetId != -1)
             return false;
         sink.MarkDetection(event.actorId);
-        return true;
-    case kDemolishBuffEvent:
-        if (event.skillId != kDemolish || event.targetId != event.actorId)
-            return false;
-        sink.StartDemolishBuff(event.actorId, event.durationMs);
         return true;
     default:
         return false;

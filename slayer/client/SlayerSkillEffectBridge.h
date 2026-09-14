@@ -23,7 +23,6 @@ public:
     virtual void SpawnPierceHit(int actorId, int targetId, int ordinal) = 0;
     virtual void FinishPierceReturn(int actorId, int targetId) = 0;
     virtual void MarkDetection(int actorId) = 0;
-    virtual void StartDemolishBuff(int actorId, unsigned durationMs) = 0;
 };
 
 // Collision callbacks use this ledger when a Sword Inertia projectile touches

@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
-"""Verify the five S21 Slayer action mappings in the isolated player model.
-
-Demolish uses S21 action 233.  The supplied player dump proves that 233 is
-byte-identical to 232, so the merged model intentionally reuses the Detection
-clip at 287 instead of adding a duplicate ABI slot.
-"""
+"""Verify the four S21 Slayer clips in the isolated merged player model."""
 
 from __future__ import annotations
 
@@ -21,7 +16,7 @@ MERGED = Path(
     r"D:\RISE-CrossPlatform\Source_PC_Slayer\ExMain_RISE_PC\Tests\SlayerBuild"
     r"\Client\Data\Player\player.bmd"
 )
-MAPPING = ((224, 284), (227, 285), (228, 286), (232, 287), (233, 287))
+MAPPING = ((224, 284), (227, 285), (228, 286), (232, 287))
 
 
 def load_merger():

@@ -2829,8 +2829,7 @@ void UseSkillSlayer(CHARACTER* pCha, OBJECT* pObj)
 	if (!rise::slayer::IsSlayerSkill(iSkill))
 		return;
 
-	const bool selfTarget = iSkill == rise::slayer::kDetection ||
-		iSkill == rise::slayer::kDemolish;
+	const bool selfTarget = iSkill == rise::slayer::kDetection;
 	const int targetIndex = g_MovementSkill.m_iTarget;
 	if (!selfTarget && (targetIndex < 0 || targetIndex >= MAX_CHARACTERS_CLIENT ||
 		CharactersClient[targetIndex].Dead != 0 ||
@@ -3597,7 +3596,6 @@ void Action(CHARACTER* c, OBJECT* o, bool Now)
 		}
 		break;
 		case rise::slayer::kDetection:
-		case rise::slayer::kDemolish:
 			if (!c->SafeZone || gMapManager.InBloodCastle() || gMapManager.InChaosCastle())
 				UseSkillSlayer(c, o);
 			break;
@@ -7233,10 +7231,8 @@ void Attack(CHARACTER* c)
 			g_MovementSkill.m_bMagic = TRUE;
 			g_MovementSkill.m_iSkill = Hero->CurrentSkill;
 			g_MovementSkill.m_iTarget =
-				(Skill == rise::slayer::kDetection ||
-				 Skill == rise::slayer::kDemolish) ? -1 : SelectedCharacter;
-			if (Skill == rise::slayer::kDetection ||
-				Skill == rise::slayer::kDemolish)
+				Skill == rise::slayer::kDetection ? -1 : SelectedCharacter;
+			if (Skill == rise::slayer::kDetection)
 			{
 				UseSkillSlayer(c, o);
 				return;

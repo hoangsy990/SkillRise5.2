@@ -18,11 +18,17 @@
 #include "MapManager.h"
 #include "NewUISystem.h"
 #include "EffectBudget330.h"
-#ifdef RISE_SLAYER_RUNTIME_QA
-#include "RISE/SlayerRuntimeQA.h"
-#include "RISE/Slayer/client/SlayerSkillResources.h"
-#include "RISE/Slayer/shared/SlayerSkillContractData.h"
-#endif
+#include "RISE/GrowLancerResources.h"
+#include "RISE/GrowLancerTick.h"
+#include "RISE/GrowLancerMagicPinTick.h"
+#include "RISE/GrowLancerWrathParticle.h"
+#include "RISE/GrowLancerObsidianTick.h"
+#include "RISE/GrowLancerFireParticle.h"
+#include "RISE/GrowLancerSpinParticle.h"
+#include "RISE/GrowLancerXsuper.h"
+#include "RISE/GrowLancerFlareParticle.h"
+#include "SpriteBatch330.h"
+#include "RISE/GrowLancerSpriteAdapter.h"
 
 vec3_t g_vParticleWind = { 0.0f, 0.0f, 0.0f };
 vec3_t g_vParticleWindVelo = { 0.0f, 0.0f, 0.0f };
@@ -30,60 +36,20 @@ vec3_t g_vParticleWindVelo = { 0.0f, 0.0f, 0.0f };
 namespace
 {
     int g_particleCreateCursor = 0;
-
-#ifdef RISE_SLAYER_RUNTIME_QA
-    unsigned g_slayerParticleCreateSamples[5] = {};
-    unsigned g_slayerParticleRenderSamples[5] = {};
-
-    int SlayerParticleSkillSlot(const OBJECT* owner)
-    {
-        if (!owner || !rise::slayer::IsEffectType(owner->Type))
-            return -1;
-        switch (owner->Skill)
-        {
-        case rise::slayer::kSwordInertia: return 0;
-        case rise::slayer::kBatFlock: return 1;
-        case rise::slayer::kPierceAttack: return 2;
-        case rise::slayer::kDetection: return 3;
-        case rise::slayer::kDemolish: return 4;
-        default: return -1;
-        }
-    }
-
-    const char* SlayerParticleSkillName(int slot)
-    {
-        switch (slot)
-        {
-        case 0: return "Sword Inertia";
-        case 1: return "Bat Flock";
-        case 2: return "Pierce Attack";
-        case 3: return "Detection";
-        case 4: return "Demolish";
-        default: return "unknown";
-        }
-    }
-
-    void LogSlayerParticleEvent(const char* phase, const PARTICLE& particle,
-        int slot, unsigned* samples)
-    {
-        if (slot < 0 || slot >= 5 || samples[slot] >= 128)
-            return;
-        ++samples[slot];
-        char line[320];
-        sprintf_s(line, sizeof(line),
-            "native-particle-%s skill=%s skillId=%d type=%lld tex=%d "
-            "subtype=%d live=%d life=%.3f scale=%.3f ownerType=%lld",
-            phase, SlayerParticleSkillName(slot),
-            static_cast<int>(particle.Target ? particle.Target->Skill : 0),
-            static_cast<long long>(particle.Type), particle.TexType,
-            particle.SubType, particle.Live ? 1 : 0,
-            static_cast<double>(particle.LifeTime),
-            static_cast<double>(particle.Scale),
-            static_cast<long long>(particle.Target ? particle.Target->Type : 0));
-        rise::slayerqa::AppendRuntimeQALog(line);
-    }
-#endif
+    // Zero is legacy; 1..3 select the three audited Breche fire variants.
+    unsigned char g_brecheParticleMode[MAX_PARTICLES] = {};
+    float g_brecheParticleRemainder[MAX_PARTICLES] = {};
+    float g_spinParticleRemainder[MAX_PARTICLES] = {};
+    float g_xsuperParticleRemainder[MAX_PARTICLES] = {};
+    float g_magicThunderRemainder[MAX_PARTICLES] = {};
+    float g_magicShockwaveRemainder[MAX_PARTICLES] = {};
+    float g_magicSmokeRemainder[MAX_PARTICLES] = {};
+    float g_wrathParticleRemainder[MAX_PARTICLES] = {};
+    float g_obsidianThunderRemainder[MAX_PARTICLES] = {};
 }
+
+static int CreateParticleInternal(int Type, vec3_t Position, vec3_t Angle,
+    vec3_t Light, int SubType, float Scale, OBJECT* Owner, bool breche);
 
 void HandPosition(PARTICLE* o)
 {
@@ -134,14 +100,32 @@ void CreateEffectFpsChecked(int Type, vec3_t Position, vec3_t Angle, vec3_t Ligh
 }
 int CreateParticle(int Type, vec3_t Position, vec3_t Angle, vec3_t Light, int SubType, float Scale, OBJECT* Owner)
 {
+    const int result = CreateParticleInternal(Type, Position, Angle, Light,
+        SubType, Scale, Owner, false);
+    return result < 0 ? 0 : result; // Preserve the legacy public convention.
+}
+
+int rise::growlancer::CreateBrecheFireParticle(int variant, float* position,
+    float* angle, float* light, float scale)
+{
+    if (variant < 0 || variant > 2)
+        return -1;
+    const int types[] = {BITMAP_FIRE_HIK1, BITMAP_FIRE_CURSEDLICH, BITMAP_FIRE_HIK3};
+    return CreateParticleInternal(types[variant], position, angle, light,
+        variant == 1 ? 4 : 0, scale, NULL, true);
+}
+
+static int CreateParticleInternal(int Type, vec3_t Position, vec3_t Angle,
+    vec3_t Light, int SubType, float Scale, OBJECT* Owner, bool breche)
+{
     if (!g_pOption->GetRenderAllEffects() || !g_pOption->GetRenderSkillEffects())
     {
-        return false;
+        return -1;
     }
 
     if (!EFFECTBUDGET330::ShouldCreateParticle(Position, Owner != NULL))
     {
-        return false;
+        return -1;
     }
 
     const int particleCapacity = EFFECTBUDGET330::GetParticleCapacity(Position);
@@ -162,6 +146,17 @@ int CreateParticle(int Type, vec3_t Position, vec3_t Angle, vec3_t Light, int Su
         PARTICLE* o = &Particles[i];
         if (!o->Live)
         {
+            // Reset even when an ordinary SS6 particle reuses a Breche slot.
+            g_brecheParticleMode[i] = breche ?
+                (Type == BITMAP_FIRE_HIK1 ? 1 : Type == BITMAP_FIRE_CURSEDLICH ? 2 : 3) : 0;
+            g_brecheParticleRemainder[i] = 0.f;
+            g_spinParticleRemainder[i] = 0.f;
+            g_xsuperParticleRemainder[i] = 0.f;
+            g_magicThunderRemainder[i] = 0.f;
+            g_magicShockwaveRemainder[i] = 0.f;
+            g_magicSmokeRemainder[i] = 0.f;
+            g_wrathParticleRemainder[i] = 0.f;
+            g_obsidianThunderRemainder[i] = 0.f;
             g_particleCreateCursor = i + 1;
             if (g_particleCreateCursor >= particleCapacity)
             {
@@ -181,12 +176,6 @@ int CreateParticle(int Type, vec3_t Position, vec3_t Angle, vec3_t Light, int Su
             o->LifeTime = 2;
             o->Frame = 0;
             o->Target = Owner;
-#ifdef RISE_SLAYER_RUNTIME_QA
-            const int slayerParticleSlot = SlayerParticleSkillSlot(Owner);
-            if (slayerParticleSlot >= 0)
-                LogSlayerParticleEvent("create", *o, slayerParticleSlot,
-                    g_slayerParticleCreateSamples);
-#endif
             o->Rotation = 0.f;
             o->bEnableMove = true;
             VectorCopy(Angle, o->Angle);
@@ -196,6 +185,85 @@ int CreateParticle(int Type, vec3_t Position, vec3_t Angle, vec3_t Light, int Su
             float Matrix[3][4];
             switch (o->Type)
             {
+            case rise::growlancer::kWrathComboBitmap:
+                // SS21 0x168ED1D..0x168EED3, effect texture 0x81E4.
+                if (o->SubType == 0)
+                {
+                    o->LifeTime = 10.0f;
+                    o->Scale = 2.0f;
+                    o->Alpha = 1.0f;
+                    Vector(1.0f, 1.0f, 0.62f, o->Light);
+                }
+                else if (o->SubType == 1)
+                {
+                    o->LifeTime = 10.0f;
+                    o->Scale = 0.1f;
+                    o->Alpha = 1.0f;
+                    Vector(1.0f, 1.0f, 0.62f, o->Light);
+                }
+                else if (o->SubType == 2)
+                {
+                    o->LifeTime = 20.0f;
+                    o->Alpha = 1.0f;
+                }
+                break;
+            case rise::growlancer::kWrathAlphaLightBitmap:
+                // SS21 0x168EFDD..0x168F0C7, effect texture 0x81E6.
+                o->LifeTime = 20.0f;
+                o->Scale = o->SubType == 1 ? 3.2f : 3.0f;
+                o->Alpha = 0.5f;
+                if (o->SubType == 1)
+                    Vector(5.0f, 1.0f, 0.3f, o->Light);
+                else
+                    Vector(1.0f, 3.0f, 10.0f, o->Light);
+                break;
+            case rise::growlancer::kFlareBlueBitmap:
+                if (o->SubType == 4)
+                {
+                    // SS21 0x164917E..0x1649311.  The subtype-4 Spin Step
+                    // specks keep the supplied scale, live 20..39 ticks and
+                    // receive independent integral offsets in the exact
+                    // inclusive ranges X/Y [-50,50], Z [0,100].
+                    o->LifeTime = rand() % 20 + 20;
+                    o->fRepeatedlyHeight = o->LifeTime;
+                    o->Scale = Scale;
+                    o->Alpha = 1.0f;
+                    o->Position[0] += static_cast<float>(rand() % 101 - 50);
+                    o->Position[1] += static_cast<float>(rand() % 101 - 50);
+                    o->Position[2] += static_cast<float>(rand() % 101);
+                }
+                else if (o->SubType == 5)
+                {
+                    // SS21 0x1649316..0x1649428. +0x4C is its preserved
+                    // maximum lifetime; use SS6's otherwise-unused field.
+                    o->LifeTime = 20.0f;
+                    o->fRepeatedlyHeight = 20.0f;
+                    o->Scale = Scale;
+                    o->Alpha = 0.0f;
+                    o->Rotation = (float)(rand() % 360);
+                    Vector(1.0f, 1.0f, 1.0f, o->Light);
+                }
+                break;
+            case rise::growlancer::kXsuper0001Bitmap:
+                // SS21 0x16892DA..0x16893B0, subtype 1 used by Shining Peak.
+                o->LifeTime = 6.0f;
+                o->Scale = Scale;
+                o->Rotation = (float)(rand() % 360);
+                Vector(0.7f, 0.7f, 1.0f, o->Light);
+                break;
+            case rise::growlancer::kShockwave2Bitmap:
+                if (o->SubType == 1)
+                {
+                    // SS21 Magic Pin Explosion particle constructor
+                    // 0x168BDAB..0x168BE48. fRepeatedlyHeight is unused by
+                    // the SS6 particle runtime and stores SS21 field +0xA8.
+                    o->fRepeatedlyHeight = 1.3f;
+                    o->LifeTime = 8.0f;
+                    o->Alpha = 0.6f;
+                    o->Gravity = Scale;
+                    VectorCopy(Light, o->TurningForce);
+                }
+                break;
             case BITMAP_EFFECT:
                 if (o->SubType == 1)
                 {
@@ -873,6 +941,17 @@ int CreateParticle(int Type, vec3_t Position, vec3_t Angle, vec3_t Light, int Su
                 {
                     o->LifeTime = 5;
                 }
+                else if (o->SubType == 9 || o->SubType == 10)
+                {
+                    // S21 1650BF2..1650D9B; common random draws retained.
+                    rise::growlancer::InitMagicThunder(*o);
+                }
+                else if (o->SubType == 8)
+                {
+                    // S21 1650BA3..1650BED retains caller scale after common random draws.
+                    o->LifeTime = 15;
+                    o->Scale = Scale;
+                }
                 break;
             case BITMAP_MAGIC:
             {
@@ -1199,6 +1278,17 @@ int CreateParticle(int Type, vec3_t Position, vec3_t Angle, vec3_t Light, int Su
                     o->Position[1] += ((float)(rand() % 20 - 10)) * FPS_ANIMATION_FACTOR;
                     o->Position[2] += ((float)(rand() % 20 - 10)) * FPS_ANIMATION_FACTOR;
                     o->Gravity = -1.5f;
+                }
+                else if (o->SubType == 19)
+                {
+                    // SS21 Magic Pin Explosion, particle constructor
+                    // 0x165514D..0x16551E4. Private update16C5301 below
+                    // preserves S21 RGB decay, expansion, rotation and rise.
+                    o->TexType = BITMAP_SMOKE;
+                    o->LifeTime = 20;
+                    o->Alpha = 1.0f;
+                    o->Rotation = (float)(rand() % 360);
+                    o->Scale = Scale;
                 }
             }
             break;
@@ -3976,7 +4066,7 @@ int CreateParticle(int Type, vec3_t Position, vec3_t Angle, vec3_t Light, int Su
             return i;
         }
     }
-    return false;
+    return -1;
 }
 
 void MoveParticles()
@@ -4009,6 +4099,112 @@ void MoveParticles()
         if (o->Live)
         {
             count++;
+            if (o->Type == BITMAP_ENERGY && o->SubType == 8)
+            {
+                rise::growlancer::AdvanceParticleWholeTicks(*o,
+                    g_obsidianThunderRemainder[i], FPS_ANIMATION_FACTOR,
+                    [](PARTICLE& p, float) {rise::growlancer::UpdateObsidianThunderTick(p);});
+                continue;
+            }
+            if (o->Type == rise::growlancer::kWrathComboBitmap && o->SubType == 0)
+            {
+                rise::growlancer::AdvanceParticleWholeTicks(*o,
+                    g_wrathParticleRemainder[i], FPS_ANIMATION_FACTOR,
+                    [](PARTICLE& p, float) { rise::growlancer::UpdateWrathComboTick(p); });
+                continue;
+            }
+            if (o->Type == rise::growlancer::kWrathAlphaLightBitmap &&
+                (o->SubType == 0 || o->SubType == 1))
+            {
+                rise::growlancer::AdvanceParticleWholeTicks(*o,
+                    g_wrathParticleRemainder[i], FPS_ANIMATION_FACTOR,
+                    [](PARTICLE& p, float) { rise::growlancer::UpdateWrathAlphaTick(p); });
+                continue;
+            }
+            if (o->Type == BITMAP_CLUD64 && o->SubType == 19)
+            {
+                rise::growlancer::AdvanceParticleWholeTicks(*o,
+                    g_magicSmokeRemainder[i], FPS_ANIMATION_FACTOR,
+                    [](PARTICLE& particle, float) {
+                        rise::growlancer::UpdateMagicSmokeTick(particle);
+                    });
+                continue;
+            }
+            if (o->Type == rise::growlancer::kShockwave2Bitmap && o->SubType == 1)
+            {
+                rise::growlancer::AdvanceParticleWholeTicks(*o,
+                    g_magicShockwaveRemainder[i], FPS_ANIMATION_FACTOR,
+                    [](PARTICLE& particle, float) {
+                        rise::growlancer::UpdateMagicShockwaveTick(particle);
+                    });
+                continue;
+            }
+            if (o->Type == BITMAP_ENERGY && (o->SubType == 9 || o->SubType == 10))
+            {
+                rise::growlancer::AdvanceParticleWholeTicks(*o,
+                    g_magicThunderRemainder[i], FPS_ANIMATION_FACTOR,
+                    [](PARTICLE& particle, float) {
+                        rise::growlancer::UpdateMagicThunderTick(particle);
+                    });
+                continue;
+            }
+            if (o->Type == rise::growlancer::kFlareBlueBitmap && o->SubType == 5)
+            {
+                // Shares the per-slot flare accumulator with subtype4;
+                // allocation resets it for both and subtypes never change.
+                rise::growlancer::AdvanceParticleWholeTicks(*o,
+                    g_spinParticleRemainder[i], FPS_ANIMATION_FACTOR,
+                    [](PARTICLE& particle, float) {
+                        rise::growlancer::UpdateFlareParticleTick(particle);
+                    });
+                continue;
+            }
+            if (o->Type == rise::growlancer::kXsuper0001Bitmap)
+            {
+                rise::growlancer::AdvanceParticleWholeTicks(*o,
+                    g_xsuperParticleRemainder[i], FPS_ANIMATION_FACTOR,
+                    [](PARTICLE& particle, float) {
+                        rise::growlancer::UpdateXsuperTick(particle);
+                        const int frames[] = {
+                            rise::growlancer::kXsuper0001Bitmap,
+                            rise::growlancer::kXsuper0002Bitmap,
+                            rise::growlancer::kXsuper0003Bitmap,
+                            rise::growlancer::kXsuper0004Bitmap,
+                            rise::growlancer::kXsuper0005Bitmap,
+                            rise::growlancer::kXsuper0006Bitmap };
+                        particle.TexType = frames[particle.SubType];
+                    });
+                continue;
+            }
+            if (o->Type == rise::growlancer::kFlareBlueBitmap && o->SubType == 4)
+            {
+                rise::growlancer::AdvanceParticleWholeTicks(*o,
+                    g_spinParticleRemainder[i], FPS_ANIMATION_FACTOR,
+                    [](PARTICLE& particle, float) {
+                        rise::growlancer::UpdateSpinParticleTick(particle,
+                            [](PARTICLE& moving) {
+                                // S21 13272A0: rotate velocity, then add once.
+                                // Native MovePosition additionally multiplies FPS.
+                                float matrix[3][4];
+                                vec3_t velocity;
+                                AngleMatrix(moving.Angle, matrix);
+                                VectorRotate(moving.Velocity, matrix, velocity);
+                                VectorAdd(moving.Position, velocity, moving.Position);
+                            }, []() { return rand(); });
+                    });
+                continue;
+            }
+            if (g_brecheParticleMode[i] != 0)
+            {
+                const int variant = g_brecheParticleMode[i] - 1;
+                rise::growlancer::AdvanceParticleWholeTicks(*o,
+                    g_brecheParticleRemainder[i], FPS_ANIMATION_FACTOR,
+                    [variant](PARTICLE& particle, float) {
+                        rise::growlancer::UpdateBrecheFireParticleTick(
+                            particle, variant, []() { return rand(); });
+                    });
+                continue;
+            }
             o->LifeTime -= FPS_ANIMATION_FACTOR;
             if (o->LifeTime <= 0)
             {
@@ -4029,6 +4225,19 @@ void MoveParticles()
 
             switch (o->Type)
             {
+            case rise::growlancer::kWrathComboBitmap:
+                // Subtype0 handled by private whole ticks before this switch.
+                // Other subtypes retain their existing no-op update here.
+                break;
+            case rise::growlancer::kWrathAlphaLightBitmap:
+                // Subtypes0/1 handled by private whole ticks above.
+                break;
+            case rise::growlancer::kShockwave2Bitmap:
+                if (o->SubType == 1)
+                {
+                    // Handled before the generic pre-decrement loop above.
+                }
+                break;
             case BITMAP_EFFECT:
                 if (o->LifeTime >= 10)
                 {
@@ -9060,13 +9269,6 @@ void RenderParticles(BYTE byRenderOneMore)
                 if (o->Position[2] <= 300.f) continue;
             }
 
-#ifdef RISE_SLAYER_RUNTIME_QA
-            const int slayerParticleSlot = SlayerParticleSkillSlot(o->Target);
-            if (slayerParticleSlot >= 0)
-                LogSlayerParticleEvent("render-submit", *o,
-                    slayerParticleSlot, g_slayerParticleRenderSamples);
-#endif
-
             BITMAP_t* pBitmap = Bitmaps.GetTexture(o->TexType);
             float Width = pBitmap->Width * o->Scale;
             float Height = pBitmap->Height * o->Scale;
@@ -9077,6 +9279,13 @@ void RenderParticles(BYTE byRenderOneMore)
             else
             {
                 EnableAlphaTest(false);
+            }
+
+            if (g_brecheParticleMode[i] != 0)
+            {
+                rise::growlancer::RenderBrecheFireSprite(o->TexType,
+                    o->Position, Width, Height, o->Light, o->Rotation);
+                continue;
             }
 
             if (o->Type == BITMAP_LIGHT && o->SubType == 6)
@@ -9090,6 +9299,38 @@ void RenderParticles(BYTE byRenderOneMore)
             int Frame;
             switch (o->Type)
             {
+            case rise::growlancer::kWrathComboBitmap:
+                // Particle dispatcher 0x1621347..0x16213A7 falls through to
+                // 0x1640DD2: render its own texture, light and rotation.
+                // The Combo4 substitution belongs to the separate OBJECT
+                // renderer and is not reachable from this particle record.
+                RenderSprite(o->TexType, o->Position, Width, Height,
+                    o->Light, o->Rotation);
+                break;
+            case rise::growlancer::kWrathAlphaLightBitmap:
+            {
+                // SS21 0x162D2E2 multiplies the submitted light by alpha.
+                vec3_t alphaLight;
+                VectorScale(o->Light, o->Alpha, alphaLight);
+                RenderSprite(o->TexType, o->Position, Width, Height,
+                    alphaLight, o->Rotation);
+            }
+                break;
+            case rise::growlancer::kFlareBlueBitmap:
+                if (o->SubType == 4 || o->SubType == 5)
+                {
+                    // S21 1628EAA..1628FEA also multiplies subtype4 by alpha.
+                    vec3_t alphaLight;
+                    VectorScale(o->Light, o->Alpha, alphaLight);
+                    RenderSprite(o->TexType, o->Position, Width, Height,
+                        alphaLight, o->Rotation);
+                }
+                else
+                {
+                    RenderSprite(o->TexType, o->Position, Width, Height,
+                        o->Light, o->Rotation);
+                }
+                break;
             case BITMAP_WATERFALL_1:
                 RenderSprite(o->TexType, o->Position, Width, Height, o->Light, o->Rotation);
                 break;

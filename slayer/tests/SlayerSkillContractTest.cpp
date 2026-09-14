@@ -38,14 +38,12 @@ public:
     int pierceHits;
     int pierceReturns;
     int detections;
-    int demolishBuffs;
     unsigned lastDotDuration;
-    unsigned lastDemolishDuration;
 
     RecordingEffectSink()
         : swordProjectiles(0), batHits(0), batDots(0), batTicks(0),
           pierceDashes(0), pierceHits(0), pierceReturns(0), detections(0),
-          demolishBuffs(0), lastDotDuration(0), lastDemolishDuration(0)
+          lastDotDuration(0)
     {
     }
 
@@ -61,11 +59,6 @@ public:
     virtual void SpawnPierceHit(int, int, int) { ++pierceHits; }
     virtual void FinishPierceReturn(int, int) { ++pierceReturns; }
     virtual void MarkDetection(int) { ++detections; }
-    virtual void StartDemolishBuff(int, unsigned durationMs)
-    {
-        ++demolishBuffs;
-        lastDemolishDuration = durationMs;
-    }
 };
 
 class RecordingDamageSink : public sl::SlayerSkillDamageSink
@@ -87,7 +80,7 @@ public:
 
 int main()
 {
-    Require(sl::SkillSeedCount() == 5, "five Slayer base skill rows");
+    Require(sl::SkillSeedCount() == 4, "four Slayer base skill rows");
     Require(sl::kSlayerClassProfile.classId == sl::kS21ClassSlayer &&
         sl::kSlayerClassProfile.createdByDefault &&
         sl::IsSlayerClass(sl::kS21ClassSlayer),
@@ -105,8 +98,6 @@ int main()
         "Pierce Attack uses native SkillList ID 294");
     Require(sl::FindSkillSeed(295)->id == sl::kDetection,
         "Detection uses native SkillList ID 295");
-    Require(sl::FindSkillSeed(297)->id == sl::kDemolish,
-        "Demolish uses native SkillList ID 297");
     Require(sl::FindSkillSeed(293)->skillListLevel == 150,
         "server profile preserves supplied SkillList Bat Flock level");
     Require(sl::FindSkillSeed(293)->guideLevel == 270,
@@ -148,9 +139,6 @@ int main()
         "Pierce Attack adds two hits to a Bat Flock target");
     Require(sl::DetectionCooldownMs() == 5000,
         "Detection cooldown is five seconds");
-    Require(sl::DemolishCooldownMs() == 60000 &&
-        sl::DemolishDurationSeconds() == 60,
-        "Demolish cooldown and duration follow S21");
     Require(!sl::HasAuthoritativeDetectionDuration(),
         "Detection mark duration is not invented");
     Require(!sl::HasNativeClassSlot(7),
@@ -170,11 +158,8 @@ int main()
     RequireNear(sl::ApplyRegularDamageFormula(sl::kPierceAttack, 100.0, 300, 1100),
         196.7857142857143, "Pierce Attack formula");
 
-    const int skillIds[] = { sl::kSwordInertia, sl::kBatFlock,
-        sl::kPierceAttack, sl::kDetection, sl::kDemolish };
-    for (unsigned i = 0; i < sizeof(skillIds) / sizeof(skillIds[0]); ++i)
+    for (int skillId = sl::kSwordInertia; skillId <= sl::kDetection; ++skillId)
     {
-        const int skillId = skillIds[i];
         Require(sl::FindServerSkillRecord(skillId) != 0,
             "server catalog contains every Slayer skill");
         Require(!sl::HasEnabledRise52Opcode(skillId),
@@ -184,12 +169,10 @@ int main()
         "Sword Inertia uses the recovered target envelope");
     Require(sl::FindPacketSeed(sl::kBatFlock)->rise52EnvelopeOpcode == 0x19,
         "Bat Flock uses the recovered target envelope");
-    Require(sl::FindPacketSeed(sl::kPierceAttack)->rise52EnvelopeOpcode == 0x19,
-        "Pierce Attack uses the recovered targeted envelope");
+    Require(sl::FindPacketSeed(sl::kPierceAttack)->rise52EnvelopeOpcode == 0x1E,
+        "Pierce Attack uses the recovered duration envelope");
     Require(sl::FindPacketSeed(sl::kDetection)->rise52EnvelopeOpcode == 0x19,
         "Detection uses the recovered self envelope");
-    Require(sl::FindPacketSeed(sl::kDemolish)->rise52EnvelopeOpcode == 0x19,
-        "Demolish uses the recovered self envelope");
 
     sl::SlayerSkillRuntime runtime;
     sl::CastContext context;
@@ -324,25 +307,6 @@ int main()
     context.nowMs = 5000;
     Require(runtime.Cast(sl::kDetection, context, events),
         "Detection recast accepted after five seconds");
-    events.clear();
-
-    context.level = 400;
-    context.dexterity = 1450;
-    context.targetAlive = false;
-    context.targetId = -1;
-    context.nowMs = 60000;
-    Require(runtime.Cast(sl::kDemolish, context, events),
-        "Demolish self-buff accepted");
-    Require(events.size() == 1 && events[0].type == sl::kDemolishBuffEvent &&
-        events[0].targetId == context.actorId &&
-        events[0].durationMs == 60000,
-        "Demolish emits a 60-second self-buff event");
-    Require(sl::DispatchSlayerSkillEffect(events[0], sink),
-        "Demolish buff event dispatch");
-    Require(sink.demolishBuffs == 1 && sink.lastDemolishDuration == 60000,
-        "Demolish effect bridge binds the recovered duration");
-    Require(sl::DispatchSlayerSkillDamage(events[0], 100.0, 0, 1450,
-        damageSink), "Demolish buff damage boundary dispatch");
 
     std::cout << "PASS: Slayer IDs, guide/config profiles, prerequisites, formulas, runtime event ordering and fail-closed class/packet gates" << std::endl;
     return 0;

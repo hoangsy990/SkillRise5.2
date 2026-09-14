@@ -185,9 +185,8 @@ enum eEffectNumber
 	EFFECT_DAME_WING_ITEM_SWICH = 208,
 	EFFECT_DAME_KHIEN_ITEM_SWICH = 209,
 	EFFECT_GUILD_BUFF = 220,
-	// Isolated S21 Slayer port. 221/222 are unused by the legacy effect catalog.
+	// Isolated S21 Slayer port. 221 is unused by the legacy effect catalog.
 	EFFECT_SLAYER_BAT_FLOCK = 221,
-	EFFECT_SLAYER_DEMOLISH = 222,
 };
 struct PMSG_SEND_BUFF_ICON_EX
 {

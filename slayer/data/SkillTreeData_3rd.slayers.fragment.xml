@@ -5,7 +5,5 @@
   <Skill Index="48" ReqMinPoint="10" MaxPoint="10" ParentSkill1="779" ParentSkill2="0" MagicNumber="780" ValueType="0" Name="Sword Inertia Mastery" />
   <Skill Index="58" ReqMinPoint="1" MaxPoint="20" ParentSkill1="0" ParentSkill2="0" MagicNumber="781" ValueType="1" Name="Bat Flock Strengthener" />
   <Skill Index="62" ReqMinPoint="10" MaxPoint="10" ParentSkill1="781" ParentSkill2="0" MagicNumber="782" ValueType="0" Name="Bat Flock Mastery" />
-  <Skill Index="68" ReqMinPoint="1" MaxPoint="20" ParentSkill1="0" ParentSkill2="0" MagicNumber="787" ValueType="2" Name="Demolish Strengthener" />
-  <Skill Index="72" ReqMinPoint="1" MaxPoint="20" ParentSkill1="787" ParentSkill2="0" MagicNumber="788" ValueType="1" Name="Demolish Mastery" />
   <Skill Index="65" ReqMinPoint="10" MaxPoint="10" ParentSkill1="0" ParentSkill2="0" MagicNumber="794" ValueType="0" Name="Detection Strengthener" />
 </SkillTreeRows>

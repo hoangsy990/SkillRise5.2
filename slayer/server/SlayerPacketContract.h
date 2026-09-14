@@ -8,9 +8,6 @@ enum PacketFamily
 {
     kLegacyTargetPacket,
     kLegacySelfPacket,
-    // Keep this name for callers that need to distinguish movement-capable
-    // skills, but do not imply a proven 0x1E envelope until a packet capture
-    // or S21 send-site disassembly establishes it.
     kLegacyDashPacket
 };
 
@@ -39,13 +36,8 @@ static const PacketSeed kPacketSeeds[] =
 {
     { kSwordInertia, kLegacyTargetPacket, kSelectedTarget, 0x19, -1 },
     { kBatFlock,     kLegacyTargetPacket, kSelectedTarget, 0x19, -1 },
-    // The recovered S21 evidence proves the Pierce action/effect chain, not
-    // a dedicated send envelope.  5.2 therefore uses the existing targeted
-    // 0x19 request, matching UseSkillSlayer and the server's GCSkillAttack
-    // response; the dash movement remains client-side.
-    { kPierceAttack, kLegacyDashPacket,   kSelectedTarget, 0x19, -1 },
-    { kDetection,    kLegacySelfPacket,   kLocalActor,     0x19, -1 },
-    { kDemolish,     kLegacySelfPacket,   kLocalActor,     0x19, -1 }
+    { kPierceAttack, kLegacyDashPacket,   kSelectedTarget, 0x1E, -1 },
+    { kDetection,    kLegacySelfPacket,   kLocalActor,     0x19, -1 }
 };
 
 inline const PacketSeed* FindPacketSeed(int skillId)

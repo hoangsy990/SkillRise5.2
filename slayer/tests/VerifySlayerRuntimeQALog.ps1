@@ -21,23 +21,6 @@ function AcceptedCast([int]$skillId, [string]$name, [int]$minimumEvents) {
     return $matches[0]
 }
 
-# Current native QA logs record the production receive bridge directly. Keep
-# the older event-ledger checks below for historical captures, but validate the
-# five-skill native sequence when the new markers are present.
-if (@($lines | Where-Object { $_ -match 'auto-sequence complete skills=292,293,294,295,297' }).Count -gt 0) {
-    Require ((@($lines | Where-Object { $_ -match 'login-auto-submit.*account=admin4' }).Count -gt 0)) 'saved admin4 credential login'
-    Require ((@($lines | Where-Object { $_ -match 'character-auto-select.*requested=Slayer' }).Count -gt 0)) 'Slayer character selection'
-    foreach ($skillId in @(292, 293, 294, 295, 297)) {
-        Require ((@($lines | Where-Object { $_ -match "auto-sequence cast step=.*skill=$skillId\b" }).Count -gt 0)) "auto-sequence cast for $skillId"
-        Require ((@($lines | Where-Object { $_ -match "native-action skill=$skillId applied=1" }).Count -gt 0)) "native action applied for $skillId"
-    }
-    Require ((@($lines | Where-Object { $_ -match 'class-gate fixture-bypass sourceClass=1 expected=9' }).Count -ge 5)) 'explicit QA class fixture gate'
-    Require ((@($lines | Where-Object { $_ -match 'production-s21-graph skill=Demolish' }).Count -gt 0)) 'Demolish dump graph'
-    Require ((@($lines | Where-Object { $_ -match 'native-particle-render-submit skill=Demolish skillId=297' }).Count -gt 0)) 'Demolish particle render submission'
-    Write-Output 'PASS: Slayer native QA log proves saved-login, explicit fixture gate, five actions and Demolish render'
-    exit 0
-}
-
 AcceptedCast 292 'Sword Inertia' 3 | Out-Null
 AcceptedCast 293 'Bat Flock' 3 | Out-Null
 AcceptedCast 294 'Pierce Attack' 6 | Out-Null

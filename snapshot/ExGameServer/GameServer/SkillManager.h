@@ -417,7 +417,6 @@ public:
 	bool SkillSlayerBatFlock(int aIndex,int bIndex,CSkill* lpSkill);
 	bool SkillSlayerPierceAttack(int aIndex,int bIndex,CSkill* lpSkill);
 	bool SkillSlayerDetection(int aIndex,int bIndex,CSkill* lpSkill);
-	bool SkillSlayerDemolish(int aIndex,int bIndex,CSkill* lpSkill);
 	void ApplyVongTronLuaEffect(LPOBJ lpObj,LPOBJ lpTarget,CSkill* lpSkill,int damage);
 	void ApplyMeteoriteEffect(LPOBJ lpObj,LPOBJ lpTarget,CSkill* lpSkill,int damage);
 	void ApplyIceStormEffect(LPOBJ lpObj,LPOBJ lpTarget,CSkill* lpSkill,int damage);
