@@ -53,8 +53,9 @@ therefore enforce one accepted contact per target without suppressing later
 casts or different targets.
 
 The merge-ready data fragments under `data/` carry the five exact `SkillList`
-rows, the verified Pierce `SkillRequire` row, the five third-master rows, and
-the two `SkillSettings` keys. They are wrapped as fragments on purpose: merge
+rows, the verified Pierce `SkillRequire` row, the seven Slayer
+`BuffEffectManager` rows (including Detection's one-minute result), the five
+third-master rows, and the two `SkillSettings` keys. They are wrapped as fragments on purpose: merge
 them into the production files only after checking the owner's current file
 hash and preserving unrelated rows.
 

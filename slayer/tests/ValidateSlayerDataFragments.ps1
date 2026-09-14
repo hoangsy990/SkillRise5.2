@@ -18,6 +18,15 @@ $requireRow = $requireDoc.SkillRequireRows.Skill
 Require ([int]$requireRow.Index -eq 294 -and [int]$requireRow.ItemGroup -eq 12 -and [int]$requireRow.ItemIndex -eq 479) 'Pierce bead mapping'
 Require ([int]$requireRow.ReqIndex -eq 293 -and [int]$requireRow.ReqMasterSkillIndex -eq 782 -and [int]$requireRow.ReqMasterPoint -eq 10) 'Pierce prerequisite mapping'
 
+$buffDoc = [xml](Get-Content -Raw -LiteralPath (Join-Path $root 'data\BuffEffectManager.slayers.fragment.xml'))
+$buffs = @($buffDoc.BuffRows.Buff)
+Require ($buffs.Count -eq 7) 'seven Slayer BuffEffectManager rows'
+Require (($buffs | ForEach-Object { [int]$_.Index }) -join ',' -eq '315,316,317,318,319,320,321') 'Slayer buff indexes 315..321'
+$detectionBuff = @($buffs | Where-Object { [int]$_.Index -eq 316 })[0]
+Require ([int]$detectionBuff.EffectType -eq 298 -and $detectionBuff.Description -match '1 minute') 'Detection one-minute buff lifetime'
+$demolishBuff = @($buffs | Where-Object { [int]$_.Index -eq 317 })[0]
+Require ([int]$demolishBuff.EffectType -eq 299 -and [int]$demolishBuff.BuffOutputValue -eq 1) 'Demolish buff effect'
+
 $treeDoc = [xml](Get-Content -Raw -LiteralPath (Join-Path $root 'data\SkillTreeData_3rd.slayers.fragment.xml'))
 $magicNumbers = @($treeDoc.SkillTreeRows.Skill | ForEach-Object { [int]$_.MagicNumber })
 Require (($magicNumbers -join ',') -eq '779,780,781,782,787,788,794') 'third-master magic numbers'

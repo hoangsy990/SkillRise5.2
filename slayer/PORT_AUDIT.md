@@ -8,7 +8,7 @@ This audit separates recovered facts from work that still requires the actual
 | Five skill IDs and names | `shared/SlayerSkillContractData.h` IDs 292..295,297 | PASS (static) |
 | Slayer class profile | `shared/SlayerClassContractData.h` records class 9, creation/evolution names, Lorencia start and guide starting attributes | PASS (static; native class arrays open) |
 | Config stats and resource costs | S21 `D:\GameServer S21\Data\Skills\SkillList.xml` (SHA-256 `3E238C786ECAB3445A0DB4756FE3D2A3923FBC0594506BB9C3FF206020A7E0A0`) mirrored in shared/server records | PASS (static) |
-| Merge-ready data rows | `data/SkillList.slayers.fragment.xml`, `SkillRequire.slayers.fragment.xml`, `SkillTreeData_3rd.slayers.fragment.xml`, `SkillSettings.slayers.fragment.ini` | PASS (static) |
+| Merge-ready data rows | `data/SkillList.slayers.fragment.xml`, `SkillRequire.slayers.fragment.xml`, `BuffEffectManager.slayers.fragment.xml`, `SkillTreeData_3rd.slayers.fragment.xml`, `SkillSettings.slayers.fragment.ini` | PASS (static) |
 | Public descriptions and Darkness/no-element attributes | Webzen guide 100; represented as flags/elements and event order | PASS (static) |
 | Config/guide level differences | Separate `skillListLevel`, `guideLevel`, and bead override; no silent substitution | PASS (static) |
 | Sword Inertia three swords / one hit | Three cast-tagged events, effect/damage sinks and a per-cast target ledger helper | PASS (focused; native collision binding open) |
