@@ -18,7 +18,7 @@ This audit separates recovered facts from work that still requires the actual
 | Mastery tree | IDs 779, 780, 781, 782 and 794 mirrored from `SkillTreeData_3rd.xml` | PASS (static) |
 | Skill bead/item mapping | Only known mapping group 12/index 479 is enabled from `SkillRequire.xml` | PARTIAL |
 | Damage formulas | `RegularSkillCalc.lua` formulas mirrored as double-precision helper and damage sink | PASS (focused) |
-| Class column | S21 class number 9 recorded; legacy 5.2 `MAX_CLASS == 7` blocks writes | BLOCKED (ABI) |
+| Class column | S21 class number 9 recorded; runtime also rejects non-Slayer/disabled-class contexts; legacy 5.2 `MAX_CLASS == 7` blocks writes | PARTIAL (ABI) |
 | Packet send/receive | Existing envelopes recovered (`0x19` target/self, `0x1E` duration/dash); skill-specific activation remains `-1` until handler/fan-out validation | PARTIAL |
 | Client effects, icons, sounds, minimap UI | IDs/icons are recorded; native binding and proprietary assets are not copied | OPEN |
 | Server authority, persistence, reconnect/rollback | No live server or database mutation performed | OPEN |

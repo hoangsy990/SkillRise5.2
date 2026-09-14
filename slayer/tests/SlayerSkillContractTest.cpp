@@ -173,6 +173,8 @@ int main()
     sl::SlayerSkillRuntime runtime;
     sl::CastContext context;
     context.actorId = 7;
+    context.actorClassId = sl::kS21ClassSlayer;
+    context.slayerClassEnabled = true;
     context.targetId = 99;
     context.targetAlive = true;
     context.level = 30;

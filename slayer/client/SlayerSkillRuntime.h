@@ -35,6 +35,8 @@ struct RuntimeEvent
 struct CastContext
 {
     int actorId;
+    int actorClassId;
+    bool slayerClassEnabled;
     int targetId;
     bool targetAlive;
     int level;
@@ -49,7 +51,8 @@ struct CastContext
     std::uint64_t nowMs;
 
     CastContext()
-        : actorId(-1), targetId(-1), targetAlive(false), level(0), strength(0),
+        : actorId(-1), actorClassId(-1), slayerClassEnabled(false),
+          targetId(-1), targetAlive(false), level(0), strength(0),
           dexterity(0), hasBatFlock(false), targetHasBatFlock(false),
           batFlockMasteryPoints(0), nowMs(0)
     {

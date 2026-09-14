@@ -30,7 +30,9 @@ bool SlayerSkillRuntime::Cast(int skillId, const CastContext& context,
     std::vector<RuntimeEvent>& events)
 {
     const SkillSeed* seed = FindSkillSeed(skillId);
-    if (seed == 0 || context.actorId < 0)
+    if (seed == 0 || context.actorId < 0 ||
+        context.actorClassId != kS21ClassSlayer ||
+        !context.slayerClassEnabled)
         return false;
     if (!MeetsStats(skillId, context.level, context.strength,
         context.dexterity))
