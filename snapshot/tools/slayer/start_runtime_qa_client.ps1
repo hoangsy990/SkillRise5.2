@@ -28,5 +28,10 @@ $startInfo.UseShellExecute = $false
 $startInfo.EnvironmentVariables['RISE_QA_CREDENTIAL'] = 'RISE_QA:SlayerSmoke'
 $startInfo.EnvironmentVariables['RISE_SLAYER_QA_ACCOUNT'] = 'admin4'
 $startInfo.EnvironmentVariables['RISE_SLAYER_QA_CHARACTER'] = 'Slayer'
+# Keep this run on the isolated local Sub-1 stack.  ConnectIP.bmd remains
+# hash-pinned production data; the QA-only build consumes this in-memory
+# endpoint override before opening the login socket.
+$startInfo.EnvironmentVariables['RISE_SLAYER_LOCAL_SERVER_IP'] = '127.0.0.2'
+$startInfo.EnvironmentVariables['RISE_SLAYER_LOCAL_SERVER_PORT'] = '55901'
 $qaProcess = [System.Diagnostics.Process]::Start($startInfo)
 Write-Output "Started isolated Slayer QA PID: $($qaProcess.Id) with saved-credential auto-login marker. Login and cast are not verified."
