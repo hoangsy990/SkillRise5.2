@@ -2,6 +2,26 @@
 
 STATUS: IN_PROCESS
 
+### 2026-09-15 — Clash last direct action reset removed
+
+- CURRENT PHASE: nine S21 Grow Lancer skills native PC5.2 client/server, equipment/quests1–3 excluded; `IN_PROCESS`.
+- CURRENT TASK: close the remaining direct action/frame reset in the skill package without altering target/movement semantics.
+- CURRENT SUBTASK: pin S21 Clash local target validation and local/receive action194/controller5FA call order.
+- COMPLETED THIS RUN: local dump `10E4A8C..10E4B64` confirms null target rejection before action194 `1327DE8`, then caster-owned controller5FA with selected target index. Received `12E069D..12E073C` calls same setter before controller. Private `CreateClashRoot` now calls `SetAction(&caster,293,true)` after `ResolveTarget` and fixed-speed preparation, before native controller; no direct caster action/frame reset remains anywhere in `GrowLancerEffectRuntime.cpp`. Focused verifier PASS; isolated QA and nonQA Win32 Main links exit0. Read-only other-class task is still active and has a Grow Lancer body-texture ingame gate OPEN; no merge/deployment from it. No visible QA, VPS, original S21 or other worktree edited.
+- REVERSE EVIDENCE: S21 pinned dump SHA6422CB4E..., contiguous callsites/source setter/native order in `verify_clash_action_setter.py`.
+- CHAIN COVERAGE: Clash caster target/action/root STATIC/BUILD PASS, source local tile/terrain/movement/packet and received siege pushback still OPEN; all nine skill action/frame assignments now use scoped native setter but normal activation/owner visual/GS gates remain OPEN.
+- ASSET PROVENANCE: no asset or Data changed. Previous private staged Engine SHA3E9DFCD6... remains current and predates this new Clash link; no new QA stage claimed.
+- FILES MODIFIED: isolated `GrowLancerEffectRuntime.cpp`, `verify_clash_action_setter.py`, `CLASH_REVERSE.md`, `ACCEPTANCE_GATE_MATRIX.md`, this state only.
+- LAST STATIC CHECK: Clash source/native verifier exit0 and package-wide direct caster action/frame reset search empty. Previous class/asset checks separate checkpoints.
+- LAST BUILD RESULT: QA and nonQA isolated Global Release|Win32 client links exit0 with known cryptlib missing-PDB LNK4099 only; no GS edit/build this run.
+- LAST RUNTIME QA: none this run per owner hidden-only preference; previous hidden fixture PASS cannot prove new Clash branch or gameplay target pushback.
+- KNOWN DIFFERENCES: native Clash root maps action194→private293 but does not yet send source-confirmed tile movement/terrain packet or enforce siege GameServer rules. Other class task has unrelated live body-texture failure; it is not evidence for this private skill package.
+- MISSING CHAIN PARTS: Siege eligibility/packet/pushback/GS authority, stationary/moving target owner pixels, class7 ordinary dispatch, nine-skill runtime regression, Magic foot/Spin ribbon owner FAIL.
+- BLOCKER: owner visible cast deferred, protected original GS/default-class handler missing; meaningful independent reverse/static work still available, `IN_PROCESS`.
+- NEXT EXACT ACTION: trace source Clash movement packet to native server validation before implementing, and audit ordinary Grow Lancer class7 client/GS activation using real class/stat/default evidence rather than local DK QA substitution.
+- NEXT FILE TO OPEN: `GrowLancer/CLASH_REVERSE.md`, `GrowLancer/CLASS_INTEGRATION_CONTRACT.md`, native `WSclient.cpp`/`SkillManager.cpp` receive/cast gates.
+- NEXT FUNCTION TO IMPLEMENT: Clash skill-local movement/packet adapter only after exact source packet+server target semantics; otherwise verified class7 ordinary activation adapter.
+
 ### 2026-09-15 — Circle Shield receive controller/action order corrected
 
 - CURRENT PHASE: nine S21 Grow Lancer skills native PC5.2 client/server, equipment/quests1–3 excluded; `IN_PROCESS`.

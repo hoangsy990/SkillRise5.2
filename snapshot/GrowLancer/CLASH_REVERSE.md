@@ -1,5 +1,18 @@
 # Clash (skill 275) reverse evidence
 
+### Action setter transition audit — 2026-09-15
+
+Contiguous S21 local `0x10E4A8C..0x10E4B64` resolves the target and
+rejects null before `0x1327DE8` action194, then creates controller5FA
+with the caster owner and selected target index. Received
+`0x12E069D..0x12E073C` likewise calls the setter before controller5FA.
+The private native action194→293 adapter now uses preserving
+`SetAction(&caster,293,true)` instead of direct action assignment and
+unconditional current/prior frame reset. `verify_clash_action_setter.py`
+pins both callsites, common setter and native target/action/root order;
+isolated QA/nonQA Win32 links PASS. This does not implement source tile
+movement/siege GS pushback or prove owner visual parity.
+
 Status: `IN_PROCESS` — the S21 client action, local and received target edges,
 controller, both visible children, render/update/lifetime contracts and assets
 are statically closed. Server siege validation/pushback and RISE runtime parity

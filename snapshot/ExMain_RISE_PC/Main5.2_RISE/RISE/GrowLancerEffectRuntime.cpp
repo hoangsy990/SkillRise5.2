@@ -2522,9 +2522,9 @@ void CreateClashRoot(OBJECT& caster, short targetIndex)
     OBJECT* target = 0;
     if (!ResolveTarget(targetIndex, target) || !PrepareFixedPlayerAction(caster, 293))
         return;
-    caster.CurrentAction = 293;
-    caster.AnimationFrame = 0.0f;
-    caster.PriorAnimationFrame = 0.0f;
+    // S21 local/receive selects action194 with the preserving setter only
+    // after target validation, then creates owner/target controller5FA.
+    SetAction(&caster, 293, true);
     CreateEffect(kClashControllerModel, caster.Position, caster.Angle,
         caster.Light, 0, &caster, -1, 0, kClashSkill, 0, 0.75f, targetIndex);
     PlayBuffer(kClashSound, &caster);
