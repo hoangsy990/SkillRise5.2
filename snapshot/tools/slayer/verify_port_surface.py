@@ -214,6 +214,14 @@ def main() -> int:
             "S21 0x678 inclusive unit-step model scale envelope")
     require(resources, "NativeRandomUnitStep(-10, 10) *",
             "S21 0x678 subtype-0 discrete per-frame yaw jitter")
+    require(resources, "NativeRandomUnitStep(upwardZ ? 0 : -100, 100)",
+            "S21 Bat Flock orbit/joint signed unit-step spread")
+    require(resources, "const float x = NativeRandomUnitStep(-100, 100);\n    const float z = NativeRandomUnitStep(upwardZ ? 0 : -100, 100);",
+            "Bat Flock spread samples X before Z like native blocks")
+    require(resources, "NativeRandomUnitStep(40, 90)",
+            "S21 Bat Flock main pulse unit-step spread magnitude")
+    if "NativeRandomRange(" in resources:
+        raise AssertionError("continuous random adapter remains in S21 unit-step Slayer graph")
     if not re.search(r"case kDetectionImpactModel:\s*// Native 0x14926CC[^\n]*\n(?:\s*//[^\n]*\n)*\s*effect.Scale = incomingScale;\s*effect.Alpha = 0.f;", resources):
         raise AssertionError("S21 0x694 both modes must write incoming scale and zero alpha")
     require(header, "kPierceMarksCylinderModel = MAX_MODELS + 41,",
@@ -540,7 +548,7 @@ def main() -> int:
             "0x68A S21 3.5-frame opacity triangle")
     require(resources, "if (rand() % 6 == 0)",
             "0x68A 0x691 child uses native one-in-six gate")
-    require(resources, "markAnchor.Angle[2] = NativeRandomRange(0.f, 360.f);",
+    require(resources, "markAnchor.Angle[2] = NativeRandomUnitStep(0, 360);",
             "0x68A 0x691 child rotates around the native yaw range")
     require(resources, "SpawnChild(kDetectionMarkModel, markAnchor, &effect,",
             "0x68A randomized model child retains its root owner")

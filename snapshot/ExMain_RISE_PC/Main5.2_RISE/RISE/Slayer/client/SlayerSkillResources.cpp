@@ -38,12 +38,6 @@ std::map<const OBJECT*, unsigned char> gPierceCastSerial;
 std::map<const OBJECT*, short> gPierceCastTargetIndex;
 unsigned char gPierceLaneDirection = 0;
 
-float NativeRandomRange(float lower, float upper)
-{
-    return lower + (upper - lower) *
-        (static_cast<float>(rand()) / static_cast<float>(RAND_MAX));
-}
-
 float NativeRandomUnitStep(int lower, int upper)
 {
     // S21 0x1267C3C truncates bounds to unit steps and takes one random
@@ -380,11 +374,15 @@ void RandomBatSpread(vec3_t spread, bool upwardZ)
     // S21 0x683/0x684: random X/Z direction (Y stays zero), normalized,
     // then each axis independently scaled by [0,160]. 0x684's Z seed
     // alone uses [0,100] instead of [-100,100].
-    Vector(NativeRandomRange(-100.f, 100.f), 0.f,
-        NativeRandomRange(upwardZ ? 0.f : -100.f, 100.f), spread);
+    // Native emits the X sample first, then Z. Vector is an inline
+    // function in 5.2; nested call arguments would be evaluated in the
+    // compiler's own order and consume the two RNG draws backwards.
+    const float x = NativeRandomUnitStep(-100, 100);
+    const float z = NativeRandomUnitStep(upwardZ ? 0 : -100, 100);
+    Vector(x, 0.f, z, spread);
     VectorNormalize(spread);
     for (int axis = 0; axis < 3; ++axis)
-        spread[axis] *= NativeRandomRange(0.f, 160.f);
+        spread[axis] *= NativeRandomUnitStep(0, 160);
 }
 
 void EmitBatTargetJoint(OBJECT& effect, OBJECT* target)
@@ -396,7 +394,7 @@ void EmitBatTargetJoint(OBJECT& effect, OBJECT* target)
     VectorAdd(effect.Position, spread, position);
     position[2] += 90.f;
     VectorCopy(effect.Angle, angle);
-    angle[2] += NativeRandomRange(-15.f, 15.f);
+    angle[2] += NativeRandomUnitStep(-15, 15);
     CreateJoint(kGhostMark02RedBitmap, position, position, angle, 1,
         target, 20.f, -1, 0, 0, -1, 0, -1);
 }
@@ -410,7 +408,7 @@ void EmitBatOrbitChild(OBJECT& effect)
     OBJECT pulse = effect;
     VectorAdd(effect.Position, spread, pulse.Position);
     pulse.Position[2] += 90.f;
-    pulse.Angle[2] += NativeRandomRange(-15.f, 15.f);
+    pulse.Angle[2] += NativeRandomUnitStep(-15, 15);
     SpawnChild(kBatFlockOrbitController, pulse, 0, 0, 0.f);
 }
 
@@ -419,11 +417,12 @@ void EmitBatMainPulse(OBJECT& effect)
     // S21 0x1543C4C..0x15442B6: rotate a randomized X/Z spread by the
     // root angle, then lift the authored model/particle launch by 90 Z.
     vec3_t spread;
-    Vector(NativeRandomRange(-100.f, 100.f), 0.f,
-        NativeRandomRange(-100.f, 100.f), spread);
+    const float x = NativeRandomUnitStep(-100, 100);
+    const float z = NativeRandomUnitStep(-100, 100);
+    Vector(x, 0.f, z, spread);
     VectorNormalize(spread);
     for (int axis = 0; axis < 3; ++axis)
-        spread[axis] *= NativeRandomRange(40.f, 90.f);
+        spread[axis] *= NativeRandomUnitStep(40, 90);
     vec34_t matrix;
     AngleMatrix(effect.Angle, matrix);
     vec3_t rotated;
@@ -431,7 +430,7 @@ void EmitBatMainPulse(OBJECT& effect)
     OBJECT pulse = effect;
     VectorAdd(effect.Position, rotated, pulse.Position);
     pulse.Position[2] += 90.f;
-    pulse.Angle[2] += NativeRandomRange(-15.f, 15.f);
+    pulse.Angle[2] += NativeRandomUnitStep(-15, 15);
     Vector(1.f, 1.f, 1.f, pulse.Light);
     // Native 0x678 child owner is the immediate 0x682 root, not caster.
     // S21 selects independently from this 0x682 root's list for each pulse.
@@ -439,7 +438,7 @@ void EmitBatMainPulse(OBJECT& effect)
     pulse.m_sTargetIndex = PickBatFlockTargetIndex(effect);
     SpawnChild(kBatFlockModel, pulse, &effect, 2, 2.5f);
 
-    const float particleScale = NativeRandomRange(80.f, 100.f) * 0.01f;
+    const float particleScale = NativeRandomUnitStep(80, 100) * 0.01f;
     vec3_t pinLight, impactLight;
     Vector(0.5f, 0.5f, 0.5f, pinLight);
     Vector(0.65f, 0.65f, 0.65f, impactLight);
@@ -1246,7 +1245,7 @@ void UpdateEffect(OBJECT& effect, float animationFactor)
                     // The 0x1546CC1..0x1546CED argument window copies the
                     // root angles, then replaces Z with a 0..360 sample.
                     OBJECT markAnchor = effect;
-                    markAnchor.Angle[2] = NativeRandomRange(0.f, 360.f);
+                    markAnchor.Angle[2] = NativeRandomUnitStep(0, 360);
                     SpawnChild(kDetectionMarkModel, markAnchor, &effect,
                         0, 0.f);
                 }

@@ -281,10 +281,14 @@ def main() -> int:
         (0x1267CA2, bytes.fromhex("e83af07b008b4de82b4df04199f7f90355f0")),
         (0x148E5ED, bytes.fromhex("6a01")),
         (0x1540192, bytes.fromhex("6a01")),
+        (0x1543C4C, bytes.fromhex("6a01")),
+        (0x154435F, bytes.fromhex("6a01")),
+        (0x154479D, bytes.fromhex("6a01")),
+        (0x1546CC1, bytes.fromhex("6a01")),
     ):
         if at(va, len(expected)) != expected:
             raise AssertionError(f"S21 Bat Flock unit-step RNG drifted at {va:#x}")
-    print("PASS: S21 0x678 Bat Flock Random uses inclusive integer unit-step bounds")
+    print("PASS: S21 Bat Flock spread/model and Sword mark Random use inclusive integer unit-step bounds")
     # Both buff roots choose smoke/line family before calling the same
     # inclusive Random(-30,30,1) helper twice for independent XY offsets.
     if abs(struct.unpack("<f", at(0x1B4E4D8, 4))[0] - 30.0) > 0.0001:

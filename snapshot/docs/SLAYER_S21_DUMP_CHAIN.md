@@ -583,10 +583,20 @@ Full disassembly of S21 random helper `0x1267C3C` shows unit-step
 bounds converted with `cvttss2si`, a width increment, then one integer
 modulo. Bat Flock model `0x678` passes step `1` at its scale/motion
 initializers (`0x148E5ED` and paired branches) and subtype-0 yaw
-updater (`0x1540192`). The first 5.2 port sampled those ranges as
-continuous floats. The isolated Bat Flock model now samples inclusive
-integer ticks for the decoded ranges; it still uses the 5.2 private RNG,
-so this is distribution/endpoint fidelity, not protected-PRNG seed parity.
+updater (`0x1540192`). Its root spread, red joint and orbit-child
+branches use the same helper/step (`0x1543C4C`, `0x154435F`,
+`0x154479D`). Sword's one-in-six `0x691` mark yaw also passes step
+`1` at `0x1546CC1`. The first 5.2 port sampled those ranges as
+continuous floats. The isolated graph now samples inclusive integer
+ticks for these decoded ranges; it still uses the 5.2 private RNG, so
+this is distribution/endpoint fidelity, not protected-PRNG seed parity.
+The native main-pulse block `0x1543C4C..0x1543CC9` calls Random for
+X, stores vector index 0, then calls it for Z, storing index 2. The
+5.2 `Vector` helper is an inline function, so nesting both RNG calls
+as function arguments could reverse consumption on Win32. Both Bat
+spread helpers now sample explicit X and then Z locals before calling
+`Vector`; this preserves native draw order even when the underlying
+private RNG sequence differs.
 
 Detection's minimap reveal is separate from the `0x692` cast graph. The
 Webzen Slayer guide states that nearby life forms are marked on the minimap
