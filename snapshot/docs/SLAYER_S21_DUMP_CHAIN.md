@@ -72,7 +72,14 @@ Its comment points to `FormulaData.xml::Character` formula 9 (SHA-256
 `9A513DD4375116CFD0FA599114B2103B4D21B194B775AE376E0C6289BA36E6FF`),
 which substitutes caster Energy four times. GS Bat DOT now follows that
 Energy-based formula instead of reusing half of Bat's initial hit and keeps
-the S21 five-second duration. The protected GS still prevents verifying
+the S21 five-second duration.
+The GS Bat fanout previously called 5.2 `BasicSkillAttack` twice for each
+accepted target; that function itself calls `gAttack.Attack`, so the code
+applied two initial half-strikes before DOT. The second call is removed:
+each accepted target now receives one initial half-strike and one separately
+scheduled five-second DOT. This source correction still needs ingame damage
+and timing verification.
+The protected GS still prevents verifying
 which of the two supplied Lua paths it loads and its exact final rounding.
 The S21 `SkillList.xml` rows also specify Slayer class stages 1/2/3 and
 STR/DEX requirements. The GS skill gate now checks the DB-stage and the

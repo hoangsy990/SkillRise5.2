@@ -5131,7 +5131,9 @@ bool CSkillManager::SkillSlayerBatFlock(int aIndex, int bIndex,
 				return false;
 			continue;
 		}
-		this->BasicSkillAttack(aIndex, index, lpSkill, false);
+		// BasicSkillAttack already calls gAttack.Attack once. The S21
+		// Bat formula halves that initial strike; a second invocation here
+		// doubled it before the independently scheduled five-second DOT.
 		gEffectManager.AddEffect(&gObj[index], 0, EFFECT_SLAYER_BAT_FLOCK,
 			5, aIndex, 1, SET_NUMBERHW(dotDamage), SET_NUMBERLW(dotDamage));
 		affected[affectedCount++] = index;

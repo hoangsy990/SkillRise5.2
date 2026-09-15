@@ -569,6 +569,8 @@ def main() -> int:
         "bool CSkillManager::SkillSlayerPierceAttack", 1)[0]
     require(bat_server, "gMap[caster->Map].CheckAttr(gObj[index].X,",
             "Bat Flock fanout excludes 5.2 safe-zone targets")
+    if bat_server.count("this->BasicSkillAttack(aIndex, index, lpSkill, false)") != 1:
+        raise AssertionError("S21 Bat Flock initial half-strike must hit each target exactly once")
     require(server, "DetectionWire reveal = {};",
             "Detection server-authoritative minimap reveal start")
     require(client_receive, "case rise::slayer::kDetectionSub:",
