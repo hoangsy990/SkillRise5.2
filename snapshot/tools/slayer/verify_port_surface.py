@@ -826,7 +826,11 @@ def main() -> int:
     require(resources, "model.RenderBody(renderFlags, effect.Alpha,",
             "Slayer S21 models retain single complete RenderBody pass")
     require(resources, "bool EnsureSlayerBlackFieldMaterial(int modelId, BMD& model, int mesh)",
-            "0x691/0x694 private material readiness guard")
+            "0x691/0x694/0x5D8 private material readiness guard")
+    require(resources, "modelId == kPierceMarksCylinderModel &&\n        _stricmp(material, \"lines2.JPG\") == 0",
+            "S21 Pierce 0x5D8 repeated lines2 black field keyed only on authored material")
+    require(resources, "(modelId == kPierceMarksCylinderModel && model.NumMeshs != 1)",
+            "S21 Pierce cylinder resident mesh shape checked before draw")
     require(resources, "if (bitmap->Components == 4)\n        return true;",
             "already-keyed Slayer material remains ready")
     require(resources, "return bitmap->Components == 3 &&\n        Bitmaps.ApplySlayerBlackKeyAlpha(model.IndexTexture[mesh],",

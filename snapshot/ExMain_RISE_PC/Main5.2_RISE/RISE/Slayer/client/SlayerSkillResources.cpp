@@ -587,7 +587,8 @@ bool RequiresModel(int type)
 bool EnsureSlayerBlackFieldMaterial(int modelId, BMD& model, int mesh)
 {
     if (modelId != kDetectionMarkModel &&
-        modelId != kDetectionImpactModel)
+        modelId != kDetectionImpactModel &&
+        modelId != kPierceMarksCylinderModel)
         return true;
     const char* material = model.Textures[mesh].FileName;
     const bool isMark = modelId == kDetectionMarkModel &&
@@ -596,13 +597,17 @@ bool EnsureSlayerBlackFieldMaterial(int modelId, BMD& model, int mesh)
         _stricmp(material, "ark.JPG") == 0;
     const bool isEmpact = modelId == kDetectionImpactModel &&
         _stricmp(material, "empact01.JPG") == 0;
-    if (!isMark && !isArk && !isEmpact)
+    const bool isLines = modelId == kPierceMarksCylinderModel &&
+        _stricmp(material, "lines2.JPG") == 0;
+    if (!isMark && !isArk && !isEmpact && !isLines)
         return false;
     BITMAP_t* bitmap = Bitmaps.FindTexture(model.IndexTexture[mesh]);
     if (!bitmap)
         return false;
     // A model may already be resident when the private Slayer graph reaches
     // it. Do not treat an RGB black-field JPEG as render-ready in that path.
+    // The S21 Pierce 0x5D8 cylinder repeats lines2's dark field vertically;
+    // it needs the same scoped 5.2 alpha adapter as the 0x691/0x694 marks.
     if (bitmap->Components == 4)
         return true;
     return bitmap->Components == 3 &&
@@ -620,7 +625,8 @@ bool EnsureModel(int modelId)
     if (model.NumBones > 0 && model.NumActions > 0)
     {
         if ((modelId == kDetectionMarkModel && model.NumMeshs != 1) ||
-            (modelId == kDetectionImpactModel && model.NumMeshs != 2))
+            (modelId == kDetectionImpactModel && model.NumMeshs != 2) ||
+            (modelId == kPierceMarksCylinderModel && model.NumMeshs != 1))
             return false;
         for (int mesh = 0; mesh < model.NumMeshs; ++mesh)
             if (!EnsureSlayerBlackFieldMaterial(modelId, model, mesh))
@@ -2081,12 +2087,12 @@ bool RenderEffect(OBJECT& effect)
     // intentionally has no triangles in the supplied S21 asset.
     if (model.NumMeshs == 0)
         return true;
-    // Native 0x691 and 0x694 use the generic object Calc/Draw path. In 5.2,
+    // Native 0x691, 0x694 and Pierce 0x5D8 use generic Calc/Draw. In 5.2,
     // RENDER_BRIGHT selects GL_ONE/GL_ONE and ignores the per-instance Alpha
     // from both models' native fade curves. The per-frame 0x691 children then
-    // sum into the white block seen in QA. Keep both fading buff models in
-    // the ordinary textured alpha path, while luminous bat/trail models use
-    // their additive material pass.
+    // sum into the white block seen in older QA. Keep these black-field
+    // models in the ordinary textured-alpha path, not an additive body pass;
+    // luminous bat/trail models retain their additive material pass.
     const int renderFlags = effect.Type == kDetectionMarkModel ||
         effect.Type == kDetectionImpactModel ||
         effect.Type == kPierceMarksCylinderModel ? RENDER_TEXTURE :

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Read-only structural parity check for the S21 0x691/0x694 buff models.
+"""Read-only structural parity check for S21 Slayer black-field models.
 
 The v0F/v0C envelopes differ, but the imported BMD plaintext must not.
 This reports authored mesh bounds and action keys without modifying assets.
@@ -25,6 +25,10 @@ MODELS = {
     "Van_object04_skill.bmd": (
         "E223A0D578DEB234AE30CB4CC67FBA1809B7D640CC86B2A7D7031754D9A0EC6D",
         2, 152, 0.0,
+    ),
+    "marks_cylinder.bmd": (
+        "F91EA00CFC10DC3E36935FE80AD6CA391EAED64142E7D572E5AB2939A7689BE3",
+        1, 72, 214.58230590820312,
     ),
 }
 
@@ -128,6 +132,8 @@ def main() -> None:
         expected_materials = (
             ("Elite_monster_ground02.JPG",)
             if name == "van_object03_skill.bmd" else
+            ("lines2.jpg",)
+            if name == "marks_cylinder.bmd" else
             ("ark.jpg", "empact01.jpg")
         )
         if tuple(mesh[4].lower() for mesh in meshes) != \
@@ -136,9 +142,15 @@ def main() -> None:
         for mesh in meshes:
             u_min, u_max = mesh[6][0]
             v_min, v_max = mesh[6][1]
-            if abs(u_min) > 0.0001 or abs(u_max - 1) > 0.0001 or \
-               (name == "Van_object04_skill.bmd" and
-                (abs(v_min) > 0.0001 or abs(v_max - 1) > 0.0001)):
+            if name == "marks_cylinder.bmd":
+                if abs(u_min - 0.0816) > 0.0001 or \
+                   abs(u_max - 0.9699) > 0.0001 or \
+                   abs(v_min) > 0.0001 or \
+                   abs(v_max - 6.6296) > 0.0001:
+                    raise AssertionError(f"S21 Pierce cylinder UV repeat drifted: {name}/mesh{mesh[0]}")
+            elif abs(u_min) > 0.0001 or abs(u_max - 1) > 0.0001 or \
+                 (name == "Van_object04_skill.bmd" and
+                  (abs(v_min) > 0.0001 or abs(v_max - 1) > 0.0001)):
                 raise AssertionError(f"S21 buff model UV field drifted: {name}/mesh{mesh[0]}")
         mesh_summary = [(mesh[0], mesh[3], mesh[4], mesh[6]) for mesh in meshes]
         print(f"PASS: {name} S21 mesh={len(meshes)} largest={expected_vertices} vertices maxZ={max_z:.3f} actions={actions} bones={len(bones)} materials/UV={mesh_summary} plaintext={module.sha256(plain)} imported={'identical' if imported_path.exists() else 'not staged'}")

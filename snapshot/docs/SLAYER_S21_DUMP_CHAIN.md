@@ -493,6 +493,20 @@ action (`marks_cylinder.SMD`), and its sole material `lines2.jpg` from
 S21 `lines2.OZJ` SHA-256
 `79D2A20143B15E406344F43DCDAF6232DD131986BC28603B10BF70DA4F208F7A`.
 Both model and texture are copied only to the isolated Slayer client.
+The previously unkeyed `0x5D8` material is another bounded dark-field
+source: its single S21 mesh reaches `Z=214.582`, and its `lines2.jpg` UV
+range wraps `V=0..6.6296` around the cylinder. The hash-pinned S21
+`lines2.OZJ` decodes to 32x64 RGB; 1,095 of 2,048 pixels have peak RGB
+`<=16`, with dark corners at gray 38 and 68 as well. A 5.2 `RENDER_TEXTURE`
+submission of this RGB texture can paint the repeated dark field opaque.
+The isolated loader now applies the same in-memory RGBA black-field guard
+to **only** `marks_cylinder.bmd`/`lines2.jpg` (floor 16), including an
+already-resident model. The S21 BMD/OZJ bytes remain unchanged. This is
+another 5.2 compatibility adapter, not decoded S21 alpha-key code or
+proof that this specific node caused every pixel of an older screenshot.
+The rebuilt/staged private Win32 client SHA-256 is
+`6B4AEB81B8BDD351AFC76EED13DB267CEEB46423CE085F8F1618BC4891F02006`;
+its runtime appearance has not been checked.
 The native `0x81CE` initializer at `0x147E153` sets subtype-3 scale
 `2.86`, subtype-4/5 scale `4.55`, and snapshots the S21 millisecond clock
 at `OBJECT+0xB4`. Native CreateEffect starts alpha at 1
