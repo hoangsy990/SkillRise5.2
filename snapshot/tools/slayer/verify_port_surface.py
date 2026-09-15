@@ -83,6 +83,10 @@ def main() -> int:
             "new S21 Bat learning info is not exposed to other classes")
     require(learning, "this->GetInfoForActor(lpObj, lpMsg->MasterSkill, &MasterSkillTreeInfo)",
             "Slayer learning uses the per-actor S21 info overlay, not only legacy GetInfo")
+    require(learning, "const CSkill originalBat = activeBat ? *activeBat : CSkill();",
+            "Master Slayer learning snapshots the active Bat skill before replacement")
+    require(learning, "*activeBat = originalBat;\n\t\t\treturn;",
+            "Master Slayer learning rolls back an orphaned cast ID on slot failure")
     require(mastery_tree, "this->GetInfoForActor(lpObj, lpObj->MasterSkill[n].m_index, &MasterSkillTreeInfo)",
             "Master Slayer acquired nodes remain visible to rank checks and skill-list sends")
     require(learning, "rise::slayerserver::IsSlayerBatMasterySkill(MasterSkillTreeInfo.Index)",

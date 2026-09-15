@@ -1204,7 +1204,12 @@ Its per-point value array is explicitly
 unknown/zero rather than fabricated: Mastery 781 damage increase, 782 DOT
 seconds, the remaining 17 absent nodes and shared-node passive values are
 still not fidelity-complete. Normal acquisition and Pierce remain ingame
-unverified before the five-skill QA gate.
+unverified before the five-skill QA gate. The first 781/782 learn path now
+snapshots the replaced Bat skill and restores it if `AddMasterSkill` fails
+(for example a full master-skill slot list); it returns before MasterPoint
+deduction or packet sends. Legacy other-class learning is unchanged. This
+transaction guard compiled in the isolated Ex603/Win32 `Bin26` build; it is
+source/build proof only, not a forced-full-list runtime test.
 A separate pinned-main immediate search for Master Bat IDs 781/782 found
 three 32-bit CMP sites for 781 at `0x13DC8AE/0x13DDBBF/0x14241E7` and none
 for 782. Disassembly shows all three compare the object's **model Type**

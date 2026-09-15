@@ -1660,6 +1660,8 @@ void CMasterSkillTree::CGMasterSkillRecv(PMSG_MASTER_SKILL_RECV* lpMsg, int aInd
 	CSkill* lpMasterSkill = gSkillManager.GetMasterSkill(lpObj, MasterSkillTreeInfo.Index);
 	if (lpMasterSkill == 0)
 	{
+		const bool slayerBatNode = rise::slayerserver::IsSlayerDbClass(lpObj->DBClass) &&
+			rise::slayerserver::IsSlayerBatMasterySkill(MasterSkillTreeInfo.Index);
 		if (this->CheckMasterReplaceSkill(lpObj, MasterSkillTreeInfo.ReplaceSkill) == 0)
 		{
 			return;
@@ -1676,11 +1678,24 @@ void CMasterSkillTree::CGMasterSkillRecv(PMSG_MASTER_SKILL_RECV* lpMsg, int aInd
 		{
 			return;
 		}
+		CSkill* activeBat = slayerBatNode ?
+			gSkillManager.GetSkill(lpObj, MasterSkillTreeInfo.ReplaceSkill) : 0;
+		if (slayerBatNode && !activeBat)
+			return;
+		const CSkill originalBat = activeBat ? *activeBat : CSkill();
 		if (this->ReplaceMasterSkill(lpObj, MasterSkillTreeInfo.ReplaceSkill, MasterSkillTreeInfo.Index, (MasterSkillTreeInfo.MinLevel - 1)) == 0)
 		{
 			return;
 		}
-		gSkillManager.AddMasterSkill(lpObj, MasterSkillTreeInfo.Index, (MasterSkillTreeInfo.MinLevel - 1));
+		if (gSkillManager.AddMasterSkill(lpObj, MasterSkillTreeInfo.Index,
+			(MasterSkillTreeInfo.MinLevel - 1)) < 0 && slayerBatNode)
+		{
+			// Legacy code ignored a full MasterSkill[] and deducted points
+			// after replacing the active skill. The S21 Bat prerequisite must
+			// never persist an orphaned active 781/782 cast ID.
+			*activeBat = originalBat;
+			return;
+		}
 	}
 	else
 	{
