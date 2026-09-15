@@ -257,14 +257,35 @@ bool CMasterSkillTree::GetInfoForActor(LPOBJ lpObj,int index,
 {
 	if (!lpObj || !lpInfo)
 		return false;
-	if (!rise::slayerserver::IsSlayerDbClass(lpObj->DBClass) ||
-		!rise::slayerserver::IsSlayerBatMasterySkill(index))
+	if (!rise::slayerserver::IsSlayerDbClass(lpObj->DBClass))
 		return this->GetInfo(index, lpInfo);
 	if (lpObj->DBClass < rise::slayerserver::kS21MasterSlayerDbClass)
 		return false;
 	SLAYER_MASTER_TREE_SHAPE shape = {};
 	if (!this->GetSlayerShape(index, &shape))
 		return false;
+	if (index == 631)
+		return false; // S21 Rush collides with an unrelated legacy row.
+	if (!rise::slayerserver::IsSlayerBatMasterySkill(index))
+	{
+		MASTER_SKILL_TREE_INFO shared = {};
+		if (!this->GetInfo(index, &shared) ||
+			shared.Group != shape.Group + 1 ||
+			shared.Rank != shape.Rank ||
+			shared.MinLevel != shape.RequiredPoints ||
+			shared.MaxLevel != shape.MaxLevel ||
+			shared.RequireSkill[0] != shape.ParentSkill[0] ||
+			shared.RequireSkill[1] != shape.ParentSkill[1] ||
+			shared.RelatedSkill != shape.Brand ||
+			shared.ReplaceSkill != shape.Brand)
+			return false;
+		// Shared IDs 303/307/310 occupy different Master Slayer slots than
+		// the old DK column. Keep their existing 5.2 point-value rows, but
+		// send the actor's exact S21 slot to the Slayer UI.
+		shared.RequireClass[rise::slayerserver::kSlayerLegacyArrayClass] = shape.Slot;
+		*lpInfo = shared;
+		return true;
+	}
 	MASTER_SKILL_TREE_INFO info = {};
 	info.Index = shape.Skill;
 	info.Group = shape.Group + 1; // S21 0..2 -> 5.2 GS 1..3

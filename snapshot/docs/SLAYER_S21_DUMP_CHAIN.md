@@ -1283,6 +1283,19 @@ snapshots the replaced Bat skill and restores it if `AddMasterSkill` fails
 deduction or packet sends. Legacy other-class learning is unchanged. This
 transaction guard compiled in the isolated Ex603/Win32 `Bin26` build; it is
 source/build proof only, not a forced-full-list runtime test.
+A further hash-pinned comparison of the 39 shared 5.2 ID rows found three
+Slayer-versus-DK UI slot differences: `303` is Slayer slot 8 versus DK 7,
+`307` is 12 versus 11, and `310` is 16 versus 15. The previous GS
+`GCMasterSkillListSend` used `RequireClass[DK]`, so a Slayer could receive
+those wrong slots even though group/rank/parents matched. The actor-scoped
+`GetInfoForActor` now verifies the shared row's shape/brand against the
+S21 class-512 overlay and replaces only its UI slot with the S21 slot;
+its legacy per-point MainValue remains untouched and unproven as SS21
+parity. Non-Slayer classes still receive their original row. S21/legacy
+ID `631` remains excluded for Slayer. The isolated Ex603/Win32 GS rebuilt
+in private `Bin20` with SHA-256
+`B761F27B25C1158B3CC26CDDC41EB5C4F607A118D13EE9968260ED63BDBBC222`;
+this is not ingame evidence.
 A separate pinned-main immediate search for Master Bat IDs 781/782 found
 three 32-bit CMP sites for 781 at `0x13DC8AE/0x13DDBBF/0x14241E7` and none
 for 782. Disassembly shows all three compare the object's **model Type**

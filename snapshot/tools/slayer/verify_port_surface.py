@@ -81,6 +81,12 @@ def main() -> int:
             "Master Slayer active Bat skill replacement follows the S21 Brand chain")
     require(mastery_tree, "info.RequireClass[rise::slayerserver::kSlayerLegacyArrayClass] = shape.Slot;",
             "Master Slayer learned-node packet reports its S21 UI slot")
+    require(mastery_tree, "shared.RequireClass[rise::slayerserver::kSlayerLegacyArrayClass] = shape.Slot;",
+            "shared numeric mastery IDs report the actor's S21 slot, not DK slot")
+    require(mastery_tree, "if (index == 631)\n\t\treturn false;",
+            "S21 Rush/legacy 631 collision remains excluded")
+    require(mastery_tree, "shared.RelatedSkill != shape.Brand ||\n\t\t\tshared.ReplaceSkill != shape.Brand",
+            "shared mastery row brand checked before class-scoped slot remap")
     require(mastery_tree, "!rise::slayerserver::IsSlayerBatMasterySkill(index))",
             "new S21 Bat learning info is not exposed to other classes")
     require(learning, "this->GetInfoForActor(lpObj, lpMsg->MasterSkill, &MasterSkillTreeInfo)",

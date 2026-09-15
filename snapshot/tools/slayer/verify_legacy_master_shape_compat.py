@@ -31,6 +31,7 @@ def main() -> None:
     ranks = {int(node.attrib["Index"]): int(node.attrib["Rank"])
              for node in ET.fromstring(skill_bytes).findall("Skill")}
     legacy: dict[int, tuple[int, ...]] = {}
+    legacy_dk_slots: dict[int, int] = {}
     for text in legacy_bytes.decode("latin1").splitlines():
         fields = text.split()
         if not fields or not fields[0].isdigit():
@@ -39,9 +40,11 @@ def main() -> None:
             raise AssertionError(f"short legacy MasterSkillTree row: {text[:80]}")
         skill = int(fields[0])
         legacy[skill] = tuple(int(fields[index]) for index in (1, 2, 3, 4, 27, 28))
+        legacy_dk_slots[skill] = int(fields[30])
     compatible: list[int] = []
     missing: list[int] = []
     different: list[tuple[int, tuple[int, ...], tuple[int, ...]]] = []
+    slot_mismatch: list[tuple[int, int, int]] = []
     native = [row for row in rows(S21, S21_SHA, 2048)
               if row[0] and row[1] & 512]
     for row in native:
@@ -53,15 +56,20 @@ def main() -> None:
             missing.append(skill)
         elif found == expected:
             compatible.append(skill)
+            if legacy_dk_slots[skill] != row[0]:
+                slot_mismatch.append((skill, row[0], legacy_dk_slots[skill]))
         else:
             different.append((skill, expected, found))
     if len(native) != 58 or 781 not in missing or 782 not in missing:
         raise AssertionError("S21 full tree/prerequisite inventory drifted")
+    if sorted(slot_mismatch) != [(303, 8, 7), (307, 12, 11), (310, 16, 15)]:
+        raise AssertionError(f"Master Slayer versus DK slot drift: {slot_mismatch}")
     print(f"S21 Master Slayer nodes=58 compatible_5.2={len(compatible)} "
           f"missing_5.2={len(missing)} different_shape={len(different)}")
     print("compatible:", sorted(compatible))
     print("missing:", sorted(missing))
     print("different IDs:", sorted(skill for skill, *_ in different))
+    print("shared ID Slayer-vs-DK slot mismatches:", sorted(slot_mismatch))
     print("collision 631: S21 class-512-only; legacy ID row shape may match, "
           "but RequireClass/option provenance is not proved")
     print("NOTE: matching shape is not proof of matching per-point MainValue/options")
