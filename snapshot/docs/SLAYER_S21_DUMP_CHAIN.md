@@ -815,6 +815,18 @@ preview therefore cannot be attributed to `0x694` model geometry; `0x691`
 is a plausible component, but no per-mesh framebuffer attribution proves
 the exact culprit yet. This does not justify cutting more dark pixels from
 the S21 textures by eye.
+Read-only BMD UV inspection pins `0x691`'s `Elite_monster_ground02` mesh to
+U `0..1`/V `.0211..9682` and both flat `0x694` materials (`ark`,
+`empact01`) to full `0..1` UV. Hash-pinned OZJ/JPEG analysis finds the
+current private alpha key removes 57,258/65,536 texels from the silver
+`Elite_monster_ground02`, 13,343/16,384 from `ark`, and 48,046/65,536
+from `empact01`; only 859 silver texels and 4,668 `empact01` texels remain
+in the dark `17..48` band. These are **authored SS21 model/texture fields**,
+not proof of which mesh wrote the black pixels in the old 5.2 screenshot.
+`BMD::RenderMesh(RENDER_TEXTURE)` selects 5.2's `EnableAlphaTest` for the
+converted RGBA textures; despite its name, that helper enables GL blending
+with `GL_SRC_ALPHA/GL_ONE_MINUS_SRC_ALPHA`. No additional speculative
+cutoff or blend substitution follows from the screenshot alone.
 5.2's unknown-model `Draw_RenderObject` default is opaque. A bounded QA
 isolation showed the white buff vortex remained when `0x694`, `0x678`, the
 Slayer bitmap objects and Slayer-owned particles were withheld, disappeared

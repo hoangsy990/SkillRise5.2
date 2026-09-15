@@ -12,7 +12,9 @@ import struct
 from pathlib import Path
 
 
-CONVERTER = Path(r"C:\Users\DELL\Documents\Codex\2026-09-14\do\work\SkillRise5.2\snapshot\tools\grow_lancer\convert_s21_bmd_v0f_to_rise_v0c.py")
+LOCAL_CONVERTER = Path(__file__).resolve().parents[1] / "grow_lancer" / "convert_s21_bmd_v0f_to_rise_v0c.py"
+PINNED_CONVERTER = Path(r"C:\Users\DELL\Documents\Codex\2026-09-14\do\work\SkillRise5.2\snapshot\tools\grow_lancer\convert_s21_bmd_v0f_to_rise_v0c.py")
+CONVERTER = LOCAL_CONVERTER if LOCAL_CONVERTER.is_file() else PINNED_CONVERTER
 NATIVE_EFFECT = Path(r"D:\MU FICA Season 21\Data\Effect")
 IMPORTED_EFFECT = Path(r"D:\RISE-CrossPlatform\Source_PC_Slayer\ExMain_RISE_PC\Tests\SlayerBuild\Client\Data\RISE\Slayer\Effect")
 MODELS = {
@@ -51,6 +53,9 @@ def parse(plain: bytes):
         bounds = []
         for vertex_index in range(vertices):
             bounds.append(struct.unpack_from("<3f", plain, offset + vertex_index * 16 + 4))
+        uv_offset = offset + vertices * 16 + normals * 20
+        uvs = [struct.unpack_from("<2f", plain, uv_offset + index * 8)
+               for index in range(texcoords)]
         # Win32 C++ layout: Vertex_t=16, Normal_t=20, TexCoord_t=8,
         # Triangle_t2=64 (including the alignment gap after Polygon and
         # trailing struct padding in the Win32 compiler layout).
@@ -60,7 +65,10 @@ def parse(plain: bytes):
         mesh_rows.append((mesh_index, vertices, triangles, material, texture,
                           tuple((min(v[axis] for v in bounds),
                                  max(v[axis] for v in bounds))
-                                for axis in range(3))))
+                                for axis in range(3)),
+                          tuple((min(uv[axis] for uv in uvs),
+                                 max(uv[axis] for uv in uvs))
+                                for axis in range(2))))
     actions = []
     for _ in range(action_count):
         keys, locked = struct.unpack_from("<hB", plain, offset)
@@ -117,7 +125,23 @@ def main() -> None:
         max_z = max(mesh[5][2][1] for mesh in meshes)
         if len(meshes) != expected_meshes or max(mesh[1] for mesh in meshes) != expected_vertices or abs(max_z - expected_max_z) > 0.001:
             raise AssertionError(f"authored {name} geometry drifted")
-        print(f"PASS: {name} S21 mesh={len(meshes)} largest={expected_vertices} vertices maxZ={max_z:.3f} actions={actions} bones={len(bones)} plaintext={module.sha256(plain)} imported={'identical' if imported_path.exists() else 'not staged'}")
+        expected_materials = (
+            ("Elite_monster_ground02.JPG",)
+            if name == "van_object03_skill.bmd" else
+            ("ark.jpg", "empact01.jpg")
+        )
+        if tuple(mesh[4].lower() for mesh in meshes) != \
+           tuple(material.lower() for material in expected_materials):
+            raise AssertionError(f"S21 buff model material mapping drifted: {name}")
+        for mesh in meshes:
+            u_min, u_max = mesh[6][0]
+            v_min, v_max = mesh[6][1]
+            if abs(u_min) > 0.0001 or abs(u_max - 1) > 0.0001 or \
+               (name == "Van_object04_skill.bmd" and
+                (abs(v_min) > 0.0001 or abs(v_max - 1) > 0.0001)):
+                raise AssertionError(f"S21 buff model UV field drifted: {name}/mesh{mesh[0]}")
+        mesh_summary = [(mesh[0], mesh[3], mesh[4], mesh[6]) for mesh in meshes]
+        print(f"PASS: {name} S21 mesh={len(meshes)} largest={expected_vertices} vertices maxZ={max_z:.3f} actions={actions} bones={len(bones)} materials/UV={mesh_summary} plaintext={module.sha256(plain)} imported={'identical' if imported_path.exists() else 'not staged'}")
 
 
 if __name__ == "__main__":
