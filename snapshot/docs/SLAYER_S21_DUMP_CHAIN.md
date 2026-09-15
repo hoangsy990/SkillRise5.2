@@ -1003,6 +1003,13 @@ The current isolated GameServer Ex603/Win32 source also builds with
 `4918181E33E00F6E4DC48AA4E72BA6AEBDF0A475F8E75A7C2839FE11001D9679`).
 The fixture run above used the older private `QA5` server; this new QA6
 artifact has not been swapped into the live stack or ingame-tested.
+After the `0x7FDD` and `0x81CE` client-alpha corrections, the matching
+five-skill GameServer source was rebuilt independently as Ex603/Win32 with
+`SlayerServerQA=true` and private `Bin19`/`Int19` output. The resulting
+`Bin19/GameServer.exe` SHA-256 is
+`A79C5DFC148D2F579F93C9EC58BCC7339AF79B2C1D6D58EB1D8F21B70796AD4C`.
+It has not been launched or treated as ingame parity proof; S21 Bat/Pierce
+AOE geometry and the Pierce caster-position chain remain unresolved.
 The QA-only framebuffer capture hook now schedules three JPEG frames at
 0.5/1.5/3.0 seconds after each of the five authoritative fixture casts,
 using 5.2's own `SaveScreen()` after the completed render rather than
