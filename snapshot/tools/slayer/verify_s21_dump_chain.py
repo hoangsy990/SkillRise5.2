@@ -249,10 +249,11 @@ def main() -> int:
         offset = va - 0x400000
         return image[offset:offset + size]
 
-    # The native 0x694 model is dispatched through the generic object draw
+    # Both buff models 0x691/0x694 reach the generic object Calc/Draw
     # wrapper. Its ordinary body pass is flag 2 (texture), not an invented
-    # additive pass; the E4 action-init also has a bounded actor-Z writer.
+    # additive pass; the E4 action-init has a bounded actor-Z writer.
     native_model_bytes = {
+        0x15B2A24: bytes.fromhex("6aff6aff6a006a006a00ffb52cf6ffffe8e8ab1b0083c418"),
         0x15B2BCA: bytes.fromhex("6aff6aff6a006a006a00ffb52cf6ffffe842aa1b0083c418"),
         0x1887EB0: bytes.fromhex("6a028b4df8e89e0d0e"),
         0x128A082: bytes.fromhex("81bdd8feffffe40000000f84821d0000"),
@@ -261,8 +262,16 @@ def main() -> int:
     }
     for va, expected in native_model_bytes.items():
         if at(va, len(expected)) != expected:
-            raise AssertionError(f"S21 0x694/E4 action-init bytes drifted at {va:#x}")
-    print("PASS: S21 0x694 ordinary body flag=2; E4 action-init actor Position Z +=5 (not XY rush proof)")
+            raise AssertionError(f"S21 0x691/0x694/E4 action-init bytes drifted at {va:#x}")
+    # The native alpha branch enables GL_BLEND and SRC_ALPHA /
+    # ONE_MINUS_SRC_ALPHA; the separate bright path is GL_ONE / GL_ONE.
+    for va, expected in (
+        (0x18E70B2, bytes.fromhex("68e20b0000ff1560c7b40168030300006802030000ff154cc7b401")),
+        (0x18E714D, bytes.fromhex("68e20b0000ff1560c7b4016a016a01ff154cc7b401")),
+    ):
+        if at(va, len(expected)) != expected:
+            raise AssertionError(f"S21 model alpha/bright GL blend bytes drifted at {va:#x}")
+    print("PASS: S21 0x691/0x694 ordinary body flag=2, native alpha GL_SRC_ALPHA/GL_ONE_MINUS_SRC_ALPHA; E4 action-init actor Position Z +=5 (not XY rush proof)")
     # 0x688 and 0x691 mode 0, plus both 0x694 modes, write incoming
     # scale into +0xA0. Crucially, xorps clears xmm0 before the +0xDC
     # write: alpha is zero, not the incoming scale. Decode full blocks.

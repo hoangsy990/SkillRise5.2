@@ -752,6 +752,21 @@ an extra model draw. The isolated 5.2 renderer keeps `Calc_RenderObject`
 for animation, light and origin, then calls `RenderBody` exactly once,
 which brackets the authored meshes under `BeginRender/EndRender` and the
 shader scope. The earlier direct `RenderMesh` loop skipped that scope.
+Full basic-block decoding of `0x1887EB0` shows the ordinary native body
+flag is `2` for both buff models `0x691` and `0x694`. The native alpha
+helper `0x18E709C` enables `GL_BLEND` with `GL_SRC_ALPHA` /
+`GL_ONE_MINUS_SRC_ALPHA`; `0x18E7137` is the separate `GL_ONE`/`GL_ONE`
+bright helper. Hence replacing these model passes with additive blending
+would diverge from S21. A read-only structural parse of the pinned S21
+BMDs, checked against the staged v0C imports, finds `0x694`
+`Van_object04_skill` has two authored **flat** meshes (all vertex Z=0),
+26 animation keys, and seven bones whose X/Y rotation channels remain zero
+(position offsets are at most 0.000023). `0x691` `van_object03_skill` has one static 248-vertex mesh
+whose vertex Z reaches 331.943. The tall black funnel in the older 5.2
+preview therefore cannot be attributed to `0x694` model geometry; `0x691`
+is a plausible component, but no per-mesh framebuffer attribution proves
+the exact culprit yet. This does not justify cutting more dark pixels from
+the S21 textures by eye.
 5.2's unknown-model `Draw_RenderObject` default is opaque. A bounded QA
 isolation showed the white buff vortex remained when `0x694`, `0x678`, the
 Slayer bitmap objects and Slayer-owned particles were withheld, disappeared
@@ -769,10 +784,16 @@ generic textured alpha body path; the luminous bat/trail models remain
 additive. In the private MainRF fixture, fresh Detection/Demolish captures
 show the silver vortex over an intact terrain tile instead of an opaque
 black/white block; this is **renderer QA only, not Slayer class-9 acceptance**.
-The owner's `Media1.mp4` one-second sample `frame_019.jpg` shows red attack
+The older extracted `Media1_20260914/frame_019.jpg` shows red attack
 fragments, **not** a dark buff vortex. The earlier frame-19 attribution was
-incorrect and is withdrawn. This per-model choice is a 5.2 adaptation,
-**not yet a decoded native S21 material flag or a full ingame parity PASS**.
+incorrect and is withdrawn. The current `C:\Users\DELL\Desktop\Media1.mp4`
+(SHA-256 `CF1C58E19DFDAF968D72F2095CC85D091DA4CC2506B8C980681A57E302F78DDE`)
+is a 24.31-second, 10-fps **5.2 MainRF** recording created on 15 September,
+not the SS21 capture from which the older frame set was extracted. The old
+frame set has no retained source-video hash, so it is observation only,
+not authoritative current-video provenance. This per-model color-key choice
+is a 5.2 adaptation despite the now decoded native material flag, **not a
+full ingame parity PASS**.
 Body light is not multiplied by alpha a second time. Every diagnostic skip
 used to establish causality was removed from code and the private QA client.
 
@@ -1059,14 +1080,15 @@ Windows Graphics Capture. The 15 PID-12668 frames were written only beside
 the private Slayer executable. Bat Flock's early trail and the floor are
 visible without the previous black terrain square; Detection/Demolish at
 sample 1 are overbright white under the all-model-additive trial.
-Twenty-four one-second samples from the owner's `Media1.mp4` cast reference
-were extracted read-only to private QA evidence. Direct inspection of
+The private `Media1_20260914` directory retains 78 samples from an earlier
+SS21 capture, but its exact source video is no longer present at the named
+Desktop path. Direct inspection of
 `frame_012.jpg`, `frame_013.jpg` and `frame_019.jpg` does **not** show the
 previously claimed black floor square or dark `0x694`-like vortex: the first
 two show an idle/transition pose, and the latter shows red attack fragments.
 Those visual attributions were wrong and are withdrawn. The native `0x694`
 model/asset chain is pinned independently by the S21 dump and file hashes;
-the black funnel in the 5.2 preview remains a renderer-parity issue and is
+the black funnel in the older 5.2 preview remains a renderer-parity issue and is
 not owner-accepted. A fresh per-model comparison is still pending **after**
 the five-skill code port is complete.
 

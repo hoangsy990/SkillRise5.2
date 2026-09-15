@@ -1052,8 +1052,8 @@ void InitializeEffect(OBJECT& effect, float incomingScale)
         {
             // S21 0x147E7D4: subtype 2 overrides the allocator's .9
             // fallback with scale 1, alpha 1 and a 15-tick envelope.
-            // It additionally creates 0x8012 subtype 17; that nested
-            // effect remains separate until its map/render path is ported.
+            // It additionally creates 0x8012 subtype 17; the nested
+            // Kalima-only map/render path is handled separately below.
             effect.Scale = 1.f;
             effect.Alpha = 1.f;
             effect.Timer = WorldTime;
