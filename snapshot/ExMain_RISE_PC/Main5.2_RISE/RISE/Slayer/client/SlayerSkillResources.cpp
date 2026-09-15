@@ -633,8 +633,7 @@ void InitializeEffect(OBJECT& effect, float incomingScale)
     // 0.9, but some subtype initializers then overwrite OBJECT+0xA0 with
     // the original argument. Keep both values separate for those branches.
     if (effect.Type == kBatFlockTrailModel ||
-        effect.Type == kDetectionMarkModel ||
-        effect.Type == kDetectionImpactModel)
+        effect.Type == kDetectionMarkModel)
         effect.Alpha = 0.f;
 
     // Root creation is kept on the controller initializer. Every child below
@@ -946,7 +945,11 @@ void InitializeEffect(OBJECT& effect, float incomingScale)
             effect.Scale = incomingScale;
         break;
     case kDetectionImpactModel:
-        // Native 0x694 applies this transform to both Slayer subtypes.
+        // Native 0x14926E2/0x14927AD copy the incoming scale to +0xDC
+        // (alpha) for both subtypes: Detection/Demolish mode 0 starts at
+        // 1.0, while Demolish mode 1 starts at 0.5. Do not use the zero
+        // initial alpha of the separate 0x691 mark model here.
+        effect.Alpha = incomingScale;
         effect.Position[2] += 50.f;
         Vector(0.f, 0.f, 0.f, effect.Angle);
         break;

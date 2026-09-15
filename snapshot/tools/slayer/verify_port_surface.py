@@ -206,6 +206,8 @@ def main() -> int:
             "S21 0x694 empact01 material isolated black key")
     require(resources, "isArk ? 48 : 16",
             "0x694 ark gray-background cutoff isolated from other S21 materials")
+    require(resources, "effect.Alpha = incomingScale;",
+            "S21 0x694 modes initialize alpha from their respective scale")
     require(header, "kPierceMarksCylinderModel = MAX_MODELS + 41,",
             "native Pierce 0x5D8 child model allocated to private unused slot")
     require(resources, '{kPierceMarksCylinderModel, "marks_cylinder.bmd"}',

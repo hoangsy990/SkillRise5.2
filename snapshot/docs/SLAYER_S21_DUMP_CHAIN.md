@@ -563,6 +563,15 @@ Demolish's second mode uses `.5`). The color/scale constants for the
 Detection blue flare and both buff rings were read as IEEE-754 values from
 the pinned mapped image, rather than inferred from screenshots.
 
+The paired native `0x694` initializer modes at `0x14926CC` and
+`0x1492797` both write the incoming scale to model scale `+0xA0` and
+alpha `+0xDC`. Mode 0 is created at scale/alpha `1.0`; Demolish's
+second mode is created at scale/alpha `0.5`. The first 5.2 port
+overrode both alphas to zero by incorrectly sharing `0x691`'s
+zero-alpha setup. The isolated model initializer now keeps the native
+incoming value; the renderer black-field artifact remains a separate
+ingame parity question.
+
 Detection's minimap reveal is separate from the `0x692` cast graph. The
 Webzen Slayer guide states that nearby life forms are marked on the minimap
 for a duration, but `0x12D139B..0x12D143E` only creates the root visual.
