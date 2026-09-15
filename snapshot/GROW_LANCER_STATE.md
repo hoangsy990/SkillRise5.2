@@ -2,6 +2,26 @@
 
 STATUS: IN_PROCESS
 
+### 2026-09-15 — isolated SkillRise5.2 Grow Lancer snapshot pushed, skills still IN_PROCESS
+
+- CURRENT PHASE: nine S21 Grow Lancer skills native PC 5.2 client/server; equipment/quests 1–3 excluded; `IN_PROCESS`.
+- CURRENT TASK: keep the recovered Grow Lancer state/package safe while continuing the two-message Spin and other open skill gates.
+- CURRENT SUBTASK: user-approved scoped backup to `SkillRise5.2` on a dedicated branch, without overwriting its main/Slayer/Pegasus refs.
+- COMPLETED THIS RUN: confirmed remote `SkillRise5.2/main` had only 2026-09-13 Grow Lancer snapshot/state. Created isolated backup worktree/branch `backup/grow-lancer-s21-20260915` from that snapshot, staged 369 scoped state/docs/descriptor/GrowLancer-named native code/test-tools files with source/target SHA checks and no binary/Data/dump; explicitly excluded new equipment/quest tool/artifact files. Two clean commits ending `4813dfa1e186be92ecb9c6cc989a02c92805d12c` pushed to a **new** remote branch, verified matching `git ls-remote`; remote main and other refs not changed. No PR/merge/deployment.
+- REVERSE EVIDENCE: prior Spin receiver/static two-message check and S21 frame41 retained; backup itself does not add gameplay evidence.
+- CHAIN COVERAGE: current Grow Lancer state and named package/test-tool recovery off-machine PASS for selected scope; broad client/GS integration diffs outside named package are not yet included in this snapshot. All owner visual/server gates remain OPEN/FAIL as prior.
+- ASSET PROVENANCE: no original/staged Data asset copied to GitHub; pinned SHA records in docs preserved. Exact current state snapshot SHA256 `51E42A472984969BDCE2BEC708A544593A68A159EC52D30F65F075C457D1E57B` before this checkpoint note.
+- FILES MODIFIED: only safe backup staging script plus formatting in four existing QA verifier scripts and this state; separate backup branch snapshot commits. No production/base/Pegasus/Slayer/S21-original/GS code edit.
+- LAST STATIC CHECK: backup 369-file allowlist/hash verifier, staged-name forbidden binary/equipment/quest check, `git diff --cached --check`, clean backup branch and remote ref equality PASS.
+- LAST BUILD RESULT: no code build this subtask; prior isolated QA/nonQA x86 link PASS unchanged.
+- LAST RUNTIME QA: no stack/client launched or cast; prior hidden Spin/Magic fixture PASS only. Owner Spin/ Magic/Wrath issues remain.
+- KNOWN DIFFERENCES: snapshot branch is a recovery copy of named package/docs/tools, not a full RISE history, client binary, S21 dump, production deployment, or proof that all worktree integration changes are merged. Remote main remains historical.
+- MISSING CHAIN PARTS: current target-bound Spin F7/F9 owner frames, remaining skill visual parity and class7/GS authority; reviewed integration-diff backup if needed without bringing equipment/quests into scope.
+- BLOCKER: direct owner gameplay cast and matching S21 GS handler/default-class proof needed for those gates; other work continues, so `IN_PROCESS`.
+- NEXT EXACT ACTION: local-only paired Spin271 F7 plus internal280 F9 on same target once, F11, compare cross/ribbon/contact and S21 frames; then fix measured layer. Do not call backup a skill PASS.
+- NEXT FILE TO OPEN: staged private `GrowLancerRuntimeQA.log` fresh gameplay PID and `GrowLancer/SPIN_STEP_REVERSE.md` two-message section.
+- NEXT FUNCTION TO IMPLEMENT: runtime-attributed Spin caster/contact layer correction or source-proven GS handler, not global SS6 shortcut.
+
 ### 2026-09-15 — Spin two-message acceptance path corrected (271 cast + 280 contact)
 
 - CURRENT PHASE: nine S21 Grow Lancer skills native PC 5.2 client/server, equipment/quests 1–3 excluded; `IN_PROCESS`.
