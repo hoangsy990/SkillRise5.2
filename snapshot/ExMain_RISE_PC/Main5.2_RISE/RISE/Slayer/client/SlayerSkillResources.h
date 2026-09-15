@@ -180,6 +180,8 @@ void ApplySkillCatalog();
 // Loads the private, hash-pinned 58-node Master Slayer metadata overlay.
 bool LoadMasterSlayerSkillMetadata();
 bool HasMasterSlayerSkillMetadata(int skillId);
+// S21 ReceiveMagic 0x12CEBBC -> 0xBCFF9F follows SkillBrand to base ID.
+int CanonicalSlayerVisualSkill(int skillId);
 #endif
 
 }}

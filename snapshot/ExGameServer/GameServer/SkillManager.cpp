@@ -422,6 +422,10 @@ bool CSkillManager::CheckSkillFrustrum(int* SkillFrustrumX, int* SkillFrustrumY,
 }
 bool CSkillManager::CheckSkillDelay(LPOBJ lpObj, int index)
 {
+	if (!lpObj || !lpObj->SkillDelay || index < 0 || index >= MAX_SKILL)
+	{
+		return 0;
+	}
 	SKILL_INFO SkillInfo;
 	if (this->GetInfo(index, &SkillInfo) == 0)
 	{
@@ -1394,10 +1398,11 @@ bool CSkillManager::RunningSkill(int aIndex, int bIndex, CSkill* lpSkill, BYTE x
 		return this->SkillSlayerBatFlock(aIndex, bIndex, lpSkill);
 	case rise::slayerserver::kBatFlockStrengthener:
 	case rise::slayerserver::kBatFlockMastery:
-		// S21 lists 781/782 as separate castable mastery skills. Their
-		// client dispatch/effect branches are not yet recovered; do not let
-		// the 5.2 default BasicSkillAttack impersonate either skill.
-		return false;
+		// S21 ReceiveMagic passes the packet skill through 0xBCFF9F before
+		// its visual switch. SkillList Brand 782->781->293 resolves both
+		// mastery casts to the base Bat Flock graph, while the wire/damage
+		// path retains the raw acquired skill ID.
+		return this->SkillSlayerBatFlock(aIndex, bIndex, lpSkill);
 	case rise::slayerserver::kPierceAttack:
 		return this->SkillSlayerPierceAttack(aIndex, bIndex, lpSkill);
 	case rise::slayerserver::kDetection:

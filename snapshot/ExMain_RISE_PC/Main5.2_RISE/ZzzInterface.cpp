@@ -2825,14 +2825,15 @@ void UseSkillSlayer(CHARACTER* pCha, OBJECT* pObj)
 	if (!pCha || !pObj || !CharacterAttribute)
 		return;
 
-	const int iSkill = g_MovementSkill.m_bMagic
+	const int requestedSkill = g_MovementSkill.m_bMagic
 		? CharacterAttribute->Skill[g_MovementSkill.m_iSkill]
 		: g_MovementSkill.m_iSkill;
-	if (!rise::slayer::IsSlayerSkill(iSkill))
+	const int visualSkill = rise::slayer::CanonicalSlayerVisualSkill(requestedSkill);
+	if (!rise::slayer::IsSlayerSkill(visualSkill))
 		return;
 
-	const bool selfTarget = iSkill == rise::slayer::kDetection ||
-		iSkill == rise::slayer::kDemolish;
+	const bool selfTarget = visualSkill == rise::slayer::kDetection ||
+		visualSkill == rise::slayer::kDemolish;
 	const int targetIndex = g_MovementSkill.m_iTarget;
 	if (!selfTarget && (targetIndex < 0 || targetIndex >= MAX_CHARACTERS_CLIENT ||
 		(CharactersClient[targetIndex].Object.Kind != KIND_MONSTER &&
@@ -2844,13 +2845,13 @@ void UseSkillSlayer(CHARACTER* pCha, OBJECT* pObj)
 
 	LetHeroStop();
 	pCha->Movement = false;
-	pCha->Skill = static_cast<WORD>(iSkill);
+	pCha->Skill = static_cast<WORD>(visualSkill);
 	CHARACTER* visualTarget = pCha;
 	if (selfTarget)
 	{
 		pCha->TargetCharacter = -1;
 		pObj->m_sTargetIndex = -1;
-		SendRequestMagic(iSkill, HeroKey);
+		SendRequestMagic(requestedSkill, HeroKey);
 	}
 	else
 	{
@@ -2861,15 +2862,15 @@ void UseSkillSlayer(CHARACTER* pCha, OBJECT* pObj)
 		pObj->m_sTargetIndex = static_cast<short>(targetIndex);
 		pObj->Angle[2] = CreateAngle(pObj->Position[0], pObj->Position[1],
 			pCha->TargetPosition[0], pCha->TargetPosition[1]);
-		SendRequestMagic(iSkill, target->Key);
+		SendRequestMagic(requestedSkill, target->Key);
 	}
 	// S21 dispatch assigns the skill-specific player action on cast.  The
 	// ordinary 5.2 weapon attack here replaced it with a fist/sword action
 	// until the server's 0x19 packet returned, so the root effect sampled the
 	// wrong owner animation frame (notably 0x68A's 3.5-frame alpha ramp).
 	SetAttackSpeed();
-	if (rise::slayer::ApplyCastAction(*pObj, iSkill))
-		rise::slayer::DispatchNativeLocalCast(pCha, visualTarget, iSkill);
+	if (rise::slayer::ApplyCastAction(*pObj, visualSkill))
+		rise::slayer::DispatchNativeLocalCast(pCha, visualTarget, visualSkill);
 	// Action(MOVEMENT_SKILL) is evaluated every frame after pathfinding. The
 	// ordinary 5.2 skill handlers leave that state only when a new movement
 	// request takes over; a Slayer self-buff has no target/path and otherwise
@@ -7257,15 +7258,16 @@ void Attack(CHARACTER* c)
 	if (Success && c->Dead == 0)
 	{
 #ifdef RISE_SLAYER_PORT
-		if (rise::slayer::IsSlayerSkill(Skill))
+		const int visualSkill = rise::slayer::CanonicalSlayerVisualSkill(Skill);
+		if (rise::slayer::IsSlayerSkill(visualSkill))
 		{
 			g_MovementSkill.m_bMagic = TRUE;
 			g_MovementSkill.m_iSkill = Hero->CurrentSkill;
 			g_MovementSkill.m_iTarget =
-				(Skill == rise::slayer::kDetection ||
-				 Skill == rise::slayer::kDemolish) ? -1 : SelectedCharacter;
-			if (Skill == rise::slayer::kDetection ||
-				Skill == rise::slayer::kDemolish)
+				(visualSkill == rise::slayer::kDetection ||
+				 visualSkill == rise::slayer::kDemolish) ? -1 : SelectedCharacter;
+			if (visualSkill == rise::slayer::kDetection ||
+				visualSkill == rise::slayer::kDemolish)
 			{
 				if ((MouseRButton || MouseRButtonPush) && slayerSelfBuffHeld)
 					return;

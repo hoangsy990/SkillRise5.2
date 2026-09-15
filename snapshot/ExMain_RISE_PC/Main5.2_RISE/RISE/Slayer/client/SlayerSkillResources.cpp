@@ -14,6 +14,7 @@
 #include "../../../MapManager.h"
 #include "../../../wsclientinline.h"
 #include "../shared/SlayerSkillContractData.h"
+#include "../shared/SlayerSkillMetadataCapacity.h"
 #include "../shared/SlayerPierceFanoutWire.h"
 #ifdef RISE_SLAYER_RUNTIME_QA
 #include "../../SlayerRuntimeQA.h"
@@ -2349,6 +2350,31 @@ void ApplySkillCatalog()
     // IDs such as 631 remain class-scoped in the master UI accessor.
     if (!LoadMasterSlayerSkillMetadata())
         OutputDebugStringA("Slayer: private Master Slayer metadata missing or invalid\n");
+}
+
+int CanonicalSlayerVisualSkill(int skillId)
+{
+    if (IsSlayerSkill(skillId))
+        return skillId;
+    // Low shared Master IDs, including legacy collision 631, are not safe
+    // to canonicalize by ID alone. Only pinned high Master Slayer rows use
+    // the isolated metadata tail.
+    if (!SkillAttribute || skillId < MAX_SKILLS ||
+        !HasMasterSlayerSkillMetadata(skillId))
+        return skillId;
+    int current = skillId;
+    for (int depth = 0; depth < 8; ++depth)
+    {
+        if (current < 0 || current >= kSkillAttributeCapacity)
+            return skillId;
+        if (IsSlayerSkill(current))
+            return current;
+        const DWORD brand = SkillAttribute[current].SkillBrand;
+        if (brand == 0 || brand == 75 || brand >= kSkillAttributeCapacity)
+            return skillId;
+        current = static_cast<int>(brand);
+    }
+    return skillId;
 }
 
 }}

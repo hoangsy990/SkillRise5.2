@@ -542,7 +542,8 @@ bool CAttack::Attack(LPOBJ lpObj, LPOBJ lpTarget, CSkill* lpSkill, bool send, BY
 			damage = rise::slayerserver::ScaleSlayerDamage(damage,
 				lpObj->Strength + lpObj->AddStrength,
 				lpObj->Dexterity + lpObj->AddDexterity,
-				skill == rise::slayerserver::kBatFlock);
+				skill == rise::slayerserver::kBatFlock ||
+				rise::slayerserver::IsSlayerBatMasterySkill(skill));
 		}
 
 		//Custom Skill Damage System

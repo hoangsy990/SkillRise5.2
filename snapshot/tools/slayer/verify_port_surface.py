@@ -77,8 +77,34 @@ def main() -> int:
             "GS mastery learning packet rejects non-Slayer DB classes")
     require(learning, "this->GetMasterSkillLevel(lpObj,",
             "GS mastery learning packet enforces 781/10 before 782")
-    require(server, "client dispatch/effect branches are not yet recovered",
-            "GS mastery cast IDs fail closed instead of using unrelated generic damage")
+    delay_header = read("ExGameServer/GameServer/SkillManager.h")
+    allocator = read("ExGameServer/GameServer/MemoryAllocatorInfo.cpp")
+    require(delay_header, "#define MAX_SKILL 800",
+            "GS per-user delay capacity covers S21 active Master Slayer IDs")
+    require(allocator, "m_SkillDelay = new DWORD[MAX_SKILL]",
+            "GS delay allocation follows the expanded numeric-ID capacity")
+    require(server, "index < 0 || index >= MAX_SKILL",
+            "GS delay accessor fails closed before numeric-ID indexing")
+    mastery_cast = server.split("case rise::slayerserver::kBatFlockStrengthener:", 1)[1].split(
+        "case rise::slayerserver::kPierceAttack:", 1)[0]
+    require(mastery_cast, "return this->SkillSlayerBatFlock(aIndex, bIndex, lpSkill);",
+            "S21 Brand-canonicalized Bat mastery casts use the Bat graph")
+    require(resources, "int CanonicalSlayerVisualSkill(int skillId)",
+            "client has an isolated Master Slayer Brand resolver")
+    require(resources, "const DWORD brand = SkillAttribute[current].SkillBrand;",
+            "client resolver follows the S21 SkillList Brand chain")
+    require(client_receive, "CanonicalSlayerVisualSkill(MagicNumber)",
+            "remote ReceiveMagic canonicalizes high Bat mastery visuals")
+    require(client_use, "SendRequestMagic(requestedSkill, target->Key);",
+            "local Slayer cast retains authoritative raw mastery skill ID")
+    require(server_overlay, "IsSlayerBatMasterySkill(id) || id == kPierceAttack",
+            "GS physical scaling recognizes both Bat mastery IDs")
+    require(attack, "rise::slayerserver::IsSlayerBatMasterySkill(skill));",
+            "GS Bat mastery damage remains a half-strike")
+    require(client_receive, "CanonicalSlayerVisualSkill(skillId) != rise::slayer::kBatFlock",
+            "private Bat fanout accepts Brand-resolved mastery cast IDs")
+    require(client_receive, "!rise::slayer::IsSlayerClientClass(CharactersClient[casterIndex].Class)",
+            "private Bat fanout rejects non-Slayer source classes")
     require(server, "this->GetSkill(lpObj, rise::slayerserver::kBatFlock) == 0",
             "GS Pierce gate requires learned base Bat Flock")
     require(server, "rise::slayerserver::kBatFlockStrengthener) == 0",
@@ -121,9 +147,9 @@ def main() -> int:
         print(f"PASS: skill={skill_id} name={name[1:]} source-surface=shared/server/receive/use/runtime/resources/packet")
 
     use_body = client_use.split("void UseSkillSlayer(", 1)[1].split("\n#endif", 1)[0]
-    require(use_body, "if (rise::slayer::ApplyCastAction(*pObj, iSkill))",
+    require(use_body, "if (rise::slayer::ApplyCastAction(*pObj, visualSkill))",
             "Slayer local cast uses the imported S21 action immediately")
-    require(use_body, "rise::slayer::DispatchNativeLocalCast(pCha, visualTarget, iSkill);",
+    require(use_body, "rise::slayer::DispatchNativeLocalCast(pCha, visualTarget, visualSkill);",
             "Slayer local action branch seeds native roots immediately")
     require(use_body, "if (pCha->MovementType == MOVEMENT_SKILL)\n\t\tpCha->MovementType = MOVEMENT_MOVE;",
             "completed Slayer movement intent cannot re-spawn buff roots each frame")

@@ -2,7 +2,11 @@
 #include "DefaultClassInfo.h"
 #include "Protocol.h"
 #include "User.h"
-#define MAX_SKILL 629
+// SkillDelay is indexed by the numeric skill ID, not by a packed skill-list
+// slot.  S21 Master Slayer has active IDs through 794; 629 would write past
+// the per-user allocation when a 781/782 Bat Flock mastery cast arrives.
+// This changes only the pointed-to delay storage, not the LPOBJ/packet ABI.
+#define MAX_SKILL 800
 #define MAX_SKILL_LIST 60
 #define MAX_MASTER_SKILL_LIST 120
 #define CHECK_SKILL_ATTACK_COUNT(x) (((++x)>=10)?0:1)

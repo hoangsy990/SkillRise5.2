@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #ifdef RISE_SLAYER_PORT
 #include "RISE/Slayer/client/SlayerNativeRuntime.h"
+#include "RISE/Slayer/client/SlayerSkillResources.h"
+#include "RISE/Slayer/shared/SlayerSkillContractData.h"
 #include "RISE/Slayer/shared/SlayerBatFanoutWire.h"
 #include "RISE/Slayer/shared/SlayerPierceFanoutWire.h"
 #include "RISE/Slayer/shared/SlayerDetectionWire.h"
@@ -3852,6 +3854,11 @@ BOOL ReceiveMagic(BYTE* ReceiveBuffer, int Size, BOOL bEncrypted)
 	CHARACTER* tc = &CharactersClient[TargetIndex];
 	OBJECT* so = &sc->Object;
 	OBJECT* to = &tc->Object;
+	int VisualMagicNumber = MagicNumber;
+#ifdef RISE_SLAYER_PORT
+	if (rise::slayer::IsSlayerClientClass(sc->Class))
+		VisualMagicNumber = rise::slayer::CanonicalSlayerVisualSkill(MagicNumber);
+#endif
 
 	if (MagicNumber != AT_SKILL_COMBO)
 	{
@@ -3865,7 +3872,7 @@ BOOL ReceiveMagic(BYTE* ReceiveBuffer, int Size, BOOL bEncrypted)
 		sc->SkillSuccess = (Success != 0);
 		sc->Skill = MagicNumber;
 	}
-	switch (MagicNumber)
+	switch (VisualMagicNumber)
 	{
 #ifdef RISE_SLAYER_PORT
 	case 292: // Sword Inertia
@@ -3877,8 +3884,8 @@ BOOL ReceiveMagic(BYTE* ReceiveBuffer, int Size, BOOL bEncrypted)
 		{
 			char qaLine[224];
 			sprintf_s(qaLine, sizeof(qaLine),
-				"authoritative-receive skill=%d source=%d target=%d success=%d",
-				static_cast<int>(MagicNumber), SourceKey, TargetKey,
+				"authoritative-receive skill=%d visual=%d source=%d target=%d success=%d",
+				static_cast<int>(MagicNumber), VisualMagicNumber, SourceKey, TargetKey,
 				Success ? 1 : 0);
 			rise::slayerqa::AppendRuntimeQALog(qaLine);
 		}
@@ -3888,7 +3895,7 @@ BOOL ReceiveMagic(BYTE* ReceiveBuffer, int Size, BOOL bEncrypted)
 		// controller merely because the skill number is recognized.
 		if (Success)
 			rise::slayer::DispatchNativeReceive(sc, tc,
-				static_cast<int>(MagicNumber));
+				VisualMagicNumber);
 		break;
 #endif
 	case AT_SKILL_MONSTER_SUMMON:
@@ -13495,12 +13502,15 @@ BOOL TranslateProtocol(int HeadCode, BYTE* ReceiveBuffer, int Size, BOOL bEncryp
                         *reinterpret_cast<const rise::slayer::BatFanoutWire*>(ReceiveBuffer);
                     const int skillId = (wire.skill[0] << 8) | wire.skill[1];
                     if (wire.size != Size || wire.head != rise::slayer::kBatFanoutHead ||
-                        wire.sub != rise::slayer::kBatFanoutSub || skillId != 293 ||
+                        wire.sub != rise::slayer::kBatFanoutSub ||
+                        rise::slayer::CanonicalSlayerVisualSkill(skillId) != rise::slayer::kBatFlock ||
                         wire.count == 0 || wire.count > rise::slayer::kBatFanoutMaxTargets)
                         break;
                     const int casterKey = (wire.caster[0] << 8) | wire.caster[1];
                     const int casterIndex = FindCharacterIndex(casterKey & 0x7FFF);
                     if (casterIndex == MAX_CHARACTERS_CLIENT)
+                        break;
+                    if (!rise::slayer::IsSlayerClientClass(CharactersClient[casterIndex].Class))
                         break;
                     short indexes[rise::slayer::kBatFanoutMaxTargets];
                     int count = 0;

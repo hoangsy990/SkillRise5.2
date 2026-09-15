@@ -91,7 +91,8 @@ inline bool IsS21SlayerExclusiveMasterSkill(int id)
 
 inline bool IsSlayerDamageSkill(int id)
 {
-    return id == kSwordInertia || id == kBatFlock || id == kPierceAttack;
+    return id == kSwordInertia || id == kBatFlock ||
+        IsSlayerBatMasterySkill(id) || id == kPierceAttack;
 }
 
 inline int ScaleSlayerDamage(int damage, int strength, int dexterity,

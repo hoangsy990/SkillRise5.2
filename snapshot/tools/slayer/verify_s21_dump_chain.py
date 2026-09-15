@@ -249,6 +249,25 @@ def main() -> int:
         offset = va - 0x400000
         return image[offset:offset + size]
 
+    # ReceiveMagic does not compare upgraded 781/782 directly: it first
+    # canonicalizes the incoming 16-bit skill through the actor's SkillList
+    # helper 0xBCFF9F and switches on the returned base skill. The helper
+    # follows row+0x5C Brand until 0 or 75, returning row+4 at each step.
+    # Together with the pinned 782->781->293 XML chain above, this proves
+    # the Bat mastery visual branch reaches the native 293 handler.
+    if at(0x12CEBAE, 25) != bytes.fromhex(
+            "0fb785a8e9ffff508b8dd0e7ffffe8de1390ff8985b4e9ffff") or \
+       at(0x12CECB7, 12) != bytes.fromhex(
+            "8b85b4e9ffff8985b0e9ffff") or \
+       at(0xBCFF9F, 48) != bytes.fromhex(
+            "558bec83ec14894decff7508b98c210a07e8dc32d9ff8945f8"
+            "8b45f88378040075058b4508eb448b45088945f08b45f8") or \
+       at(0xBCFFCF, 48) != bytes.fromhex(
+            "8b405c8945fc837dfc00742c837dfc4b7502eb24ff75fcb9"
+            "8c210a07e8a132d9ff8945f48b45f48b40048945f08b45f4"):
+        raise AssertionError("S21 ReceiveMagic/Brand canonicalizer bytes drifted")
+    print("PASS: S21 ReceiveMagic Brand canonicalizer 0xBCFF9F resolves Bat 782->781->293")
+
     # Both buff models 0x691/0x694 reach the generic object Calc/Draw
     # wrapper. Its ordinary body pass is flag 2 (texture), not an invented
     # additive pass; the E4 action-init has a bounded actor-Z writer.

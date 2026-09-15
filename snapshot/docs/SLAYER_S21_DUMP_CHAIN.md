@@ -157,12 +157,18 @@ show both Bat mastery nodes as **castable** stage-3 Slayer skills, with
 `UseType=4`, brands `293 -> 781`, level 160 and STR/DEX `100/380`.
 `MasterSkillCalc_3rd.lua` (SHA-256
 `771066684E4478A69659D46C27EEB87A9242D8B6D8566E73A4D31AD0F479F699`)
-has distinct damage functions for the two IDs. The 5.2 server now registers
-their pinned SkillList catalog rows and guards class/stats/782-parent
-learning, but **does not yet port their S21 cast effect/action handler**.
-Both IDs explicitly reject 5.2's generic default `BasicSkillAttack` so
-they cannot masquerade as finished Bat Flock variants. This leaves the
-mastery-upgrade gameplay path incomplete, even if base skill 293 runs.
+has distinct damage functions for the two IDs. The pinned S21 `ReceiveMagic`
+reads the incoming 16-bit skill at `0x12CEBAE`, calls `0xBCFF9F` at
+`0x12CEBBC`, and switches on its return at `0x12CECB7..0x12CECBD`.
+The helper follows each SkillList row's `Brand` at `+0x5C`, stopping at
+0 or 75 and returning the ancestor skill at `+4`: `782 -> 781 -> 293`.
+Thus upgraded Bat casts reuse the native **293 visual graph**, rather than
+having separate direct 781/782 effect-switch comparisons. The 5.2 client
+now resolves that pinned high-ID Brand chain for local and remote visuals
+while preserving the raw 781/782 ID in cast packets; GS routes both IDs
+through Bat's target graph and retains their own skill-row resources/damage.
+The per-level mastery damage values and normal 781/782 learning are still
+incomplete, so this is code provenance and build evidence, not ingame PASS.
 
 The root `CreateEffect` argument windows in the same handlers pass the
 caster's position (`native OBJECT+0x158`) and angle (`+0x164`) without an
@@ -1180,11 +1186,18 @@ Ex603/Win32 GS built into private `Bin22`, but was not launched. This shape
 and class isolation do **not** yet implement all S21 per-point passive
 values or make 781/782 normally learnable: `CGMasterSkillRecv` still calls
 the legacy `GetInfo`, which has no rows for those IDs. The learning adapter
-and upgraded cast/effect routing remain open before ingame QA.
+and per-level mastery values remain open before ingame QA.
 A separate pinned-main immediate search for Master Bat IDs 781/782 found
 three 32-bit CMP sites for 781 at `0x13DC8AE/0x13DDBBF/0x14241E7` and none
 for 782. Disassembly shows all three compare the object's **model Type**
 at `OBJECT+0x146`, not a skill ID; this does not prove an upgraded Bat cast
-dispatcher nor prove its absence (16-bit/table routes remain possible).
-Consequently the 5.2 server still rejects cast of 781/782 rather than
-pretending that BasicSkillAttack or base Bat visuals are S21 mastery code.
+dispatcher nor prove its absence. The subsequent full basic-block read of
+`0x12CEBAE` and `0xBCFF9F..0xBD000B` **does** recover the Brand-based
+canonicalization before the native base-293 ReceiveMagic branch. The GS
+delay array was 629 entries and directly indexed by packet skill ID,
+which made a high-ID cast unsafe; the isolated GS now allocates/clears 800
+entries and bounds-checks delay accesses (pointer layout unchanged). Both
+781/782 route through the Bat graph; `Attack` recognizes them as Bat half
+strikes, and the private fanout client accepts their raw IDs only for a
+Slayer caster after Brand resolution. Ex603/Win32 GS built privately into
+`Bin23` and the client built/staged privately, without an ingame run.
