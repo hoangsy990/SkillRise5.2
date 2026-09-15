@@ -366,6 +366,23 @@ def main() -> int:
         if abs(struct.unpack("<f", at(va, 4))[0] - expected) > 0.0001:
             raise AssertionError(f"S21 0x81CF light/scale/alpha drifted at {va:#x}")
     print("PASS: S21 Pierce 0x81CF subtype2 ring parent and nested 0x8012 ShockWave child pinned")
+    # Low model code 0x5D8 is dispatched by compact jump tables, not a
+    # direct cmp. Its subtype-1 init is shared with subtype 0, but its
+    # update branch does not refresh lifetime as subtype 0 does.
+    if at(0x147D97C, 5) != bytes.fromhex("68d8050000"):
+        raise AssertionError("S21 Pierce 0x5D8 direct model call drifted")
+    init_index = 0x5D8 - 0x4F7
+    if struct.unpack("<I", at(0x14B3224 + init_index * 4, 4))[0] != 0x147ED07:
+        raise AssertionError("S21 0x5D8 initializer jump-table target drifted")
+    update_index = 0x5D8 - 0x4D3
+    selector = at(0x1594BE0 + update_index, 1)[0]
+    if struct.unpack("<I", at(0x1594A6C + selector * 4, 4))[0] != 0x1534A58:
+        raise AssertionError("S21 0x5D8 updater jump-table target drifted")
+    if at(0x147ED19, 4) != bytes.fromhex("83786001"):
+        raise AssertionError("S21 0x5D8 subtype-1 initializer selector drifted")
+    if at(0x15AE9A2, 12) != bytes.fromhex("6aff6aff6a006a006a00ffb5"):
+        raise AssertionError("S21 0x5D8 ordinary model render wrapper drifted")
+    print("PASS: S21 Pierce 0x5D8 subtype1 marks_cylinder model init/update/render jump-table paths pinned")
 
     if at(0x10EEB92, 7) != bytes.fromhex("6a5768c1000000"):
         raise AssertionError("S21 shared C1:57 skill packet constructor drifted")

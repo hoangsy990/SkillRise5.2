@@ -104,6 +104,7 @@ float InitialLife(const OBJECT& effect)
     case kBatFlockModel: return effect.SubType == 0 ? 40.f :
         (effect.SubType == 3 ? 10.f : 50.f);
     case kBatFlockTrailModel: return 20.f;
+    case kPierceMarksCylinderModel: return 30.f;
     case kBatFlockController:
     case kBatFlockTargetController:
     case kBatFlockDotController: return 10.f;
@@ -648,6 +649,9 @@ void InitializeEffect(OBJECT& effect, float incomingScale)
         Vector(0.8f, 0.6f, 1.f, ground);
         SpawnBitmapChild(kMagicGround12Effect, effect, effect.Owner,
             ground, 2, 0.f);
+        OBJECT cylinder = effect;
+        Vector(0.8f, 0.5f, 1.f, cylinder.Light);
+        SpawnChild(kPierceMarksCylinderModel, cylinder, effect.Owner, 1, 0.f);
         break;
     }
     case kPierce81CEEffect:
@@ -682,6 +686,19 @@ void InitializeEffect(OBJECT& effect, float incomingScale)
         effect.Timer = WorldTime;
         effect.Scale = incomingScale;
         effect.Alpha = 0.9f;
+        break;
+    case kPierceMarksCylinderModel:
+        // S21 0x147ED07: subtype 1 shares the thirty-tick model setup
+        // with subtype 0, but only subtype 0 has a six-second refresh
+        // updater. This direct Pierce child naturally expires at 30 ticks.
+        if (effect.SubType != 1)
+        {
+            effect.LifeTime = 0.f;
+            break;
+        }
+        effect.Scale = 1.f;
+        effect.Alpha = 1.f;
+        effect.Timer = WorldTime;
         break;
     case kPierceController:
         // Native 0x679 subtype zero initializes EFFECT+0xBC from player
@@ -1873,7 +1890,8 @@ bool RenderEffect(OBJECT& effect)
     // the ordinary textured alpha path, while luminous bat/trail models use
     // their additive material pass.
     const int renderFlags = effect.Type == kDetectionMarkModel ||
-        effect.Type == kDetectionImpactModel ? RENDER_TEXTURE :
+        effect.Type == kDetectionImpactModel ||
+        effect.Type == kPierceMarksCylinderModel ? RENDER_TEXTURE :
         (RENDER_TEXTURE | RENDER_BRIGHT);
     model.RenderBody(renderFlags, effect.Alpha,
         effect.BlendMesh, effect.BlendMeshLight,

@@ -347,7 +347,7 @@ them separately at `0x15A1724/0x15A1734`. The private 5.2 Slayer overlay
 now hash-pins/copies `marks_m04.OZJ`, reserves bitmap ID `33012`, and
 registers that exact sprite. This was an asset prerequisite; the first
 three `0x81CE` children, `0x80BA` subtype 6, `0x8149` subtype 2 and the
-`0x81CF` subtype-2 parent are now spawned, while four direct children and
+`0x81CF` subtype-2 parent and `0x5D8` subtype 1 are now spawned, while three direct children and
 the `0x81CF` nested child remain unported; visual parity is
 still unproven.
 Further render decode shows `0x81CE` subtype 3 submits bitmap `0x81CE`
@@ -362,7 +362,16 @@ selector goes to `0x15AE9A2`, which calls the ordinary model path
 `0x176D621`. The source BMD SHA-256 is
 `F91EA00CFC10DC3E36935FE80AD6CA391EAED64142E7D572E5AB2939A7689BE3`.
 The formerly unused private model slot `MAX_MODELS+41` is now assigned to
-this named child asset, but the effect child is not spawned yet.
+this named child asset and the direct subtype-1 effect is now spawned in
+the native root-call order with actor ownership, scale argument zero and
+light `(0.8, 0.5, 1)`. The S21 initializer jump table maps `0x5D8` to
+`0x147ED07`: subtype 1 receives life 30, scale/alpha 1, the current
+millisecond clock and the incoming angle. Its updater jump table maps to
+`0x1534A58`; that handler refreshes subtype 0 only, so the Pierce
+subtype-1 model naturally expires after 30 ticks. Renderer `0x15AE9A2`
+passes it through the ordinary `0x176D621` model wrapper. The 5.2
+adapter uses `RENDER_TEXTURE` for this child instead of adding an
+unrequested bright pass; material parity still needs the later ingame gate.
 The hash-pinned v0F-to-v0C conversion reports one mesh, two bones, one
 action (`marks_cylinder.SMD`), and its sole material `lines2.jpg` from
 S21 `lines2.OZJ` SHA-256
@@ -397,7 +406,7 @@ creates a sprite through `0x172760A`, not a terrain tile. The private
 one-frame `kGroundStarBitmap` sprite during RenderEffects, which is then
 consumed by RenderSprites. Sprite material/blend parity still requires
 ingame validation after the whole graph is ported. The remaining
-`0x80BA` subtype-7 fanout, `0x81CF` nested child, `0x5D8` parent branch
+`0x80BA` subtype-7 fanout and `0x81CF` nested child
 and owner/class-9 ingame parity remain open.
 The next direct parent `0x81CF` subtype 2 is now connected to the root in
 its native call order with light `(0.8, 0.6, 1)` and incoming scale zero.

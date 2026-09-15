@@ -223,6 +223,12 @@ def main() -> int:
             "native Pierce 0x81CF subtype-2 scale expansion")
     require(resources, "effect.Alpha = effect.LifeTime / 15.f;",
             "native Pierce 0x81CF subtype-2 lifetime opacity")
+    require(resources, "SpawnChild(kPierceMarksCylinderModel, cylinder, effect.Owner, 1, 0.f);",
+            "native Pierce 0x5D8 subtype-1 model child creation")
+    require(resources, "case kPierceMarksCylinderModel: return 30.f;",
+            "native Pierce 0x5D8 subtype-1 30-tick life")
+    require(resources, "effect.Type == kPierceMarksCylinderModel ? RENDER_TEXTURE :",
+            "native Pierce 0x5D8 ordinary textured model adapter")
     for token in (
         "kFlare01RedEffect", "kRingOfGradation2Effect",
         "kEnemyRing01Effect", "kMagicGround12Effect",
@@ -583,7 +589,7 @@ def main() -> int:
             "native generic model Calc wrapper")
     require(resources, "effect.Type == kDetectionMarkModel ||",
             "S21 0x691 fading ring avoids GL_ONE/GL_ONE accumulation")
-    require(resources, "effect.Type == kDetectionImpactModel ? RENDER_TEXTURE :",
+    require(resources, "effect.Type == kDetectionImpactModel ||",
             "S21 0x694 fading vortex avoids GL_ONE/GL_ONE accumulation")
     require(resources, "(RENDER_TEXTURE | RENDER_BRIGHT);",
             "Slayer luminous bat/trail models use isolated additive body pass")
