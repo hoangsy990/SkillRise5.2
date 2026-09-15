@@ -620,7 +620,8 @@ bool EnsureModel(int modelId)
         if ((modelId == kDetectionMarkModel && model.NumMeshs != 1) ||
             (modelId == kDetectionImpactModel && model.NumMeshs != 2) ||
             (modelId == kPierceMarksCylinderModel && model.NumMeshs != 1) ||
-            (modelId == kBatFlockTrailModel && model.NumMeshs != 3))
+            (modelId == kBatFlockTrailModel && model.NumMeshs != 3) ||
+            (modelId == kBatFlockModel && model.NumMeshs != 1))
             return false;
         for (int mesh = 0; mesh < model.NumMeshs; ++mesh)
             if (!EnsureSlayerBlackFieldMaterial(modelId, model, mesh))
@@ -637,6 +638,11 @@ bool EnsureModel(int modelId)
     model.m_iBMDSeqID = modelId;
     if (!model.Open2(directory, filename))
         return false;
+    if (modelId == kBatFlockModel && model.NumMeshs != 1)
+    {
+        model.Release();
+        return false;
+    }
     for (int mesh = 0; mesh < model.NumMeshs; ++mesh)
     {
         const std::string texturePath = std::string(directory) +
@@ -2081,6 +2087,40 @@ bool RenderEffect(OBJECT& effect)
     // intentionally has no triangles in the supplied S21 asset.
     if (model.NumMeshs == 0)
         return true;
+    if (effect.Type == kBatFlockModel)
+    {
+        // S21 registered handler 0xA517D5 draws the authored one-mesh bat
+        // with flag 2 in subtypes 0..4. Only subtypes 2/3/4 add a second
+        // flag-0x42 pass: red bitmap 0x82F9 at blend-light .6 for 2/3,
+        // gold bitmap 0x82FA at blend-light 1 for 4. Both passes preserve
+        // RenderBody's model/shader scope in the 5.2 renderer.
+        if (effect.SubType < 0 || effect.SubType > 4)
+            return true;
+        const int overlayTexture = effect.SubType == 4 ?
+            kBetGrilsShot2GoldBitmap : kBetGrilsShot2RedBitmap;
+        const bool hasOverlay = effect.SubType >= 2;
+        if (hasOverlay && !Bitmaps.FindTexture(overlayTexture))
+            return false;
+        VectorCopy(effect.Light, model.BodyLight);
+        model.RenderBody(RENDER_TEXTURE, effect.Alpha,
+            effect.BlendMesh, effect.Alpha,
+            effect.BlendMeshTexCoordU, effect.BlendMeshTexCoordV,
+            effect.HiddenMesh);
+#ifdef RISE_SLAYER_RUNTIME_QA
+        LogModelRender(effect, model, RENDER_TEXTURE);
+#endif
+        if (hasOverlay)
+        {
+            model.RenderBody(RENDER_TEXTURE | RENDER_BRIGHT, effect.Alpha,
+                0, effect.SubType == 4 ? 1.f : 0.6f,
+                effect.BlendMeshTexCoordU, effect.BlendMeshTexCoordV,
+                effect.HiddenMesh, overlayTexture);
+#ifdef RISE_SLAYER_RUNTIME_QA
+            LogModelRender(effect, model, RENDER_TEXTURE | RENDER_BRIGHT);
+#endif
+        }
+        return true;
+    }
     // Registered native handlers 0xA52E26/0xA52FEC/0xA53114 multiply each
     // model-light component by OBJECT+0xDC Alpha and draw flag 0x82. Native
     // bit 0x80 selects GL_ZERO/GL_ONE_MINUS_SRC_COLOR, not bright blending;
@@ -2090,8 +2130,6 @@ bool RenderEffect(OBJECT& effect)
         effect.Type == kDetectionImpactModel;
     if (nativeDark)
         VectorScale(effect.Light, effect.Alpha, model.BodyLight);
-    // The 0x678 subtype-specific registered handler needs separate decoding;
-    // keep its previous private pass until those mesh/subtype gates are ported.
     const int renderFlags = nativeDark ? (RENDER_TEXTURE | RENDER_DARK) :
         effect.Type == kPierceMarksCylinderModel ? RENDER_TEXTURE :
         (RENDER_TEXTURE | RENDER_BRIGHT);
@@ -2273,6 +2311,8 @@ void LoadSounds()
         "Data\\RISE\\Slayer\\Effect\\Clud64.jpg", GL_LINEAR, GL_CLAMP);
     RegisterSlayerBitmap(kBetGrilsShot2RedBitmap,
         "Data\\RISE\\Slayer\\Effect\\bet_grilsshot2red.jpg", GL_LINEAR, GL_CLAMP);
+    RegisterSlayerBitmap(kBetGrilsShot2GoldBitmap,
+        "Data\\RISE\\Slayer\\Effect\\bet_grilsshot2gold.jpg", GL_LINEAR, GL_CLAMP);
     RegisterSlayerBitmap(kImpack03Bitmap,
         "Data\\RISE\\Slayer\\Effect\\Impack03.jpg", GL_LINEAR, GL_CLAMP);
     RegisterSlayerBitmap(kPinStarBitmap,

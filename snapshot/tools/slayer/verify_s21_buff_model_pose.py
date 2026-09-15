@@ -34,6 +34,10 @@ MODELS = {
         "EC45FCBADBC129D1056D64EBFB70EA32D3AD3C0A29F47AF7D341A5A762DF5A5B",
         3, 64, 8.272600173950195,
     ),
+    "Bat_van01.bmd": (
+        "A01A9F4C767811CF5B5E2E855354A6DE2C63976C26BBE8A40DE886808E713C7E",
+        1, 124, 6.300172805786133,
+    ),
 }
 
 
@@ -140,6 +144,8 @@ def main() -> None:
             if name == "marks_cylinder.bmd" else
             ("marks_m03.jpg", "empact01.jpg", "macardkmono.jpg")
             if name == "van_object02_skill.bmd" else
+            ("bet_grilsshot2.jpg",)
+            if name == "Bat_van01.bmd" else
             ("ark.jpg", "empact01.jpg")
         )
         if tuple(mesh[4].lower() for mesh in meshes) != \
@@ -154,6 +160,10 @@ def main() -> None:
                    abs(v_min) > 0.0001 or \
                    abs(v_max - 6.6296) > 0.0001:
                     raise AssertionError(f"S21 Pierce cylinder UV repeat drifted: {name}/mesh{mesh[0]}")
+            elif name == "Bat_van01.bmd":
+                if abs(u_min - 0.0216) > 0.0001 or abs(u_max - 0.9661) > 0.0001 or \
+                   abs(v_min - 0.0230) > 0.0001 or abs(v_max - 0.9802) > 0.0001:
+                    raise AssertionError(f"S21 Bat mesh UV field drifted: {name}/mesh{mesh[0]}")
             elif abs(u_min) > 0.0001 or abs(u_max - 1) > 0.0001 or \
                  (name == "Van_object04_skill.bmd" and
                   (abs(v_min) > 0.0001 or abs(v_max - 1) > 0.0001)):

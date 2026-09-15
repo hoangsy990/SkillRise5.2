@@ -296,12 +296,12 @@ def main() -> int:
         raise AssertionError("Detection/Demolish action IDs were aliased")
     bitmap_block = header.split("enum BitmapId", 1)[1].split("};", 1)[0]
     bitmap_ids = [int(value) for value in re.findall(r"^\s*k\w+Bitmap\s*=\s*(\d+)", bitmap_block, re.M)]
-    if len(bitmap_ids) != 34 or len(set(bitmap_ids)) != len(bitmap_ids):
+    if len(bitmap_ids) != 35 or len(set(bitmap_ids)) != len(bitmap_ids):
         raise AssertionError("Slayer bitmap IDs are incomplete or duplicated")
-    if min(bitmap_ids) != 32983 or max(bitmap_ids) != 33016:
+    if min(bitmap_ids) != 32983 or max(bitmap_ids) != 33017:
         raise AssertionError("Slayer bitmap IDs overlap Grow Lancer or exceed the reserved tail")
     global_bitmap = read("ExMain_RISE_PC/Main5.2_RISE/GlobalBitmap.cpp")
-    require(global_bitmap, "kSlayerLastReservedBitmap = 33016",
+    require(global_bitmap, "kSlayerLastReservedBitmap = 33017",
             "unnamed allocator private range boundary")
     require(global_bitmap, "m_uiTextureIndexStream = kSlayerLastReservedBitmap",
             "unnamed allocator skips Slayer fixed slots")
@@ -321,6 +321,12 @@ def main() -> int:
             "S21 0x8012 subtype-17 ShockWave private bitmap registration")
     require(resources, "RegisterSlayerBitmap(kClud64Bitmap,",
             "S21 Pierce flare particle 0x7FFD Clud64 private bitmap registration")
+    require(header, "kBetGrilsShot2GoldBitmap = 33017",
+            "S21 Bat subtype-4 gold overlay owns isolated bitmap ID")
+    require(resources, "RegisterSlayerBitmap(kBetGrilsShot2GoldBitmap,",
+            "S21 Bat subtype-4 gold overlay bitmap registered")
+    require(resources, '"Data\\\\RISE\\\\Slayer\\\\Effect\\\\bet_grilsshot2gold.jpg"',
+            "S21 Bat gold overlay exact model texture path")
     require(resources, "if (modelId != kPierceMarksCylinderModel)\n        return true;",
             "registered S21 0x688/0x691/0x694 RGB bright materials are not keyed")
     if not re.search(r"case kBatFlockTrailModel:\s*// Native 0x1490F57[^\n]*\n(?:\s*//[^\n]*\n)*\s*if \(effect.SubType == 0\)\s*\{\s*effect.Scale = incomingScale;\s*effect.Alpha = 0.f;", resources):
@@ -355,7 +361,7 @@ def main() -> int:
         "bitmap = effect.SubType == 3 ? kMarksM04Bitmap :",
     ):
         require(resources, token, f"first native Pierce 0x81CD/0x81CE graph leg {token}")
-    print("PASS: Slayer bitmap IDs 32983..33016 do not overlap Grow Lancer or unnamed allocation")
+    print("PASS: Slayer bitmap IDs 32983..33017 do not overlap Grow Lancer or unnamed allocation")
     require(header, "kPierce8149Effect = MAX_MODELS + 79",
             "native Pierce 0x8149 subtype-2 sprite object private slot")
     require(resources, "CreateSprite(kGroundStarBitmap, effect.Position, effect.Scale,",
@@ -811,6 +817,16 @@ def main() -> int:
             "0x80E3 native bat-owner position update")
     require(resources, "Calc_RenderObject(&effect, false, 0, 0)",
             "native generic model Calc wrapper")
+    require(resources, "if (effect.Type == kBatFlockModel)",
+            "S21 0x678 Bat authored one-mesh subtype-specific renderer")
+    require(resources, "model.RenderBody(RENDER_TEXTURE, effect.Alpha,",
+            "S21 0x678 subtype 0..4 first ordinary mesh pass")
+    require(resources, "effect.SubType == 4 ?\n            kBetGrilsShot2GoldBitmap : kBetGrilsShot2RedBitmap",
+            "S21 0x678 subtype 4 gold, subtype 2/3 red override selection")
+    require(resources, "effect.SubType == 4 ? 1.f : 0.6f",
+            "S21 0x678 gold/red overlay blend-light contrast")
+    require(resources, "model.RenderBody(RENDER_TEXTURE | RENDER_BRIGHT, effect.Alpha,",
+            "S21 0x678 subtype 2/3/4 second luminous mesh pass")
     require(resources, "effect.Type == kBatFlockTrailModel ||",
             "S21 0x688 registered dark draw light attenuation")
     require(resources, "effect.Type == kDetectionMarkModel ||",

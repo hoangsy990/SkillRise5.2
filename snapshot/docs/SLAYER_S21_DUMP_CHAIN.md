@@ -831,10 +831,24 @@ outside that subtype/owner combination.
 Native `0x678/0x688/0x691/0x694` renderer dispatches at
 `0x15B29BE/0x15B2A02/0x15B2A24/0x15B2BCA` all pass six default arguments
 to `0x176D621`, the generic object Calc/Draw wrapper. They do not request
-an extra model draw. The isolated 5.2 renderer keeps `Calc_RenderObject`
-for animation, light and origin, then calls `RenderBody` exactly once,
-which brackets the authored meshes under `BeginRender/EndRender` and the
-shader scope. The earlier direct `RenderMesh` loop skipped that scope.
+an extra model draw at this dispatch call site; the registered handler can
+still submit additional passes. The isolated 5.2 renderer keeps
+`Calc_RenderObject` for animation, light and origin, then brackets each
+required `RenderBody` pass under `BeginRender/EndRender` and the shader
+scope. The earlier direct `RenderMesh` loop skipped that scope.
+The registered one-mesh `0x678` handler `0xA517D5` draws subtype 0/1 with
+base flag `2` only. Subtypes 2/3 draw that base pass plus flag `0x42`
+(`RENDER_TEXTURE|RENDER_BRIGHT`) using bitmap `0x82F9`, loaded at
+`0x18C04FD` from `Effect\\bet_grilsshot2red.jpg`, with blend-light `.6`.
+Subtype 4 swaps only the overlay to bitmap `0x82FA`, loaded at `0x18C067C`
+from `Effect\\bet_grilsshot2gold.jpg`, with blend-light `1`. Both overlay
+calls target mesh zero and blend-mesh zero, not all meshes by a generic
+whole-body bright pass. The gold OZJ is hash-pinned
+`9CA43326D7261352C245DA4BE4C0D45272E026C7060D321B966753C5EAD96269`
+and staged to the private Slayer overlay; isolated bitmap 33017 is reserved
+before the unnamed allocator. The 5.2 model path now matches these base/
+overlay passes for subtypes 0..4, but the native handler's render-side
+particle branches still need a separate source-to-port audit.
 Full basic-block decoding of `0x1887EB0` shows the **fallback** native body
 flag is `2`. This is conditional: `0x1887DDB` first calls special-model
 manager `0x18917BA` and skips the fallback if it returns true; `0x1887E1C`
@@ -1154,8 +1168,9 @@ after release. The later unattended capture confirms one cast per QA step;
 it does not yet prove class-9 or all-skill visual parity.
 
 The four pinned private effect models (`Bat_van01`,
-`van_object02_skill`, `van_object03_skill`, `Van_object04_skill`) still use
-one `RenderBody` call after the generic Calc path. The later decoded S21
+`van_object02_skill`, `van_object03_skill`, `Van_object04_skill`) retain
+scoped `RenderBody` calls after the generic Calc path: `0x678` uses one or
+two passes by subtype, while `0x688/0x691/0x694` use one. The decoded S21
 draw registry, however, submits `0x688/0x691/0x694` with flag `0x82`
 after multiplying their model RGB light by OBJECT alpha; the previously
 assumed flag-2 ordinary body is only fallback. The 5.2 port now mirrors

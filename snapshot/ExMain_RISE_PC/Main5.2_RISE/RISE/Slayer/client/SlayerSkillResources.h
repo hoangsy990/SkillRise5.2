@@ -73,7 +73,7 @@ enum ModelId
 enum BitmapId
 {
     // Grow Lancer reserves 32940..32982. The isolated Slayer allocation
-    // starts at 32983; 33001..33016 are reserved from the 5.2 unnamed
+    // starts at 32983; 33001..33017 are reserved from the 5.2 unnamed
     // allocator in GlobalBitmap when RISE_SLAYER_PORT is enabled.
     kMagicGround12Bitmap = 32983,
     kRingOfGradation2Bitmap = 32984,
@@ -115,7 +115,8 @@ enum BitmapId
     kMarksM03Bitmap = 33013,
     kFlare01Bitmap = 33014, // native 0x7EF7 Effect\\flare01.JPG
     kShockWaveBitmap = 33015, // native 0x8012 Effect\\ShockWave.JPG
-    kClud64Bitmap = 33016 // native 0x7FFD Effect\\Clud64.JPG
+    kClud64Bitmap = 33016, // native 0x7FFD Effect\\Clud64.JPG
+    kBetGrilsShot2GoldBitmap = 33017 // native 0x82FA Effect\\bet_grilsshot2gold.JPG
 };
 
 // Numeric controller ids recovered from the S21 ReceiveMagic dispatcher at

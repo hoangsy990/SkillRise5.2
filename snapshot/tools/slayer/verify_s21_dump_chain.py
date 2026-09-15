@@ -293,6 +293,33 @@ def main() -> int:
         if at(va, len(expected)) != expected:
             raise AssertionError(f"S21 registered Bat/buff draw drifted at {va:#x}")
     print("PASS: S21 0x5D8 registry callback returns false; registered 0x688/0x691/0x694 draw flag=0x82 texture|dark, GL_ZERO/GL_ONE_MINUS_SRC_COLOR, model RGB light*=OBJECT alpha")
+    # The one-mesh 0x678 Bat handler is not a single additive body. Native
+    # subtypes 0/1 use the base flag-2 mesh; modes 2/3 overlay bitmap 0x82F9
+    # (red) at flag 0x42 and blend-light .6; mode 4 substitutes 0x82FA
+    # (gold) at blend-light 1. Both paths use mesh index zero.
+    for va, expected in (
+        (0xA1B950, bytes.fromhex("68d517a5006878060000e8872300005959")),
+        (0xA518EC, bytes.fromhex("6a026a008b4d08")),
+        (0xA51B4B, bytes.fromhex("68f9820000")),
+        (0xA51B93, bytes.fromhex("6a426a008b4d08")),
+        (0xA51D2B, bytes.fromhex("68f9820000")),
+        (0xA51D73, bytes.fromhex("6a426a008b4d08")),
+        (0xA51F95, bytes.fromhex("68fa820000")),
+        (0xA51FDD, bytes.fromhex("6a426a008b4d08")),
+        (0xA51B73, bytes.fromhex("f30f100598e9b401")),
+        (0xA51D53, bytes.fromhex("f30f100598e9b401")),
+        (0xA51FBD, bytes.fromhex("f30f100548ddb401")),
+        (0x1B4E998, bytes.fromhex("9a99193f")),
+        (0x1B4DD48, bytes.fromhex("0000803f")),
+        (0x18C04FD, bytes.fromhex("68f9820000686cc7bb01")),
+        (0x18C067C, bytes.fromhex("68fa8200006818cbbb01")),
+    ):
+        if at(va, len(expected)) != expected:
+            raise AssertionError(f"S21 0x678 subtype model/bitmap draw drifted at {va:#x}")
+    if at(0x1BBC76C, 64).split(b"\0", 1)[0] != b"Effect\\bet_grilsshot2red.jpg" or \
+       at(0x1BBCB18, 64).split(b"\0", 1)[0] != b"Effect\\bet_grilsshot2gold.jpg":
+        raise AssertionError("S21 0x82F9/0x82FA bitmap loader paths drifted")
+    print("PASS: S21 0x678 base mesh flag=2; subtype 2/3 red 0x82F9 .6 and subtype 4 gold 0x82FA 1 overlay flag=0x42")
     # Two manager gates still precede the fallback. This table shows the
     # second-manager handlers, not proof that the first never intercepts.
     # The E4 action-init has a bounded actor-Z writer.
