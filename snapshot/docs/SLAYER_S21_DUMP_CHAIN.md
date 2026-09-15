@@ -1169,10 +1169,22 @@ CRC32, class bit 512, unique slots/IDs, the complete 58-node count and all
 parent references, then stores a separate Slayer shape map without touching
 `MasterSkillTree.txt`. When a Slayer requests learning, that map first
 excludes nodes outside its class-512 tree and rejects any legacy row whose
-group/rank/min/max/parents differ; this specifically prevents old 5.2 `631`
-(group 2) from impersonating S21 Slayer Rush `631` (group 1). The isolated
+group/rank/min/max/parents differ after converting SS21 group `0..2` to
+5.2 GS group `1..3`. A hash-pinned comparison finds 39 shared low-ID rows
+with matching **shape** and 19 missing rows, but it does not prove matching
+per-point values or class permissions. Legacy `631` and S21 Slayer Rush
+`631` also match numerically after that conversion, so the code explicitly
+holds `631` out of Slayer learning until its class/option provenance is
+mapped; the earlier claim of a raw group mismatch was wrong. The isolated
 Ex603/Win32 GS built into private `Bin22`, but was not launched. This shape
 and class isolation do **not** yet implement all S21 per-point passive
 values or make 781/782 normally learnable: `CGMasterSkillRecv` still calls
 the legacy `GetInfo`, which has no rows for those IDs. The learning adapter
 and upgraded cast/effect routing remain open before ingame QA.
+A separate pinned-main immediate search for Master Bat IDs 781/782 found
+three 32-bit CMP sites for 781 at `0x13DC8AE/0x13DDBBF/0x14241E7` and none
+for 782. Disassembly shows all three compare the object's **model Type**
+at `OBJECT+0x146`, not a skill ID; this does not prove an upgraded Bat cast
+dispatcher nor prove its absence (16-bit/table routes remain possible).
+Consequently the 5.2 server still rejects cast of 781/782 rather than
+pretending that BasicSkillAttack or base Bat visuals are S21 mastery code.

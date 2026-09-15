@@ -1562,17 +1562,22 @@ void CMasterSkillTree::CGMasterSkillRecv(PMSG_MASTER_SKILL_RECV* lpMsg, int aInd
 	}
 	if (rise::slayerserver::IsSlayerDbClass(lpObj->DBClass))
 	{
+		// S21 BMD groups are 0..2 while 5.2 GS text groups are 1..3.
+		// ID 631 remains class-only in S21 and must not inherit its legacy
+		// RequireClass/option row solely because the numeric shape matches.
+		if (lpMsg->MasterSkill == 631)
+			return;
 		SLAYER_MASTER_TREE_SHAPE native = {};
 		if (!this->GetSlayerShape(lpMsg->MasterSkill, &native) ||
-			MasterSkillTreeInfo.Group != native.Group ||
+			MasterSkillTreeInfo.Group != native.Group + 1 ||
 			MasterSkillTreeInfo.Rank != native.Rank ||
 			MasterSkillTreeInfo.MinLevel != native.RequiredPoints ||
 			MasterSkillTreeInfo.MaxLevel != native.MaxLevel ||
 			MasterSkillTreeInfo.RequireSkill[0] != native.ParentSkill[0] ||
 			MasterSkillTreeInfo.RequireSkill[1] != native.ParentSkill[1])
 			return;
-		// Shared 5.2 IDs may reuse a compatible row; mismatching legacy
-		// 631 is excluded instead of impersonating S21 Slayer Rush.
+		// Shared 5.2 IDs may reuse a compatible row shape, but that alone
+		// does not prove its S21 per-point values or class ownership.
 	}
 	if (rise::slayerserver::IsS21SlayerExclusiveMasterSkill(
 		MasterSkillTreeInfo.Index))
