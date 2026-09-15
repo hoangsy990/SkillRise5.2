@@ -487,8 +487,13 @@ millisecond clock and the incoming angle. Its updater jump table maps to
 subtype-1 model naturally expires after 30 ticks. Renderer `0x15AE9A2`
 passes it through the generic `0x176D621` model wrapper. The registered
 second-manager callback for `0x5D8` is the trivial false handler
-`0xA48614`, so that registry alone does not replace the flag-2 fallback;
-the first manager still needs to be ruled out. The 5.2
+`0xA48614`, so that registry alone does not replace the flag-2 fallback.
+The first manager `0x18917BA` looks up `Type-0xAE9` and tests an object
+special flag before its fallback. Its direct map-specific branches are
+map `0x66`, map `2`/type `0x7A`, and map `8`/types `0x5D`/`0x65`; none
+directly selects model `0x5D8`. The registered keys of its lookup are
+not yet recovered, so its interception is still unproven; this is not a
+claim that `0x5D8` always takes the flag-2 fallback. The 5.2
 adapter uses `RENDER_TEXTURE` for this child instead of adding an
 unrequested bright pass; material parity still needs the later ingame gate.
 The hash-pinned v0F-to-v0C conversion reports one mesh, two bones, one
@@ -496,17 +501,19 @@ action (`marks_cylinder.SMD`), and its sole material `lines2.jpg` from
 S21 `lines2.OZJ` SHA-256
 `79D2A20143B15E406344F43DCDAF6232DD131986BC28603B10BF70DA4F208F7A`.
 Both model and texture are copied only to the isolated Slayer client.
-The previously unkeyed `0x5D8` material is another bounded dark-field
+The `0x5D8` material is an authored dark-field
 source: its single S21 mesh reaches `Z=214.582`, and its `lines2.jpg` UV
 range wraps `V=0..6.6296` around the cylinder. The hash-pinned S21
 `lines2.OZJ` decodes to 32x64 RGB; 1,095 of 2,048 pixels have peak RGB
 `<=16`, with dark corners at gray 38 and 68 as well. A 5.2 `RENDER_TEXTURE`
 submission of this RGB texture can paint the repeated dark field opaque.
-The isolated loader now applies the same in-memory RGBA black-field guard
-to **only** `marks_cylinder.bmd`/`lines2.jpg` (floor 16), including an
-already-resident model. The S21 BMD/OZJ bytes remain unchanged. This is
-another 5.2 compatibility adapter, not decoded S21 alpha-key code or
-proof that this specific node caused every pixel of an older screenshot.
+The earlier in-memory RGBA floor-16 conversion of `lines2` was a 5.2
+compatibility experiment with no native SS21 loader evidence and has now
+been removed, including its bitmap API. Fresh and resident paths require
+the single authored `lines2` material to remain three-component RGB; the
+S21 BMD/OZJ bytes remain unchanged. This is not proof that this specific
+node caused every pixel of an older screenshot, nor that native fallback
+flag `2` is always selected by the unresolved first-manager lookup.
 The earlier rebuilt/staged private Win32 client SHA-256 was
 `6B4AEB81B8BDD351AFC76EED13DB267CEEB46423CE085F8F1618BC4891F02006`;
 its runtime appearance has not been checked.
@@ -951,8 +958,9 @@ incorrect and is withdrawn. The current `C:\Users\DELL\Desktop\Media1.mp4`
 is a 24.31-second, 10-fps **5.2 MainRF** recording created on 15 September,
 not the SS21 capture from which the older frame set was extracted. The old
 frame set has no retained source-video hash, so it is observation only,
-not authoritative current-video provenance. The remaining `0x5D8` lines2
-color key is a 5.2 adapter, **not a full ingame parity PASS**.
+not authoritative current-video provenance. The former `0x5D8` lines2
+color key was a 5.2 adapter and is withdrawn; RGB/native material parity
+is still **not a full ingame PASS**.
 Body light is multiplied by alpha once for registered `0x688/0x691/0x694`
 dark model draws. Every diagnostic skip
 used to establish causality was removed from code and the private QA client.
@@ -1202,8 +1210,9 @@ color-keys their textures. The S21 OZJ loader at `0xCC53AC/0xCC562D/
 uploads `GL_RGB`. The prior cutoff-48 `ark` and cutoff-16
 `empact01/Elite_monster_ground02` RGBA masks were compatibility experiments,
 not S21 behavior, and have been withdrawn. Fresh or resident model loads
-retain the authored mesh-count guards; only Pierce cylinder `0x5D8` still
-has a bounded lines2 material adapter. No ingame capture of this corrected
+retain the authored mesh-count guards; Pierce cylinder `0x5D8` has only
+its exact lines2/RGB material guard, not an alpha-key adapter. No ingame
+capture of this corrected
 handler path exists yet, so it is build/static evidence, not visual PASS.
 The QA log formerly labelled shared `0x694` Demolish submissions as Detection
 and called every textured pass opaque; its diagnostic labels now use the

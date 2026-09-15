@@ -293,6 +293,25 @@ def main() -> int:
         if at(va, len(expected)) != expected:
             raise AssertionError(f"S21 registered Bat/buff draw drifted at {va:#x}")
     print("PASS: S21 0x5D8 registry callback returns false; registered 0x688/0x691/0x694 draw flag=0x82 texture|dark, GL_ZERO/GL_ONE_MINUS_SRC_COLOR, model RGB light*=OBJECT alpha")
+    # The first native model manager is not a Slayer-only renderer. It first
+    # looks up Type-0xAE9, then tests an object special flag. Its fallback
+    # map branches are bounded to map 0x66, map 2/type 0x7A and map 8/types
+    # 0x5D/0x65; none is a direct 0x5D8 branch. The lookup's registered keys
+    # are not recovered here, so this is not a proof of unconditional flag 2.
+    for va, expected in (
+        (0x18917F3, bytes.fromhex("8b450c8b405c2de90a0000")),
+        (0x18918E1, bytes.fromhex("8b4d0ce81e080100")),
+        (0x189195F, bytes.fromhex("837dc0000f84d2130000")),
+        (0x9DFBDC, bytes.fromhex("837d08667506b001")),
+        (0x1892D90, bytes.fromhex("833ddc85dd0102")),
+        (0x1892DA0, bytes.fromhex("83785c7a")),
+        (0x1892EA3, bytes.fromhex("833ddc85dd0108")),
+        (0x1892EAF, bytes.fromhex("83785c5d")),
+        (0x1892ED1, bytes.fromhex("83785c65")),
+    ):
+        if at(va, len(expected)) != expected:
+            raise AssertionError(f"S21 first-model-manager 0x5D8 exclusion anchor drifted at {va:#x}")
+    print("PASS: S21 first-model-manager has no direct 0x5D8 map fallback; Type-0xAE9 registry lookup remains unproven")
     # The one-mesh 0x678 Bat handler is not a single additive body. Native
     # subtypes 0/1 use the base flag-2 mesh; modes 2/3 overlay bitmap 0x82F9
     # (red) at flag 0x42 and blend-light .6; mode 4 substitutes 0x82FA

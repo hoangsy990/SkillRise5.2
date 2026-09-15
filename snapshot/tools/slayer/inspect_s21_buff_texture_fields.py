@@ -45,12 +45,11 @@ def main() -> None:
                  for index in range(0, len(pixels), 3)]
         keyed = sum(value <= current_cutoff for value in peaks)
         residual = sum(current_cutoff < value <= 48 for value in peaks)
-        # Only lines2 currently receives this 5.2 RGBA adapter. For the
-        # registered S21 0x688/0x691/0x694 dark RGB materials, these are
-        # hypothetical cutoff statistics, not their active render path.
+        # No active Slayer material receives the withdrawn RGBA black key.
+        # These are historical cutoff statistics, not a current render path.
         alpha_test_floor = current_cutoff + int((255 - current_cutoff) * 0.25)
         hidden = sum(value <= alpha_test_floor for value in peaks)
-        scope = "active-cylinder-adapter" if name == "lines2.OZJ" else "historical-mask-analysis"
+        scope = "historical-mask-analysis"
         print(f"S21 {name}: size={image.size} sha256={digest} "
               f"scope={scope} hypothetical-keyed<= {current_cutoff}: {keyed}/{len(peaks)} "
               f"dark-residual<=48: {residual}/{len(peaks)} "

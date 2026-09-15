@@ -450,53 +450,6 @@ bool CGlobalBitmap::LoadImageFile(GLuint uiBitmapIndex, const std::string& filen
 	
 	return false;
 }
-#ifdef RISE_SLAYER_PORT
-bool CGlobalBitmap::ApplySlayerBlackKeyAlpha(GLuint uiBitmapIndex, BYTE blackFloor)
-{
-	// Private S21 silver-mark/ring materials are RGB JPEGs with black fields
-	// around the visible effect. Keep their source bytes and all 5.2 textures
-	// untouched; adapt only the imported Slayer material instances.
-	BITMAP_t* bitmap = FindTexture(uiBitmapIndex);
-	if (!bitmap || bitmap->Components != 3 || !bitmap->Buffer ||
-		bitmap->TextureNumber == 0 || bitmap->Width <= 0.f ||
-		bitmap->Height <= 0.f || blackFloor >= 255)
-		return false;
-	const size_t width = static_cast<size_t>(bitmap->Width);
-	const size_t height = static_cast<size_t>(bitmap->Height);
-	if (width > MAX_WIDTH || height > MAX_HEIGHT ||
-		width > SIZE_MAX / height / 4)
-		return false;
-	const size_t pixels = width * height;
-	if (pixels > MAXDWORD - m_dwUsedTextureMemory)
-		return false;
-	BYTE* rgba = new BYTE[pixels * 4];
-	for (size_t pixel = 0; pixel < pixels; ++pixel)
-	{
-		const BYTE* rgb = bitmap->Buffer + pixel * 3;
-		BYTE* target = rgba + pixel * 4;
-		target[0] = rgb[0];
-		target[1] = rgb[1];
-		target[2] = rgb[2];
-		const unsigned peak = std::max<unsigned>(rgb[0],
-			std::max<unsigned>(rgb[1], rgb[2]));
-		// Suppress JPEG black-floor noise while retaining the authored gray
-		// feathered edge; no shape or color is synthesized.
-		target[3] = peak <= blackFloor ? 0 : static_cast<BYTE>(
-			(peak - blackFloor) * 255 / (255 - blackFloor));
-	}
-	GLint priorTexture = 0;
-	glGetIntegerv(GL_TEXTURE_BINDING_2D, &priorTexture);
-	glBindTexture(GL_TEXTURE_2D, bitmap->TextureNumber);
-	glTexImage2D(GL_TEXTURE_2D, 0, 4, static_cast<GLsizei>(width),
-		static_cast<GLsizei>(height), 0, GL_RGBA, GL_UNSIGNED_BYTE, rgba);
-	glBindTexture(GL_TEXTURE_2D, static_cast<GLuint>(priorTexture));
-	delete [] bitmap->Buffer;
-	bitmap->Buffer = rgba;
-	bitmap->Components = 4;
-	m_dwUsedTextureMemory += static_cast<DWORD>(pixels);
-	return true;
-}
-#endif
 void CGlobalBitmap::UnLoadImageFile(GLuint uiBitmapIndex, bool bForce)
 {
 	auto mi = m_mapBitmap.find(uiBitmapIndex);

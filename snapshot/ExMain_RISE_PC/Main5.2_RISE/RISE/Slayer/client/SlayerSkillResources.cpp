@@ -585,27 +585,17 @@ bool RequiresModel(int type)
 }
 
 #ifdef RISE_SLAYER_PORT
-bool EnsureSlayerBlackFieldMaterial(int modelId, BMD& model, int mesh)
+bool EnsurePierceCylinderMaterial(int modelId, BMD& model, int mesh)
 {
     if (modelId != kPierceMarksCylinderModel)
         return true;
     const char* material = model.Textures[mesh].FileName;
-    const bool isLines = modelId == kPierceMarksCylinderModel &&
-        _stricmp(material, "lines2.JPG") == 0;
-    if (!isLines)
+    if (_stricmp(material, "lines2.JPG") != 0)
         return false;
     BITMAP_t* bitmap = Bitmaps.FindTexture(model.IndexTexture[mesh]);
-    if (!bitmap)
-        return false;
-    // A model may already be resident when the private Slayer graph reaches
-    // it. Do not treat an RGB black-field JPEG as render-ready in that path.
-    // The registered S21 0x688/0x691/0x694 handlers use dark RGB passes,
-    // so they must not inherit the earlier experimental RGBA key. Only the
-    // Pierce cylinder still uses this bounded 5.2 compatibility adapter.
-    if (bitmap->Components == 4)
-        return true;
-    return bitmap->Components == 3 &&
-        Bitmaps.ApplySlayerBlackKeyAlpha(model.IndexTexture[mesh], 16);
+    // S21 OZJ/OpenJpeg uploads the authored JPEG as GL_RGB. Reject a
+    // resident keyed/altered copy; neither registry proves RGBA conversion.
+    return bitmap && bitmap->Components == 3;
 }
 #endif
 
@@ -624,7 +614,7 @@ bool EnsureModel(int modelId)
             (modelId == kBatFlockModel && model.NumMeshs != 1))
             return false;
         for (int mesh = 0; mesh < model.NumMeshs; ++mesh)
-            if (!EnsureSlayerBlackFieldMaterial(modelId, model, mesh))
+            if (!EnsurePierceCylinderMaterial(modelId, model, mesh))
                 return false;
         return true;
     }
@@ -654,7 +644,7 @@ bool EnsureModel(int modelId)
             model.Release();
             return false;
         }
-        if (!EnsureSlayerBlackFieldMaterial(modelId, model, mesh))
+        if (!EnsurePierceCylinderMaterial(modelId, model, mesh))
         {
             model.Release();
             return false;

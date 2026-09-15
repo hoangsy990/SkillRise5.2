@@ -334,7 +334,7 @@ def main() -> int:
     require(resources, '"Data\\\\RISE\\\\Slayer\\\\Effect\\\\flareRed.jpg"',
             "S21 Bat bone flareRed texture path")
     require(resources, "if (modelId != kPierceMarksCylinderModel)\n        return true;",
-            "registered S21 0x688/0x691/0x694 RGB bright materials are not keyed")
+            "registered S21 0x688/0x691/0x694 RGB materials are not keyed")
     if not re.search(r"case kBatFlockTrailModel:\s*// Native 0x1490F57[^\n]*\n(?:\s*//[^\n]*\n)*\s*if \(effect.SubType == 0\)\s*\{\s*effect.Scale = incomingScale;\s*effect.Alpha = 0.f;", resources):
         raise AssertionError("S21 0x688 Bat Flock trail must write incoming scale and zero alpha")
     require(resources, "float NativeRandomUnitStep(int lower, int upper)",
@@ -857,30 +857,26 @@ def main() -> int:
             "Slayer shaped bat model retains isolated additive body pass")
     require(resources, "model.RenderBody(renderFlags, effect.Alpha,",
             "Slayer S21 models retain single complete RenderBody pass")
-    require(resources, "bool EnsureSlayerBlackFieldMaterial(int modelId, BMD& model, int mesh)",
+    require(resources, "bool EnsurePierceCylinderMaterial(int modelId, BMD& model, int mesh)",
             "0x5D8 private material readiness guard")
-    require(resources, "modelId == kPierceMarksCylinderModel &&\n        _stricmp(material, \"lines2.JPG\") == 0",
-            "S21 Pierce 0x5D8 repeated lines2 black field keyed only on authored material")
+    require(resources, "if (_stricmp(material, \"lines2.JPG\") != 0)",
+            "S21 Pierce 0x5D8 authored lines2 material guard")
     require(resources, "(modelId == kPierceMarksCylinderModel && model.NumMeshs != 1)",
             "S21 Pierce cylinder resident mesh shape checked before draw")
     require(resources, "(modelId == kBatFlockTrailModel && model.NumMeshs != 3)",
             "S21 Bat trail resident three-mesh shape checked before draw")
     require(resources, "if (modelId != kPierceMarksCylinderModel)\n        return true;",
             "registered dark RGB models bypass speculative alpha key")
-    require(resources, "if (bitmap->Components == 4)\n        return true;",
-            "already-keyed Slayer material remains ready")
-    require(resources, "return bitmap->Components == 3 &&\n        Bitmaps.ApplySlayerBlackKeyAlpha(model.IndexTexture[mesh],",
-            "RGB Slayer black field is keyed before model submission")
-    require(resources, "if (!EnsureSlayerBlackFieldMaterial(modelId, model, mesh))",
+    require(resources, "return bitmap && bitmap->Components == 3;",
+            "S21 Pierce 0x5D8 keeps GL_RGB material in resident and fresh paths")
+    require(resources, "if (!EnsurePierceCylinderMaterial(modelId, model, mesh))",
             "resident and newly-loaded model paths both check private material")
-    if resources.count("!EnsureSlayerBlackFieldMaterial(modelId, model, mesh)") != 2:
+    if resources.count("!EnsurePierceCylinderMaterial(modelId, model, mesh)") != 2:
         raise AssertionError("Slayer material guard missing from resident or fresh model path")
     bitmap_header = read("ExMain_RISE_PC/Main5.2_RISE/GlobalBitmap.h")
     bitmap_source = read("ExMain_RISE_PC/Main5.2_RISE/GlobalBitmap.cpp")
-    require(bitmap_header, "bool ApplySlayerBlackKeyAlpha(GLuint uiBitmapIndex, BYTE blackFloor = 16);",
-            "Slayer-only bitmap alpha API")
-    require(bitmap_source, "bool CGlobalBitmap::ApplySlayerBlackKeyAlpha(GLuint uiBitmapIndex, BYTE blackFloor)",
-            "Slayer-only in-memory JPEG black-key implementation")
+    if "ApplySlayerBlackKeyAlpha" in resources + bitmap_header + bitmap_source:
+        raise AssertionError("5.2 RGBA black-key experiment remains in active Slayer source")
     if "model.RenderMesh(mesh, RENDER_TEXTURE, effect.Alpha," in resources:
         raise AssertionError("Slayer model render bypasses BeginRender/EndRender")
     object_renderer = read("ExMain_RISE_PC/Main5.2_RISE/ZzzObject.cpp")
