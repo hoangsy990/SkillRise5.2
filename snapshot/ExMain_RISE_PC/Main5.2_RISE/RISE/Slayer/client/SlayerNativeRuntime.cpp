@@ -245,10 +245,12 @@ bool DispatchNativeReceive(CHARACTER* source, CHARACTER* target, int skillId)
 #endif
 
     // The S21 receive handler resolves an actor pointer, not a living-only
-    // monster filter.  Damage can kill a target before the 5.2 cast packet
+    // monster filter. Damage can kill a target before the 5.2 cast packet
     // reaches this bridge; the authored cast visuals must still be emitted.
+    // Local input remains living-target gated, but the authoritative 0x19
+    // response needs only the resolved target slot for position/sound.
     if (skillId != kDetection && skillId != kDemolish &&
-        (!target || !target->Object.Live))
+        !target)
         return false;
 
     const int localSlot = source == Hero ? LocalGraphSlot(skillId) : -1;

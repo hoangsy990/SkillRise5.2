@@ -49,6 +49,11 @@ applies the clip/root for other clients. For the local caster, the accepted
 `0x19` acknowledgment consumes the pending local graph without restarting
 the actor clip or duplicating the roots. A fresh server join clears the
 pending local-ack state. Damage, DOT and buff acceptance remain GS-owned.
+The incoming 0x19 cast route resolves the target slot but no longer drops an
+already accepted offensive graph merely because the target died between the
+hit and packet arrival. Local click selection still requires a living target.
+This keeps successful cast visuals separate from target survival and does not
+authorize damage after death.
 The targeted local cast accepts live monster and player actors, excluding
 the caster; 5.2 GameServer remains the authority for safe-zone/PvP/hostility
 legality. The previous monster-only client gate silently suppressed Slayer
@@ -1155,8 +1160,9 @@ the private Slayer executable. Bat Flock's early trail and the floor are
 visible without the previous black terrain square; Detection/Demolish at
 sample 1 are overbright white under the all-model-additive trial.
 The private `Media1_20260914` directory retains 78 samples from an earlier
-SS21 capture, but its exact source video is no longer present at the named
-Desktop path. Direct inspection of
+SS21 capture, but its exact source video/hash was not retained. The named
+Desktop path now holds the different hash-pinned **5.2 MainRF** recording
+identified above, not that SS21 source. Direct inspection of
 `frame_012.jpg`, `frame_013.jpg` and `frame_019.jpg` does **not** show the
 previously claimed black floor square or dark `0x694`-like vortex: the first
 two show an idle/transition pose, and the latter shows red attack fragments.

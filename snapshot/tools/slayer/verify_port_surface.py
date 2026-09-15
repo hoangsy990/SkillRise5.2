@@ -230,6 +230,16 @@ def main() -> int:
             "GS Slayer level and STR/DEX requirements")
     require(client_receive, "if (Success)\n\t\t\trise::slayer::DispatchNativeReceive",
             "Slayer visual graph requires an accepted 5.2 cast packet")
+    local_cast = runtime.split("bool DispatchNativeLocalCast(", 1)[1].split(
+        "bool DispatchNativeReceive(", 1)[0]
+    receive_cast = runtime.split("bool DispatchNativeReceive(", 1)[1].split(
+        "bool DispatchBatFanout(", 1)[0]
+    require(local_cast, "(!target || !target->Object.Live)",
+            "new offensive input requires a living selected target")
+    require(receive_cast, "if (skillId != kDetection && skillId != kDemolish &&\n        !target)",
+            "accepted offensive cast keeps its graph after target death")
+    if "(!target || !target->Object.Live)" in receive_cast:
+        raise AssertionError("accepted Slayer cast still suppresses visuals after target death")
 
     for banned in (
         "ak_skill_sword.bmd",
