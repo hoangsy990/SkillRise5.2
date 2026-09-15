@@ -2,6 +2,26 @@
 
 STATUS: IN_PROCESS
 
+### 2026-09-15 — scoped SkillRise5.2 recovery snapshot refreshed
+
+- CURRENT PHASE: nine S21 Grow Lancer skills native PC5.2 client/server; equipment/quests1–3 excluded; `IN_PROCESS`.
+- CURRENT TASK: preserve the new Magic/Spin reverse and corrected GS formula evidence off-machine within the previously user-approved GrowLancer-only scope.
+- CURRENT SUBTASK: hash-guarded update of dedicated `backup/grow-lancer-s21-20260915`, no main/production/Pegasus/Slayer merge.
+- COMPLETED THIS RUN: backup worktree branch was clean and matched remote ref9f4c6e19 before update. Scoped staging dry-run/apply found380 allowed source files,24 differences/1,455,549 bytes. Added five GrowLancer-named Shared headers to approved package allowlist (including corrected formula contract), staged exact24 names with no binary/Data/dump/equipment/quest, `git diff --cached --check` PASS. Commit `5c91d4b15943ed884f13da023103190ea956a7f3` pushed to existing SkillRise5.2 backup branch and verified `git ls-remote` equality/clean worktree. Remote main/other refs unchanged; no PR/merge/deployment.
+- REVERSE EVIDENCE: pinned S21 Lua server formulas, source Spin bone/world and Magic native-depth evidence saved as code/docs/verifiers; backup itself adds no client/GS runtime acceptance.
+- CHAIN COVERAGE: current named package/docs/state/test-tools off-machine recoverable; broad integration diffs outside allowlist and binaries/Data are explicitly not represented. Skill full gates still OPEN/FAIL as prior.
+- ASSET PROVENANCE: asset SHA records backed as text only; no BMD/OZ*/sound, private QA Engine, S21 dump or production client copied.
+- FILES MODIFIED: backup staging allowlist script and this state in isolated GrowLancer source; separate backup snapshot branch commit only. No other worktree edited.
+- LAST STATIC CHECK: 380-file path/hash staging, exact24 staged-name scope, cached diff check, clean local backup branch and matching remote ref PASS.
+- LAST BUILD RESULT: no build for snapshot; isolated GS FormulaAudit and client QA/nonQA links remain as previous checkpoints, not visual/server PASS.
+- LAST RUNTIME QA: none for backup; user still deferred visible Magic cast and current task-owned stack/Engine are stopped.
+- KNOWN DIFFERENCES: GitHub backup is scoped source recovery, not full RISE merge, executable, complete asset package or owner acceptance.
+- MISSING CHAIN PARTS: broad client/GS integration reconciliation, class7/default-row authority, skill handler/hits and nine-skill local owner visuals/cleanup/regressions.
+- BLOCKER: S21 GS handler/default-class proof and owner gameplay pixels missing, while independent work continues; `IN_PROCESS`.
+- NEXT EXACT ACTION: return to S21 skill hit/target/cooldown reverse and native integration; do not treat backup/build as skill COMPLETE.
+- NEXT FILE TO OPEN: `GrowLancer/SERVER_RULES_REVERSE.md` and native `SkillManager.cpp` hit path.
+- NEXT FUNCTION TO IMPLEMENT: only evidence-backed server-authoritative GL handler/class adapter, not a generic SS6 substitute.
+
 ### 2026-09-15 — S21 server Lua formula bounds corrected in existing shared contract
 
 - CURRENT PHASE: nine S21 Grow Lancer skills native PC5.2/SS6 client+GS, equipment/quests1–3 excluded; `IN_PROCESS`.
