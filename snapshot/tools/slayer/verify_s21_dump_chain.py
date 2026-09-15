@@ -289,8 +289,17 @@ def main() -> int:
     # and render switches route 0x81CD/0x81CE independently.
     if at(0xAA997F, 5) != bytes.fromhex("68ce810000"):
         raise AssertionError("S21 0x81CE bitmap loader code drifted")
+    if at(0xAA995F, 5) != bytes.fromhex("68cd810000"):
+        raise AssertionError("S21 0x81CD bitmap loader code drifted")
     if not at(0x1B52784, 28).startswith(b"NPC\\marks_m04.JPG\x00"):
         raise AssertionError("S21 0x81CE bitmap loader filename drifted")
+    if not at(0x1B52770, 28).startswith(b"NPC\\marks_m03.JPG\x00"):
+        raise AssertionError("S21 0x81CD bitmap loader filename drifted")
+    if at(0x15AE502, 5) != bytes.fromhex("68ce810000"):
+        raise AssertionError("S21 0x81CE subtype-3 renderer bitmap drifted")
+    for va in (0x15AE675, 0x15AE740):
+        if at(va, 5) != bytes.fromhex("68cd810000"):
+            raise AssertionError(f"S21 0x81CE subtype-4/5 renderer bitmap drifted at {va:#x}")
     dispatch_bytes = {
         0x14B8383: bytes.fromhex("81bd8cdbfeffcd810000"),
         0x14B82E2: bytes.fromhex("81bd8cdbfeffce810000"),
@@ -300,7 +309,7 @@ def main() -> int:
     for va, expected in dispatch_bytes.items():
         if at(va, len(expected)) != expected:
             raise AssertionError(f"S21 0x81CD/0x81CE update/render selector drifted at {va:#x}")
-    print("PASS: S21 0x81CE bitmap=NPC/marks_m04 and 0x81CD/0x81CE update/render selectors pinned")
+    print("PASS: S21 0x81CE subtype3=marks_m04, subtype4/5=marks_m03 and high-code dispatch pinned")
 
     if at(0x10EEB92, 7) != bytes.fromhex("6a5768c1000000"):
         raise AssertionError("S21 shared C1:57 skill packet constructor drifted")

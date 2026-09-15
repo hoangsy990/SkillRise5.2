@@ -12,9 +12,9 @@
 namespace
 {
 #ifdef RISE_SLAYER_PORT
-	// The Slayer overlay registers fixed bitmaps 33001..33012. Unnamed
+	// The Slayer overlay registers fixed bitmaps 33001..33013. Unnamed
 	// player/item materials must not be assigned those same texture IDs.
-	constexpr GLuint kSlayerLastReservedBitmap = 33012;
+	constexpr GLuint kSlayerLastReservedBitmap = 33013;
 	static_assert(BITMAP_NONAMED_TEXTURES_BEGIN == 33001,
 		"Slayer unnamed-texture reservation needs a new boundary check");
 	static_assert(kSlayerLastReservedBitmap < BITMAP_black_gold_crom05,

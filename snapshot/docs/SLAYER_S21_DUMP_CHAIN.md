@@ -346,6 +346,12 @@ them separately at `0x15A1724/0x15A1734`. The private 5.2 Slayer overlay
 now hash-pins/copies `marks_m04.OZJ`, reserves bitmap ID `33012`, and
 registers that exact sprite. This is an asset prerequisite only: no
 `0x81CD` child is spawned yet, and visual parity is still unproven.
+Further render decode shows `0x81CE` subtype 3 submits bitmap `0x81CE`
+at `0x15AE502`, but subtypes 4 and 5 submit bitmap `0x81CD` at
+`0x15AE675/0x15AE740`. Loader `0xAA995F` binds `0x81CD` to
+`NPC\\marks_m03.JPG`, already present as a hash-pinned S21 overlay file.
+The private 5.2 adapter now reserves bitmap ID `33013` and registers it
+separately; using only `marks_m04` for all three children would be wrong.
 
 The native character render/update paths at `0x133F0EA` and `0x13F2546`
 compare current action to `0xE4` and assign `OBJECT+0xDC = 0.3`; the

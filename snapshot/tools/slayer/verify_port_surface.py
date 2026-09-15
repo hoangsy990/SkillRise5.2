@@ -173,12 +173,12 @@ def main() -> int:
         raise AssertionError("Detection/Demolish action IDs were aliased")
     bitmap_block = header.split("enum BitmapId", 1)[1].split("};", 1)[0]
     bitmap_ids = [int(value) for value in re.findall(r"^\s*k\w+Bitmap\s*=\s*(\d+)", bitmap_block, re.M)]
-    if len(bitmap_ids) != 30 or len(set(bitmap_ids)) != len(bitmap_ids):
+    if len(bitmap_ids) != 31 or len(set(bitmap_ids)) != len(bitmap_ids):
         raise AssertionError("Slayer bitmap IDs are incomplete or duplicated")
-    if min(bitmap_ids) != 32983 or max(bitmap_ids) != 33012:
+    if min(bitmap_ids) != 32983 or max(bitmap_ids) != 33013:
         raise AssertionError("Slayer bitmap IDs overlap Grow Lancer or exceed the reserved tail")
     global_bitmap = read("ExMain_RISE_PC/Main5.2_RISE/GlobalBitmap.cpp")
-    require(global_bitmap, "kSlayerLastReservedBitmap = 33012",
+    require(global_bitmap, "kSlayerLastReservedBitmap = 33013",
             "unnamed allocator private range boundary")
     require(global_bitmap, "m_uiTextureIndexStream = kSlayerLastReservedBitmap",
             "unnamed allocator skips Slayer fixed slots")
@@ -190,7 +190,9 @@ def main() -> int:
             "Slayer unnamed allocator cannot reuse a loaded named texture ID")
     require(resources, "RegisterSlayerBitmap(kMarksM04Bitmap,",
             "S21 Pierce 0x81CE marks_m04 private bitmap registration")
-    print("PASS: Slayer bitmap IDs 32983..33012 do not overlap Grow Lancer or unnamed allocation")
+    require(resources, "RegisterSlayerBitmap(kMarksM03Bitmap,",
+            "S21 Pierce 0x81CD marks_m03 private bitmap registration")
+    print("PASS: Slayer bitmap IDs 32983..33013 do not overlap Grow Lancer or unnamed allocation")
     for token in (
         "kFlare01RedEffect", "kRingOfGradation2Effect",
         "kEnemyRing01Effect", "kMagicGround12Effect",
