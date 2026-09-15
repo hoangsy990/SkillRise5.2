@@ -17,6 +17,36 @@ try {
 Write-Output "Verified executable: $qaExe"
 Write-Output "Working directory: $qaClient"
 if (!$Launch) { Write-Output 'DRY RUN: use -Launch to open the isolated Slayer client'; return }
+$qaCharacter = if ($UseLegacyFixture) { 'MainRF' } else { 'Slayer' }
+if (!$UseLegacyFixture) {
+    # The private DataServer stack currently points at the shared local
+    # RISE5.2 database. A saved login is not proof that the required Slayer
+    # character exists; fail before spawning a misleading MainRF preview.
+    $qaDataServerIni = Join-Path $qaRoot 'ExGameServer\Tests\SlayerBuild\ServerStackSmoke\2.DataServer\DataServer.ini'
+    if (!(Test-Path -LiteralPath $qaDataServerIni -PathType Leaf) -or
+        @((Get-Content -LiteralPath $qaDataServerIni) -match '^DataServerODBC\s*=\s*RISE5\.2\s*$').Count -ne 1) {
+        throw 'Private Slayer DataServer no longer points at RISE5.2; refusing stale character preflight'
+    }
+    $qaDsn = Get-OdbcDsn -Name 'RISE5.2' -Platform '32-bit' -ErrorAction Stop
+    if (!$qaDsn -or $qaDsn.Attribute['Database'] -ne 'RISE5.2' -or
+        $qaDsn.Attribute['Server'] -ne '(local)') {
+        throw 'Slayer QA DataServer ODBC target changed; refusing stale character preflight'
+    }
+    $qaSqlConnection = New-Object System.Data.SqlClient.SqlConnection(
+        'Server=(local);Database=RISE5.2;Integrated Security=True;Connect Timeout=5')
+    try {
+        $qaSqlConnection.Open()
+        $qaSqlCommand = $qaSqlConnection.CreateCommand()
+        $qaSqlCommand.CommandText = 'SELECT COUNT(*) FROM dbo.Character WHERE AccountID=@account AND Name=@character'
+        [void]$qaSqlCommand.Parameters.AddWithValue('@account', 'admin4')
+        [void]$qaSqlCommand.Parameters.AddWithValue('@character', $qaCharacter)
+        if ([int]$qaSqlCommand.ExecuteScalar() -ne 1) {
+            throw 'admin4 has no unique Slayer character in RISE5.2; refusing non-Slayer ingame QA'
+        }
+    } finally {
+        $qaSqlConnection.Dispose()
+    }
+}
 $autoQaMarker = Join-Path $qaClient 'SlayerAutoQA.enable'
 New-Item -ItemType File -Force -Path $autoQaMarker | Out-Null
 $startInfo = New-Object System.Diagnostics.ProcessStartInfo
@@ -27,7 +57,6 @@ $startInfo.UseShellExecute = $false
 # named Windows Generic Credential and never receives a password on argv.
 $startInfo.EnvironmentVariables['RISE_QA_CREDENTIAL'] = 'RISE_QA:SlayerSmoke'
 $startInfo.EnvironmentVariables['RISE_SLAYER_QA_ACCOUNT'] = 'admin4'
-$qaCharacter = if ($UseLegacyFixture) { 'MainRF' } else { 'Slayer' }
 $startInfo.EnvironmentVariables['RISE_SLAYER_QA_CHARACTER'] = $qaCharacter
 # Keep this run on the isolated local Sub-1 stack.  ConnectIP.bmd remains
 # hash-pinned production data; the QA-only build consumes this in-memory
