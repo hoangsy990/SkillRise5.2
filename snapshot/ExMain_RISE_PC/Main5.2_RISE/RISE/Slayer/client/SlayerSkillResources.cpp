@@ -1939,7 +1939,12 @@ void UpdateEffect(OBJECT& effect, float animationFactor)
     }
     else if (effect.Type == kDetectionImpactModel)
     {
-        const float halfLife = initialLife * 0.5f;
+        // S21 0x1548D60/0x1548DE3 uses signed integer division by two
+        // before converting the window to float. Subtype 1 is 35/2=17,
+        // not 17.5; its dark model's alpha curve depends on this divisor.
+        const int halfTicks = static_cast<int>(initialLife) / 2;
+        const float halfLife = static_cast<float>(
+            halfTicks > 0 ? halfTicks : 1);
         const float delta = (effect.SubType == 1 ? 0.5f : 1.f) /
             (halfLife > 0.f ? halfLife : 1.f);
         effect.Alpha += (effect.LifeTime > halfLife ? delta : -delta) *
@@ -1951,7 +1956,11 @@ void UpdateEffect(OBJECT& effect, float animationFactor)
     {
         if (effect.SubType == 0)
         {
-            const float quarter = initialLife * 0.25f;
+            // S21 0x1548399 shifts integer InitialLife right by two:
+            // the native 35-tick mark fades over 8 ticks, not 8.75.
+            const int quarterTicks = static_cast<int>(initialLife) / 4;
+            const float quarter = static_cast<float>(
+                quarterTicks > 0 ? quarterTicks : 1);
             if (effect.LifeTime > initialLife - quarter)
                 effect.Alpha += animationFactor / quarter;
             else if (effect.LifeTime < quarter)
@@ -1960,12 +1969,8 @@ void UpdateEffect(OBJECT& effect, float animationFactor)
             effect.Angle[2] += (effect.Angle[2] >= 0.f ? 3.f : -3.f) *
                 animationFactor;
         }
-        else
-        {
-            const float half = initialLife * 0.5f;
-            effect.Alpha += (effect.LifeTime > half ? 1.f : -1.f) *
-                animationFactor / half;
-        }
+        // S21 0x154837E sends every nonzero subtype straight to
+        // 0x15484D3 (the case exit); it does not run a half-life fade.
     }
     effect.AnimationFrame += effect.Velocity * animationFactor;
     BMD& model = Models[effect.Type];

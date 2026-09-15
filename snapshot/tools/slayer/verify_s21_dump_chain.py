@@ -450,6 +450,20 @@ def main() -> int:
         if at(va, len(alpha_init)) != alpha_init:
             raise AssertionError(f"S21 0x688/0x691/0x694 scale/alpha initializer drifted at {va:#x}")
     print("PASS: S21 0x688/0x691/0x694 write incoming scale and clear initial alpha with xorps")
+    # Buff mark 0x691 computes InitialLife/4 in integer registers before
+    # converting to float. Impact 0x694 computes InitialLife/2 likewise;
+    # its subtype-1 35-tick window is 17 rather than 17.5. Nonzero 0x691
+    # subtypes jump directly to the case exit without another fade branch.
+    for va, expected in (
+        (0x1548395, bytes.fromhex("8b40709983e20303c2c1f802")),
+        (0x1548D5D, bytes.fromhex("8b4070992bc2d1f8")),
+        (0x1548DE0, bytes.fromhex("992bc2d1f8")),
+        (0x154837E, bytes.fromhex("83bd28fafeff007405e947010000")),
+        (0x15484D3, bytes.fromhex("e99abf0200")),
+    ):
+        if at(va, len(expected)) != expected:
+            raise AssertionError(f"S21 0x691/0x694 integer-fade bytes drifted at {va:#x}")
+    print("PASS: S21 buff 0x691 quarter/0x694 half fade uses integer ticks; 0x691 nonzero subtype exits")
     # Native Random(lower,upper,1) truncates both bounds to integer ticks,
     # then increments the width before one modulo. The 0x678 init/update
     # callers both pass unit step; a continuous float port changes motion.

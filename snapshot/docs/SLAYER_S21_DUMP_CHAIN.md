@@ -934,7 +934,16 @@ passing the authored Alpha to `RenderBody` did not fade repeated `0x691`
 children. The isolated renderer now sets the model RGB light to
 `effect.Light * effect.Alpha` before the subtractive dark draw, as the registered S21
 handlers do. The experimental RGBA key and textured-alpha pass for
-`0x691/0x694` have been removed. The shaped `0x678` bat's registered
+`0x691/0x694` have been removed.
+The S21 `0x691` updater at `0x1548395` shifts the integer 35-tick life
+right by two, so the subtype-zero alpha window is exactly 8 ticks, not
+the old port's floating 8.75. Its nonzero subtype jumps straight to the
+case exit at `0x15484D3` and has no separate fade. The `0x694` updater
+at `0x1548D5D/0x1548DE0` similarly divides life by two in integer
+registers: subtype one's 35-tick window is 17, not 17.5. The isolated
+port now preserves these windows. This is a dump-backed fade correction,
+not framebuffer evidence that the previously black buff vortex is gone.
+The shaped `0x678` bat's registered
 model passes and bone-7 sprite branch are now ported below; its 5.2 sprite
 API adapter still needs visual acceptance.
 The `0x688` Bat trail is a separate three-mesh ring (`marks_m03.jpg`,

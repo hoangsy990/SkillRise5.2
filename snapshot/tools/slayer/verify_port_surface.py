@@ -851,6 +851,16 @@ def main() -> int:
             "S21 0x694 registered dark draw light attenuation")
     require(resources, "VectorScale(effect.Light, effect.Alpha, model.BodyLight);",
             "native 0x688/0x691/0x694 multiply model RGB light by object alpha")
+    require(resources, "const int quarterTicks = static_cast<int>(initialLife) / 4;",
+            "S21 0x691 mark fade uses integer quarter-window ticks")
+    if resources.count("const int halfTicks = static_cast<int>(initialLife) / 2;") != 1:
+        raise AssertionError("S21 0x694 impact fade needs one integer half-window")
+    mark_update = resources.split("else if (effect.Type == kDetectionMarkModel)", 1)[1]
+    mark_update = mark_update.split("effect.AnimationFrame +=", 1)[0]
+    if "effect.SubType == 0" not in mark_update or \
+       mark_update.count("else") != 1 or \
+       "else if (effect.LifeTime < quarter)" not in mark_update:
+        raise AssertionError("S21 0x691 nonzero subtype must exit without fade")
     require(resources, "nativeDark ? (RENDER_TEXTURE | RENDER_DARK) :",
             "native 0x82 is textured subtractive dark, not textured bright")
     require(resources, "(RENDER_TEXTURE | RENDER_BRIGHT);",
