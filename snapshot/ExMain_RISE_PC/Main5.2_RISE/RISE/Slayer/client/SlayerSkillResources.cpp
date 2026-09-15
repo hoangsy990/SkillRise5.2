@@ -1841,7 +1841,9 @@ void UpdateEffect(OBJECT& effect, float animationFactor)
         // seen in the earlier preview.
         if (effect.SubType == 0)
         {
-            const float third = initialLife / 3.f;
+            // S21 0x154011D uses IDIV 3 before cvtsi2ss: 40/3=13.
+            const int thirdTicks = static_cast<int>(initialLife) / 3;
+            const float third = static_cast<float>(thirdTicks);
             if (effect.LifeTime < third && third > 0.f)
                 effect.Alpha -= animationFactor / third;
             effect.Scale -= 0.005f * animationFactor;
@@ -1865,7 +1867,9 @@ void UpdateEffect(OBJECT& effect, float animationFactor)
         }
         else if (effect.SubType == 2)
         {
-            const float third = initialLife / 3.f;
+            // S21 0x154060A uses the same integer IDIV 3: 50/3=16.
+            const int thirdTicks = static_cast<int>(initialLife) / 3;
+            const float third = static_cast<float>(thirdTicks);
             if (effect.LifeTime < third && third > 0.f)
                 effect.Alpha -= animationFactor / third;
             // S21 0x154064B..0x154091B checks the real target distance,

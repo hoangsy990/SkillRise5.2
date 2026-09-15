@@ -943,6 +943,12 @@ at `0x1548D5D/0x1548DE0` similarly divides life by two in integer
 registers: subtype one's 35-tick window is 17, not 17.5. The isolated
 port now preserves these windows. This is a dump-backed fade correction,
 not framebuffer evidence that the previously black buff vortex is gone.
+The same integer-window audit finds `0x678` bat subtype 0 at
+`0x154011A` and subtype 2 at `0x1540607` each execute `IDIV 3`
+before alpha fade. Their 40/3 and 50/3 windows are therefore 13 and
+16 ticks rather than the port's former floating 13.33 and 16.67.
+Both bat-flight paths now use that decoded divisor; this still requires
+later ingame visual acceptance.
 The shaped `0x678` bat's registered
 model passes and bone-7 sprite branch are now ported below; its 5.2 sprite
 API adapter still needs visual acceptance.

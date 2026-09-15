@@ -853,6 +853,8 @@ def main() -> int:
             "native 0x688/0x691/0x694 multiply model RGB light by object alpha")
     require(resources, "const int quarterTicks = static_cast<int>(initialLife) / 4;",
             "S21 0x691 mark fade uses integer quarter-window ticks")
+    if resources.count("const int thirdTicks = static_cast<int>(initialLife) / 3;") != 2:
+        raise AssertionError("S21 0x678 bat subtype 0/2 needs two integer-third fade windows")
     if resources.count("const int halfTicks = static_cast<int>(initialLife) / 2;") != 1:
         raise AssertionError("S21 0x694 impact fade needs one integer half-window")
     mark_update = resources.split("else if (effect.Type == kDetectionMarkModel)", 1)[1]

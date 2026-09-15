@@ -464,6 +464,13 @@ def main() -> int:
         if at(va, len(expected)) != expected:
             raise AssertionError(f"S21 0x691/0x694 integer-fade bytes drifted at {va:#x}")
     print("PASS: S21 buff 0x691 quarter/0x694 half fade uses integer ticks; 0x691 nonzero subtype exits")
+    # Native bat model 0x678 modes 0 and 2 both IDIV InitialLife by three
+    # before comparing remaining life and converting the divisor to float.
+    # Their 40/3 and 50/3 fade windows are 13 and 16 integer ticks.
+    for va in (0x154011A, 0x1540607):
+        if at(va, 12) != bytes.fromhex("8b4070996a035ef7fe39416c"):
+            raise AssertionError(f"S21 0x678 integer-third fade drifted at {va:#x}")
+    print("PASS: S21 0x678 bat subtype 0/2 alpha fade divides life by three in integer ticks")
     # Native Random(lower,upper,1) truncates both bounds to integer ticks,
     # then increments the width before one modulo. The 0x678 init/update
     # callers both pass unit step; a continuous float port changes motion.
