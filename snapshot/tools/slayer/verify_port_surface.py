@@ -298,6 +298,12 @@ def main() -> int:
         if f"CreateParticle({bitmap}" in resources:
             raise AssertionError(f"effect object accidentally allocated as particle: {bitmap}")
     require(resources, "if (IsBitmapEffect(effect.Type))", "bitmap effect runtime")
+    require(resources, "case kFlareBlueEffect: // 0x7FDD subtype 2, update 0x157D57E",
+            "S21 Detection high-code flare updater")
+    require(resources, "effect.Angle[2] = 0.f;",
+            "S21 Detection 0x7FDD subtype-2 initial zero rotation")
+    require(resources, "effect.Angle[2] += 5.f;",
+            "S21 Detection 0x7FDD five-degree-per-tick rotation")
     bitmap_render = resources.split("bool RenderEffect(OBJECT& effect)", 1)[1]
     bitmap_render = bitmap_render.split("if (IsController(effect.Type))", 1)[0]
     blend_begin = bitmap_render.find("EnableAlphaBlend();")

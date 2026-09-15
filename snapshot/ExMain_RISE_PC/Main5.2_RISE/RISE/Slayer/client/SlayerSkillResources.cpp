@@ -643,6 +643,17 @@ void InitializeEffect(OBJECT& effect, float incomingScale)
     // corresponds to a decoded S21 secondary-pool code or bitmap id.
     switch (effect.Type)
     {
+    case kFlareBlueEffect:
+        if (effect.SubType == 2)
+        {
+            // S21 0x1481E34..0x1481E91: 30 ticks, original child scale,
+            // zero Angle Z and alpha. The high-code updater below makes it
+            // visible; leaving this node at alpha zero hid Detection's flare.
+            effect.Scale = incomingScale;
+            effect.Angle[2] = 0.f;
+            effect.Alpha = 0.f;
+        }
+        break;
     case kPierce81CDController:
     {
         // Native 0x147D373 subtype 2 creates its children in call order.
@@ -1056,9 +1067,9 @@ void UpdateEffect(OBJECT& effect, float animationFactor)
 
     if (IsBitmapEffect(effect.Type))
     {
-        // The native secondary-pool update switch is at 0x14B7B60, not the
-        // particle-pool dispatcher. Four root subtypes use a two-half alpha
-        // triangle; 0x81CF's two buff rings expand and fade independently.
+        // Bitmap effects have separate low/high-code S21 update dispatchers.
+        // The high-code 0x7FDD subtype-2 branch is at 0x157D57E; four
+        // other root nodes use half-life triangles in the low-code switch.
         switch (effect.Type)
         {
         case kPierceShockWaveEffect:
@@ -1144,6 +1155,18 @@ void UpdateEffect(OBJECT& effect, float animationFactor)
                         animationFactor / half;
                 if (effect.Type == kFlare01RedEffect)
                     effect.Angle[2] += animationFactor;
+            }
+            break;
+        case kFlareBlueEffect: // 0x7FDD subtype 2, update 0x157D57E
+            if (effect.SubType == 2)
+            {
+                const float half = static_cast<float>(
+                    static_cast<int>(initialLife) / 2);
+                if (half > 0.f)
+                    effect.Alpha += (effect.LifeTime > half ? 1.f : -1.f) /
+                        half;
+                // 0x157D5F9..0x157D627 adds native 5 degrees per tick.
+                effect.Angle[2] += 5.f;
             }
             break;
         case kMagicGround12Effect:

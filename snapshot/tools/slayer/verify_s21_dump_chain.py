@@ -579,6 +579,31 @@ def main() -> int:
     for va, expected in scale_override_bytes.items():
         if at(va, len(expected)) != expected:
             raise AssertionError(f"Slayer scale-override S21 bytes drifted at {va:#x}")
+    # Detection's 0x7FDD subtype-2 child is not in the low-code secondary
+    # dispatcher. The high-code initializer/update/render chain makes its
+    # initially invisible flare appear through a 30-tick alpha triangle and
+    # advances Angle Z by 5 degrees every update.
+    flare_blue_bytes = {
+        0x143F30D: bytes.fromhex("81bd9cceffffdd7f0000"),
+        0x1481E3A: bytes.fromhex("c7406c1e000000"),
+        0x1481E59: bytes.fromhex("f30f104520f30f1180a0000000"),
+        0x1481E79: bytes.fromhex("0f57c0f30f1100"),
+        0x1481E86: bytes.fromhex("0f57c0f30f1180dc000000"),
+        0x1574C55: bytes.fromhex("81bd30e8feffdd7f0000"),
+        0x157D5A3: bytes.fromhex("f30f100d48ddb401f30f5ec8"),
+        0x157D5D6: bytes.fromhex("f30f100d48ddb401f30f5ec8"),
+        0x157D5F9: bytes.fromhex("6a028b4d0881c164010000"),
+        0x157D619: bytes.fromhex("f30f5805cce4b401"),
+        0x15A1559: bytes.fromhex("81bd28f6ffffdd7f0000"),
+        0x15AD0F7: bytes.fromhex("f30f1081dc000000f30f5900"),
+        0x15AD22A: bytes.fromhex("ff705ce8"),
+        0x1B4DD48: bytes.fromhex("0000803f"),
+        0x1B4E4CC: bytes.fromhex("0000a040"),
+    }
+    for va, expected in flare_blue_bytes.items():
+        if at(va, len(expected)) != expected:
+            raise AssertionError(f"S21 Detection 0x7FDD subtype-2 bytes drifted at {va:#x}")
+    print("PASS: S21 Detection 0x7FDD subtype-2 alpha/5-degree update and terrain render pinned")
     print("PASS: 0x691/0x81CF raw zero scale overrides allocator .9; 0x693/0x696 keep allocator scale")
 
     sword_draw_bytes = {

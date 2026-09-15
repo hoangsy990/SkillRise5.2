@@ -810,8 +810,16 @@ life is in its first half and decrement it by the same amount in the second
 half. `0x80BA` A also turns Angle Z one degree per update. `0x81CF` subtypes
 4/5 start at alpha 1, decrement by `1/30` and grow scale by `.3`/`1` per
 update. These are now the 5.2 bitmap-object update rules. `0x7FDD` subtype 2
-does not appear as an explicit case in that update dispatcher, so the port
-does not add an unproven light ramp for it.
+is absent from that *low-code* dispatcher because it uses the **high-code**
+effect-object chain: initializer selector `0x143F30D` → subtype-2 block
+`0x1481E34` (30-tick lifetime, raw child scale, Angle Z/alpha zero), updater
+selector `0x1574C55` → `0x157D57E` (alpha rises by `1/15` while remaining
+life exceeds 15, then falls by `1/15`; Angle Z gains 5 degrees each tick),
+and renderer selector `0x15A1559` → subtype-2 `0x15AD0DE` (RGB × alpha,
+terrain-alpha draw at `0x15AD22D`). The previous 5.2 case initialized alpha
+zero but omitted this updater, leaving Detection's blue flare invisible.
+This recovered branch is now ported and dump-byte pinned; it is not evidence
+of full ingame visual parity.
 
 The `0x82F6` object renderer case `0x15B2BE7` makes one `0x1765DF1`
 draw call. The separate xref at `0x15B7781` emits bitmap `0x82F6` from a
