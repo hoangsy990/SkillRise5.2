@@ -2631,9 +2631,9 @@ void CreateWrathRoot(OBJECT& caster)
 {
     if (!PrepareFixedPlayerAction(caster, 291))
         return;
-    caster.CurrentAction = 291;
-    caster.AnimationFrame = 0.0f;
-    caster.PriorAnimationFrame = 0.0f;
+    // S21 selects primary192 or conditional auxiliary321 through 1327DE8.
+    // Only primary192->private291 is mapped; auxiliary321 stays unported.
+    SetAction(&caster, 291, true);
     CreateEffect(kWrathControllerModel, caster.Position, caster.Angle,
         caster.Light, 0, &caster, -1, 0, kWrathSkill);
     PlayBuffer(kWrathSound, &caster);

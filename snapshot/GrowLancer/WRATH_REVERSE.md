@@ -1,5 +1,20 @@
 # Wrath (skill 278) Season 21 client reverse
 
+### Local/receive action selection — 2026-09-15
+
+Contiguous S21 local `0x10E4894..0x10E48C8` and remote
+`0x12CB6AC..0x12CB737` pass conditional alternate action321 and
+primary192 to the same `0x1327DE8` setter. The remote branch skips the
+setter for the local hero before constructing caster-owned controller5EA.
+The common setter selects alternate321 only under its auxiliary predicate;
+otherwise it selects primary192, preserves outgoing action/frame on a
+transition, and leaves an identical action alone. Isolated native primary
+192→291 now uses `SetAction(&caster,291,true)` instead of direct action and
+frame overwrite. `verify_wrath_action_selection.py` pins both callsites,
+common selector and native order; isolated QA/nonQA x86 links PASS.
+Auxiliary321 native predicate/clip, owner black-square pixels and GS buff
+authority remain OPEN; no unproven clip alias was introduced.
+
 ### Current QA-only projection safety and stage — 2026-09-15
 
 The ground probe now checks native `PerspectiveX/Y` and camera-space Z before
