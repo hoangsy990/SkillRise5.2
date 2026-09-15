@@ -321,14 +321,8 @@ def main() -> int:
             "S21 0x8012 subtype-17 ShockWave private bitmap registration")
     require(resources, "RegisterSlayerBitmap(kClud64Bitmap,",
             "S21 Pierce flare particle 0x7FFD Clud64 private bitmap registration")
-    require(resources, "modelId == kDetectionImpactModel",
-            "S21 0x694 private ring material adapter")
-    require(resources, '_stricmp(material, "ark.JPG")',
-            "S21 0x694 ark material isolated black key")
-    require(resources, '_stricmp(material, "empact01.JPG")',
-            "S21 0x694 empact01 material isolated black key")
-    require(resources, "isArk ? 48 : 16",
-            "0x694 ark gray-background cutoff isolated from other S21 materials")
+    require(resources, "if (modelId != kPierceMarksCylinderModel)\n        return true;",
+            "registered S21 0x688/0x691/0x694 RGB bright materials are not keyed")
     if not re.search(r"case kBatFlockTrailModel:\s*// Native 0x1490F57[^\n]*\n(?:\s*//[^\n]*\n)*\s*if \(effect.SubType == 0\)\s*\{\s*effect.Scale = incomingScale;\s*effect.Alpha = 0.f;", resources):
         raise AssertionError("S21 0x688 Bat Flock trail must write incoming scale and zero alpha")
     require(resources, "float NativeRandomUnitStep(int lower, int upper)",
@@ -388,7 +382,7 @@ def main() -> int:
             "native Pierce 0x5D8 subtype-1 model child creation")
     require(resources, "case kPierceMarksCylinderModel: return 30.f;",
             "native Pierce 0x5D8 subtype-1 30-tick life")
-    require(resources, "effect.Type == kPierceMarksCylinderModel ||",
+    require(resources, "effect.Type == kPierceMarksCylinderModel ?\n        RENDER_TEXTURE :",
             "native Pierce 0x5D8 ordinary textured model adapter")
     require(resources, "Vector(180.f, 0.f, 0.f, turn);",
             "native Pierce three 0x80BA subtype-7 lanes use fixed 180-degree transform")
@@ -817,27 +811,28 @@ def main() -> int:
             "0x80E3 native bat-owner position update")
     require(resources, "Calc_RenderObject(&effect, false, 0, 0)",
             "native generic model Calc wrapper")
+    require(resources, "effect.Type == kBatFlockTrailModel ||",
+            "S21 0x688 registered bright draw light attenuation")
     require(resources, "effect.Type == kDetectionMarkModel ||",
-            "S21 0x691 fading ring avoids GL_ONE/GL_ONE accumulation")
-    require(resources, "effect.Type == kDetectionImpactModel ||",
-            "S21 0x694 fading vortex avoids GL_ONE/GL_ONE accumulation")
-    require(resources, "effect.Type == kBatFlockTrailModel ? RENDER_TEXTURE :",
-            "S21 0x688 fading Bat trail retains its per-instance alpha")
+            "S21 0x691 registered bright draw light attenuation")
+    require(resources, "effect.Type == kDetectionImpactModel;",
+            "S21 0x694 registered bright draw light attenuation")
+    require(resources, "VectorScale(effect.Light, effect.Alpha, model.BodyLight);",
+            "native 0x688/0x691/0x694 multiply model RGB light by object alpha")
     require(resources, "(RENDER_TEXTURE | RENDER_BRIGHT);",
             "Slayer shaped bat model retains isolated additive body pass")
     require(resources, "model.RenderBody(renderFlags, effect.Alpha,",
             "Slayer S21 models retain single complete RenderBody pass")
     require(resources, "bool EnsureSlayerBlackFieldMaterial(int modelId, BMD& model, int mesh)",
-            "0x691/0x694/0x5D8 private material readiness guard")
+            "0x5D8 private material readiness guard")
     require(resources, "modelId == kPierceMarksCylinderModel &&\n        _stricmp(material, \"lines2.JPG\") == 0",
             "S21 Pierce 0x5D8 repeated lines2 black field keyed only on authored material")
     require(resources, "(modelId == kPierceMarksCylinderModel && model.NumMeshs != 1)",
             "S21 Pierce cylinder resident mesh shape checked before draw")
     require(resources, "(modelId == kBatFlockTrailModel && model.NumMeshs != 3)",
             "S21 Bat trail resident three-mesh shape checked before draw")
-    for material in ("marks_m03.JPG", "empact01.JPG", "macardkmono.JPG"):
-        require(resources, f'_stricmp(material, "{material}") == 0',
-                f"S21 Bat trail authored {material} scoped alpha material")
+    require(resources, "if (modelId != kPierceMarksCylinderModel)\n        return true;",
+            "registered bright RGB models bypass speculative alpha key")
     require(resources, "if (bitmap->Components == 4)\n        return true;",
             "already-keyed Slayer material remains ready")
     require(resources, "return bitmap->Components == 3 &&\n        Bitmaps.ApplySlayerBlackKeyAlpha(model.IndexTexture[mesh],",

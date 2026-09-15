@@ -45,12 +45,14 @@ def main() -> None:
                  for index in range(0, len(pixels), 3)]
         keyed = sum(value <= current_cutoff for value in peaks)
         residual = sum(current_cutoff < value <= 48 for value in peaks)
-        # 5.2's scoped RGBA adapter then uses GL_GREATER, 0.25 alpha test.
-        # This is a calculated render bound, not a captured framebuffer.
+        # Only lines2 currently receives this 5.2 RGBA adapter. For the
+        # registered S21 0x688/0x691/0x694 bright RGB materials, these are
+        # hypothetical cutoff statistics, not their active render path.
         alpha_test_floor = current_cutoff + int((255 - current_cutoff) * 0.25)
         hidden = sum(value <= alpha_test_floor for value in peaks)
+        scope = "active-cylinder-adapter" if name == "lines2.OZJ" else "historical-mask-analysis"
         print(f"S21 {name}: size={image.size} sha256={digest} "
-              f"keyed<= {current_cutoff}: {keyed}/{len(peaks)} "
+              f"scope={scope} hypothetical-keyed<= {current_cutoff}: {keyed}/{len(peaks)} "
               f"dark-residual<=48: {residual}/{len(peaks)} "
               f"5.2-alpha-test-hidden<= {alpha_test_floor}: {hidden}/{len(peaks)}")
     print("NOTE: texture field statistics do not attribute screenshot pixels to a model")

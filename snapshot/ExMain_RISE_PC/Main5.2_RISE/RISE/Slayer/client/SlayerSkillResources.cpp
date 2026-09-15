@@ -586,42 +586,25 @@ bool RequiresModel(int type)
 #ifdef RISE_SLAYER_PORT
 bool EnsureSlayerBlackFieldMaterial(int modelId, BMD& model, int mesh)
 {
-    if (modelId != kDetectionMarkModel &&
-        modelId != kDetectionImpactModel &&
-        modelId != kPierceMarksCylinderModel &&
-        modelId != kBatFlockTrailModel)
+    if (modelId != kPierceMarksCylinderModel)
         return true;
     const char* material = model.Textures[mesh].FileName;
-    const bool isMark = modelId == kDetectionMarkModel &&
-        _stricmp(material, "Elite_monster_ground02.JPG") == 0;
-    const bool isArk = modelId == kDetectionImpactModel &&
-        _stricmp(material, "ark.JPG") == 0;
-    const bool isEmpact = modelId == kDetectionImpactModel &&
-        _stricmp(material, "empact01.JPG") == 0;
     const bool isLines = modelId == kPierceMarksCylinderModel &&
         _stricmp(material, "lines2.JPG") == 0;
-    const bool isBatMark = modelId == kBatFlockTrailModel &&
-        _stricmp(material, "marks_m03.JPG") == 0;
-    const bool isBatEmpact = modelId == kBatFlockTrailModel &&
-        _stricmp(material, "empact01.JPG") == 0;
-    const bool isBatMono = modelId == kBatFlockTrailModel &&
-        _stricmp(material, "macardkmono.JPG") == 0;
-    if (!isMark && !isArk && !isEmpact && !isLines &&
-        !isBatMark && !isBatEmpact && !isBatMono)
+    if (!isLines)
         return false;
     BITMAP_t* bitmap = Bitmaps.FindTexture(model.IndexTexture[mesh]);
     if (!bitmap)
         return false;
     // A model may already be resident when the private Slayer graph reaches
     // it. Do not treat an RGB black-field JPEG as render-ready in that path.
-    // The S21 Pierce cylinder and Bat 0x688 ring meshes contain RGB dark
-    // fields. The 5.2 RGBA adapter remains scoped to these authored meshes;
-    // the shaped 0x678 bat material is not keyed.
+    // The registered S21 0x688/0x691/0x694 handlers use bright RGB passes,
+    // so they must not inherit the earlier experimental RGBA key. Only the
+    // Pierce cylinder still uses this bounded 5.2 compatibility adapter.
     if (bitmap->Components == 4)
         return true;
     return bitmap->Components == 3 &&
-        Bitmaps.ApplySlayerBlackKeyAlpha(model.IndexTexture[mesh],
-            isArk ? 48 : 16);
+        Bitmaps.ApplySlayerBlackKeyAlpha(model.IndexTexture[mesh], 16);
 }
 #endif
 
@@ -2097,18 +2080,19 @@ bool RenderEffect(OBJECT& effect)
     // intentionally has no triangles in the supplied S21 asset.
     if (model.NumMeshs == 0)
         return true;
-    // Native 0x691, 0x694, Bat 0x688 and Pierce 0x5D8 use generic Calc/Draw. In 5.2,
-    // RENDER_BRIGHT selects GL_ONE/GL_ONE and ignores the per-instance Alpha
-    // from both models' native fade curves. The per-frame 0x691 children then
-    // sum into the white block seen in older QA. Keep these black-field
-    // models in the ordinary textured-alpha path, not an additive body pass.
-    // The 0x688 trail starts at Alpha=0 and fades; GL_ONE/GL_ONE discarded
-    // that authored curve. Only the shaped 0x678 bat remains additive here.
-    const int renderFlags = effect.Type == kDetectionMarkModel ||
-        effect.Type == kDetectionImpactModel ||
-        effect.Type == kPierceMarksCylinderModel ||
-        effect.Type == kBatFlockTrailModel ? RENDER_TEXTURE :
-        (RENDER_TEXTURE | RENDER_BRIGHT);
+    // Registered native handlers 0xA52E26/0xA52FEC/0xA53114 multiply each
+    // model-light component by OBJECT+0xDC Alpha and draw flag 0x82. The 5.2
+    // texture-bright branch uses GL_ONE/GL_ONE, so its color must be attenuated
+    // explicitly; the draw Alpha alone cannot fade these RGB meshes.
+    const bool nativeBright = effect.Type == kBatFlockTrailModel ||
+        effect.Type == kDetectionMarkModel ||
+        effect.Type == kDetectionImpactModel;
+    if (nativeBright)
+        VectorScale(effect.Light, effect.Alpha, model.BodyLight);
+    // The 0x678 subtype-specific registered handler needs separate decoding;
+    // keep its previous private pass until those mesh/subtype gates are ported.
+    const int renderFlags = effect.Type == kPierceMarksCylinderModel ?
+        RENDER_TEXTURE : (RENDER_TEXTURE | RENDER_BRIGHT);
     model.RenderBody(renderFlags, effect.Alpha,
         effect.BlendMesh, effect.BlendMeshLight,
         effect.BlendMeshTexCoordU, effect.BlendMeshTexCoordV,

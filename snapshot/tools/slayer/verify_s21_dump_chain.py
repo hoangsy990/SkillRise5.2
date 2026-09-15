@@ -268,9 +268,28 @@ def main() -> int:
         raise AssertionError("S21 ReceiveMagic/Brand canonicalizer bytes drifted")
     print("PASS: S21 ReceiveMagic Brand canonicalizer 0xBCFF9F resolves Bat 782->781->293")
 
-    # Both buff models 0x691/0x694 reach the generic object Calc/Draw
-    # wrapper. Its flag-2 body pass is only the fallback: two manager gates
-    # can draw and bypass it. This does not prove per-instance fallback use.
+    # Registered S21 custom handlers draw the Bat trail and both buff models
+    # with flag 0x82 (texture|bright) after scaling their model RGB light by
+    # OBJECT+0xDC Alpha. The earlier flag-2 body is only the fallback.
+    for va, expected in (
+        (0xA1B103, bytes.fromhex("681486a40068d8050000e8d42b00005959")),
+        (0xA48614, bytes.fromhex("558bec32c05dc3")),
+        (0xA1B9B6, bytes.fromhex("68262ea5006888060000e8212300005959")),
+        (0xA1B9E9, bytes.fromhex("68ec2fa5006891060000e8ee2200005959")),
+        (0xA1B9FA, bytes.fromhex("681431a5006894060000e8dd2200005959")),
+        (0xA52E50, bytes.fromhex("8b4d0cf30f1081dc000000f30f5900")),
+        (0xA53016, bytes.fromhex("8b4d0cf30f1081dc000000f30f5900")),
+        (0xA53148, bytes.fromhex("8b4d0cf30f1081dc000000f30f5900")),
+        (0xA52F3C, bytes.fromhex("68820000008b4d08e80f5df1ff")),
+        (0xA53102, bytes.fromhex("68820000008b4d08e8495bf1ff")),
+        (0xA53234, bytes.fromhex("68820000008b4d08e8175af1ff")),
+        (0xA53343, bytes.fromhex("68820000008b4d08e80859f1ff")),
+    ):
+        if at(va, len(expected)) != expected:
+            raise AssertionError(f"S21 registered Bat/buff draw drifted at {va:#x}")
+    print("PASS: S21 0x5D8 registry callback returns false; registered 0x688/0x691/0x694 draw flag=0x82 texture|bright and model RGB light*=OBJECT alpha")
+    # Two manager gates still precede the fallback. This table shows the
+    # second-manager handlers, not proof that the first never intercepts.
     # The E4 action-init has a bounded actor-Z writer.
     native_model_bytes = {
         0x15B2A24: bytes.fromhex("6aff6aff6a006a006a00ffb52cf6ffffe8e8ab1b0083c418"),

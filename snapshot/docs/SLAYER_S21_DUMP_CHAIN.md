@@ -474,7 +474,7 @@ The private 5.2 adapter now reserves bitmap ID `33013` and registers it
 separately; using only `marks_m04` for all three children would be wrong.
 Native `0x5D8` model registration at `0xAA99ED` names
 `Data\\Effect\\marks_cylinder.bmd` (string at `0x1B527D8`); its renderer
-selector goes to `0x15AE9A2`, which calls the ordinary model path
+selector goes to `0x15AE9A2`, which calls the generic model wrapper
 `0x176D621`. The source BMD SHA-256 is
 `F91EA00CFC10DC3E36935FE80AD6CA391EAED64142E7D572E5AB2939A7689BE3`.
 The formerly unused private model slot `MAX_MODELS+41` is now assigned to
@@ -485,7 +485,10 @@ light `(0.8, 0.5, 1)`. The S21 initializer jump table maps `0x5D8` to
 millisecond clock and the incoming angle. Its updater jump table maps to
 `0x1534A58`; that handler refreshes subtype 0 only, so the Pierce
 subtype-1 model naturally expires after 30 ticks. Renderer `0x15AE9A2`
-passes it through the ordinary `0x176D621` model wrapper. The 5.2
+passes it through the generic `0x176D621` model wrapper. The registered
+second-manager callback for `0x5D8` is the trivial false handler
+`0xA48614`, so that registry alone does not replace the flag-2 fallback;
+the first manager still needs to be ruled out. The 5.2
 adapter uses `RENDER_TEXTURE` for this child instead of adding an
 unrequested bright pass; material parity still needs the later ingame gate.
 The hash-pinned v0F-to-v0C conversion reports one mesh, two bones, one
@@ -504,7 +507,7 @@ to **only** `marks_cylinder.bmd`/`lines2.jpg` (floor 16), including an
 already-resident model. The S21 BMD/OZJ bytes remain unchanged. This is
 another 5.2 compatibility adapter, not decoded S21 alpha-key code or
 proof that this specific node caused every pixel of an older screenshot.
-The rebuilt/staged private Win32 client SHA-256 is
+The earlier rebuilt/staged private Win32 client SHA-256 was
 `6B4AEB81B8BDD351AFC76EED13DB267CEEB46423CE085F8F1618BC4891F02006`;
 its runtime appearance has not been checked.
 The native `0x81CE` initializer at `0x147E153` sets subtype-3 scale
@@ -838,18 +841,25 @@ manager `0x18917BA` and skips the fallback if it returns true; `0x1887E1C`
 then tests a second custom-draw registry through `0x18A1EF9` and may skip
 the fallback after its dynamic draw. The dump alone does not prove every
 instance of `0x678/0x688/0x691/0x694` actually takes the flag-2 branch.
-The native alpha
+The second registry does register `0x688` at `0xA1B9B6` with handler
+`0xA52E26`, `0x691` at `0xA1B9E9` with `0xA52FEC`, and `0x694` at
+`0xA1B9FA` with `0xA53114`. All three handlers multiply each model-light
+RGB component by `OBJECT+0xDC` alpha and submit flag `0x82`
+(`RENDER_TEXTURE|RENDER_BRIGHT`), returning handled. The `0x694` handler
+does this in both subtypes. The first manager may still intercept a given
+instance; these registered paths nevertheless disprove the prior inference
+that these models use the ordinary flag-2 pass. The native alpha
 allocator at `0x143E759..0x143E797` sets HiddenMesh/BlendMesh to `-1`,
 blend-light to `1`, and both blend-UV offsets to `0`. The ordinary draw
 call at `0x1887E5E..0x1887EBA` forwards those fields plus `OBJECT+0xDC`
-alpha and flag `2`; the isolated 5.2 CreateEffect/RenderBody path currently
-matches these material inputs. Missing default BlendMesh state is therefore
+alpha and flag `2`; this is a fallback comparison, not the active 5.2
+Bat/buff draw contract. Missing default BlendMesh state is therefore
 not an evidence-backed explanation for the black funnel. The native alpha
 helper `0x18E709C` enables `GL_BLEND` with `GL_SRC_ALPHA` /
 `GL_ONE_MINUS_SRC_ALPHA`; `0x18E7137` is the separate `GL_ONE`/`GL_ONE`
-bright helper. An unconditional additive replacement would diverge from the
-decoded fallback pass; whether a custom manager draws a given instance still
-needs proof. A read-only structural parse of the pinned S21
+bright helper. For registered `0x688/0x691/0x694`, the authored bright pass
+uses RGB light times alpha to fade, not a texture-alpha mask. A read-only
+structural parse of the pinned S21
 BMDs, checked against the staged v0C imports, finds `0x694`
 `Van_object04_skill` has two authored **flat** meshes (all vertex Z=0),
 26 animation keys, and seven bones whose X/Y rotation channels remain zero
@@ -862,44 +872,40 @@ the S21 textures by eye.
 Read-only BMD UV inspection pins `0x691`'s `Elite_monster_ground02` mesh to
 U `0..1`/V `.0211..9682` and both flat `0x694` materials (`ark`,
 `empact01`) to full `0..1` UV. Hash-pinned OZJ/JPEG analysis finds the
-current private alpha key removes 57,258/65,536 texels from the silver
+previous experimental alpha key removed 57,258/65,536 texels from the silver
 `Elite_monster_ground02`, 13,343/16,384 from `ark`, and 48,046/65,536
 from `empact01`; only 859 silver texels and 4,668 `empact01` texels remain
 in the dark `17..48` band. These are **authored SS21 model/texture fields**,
 not proof of which mesh wrote the black pixels in the old 5.2 screenshot.
-`BMD::RenderMesh(RENDER_TEXTURE)` selects 5.2's `EnableAlphaTest` for the
-converted RGBA textures; despite its name, that helper enables GL blending
-with `GL_SRC_ALPHA/GL_ONE_MINUS_SRC_ALPHA`. No additional speculative
-cutoff or blend substitution follows from the screenshot alone.
+Those cutoff calculations are retained for audit only; the active
+`0x688/0x691/0x694` model path again loads the original S21 RGB JPEGs.
 5.2's unknown-model `Draw_RenderObject` default is opaque. A bounded QA
 isolation showed the white buff vortex remained when `0x694`, `0x678`, the
 Slayer bitmap objects and Slayer-owned particles were withheld, disappeared
 when the entire S21 buff root was withheld, and disappeared again when only
 `0x691` (`van_object03_skill`) was withheld. The asset and spawn are S21;
-the white block is the port's `0x691` blend error, not a legacy 5.2 graph.
-In 5.2 `RENDER_BRIGHT` uses `GL_ONE/GL_ONE`, so the authored per-instance
-alpha fade is ignored while the native root emits a new `0x691` each frame.
-For `0x691`, the isolated loader converts the original RGB texels of
-`Elite_monster_ground02` into an in-memory RGBA mask: JPEG-black pixels
-become transparent and the authored silver mark remains. It updates the GPU
-texture and CPU bitmap allocation together without rewriting the S21 BMD/OZJ
-or changing other 5.2 materials. Both `0x691` and `0x694` now use the
-generic textured alpha body path; the shaped `0x678` bat stays additive.
+the white block implicates the old port's `0x691` color/fade path, not a
+legacy 5.2 graph. In 5.2 `RENDER_BRIGHT` uses `GL_ONE/GL_ONE`, so merely
+passing the authored Alpha to `RenderBody` did not fade repeated `0x691`
+children. The isolated renderer now sets the model RGB light to
+`effect.Light * effect.Alpha` before the bright draw, as the registered S21
+handlers do. The experimental RGBA key and textured-alpha pass for
+`0x691/0x694` have been removed. The shaped `0x678` bat still needs its
+subtype-specific registered handler port.
 The `0x688` Bat trail is a separate three-mesh ring (`marks_m03.jpg`,
 `empact01.jpg`, `macardkmono.jpg`), not the shaped bat. The imported v0C
 plaintext is byte-identical to the hash-pinned S21 BMD, and all three meshes
 map a full `0..1` UV square. Native `0x688` starts at `Alpha=0` and has a
 fade-in/out curve; the old 5.2 additive `GL_ONE/GL_ONE` pass discarded that
-alpha. The isolated port now gives only `0x688` a textured-alpha pass and
-keys only those three authored dark-field materials in memory. Hash-pinned
-RGB audit finds `marks_m03` has 48,703/65,536 texels at peak `<=16`, while
-`macardkmono` has only 222/32,768 there. At 5.2's effective alpha-test
-threshold, 16,527/32,768 `macardkmono` texels would be hidden, so this
-compatibility mask still needs real visual validation; it is **not** a
-recovered native S21 black-key algorithm or framebuffer proof.
-In the private MainRF fixture, fresh Detection/Demolish captures
+alpha. The port now applies the registered bright RGB pass with light
+attenuation, not the brief textured-alpha compatibility experiment.
+Hash-pinned RGB audit finds `marks_m03` has 48,703/65,536 texels at peak
+`<=16`, while `macardkmono` has only 222/32,768 there; these field counts
+are **not** a current alpha-mask configuration or framebuffer proof.
+In the earlier private MainRF fixture, Detection/Demolish captures
 show the silver vortex over an intact terrain tile instead of an opaque
-black/white block; this is **renderer QA only, not Slayer class-9 acceptance**.
+black/white block; these captures preceded the registered-handler correction
+and do **not** validate the newest build or Slayer class-9 acceptance.
 The older extracted `Media1_20260914/frame_019.jpg` shows red attack
 fragments, **not** a dark buff vortex. The earlier frame-19 attribution was
 incorrect and is withdrawn. The current `C:\Users\DELL\Desktop\Media1.mp4`
@@ -907,10 +913,10 @@ incorrect and is withdrawn. The current `C:\Users\DELL\Desktop\Media1.mp4`
 is a 24.31-second, 10-fps **5.2 MainRF** recording created on 15 September,
 not the SS21 capture from which the older frame set was extracted. The old
 frame set has no retained source-video hash, so it is observation only,
-not authoritative current-video provenance. This per-model color-key choice
-is a 5.2 adaptation despite the now decoded native material flag, **not a
-full ingame parity PASS**.
-Body light is not multiplied by alpha a second time. Every diagnostic skip
+not authoritative current-video provenance. The remaining `0x5D8` lines2
+color key is a 5.2 adapter, **not a full ingame parity PASS**.
+Body light is multiplied by alpha once for registered `0x688/0x691/0x694`
+bright model draws. Every diagnostic skip
 used to establish causality was removed from code and the private QA client.
 
 Sword child `0x68D` has two native branches. The base branch used by the 5.2
@@ -1146,43 +1152,20 @@ after release. The later unattended capture confirms one cast per QA step;
 it does not yet prove class-9 or all-skill visual parity.
 
 The four pinned private effect models (`Bat_van01`,
-`van_object02_skill`, `van_object03_skill`, `Van_object04_skill`) now use a
-single `RenderBody` call after the unchanged generic Calc path, with the
-dark `Van_object04_skill` submitted separately from the luminous models.
-Native S21 `0x694` render dispatch `0x15B2BCA` passes default arguments to
-`0x176D621`; its ordinary draw path `0x1887E5E..0x1887EBA` submits the
-model with material flag `2`, reads `OBJECT+0xDC` alpha, and does not request
-an explicit additive flag at this call site. The 5.2 adapter likewise uses
-`RENDER_TEXTURE` for `0x694`. The two source textures of this model,
-`ark.OZJ` and `empact01.OZJ`, are RGB JPEG rings with authored black fields.
-The S21 main dump pins the native OZJ/JPEG loader itself: `0xCC53AC`
-removes the 24-byte OZJ wrapper, `0xCC562D` stores component count `3`,
-and `0xCC58E5..0xCC5901` passes `GL_RGB` (`0x1907`) and internal count
-`3` to the upload call. Native loading therefore does **not** create an
-RGBA black-key texture. The private 5.2 alpha key below is a compatibility
-experiment, not a recovered S21 material rule. Its cutoff and the resulting
-black-funnel appearance are still unverified ingame.
-The imported `0x691/0x694` model geometry and material names match the
-hash-pinned S21 files, but an older hard-black screenshot does not prove
-the current build's material state or identify every black pixel's node.
-The 5.2 adapter now color-keys only imported `ark` and `empact01`
- instances to RGBA in memory before the ordinary textured-alpha draw. A
- read-only decode of pinned `ark.OZJ` (after its 24-byte OZJ header) shows
- 128x128 RGB, with four background corners at gray 38/40/39/40. The previous
- black-floor cutoff 16 left those corners at nonzero alpha, so layered
- instances could still form a dark field. The adapter now uses cutoff 48
- **only** for imported `ark`; `empact01` and the silver-mark material retain
- cutoff 16. The S21 files and unrelated 5.2 materials remain byte-for-byte
- intact. This
-is a scoped render adaptation responding to the observed black field, not
-a decoded claim that S21 globally erases every black texel. Model pose/origin,
-per-mesh state and one-shot cast ownership still require ingame comparison.
-The private model loader now checks these authored material names, mesh
-counts, and RGBA readiness even when a model is already resident; previously
-that early-return path skipped the alpha-key conversion and could submit an
-RGB black-field texture. Fresh and resident paths share the same scoped
-guard. The x86 client rebuild and private stage pass, but no new ingame
-frame has been captured, so this is a loader-invariant fix, not visual PASS.
+`van_object02_skill`, `van_object03_skill`, `Van_object04_skill`) still use
+one `RenderBody` call after the generic Calc path. The later decoded S21
+draw registry, however, submits `0x688/0x691/0x694` with flag `0x82`
+after multiplying their model RGB light by OBJECT alpha; the previously
+assumed flag-2 ordinary body is only fallback. The 5.2 port now mirrors
+that registered bright RGB path for those three models and no longer
+color-keys their textures. The S21 OZJ loader at `0xCC53AC/0xCC562D/
+0xCC58E5` removes the 24-byte wrapper, decodes three components and
+uploads `GL_RGB`. The prior cutoff-48 `ark` and cutoff-16
+`empact01/Elite_monster_ground02` RGBA masks were compatibility experiments,
+not S21 behavior, and have been withdrawn. Fresh or resident model loads
+retain the authored mesh-count guards; only Pierce cylinder `0x5D8` still
+has a bounded lines2 material adapter. No ingame capture of this corrected
+handler path exists yet, so it is build/static evidence, not visual PASS.
 The QA log formerly labelled shared `0x694` Demolish submissions as Detection
 and called every textured pass opaque; its diagnostic labels now use the
 effect's skill ID and report textured-alpha while the effect alpha is below
