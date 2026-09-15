@@ -2124,9 +2124,10 @@ bool RenderEffect(OBJECT& effect)
             // The same registered S21 handler transforms the zero vector
             // through bat bone 7 after its model pass, then submits a sprite:
             // 0x7FDD/.4 (mode 1), 0x7FE0/.6 (mode 2), 0x7FE0/.3
-            // (mode 3), or 0x7F78/.6 (mode 4). 5.2's CreateSprite lacks
-            // the native allocator's two trailing presentation arguments;
-            // this is a bounded render adapter, not byte-level API parity.
+            // (mode 3), or 0x7F78/.6 (mode 4). Native's extra arguments
+            // are axis mask 4 (Z rotation) and atlas defaults (1,1,1).
+            // These calls use rotation zero and full UV, the same values
+            // exposed by 5.2 CreateSprite/RenderSprite for subtype zero.
             const int spriteTexture = effect.SubType == 1 ?
                 kFlareBlueBitmap : effect.SubType == 4 ?
                 kFlareBitmap : kFlareRedBitmap;

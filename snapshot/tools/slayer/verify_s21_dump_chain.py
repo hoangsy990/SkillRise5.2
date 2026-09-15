@@ -345,6 +345,26 @@ def main() -> int:
         if at(va, 48).split(b"\0", 1)[0] != expected:
             raise AssertionError(f"S21 0x678 bone sprite texture drifted at {va:#x}")
     print("PASS: S21 0x678 subtype 1..4 bone-7 sprites 0x7FDD/.4, 0x7FE0/.6/.3, 0x7F78/.6 and subtype-3 light random envelope pinned")
+    # Native sprite extras are not opaque presentation knobs in this path:
+    # axis mask 4 selects Z rotation, and the default atlas is (1,1,1).
+    # Every 0x678 sprite uses subtype 0, which selects GL_ONE/GL_ONE.
+    for va, expected in (
+        (0xA13A0A, bytes.fromhex("c70001000000")),
+        (0xA13A13, bytes.fromhex("c7400401000000")),
+        (0xA13A1D, bytes.fromhex("f30f100548ddb401f30f114008")),
+        (0x1726CF8, bytes.fromhex("8b45fc8b4d2489888c000000")),
+        (0x1726E0F, bytes.fromhex("8b4528f30f2a00")),
+        (0x1726E21, bytes.fromhex("8b4528f30f2a4004")),
+        (0x1726E34, bytes.fromhex("8b4528f30f2c4008")),
+        (0x18E8EDB, bytes.fromhex("8b453083e004")),
+        (0x1726F11, bytes.fromhex("837860007508")),
+        (0x1726F17, bytes.fromhex("e81b021c00")),
+        (0x1726F76, bytes.fromhex("0fb6450885c074090fb6450883f802750b")),
+        (0x18E7158, bytes.fromhex("6a016a01ff154cc7b401")),
+    ):
+        if at(va, len(expected)) != expected:
+            raise AssertionError(f"S21 Bat sprite default atlas/axis/blend drifted at {va:#x}")
+    print("PASS: S21 Bat sprite axis mask 4, UV atlas defaults 1/1/1, subtype-0 additive GL_ONE/GL_ONE pinned")
     # Two manager gates still precede the fallback. This table shows the
     # second-manager handlers, not proof that the first never intercepts.
     # The E4 action-init has a bounded actor-Z writer.

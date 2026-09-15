@@ -858,8 +858,18 @@ and white light. S21 loader paths/IDs and the new `flareRed.OZJ` input SHA-256
 `FC7B772D1B8685B5B89989838431616D19224E321A1492CC95F9B5369B794A48`
 are pinned. The isolated 5.2 renderer now follows bone 7 and sends those
 four sprites to its sprite pool. Native `0x172760A` forwards two extra
-presentation arguments beyond the seven exposed by 5.2 `CreateSprite`;
-the sprite submission is a bounded adapter, not proven full API parity.
+arguments beyond the seven exposed by 5.2 `CreateSprite`: the first is
+mask `4`, stored at sprite `+0x8C` and used by `0x18E8B0C` to rotate around
+Z; the second is a default triple `(1,1,1)` from `0xA13A00`, stored at
+`+0x90/+0x94/+0x98` for the full UV atlas. All these handler calls supply
+rotation zero, so the 5.2 Z-angle zero and full-UV quad cover their active
+values. The native sprite subtype zero selects `GL_ONE/GL_ONE` at
+`0x1726F17 -> 0x18E7137`, matching 5.2 `EnableAlphaBlend` for subtype zero.
+Native `0x1726F76..0x1726F8C` retires sprites after render passes 0/2,
+matching 5.2 `RenderSprites`' one-frame retirement for those passes; the
+native animation-frame increment is `.1`, the same 5.2 factor at ordinary
+frame rate. These source checks narrow the adapter gap; visual parity still
+awaits the later ingame gate.
 Full basic-block decoding of `0x1887EB0` shows the **fallback** native body
 flag is `2`. This is conditional: `0x1887DDB` first calls special-model
 manager `0x18917BA` and skips the fallback if it returns true; `0x1887E1C`
