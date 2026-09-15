@@ -34,6 +34,34 @@
 #include "GameServer.h"
 #include "../../Addon/DualColor.h"
 #include "RISE/SlayerServerCatalog.h"
+#include "../../ExMain_RISE_PC/Main5.2_RISE/RISE/Slayer/shared/SlayerSkillContractData.h"
+#include "../../ExMain_RISE_PC/Main5.2_RISE/RISE/Slayer/shared/SlayerBatFanoutWire.h"
+#include "../../ExMain_RISE_PC/Main5.2_RISE/RISE/Slayer/shared/SlayerPierceFanoutWire.h"
+#include "../../ExMain_RISE_PC/Main5.2_RISE/RISE/Slayer/shared/SlayerDetectionWire.h"
+#include <map>
+#include <mutex>
+
+namespace {
+
+struct PendingSlayerPierce
+{
+	DWORD connectedAt;
+	DWORD openedAt;
+	BYTE serial;
+	int map;
+	int castX;
+	int castY;
+	int count;
+	int target[rise::slayer::kPierceFanoutMaxTargets];
+	bool consumed[rise::slayer::kPierceFanoutMaxTargets];
+};
+
+std::map<int, PendingSlayerPierce> gPendingSlayerPierce;
+std::mutex gPendingSlayerPierceMutex;
+BYTE gSlayerPierceSerial = 0;
+const DWORD kSlayerPierceLaneWindowMs = 15000;
+
+}
 CSkillManager gSkillManager;
 CSkillManager::CSkillManager()
 {
@@ -560,7 +588,55 @@ bool CSkillManager::CheckSkillRequireClass(LPOBJ lpObj, int index)
 	// CharacterInfoSet keeps lpObj->Class on a safe legacy array slot.
 	if (rise::slayerserver::IsSlayerSkill(index))
 	{
-		return rise::slayerserver::IsSlayerDbClass(lpObj->DBClass) ? 1 : 0;
+		if (!rise::slayerserver::IsSlayerDbClass(lpObj->DBClass))
+			return 0;
+		const rise::slayer::SkillSeed* seed = rise::slayer::FindSkillSeed(index);
+		if (!seed)
+			return 0;
+		const int classStage = lpObj->DBClass -
+			rise::slayerserver::kS21SlayerDbClass + 1;
+		if (classStage < seed->classRequirement)
+			return 0;
+		if (index == rise::slayerserver::kPierceAttack)
+		{
+			// Pinned S21 SkillRequire.xml row 294: Pierce bead/use requires
+			// base Bat Flock plus 10 points in mastery skill 782.  Neither
+			// condition is represented by the legacy RequireClass array.
+			// Native 5.2 mastery learning can replace the active base
+			// Skill[] slot with 781/782.  Accept that stored Bat lineage,
+			// while still requiring the separate learned 782/10 node.
+			if (this->GetSkill(lpObj, rise::slayerserver::kBatFlock) == 0 &&
+				this->GetSkill(lpObj,
+					rise::slayerserver::kBatFlockStrengthener) == 0 &&
+				this->GetSkill(lpObj,
+					rise::slayerserver::kBatFlockMastery) == 0)
+				return 0;
+			if (gMasterSkillTree.GetMasterSkillLevel(lpObj,
+					rise::slayerserver::kBatFlockMastery) < 10)
+				return 0;
+		}
+		return rise::slayer::MeetsStats(index, lpObj->Level,
+			lpObj->Strength + lpObj->AddStrength,
+			lpObj->Dexterity + lpObj->AddDexterity) ? 1 : 0;
+	}
+	if (rise::slayerserver::IsSlayerBatMasterySkill(index))
+	{
+		// S21 SkillList.xml 781/782: Master Slayer stage 3, level 160,
+		// STR 100 and DEX 380. The legacy class-array slot is DK for ABI
+		// compatibility, so never authorize these rows by RequireClass[1].
+		if (!rise::slayerserver::IsSlayerDbClass(lpObj->DBClass) ||
+			lpObj->DBClass < rise::slayerserver::kS21MasterSlayerDbClass ||
+			lpObj->Level < 160 ||
+			lpObj->Strength + lpObj->AddStrength < 100 ||
+			lpObj->Dexterity + lpObj->AddDexterity < 380)
+			return 0;
+		// The S21 Master Slayer third tree makes 782 depend on 781.
+		// 5.2 stores an acquired 10-point node as m_level=9.
+		if (index == rise::slayerserver::kBatFlockMastery &&
+			gMasterSkillTree.GetMasterSkillLevel(lpObj,
+				rise::slayerserver::kBatFlockStrengthener) < 10)
+			return 0;
+		return 1;
 	}
 	if (CHECK_RANGE(lpObj->Class, MAX_CLASS) == 0)
 	{
@@ -1298,6 +1374,12 @@ bool CSkillManager::RunningSkill(int aIndex, int bIndex, CSkill* lpSkill, BYTE x
 		return this->SkillSlayerSwordInertia(aIndex, bIndex, lpSkill);
 	case rise::slayerserver::kBatFlock:
 		return this->SkillSlayerBatFlock(aIndex, bIndex, lpSkill);
+	case rise::slayerserver::kBatFlockStrengthener:
+	case rise::slayerserver::kBatFlockMastery:
+		// S21 lists 781/782 as separate castable mastery skills. Their
+		// client dispatch/effect branches are not yet recovered; do not let
+		// the 5.2 default BasicSkillAttack impersonate either skill.
+		return false;
 	case rise::slayerserver::kPierceAttack:
 		return this->SkillSlayerPierceAttack(aIndex, bIndex, lpSkill);
 	case rise::slayerserver::kDetection:
@@ -4963,36 +5045,274 @@ bool CSkillManager::SkillSlayerSwordInertia(int aIndex, int bIndex,
 bool CSkillManager::SkillSlayerBatFlock(int aIndex, int bIndex,
 	CSkill* lpSkill)
 {
-	// Initial two strikes.  The five-second DOT is represented by the skill
-	// effect entry and processed by the existing EffectManager tick path.
-	if (this->BasicSkillAttack(aIndex, bIndex, lpSkill, false) == 0)
+	if (OBJECT_RANGE(aIndex) == 0 || OBJECT_RANGE(bIndex) == 0 || !lpSkill)
 		return false;
-	this->BasicSkillAttack(aIndex, bIndex, lpSkill, false);
-	LPOBJ target = &gObj[bIndex];
-	const int slayerRate = ((gObj[aIndex].Strength + gObj[aIndex].AddStrength) / 8) +
-		((gObj[aIndex].Dexterity + gObj[aIndex].AddDexterity) / 28) + 120;
-	const int dotDamage = max(1, (lpSkill->m_DamageMin * slayerRate) / 200);
-	gEffectManager.AddEffect(target, 0, EFFECT_SLAYER_BAT_FLOCK,
-		5, aIndex, 1, SET_NUMBERHW(dotDamage), SET_NUMBERLW(dotDamage));
-	this->GCSkillAttackSend(&gObj[aIndex], lpSkill->m_index, bIndex, 1);
+	LPOBJ caster = &gObj[aIndex];
+	if (caster->Type != OBJECT_USER || caster->Live == 0 ||
+		caster->State != OBJECT_PLAYING ||
+		!rise::slayerserver::IsSlayerDbClass(caster->DBClass))
+		return false;
+	if (gMap[caster->Map].CheckAttr(caster->X, caster->Y, 1) != 0 ||
+		gDuel.GetDuelArenaBySpectator(aIndex) != 0)
+		return false;
+
+	// S21's separate 0x125 visual event carries at most 10 distinct target
+	// keys. Its GS collision shape is not available in the client dump. Use
+	// the imported Bat Flock range and native 5.2 viewport/target checks as
+	// a provisional server-authoritative multi-enemy selection adapter.
+	auto Eligible = [&](int index, int type) -> bool
+	{
+		return OBJECT_RANGE(index) != 0 && index != aIndex &&
+			gObjIsConnectedGS(index) != 0 &&
+			gObj[index].Live != 0 && gObj[index].State == OBJECT_PLAYING &&
+			gObj[index].Map == caster->Map &&
+			gMap[caster->Map].CheckAttr(gObj[index].X,
+				gObj[index].Y, 1) == 0 &&
+			gDuel.GetDuelArenaBySpectator(index) == 0 &&
+			this->CheckSkillTarget(caster, index, -1, type) != 0 &&
+			this->CheckSkillRange(lpSkill->m_index, caster->X, caster->Y,
+				gObj[index].X, gObj[index].Y) != 0;
+	};
+	if (!Eligible(bIndex, gObj[bIndex].Type))
+		return false;
+
+	int candidates[rise::slayer::kBatFanoutMaxTargets] = { bIndex };
+	int candidateCount = 1;
+	for (int n = 0; n < MAX_VIEWPORT &&
+		candidateCount < rise::slayer::kBatFanoutMaxTargets; ++n)
+	{
+		if (caster->VpPlayer2[n].state == VIEWPORT_NONE)
+			continue;
+		const int index = caster->VpPlayer2[n].index;
+		if (!Eligible(index, caster->VpPlayer2[n].type))
+			continue;
+		bool duplicate = false;
+		for (int t = 0; t < candidateCount; ++t)
+			duplicate |= candidates[t] == index;
+		if (!duplicate)
+			candidates[candidateCount++] = index;
+	}
+
+	const int dotDamage = rise::slayerserver::BatFlockDotDamage(
+		caster->Energy + caster->AddEnergy);
+	int affected[rise::slayer::kBatFanoutMaxTargets] = {};
+	int affectedCount = 0;
+	for (int n = 0; n < candidateCount; ++n)
+	{
+		const int index = candidates[n];
+		if (!Eligible(index, gObj[index].Type))
+			continue;
+		if (!this->BasicSkillAttack(aIndex, index, lpSkill, false))
+		{
+			if (index == bIndex)
+				return false;
+			continue;
+		}
+		this->BasicSkillAttack(aIndex, index, lpSkill, false);
+		gEffectManager.AddEffect(&gObj[index], 0, EFFECT_SLAYER_BAT_FLOCK,
+			5, aIndex, 1, SET_NUMBERHW(dotDamage), SET_NUMBERLW(dotDamage));
+		affected[affectedCount++] = index;
+	}
+	if (affectedCount == 0)
+		return false;
+	this->GCSkillAttackSend(caster, lpSkill->m_index, bIndex, 1);
+	// Damage and list-bearing visuals share the exact affected set; no local
+	// client timer or independently guessed visual target list is involved.
+	rise::slayer::BatFanoutWire fanout = {};
+	fanout.type = 0xC1;
+	fanout.size = static_cast<BYTE>(sizeof(fanout));
+	fanout.head = rise::slayer::kBatFanoutHead;
+	fanout.sub = rise::slayer::kBatFanoutSub;
+	fanout.skill[0] = SET_NUMBERHB(lpSkill->m_index);
+	fanout.skill[1] = SET_NUMBERLB(lpSkill->m_index);
+	fanout.caster[0] = SET_NUMBERHB(aIndex);
+	fanout.caster[1] = SET_NUMBERLB(aIndex);
+	fanout.count = static_cast<BYTE>(affectedCount);
+	for (int n = 0; n < affectedCount; ++n)
+	{
+		fanout.target[n][0] = SET_NUMBERHB(affected[n]);
+		fanout.target[n][1] = SET_NUMBERLB(affected[n]);
+	}
+	DataSend(aIndex, reinterpret_cast<BYTE*>(&fanout), fanout.size);
+	MsgSendV2(caster, reinterpret_cast<BYTE*>(&fanout), fanout.size);
 	return true;
 }
 
 bool CSkillManager::SkillSlayerPierceAttack(int aIndex, int bIndex,
 	CSkill* lpSkill)
 {
-	// Native S21 performs two strikes, upgraded to four while the target carries
-	// the Bat Flock mark.
-	if (this->BasicSkillAttack(aIndex, bIndex, lpSkill, false) == 0)
+	if (OBJECT_RANGE(aIndex) == 0 || OBJECT_RANGE(bIndex) == 0 || !lpSkill)
 		return false;
-	this->BasicSkillAttack(aIndex, bIndex, lpSkill, false);
-	if (gEffectManager.CheckEffect(&gObj[bIndex], EFFECT_SLAYER_BAT_FLOCK) != 0)
+	LPOBJ caster = &gObj[aIndex];
+	if (caster->Type != OBJECT_USER || caster->Live == 0 ||
+		caster->State != OBJECT_PLAYING ||
+		!rise::slayerserver::IsSlayerDbClass(caster->DBClass))
+		return false;
+	if (gMap[caster->Map].CheckAttr(caster->X, caster->Y, 1) != 0 ||
+		gDuel.GetDuelArenaBySpectator(aIndex) != 0)
+		return false;
+
+	// S21 SkillAOETargetting.xml includes 294, and the separate 0x126
+	// receive path caps its list at ten keys. The S21 GS collider is not
+	// available; this is a native 5.2 range/viewport selection adapter.
+	auto Eligible = [&](int index, int type) -> bool
 	{
-		this->BasicSkillAttack(aIndex, bIndex, lpSkill, false);
-		this->BasicSkillAttack(aIndex, bIndex, lpSkill, false);
+		return OBJECT_RANGE(index) != 0 && index != aIndex &&
+			gObjIsConnectedGS(index) != 0 &&
+			gObj[index].Live != 0 && gObj[index].State == OBJECT_PLAYING &&
+			gObj[index].Map == caster->Map &&
+			gMap[caster->Map].CheckAttr(gObj[index].X,
+				gObj[index].Y, 1) == 0 &&
+			gDuel.GetDuelArenaBySpectator(index) == 0 &&
+			this->CheckSkillTarget(caster, index, -1, type) != 0 &&
+			this->CheckSkillRange(lpSkill->m_index, caster->X, caster->Y,
+				gObj[index].X, gObj[index].Y) != 0;
+	};
+	if (!Eligible(bIndex, gObj[bIndex].Type))
+		return false;
+	int candidates[rise::slayer::kPierceFanoutMaxTargets] = { bIndex };
+	int candidateCount = 1;
+	for (int n = 0; n < MAX_VIEWPORT &&
+		candidateCount < rise::slayer::kPierceFanoutMaxTargets; ++n)
+	{
+		if (caster->VpPlayer2[n].state == VIEWPORT_NONE)
+			continue;
+		const int index = caster->VpPlayer2[n].index;
+		if (!Eligible(index, caster->VpPlayer2[n].type))
+			continue;
+		bool duplicate = false;
+		for (int t = 0; t < candidateCount; ++t)
+			duplicate |= candidates[t] == index;
+		if (!duplicate)
+			candidates[candidateCount++] = index;
 	}
-	this->GCSkillAttackSend(&gObj[aIndex], lpSkill->m_index, bIndex, 1);
+
+	// S21 0x689 sends one outbound target request from the local caster per
+	// resolved lane. Keep the accepted cast and its victim list on GS; do
+	// not apply every strike at t=0 before any authored lane has launched.
+	PendingSlayerPierce pending = {};
+	pending.connectedAt = caster->ConnectTickCount;
+	pending.openedAt = GetTickCount();
+	pending.map = caster->Map;
+	pending.castX = caster->X;
+	pending.castY = caster->Y;
+	pending.count = candidateCount;
+	for (int n = 0; n < candidateCount; ++n)
+		pending.target[n] = candidates[n];
+	{
+		std::lock_guard<std::mutex> guard(gPendingSlayerPierceMutex);
+		pending.serial = ++gSlayerPierceSerial;
+		gPendingSlayerPierce[aIndex] = pending;
+	}
+	this->GCSkillAttackSend(caster, lpSkill->m_index, bIndex, 1);
+	// Supplemental lanes are bounded by this server-selected, serialed list.
+	rise::slayer::PierceFanoutWire fanout = {};
+	fanout.type = 0xC1;
+	fanout.size = static_cast<BYTE>(sizeof(fanout));
+	fanout.head = rise::slayer::kPierceFanoutHead;
+	fanout.sub = rise::slayer::kPierceFanoutSub;
+	fanout.skill[0] = SET_NUMBERHB(lpSkill->m_index);
+	fanout.skill[1] = SET_NUMBERLB(lpSkill->m_index);
+	fanout.caster[0] = SET_NUMBERHB(aIndex);
+	fanout.caster[1] = SET_NUMBERLB(aIndex);
+	fanout.serial = pending.serial;
+	fanout.count = static_cast<BYTE>(candidateCount);
+	for (int n = 0; n < candidateCount; ++n)
+	{
+		fanout.target[n][0] = SET_NUMBERHB(candidates[n]);
+		fanout.target[n][1] = SET_NUMBERLB(candidates[n]);
+	}
+	DataSend(aIndex, reinterpret_cast<BYTE*>(&fanout), fanout.size);
+	MsgSendV2(&gObj[aIndex], reinterpret_cast<BYTE*>(&fanout), fanout.size);
 	return true;
+}
+
+void CSkillManager::CGSlayerPierceLaneRecv(BYTE* lpMsg, int size,
+	int aIndex)
+{
+	if (!lpMsg || size != sizeof(rise::slayer::PierceLaneRequestWire) ||
+		OBJECT_RANGE(aIndex) == 0 || gObjIsConnectedGS(aIndex) == 0)
+		return;
+	const rise::slayer::PierceLaneRequestWire& lane =
+		*reinterpret_cast<const rise::slayer::PierceLaneRequestWire*>(lpMsg);
+	const int skillId = MAKE_NUMBERW(lane.skill[0], lane.skill[1]);
+	const int targetIndex = MAKE_NUMBERW(lane.target[0], lane.target[1]);
+	if (lane.type != 0xC1 || lane.size != size ||
+		lane.head != rise::slayer::kPierceFanoutHead ||
+		lane.sub != rise::slayer::kPierceLaneRequestSub ||
+		skillId != rise::slayerserver::kPierceAttack ||
+		lane.direction < 1 || lane.direction > 50 ||
+		OBJECT_RANGE(targetIndex) == 0 || targetIndex == aIndex ||
+		gObjIsConnectedGS(targetIndex) == 0)
+		return;
+	LPOBJ caster = &gObj[aIndex];
+	LPOBJ target = &gObj[targetIndex];
+	if (caster->Type != OBJECT_USER || caster->Live == 0 ||
+		caster->State != OBJECT_PLAYING ||
+		!rise::slayerserver::IsSlayerDbClass(caster->DBClass) ||
+		target->Live == 0 || target->State != OBJECT_PLAYING ||
+		caster->Map != target->Map ||
+		gMap[caster->Map].CheckAttr(caster->X, caster->Y, 1) != 0 ||
+		gMap[target->Map].CheckAttr(target->X, target->Y, 1) != 0 ||
+		gDuel.GetDuelArenaBySpectator(aIndex) != 0 ||
+		gDuel.GetDuelArenaBySpectator(targetIndex) != 0)
+		return;
+	CSkill* skill = this->GetSkill(caster, skillId);
+	if (!skill || !this->CheckSkillRequireClass(caster, skillId) ||
+		this->CheckSkillTarget(caster, targetIndex, -1, target->Type) == 0)
+		return;
+	PendingSlayerPierce pending = {};
+	int ordinal = -1;
+	{
+		std::lock_guard<std::mutex> guard(gPendingSlayerPierceMutex);
+		auto it = gPendingSlayerPierce.find(aIndex);
+		if (it == gPendingSlayerPierce.end())
+			return;
+		pending = it->second;
+		if (pending.serial != lane.serial ||
+			pending.connectedAt != caster->ConnectTickCount ||
+			pending.map != caster->Map ||
+			GetTickCount() - pending.openedAt > kSlayerPierceLaneWindowMs)
+			return;
+		for (int n = 0; n < pending.count; ++n)
+			if (pending.target[n] == targetIndex && !pending.consumed[n])
+			{
+				ordinal = n;
+				break;
+			}
+	}
+	if (ordinal < 0 ||
+		abs(target->X - static_cast<int>(lane.tileX)) > 1 ||
+		abs(target->Y - static_cast<int>(lane.tileY)) > 1 ||
+		this->CheckSkillRange(skillId, pending.castX, pending.castY,
+			target->X, target->Y) == 0)
+		return;
+	{
+		std::lock_guard<std::mutex> guard(gPendingSlayerPierceMutex);
+		auto it = gPendingSlayerPierce.find(aIndex);
+		if (it == gPendingSlayerPierce.end() ||
+			it->second.serial != lane.serial ||
+			it->second.openedAt != pending.openedAt ||
+			it->second.castX != pending.castX ||
+			it->second.castY != pending.castY ||
+			it->second.connectedAt != caster->ConnectTickCount ||
+			it->second.target[ordinal] != targetIndex ||
+			it->second.consumed[ordinal])
+			return;
+		it->second.consumed[ordinal] = true;
+	}
+	// A packet cannot create targets, refresh a cast or strike the same lane
+	// twice. GS observes the Bat mark at the moment the lane lands.
+	const bool batMarked = gEffectManager.CheckEffect(target,
+		EFFECT_SLAYER_BAT_FLOCK) != 0;
+	const int strikes = batMarked ? 4 : 2;
+	for (int n = 0; n < strikes && target->Live != 0; ++n)
+	{
+		// BasicSkillAttack rechecks the *current* caster tile, even though
+		// this lane was authorized against its saved cast origin above. Keep
+		// the same 5.2 damage call without invalidating delayed S21 lanes.
+		gAttack.Attack(caster, target, skill, 1, 0, 0, 0, false);
+	}
 }
 
 bool CSkillManager::SkillSlayerDetection(int aIndex, int bIndex,
@@ -5004,10 +5324,28 @@ bool CSkillManager::SkillSlayerDetection(int aIndex, int bIndex,
 	// BuffEffectManager row 316: Detection remains active for one minute.
 	// Keep the duration on GameServer so the client cannot extend or recreate
 	// the result from a local timer.
-	gEffectManager.AddEffect(&gObj[aIndex], 0,
+	if (!gEffectManager.AddEffect(&gObj[aIndex], 0,
 		rise::slayerserver::kDetectionEffect,
-		rise::slayerserver::DetectionDurationSeconds(), 0, 0, 0, 0);
+		rise::slayerserver::DetectionDurationSeconds(), 0, 0, 0, 0))
+		return false;
 	this->GCSkillAttackSend(&gObj[aIndex], lpSkill->m_index, aIndex, 1);
+	// Only the buff owner receives the local minimap reveal start signal;
+	// neighboring players still receive the authored cast effect via 0x19.
+	rise::slayer::DetectionWire reveal = {};
+	reveal.type = 0xC1;
+	reveal.size = static_cast<BYTE>(sizeof(reveal));
+	reveal.head = rise::slayer::kDetectionHead;
+	reveal.sub = rise::slayer::kDetectionSub;
+	reveal.skill[0] = SET_NUMBERHB(lpSkill->m_index);
+	reveal.skill[1] = SET_NUMBERLB(lpSkill->m_index);
+	reveal.caster[0] = SET_NUMBERHB(aIndex);
+	reveal.caster[1] = SET_NUMBERLB(aIndex);
+	reveal.map[0] = SET_NUMBERHB(gObj[aIndex].Map);
+	reveal.map[1] = SET_NUMBERLB(gObj[aIndex].Map);
+	const int duration = rise::slayerserver::DetectionDurationSeconds();
+	reveal.durationSeconds[0] = SET_NUMBERHB(duration);
+	reveal.durationSeconds[1] = SET_NUMBERLB(duration);
+	DataSend(aIndex, reinterpret_cast<BYTE*>(&reveal), reveal.size);
 	return true;
 }
 
@@ -5032,22 +5370,33 @@ bool CSkillManager::SkillSlayerDemolish(int aIndex, int bIndex,
 	const int value = max(0, static_cast<int>(raw * 0.03));
 	const int duration = rise::slayerserver::DemolishDurationSeconds();
 
-	auto ApplyTo = [&](LPOBJ target)
+	auto ApplyTo = [&](LPOBJ target) -> bool
 	{
-		gEffectManager.AddEffect(target, 0, EFFECT_SLAYER_DEMOLISH,
-			duration, value, 0, 0, 0);
-		this->GCSkillAttackSend(lpObj, lpSkill->m_index, target->Index, 1);
+		// AddEffect can reject a weaker refresh or a full effect pool. Do not
+		// announce a cast unless the caster's authoritative buff is accepted.
+		// AddEffect already sends the individual 5.2 effect-state packet.
+		if (!gEffectManager.AddEffect(target, 0, EFFECT_SLAYER_DEMOLISH,
+			duration, value, 0, 0, 0))
+			return false;
+		return true;
 	};
 
 	if (OBJECT_RANGE(lpObj->PartyNumber) == 0)
 	{
-		ApplyTo(lpObj);
-		return 1;
+		if (!ApplyTo(lpObj))
+			return false;
+		this->GCSkillAttackSend(lpObj, lpSkill->m_index, aIndex, 1);
+		return true;
 	}
 	// Party tables are not required to contain the casting slot.  Apply to the
 	// caster explicitly, then fan out to nearby party members without a
 	// duplicate self packet.
-	ApplyTo(lpObj);
+	if (!ApplyTo(lpObj))
+		return false;
+	// A party Demolish is one cast graph at the caster, not one identical
+	// caster-root graph for every party recipient. Recipient buff states are
+	// delivered by AddEffect above/below, independently of the cast packet.
+	this->GCSkillAttackSend(lpObj, lpSkill->m_index, aIndex, 1);
 
 	// SkillSettings.ini sets PartySkillRange=9 for Slayer party buffs.
 	// Use that S21 value directly because the legacy catalog has no Radio

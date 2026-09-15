@@ -539,14 +539,10 @@ bool CAttack::Attack(LPOBJ lpObj, LPOBJ lpTarget, CSkill* lpSkill, bool send, BY
 		// Flock applies half damage per strike and emits two initial strikes.
 		if (rise::slayerserver::IsSlayerDamageSkill(skill))
 		{
-			const __int64 slayerRate =
-				((lpObj->Strength + lpObj->AddStrength) / 8) +
-				((lpObj->Dexterity + lpObj->AddDexterity) / 28) + 120;
-			damage = (damage * slayerRate) / 100;
-			if (skill == rise::slayerserver::kBatFlock)
-			{
-				damage /= 2;
-			}
+			damage = rise::slayerserver::ScaleSlayerDamage(damage,
+				lpObj->Strength + lpObj->AddStrength,
+				lpObj->Dexterity + lpObj->AddDexterity,
+				skill == rise::slayerserver::kBatFlock);
 		}
 
 		//Custom Skill Damage System

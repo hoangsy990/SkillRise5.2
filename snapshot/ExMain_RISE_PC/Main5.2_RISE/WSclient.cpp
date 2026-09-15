@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #ifdef RISE_SLAYER_PORT
 #include "RISE/Slayer/client/SlayerNativeRuntime.h"
+#include "RISE/Slayer/shared/SlayerBatFanoutWire.h"
+#include "RISE/Slayer/shared/SlayerPierceFanoutWire.h"
+#include "RISE/Slayer/shared/SlayerDetectionWire.h"
 #endif
 #ifdef RISE_SLAYER_RUNTIME_QA
 #include "RISE/SlayerRuntimeQA.h"
@@ -440,6 +443,9 @@ static bool GetRiseCharacterSelectPlacement(int index, float* pos, float& angle)
 void ReceiveJoinServer(const BYTE* ReceiveBuffer)
 {
 	auto Data2 = (LPPRECEIVE_JOIN_SERVER)ReceiveBuffer;
+#ifdef RISE_SLAYER_PORT
+	rise::slayer::ResetNativeRuntime(HeroKey);
+#endif
 
 	if (LogIn != 0)
 	{
@@ -584,6 +590,16 @@ void ReceiveCharacterList(const BYTE* ReceiveBuffer)
 		Offset += sizeof(PRECEIVE_CHARACTER_LIST);
 
 		ChangeCharacterExt(Data2->Index, Data2->Equipment);
+#ifdef RISE_SLAYER_RUNTIME_QA
+		char slayerQaCharacterLine[192];
+		sprintf_s(slayerQaCharacterLine, sizeof(slayerQaCharacterLine),
+			"character-list row=%d name=%s serverClass=%u clientClass=%d live=%d blocked=%d",
+			i, c ? c->ID : "<create-failed>",
+			static_cast<unsigned>(Data2->Class), iClass,
+			c && c->Object.Live ? 1 : 0,
+			c && (c->CtlCode & CTLCODE_01BLOCKCHAR) ? 1 : 0);
+		rise::slayerqa::AppendRuntimeQALog(slayerQaCharacterLine);
+#endif
 	}
 	CurrentProtocolState = RECEIVE_CHARACTERS_LIST;
 }
@@ -3863,8 +3879,12 @@ BOOL ReceiveMagic(BYTE* ReceiveBuffer, int Size, BOOL bEncrypted)
 			rise::slayerqa::AppendRuntimeQALog(qaLine);
 		}
 #endif
-		rise::slayer::DispatchNativeReceive(sc, tc,
-			static_cast<int>(MagicNumber));
+		// 5.2's 0x19 target high bit is the authoritative success flag.
+		// A rejected cast must not force SkillSuccess=true or seed an S21
+		// controller merely because the skill number is recognized.
+		if (Success)
+			rise::slayer::DispatchNativeReceive(sc, tc,
+				static_cast<int>(MagicNumber));
 		break;
 #endif
 	case AT_SKILL_MONSTER_SUMMON:
@@ -13430,6 +13450,108 @@ BOOL TranslateProtocol(int HeadCode, BYTE* ReceiveBuffer, int Size, BOOL bEncryp
 			}
 			switch (subcode)
 			{
+#ifdef RISE_SLAYER_PORT
+                case rise::slayer::kDetectionSub:
+                {
+                    if (Size != sizeof(rise::slayer::DetectionWire) ||
+                        ReceiveBuffer[0] != 0xC1)
+                        break;
+                    const rise::slayer::DetectionWire& wire =
+                        *reinterpret_cast<const rise::slayer::DetectionWire*>(ReceiveBuffer);
+                    const int skillId = (wire.skill[0] << 8) | wire.skill[1];
+                    const int casterKey = (wire.caster[0] << 8) | wire.caster[1];
+                    const int casterIndex = FindCharacterIndex(casterKey & 0x7FFF);
+                    const int map = (wire.map[0] << 8) | wire.map[1];
+                    const int duration = (wire.durationSeconds[0] << 8) |
+                        wire.durationSeconds[1];
+                    if (wire.size != Size || wire.head != rise::slayer::kDetectionHead ||
+                        wire.sub != rise::slayer::kDetectionSub || skillId != 295 ||
+                        casterIndex == MAX_CHARACTERS_CLIENT || duration != 60)
+                        break;
+                    rise::slayer::DispatchDetectionReveal(
+                        &CharactersClient[casterIndex], map, duration);
+                    break;
+                }
+                case rise::slayer::kBatFanoutSub:
+                {
+                    // Private 5.2 envelope for the separate S21 0x125
+                    // target-list visual path. Reject malformed packets.
+                    if (Size != sizeof(rise::slayer::BatFanoutWire) ||
+                        ReceiveBuffer[0] != 0xC1)
+                        break;
+                    const rise::slayer::BatFanoutWire& wire =
+                        *reinterpret_cast<const rise::slayer::BatFanoutWire*>(ReceiveBuffer);
+                    const int skillId = (wire.skill[0] << 8) | wire.skill[1];
+                    if (wire.size != Size || wire.head != rise::slayer::kBatFanoutHead ||
+                        wire.sub != rise::slayer::kBatFanoutSub || skillId != 293 ||
+                        wire.count == 0 || wire.count > rise::slayer::kBatFanoutMaxTargets)
+                        break;
+                    const int casterKey = (wire.caster[0] << 8) | wire.caster[1];
+                    const int casterIndex = FindCharacterIndex(casterKey & 0x7FFF);
+                    if (casterIndex == MAX_CHARACTERS_CLIENT)
+                        break;
+                    short indexes[rise::slayer::kBatFanoutMaxTargets];
+                    int count = 0;
+                    for (unsigned i = 0; i < wire.count; ++i)
+                    {
+                        const int key = (wire.target[i][0] << 8) | wire.target[i][1];
+                        const int index = FindCharacterIndex(key & 0x7FFF);
+                        if (index == MAX_CHARACTERS_CLIENT)
+                            continue;
+                        CHARACTER& victim = CharactersClient[index];
+                        if (!victim.Object.Live)
+                            continue;
+                        bool duplicate = false;
+                        for (int n = 0; n < count; ++n)
+                            duplicate |= indexes[n] == index;
+                        if (!duplicate)
+                            indexes[count++] = static_cast<short>(index);
+                    }
+                    if (count > 0)
+                        rise::slayer::DispatchBatFanout(
+                            &CharactersClient[casterIndex], indexes, count);
+                    break;
+                }
+                case rise::slayer::kPierceFanoutSub:
+                {
+                    if (Size != sizeof(rise::slayer::PierceFanoutWire) ||
+                        ReceiveBuffer[0] != 0xC1)
+                        break;
+                    const rise::slayer::PierceFanoutWire& wire =
+                        *reinterpret_cast<const rise::slayer::PierceFanoutWire*>(ReceiveBuffer);
+                    const int skillId = (wire.skill[0] << 8) | wire.skill[1];
+                    if (wire.size != Size ||
+                        wire.head != rise::slayer::kPierceFanoutHead ||
+                        wire.sub != rise::slayer::kPierceFanoutSub ||
+                        skillId != 294 || wire.count == 0 ||
+                        wire.count > rise::slayer::kPierceFanoutMaxTargets)
+                        break;
+                    const int casterKey = (wire.caster[0] << 8) | wire.caster[1];
+                    const int casterIndex = FindCharacterIndex(casterKey & 0x7FFF);
+                    if (casterIndex == MAX_CHARACTERS_CLIENT)
+                        break;
+                    short indexes[rise::slayer::kPierceFanoutMaxTargets];
+                    int count = 0;
+                    for (unsigned i = 0; i < wire.count; ++i)
+                    {
+                        const int key = (wire.target[i][0] << 8) | wire.target[i][1];
+                        const int index = FindCharacterIndex(key & 0x7FFF);
+                        if (index == MAX_CHARACTERS_CLIENT ||
+                            !CharactersClient[index].Object.Live)
+                            continue;
+                        bool duplicate = false;
+                        for (int n = 0; n < count; ++n)
+                            duplicate |= indexes[n] == index;
+                        if (!duplicate)
+                            indexes[count++] = static_cast<short>(index);
+                    }
+                    if (count > 0)
+                        rise::slayer::DispatchPierceFanout(
+                            &CharactersClient[casterIndex], indexes, count,
+                            wire.serial);
+                    break;
+                }
+#endif
 				case 0x06:	ReceiveServerList(ReceiveBuffer);												break;
 				case 0x03:	ReceiveServerConnect(ReceiveBuffer);											break;
 				case 0x05:	ReceiveServerConnectBusy(ReceiveBuffer);										break;

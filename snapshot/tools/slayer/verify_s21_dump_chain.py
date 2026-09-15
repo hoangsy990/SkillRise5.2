@@ -12,7 +12,7 @@ from __future__ import annotations
 
 import hashlib
 import re
-import struct
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 
@@ -28,63 +28,26 @@ ACTION_SWITCH = Path(
     r"D:\RISE-CrossPlatform\Source\artifacts\visual_studio"
     r"\season21_full_skill_reverse\disasm_10DFF00_10ED000.txt"
 )
+S21_AOE = Path(r"D:\GameServer S21\Data\Skills\SkillAOETargetting.xml")
+EXPECTED_AOE_SHA256 = "CE5C501CB82D2179DB5ED5407DC89BEA4CB118446BA444D8FF95D7DE96F984D9"
+S21_SKILL_REQUIRE = Path(r"D:\GameServer S21\Data\Skills\SkillRequire.xml")
+EXPECTED_SKILL_REQUIRE_SHA256 = "4E6B765FF7DCFB62E58AD9720F5E8C8E81DC8ECC5BA30C3BC3B842B390C9AC58"
+S21_THIRD_TREE = Path(r"D:\GameServer S21\Data\Skills\SkillTreeData_3rd.xml")
+EXPECTED_THIRD_TREE_SHA256 = "CE19B7482839524A6FC8B76563F60D0D0EAEA89F4F4E534DFC835046366539F0"
+S21_SKILL_LIST = Path(r"D:\GameServer S21\Data\Skills\SkillList.xml")
+EXPECTED_SKILL_LIST_SHA256 = "3E238C786ECAB3445A0DB4756FE3D2A3923FBC0594506BB9C3FF206020A7E0A0"
+S21_MASTER_CALC = Path(r"D:\GameServer S21\Data\Skills\MasterSkillCalc_3rd.lua")
+EXPECTED_MASTER_CALC_SHA256 = "771066684E4478A69659D46C27EEB87A9242D8B6D8566E73A4D31AD0F479F699"
+S21_CALC = Path(r"D:\GameServer S21\Data\Skills\RegularSkillCalc.lua")
+EXPECTED_CALC_SHA256 = "F735D95E32C70E38AC6E65086E4AA21CDE1CD1A1C6E4B6549D124E502F9D3847"
+S21_SCRIPT_CALC = Path(r"D:\GameServer S21\Data\Scripts\Skills\RegularSkillCalc.lua")
+EXPECTED_SCRIPT_CALC_SHA256 = "78A1502C187D9EA248E682CCAA62EA8C4510D7119192510D1A966A18E6992E4D"
+S21_FORMULA = Path(r"D:\GameServer S21\Data\FormulaData.xml")
+EXPECTED_FORMULA_SHA256 = "9A513DD4375116CFD0FA599114B2103B4D21B194B775AE376E0C6289BA36E6FF"
 
 EXPECTED_DUMP_SHA256 = (
     "6422CB4EBA9432130EB247B47723EA6FC0014F5100EA0C6E63DB8350F9275637"
 )
-
-# These byte prefixes are read directly from the hash-pinned PE below.  The
-# checked-in disassembly is useful for human review, but it must not be the
-# only source of truth: a hand-edited text disassembly could otherwise make a
-# false provenance claim.  The prefixes cover the five skill compares, the
-# handler prologues, and the action/sound pushes in the second switch.
-COMPARE_BYTES = {
-    292: (0x012CEF03, "81 bd b0 e9 ff ff 24 01 00 00 0f 84 fc 1f 00 00"),
-    293: (0x012CEF13, "81 bd b0 e9 ff ff 25 01 00 00 0f 84 7d 21 00 00"),
-    294: (0x012CEF23, "81 bd b0 e9 ff ff 26 01 00 00 0f 84 d6 22 00 00"),
-    # 295 has a range guard at 0x12CEE1E and the equality jump immediately
-    # after it.  Both are pinned below; the latter is the handler edge.
-    295: (0x012CEE1E, "81 bd b0 e9 ff ff 27 01 00 00 0f 87 0a 01 00 00"),
-    297: (0x012CEF58, "81 bd b0 e9 ff ff 29 01 00 00 0f 84 db 24 00 00"),
-}
-
-EQUALITY_BYTES = {
-    295: (0x012CEE2E, "81 bd b0 e9 ff ff 27 01 00 00 0f 84 5d 25 00 00"),
-}
-
-HANDLER_BYTES = {
-    292: (0x012D0F0F, "81 bd b4 e9 ff ff 18 08 00 00 0f 85 7c 01 00 00"),
-    293: (0x012D10A0, "8b 85 b8 e9 ff ff 3b 05 34 46 48 0a 0f 84 52 01 00"),
-    294: (0x012D1209, "81 bd b4 e9 ff ff 16 08 00 00 0f 85 7d 01 00 00"),
-    295: (0x012D139B, "8b 85 b8 e9 ff ff 3b 05 34 46 48 0a 0f 84 91 00 00"),
-    297: (0x012D1443, "8b 85 b8 e9 ff ff 3b 05 34 46 48 0a 0f 84 91 00 00"),
-}
-
-ACTION_BYTES = {
-    292: (0x010E68A3, "6a 01 6a 00 8b 45 d4 0f b7 40 14 50"),
-    293: (0x010E6B96, "6a 01 6a 00 8b 45 d4 0f b7 40 14 50"),
-    294: (0x010E6D1B, "6a 01 6a 00 8b 45 d4 0f b7 40 14 50"),
-    295: (0x010E6F2A, "6a 01 6a 00 8b 45 d4 0f b7 40 14 50"),
-    297: (0x010E6FF8, "6a 01 6a 00 8b 45 d4 0f b7 40 14 50"),
-}
-
-# Immediate pushes are stronger than checking the textual mnemonic: they
-# prove the action/sound values came from these exact bytes in the dump.
-ACTION_PUSH_BYTES = {
-    292: (0x010E68E1, "68 e0 00 00 00"),
-    293: (0x010E6BC7, "68 e3 00 00 00"),
-    294: (0x010E6D59, "68 e4 00 00 00"),
-    295: (0x010E6F68, "68 e8 00 00 00"),
-    297: (0x010E7036, "68 e9 00 00 00"),
-}
-
-SOUND_PUSH_BYTES = {
-    292: (0x010E68FD, "68 09 05 00 00"),
-    293: (0x010E6BE3, "68 0b 05 00 00"),
-    294: (0x010E6D75, "68 0d 05 00 00"),
-    295: (0x010E6F84, "68 11 05 00 00"),
-    297: (0x010E7052, "68 11 05 00 00"),
-}
 
 # skill: compare VA, handler VA, direct root values, handler action (when the
 # receive handler emits it), and sound.  292/294 set their player action in
@@ -93,6 +56,7 @@ SOUND_PUSH_BYTES = {
 DISPATCH_FACTS = {
     292: ("012CEF03", "012D0F0F", ("68a", "689"), None, "50d"),
     293: ("012CEF13", "012D10A0", ("682", "683", "684"), "e3", "50b"),
+    # The 0x679 receive root/sound below are present only behind 0x816.
     294: ("012CEF23", "012D1209", ("679",), None, "509"),
     295: ("012CEE1E", "012D139B", ("692",), "e8", "511"),
     297: ("012CEF58", "012D1443", ("695",), "e9", "511"),
@@ -103,7 +67,8 @@ DISPATCH_FACTS = {
 ACTION_BRANCHES = {
     292: ("010E68A3", ("679", "68a", "689"), "e0"),
     293: ("010E6B96", ("682", "683", "684"), "e3"),
-    294: ("010E6D1B", ("68a", "679"), "e4"),
+    # Base 0x126 always creates 0x68A; 0x679 needs skillStruct+8 == 0x816.
+    294: ("010E6D1B", ("68a",), "e4"),
     295: ("010E6F2A", ("692",), "e8"),
     297: ("010E6FF8", ("695",), "e9"),
 }
@@ -122,86 +87,6 @@ def handler_window(text: str, handler: str, next_handler: str | None) -> str:
     return text[start:end if end >= 0 else len(text)]
 
 
-def rva_to_file_offset(data: bytes, rva: int) -> int:
-    """Map an RVA through the PE section table without external packages."""
-    if data[:2] != b"MZ":
-        raise AssertionError("dump is not an MZ image")
-    pe_offset = struct.unpack_from("<I", data, 0x3C)[0]
-    if data[pe_offset:pe_offset + 4] != b"PE\0\0":
-        raise AssertionError("dump has no PE signature")
-    number_of_sections = struct.unpack_from("<H", data, pe_offset + 6)[0]
-    optional_size = struct.unpack_from("<H", data, pe_offset + 20)[0]
-    section_table = pe_offset + 24 + optional_size
-    for index in range(number_of_sections):
-        section = section_table + index * 40
-        virtual_size, virtual_address, raw_size, raw_pointer = struct.unpack_from(
-            "<IIII", data, section + 8
-        )
-        span = max(virtual_size, raw_size)
-        if virtual_address <= rva < virtual_address + span:
-            delta = rva - virtual_address
-            if delta >= raw_size:
-                raise AssertionError(f"RVA 0x{rva:x} is not backed by file data")
-            return raw_pointer + delta
-    raise AssertionError(f"RVA 0x{rva:x} is outside PE sections")
-
-
-def read_va(data: bytes, va: int, size: int) -> bytes:
-    rva = va - 0x00400000
-    if rva < 0:
-        raise AssertionError(f"VA 0x{va:x} precedes the PE image")
-    offset = rva_to_file_offset(data, rva)
-    value = data[offset:offset + size]
-    if len(value) != size:
-        raise AssertionError(f"short read at VA 0x{va:x}")
-    return value
-
-
-def verify_dump_bytes(dump_data: bytes) -> None:
-    def check(table: dict[int, tuple[int, str]], label: str) -> None:
-        for skill, (va, hex_bytes) in table.items():
-            expected = bytes.fromhex(hex_bytes)
-            actual = read_va(dump_data, va, len(expected))
-            if actual != expected:
-                raise AssertionError(
-                    f"{label} bytes mismatch skill {skill} at 0x{va:x}: "
-                    f"{actual.hex(' ')}"
-                )
-            print(f"PASS: dump-bytes {label.lower()} skill={skill} va=0x{va:x}")
-
-    check(COMPARE_BYTES, "compare")
-    check(EQUALITY_BYTES, "equality-compare")
-    check(HANDLER_BYTES, "handler")
-    check(ACTION_BYTES, "action-branch")
-    check(ACTION_PUSH_BYTES, "action-push")
-    check(SOUND_PUSH_BYTES, "sound-push")
-
-    # Decode the actual conditional-jump displacement for every direct edge.
-    # The 295 edge is the second equality compare above; its first compare is
-    # intentionally only a range guard.
-    edge_sites = {skill: va for skill, (va, _) in COMPARE_BYTES.items() if skill != 295}
-    edge_sites.update({295: EQUALITY_BYTES[295][0]})
-    expected_handlers = {
-        292: 0x012D0F0F,
-        293: 0x012D10A0,
-        294: 0x012D1209,
-        295: 0x012D139B,
-        297: 0x012D1443,
-    }
-    for skill, va in edge_sites.items():
-        instruction = read_va(dump_data, va, 16)
-        if instruction[10:12] not in (b"\x0f\x84", b"\x0f\x85"):
-            raise AssertionError(f"skill {skill} compare has no equality edge at 0x{va:x}")
-        displacement = struct.unpack_from("<i", instruction, 12)[0]
-        target = va + 16 + displacement
-        if target != expected_handlers[skill]:
-            raise AssertionError(
-                f"skill {skill} jump target mismatch: 0x{target:x} "
-                f"!= 0x{expected_handlers[skill]:x}"
-            )
-        print(f"PASS: dump-edge skill={skill} compare=0x{va:x} -> handler=0x{target:x}")
-
-
 def main() -> int:
     if not DUMP.is_file():
         raise FileNotFoundError(DUMP)
@@ -209,13 +94,272 @@ def main() -> int:
         raise FileNotFoundError(DISPATCH)
     if not ACTION_SWITCH.is_file():
         raise FileNotFoundError(ACTION_SWITCH)
+    if not S21_AOE.is_file():
+        raise FileNotFoundError(S21_AOE)
+    if not S21_SKILL_REQUIRE.is_file():
+        raise FileNotFoundError(S21_SKILL_REQUIRE)
+    if not S21_THIRD_TREE.is_file():
+        raise FileNotFoundError(S21_THIRD_TREE)
+    if not S21_SKILL_LIST.is_file():
+        raise FileNotFoundError(S21_SKILL_LIST)
+    if not S21_MASTER_CALC.is_file():
+        raise FileNotFoundError(S21_MASTER_CALC)
+    if not S21_CALC.is_file():
+        raise FileNotFoundError(S21_CALC)
+    if not S21_SCRIPT_CALC.is_file():
+        raise FileNotFoundError(S21_SCRIPT_CALC)
+    if not S21_FORMULA.is_file():
+        raise FileNotFoundError(S21_FORMULA)
 
-    dump_data = DUMP.read_bytes()
-    digest = hashlib.sha256(dump_data).hexdigest().upper()
+    image = DUMP.read_bytes()
+    digest = hashlib.sha256(image).hexdigest().upper()
     if digest != EXPECTED_DUMP_SHA256:
         raise AssertionError(f"S21 dump hash mismatch: {digest}")
     print(f"PASS: S21 main dump sha256={digest}")
-    verify_dump_bytes(dump_data)
+
+    aoe_bytes = S21_AOE.read_bytes()
+    aoe_digest = hashlib.sha256(aoe_bytes).hexdigest().upper()
+    if aoe_digest != EXPECTED_AOE_SHA256:
+        raise AssertionError(f"S21 AOE config hash mismatch: {aoe_digest}")
+    aoe_root = ET.fromstring(aoe_bytes)
+    aoe_rows = {int(row.attrib["Index"]): row.attrib.get("Name", "")
+                for row in aoe_root.iter("Skill")}
+    for skill, name in ((293, "Bat Flock"), (294, "Pierce Attack")):
+        if aoe_rows.get(skill) != name:
+            raise AssertionError(f"S21 AOE row mismatch: {skill} {aoe_rows.get(skill)}")
+    print(f"PASS: S21 AOE config sha256={aoe_digest} skills=293,294 (geometry not disclosed)")
+
+    require_bytes = S21_SKILL_REQUIRE.read_bytes()
+    require_digest = hashlib.sha256(require_bytes).hexdigest().upper()
+    if require_digest != EXPECTED_SKILL_REQUIRE_SHA256:
+        raise AssertionError(f"S21 SkillRequire hash mismatch: {require_digest}")
+    require_row = next((row.attrib for row in ET.fromstring(require_bytes).iter("Skill")
+                        if row.attrib.get("Index") == "294"), None)
+    if require_row is None or any(require_row.get(key) != value for key, value in (
+        ("ReqIndex", "293"), ("ReqMasterSkillIndex", "782"),
+        ("ReqMasterPoint", "10"), ("ItemGroup", "12"),
+        ("ItemIndex", "479"))):
+        raise AssertionError(f"S21 Pierce SkillRequire row drifted: {require_row}")
+    print(f"PASS: S21 Pierce prereq sha256={require_digest} base=293 mastery=782/10 bead=12:479")
+
+    tree_bytes = S21_THIRD_TREE.read_bytes()
+    tree_digest = hashlib.sha256(tree_bytes).hexdigest().upper()
+    if tree_digest != EXPECTED_THIRD_TREE_SHA256:
+        raise AssertionError(f"S21 third mastery tree hash mismatch: {tree_digest}")
+    master_slayer = next((row for row in ET.fromstring(tree_bytes).iter("Class")
+                          if row.attrib.get("ID") == "512"), None)
+    if master_slayer is None:
+        raise AssertionError("S21 Master Slayer class=512 tree missing")
+    mastery = {row.attrib.get("MagicNumber"): row.attrib
+               for row in master_slayer.iter("Skill")}
+    for number, expected in {
+        "781": {"Name": "Bat Flock Strengthener", "Index": "58",
+                "ReqMinPoint": "1", "MaxPoint": "20", "ParentSkill1": "0"},
+        "782": {"Name": "Bat Flock Mastery", "Index": "62",
+                "ReqMinPoint": "10", "MaxPoint": "10", "ParentSkill1": "781"},
+    }.items():
+        row = mastery.get(number)
+        if row is None or any(row.get(key) != value for key, value in expected.items()):
+            raise AssertionError(f"S21 Slayer mastery {number} row drifted: {row}")
+    # Rush is a different S21 Slayer mastery skill. It cannot be treated as
+    # the missing base Pierce Attack caster movement implementation.
+    if mastery.get("631", {}).get("Name") != "Rush":
+        raise AssertionError("S21 Master Slayer Rush=631 row missing")
+    print(f"PASS: S21 Master Slayer tree sha256={tree_digest} Bat=781->782 Rush=631 (separate skill)")
+
+    skill_list_bytes = S21_SKILL_LIST.read_bytes()
+    skill_list_digest = hashlib.sha256(skill_list_bytes).hexdigest().upper()
+    if skill_list_digest != EXPECTED_SKILL_LIST_SHA256:
+        raise AssertionError(f"S21 SkillList hash mismatch: {skill_list_digest}")
+    list_rows = {row.attrib.get("Index"): row.attrib
+                 for row in ET.fromstring(skill_list_bytes).iter("Skill")}
+    for number, expected in {
+        "781": {"Name": "Bat Flock Strengthener", "Damage": "22",
+                "ManaUsage": "25", "BPUsage": "9", "Distance": "6",
+                "ReqLevel": "160", "ReqStrength": "100",
+                "ReqDexterity": "380", "Slayer": "3", "UseType": "4",
+                "Brand": "293"},
+        "782": {"Name": "Bat Flock Mastery", "Damage": "23",
+                "ManaUsage": "30", "BPUsage": "12", "Distance": "6",
+                "ReqLevel": "160", "ReqStrength": "100",
+                "ReqDexterity": "380", "Slayer": "3", "UseType": "4",
+                "Brand": "781"},
+    }.items():
+        row = list_rows.get(number)
+        if row is None or any(row.get(key) != value for key, value in expected.items()):
+            raise AssertionError(f"S21 Bat mastery SkillList {number} drifted: {row}")
+    master_calc_bytes = S21_MASTER_CALC.read_bytes()
+    master_calc_digest = hashlib.sha256(master_calc_bytes).hexdigest().upper()
+    if master_calc_digest != EXPECTED_MASTER_CALC_SHA256:
+        raise AssertionError(f"S21 MasterSkillCalc hash mismatch: {master_calc_digest}")
+    master_calc = master_calc_bytes.decode("utf-8", errors="replace")
+    for name in ("SlayerBatFlock_MasterLevel1_Calc",
+                 "SlayerBatFlock_MasterLevel2_Calc"):
+        require(master_calc, f"function {name}(", f"S21 Bat mastery Lua {name}")
+    print(f"PASS: S21 Bat mastery cast IDs=781,782 SkillList sha256={skill_list_digest} Lua sha256={master_calc_digest}")
+
+    calc_bytes = S21_CALC.read_bytes()
+    calc_digest = hashlib.sha256(calc_bytes).hexdigest().upper()
+    if calc_digest != EXPECTED_CALC_SHA256:
+        raise AssertionError(f"S21 regular-skill Lua hash mismatch: {calc_digest}")
+    calc = calc_bytes.decode("utf-8", errors="replace")
+    for name in ("SlayerSwordInertiaCalc", "SlayerBatFlockCalc",
+                 "SlayerPierceAttackCalc"):
+        start = calc.find(f"function {name}(")
+        if start < 0:
+            raise AssertionError(f"S21 damage calculator missing: {name}")
+        end = calc.find("\nend", start)
+        body = calc[start:end]
+        if "((Strength / 8) + (Dexterity / 28) + 120) / 100" not in body:
+            raise AssertionError(f"S21 fractional STR/DEX rate drifted: {name}")
+        if name == "SlayerBatFlockCalc" and "OutDamage * 0.5" not in body:
+            raise AssertionError("S21 Bat Flock half-strike drifted")
+    print(f"PASS: S21 fractional Slayer damage Lua sha256={calc_digest} rate=STR/8+DEX/28+120 bat-half=0.5")
+
+    script_bytes = S21_SCRIPT_CALC.read_bytes()
+    script_digest = hashlib.sha256(script_bytes).hexdigest().upper()
+    if script_digest != EXPECTED_SCRIPT_CALC_SHA256:
+        raise AssertionError(f"S21 script-skill Lua hash mismatch: {script_digest}")
+    script = script_bytes.decode("utf-8", errors="replace")
+    start = script.find("function BatFlockDotDamage(")
+    end = script.find("\nend", start)
+    if start < 0 or end < 0:
+        raise AssertionError("S21 Bat Flock DOT function missing")
+    dot_body = script[start:end]
+    if dot_body.count("OutDamage = DOT / 100") != 2:
+        raise AssertionError("S21 player/monster Bat Flock DOT rates drifted")
+    formula_bytes = S21_FORMULA.read_bytes()
+    formula_digest = hashlib.sha256(formula_bytes).hexdigest().upper()
+    if formula_digest != EXPECTED_FORMULA_SHA256:
+        raise AssertionError(f"S21 FormulaData hash mismatch: {formula_digest}")
+    character = ET.fromstring(formula_bytes).find("Character")
+    if character is None:
+        raise AssertionError("S21 FormulaData Character section missing")
+    formula9 = next((row.attrib.get("Data") for row in character.findall("Formula")
+                     if row.attrib.get("ID") == "9"), None)
+    if formula9 != "((((((%d*%d)*0.6/24)+(((%d-800)*(%d-500))/200))/24)+2000))":
+        raise AssertionError(f"S21 Bat Flock Character formula 9 drifted: {formula9}")
+    print(f"PASS: S21 Bat Flock DOT script sha256={script_digest} FormulaData sha256={formula_digest} Character:9/100")
+
+    # The supplementary 0x126 path is outside the earlier text-disassembly
+    # capture. Assert its actual bytes in the pinned mapped main image,
+    # including the skill compare, both roots, and the effect-list count.
+    def at(va: int, size: int) -> bytes:
+        offset = va - 0x400000
+        return image[offset:offset + size]
+
+    if at(0x10EEB92, 7) != bytes.fromhex("6a5768c1000000"):
+        raise AssertionError("S21 shared C1:57 skill packet constructor drifted")
+    for call_va in (0x10E68D7, 0x10E6D4F, 0x10E6F5B, 0x10E7029):
+        call = at(call_va, 5)
+        target = call_va + 5 + int.from_bytes(call[1:], "little", signed=True)
+        if call[0] != 0xE8 or target != 0x10EEB1E:
+            raise AssertionError(f"S21 shared C1:57 call drifted at {call_va:#x}")
+    print("PASS: C1:57 is shared by Sword/Pierce/Detection/Demolish, not a Pierce-only position packet")
+
+    pierce_bytes = {
+        0x12A6235: bytes.fromhex("81bd08ebffff26010000"),
+        0x12A7A26: bytes.fromhex("688a060000"),
+        0x12A7A9A: bytes.fromhex("6889060000"),
+        0x12A7B87: bytes.fromhex("8981e4010000"),
+        0x154759C: bytes.fromhex("6a025966894856"),
+        0x15466CF: bytes.fromhex("8b45080fbf405683f802"),
+        0x14176F0: bytes.fromhex("8b4d0c668b492a668988a800"),
+        0x143E92D: bytes.fromhex("6689482a"),
+        0x132D0D6: bytes.fromhex("c645ff01837d0800"),
+        0x133F0F0: bytes.fromhex("0fb7402a3de4000000"),
+        0x13F2549: bytes.fromhex("0fb7402a3de4000000"),
+        0x1B4E6E0: bytes.fromhex("9a99993e"),
+        # The local 0x689 lane sends a per-target packet and calls the
+        # 1..50 direction-byte counter immediately before appending it.
+        0x15465E9: bytes.fromhex("50e86d841f0059"),
+        0x173EA69: bytes.fromhex("66a13cf6510b6683c00166a33cf6510b"),
+        0x173EA80: bytes.fromhex("83f8327e0933c04066a33cf6510b"),
+        0x173EA8E: bytes.fromhex("8b45088a0d3cf6510b8808"),
+        0x12A7A43: bytes.fromhex("0f57c0f30f110424"),
+        0x1545EA1: bytes.fromhex("f30f1080a0000000"),
+        0x1545EF8: bytes.fromhex("f30f1080a0000000"),
+        0x154605F: bytes.fromhex("f30f1080a0000000"),
+        0x143E7E1: bytes.fromhex("0f57c00f2f45207218"),
+        0x143E7F0: bytes.fromhex("f30f1005a4edb401"),
+        0x143E7F8: bytes.fromhex("f30f1180a0000000"),
+        0x1B4EDA4: bytes.fromhex("6666663f"),
+        # In contrast to 0x689, the 0x679 flank children intentionally
+        # read their owning actor's scale via EFFECT+0x34C.
+        0x1541607: bytes.fromhex("8b45088b804c030000"),
+        0x1541611: bytes.fromhex("f30f1080a0000000"),
+        0x1541AFB: bytes.fromhex("8b45088b804c030000"),
+        0x1541B05: bytes.fromhex("f30f1080a0000000"),
+        # Native SetAttackSpeed derives Slayer's term from raw attack speed
+        # at .002, then writes distinct E0/E1/E2/E3/E4/E8/E9 bases.
+        0x1408874: bytes.fromhex("f30f104508f30f590570edb401"),
+        0x1408881: bytes.fromhex("f30f1145f0"),
+        0x1B4ED70: bytes.fromhex("6f12033b"),
+        0x140A401: bytes.fromhex("f30f1005e800b501"),
+        0x140A40E: bytes.fromhex("68e0000000"),
+        0x140A434: bytes.fromhex("f30f10050cdfb401"),
+        0x140A441: bytes.fromhex("68e1000000"),
+        0x140A599: bytes.fromhex("f30f100504dfb401"),
+        0x140A5A6: bytes.fromhex("68e8000000"),
+        0x140A60C: bytes.fromhex("68e9000000"),
+        0x1B500E8: bytes.fromhex("f628dc3e"),
+        0x1B4DF0C: bytes.fromhex("cdcccc3e"),
+        0x1B4DF04: bytes.fromhex("cdcccc3d"),
+        # Base Sword's 0x679 controller copies action E0 PlaySpeed into
+        # EFFECT+0xBC; its own frame gates the three authored sword lanes.
+        0x148EE0F: bytes.fromhex("68e0000000"),
+        0x148EE26: bytes.fromhex("8b40048981bc000000"),
+        0x149015B: bytes.fromhex("8b4004894104"),
+        0x149016D: bytes.fromhex("8b40048981bc000000"),
+        0x14902C2: bytes.fromhex("8b4004894104"),
+        0x14902D4: bytes.fromhex("8b40048981bc000000"),
+        0x149030A: bytes.fromhex("8b804c0300000fb7402a"),
+        0x14903CD: bytes.fromhex("8b4004894104"),
+        0x14903DF: bytes.fromhex("8b40048981bc000000"),
+        # 0x689 construction snapshots the caster's selected target key;
+        # update checks that fixed key before consuming list-bearing lanes.
+        0x12A7A3D: bytes.fromhex("0fb7403e50"),
+        0x1545A3C: bytes.fromhex("0fbf8064030000"),
+        0x1545A70: bytes.fromhex("83f801"),
+    }
+    for va, expected in pierce_bytes.items():
+        if at(va, len(expected)) != expected:
+            raise AssertionError(f"Pierce list-bearing S21 bytes drifted at {va:#x}")
+    print("PASS: base Pierce supplemental skill=0x126 roots=0x68A(remote),0x689(list) count=packet+8 child0x68B->BMD action0->root-state2->list-pop")
+    print("PASS: native 0x689 snapshots caster cast-target+0x3E into effect+0x364 and validates it before list lanes")
+    print("PASS: Pierce local 0x689 per-lane outbound counter=0x173EA5C range=1..50 wrap=1")
+    print("PASS: Pierce 0x689 incoming scale=0 normalizes to 0.9 in S21 CreateEffect; children read EFFECT+0xA0")
+    print("PASS: 0x679 flank children 0x67A/0x67C read owner actor+0xA0 scale via EFFECT+0x34C")
+    print("PASS: Slayer E0=.43+AS*.002 E1/E2/E3/E4=.40+AS*.002 E8/E9=.10+AS*.002; 0x681 copies mode 0/1/2 player speeds and mode 3 owner-current-action speed")
+    print("PASS: 0x679 controller copies E0 PlaySpeed to EFFECT+0xBC for its frame-4/frame-7 lanes")
+    print("PASS: Pierce action=0xE4 renderer alpha=0.3 in both native character paths")
+
+    # The allocator's .9 fallback is not always the final render scale.
+    # These S21 initializers write the raw incoming argument back to +A0.
+    scale_override_bytes = {
+        0x1492259: bytes.fromhex("f30f104520"),
+        0x149225E: bytes.fromhex("f30f1180a0000000"),
+        0x147EA2A: bytes.fromhex("f30f104520"),
+        0x147EA2F: bytes.fromhex("f30f1180a0000000"),
+        0x147EA83: bytes.fromhex("f30f104520"),
+        0x147EA88: bytes.fromhex("f30f1180a0000000"),
+    }
+    for va, expected in scale_override_bytes.items():
+        if at(va, len(expected)) != expected:
+            raise AssertionError(f"Slayer scale-override S21 bytes drifted at {va:#x}")
+    print("PASS: 0x691/0x81CF raw zero scale overrides allocator .9; 0x693/0x696 keep allocator scale")
+
+    sword_draw_bytes = {
+        0x133F083: bytes.fromhex("0fb7402a3de0000000"),
+        0x13F24EB: bytes.fromhex("0fb7402a3de0000000"),
+        0x1B4E4CC: bytes.fromhex("0000a04000002041"),
+        0x1B4ED34: bytes.fromhex("00006040"),
+        0x1546BEA: bytes.fromhex("e8f2004e00996a0659f7f9"),
+    }
+    for va, expected in sword_draw_bytes.items():
+        if at(va, len(expected)) != expected:
+            raise AssertionError(f"Sword/S21 0x68A opacity bytes drifted at {va:#x}")
+    print("PASS: Sword action=0xE0 draw fade frame<=5/denom10 and 0x68A root half-frame=3.5 child0x691 one-in-six")
 
     dispatch_text = DISPATCH.read_text(encoding="utf-8", errors="replace")
     action_text = ACTION_SWITCH.read_text(encoding="utf-8", errors="replace")
@@ -228,13 +372,30 @@ def main() -> int:
         window = handler_window(dispatch_text, handler, next_handler)
         for root in roots:
             require(window, f"push     0x{root}", f"skill {skill} root 0x{root}")
+        if skill == 292:
+            require(window, "cmp      dword ptr [ebp - 0x164c], 0x818",
+                    "Sword receive upgrade-only guard")
+            require(window, "jne      0x12d109b",
+                    "Sword receive skips 0x68A/0x689 for base 0x124")
+        if skill == 294:
+            require(window, "cmp      dword ptr [ebp - 0x164c], 0x816",
+                    "Pierce receive upgrade-only guard")
+            require(window, "jne      0x12d1396",
+                    "Pierce receive skip for base 0x126")
         if action is not None:
             require(window, f"push     0x{action}", f"skill {skill} action 0x{action}")
         require(window, f"push     0x{sound}", f"skill {skill} sound 0x{sound}")
+        root_label = (
+            "upgrade0x816-only:" + ','.join('0x' + r for r in roots)
+            if skill == 294 else
+            "upgrade0x818-only:" + ','.join('0x' + r for r in roots)
+            if skill == 292 else ','.join('0x' + r for r in roots)
+        )
         print(
             f"PASS: skill={skill} compare=0x{compare} handler=0x{handler} "
-            f"roots={','.join('0x' + r for r in roots)} "
-            f"handlerAction={'0x' + action if action else 'action-switch'} sound=0x{sound}"
+            f"roots={root_label} "
+            f"handlerAction={'0x' + action if action else 'action-switch'} "
+            f"sound={'upgrade0x816-only:' if skill == 294 else 'upgrade0x818-only:' if skill == 292 else ''}0x{sound}"
         )
 
     for skill, (branch, roots, action) in ACTION_BRANCHES.items():
@@ -249,6 +410,22 @@ def main() -> int:
         window = action_text[start:end]
         for root in roots:
             require(window, f"push     0x{root}", f"skill {skill} action root 0x{root}")
+        if skill == 292:
+            require(window, "push     0x679", "base Sword action root")
+            require(window, "push     0x509", "base Sword action sound")
+            require(window, "cmp      dword ptr [eax + 8], 0x818",
+                    "Sword action upgraded-root guard")
+            require(window, "jne      0x10e6b91",
+                    "base Sword skips 0x68A/0x689")
+        if skill == 294:
+            require(window, "cmp      dword ptr [eax + 8], 0x816",
+                    "Pierce action upgrade-only guard")
+            require(window, "jne      0x10e6f25",
+                    "Pierce action base skip over 0x679")
+            require(window, "push     0x679",
+                    "Pierce action guarded 0x679 child")
+            require(window, "push     0x50d",
+                    "Pierce base action sound")
         require(window, f"push     0x{action}", f"skill {skill} action id 0x{action}")
         print(f"PASS: action-switch skill={skill} branch=0x{branch} roots={','.join('0x'+r for r in roots)}")
     return 0

@@ -13,8 +13,6 @@
 #include "ZzzEffect.h"
 #include "DSPlaySound.h"
 #include "WSClient.h"
-#include "RISE/GrowLancerResources.h"
-#include "RISE/GrowLancerHarshWind.h"
 
 #define MAX_BLURS      100
 #define MAX_BLUR_TAILS 30
@@ -194,18 +192,18 @@ typedef struct
 	vec3_t    p1[MAX_OBJECTBLUR_TAILS];
 	vec3_t    p2[MAX_OBJECTBLUR_TAILS];
 	int       SubType;
-	int       RenderStyle;
+#ifdef RISE_SLAYER_PORT
+	int       Bitmap;
+#endif
 } OBJECT_BLUR;
 
 OBJECT_BLUR ObjectBlur[MAX_OBJECTBLURS];
-static rise::growlancer::HarshBlurClock g_harshBlurClocks[MAX_OBJECTBLURS];
 
 void ClearAllObjectBlurs()
 {
 	for(int i = 0; i < MAX_OBJECTBLURS; ++i)
 	{
 		ObjectBlur[i].Live = false;
-		g_harshBlurClocks[i].Reset(false);
 	}
 }
 
@@ -229,13 +227,17 @@ void AddObjectBlur(OBJECT_BLUR *b,vec3_t p1,vec3_t p2,vec3_t Light,int Type)
     }
 }
 
-void CreateObjectBlur(OBJECT *Owner,vec3_t p1,vec3_t p2,vec3_t Light,int Type,bool Short,int SubType, int iLimitLifeTime,int RenderStyle)
+void CreateObjectBlur(OBJECT *Owner,vec3_t p1,vec3_t p2,vec3_t Light,int Type,bool Short,int SubType, int iLimitLifeTime)
 {
 	for(int i=0;i<MAX_OBJECTBLURS;i++)
 	{
 		OBJECT_BLUR *b = &ObjectBlur[i];
 		if(b->Live && b->Owner==Owner)
 		{
+#ifdef RISE_SLAYER_PORT
+			if(b->Bitmap != -1)
+				continue;
+#endif
 			if(SubType > 0 && b->SubType != SubType)
 				continue;
 			AddObjectBlur(b,p1,p2,Light,Type);
@@ -250,9 +252,6 @@ void CreateObjectBlur(OBJECT *Owner,vec3_t p1,vec3_t p2,vec3_t Light,int Type,bo
 		{
 			b->Live = true;
 			b->Owner = Owner;
-            g_harshBlurClocks[i].Reset(Owner &&
-                Owner->Type == rise::growlancer::kHarshStrikeControllerModel &&
-                Type == 11 && SubType == 3 && RenderStyle == 0);
             b->Number= 0;
 			if( iLimitLifeTime > -1 )
 			{
@@ -265,13 +264,51 @@ void CreateObjectBlur(OBJECT *Owner,vec3_t p1,vec3_t p2,vec3_t Light,int Type,bo
 				b->LifeTime = b->_iLimitLifeTime;				
 			}
 			b->SubType = SubType;
-			b->RenderStyle = RenderStyle;
+#ifdef RISE_SLAYER_PORT
+			b->Bitmap = -1;
+#endif
 
 			AddObjectBlur(b,p1,p2,Light,Type);
             return;
 		}
 	}
 }
+
+#ifdef RISE_SLAYER_PORT
+void CreateObjectBlurBitmap(OBJECT *Owner,vec3_t p1,vec3_t p2,vec3_t Light,
+	int Bitmap,bool Short,int SubType,int iLimitLifeTime)
+{
+	for(int i=0;i<MAX_OBJECTBLURS;i++)
+	{
+		OBJECT_BLUR *b = &ObjectBlur[i];
+		if(b->Live && b->Owner==Owner && b->Bitmap==Bitmap)
+		{
+			if(SubType > 0 && b->SubType != SubType)
+				continue;
+			AddObjectBlur(b,p1,p2,Light,0);
+			return;
+		}
+	}
+
+	for(int i=0;i<MAX_OBJECTBLURS;i++)
+	{
+		OBJECT_BLUR *b = &ObjectBlur[i];
+		if(!b->Live)
+		{
+			b->Live = true;
+			b->Owner = Owner;
+			b->Number = 0;
+			b->_iLimitLifeTime = iLimitLifeTime > -1 ? iLimitLifeTime :
+				(Short ? 15 : MAX_OBJECTBLUR_LIFETIME);
+			b->LifeTime = b->_iLimitLifeTime;
+			b->SubType = SubType;
+			b->Bitmap = Bitmap;
+			AddObjectBlur(b,p1,p2,Light,0);
+			return;
+		}
+	}
+}
+#endif
 
 void MoveObjectBlurs()
 {
@@ -280,20 +317,21 @@ void MoveObjectBlurs()
 		OBJECT_BLUR *b = &ObjectBlur[i];
 		if(b->Live)
 		{
-            rise::growlancer::AdvanceHarshBlur(*b, g_harshBlurClocks[i],
-                FPS_ANIMATION_FACTOR, [](OBJECT_BLUR& blur) {
-                    --blur.LifeTime;
-                    --blur.Number;
-                    if (blur.LifeTime <= 0) {
-                        blur.Number = 0;
-                        blur.Live = false;
-                        return;
-                    }
-                    for (int tail=blur.Number-1; tail>=0; --tail) {
-                        VectorCopy(blur.p1[tail],blur.p1[tail+1]);
-                        VectorCopy(blur.p2[tail],blur.p2[tail+1]);
-                    }
-                });
+			b->LifeTime--;
+			b->Number--;
+
+			if(b->LifeTime <= 0)
+			{
+				b->Number = 0;
+				b->Live = false;
+				continue;
+			}
+
+	        for(int i=b->Number-1;i>=0;i--)
+	        {
+		        VectorCopy(b->p1[i],b->p1[i+1]);
+		        VectorCopy(b->p2[i],b->p2[i+1]);
+	        }
 		}
 	}
 }
@@ -308,6 +346,13 @@ void RenderObjectBlurs()
 		{
             Type = b->Type;
 			int nTexture = BITMAP_BLUR+Type;
+#ifdef RISE_SLAYER_PORT
+			if(b->Bitmap >= 0)
+			{
+				nTexture = b->Bitmap;
+			}
+			else
+#endif
 			if(Type == 3)
 			{
 				nTexture = BITMAP_BLUR2;
@@ -337,38 +382,20 @@ void RenderObjectBlurs()
 						continue;
 					}
 
-					glBegin(GL_TRIANGLE_FAN);
+      				glBegin(GL_TRIANGLE_FAN);
 					float Light;
 					float TexU;
 					Light = (b->Number-j)/(float)b->Number;
 					glColor3f(b->Light[0]*Light,b->Light[1]*Light,b->Light[2]*Light);
 					TexU = (j)/(float)b->Number;
-					if(b->RenderStyle == 1)
-					{
-						// S21 object-blur mode 1 (0x15C09DE..0x15C0BB8):
-						// advance V along the tail and span U across its width.
-						glTexCoord2f(1.f,TexU);glVertex3fv(b->p1[j]);
-						glTexCoord2f(0.f,TexU);glVertex3fv(b->p2[j]);
-					}
-					else
-					{
-						glTexCoord2f(TexU,1.f);glVertex3fv(b->p1[j]);
-						glTexCoord2f(TexU,0.f);glVertex3fv(b->p2[j]);
-					}
-					Light = (b->Number-(j+1))/(float)b->Number;
+					glTexCoord2f(TexU,1.f);glVertex3fv(b->p1[j]);
+					glTexCoord2f(TexU,0.f);glVertex3fv(b->p2[j]);
+      				Light = (b->Number-(j+1))/(float)b->Number;
 					glColor3f(b->Light[0]*Light,b->Light[1]*Light,b->Light[2]*Light);
 					TexU = (j+1)/(float)b->Number;
-					if(b->RenderStyle == 1)
-					{
-						glTexCoord2f(0.f,TexU);glVertex3fv(b->p2[j+1]);
-						glTexCoord2f(1.f,TexU);glVertex3fv(b->p1[j+1]);
-					}
-					else
-					{
-						glTexCoord2f(TexU,0.f);glVertex3fv(b->p2[j+1]);
-						glTexCoord2f(TexU,1.f);glVertex3fv(b->p1[j+1]);
-					}
-					glEnd();
+					glTexCoord2f(TexU,0.f);glVertex3fv(b->p2[j+1]);
+					glTexCoord2f(TexU,1.f);glVertex3fv(b->p1[j+1]);
+    				glEnd();
 				}
 			}
 		}

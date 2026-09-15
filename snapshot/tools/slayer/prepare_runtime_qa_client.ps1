@@ -54,10 +54,39 @@ Get-ChildItem -LiteralPath (Join-Path $SourceClient 'Data') -File | ForEach-Obje
 Get-ChildItem -LiteralPath (Join-Path $SourceClient 'Data') -Directory | ForEach-Object {
     if ($_.Name -notin @('Player', 'RISE')) {
         $link = Join-Path $targetData $_.Name
-        if (!(Test-Path -LiteralPath $link)) {
+        if ([IO.Path]::GetFullPath((Split-Path -Parent $link)) -ne
+            [IO.Path]::GetFullPath($targetData)) {
+            throw "Junction escaped isolated QA Data root: $link"
+        }
+        $existing = Get-Item -LiteralPath $link -Force -ErrorAction SilentlyContinue
+        if ($existing) {
+            if (!($existing.Attributes -band [IO.FileAttributes]::ReparsePoint)) {
+                throw "Refusing to replace non-junction QA Data directory: $link"
+            }
+            $currentTarget = [IO.Path]::GetFullPath([string]$existing.Target)
+            $wantedTarget = [IO.Path]::GetFullPath($_.FullName)
+            if ($currentTarget -ne $wantedTarget) {
+                # Remove only this private junction, never traverse its target.
+                [IO.Directory]::Delete($link, $false)
+            }
+        }
+        if (!(Get-Item -LiteralPath $link -Force -ErrorAction SilentlyContinue)) {
             New-Item -ItemType Junction -Path $link -Target $_.FullName | Out-Null
         }
     }
+}
+
+$allowedJunctionNames = @(Get-ChildItem -LiteralPath (Join-Path $SourceClient 'Data') -Directory |
+    Where-Object { $_.Name -notin @('Player', 'RISE') } |
+    ForEach-Object { $_.Name })
+Get-ChildItem -LiteralPath $targetData -Directory | Where-Object {
+    ($_.Attributes -band [IO.FileAttributes]::ReparsePoint) -and
+    $_.Name -notin $allowedJunctionNames
+} | ForEach-Object {
+    if ([IO.Path]::GetFullPath($_.Parent.FullName) -ne [IO.Path]::GetFullPath($targetData)) {
+        throw "Stale junction escaped isolated QA Data root: $($_.FullName)"
+    }
+    [IO.Directory]::Delete($_.FullName, $false)
 }
 
 # Player must also be a complete private tree. The earlier stage copied only

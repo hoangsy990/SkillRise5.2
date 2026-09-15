@@ -669,10 +669,9 @@ int CGToolKit::BmdRISE()
 	const unsigned int legacyPlayerCRC = 0x7D56FCEB;
 	bool validPlayer = CheckFileCRC(filePath, legacyPlayerCRC);
 #ifdef RISE_SLAYER_PORT
-	// SHA-256 64D6DA47...D6BFDB4, generated only by the hash-pinned
-	// five-skill Slayer merger (four unique clips; Demolish reuses action 287).
-	// Keep the production CRC policy unchanged.
-	validPlayer = validPlayer || CheckFileCRC(filePath, 0x3D93E336u);
+	// SHA-256 BF6F5C0F...D41D25 is the current hash-pinned five-action
+	// Slayer player merge. Keep the production CRC policy unchanged.
+	validPlayer = validPlayer || CheckFileCRC(filePath, 0x1D5121FDu);
 #endif
 
 	if (!validPlayer)

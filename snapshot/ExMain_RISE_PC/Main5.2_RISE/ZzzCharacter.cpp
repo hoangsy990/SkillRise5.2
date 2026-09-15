@@ -22,7 +22,10 @@
 #include "ZzzInventory.h"
 #include "ZzzEffect.h"
 #include "RISE/CustomRenderEffect.h"
-#include "RISE/GrowLancerEffectRuntime.h"
+#ifdef RISE_SLAYER_PORT
+#include "RISE/Slayer/client/SlayerSkillResources.h"
+#include "RISE/Slayer/shared/SlayerClassContractData.h"
+#endif
 #include "ZzzOpenData.h"
 #include "ZzzScene.h"
 #include "DSPlaySound.h"
@@ -887,6 +890,11 @@ void SetAttackSpeed()
     Models[MODEL_PLAYER].Actions[PLAYER_SKILL_ATT_UP_OURFORCES].PlaySpeed = 0.35f;
     Models[MODEL_PLAYER].Actions[PLAYER_SKILL_HP_UP_OURFORCES].PlaySpeed = 0.35f;
     Models[MODEL_PLAYER].Actions[PLAYER_RAGE_FENRIR_ATTACK_RIGHT].PlaySpeed = 0.25f + RageAttackSpeed;
+#ifdef RISE_SLAYER_PORT
+    // Set the private S21 slots after the legacy 5.2 ranges, which use a
+    // different .004 multiplier. Native 0x1408881 derives Slayer's .002.
+    rise::slayer::ApplyPlayerActionSpeeds(CharacterAttribute->AttackSpeed);
+#endif
 }
 
 void SetPlayerHighBowAttack(CHARACTER* c)
@@ -3253,16 +3261,6 @@ void PlayerNpcStopAnimationSetting(CHARACTER* c, OBJECT* o)
 
 void PlayerStopAnimationSetting(CHARACTER* c, OBJECT* o)
 {
-    // Private appended casts only. Do not extend the stock enum ranges.
-    // Source142321A..14232BC stops source185..194 on animation completion.
-    if (o->Type == MODEL_PLAYER &&
-        rise::growlancer::IsImportedCastAction(o->CurrentAction) &&
-        Models[MODEL_PLAYER].NumActions > o->CurrentAction)
-    {
-        SetPlayerStop(c);
-        return;
-    }
-
     if (o->CurrentAction == PLAYER_DIE1 || o->CurrentAction == PLAYER_DIE2)
     {
         if (!c->Blood)
@@ -8305,6 +8303,44 @@ void RenderCharacter(CHARACTER* c, OBJECT* o, int Select)
     {
         return;
     }
+
+#ifdef RISE_SLAYER_PORT
+    // S21 render paths 0x133F07D/0x13F24E8 fade action 0xE0 through
+    // frame 5 (1-frame/10), then hide it; 0x133F0EA/0x13F2546 set .3
+    // for action 0xE4. Scope both overrides to this draw so ordinary
+    // invisibility/buff alpha survives when a Slayer action ends.
+    struct ScopedSlayerActionOpacity
+    {
+        OBJECT* object;
+        float previous;
+        bool active;
+        ScopedSlayerActionOpacity(CHARACTER* actor, OBJECT* visual)
+            : object(visual), previous(visual ? visual->Alpha : 1.f),
+              active(actor && visual &&
+                  (rise::slayer::IsSlayerClass(actor->Class) ||
+                   rise::slayer::IsSlayerClientClass(actor->Class)) &&
+                  (visual->CurrentAction == rise::slayer::kSwordInertiaAction ||
+                   visual->CurrentAction == rise::slayer::kPierceAttackAction))
+        {
+            if (active)
+            {
+                if (object->CurrentAction == rise::slayer::kSwordInertiaAction)
+                {
+                    const float frame = object->AnimationFrame;
+                    object->Alpha = frame <= 5.f ?
+                        1.f - frame / 10.f : 0.f;
+                }
+                else
+                    object->Alpha = 0.3f;
+            }
+        }
+        ~ScopedSlayerActionOpacity()
+        {
+            if (active)
+                object->Alpha = previous;
+        }
+    } scopedSlayerActionOpacity(c, o);
+#endif
 
     BMD* b = &Models[o->Type];
     if (Models[o->Type].NumActions == 0) return;

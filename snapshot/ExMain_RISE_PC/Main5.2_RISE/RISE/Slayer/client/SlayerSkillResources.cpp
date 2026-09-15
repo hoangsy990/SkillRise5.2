@@ -2,23 +2,45 @@
 #include "SlayerSkillResources.h"
 
 #include "ZzzBMD.h"
+#include "ZzzAI.h"
 #include "ZzzEffect.h"
+#include "ZzzLodTerrain.h"
 #include "ZzzCharacter.h"
 #include "DSPlaySound.h"
 #include "../../../ZzzInfomation.h"
 #include "../../../ZzzObject.h"
 #include "../../../ZzzTexture.h"
+#include "../../../wsclientinline.h"
 #include "../shared/SlayerSkillContractData.h"
+#include "../shared/SlayerPierceFanoutWire.h"
 #ifdef RISE_SLAYER_RUNTIME_QA
 #include "../../SlayerRuntimeQA.h"
 #endif
 
+#include <algorithm>
 #include <cmath>
+#include <map>
 #include <string>
+#include <vector>
 
 namespace rise { namespace slayer {
 
 namespace {
+
+// 5.2 OBJECT has no S21 vector field. Keep list-bearing supplemental effects
+// in a private, bounded sidecar and erase a slot whenever CreateEffect reuses
+// it; the canonical cast roots therefore remain genuinely list-free.
+std::map<const OBJECT*, std::vector<short> > gBatFlockTargets;
+std::map<const OBJECT*, std::vector<short> > gPierceTargets;
+std::map<const OBJECT*, unsigned char> gPierceCastSerial;
+std::map<const OBJECT*, short> gPierceCastTargetIndex;
+unsigned char gPierceLaneDirection = 0;
+
+float NativeRandomRange(float lower, float upper)
+{
+    return lower + (upper - lower) *
+        (static_cast<float>(rand()) / static_cast<float>(RAND_MAX));
+}
 
 struct ModelRow
 {
@@ -29,24 +51,14 @@ struct ModelRow
 const char* const kEffectDirectory = "Data\\RISE\\Slayer\\Effect\\";
 
 const ModelRow kModels[] = {
-    // 292 Sword Inertia is dispatched through S21 roots 0x68A and 0x689.
-    // The S21-exclusive Slayer sword family provides the renderable sword
-    // plus its one-mesh ring/aura child.
-    {kSwordInertiaModel, "ak_skill_sword.bmd"},
-    {kSwordInertiaAuraModel, "ak_skill_sword_s01.bmd"},
+    // Native 0x678. It is shared by Bat Flock and the two buff child roots.
     {kBatFlockModel, "Bat_van01.bmd"},
-    // 293 Bat Flock keeps a separate trail carrier in the 5.2 overlay. The
-    // direct S21 dispatcher evidence is limited to roots 0x682/0x683/0x684.
+    // Native model 0x688, created by root 0x682.
     {kBatFlockTrailModel, "van_object02_skill.bmd"},
-    // 294 Pierce root 0x679 and 295 Detection root 0x692 use isolated 5.2
-    // carrier models; disk asset identity is pinned separately by hashes.
-    {kPierceImpactModel, "Van_object04_skill.bmd"},
-    // Detection's extra mark/impact carriers stay separate in 5.2 even
-    // though the direct 295 handler only proves root 0x692.
+    // Native models 0x691 and 0x694.
     {kDetectionMarkModel, "van_object03_skill.bmd"},
     {kDetectionImpactModel, "Van_object04_skill.bmd"},
-    // A zero-mesh carrier is retained for the isolated Pierce animation; the
-    // dump does not establish it as a direct child of handler 0x12D1209.
+    // Native model 0x681, created by Pierce 0x679 and Sword child 0x68B.
     {kPierceSwordLineModel, "van_swordline01.bmd"}
 };
 
@@ -69,16 +81,21 @@ bool IsController(int type)
     return type >= kSwordInertiaController && type <= kLastEffect;
 }
 
+bool IsBitmapEffect(int type)
+{
+    return type >= kFlare01RedEffect && type <= kFlareEffect;
+}
+
 float InitialLife(const OBJECT& effect)
 {
     switch (effect.Type)
     {
-    case kSwordInertiaModel:
-    case kSwordInertiaAuraModel: return 30.f;
     case kSwordInertiaController:
-    case kPierceMotionController: return 99.f;
-    case kDemolishController: return 60.f;
-    case kSwordFlightController: return 30.f;
+        return 30.f;
+    case kSwordSecondaryController:
+    case kPierceController: return 99.f;
+    case kDemolishController:
+    case kDemolishChildController: return 30.f;
     case kBatFlockModel: return effect.SubType == 0 ? 40.f :
         (effect.SubType == 3 ? 10.f : 50.f);
     case kBatFlockTrailModel: return 20.f;
@@ -86,18 +103,31 @@ float InitialLife(const OBJECT& effect)
     case kBatFlockTargetController:
     case kBatFlockDotController: return 10.f;
     case kBatFlockOrbitController: return 60.f;
-    case kPierceSwordController:
-    case kPierceBurstController: return 30.f;
-    case kPierceFlashController: return 4.f;
-    case kPierceFanController: return 1.f;
-    case kPierceBatController: return 10.f;
-    case kPierceImpactModel:
+    case kBatFlock686Controller: return effect.SubType == 0 ? 10.f : 70.f;
+    case kBatFlock687Controller: return 9.f;
+    case kPierce67AController:
+    case kPierceSwordLineModel:
+    case kSword68BController:
+    case kSword68DController: return 30.f;
+    case kPierce67BController:
+    case kPierce67EController:
+    case kSword690Controller: return 10.f;
+    case kPierce67CController:
+    case kSword68EController: return 1.f;
+    case kPierce67DController:
+    case kSword68FController: return 3.f;
+    case kPierce680Controller: return 5.f;
+    case kSword68CController: return 4.f;
     case kDetectionImpactModel: return effect.SubType == 1 ? 35.f : 40.f;
     case kDetectionMarkModel: return effect.SubType == 1 ? 40.f : 35.f;
-    case kPierceSwordLineModel:
-    case kPierceController:
     case kDetectionController:
     case kDetectionChildController: return 30.f;
+    case kFlare01RedEffect:
+    case kRingOfGradation2Effect: return 30.f;
+    case kEnemyRing01Effect: return 40.f;
+    case kMagicGround12Effect: return 30.f;
+    case kFlareBlueEffect:
+    case kFlareEffect: return 30.f;
     default: return 20.f;
     }
 }
@@ -113,12 +143,122 @@ void SpawnChild(int type, const OBJECT& source, OBJECT* owner, int subtype,
         source.Skill, 0, 0, scale, source.m_sTargetIndex);
 }
 
+void SpawnBitmapChild(int type, const OBJECT& source, OBJECT* owner,
+    const vec3_t light, int subtype, float scale)
+{
+    vec3_t position, angle, color;
+    VectorCopy(source.Position, position);
+    VectorCopy(source.Angle, angle);
+    VectorCopy(light, color);
+    CreateEffect(type, position, angle, color, subtype, owner, -1,
+        source.Skill, 0, 0, scale, source.m_sTargetIndex);
+}
+
 OBJECT* ResolveTarget(short targetIndex)
 {
     if (targetIndex < 0 || targetIndex >= MAX_CHARACTERS_CLIENT)
         return 0;
     OBJECT* target = &CharactersClient[targetIndex].Object;
     return target->Live ? target : 0;
+}
+
+short PickBatFlockTargetIndex(const OBJECT& effect)
+{
+    std::map<const OBJECT*, std::vector<short> >::const_iterator it =
+        gBatFlockTargets.find(&effect);
+    if (it == gBatFlockTargets.end() || it->second.empty())
+        return -1;
+    return it->second[static_cast<unsigned>(rand()) % it->second.size()];
+}
+
+OBJECT* PickBatFlockTarget(const OBJECT& effect)
+{
+    return ResolveTarget(PickBatFlockTargetIndex(effect));
+}
+
+short PierceTargetIndexAt(const OBJECT& effect, int ordinal)
+{
+    std::map<const OBJECT*, std::vector<short> >::const_iterator it =
+        gPierceTargets.find(&effect);
+    if (it == gPierceTargets.end() || ordinal < 0 ||
+        static_cast<unsigned>(ordinal) >= it->second.size())
+        return -1;
+    return it->second[ordinal];
+}
+
+OBJECT* PierceTargetAt(const OBJECT& effect, int ordinal)
+{
+    return ResolveTarget(PierceTargetIndexAt(effect, ordinal));
+}
+
+bool AdvanceSword68BTargetAnimation(OBJECT& effect, OBJECT* target)
+{
+    // S21 0x1417693 selects the resolved target's BMD and calls
+    // 0x132D0CD using its action-0 PlaySpeed. The allocator initializes
+    // the effect action/frame to zero at 0x143E7A8/0x143E92D. Use the
+    // native 5.2 BMD animation API rather than an invented tick deadline.
+    if (!target || !Models || target->Type < 0 ||
+        target->Type >= MAX_MODELS)
+        return false;
+    BMD& model = Models[target->Type];
+    if (model.NumActions <= 0 || !model.Actions ||
+        effect.CurrentAction < 0 || effect.CurrentAction >= model.NumActions)
+        return false;
+    const unsigned short savedAction = model.CurrentAction;
+    model.CurrentAction = static_cast<unsigned short>(effect.CurrentAction);
+    const float speed = model.Actions[model.CurrentAction].PlaySpeed;
+    const bool playing = model.PlayAnimation(&effect.AnimationFrame,
+        &effect.PriorAnimationFrame, &effect.PriorAction, speed,
+        effect.Position, effect.Angle);
+    model.CurrentAction = savedAction;
+    return playing;
+}
+
+int PierceTargetCount(const OBJECT& effect)
+{
+    std::map<const OBJECT*, std::vector<short> >::const_iterator it =
+        gPierceTargets.find(&effect);
+    return it == gPierceTargets.end() ? 0 :
+        static_cast<int>(it->second.size());
+}
+
+bool SendPierceLaneRequest(const OBJECT& effect, short targetSlot,
+    const OBJECT& target)
+{
+    // Native 0x15464BE..0x15466A0 sends once per 0x689 lane only from the
+    // local caster. In 5.2 head 0x00 is chat, so use the private F4:E6
+    // route and let GS validate the serial/authorized target before damage.
+    if (!Hero || effect.Owner != &Hero->Object ||
+        !CharactersClient || targetSlot < 0 ||
+        targetSlot >= MAX_CHARACTERS_CLIENT)
+        return false;
+    const auto serial = gPierceCastSerial.find(&effect);
+    if (serial == gPierceCastSerial.end())
+        return false;
+    const int tileX = static_cast<int>(target.Position[0] / 100.f);
+    const int tileY = static_cast<int>(target.Position[1] / 100.f);
+    if (tileX < 0 || tileX > 255 || tileY < 0 || tileY > 255)
+        return false;
+    const int targetKey = CharactersClient[targetSlot].Key & 0x7FFF;
+    // S21 helper 0x173EA5C advances this packet byte from 1 through 50.
+    // It is an outbound sequence byte, not the caster's world yaw.
+    gPierceLaneDirection = static_cast<unsigned char>(
+        gPierceLaneDirection >= 50 ? 1 : gPierceLaneDirection + 1);
+    CStreamPacketEngine packet;
+    packet.Init(0xC1, kPierceFanoutHead);
+    packet << static_cast<BYTE>(kPierceLaneRequestSub)
+        << static_cast<BYTE>(kPierceAttack >> 8)
+        << static_cast<BYTE>(kPierceAttack & 0xFF)
+        << static_cast<BYTE>(serial->second)
+        << static_cast<BYTE>(targetKey >> 8)
+        << static_cast<BYTE>(targetKey & 0xFF)
+        << static_cast<BYTE>(tileX)
+        << static_cast<BYTE>(tileY)
+        << static_cast<BYTE>(gPierceLaneDirection);
+    if (packet.GetSize() != sizeof(PierceLaneRequestWire))
+        return false;
+    packet.Send();
+    return true;
 }
 
 void AttachToTarget(OBJECT& effect)
@@ -150,6 +290,146 @@ float Clamp01(float value)
     return value;
 }
 
+void OffsetByYaw(OBJECT& effect, float yawOffset, float distance,
+    float height)
+{
+    const float yaw = (effect.Angle[2] + yawOffset) * 0.01745329252f;
+    effect.Position[0] += -sinf(yaw) * distance;
+    effect.Position[1] += cosf(yaw) * distance;
+    effect.Position[2] += height;
+}
+
+float VectorDistance3(const vec3_t first, const vec3_t second)
+{
+    const float x = first[0] - second[0];
+    const float y = first[1] - second[1];
+    const float z = first[2] - second[2];
+    return sqrtf(x * x + y * y + z * z);
+}
+
+void InitializeSwordFlight(OBJECT& effect, float distanceScale,
+    float rangeScale)
+{
+    VectorCopy(effect.Position, effect.StartPosition);
+    vec34_t matrix;
+    AngleMatrix(effect.Angle, matrix);
+    effect.Direction[0] = matrix[0][0];
+    effect.Direction[1] = matrix[0][1];
+    effect.Direction[2] = matrix[0][2];
+
+    vec3_t destination;
+    if (effect.Owner)
+    {
+        VectorCopy(effect.Owner->Position, destination);
+    }
+    else
+    {
+        VectorCopy(effect.Position, destination);
+    }
+    destination[0] += effect.Direction[0] * distanceScale;
+    destination[1] += effect.Direction[1] * distanceScale;
+    destination[2] += effect.Direction[2] * distanceScale;
+    effect.Distance = VectorDistance3(effect.Position, destination) *
+        rangeScale;
+}
+
+void AdvanceSwordFlight(OBJECT& effect, float animationFactor)
+{
+    const float divisor = InitialLife(effect) + 1.f;
+    const float step = effect.Distance / divisor * animationFactor;
+    effect.Position[0] += effect.Direction[0] * step;
+    effect.Position[1] += effect.Direction[1] * step;
+    effect.Position[2] += effect.Direction[2] * step;
+    if (VectorDistance3(effect.Position, effect.StartPosition) >
+        effect.Distance)
+        effect.LifeTime = 0.f;
+}
+
+void DirectionFromAngle(OBJECT& effect)
+{
+    vec34_t matrix;
+    AngleMatrix(effect.Angle, matrix);
+    effect.Direction[0] = matrix[0][0];
+    effect.Direction[1] = matrix[0][1];
+    effect.Direction[2] = matrix[0][2];
+}
+
+void RandomBatSpread(vec3_t spread, bool upwardZ)
+{
+    // S21 0x683/0x684: random X/Z direction (Y stays zero), normalized,
+    // then each axis independently scaled by [0,160]. 0x684's Z seed
+    // alone uses [0,100] instead of [-100,100].
+    Vector(NativeRandomRange(-100.f, 100.f), 0.f,
+        NativeRandomRange(upwardZ ? 0.f : -100.f, 100.f), spread);
+    VectorNormalize(spread);
+    for (int axis = 0; axis < 3; ++axis)
+        spread[axis] *= NativeRandomRange(0.f, 160.f);
+}
+
+void EmitBatTargetJoint(OBJECT& effect, OBJECT* target)
+{
+    // S21 0x154435F..0x154476C: localized red-joint emitter.
+    vec3_t spread;
+    RandomBatSpread(spread, false);
+    vec3_t position, angle;
+    VectorAdd(effect.Position, spread, position);
+    position[2] += 90.f;
+    VectorCopy(effect.Angle, angle);
+    angle[2] += NativeRandomRange(-15.f, 15.f);
+    CreateJoint(kGhostMark02RedBitmap, position, position, angle, 1,
+        target, 20.f, -1, 0, 0, -1, 0, -1);
+}
+
+void EmitBatOrbitChild(OBJECT& effect)
+{
+    // S21 0x1544771..0x1544ADA emits 0x685 from a spread root position,
+    // elevated 90 Z, with root light, null owner and zero incoming scale.
+    vec3_t spread;
+    RandomBatSpread(spread, true);
+    OBJECT pulse = effect;
+    VectorAdd(effect.Position, spread, pulse.Position);
+    pulse.Position[2] += 90.f;
+    pulse.Angle[2] += NativeRandomRange(-15.f, 15.f);
+    SpawnChild(kBatFlockOrbitController, pulse, 0, 0, 0.f);
+}
+
+void EmitBatMainPulse(OBJECT& effect)
+{
+    // S21 0x1543C4C..0x15442B6: rotate a randomized X/Z spread by the
+    // root angle, then lift the authored model/particle launch by 90 Z.
+    vec3_t spread;
+    Vector(NativeRandomRange(-100.f, 100.f), 0.f,
+        NativeRandomRange(-100.f, 100.f), spread);
+    VectorNormalize(spread);
+    for (int axis = 0; axis < 3; ++axis)
+        spread[axis] *= NativeRandomRange(40.f, 90.f);
+    vec34_t matrix;
+    AngleMatrix(effect.Angle, matrix);
+    vec3_t rotated;
+    VectorRotate(spread, matrix, rotated);
+    OBJECT pulse = effect;
+    VectorAdd(effect.Position, rotated, pulse.Position);
+    pulse.Position[2] += 90.f;
+    pulse.Angle[2] += NativeRandomRange(-15.f, 15.f);
+    Vector(1.f, 1.f, 1.f, pulse.Light);
+    // Native 0x678 child owner is the immediate 0x682 root, not caster.
+    // S21 selects independently from this 0x682 root's list for each pulse.
+    // A canonical cast root with an empty list passes -1 to the child.
+    pulse.m_sTargetIndex = PickBatFlockTargetIndex(effect);
+    SpawnChild(kBatFlockModel, pulse, &effect, 2, 2.5f);
+
+    const float particleScale = NativeRandomRange(80.f, 100.f) * 0.01f;
+    vec3_t pinLight, impactLight;
+    Vector(0.5f, 0.5f, 0.5f, pinLight);
+    Vector(0.65f, 0.65f, 0.65f, impactLight);
+    // Native particle allocator takes the root angle, not the perturbed
+    // model angle, for both 0x810B and 0x8070 records.
+    CreateParticle(kPinStar02RedBitmap, pulse.Position, effect.Angle,
+        pinLight, 0, 2.f * particleScale, &effect);
+    CreateParticle(kEmpact01Bitmap, pulse.Position, effect.Angle,
+        impactLight, 0, 0.26f * particleScale, &effect);
+}
+
 #ifdef RISE_SLAYER_RUNTIME_QA
 unsigned gRenderSamples[8] = {};
 
@@ -157,11 +437,8 @@ const char* SkillNameForModel(int modelId)
 {
     switch (modelId)
     {
-    case kSwordInertiaModel: return "Sword Inertia";
-    case kSwordInertiaAuraModel: return "Sword Inertia";
     case kBatFlockModel: return "Bat Flock";
     case kBatFlockTrailModel: return "Bat Flock";
-    case kPierceImpactModel:
     case kPierceSwordLineModel: return "Pierce Attack";
     case kDetectionMarkModel:
     case kDetectionImpactModel: return "Detection";
@@ -169,7 +446,7 @@ const char* SkillNameForModel(int modelId)
     }
 }
 
-void LogModelRender(const OBJECT& effect, const BMD& model)
+void LogModelRender(const OBJECT& effect, const BMD& model, int renderFlags)
 {
     const unsigned slot = static_cast<unsigned>(effect.Type - kFirstModel);
     if (slot >= sizeof(gRenderSamples) / sizeof(gRenderSamples[0]) ||
@@ -180,23 +457,60 @@ void LogModelRender(const OBJECT& effect, const BMD& model)
     sprintf_s(line, sizeof(line),
         "native-render-submit skill=%s skillId=%d type=%d subtype=%d "
         "model=%s live=%d visible=%d life=%.3f alpha=%.3f scale=%.3f "
-        "ownerLive=%d modelReady=1 meshes=%d bones=%d actions=%d",
+        "ownerLive=%d modelReady=1 meshes=%d bones=%d actions=%d pass=%s",
         SkillNameForModel(effect.Type), static_cast<int>(effect.Skill),
         effect.Type, effect.SubType, model.Name, effect.Live ? 1 : 0,
         effect.Visible ? 1 : 0, static_cast<double>(effect.LifeTime),
         static_cast<double>(effect.Alpha), static_cast<double>(effect.Scale),
         effect.Owner && effect.Owner->Live ? 1 : 0, model.NumMeshs,
-        model.NumBones, model.NumActions);
+        model.NumBones, model.NumActions,
+        (renderFlags & RENDER_BRIGHT) ? "additive" : "textured-opaque");
     rise::slayerqa::AppendRuntimeQALog(line);
 }
 #endif
 
 }
 
+void SetBatFlockTargets(OBJECT& effect, const short* targetIndexes, int count)
+{
+    std::vector<short>& list = gBatFlockTargets[&effect];
+    list.clear();
+    if (!targetIndexes || count <= 0)
+        return;
+    for (int i = 0; i < count && i < 10; ++i)
+    {
+        const short targetIndex = targetIndexes[i];
+        if (targetIndex >= 0 &&
+            std::find(list.begin(), list.end(), targetIndex) == list.end())
+            list.push_back(targetIndex);
+    }
+}
+
+void SetPierceTargets(OBJECT& effect, const short* targetIndexes, int count,
+    unsigned char castSerial)
+{
+    std::vector<short>& list = gPierceTargets[&effect];
+    list.clear();
+    gPierceCastSerial.erase(&effect);
+    gPierceCastTargetIndex.erase(&effect);
+    if (!targetIndexes || count <= 0)
+        return;
+    gPierceCastSerial[&effect] = castSerial;
+    for (int i = 0; i < count && i < 10; ++i)
+    {
+        const short index = targetIndexes[i];
+        if (index >= 0 &&
+            std::find(list.begin(), list.end(), index) == list.end())
+            list.push_back(index);
+    }
+    if (!list.empty())
+        gPierceCastTargetIndex[&effect] = list.front();
+}
+
 bool IsEffectType(int type)
 {
 #ifdef RISE_SLAYER_PORT
-    return IsKnownModel(type) || IsController(type);
+    return IsKnownModel(type) || IsController(type) || IsBitmapEffect(type);
 #else
     (void)type;
     return false;
@@ -242,6 +556,19 @@ bool EnsureModel(int modelId)
             model.Release();
             return false;
         }
+        if (modelId == kDetectionMarkModel)
+        {
+            // Only the S21 0x691 silver-mark JPEG carries the black color
+            // key. Convert its loaded private texture to RGBA in memory;
+            // leave the BMD and OZJ files byte-for-byte intact.
+            if (_stricmp(model.Textures[mesh].FileName,
+                    "Elite_monster_ground02.JPG") != 0 ||
+                !Bitmaps.ApplySlayerBlackKeyAlpha(model.IndexTexture[mesh]))
+            {
+                model.Release();
+                return false;
+            }
+        }
     }
     return model.NumBones > 0 && model.NumActions > 0;
 #else
@@ -250,8 +577,13 @@ bool EnsureModel(int modelId)
 #endif
 }
 
-void InitializeEffect(OBJECT& effect)
+void InitializeEffect(OBJECT& effect, float incomingScale)
 {
+    // Effect-pool pointers are recycled; never inherit a previous cast's list.
+    gBatFlockTargets.erase(&effect);
+    gPierceTargets.erase(&effect);
+    gPierceCastSerial.erase(&effect);
+    gPierceCastTargetIndex.erase(&effect);
 #ifdef RISE_SLAYER_PORT
     if (!IsEffectType(effect.Type))
         return;
@@ -264,121 +596,272 @@ void InitializeEffect(OBJECT& effect)
     effect.StartPosition[1] = effect.Position[1];
     effect.StartPosition[2] = effect.Position[2];
     effect.LifeTime = InitialLife(effect);
-    if (effect.Type == kDetectionMarkModel ||
+    if (IsBitmapEffect(effect.Type))
+        effect.Alpha = effect.Type == kMagicGround12Effect ? 1.f : 0.f;
+    // Native CreateEffect first normalizes non-positive incoming scale to
+    // 0.9, but some subtype initializers then overwrite OBJECT+0xA0 with
+    // the original argument. Keep both values separate for those branches.
+    if (effect.Type == kBatFlockTrailModel ||
+        effect.Type == kDetectionMarkModel ||
         effect.Type == kDetectionImpactModel)
-        effect.Scale = effect.Scale <= 0.f ? 1.f : effect.Scale;
+        effect.Alpha = 0.f;
 
-    // Root creation is kept on the controller initializer.  The numeric S21
-    // root ids are evidence labels; 5.2 carrier children remain isolated and
-    // are not presented as recovered machine-code children.
+    // Root creation is kept on the controller initializer. Every child below
+    // corresponds to a decoded S21 secondary-pool code or bitmap id.
     switch (effect.Type)
     {
-    case kSwordInertiaController:
-        // S21 292 handler 0x12D0F0F emits roots 0x68A and 0x689, then the
-        // native animation gates launch the three returning sword lanes.
-        break;
-    case kSwordFlightController:
-        // Keep movement, collision ownership and triangles in separate
-        // records in the 5.2 carrier graph.
-        SpawnChild(kSwordInertiaModel, effect, &effect, effect.SubType, 0.72f);
-        SpawnChild(kSwordInertiaAuraModel, effect, &effect, effect.SubType, 1.05f);
-        break;
-    case kBatFlockController:
-        // S21 293 handler 0x12D10A0 creates roots 0x682/0x683/0x684.
-        SpawnChild(kBatFlockTrailModel, effect, effect.Owner, 0, 0.70f);
-        break;
     case kPierceController:
+        // Native 0x679 subtype zero initializes EFFECT+0xBC from player
+        // action 0xE0 at 0x148EE0F..0x148EE29. Its update compares the
+        // controller's own animation frame with 4 and 7, so the generic
+        // .4 tick velocity shifts both authored flank emission times.
+        if (!Models || Models[MODEL_PLAYER].NumActions <=
+            kSwordInertiaAction)
+        {
+            effect.LifeTime = 0.f;
+            break;
+        }
+        if (CharacterAttribute)
+            ApplyPlayerActionSpeeds(CharacterAttribute->AttackSpeed);
+        effect.Velocity = Models[MODEL_PLAYER].Actions[
+            kSwordInertiaAction].PlaySpeed;
+        break;
+    case kPierceSwordLineModel:
     {
+        // S21 0x148FFEE/0x149015B/0x14902C2 copies E0/E1/E2 action
+        // speed for modes 0..2. Mode 3 at 0x1490304..0x14903E2 copies
+        // its owner's current action speed instead. All four modes write
+        // both swordline model action 0 and EFFECT+0xBC.
+        if (!effect.Owner || !Models ||
+            Models[MODEL_PLAYER].NumActions <= kSwordInertiaAction)
+        {
+            effect.LifeTime = 0.f;
+            break;
+        }
+        if (CharacterAttribute)
+            ApplyPlayerActionSpeeds(CharacterAttribute->AttackSpeed);
+        const float attackSpeedTerm = CharacterAttribute ?
+            CharacterAttribute->AttackSpeed * 0.002f : 0.f;
+        if (effect.SubType == 0)
+            effect.Velocity = Models[MODEL_PLAYER].Actions[
+                kSwordInertiaAction].PlaySpeed;
+        else if (effect.SubType == 1 || effect.SubType == 2)
+            effect.Velocity = 0.40f + attackSpeedTerm;
+        else if (effect.Owner->CurrentAction >= 0 &&
+            effect.Owner->CurrentAction <
+                Models[MODEL_PLAYER].NumActions)
+            effect.Velocity = Models[MODEL_PLAYER].Actions[
+                effect.Owner->CurrentAction].PlaySpeed;
+        else
+        {
+            effect.LifeTime = 0.f;
+            break;
+        }
+        if (EnsureModel(kPierceSwordLineModel))
+            Models[kPierceSwordLineModel].Actions[0].PlaySpeed =
+                effect.Velocity;
+        else
+        {
+            effect.LifeTime = 0.f;
+            break;
+        }
+        effect.Alpha = 1.f;
+        // Native 0x681 modes 1/2 perturb Angle Y before the seven-key
+        // blur animation; mode 0 and mode 3 keep the incoming angle.
+        if (effect.SubType == 1 || effect.SubType == 2)
+            effect.Angle[1] += (effect.SubType == 1 ? 140.f : 60.f) +
+                static_cast<float>(rand()) * (20.f / RAND_MAX);
+        break;
+    }
+    case kBatFlockModel:
+    {
+        // Native 0x678 uses the caller scale multiplied by a random .60..1.20
+        // envelope for all five Slayer subtypes.
+        effect.Scale *= NativeRandomRange(60.f, 120.f) * 0.01f;
+        effect.Alpha = 1.f;
+        if (effect.SubType == 1 || effect.SubType == 4)
+        {
+            effect.Angle[0] = NativeRandomRange(-90.f, 90.f);
+            effect.Angle[1] = NativeRandomRange(-90.f, 90.f);
+            effect.Angle[2] = NativeRandomRange(0.f, 360.f);
+        }
+        DirectionFromAngle(effect);
+        switch (effect.SubType)
+        {
+        case 0: effect.Gravity = NativeRandomRange(50.f, 100.f) * 0.05f; break;
+        case 1: effect.Gravity = NativeRandomRange(50.f, 100.f) * 0.025f; break;
+        case 2: effect.Gravity = NativeRandomRange(80.f, 100.f) * 0.5f; break;
+        case 3:
+            effect.Gravity = 30.f;
+            if (effect.Owner)
+                effect.Distance = VectorDistance3(effect.Position,
+                    effect.Owner->Position);
+            break;
+        case 4: effect.Gravity = NativeRandomRange(50.f, 100.f) * 0.025f; break;
+        default: break;
+        }
+        if (effect.SubType == 1)
+        {
+            // Native 0x148E895..0x148E907 allocates the force_Pillar
+            // joint-pool subtype 6, owned by this bat, at 40 * bat scale.
+            CreateJoint(BITMAP_FORCEPILLAR, effect.Position,
+                effect.Position, effect.Angle, 6, &effect,
+                40.f * effect.Scale);
+        }
+        break;
+    }
+    case kSwordInertiaController:
+    {
+        // Native 0x68A initializer (0x1491051), including both subtypes.
         vec3_t flare, ring, white;
         Vector(0.6f, 0.6f, 0.6f, flare);
-        Vector(0.05f, 0.01f, 0.25f, ring);
+        Vector(effect.SubType == 0 ? 0.05f : 0.10f, 0.01f,
+            effect.SubType == 0 ? 0.25f : 0.01f, ring);
         Vector(1.f, 1.f, 1.f, white);
-        CreateParticle(kFlare01RedBitmap, effect.Position, effect.Angle,
-            flare, 10, 2.5f, &effect);
-        CreateParticle(kRingOfGradation2Bitmap, effect.Position, effect.Angle,
-            ring, 0, 3.75f, &effect);
-        CreateParticle(kEnemyRing01Bitmap, effect.Position, effect.Angle,
-            white, 0, 1.2f, &effect);
+        SpawnBitmapChild(kFlare01RedEffect, effect, 0, flare,
+            0x0A, 2.5f);
+        SpawnBitmapChild(kRingOfGradation2Effect, effect, 0, ring,
+            0, 3.75f);
+        if (effect.SubType == 0)
+            SpawnBitmapChild(kEnemyRing01Effect, effect, 0, white,
+                0, 1.2f);
         break;
     }
-    case kPierceSwordController:
-        // Isolated 5.2 carrier for the Pierce sword-line animation.
-        SpawnChild(kPierceSwordLineModel, effect, effect.Owner, 3, 1.f);
+    case kSwordSecondaryController:
+        // Native 0x689 only snapshots the source origin (+100 Z); its
+        // subordinate graph is emitted by the per-frame case below.
+        effect.StartPosition[2] += 100.f;
         break;
-    case kPierceBurstController:
+    case kBatFlockController:
+        // Native 0x682 subtype 0 creates model 0x688; the packet-born
+        // subtype 1 exits its initializer without this child/light override.
+        if (effect.SubType == 0)
+        {
+            Vector(0.9f, 0.9f, 0.9f, effect.Light);
+            SpawnChild(kBatFlockTrailModel, effect, effect.Owner, 0, 0.85f);
+        }
+        break;
+    case kBatFlockOrbitController:
+        // Native 0x685: 60 ticks, 40..50 scale and a signed 1..15 degree
+        // step.  Gravity is private scratch state for that recovered step.
+        effect.Scale = (80.f + static_cast<float>(rand() % 21)) * 0.5f;
+        effect.Gravity = static_cast<float>((rand() % 31) - 15);
+        if (effect.Gravity == 0.f)
+            effect.Gravity = 1.f;
+        break;
+    case kBatFlock686Controller:
+        // Native 0x686 loops exactly three times in both mode branches.
+        for (int ordinal = 0; ordinal < 3; ++ordinal)
+            SpawnChild(kBatFlockModel, effect, &effect, 3, 2.3f);
+        break;
+    case kSword68BController:
     {
-        // Isolated Pierce contact carrier. Preserve each bitmap family
-        // instead of collapsing it into the impact BMD.
-        vec3_t white, violet, orange;
-        Vector(1.f, 1.f, 1.f, white);
-        Vector(0.35f, 0.10f, 0.65f, violet);
-        Vector(1.f, 0.30f, 0.05f, orange);
-        CreateParticle(kAlphaRingX256Bitmap, effect.Position, effect.Angle,
-            violet, 0, 1.5f, &effect);
-        CreateParticle(kDamage1MonoBitmap, effect.Position, effect.Angle,
-            white, 0, 1.f, &effect);
-        CreateParticle(kFlare01RedBitmap, effect.Position, effect.Angle,
-            orange, 1, 1.2f, &effect);
-        CreateParticle(kPinStar02RedBitmap, effect.Position, effect.Angle,
-            orange, 2, 1.f, &effect);
+        // Native 0x68B copies Position/Angle, raises Position Z by 100 and
+        // rotates Angle Y by one of 0/180/90.  The earlier reconstruction
+        // incorrectly moved Position X, which produced the detached line.
+        OBJECT swordLine = effect;
+        const int lane = rand() % 3;
+        if (lane == 1)
+            swordLine.Angle[1] += 180.f;
+        else if (lane == 2)
+            swordLine.Angle[1] += 90.f;
+        swordLine.Position[2] += 100.f;
+        SpawnChild(kPierceSwordLineModel, swordLine, &effect, 3, 1.2f);
+        vec34_t matrix;
+        AngleMatrix(effect.Angle, matrix);
+        effect.Direction[0] = matrix[0][0];
+        effect.Direction[1] = matrix[0][1];
+        effect.Direction[2] = matrix[0][2];
         break;
     }
-    case kPierceFanController:
+    case kSword68DController:
     {
-        // Isolated one-tick fan-out carrier.
-        vec3_t white;
+        // Native 0x68D base branch (owner does not have S21 master skill
+        // 0x13B): 82F5/.2, 82F8/.45 and 80BA/subtype1/scale2.  The 0x8101
+        // fourth sprite belongs only to the unavailable 0x13B master branch,
+        // so importing it into the 5.2 base skill would be incorrect.
+        vec3_t white, blue;
         Vector(1.f, 1.f, 1.f, white);
+        Vector(0.6f, 0.85f, 1.f, blue);
         CreateParticle(kAlphaRingX256Bitmap, effect.Position, effect.Angle,
-            white, 0, 0.8f, &effect);
-        CreateParticle(kAlphaRingX256Bitmap, effect.Position, effect.Angle,
-            white, 1, 0.8f, &effect);
+            white, 0, 0.2f, &effect);
         CreateParticle(kDamage1MonoBitmap, effect.Position, effect.Angle,
-            white, 0, 1.f, &effect);
+            blue, 0, 0.45f, &effect);
+        CreateParticle(kFlare01RedBitmap, effect.Position, effect.Angle,
+            white, 1, 2.f, &effect);
         break;
     }
-    case kPierceBatController:
-        // 0x686 initializer creates two long-lived 0x678/subtype3 bats.
-        SpawnChild(kBatFlockModel, effect, &effect, 3, 0.8f);
-        SpawnChild(kBatFlockModel, effect, &effect, 3, 0.8f);
+    case kDetectionMarkModel:
+        // 0x1492234: subtype 0 overwrites the allocator's 0.9 fallback
+        // with the raw incoming scale. Subtype 1 exits at 0x1492277.
+        // Sword's scale-zero mark thus starts at zero and grows in update,
+        // rather than appearing immediately as an opaque full-size disc.
+        if (effect.SubType == 0)
+            effect.Scale = incomingScale;
+        break;
+    case kDetectionImpactModel:
+        // Native 0x694 applies this transform to both Slayer subtypes.
+        effect.Position[2] += 50.f;
+        Vector(0.f, 0.f, 0.f, effect.Angle);
+        break;
+    case kSword68FController:
+        // Native 0x68F has two three-tick projectiles.  Both begin at alpha
+        // .3; subtype 0 flies 50 units backwards, subtype 1 uses the shorter
+        // 10-unit vector and one-tenth stopping range.
+        effect.Alpha = 0.3f;
+        InitializeSwordFlight(effect, effect.SubType == 0 ? -50.f : -10.f,
+            effect.SubType == 0 ? 1.f : 0.1f);
+        break;
+    case kSword690Controller:
+        // Native 0x690 stores its launch origin and travel distance once;
+        // update consumes Distance/(InitialLife+1) each tick.
+        InitializeSwordFlight(effect, 1.f, 1.f);
         break;
     case kDetectionController:
     {
-        vec3_t white, warm;
+        // Exact 0x1492364 initializer graph for native root 0x692.
+        vec3_t white, blue, warm;
         Vector(1.f, 1.f, 1.f, white);
+        Vector(0.5f, 0.5f, 1.f, blue);
         Vector(0.70f, 0.25f, 0.05f, warm);
-        SpawnChild(kDetectionChildController, effect, &effect, 0, 1.f);
+        SpawnChild(kDetectionChildController, effect, effect.Owner, 0, 0.f);
         SpawnChild(kDetectionImpactModel, effect, &effect, 0, 1.f);
-        CreateParticle(kMagicGround12Bitmap, effect.Position, effect.Angle,
-            white, 4, 1.f, &effect);
-        CreateParticle(kMagicGround12Bitmap, effect.Position, effect.Angle,
-            white, 5, 1.f, &effect);
-        CreateParticle(BITMAP_MMsSs2_r, effect.Position, effect.Angle,
-            white, 2, 2.5f, &effect);
-        CreateParticle(kRingOfGradation2Bitmap, effect.Position, effect.Angle,
-            warm, 0, 6.f, &effect);
+        SpawnBitmapChild(kMagicGround12Effect, effect, &effect, white,
+            4, 0.f);
+        SpawnBitmapChild(kMagicGround12Effect, effect, &effect, white,
+            5, 0.f);
+        SpawnBitmapChild(kFlareBlueEffect, effect, 0, blue,
+            2, 2.5f);
+        SpawnBitmapChild(kRingOfGradation2Effect, effect, 0, warm,
+            0, 6.f);
         break;
     }
     case kDemolishController:
     {
-        // S21 297 handler 0x12D1443 emits root 0x695 and uses the 0x511
-        // cast family.  The client-side root is a persistent self aura; the
-        // gold/yellow sprite pair is copied from the S21 Effect directory.
-        vec3_t gold, yellow;
-        Vector(1.f, 0.62f, 0.08f, gold);
-        Vector(1.f, 0.90f, 0.20f, yellow);
-        CreateParticle(kFireHik01GoldBitmap, effect.Position, effect.Angle,
-            gold, 0, 2.2f, &effect);
-        CreateParticle(kFlare01YellowBitmap, effect.Position, effect.Angle,
-            yellow, 0, 1.5f, &effect);
-        CreateParticle(kRingOfGradation2Bitmap, effect.Position, effect.Angle,
-            gold, 0, 4.5f, &effect);
+        // Exact 0x149289F initializer graph for native root 0x695.
+        vec3_t white, ring;
+        Vector(1.f, 1.f, 1.f, white);
+        Vector(1.f, 0.4f, 0.1f, ring);
+        SpawnChild(kDemolishChildController, effect, effect.Owner, 0, 0.f);
+        SpawnChild(kDetectionImpactModel, effect, &effect, 0, 1.f);
+        SpawnChild(kDetectionImpactModel, effect, &effect, 1, 0.5f);
+        SpawnBitmapChild(kFlareEffect, effect, 0, white, 8, 8.f);
+        SpawnBitmapChild(kRingOfGradation2Effect, effect, 0, ring,
+            0, 6.f);
         break;
     }
+    case kMagicGround12Effect:
+        // 0x147EA2A/0x147EA83: buff-ring subtypes 4/5 copy raw scale zero
+        // back over the allocator fallback, then expand by .3/1 per tick.
+        if (effect.SubType == 4 || effect.SubType == 5)
+            effect.Scale = incomingScale;
+        break;
     default:
         break;
     }
 #else
     (void)effect;
+    (void)incomingScale;
 #endif
 }
 
@@ -392,234 +875,77 @@ void UpdateEffect(OBJECT& effect, float animationFactor)
     const float initialLife = InitialLife(effect);
     const float elapsed = initialLife - effect.LifeTime;
 
+    if (IsBitmapEffect(effect.Type))
+    {
+        // The native secondary-pool update switch is at 0x14B7B60, not the
+        // particle-pool dispatcher. Four root subtypes use a two-half alpha
+        // triangle; 0x81CF's two buff rings expand and fade independently.
+        switch (effect.Type)
+        {
+        case kFlare01RedEffect: // 0x80BA subtype A, update 0x151F416
+        case kRingOfGradation2Effect: // 0x82F6, update 0x1548E75
+        case kEnemyRing01Effect: // 0x82F7, update 0x15484D8
+        case kFlareEffect: // 0x7F78 subtype 8, update 0x14FF2CE
+            {
+                const float half = static_cast<float>(
+                    static_cast<int>(initialLife) / 2);
+                if (half > 0.f)
+                    effect.Alpha += (effect.LifeTime > half ? 1.f : -1.f) *
+                        animationFactor / half;
+                if (effect.Type == kFlare01RedEffect)
+                    effect.Angle[2] += animationFactor;
+            }
+            break;
+        case kMagicGround12Effect: // 0x81CF subtypes 4/5, 0x1534839
+            effect.Alpha -= animationFactor / initialLife;
+            effect.Scale += (effect.SubType == 4 ? 0.3f : 1.f) *
+                animationFactor;
+            break;
+        default: break;
+        }
+        if (effect.Alpha < 0.f) effect.Alpha = 0.f;
+        if (effect.Alpha > 1.f) effect.Alpha = 1.f;
+        return;
+    }
+
     if (IsController(effect.Type))
     {
+        if (effect.Type == kSwordSecondaryController &&
+            effect.Skill == kPierceAttack && PierceTargetCount(effect) > 0)
+        {
+            // Native 0x689 copies the caster's cast-target key (+0x3E)
+            // into EFFECT+0x364 at construction, then 0x1545A39 checks
+            // that fixed actor on every update before walking +0x1DC.
+            // The 5.2 fanout deliberately puts the clicked victim first;
+            // keep it in a separate sidecar because m_sTargetIndex changes
+            // to the active lane and is inherited by its 0x68B children.
+            const auto original = gPierceCastTargetIndex.find(&effect);
+            if (original == gPierceCastTargetIndex.end() ||
+                !ResolveTarget(original->second))
+            {
+                effect.LifeTime = 0.f;
+                return;
+            }
+        }
         switch (effect.Type)
         {
         case kSwordInertiaController:
-            if (owner && owner->Live)
+            // Native 0x68A update has two subtype branches. Both emit the
+            // 0x7F5A/0x807E..0x8080 smoke family and model 0x691; there is no
+            // boomerang interpolation in this case.
+            if (owner && owner->Live &&
+                (owner->CurrentAction == kSwordInertiaAction ||
+                 owner->CurrentAction == kPierceAttackAction))
             {
-                VectorCopy(owner->Position, effect.StartPosition);
-                // S21 0x15411E2/0x15413C0 gate two launches at frame 4;
-                // 0x15418B3 gates the third launch at frame 7.
-                if (effect.Timer < 1.f && owner->AnimationFrame >= 4.f)
-                {
-                    for (int lane = 0; lane < 2; ++lane)
-                    {
-                        OBJECT laneSource = effect;
-                        laneSource.Angle[2] += lane == 0 ? -14.f : 0.f;
-                        SpawnChild(kSwordFlightController, laneSource, owner,
-                            lane, 1.f);
-                    }
-                    effect.Timer = 1.f;
-                }
-                if (effect.Timer < 2.f && owner->AnimationFrame >= 7.f)
-                {
-                    OBJECT laneSource = effect;
-                    laneSource.Angle[2] += 14.f;
-                    SpawnChild(kSwordFlightController, laneSource, owner, 2, 1.f);
-                    effect.Timer = 2.f;
-                }
-            }
-            break;
-        case kSwordFlightController:
-            if (owner && owner->Live)
-            {
-                const float normalized = Clamp01(elapsed / initialLife);
-                const float travel = normalized <= 0.5f ? normalized * 2.f :
-                    (1.f - normalized) * 2.f;
-                vec3_t endpoint;
-                if (target && target != owner)
-                {
-                    VectorCopy(target->Position, endpoint);
-                }
-                else
-                {
-                    const float heading = (effect.Angle[2] - 90.f) *
-                        0.01745329252f;
-                    endpoint[0] = effect.StartPosition[0] + cosf(heading) * 650.f;
-                    endpoint[1] = effect.StartPosition[1] + sinf(heading) * 650.f;
-                    endpoint[2] = effect.StartPosition[2];
-                }
-                const float fan = static_cast<float>(effect.SubType - 1) * 75.f;
-                const float side = effect.Angle[2] * 0.01745329252f;
-                effect.Position[0] = effect.StartPosition[0] +
-                    (endpoint[0] - effect.StartPosition[0]) * travel +
-                    cosf(side) * fan;
-                effect.Position[1] = effect.StartPosition[1] +
-                    (endpoint[1] - effect.StartPosition[1]) * travel +
-                    sinf(side) * fan;
-                effect.Position[2] = effect.StartPosition[2] +
-                    (endpoint[2] - effect.StartPosition[2]) * travel +
-                    sinf(travel * 3.14159265f) * 35.f;
-                effect.Angle[0] = normalized <= 0.5f ? 0.f : 180.f;
-                effect.Angle[2] += 18.f * animationFactor;
-            }
-            break;
-        case kBatFlockController:
-            // 0x682 emits on LifeTime%5 == 0 or a 1/20 random pulse.
-            effect.Timer += animationFactor;
-            while (effect.Timer >= 1.f)
-            {
-                effect.Timer -= 1.f;
-                const int life = static_cast<int>(effect.LifeTime);
-                if ((life > 0 && life % 5 == 0) || rand() % 20 == 0)
-                {
-                    OBJECT pulse = effect;
-                    pulse.Position[0] += static_cast<float>((rand() % 201) - 100);
-                    pulse.Position[1] += static_cast<float>((rand() % 201) - 100);
-                    pulse.Position[2] += static_cast<float>((rand() % 31) + 75);
-                    Vector(1.f, 1.f, 1.f, pulse.Light);
-                    SpawnChild(kBatFlockModel, pulse, effect.Owner, 2, 2.5f);
-                    vec3_t half, gray;
-                    Vector(0.5f, 0.5f, 0.5f, half);
-                    Vector(0.65f, 0.65f, 0.65f, gray);
-                    CreateParticle(kPinStar02RedBitmap, pulse.Position,
-                        pulse.Angle, half, 0, 0.8f, &effect);
-                    CreateParticle(kEmpact01Bitmap, pulse.Position,
-                        pulse.Angle, gray, 0, 0.65f, &effect);
-                }
-            }
-            break;
-        case kBatFlockTargetController:
-            if (target)
-            {
-                VectorCopy(target->Position, effect.Position);
-                effect.Position[2] += 35.f;
-                effect.Timer += animationFactor;
-                while (effect.Timer >= 1.f)
-                {
-                    effect.Timer -= 1.f;
-                    if (elapsed >= 1.f && rand() % 15 != 0)
-                        continue;
-                    vec3_t red;
-                    Vector(1.f, 0.2f, 0.2f, red);
-                    CreateParticle(kGhostMark02RedBitmap, effect.Position,
-                        effect.Angle, red, 1, 0.2f, target);
-                }
-            }
-            break;
-        case kBatFlockDotController:
-            if (target)
-            {
-                VectorCopy(target->Position, effect.Position);
-                effect.Position[2] += 35.f;
-                effect.Timer += animationFactor;
-                while (effect.Timer >= 1.f)
-                {
-                    effect.Timer -= 1.f;
-                    if (rand() % 15 == 0)
-                        SpawnChild(kBatFlockOrbitController, effect,
-                            effect.Owner, 0, 1.f);
-                }
-            }
-            break;
-        case kBatFlockOrbitController:
-            effect.Timer += animationFactor;
-            while (effect.Timer >= 1.f)
-            {
-                effect.Timer -= 1.f;
-                const int phase = static_cast<int>(effect.LifeTime) % 6;
-                effect.Position[2] += phase < 3 ? 8.f : -8.f;
-                vec3_t magenta;
-                Vector(0.7f, 0.15f, 0.7f, magenta);
-                for (int ordinal = 0; ordinal < 3; ++ordinal)
-                {
-                    vec3_t p;
-                    VectorCopy(effect.Position, p);
-                    p[ordinal % 2] += static_cast<float>((rand() % 31) - 15);
-                    CreateParticle(kFireHik01MagentaBitmap, p, effect.Angle,
-                        magenta, 0, 0.5f, &effect);
-                }
-            }
-            break;
-        case kPierceController:
-            if (target)
-            {
-                VectorCopy(target->Position, effect.Position);
-                effect.Position[2] += 35.f;
-            }
-            // 294 root 0x679 is gated by the owner animation before the
-            // isolated Pierce carrier is emitted.
-            if (effect.Timer < 1.f && owner && owner->Live &&
-                owner->AnimationFrame >= 3.5f)
-            {
-                SpawnChild(kPierceImpactModel, effect, &effect, 0, 1.f);
-                effect.Timer = 1.f;
-            }
-            break;
-        case kPierceMotionController:
-            if (target)
-            {
-                VectorCopy(target->Position, effect.Position);
-                effect.Position[2] += 35.f;
-            }
-            // Legacy 5.2 supplies one resolved target; keep the subordinate
-            // visual carriers separate so their ownership/timing is explicit.
-            if (effect.Timer < 1.f && target)
-            {
-                SpawnChild(kPierceBurstController, effect, &effect, 0, 1.f);
-                SpawnChild(kPierceSwordController, effect, &effect, 0, 1.f);
-                SpawnChild(kPierceSwordController, effect, &effect, 1, 1.f);
-                SpawnChild(kPierceBatController, effect, &effect, 0, 1.f);
-                SpawnChild(kPierceFanController, effect, &effect, 0, 1.f);
-                SpawnChild(kPierceFanController, effect, &effect, 1, 1.f);
-                SpawnChild(kPierceFlashController, effect, &effect, 0, 1.f);
-                PlayImpactSound(kPierceAttack, target, 1);
-                PlayImpactSound(kPierceAttack, target, 2);
-                effect.Timer = 1.f;
-            }
-            break;
-        case kPierceSwordController:
-        case kPierceBurstController:
-            AttachToTarget(effect);
-            break;
-        case kPierceFlashController:
-            AttachToTarget(effect);
-            effect.Timer += animationFactor;
-            while (effect.Timer >= 1.f)
-            {
-                effect.Timer -= 1.f;
-                vec3_t white, position;
-                Vector(1.f, 1.f, 1.f, white);
-                VectorCopy(effect.Position, position);
-                position[0] += static_cast<float>((rand() % 31) - 15);
-                position[1] += static_cast<float>((rand() % 31) - 15);
-                CreateParticle(kGroundStarBitmap, position, effect.Angle,
-                    white, 0, 1.f, &effect);
-            }
-            break;
-        case kPierceFanController:
-            AttachToTarget(effect);
-            break;
-        case kPierceBatController:
-            AttachToTarget(effect);
-            effect.Timer += animationFactor;
-            while (effect.Timer >= 1.f)
-            {
-                effect.Timer -= 1.f;
-                vec3_t white;
-                Vector(1.f, 1.f, 1.f, white);
-                CreateParticle(kEmpact01Bitmap, effect.Position, effect.Angle,
-                    white, 0, 0.65f, &effect);
-                CreateParticle(kGhostMark02Bitmap, effect.Position, effect.Angle,
-                    white, 0, 0.2f, &effect);
-            }
-            break;
-        case kDetectionController:
-            if (owner && owner->Live)
-            {
+                // S21 0x1546793..0x1546803 uses the owning actor's
+                // animation frame, not the controller lifetime, for a
+                // 0..3.5..7 frame opacity triangle (constant 0x1B4ED34).
+                // Both ordinary Sword and base Pierce use subtype zero.
+                const float frame = owner->AnimationFrame;
+                effect.Alpha = Clamp01(frame <= 3.5f ?
+                    frame / 3.5f : 1.f - (frame - 3.5f) / 3.5f);
                 VectorCopy(owner->Position, effect.Position);
-                effect.Position[2] += 110.f;
-            }
-            // Detection remains tied to the caster action while the isolated
-            // compatibility carrier emits its authored sprite family.
-            effect.Timer += animationFactor;
-            while (effect.Timer >= 1.f && owner && owner->Live &&
-                owner->CurrentAction == kDetectionAction)
-            {
-                effect.Timer -= 1.f;
-                for (int ordinal = 0; ordinal < 4; ++ordinal)
+                for (int ordinal = 0; ordinal < 2; ++ordinal)
                 {
                     vec3_t position, angle, light;
                     VectorCopy(effect.Position, position);
@@ -628,67 +954,480 @@ void UpdateEffect(OBJECT& effect, float animationFactor)
                     position[1] += static_cast<float>((rand() % 61) - 30);
                     if ((rand() & 1) == 0)
                     {
-                        Vector(0.4f, 0.45f, 1.f, light);
+                        Vector(1.f, 0.1f, 0.05f, light);
                         CreateParticle(kSmoke01Bitmap, position, angle, light,
-                            0x77, 2.5f, &effect);
+                            0x77, 2.f, &effect);
                     }
                     else
                     {
-                        Vector(0.15f, 0.18f, 1.f, light);
+                        Vector(1.f, 0.25f, 0.05f, light);
                         CreateParticle(kSmokeLines01Bitmap + rand() % 3,
-                            position, angle, light, 0x0D, 2.f, &effect);
+                            position, angle, light, 0x0D, 1.8f, &effect);
                     }
                 }
-                OBJECT wave = effect;
-                wave.Angle[2] = (static_cast<int>(effect.LifeTime) & 1) != 0 ?
-                    -static_cast<float>(rand() % 101) :
-                    static_cast<float>(rand() % 101);
-                SpawnChild(kDetectionMarkModel, wave, &effect, 0, 0.2f);
+                // S21 0x1546BEA..0x1546D75 creates model 0x691 only
+                // when the independent random sample is divisible by six.
+                // A child on every frame accumulated opaque geometry.
+                if (rand() % 6 == 0)
+                {
+                    // The 0x1546CC1..0x1546CED argument window copies the
+                    // root angles, then replaces Z with a 0..360 sample.
+                    OBJECT markAnchor = effect;
+                    markAnchor.Angle[2] = NativeRandomRange(0.f, 360.f);
+                    SpawnChild(kDetectionMarkModel, markAnchor, &effect,
+                        0, 0.f);
+                }
             }
             break;
-        case kDetectionChildController:
-            if (owner && owner->Live)
+        case kSwordSecondaryController:
+        {
+            const bool pierceList = effect.Skill == kPierceAttack &&
+                PierceTargetCount(effect) > 0;
+            if (pierceList && effect.SubType == 2)
             {
-                VectorCopy(owner->Position, effect.Position);
-                effect.Position[2] += 100.f;
+                // Native 0x15466CF pops the completed 0x689 list key when
+                // its 0x68B child has set root state 2 at 0x154759F.
+                ++effect.CurrentAction;
+                effect.SubType = 0;
+                effect.m_sTargetIndex = -1;
+            }
+            if (pierceList && effect.CurrentAction >=
+                PierceTargetCount(effect))
+            {
+                effect.LifeTime = 0.f;
+                break;
+            }
+            if (owner && owner->Live &&
+                (pierceList ?
+                    effect.SubType == 0 :
+                    effect.Timer < 1.f))
+            {
+                // Native 0x1545A08 walks the list on supplemental 0x126
+                // roots; base Sword remains a single-target one-shot. The
+                // private 5.2 sidecar supplies that list instead of adding
+                // S21 vector fields to OBJECT. It anchors 0x68D at
+                // target+100Z, backs the
+                // launch point 100 units along the caster-to-target yaw,
+                // emits one 0x68B (not both subtypes), one 0x68E/subtype 0,
+                // then raises the 0x68C endpoint another 100 units.  0x686
+                // belongs only to the separate 0x817 master-skill branch.
+                OBJECT* laneTarget = pierceList ?
+                    PierceTargetAt(effect, effect.CurrentAction) : target;
+                if (pierceList && !laneTarget)
+                {
+                    // S21 removes an unresolved list key; never emit a
+                    // false hit at the caster's creation position.
+                    ++effect.CurrentAction;
+                    break;
+                }
+                if (pierceList)
+                    effect.m_sTargetIndex = PierceTargetIndexAt(effect,
+                        effect.CurrentAction);
+                OBJECT anchor = effect;
+                if (laneTarget)
+                    VectorCopy(laneTarget->Position, anchor.Position);
+                anchor.Position[2] += 100.f;
+                anchor.Angle[0] = 0.f;
+                anchor.Angle[1] = 0.f;
+                anchor.Angle[2] = CreateAngle(effect.StartPosition[0],
+                    effect.StartPosition[1], anchor.Position[0],
+                    anchor.Position[1]);
+                SpawnChild(kSword68DController, anchor, &effect, 0, 0.f);
+
+                OBJECT launch = anchor;
+                // S21 0x1545D43..0x1545E78 rotates (0,-1,0) by the
+                // target yaw, scales that forward vector by 100, then
+                // SUBTRACTS it from the target position. The old plus
+                // signs launched the sword beyond the target instead.
+                vec3_t nativeForward, rotatedForward;
+                vec34_t launchMatrix;
+                Vector(0.f, -1.f, 0.f, nativeForward);
+                AngleMatrix(launch.Angle, launchMatrix);
+                VectorRotate(nativeForward, launchMatrix,
+                    rotatedForward);
+                launch.Position[0] -= rotatedForward[0] * 100.f;
+                launch.Position[1] -= rotatedForward[1] * 100.f;
+                launch.Position[2] -= rotatedForward[2] * 100.f;
+                // S21 0x1545EA1/0x1545EF8/0x154605F reads the owning
+                // 0x689 EFFECT+0xA0 scale for 0x68B/0x68E creation, not
+                // the caster actor scale. The list-bearing receive creates
+                // that 0x689 with incoming scale zero at 0x12A7A43.
+                const float sourceScale = effect.Scale;
+                SpawnChild(kSword68BController, launch, &effect, 0,
+                    sourceScale);
+                SpawnChild(kSword68EController, launch, &effect, 0,
+                    sourceScale);
+
+                launch.Position[2] += 100.f;
+                SpawnChild(kSword68CController, launch, &effect, 0, 0.f);
+                if (pierceList)
+                {
+                    SendPierceLaneRequest(effect, effect.m_sTargetIndex,
+                        *laneTarget);
+                    effect.SubType = 1;
+                }
+                else
+                    effect.Timer = 1.f;
+            }
+            break;
+        }
+        case kSword68BController:
+            // Native subtype 1 receives a final five-tick 30-unit direction
+            // push before the engine homing/collision test.
+            if (effect.SubType == 1 && effect.LifeTime > initialLife - 5.f)
+            {
+                effect.Position[0] += effect.Direction[0] * 30.f *
+                    animationFactor;
+                effect.Position[1] += effect.Direction[1] * 30.f *
+                    animationFactor;
+                effect.Position[2] += effect.Direction[2] * 30.f *
+                    animationFactor;
+            }
+            // Native helper 0x1417693 aborts when its target/model transform
+            // cannot be resolved.  Preserve the target-liveness side effect;
+            // its remaining work is bone preparation rather than movement.
+            if (!AdvanceSword68BTargetAnimation(effect, target))
+            {
+                // 0x154759F signals state 2 on the owning 0x689 root when
+                // the target model/action helper returns false.
+                if (owner && owner->Type == kSwordSecondaryController &&
+                    owner->Skill == kPierceAttack)
+                    owner->SubType = 2;
+                effect.LifeTime = 0.f;
+            }
+            break;
+        case kSword68EController:
+            if (effect.Timer < 1.f)
+            {
+                SpawnChild(kSword68FController, effect, &effect, 0, 1.f);
+                SpawnChild(kSword68FController, effect, &effect, 1, 1.f);
+                SpawnChild(kSword690Controller, effect, &effect, 0, 1.f);
+                effect.Timer = 1.f;
+            }
+            break;
+        case kSword68FController:
+            AdvanceSwordFlight(effect, animationFactor);
+            effect.Alpha = initialLife > 0.f ?
+                (effect.LifeTime / initialLife) * 0.5f : 0.f;
+            break;
+        case kSword690Controller:
+        {
+            AdvanceSwordFlight(effect, animationFactor);
+            // Native 0x690 emits two independently randomized smoke samples
+            // around the projectile after advancing it.
+            for (int ordinal = 0; ordinal < 2; ++ordinal)
+            {
+                vec3_t position, angle, light;
+                VectorCopy(effect.Position, position);
+                VectorCopy(effect.Angle, angle);
+                const float radius = 30.f;
+                const float yaw = static_cast<float>(rand() % 360) *
+                    0.01745329252f;
+                position[0] += cosf(yaw) * radius;
+                position[1] += sinf(yaw) * radius;
+                position[2] += 100.f;
+                if (ordinal == 0)
+                {
+                    Vector(0.8f, 0.05f, 0.05f, light);
+                    CreateParticle(kSmoke01Bitmap, position, angle, light,
+                        0x76, 2.5f, &effect);
+                }
+                else
+                {
+                    Vector(1.f, 0.2f, 0.25f, light);
+                    CreateParticle(kSmokeLines01Bitmap + rand() % 3,
+                        position, angle, light, 0x0C, 3.f, &effect);
+                }
+            }
+            break;
+        }
+        case kBatFlockController:
+            // 0x682 emits on LifeTime%5 == 0 or a 1/20 random pulse.
+            effect.Timer += animationFactor;
+            while (effect.Timer >= 1.f)
+            {
+                effect.Timer -= 1.f;
+                const int life = static_cast<int>(effect.LifeTime);
+                if ((life > 0 && life % 5 == 0) || rand() % 20 == 0)
+                    EmitBatMainPulse(effect);
+            }
+            break;
+        case kBatFlockTargetController:
+        {
+            // S21 0x15442BB seeds once at InitialLife, then gates at
+            // random 1/15. The root remains at its caster creation point;
+            // the chosen target is only the joint owner.
+            if (effect.LifeTime >= initialLife)
+            {
+                EmitBatTargetJoint(effect, PickBatFlockTarget(effect));
+            }
+            else
+            {
                 effect.Timer += animationFactor;
                 while (effect.Timer >= 1.f)
                 {
                     effect.Timer -= 1.f;
-                    vec3_t blue;
-                    Vector(0.35f, 0.65f, 1.f, blue);
-                    OBJECT mark = effect;
-                    VectorCopy(blue, mark.Light);
-                    // Keep Detection's 5.2 mark/impact carriers separate from
-                    // Bat Flock. The direct S21 evidence proves root 0x692;
-                    // these child records are an isolated compatibility layer.
-                    SpawnChild(kDetectionMarkModel, mark, &effect, 1, 1.0f);
-                    if ((rand() & 1) == 0)
-                        SpawnChild(kDetectionImpactModel, mark, &effect, 1,
-                            0.8f);
+                    if (rand() % 15 == 0)
+                        EmitBatTargetJoint(effect, PickBatFlockTarget(effect));
                 }
             }
             break;
-        case kDemolishController:
-            if (owner && owner->Live)
+        }
+        case kBatFlockDotController:
+            // S21 0x684 does not attach its root to the selected target.
+            // It independently gates a localized 0x685 spawn at 1/15.
+            effect.Timer += animationFactor;
+            while (effect.Timer >= 1.f)
             {
-                VectorCopy(owner->Position, effect.Position);
-                effect.Position[2] += 100.f;
-                effect.Timer += animationFactor;
-                // S21 root 0x695 is a self buff, so keep the carrier alive for
-                // the 60-second server effect and pulse only its authored
-                // gold/yellow sprite family.
-                while (effect.Timer >= 5.f)
+                effect.Timer -= 1.f;
+                if (rand() % 15 == 0)
+                    EmitBatOrbitChild(effect);
+            }
+            break;
+        case kBatFlockOrbitController:
+            // Native 0x1544ADF rotates by its initializer's signed step,
+            // advances scale/3 along the rotated direction, then emits three
+            // sequential 0x82E8 particles with light (1,.8,.2).
+            effect.Angle[2] +=
+                (static_cast<int>(effect.LifeTime) % 6 < 3 ? 1.f : -1.f) *
+                effect.Gravity;
+            vec34_t matrix;
+            AngleMatrix(effect.Angle, matrix);
+            vec3_t step, light;
+            step[0] = matrix[0][0] * (effect.Scale / 3.f);
+            step[1] = matrix[0][1] * (effect.Scale / 3.f);
+            step[2] = matrix[0][2] * (effect.Scale / 3.f);
+            Vector(1.f, 0.8f, 0.2f, light);
+            for (int ordinal = 0; ordinal < 3; ++ordinal)
+            {
+                effect.Position[0] += step[0];
+                effect.Position[1] += step[1];
+                effect.Position[2] += step[2];
+                CreateParticle(kFireHik01MagentaBitmap, effect.Position,
+                    effect.Angle, light, 0, 1.f, &effect);
+            }
+            break;
+        case kBatFlock686Controller:
+        {
+            // Native subtype 1 emits a randomized burst on 1/15 frames;
+            // subtype 0 performs the same burst every frame.  Both add a
+            // sparse 0x82EF joint on a separate 1/8 gate.
+            if (effect.SubType == 0 || rand() % 15 == 0)
+            {
+                OBJECT burst = effect;
+                burst.Position[0] += static_cast<float>((rand() % 101) - 50);
+                burst.Position[1] += static_cast<float>((rand() % 101) - 50);
+                burst.Position[2] += static_cast<float>((rand() % 101) + 50);
+                const float scale = static_cast<float>(60 + rand() % 61) *
+                    0.01f;
+                Vector(1.f, 1.f, 1.f, burst.Light);
+                SpawnChild(kBatFlock687Controller, burst, &effect, 0, scale);
+                CreateParticle(kEmpact01Bitmap, burst.Position, burst.Angle,
+                    burst.Light, 0, scale * 0.5f, &effect);
+            }
+            if (rand() % 8 == 0)
+            {
+                vec3_t jointPosition;
+                VectorCopy(effect.Position, jointPosition);
+                jointPosition[2] += 100.f;
+                CreateJoint(kGhostMark02Bitmap, jointPosition, jointPosition,
+                    effect.Angle, 0, &effect, 10.f, -1, 0, 0, -1, 0, -1);
+            }
+            if (effect.SubType == 0)
+                ++effect.LifeTime;
+            break;
+        }
+        case kBatFlock687Controller:
+        {
+            vec3_t white;
+            Vector(1.f, 1.f, 1.f, white);
+            CreateParticle(kWaterBoardRedBitmap, effect.Position, effect.Angle,
+                white, 0, effect.Scale * 0.6f, &effect);
+            CreateParticle(kWaterWallBitmap, effect.Position, effect.Angle,
+                white, 0, effect.Scale * 0.8f, &effect);
+            break;
+        }
+        case kPierceController:
+            // S21 0x154113C..0x1541167 removes 0x679 when the owner
+            // handle is absent or no longer live; do not keep a stale
+            // 99-tick controller in the recycled 5.2 effect pool.
+            if (!owner || !owner->Live)
+            {
+                effect.LifeTime = 0.f;
+                break;
+            }
+            // Native 0x154117D restores the root's launch position from its
+            // own saved vector. 0x15411DF reads the root animation frame
+            // (+0xD0), not the owning player's frame.
+            VectorCopy(effect.StartPosition, effect.Position);
+            // 0x15411E2 compares that effect frame against exactly 4.0.
+            // At that frame the center 0x67B/0x681 pair and the +90-degree
+            // 0x67A/0x67C/0x681 group are both created.
+            if (owner && owner->Live && effect.Timer < 1.f &&
+                effect.AnimationFrame >= 4.f)
+            {
+                SpawnChild(kPierce67BController, effect, &effect, 0, 1.f);
+                SpawnChild(kPierceSwordLineModel, effect, owner, 0, 1.f);
+                OBJECT flank = effect;
+                OffsetByYaw(flank, 90.f, 200.f, 0.f);
+                const int subtype = rand() & 1;
+                SpawnChild(kPierce67AController, flank, &effect, subtype,
+                    owner->Scale);
+                SpawnChild(kPierce67CController, flank, &effect, 0,
+                    owner->Scale);
+                flank.Position[2] += 50.f;
+                SpawnChild(kPierceSwordLineModel, flank, owner, subtype + 1,
+                    1.f);
+                effect.Timer = 1.f;
+            }
+            // 0x15418B3 compares the same effect frame against exactly 7.0
+            // and emits the mirrored
+            // -90-degree group once.
+            if (owner && owner->Live && effect.Timer < 2.f &&
+                effect.AnimationFrame >= 7.f)
+            {
+                OBJECT flank = effect;
+                OffsetByYaw(flank, -90.f, 200.f, 0.f);
+                const int subtype = rand() & 1;
+                SpawnChild(kPierce67AController, flank, &effect, subtype,
+                    owner->Scale);
+                SpawnChild(kPierce67CController, flank, &effect, 0,
+                    owner->Scale);
+                flank.Position[2] += 50.f;
+                SpawnChild(kPierceSwordLineModel, flank, owner, subtype + 1,
+                    1.f);
+                effect.Timer = 2.f;
+            }
+            break;
+        case kPierce67AController:
+            if (effect.Timer < 1.f)
+            {
+                SpawnChild(kPierce67BController, effect, &effect, 0, 1.f);
+                SpawnChild(kPierce67BController, effect, &effect, 1, 1.f);
+                effect.Timer = 1.f;
+            }
+            break;
+        case kPierce67BController:
+            if (effect.Timer < 1.f)
+            {
+                SpawnChild(kPierce680Controller, effect, &effect, 0, 1.f);
+                effect.Timer = 1.f;
+            }
+            CreateSprite(kImpack03Bitmap, effect.Position, 1.5f,
+                effect.Light, &effect, 0.f, 4);
+            CreateSprite(kPinStarBitmap, effect.Position, 1.f,
+                effect.Light, &effect, 0.f, 4);
+            break;
+        case kPierce67CController:
+            if (effect.Timer < 1.f)
+            {
+                SpawnChild(kPierce67DController, effect, &effect, 0, 1.f);
+                SpawnChild(kPierce67EController, effect, &effect, 0, 1.f);
+                effect.Timer = 1.f;
+            }
+            break;
+        case kPierce67DController:
+        case kPierce680Controller:
+            break;
+        case kPierce67EController:
+            CreateParticle(kJujugBitmap, effect.Position, effect.Angle,
+                effect.Light, 0, 1.f, &effect);
+            break;
+        case kSword68CController:
+        {
+            // Native 0x15475B8 does not attach 0x68C to the selected target.
+            // It emits 0x8149 at the endpoint supplied by root 0x689, with a
+            // random +/-50 position cube, +/-90 pitch/yaw and a signed
+            // 80..100-degree roll. The authored scale is 24.
+            vec3_t position, angle, light;
+            VectorCopy(effect.Position, position);
+            position[0] += static_cast<float>((rand() % 101) - 50);
+            position[1] += static_cast<float>((rand() % 101) - 50);
+            position[2] += static_cast<float>((rand() % 101) - 50);
+            angle[0] = static_cast<float>((rand() % 181) - 90);
+            angle[1] = static_cast<float>((rand() % 181) - 90);
+            angle[2] = effect.Angle[2] + ((rand() & 1) ? 1.f : -1.f) *
+                static_cast<float>(80 + rand() % 21);
+            Vector(1.f, 0.1f, 0.3f, light);
+            CreateParticle(kGroundStarBitmap, position, angle, light,
+                0, 24.f, &effect);
+            break;
+        }
+        case kDetectionController:
+        case kDemolishController:
+            if (!owner || !owner->Live)
+            {
+                effect.LifeTime = 0.f;
+                break;
+            }
+            // Native 0x154856F/0x1548F0C run only during the paired source
+            // action and emit four randomized smoke records per frame.
+            if (owner->CurrentAction != (effect.Type == kDetectionController ?
+                    kDetectionAction : kDemolishAction))
+                break;
+            // S21 0x15486A4/0x1549041 builds every smoke position from
+            // the root's saved +0x1D0 launch vector. The root does not
+            // follow a moving caster during its action.
+            VectorCopy(effect.StartPosition, effect.Position);
+            for (int ordinal = 0; ordinal < 4; ++ordinal)
+            {
+                vec3_t position, angle, light;
+                VectorCopy(effect.Position, position);
+                VectorCopy(effect.Angle, angle);
+                const float radius = 30.f;
+                const float yaw = static_cast<float>(rand() % 360) *
+                    0.01745329252f;
+                position[0] += cosf(yaw) * radius;
+                position[1] += sinf(yaw) * radius;
+                if ((rand() & 1) == 0)
                 {
-                    effect.Timer -= 5.f;
-                    vec3_t gold, yellow;
-                    Vector(1.f, 0.62f, 0.08f, gold);
-                    Vector(1.f, 0.90f, 0.20f, yellow);
-                    CreateParticle(kFireHik01GoldBitmap, effect.Position,
-                        effect.Angle, gold, 0, 1.4f, &effect);
-                    CreateParticle(kFlare01YellowBitmap, effect.Position,
-                        effect.Angle, yellow, 0, 0.8f, &effect);
+                    if (effect.Type == kDetectionController)
+                        Vector(0.4f, 0.45f, 1.f, light);
+                    else
+                        Vector(1.f, 0.35f, 0.05f, light);
+                    CreateParticle(kSmoke01Bitmap, position, angle, light,
+                        0x77, 2.5f, &effect);
                 }
+                else
+                {
+                    if (effect.Type == kDetectionController)
+                        Vector(0.15f, 0.18f, 1.f, light);
+                    else
+                        Vector(1.f, 0.5f, 0.15f, light);
+                    CreateParticle(kSmokeLines01Bitmap + rand() % 3,
+                        position, angle, light, 0x0D, 2.f, &effect);
+                }
+            }
+            {
+                OBJECT wave = effect;
+                wave.Angle[2] = (static_cast<int>(effect.LifeTime) & 1) == 0 ?
+                    static_cast<float>(rand() % 360) :
+                    -static_cast<float>(rand() % 360);
+                Vector(1.f, 1.f, 1.f, wave.Light);
+                SpawnChild(kDetectionMarkModel, wave, &effect, 0, 0.2f);
+            }
+            break;
+        case kDetectionChildController:
+        case kDemolishChildController:
+            if (!owner || !owner->Live)
+            {
+                effect.LifeTime = 0.f;
+                break;
+            }
+            {
+                OBJECT bat = effect;
+                // Native 0x693/0x696 also start their 0x678 children at
+                // their own saved +0x1D0 cast position, then add 100 Z.
+                VectorCopy(effect.StartPosition, bat.Position);
+                bat.Position[2] += 100.f;
+                Vector(0.5f, 0.8f, 1.f, bat.Light);
+                const int subtype = effect.Type == kDetectionChildController ?
+                    1 : 4;
+                const float scale = effect.Type == kDetectionChildController ?
+                    1.5f : 2.f;
+                SpawnChild(kBatFlockModel, bat, &effect, subtype, scale);
+                if ((rand() & 1) == 0)
+                    SpawnChild(kBatFlockModel, bat, &effect, subtype, scale);
             }
             break;
         default:
@@ -697,44 +1436,175 @@ void UpdateEffect(OBJECT& effect, float animationFactor)
         return;
     }
 
-    if ((effect.Type == kSwordInertiaModel ||
-         effect.Type == kSwordInertiaAuraModel) && owner)
+    if (effect.Type == kPierceSwordLineModel)
     {
-        VectorCopy(owner->Position, effect.Position);
-        VectorCopy(owner->Angle, effect.Angle);
-        effect.Angle[2] += 18.f * animationFactor;
-        const float normalized = Clamp01(elapsed / initialLife);
-        effect.Alpha = normalized < 0.9f ? 1.f : Clamp01((1.f - normalized) * 10.f);
-    }
-    else if (effect.Type == kPierceImpactModel ||
-             effect.Type == kPierceSwordLineModel)
-    {
-        AttachToTarget(effect);
-        effect.Angle[2] += 18.f * animationFactor;
+        // Native 0x154371B: 0x681 is a zero-mesh, four-bone animation
+        // controller.  Bones 3 and 1 are the two ribbon endpoints. Subtypes
+        // 0..2 select S21 bitmap 0x82EC; subtype 3 selects 0x82F4.
+        if (!owner || !owner->Live || !Models ||
+            !EnsureModel(kPierceSwordLineModel))
+        {
+            effect.LifeTime = 0.f;
+            return;
+        }
+        BMD& swordLine = Models[kPierceSwordLineModel];
+        if (swordLine.NumBones >= 4 && swordLine.NumActions > 0)
+        {
+            swordLine.CurrentAction = 0;
+            VectorCopy(effect.Position, swordLine.BodyOrigin);
+            swordLine.BodyScale = effect.Scale;
+            // 0x681's BMD has seven keys. Native iterates every key on each
+            // update and divides the source action speed by that exact count.
+            const float actionSpeed = effect.Velocity;
+            const int samples = swordLine.Actions[0].NumAnimationKeys;
+            if (samples <= 0 || actionSpeed <= 0.f)
+                return;
+            // S21 0x1543882: (initialLife - remainingLife + 1) * speed
+            // minus one speed step. The 5.2 lifetime already incorporates
+            // animationFactor, so multiplying speed by it again drifts at
+            // lower frame rates.
+            float frame = (initialLife - effect.LifeTime) * actionSpeed;
+            for (int sample = 0; sample < samples; ++sample)
+            {
+                if (frame > 5.5f)
+                    break;
+                swordLine.Animation(BoneTransform, frame,
+                    effect.PriorAnimationFrame, effect.PriorAction,
+                    effect.Angle, effect.HeadAngle);
+                vec3_t relative, start, finish, light;
+                Vector(0.f, 0.f, 0.f, relative);
+                swordLine.TransformPosition(BoneTransform[3], relative,
+                    start, false);
+                swordLine.TransformPosition(BoneTransform[1], relative,
+                    finish, false);
+                // S21 0x1543A79: modes 0..2 stay fully lit through frame 5,
+                // then use 1 - frame/keyCount; mode 3 keeps its initialized
+                // OBJECT+0xDC alpha unchanged.
+                const float alpha = effect.SubType == 3 ? effect.Alpha :
+                    (frame <= 5.f ? 1.f :
+                        Clamp01(1.f - frame / static_cast<float>(samples)));
+                if (effect.SubType != 3)
+                    effect.Alpha = alpha;
+                Vector(alpha, alpha, alpha, light);
+                CreateObjectBlurBitmap(&effect, start, finish, light,
+                    effect.SubType == 3 ? kBlur02MonoLongVan2Bitmap :
+                    kBlur02MonoLongVanBitmap, false, 0, 100);
+                frame += actionSpeed / static_cast<float>(samples);
+            }
+        }
     }
     else if (effect.Type == kBatFlockModel)
     {
-        AttachToTarget(effect);
-        effect.Angle[2] += 8.f * animationFactor;
+        // Native 0x678 has five distinct motion branches; attaching every bat
+        // to the target collapses the flock into the stationary placeholder
+        // seen in the earlier preview.
+        if (effect.SubType == 0)
+        {
+            const float third = initialLife / 3.f;
+            if (effect.LifeTime < third && third > 0.f)
+                effect.Alpha -= animationFactor / third;
+            effect.Scale -= 0.005f * animationFactor;
+            effect.Angle[2] += NativeRandomRange(-10.f, 10.f) *
+                animationFactor;
+            DirectionFromAngle(effect);
+            effect.Position[0] += effect.Direction[0] * effect.Gravity *
+                animationFactor;
+            effect.Position[1] += effect.Direction[1] * effect.Gravity *
+                animationFactor;
+            effect.Position[2] += effect.Direction[2] * effect.Gravity *
+                animationFactor;
+        }
+        else if (effect.SubType == 1 || effect.SubType == 4)
+        {
+            const float acceleration = (initialLife - effect.LifeTime) *
+                effect.Gravity * animationFactor;
+            effect.Position[0] += effect.Direction[0] * acceleration;
+            effect.Position[1] += effect.Direction[1] * acceleration;
+            effect.Position[2] += effect.Direction[2] * acceleration;
+        }
+        else if (effect.SubType == 2)
+        {
+            const float third = initialLife / 3.f;
+            if (effect.LifeTime < third && third > 0.f)
+                effect.Alpha -= animationFactor / third;
+            // S21 0x154064B..0x154091B checks the real target distance,
+            // then aims from the bat XY projected onto terrain height.
+            // A missing target retains direction and does not freeze flight.
+            if (target)
+            {
+                if (VectorDistance3(effect.Position, target->Position) <= 50.f)
+                    effect.LifeTime = 0.f;
+                else
+                {
+                    vec3_t terrainOrigin;
+                    VectorCopy(effect.Position, terrainOrigin);
+                    terrainOrigin[2] = RequestTerrainHeight(terrainOrigin[0],
+                        terrainOrigin[1]);
+                    VectorSubtract(target->Position, terrainOrigin,
+                        effect.Direction);
+                    VectorNormalize(effect.Direction);
+                    effect.Angle[2] = CreateAngle2D(terrainOrigin,
+                        target->Position);
+                }
+            }
+            if (effect.LifeTime > 0.f)
+            {
+                effect.Position[0] += effect.Direction[0] * effect.Gravity *
+                    animationFactor;
+                effect.Position[1] += effect.Direction[1] * effect.Gravity *
+                    animationFactor;
+                effect.Position[2] += effect.Direction[2] * effect.Gravity *
+                    animationFactor;
+                // Native 0x1540ADE: independent half-rate 0x8020 particle,
+                // resolved from the S21 loader to Effect\\WATERFALL4.jpg.
+                if ((rand() & 1) == 0)
+                {
+                    vec3_t trailLight;
+                    Vector(0.5f, 0.05f, 0.f, trailLight);
+                    CreateParticle(kWaterFall4Bitmap, effect.Position,
+                        effect.Angle, trailLight, 2, 2.f, &effect);
+                }
+            }
+        }
+        else if (effect.SubType == 3 && owner && owner->Live)
+        {
+            vec3_t destination;
+            VectorCopy(owner->Position, destination);
+            destination[2] += 120.f;
+            VectorSubtract(destination, effect.Position, effect.Direction);
+            const float distance = VectorNormalize(effect.Direction);
+            if (distance > 150.f)
+                effect.Angle[2] = CreateAngle2D(effect.Position, destination);
+            effect.Position[0] += effect.Direction[0] * effect.Gravity *
+                animationFactor;
+            effect.Position[1] += effect.Direction[1] * effect.Gravity *
+                animationFactor;
+            effect.Position[2] += effect.Direction[2] * effect.Gravity *
+                animationFactor;
+            effect.Distance = VectorDistance3(effect.Position, destination);
+            if (effect.Distance > 300.f)
+                effect.LifeTime = 0.f;
+            ++effect.LifeTime;
+        }
     }
     else if (effect.Type == kBatFlockTrailModel)
     {
         const float halfLife = initialLife * 0.5f;
         const float delta = 1.f / (halfLife > 0.f ? halfLife : 1.f);
-        effect.Scale += (effect.LifeTime > halfLife ? delta : -delta) *
+        effect.Alpha += (effect.LifeTime > halfLife ? delta : -delta) *
             animationFactor;
-        effect.Position[1] += (effect.Position[1] >= effect.StartPosition[1] ?
-            -1.f : 1.f) * animationFactor;
+        effect.Angle[1] += (effect.Angle[1] >= 0.f ?
+            1.f : -1.f) * animationFactor;
     }
     else if (effect.Type == kDetectionImpactModel)
     {
         const float halfLife = initialLife * 0.5f;
         const float delta = (effect.SubType == 1 ? 0.5f : 1.f) /
             (halfLife > 0.f ? halfLife : 1.f);
-        effect.Scale += (effect.LifeTime > halfLife ? delta : -delta) *
+        effect.Alpha += (effect.LifeTime > halfLife ? delta : -delta) *
             animationFactor;
         if (effect.SubType == 1)
-            effect.Angle[0] += 0.02f * animationFactor;
+            effect.Scale += 0.02f * animationFactor;
     }
     else if (effect.Type == kDetectionMarkModel)
     {
@@ -742,17 +1612,17 @@ void UpdateEffect(OBJECT& effect, float animationFactor)
         {
             const float quarter = initialLife * 0.25f;
             if (effect.LifeTime > initialLife - quarter)
-                effect.Scale += animationFactor / quarter;
+                effect.Alpha += animationFactor / quarter;
             else if (effect.LifeTime < quarter)
-                effect.Scale -= animationFactor / quarter;
-            effect.Angle[0] += 0.025f * animationFactor;
-            effect.Position[2] += (effect.Position[2] >= effect.StartPosition[2] ?
-                -3.f : 3.f) * animationFactor;
+                effect.Alpha -= animationFactor / quarter;
+            effect.Scale += 0.025f * animationFactor;
+            effect.Angle[2] += (effect.Angle[2] >= 0.f ? 3.f : -3.f) *
+                animationFactor;
         }
         else
         {
             const float half = initialLife * 0.5f;
-            effect.Scale += (effect.LifeTime > half ? 1.f : -1.f) *
+            effect.Alpha += (effect.LifeTime > half ? 1.f : -1.f) *
                 animationFactor / half;
         }
     }
@@ -770,39 +1640,92 @@ void UpdateEffect(OBJECT& effect, float animationFactor)
 bool RenderEffect(OBJECT& effect)
 {
 #ifdef RISE_SLAYER_PORT
+    if (IsBitmapEffect(effect.Type))
+    {
+        int bitmap = 0;
+        switch (effect.Type)
+        {
+        case kFlare01RedEffect: bitmap = kFlare01RedBitmap; break;
+        case kRingOfGradation2Effect: bitmap = kRingOfGradation2Bitmap; break;
+        case kEnemyRing01Effect: bitmap = kEnemyRing01Bitmap; break;
+        case kMagicGround12Effect: bitmap = kMagicGround12Bitmap; break;
+        case kFlareBlueEffect: bitmap = kFlareBlueBitmap; break;
+        case kFlareEffect: bitmap = kFlareBitmap; break;
+        default: return false;
+        }
+        // A failed registration must never submit the black fallback
+        // texture from CGlobalBitmap::GetTexture.
+        if (!Bitmaps.FindTexture(bitmap))
+            return false;
+        vec3_t light;
+        Vector(effect.Light[0] * effect.Alpha,
+            effect.Light[1] * effect.Alpha,
+            effect.Light[2] * effect.Alpha, light);
+        // Each imported bitmap-object subtype reaches native 0x1765DF1,
+        // the terrain-tile alpha renderer. None is a billboard sprite.
+        const float rotation = effect.Type == kRingOfGradation2Effect ||
+            effect.Type == kMagicGround12Effect ? 0.f : effect.Angle[2];
+        // RenderEffects invokes this branch in its ordinary opaque/model pass.
+        // RenderTerrainAlphaBitmap only binds and submits textured tiles; it
+        // never enables blending. These S21 OZJ/JPEG effect images have black
+        // backgrounds, so submitting them opaque paints black terrain squares.
+        // Keep the additive bitmap pass scoped to this node; model objects
+        // continue through their authored RenderBody material path below.
+        EnableAlphaBlend();
+        RenderTerrainAlphaBitmap(bitmap, effect.Position[0],
+            effect.Position[1], effect.Scale, effect.Scale, light,
+            rotation, 1.f, 5.f);
+        DisableAlphaBlend();
+        return true;
+    }
     if (IsController(effect.Type))
         return true;
     if (!IsKnownModel(effect.Type) || !EnsureModel(effect.Type) ||
         !Calc_RenderObject(&effect, false, 0, 0))
         return false;
     BMD& model = Models[effect.Type];
-    // This isolated Pierce carrier has no triangles to submit when its BMD is
-    // zero-mesh; no direct S21 child relationship is assumed here.
+    // Native 0x681 (van_swordline01) is an animation/position controller and
+    // intentionally has no triangles in the supplied S21 asset.
     if (model.NumMeshs == 0)
         return true;
-    model.BodyLight[0] = effect.Light[0] * effect.Alpha;
-    model.BodyLight[1] = effect.Light[1] * effect.Alpha;
-    model.BodyLight[2] = effect.Light[2] * effect.Alpha;
-    for (int mesh = 0; mesh < model.NumMeshs; ++mesh)
-    {
-        // The solid first mesh keeps its authored texture lighting; overlay
-        // meshes and one-mesh aura/bat/mark assets use the additive path.
-        const bool overlayOnly = effect.Type == kSwordInertiaAuraModel ||
-            effect.Type == kBatFlockModel ||
-            effect.Type == kDetectionMarkModel;
-        const int flags = RENDER_TEXTURE |
-            ((overlayOnly || mesh > 0) ? RENDER_BRIGHT : 0);
-        model.RenderMesh(mesh, flags, effect.Alpha,
-            effect.BlendMesh, effect.BlendMeshLight,
-            effect.BlendMeshTexCoordU, effect.BlendMeshTexCoordV, -1);
-    }
+    // Native 0x691 and 0x694 use the generic object Calc/Draw path. In 5.2,
+    // RENDER_BRIGHT selects GL_ONE/GL_ONE and ignores the per-instance Alpha
+    // from both models' native fade curves. The per-frame 0x691 children then
+    // sum into the white block seen in QA. Keep both fading buff models in
+    // the ordinary textured alpha path, while luminous bat/trail models use
+    // their additive material pass.
+    const int renderFlags = effect.Type == kDetectionMarkModel ||
+        effect.Type == kDetectionImpactModel ? RENDER_TEXTURE :
+        (RENDER_TEXTURE | RENDER_BRIGHT);
+    model.RenderBody(renderFlags, effect.Alpha,
+        effect.BlendMesh, effect.BlendMeshLight,
+        effect.BlendMeshTexCoordU, effect.BlendMeshTexCoordV,
+        effect.HiddenMesh);
 #ifdef RISE_SLAYER_RUNTIME_QA
-    LogModelRender(effect, model);
+    LogModelRender(effect, model, renderFlags);
 #endif
     return true;
 #else
     (void)effect;
     return false;
+#endif
+}
+
+void ApplyPlayerActionSpeeds(int attackSpeed)
+{
+#ifdef RISE_SLAYER_PORT
+    if (!Models || Models[MODEL_PLAYER].NumActions <= kDemolishAction)
+        return;
+    // S21 player action speed setter 0x140A401..0x140A62D reads an
+    // AttackSpeed1 term formed at 0x1408881 by AttackSpeed * 0.002.
+    const float term = attackSpeed * 0.002f;
+    Models[MODEL_PLAYER].Actions[kSwordInertiaAction].PlaySpeed = 0.43f + term;
+    Models[MODEL_PLAYER].Actions[kBatFlockAction].PlaySpeed = 0.40f + term;
+    Models[MODEL_PLAYER].Actions[kPierceAttackAction].PlaySpeed = 0.40f + term;
+    Models[MODEL_PLAYER].Actions[kDetectionAction].PlaySpeed = 0.10f + term;
+    Models[MODEL_PLAYER].Actions[kDemolishAction].PlaySpeed = 0.10f + term;
+#else
+    (void)attackSpeed;
 #endif
 }
 
@@ -821,10 +1744,12 @@ bool ApplyCastAction(OBJECT& actor, int skillId)
     }
     if (!Models || Models[MODEL_PLAYER].NumActions <= action)
         return false;
+    if (CharacterAttribute)
+        ApplyPlayerActionSpeeds(CharacterAttribute->AttackSpeed);
     actor.CurrentAction = action;
     actor.AnimationFrame = 0.f;
     actor.PriorAnimationFrame = 0.f;
-    actor.Velocity = 0.35f;
+    actor.Velocity = Models[MODEL_PLAYER].Actions[action].PlaySpeed;
     return true;
 #else
     (void)actor;
@@ -833,47 +1758,86 @@ bool ApplyCastAction(OBJECT& actor, int skillId)
 #endif
 }
 
+namespace {
+bool RegisterSlayerBitmap(int id, const char* virtualPath,
+    GLuint filter, GLuint wrap)
+{
+    const bool loaded = Bitmaps.LoadImageFile(id, virtualPath, filter, wrap);
+#ifdef RISE_SLAYER_RUNTIME_QA
+    if (!loaded)
+    {
+        char line[384];
+        sprintf_s(line, sizeof(line),
+            "SlayerQA bitmap-load-failed id=%d logical=%s", id,
+            virtualPath);
+        rise::slayerqa::AppendRuntimeQALog(line);
+    }
+#endif
+    return loaded;
+}
+}
+
 void LoadSounds()
 {
 #ifdef RISE_SLAYER_PORT
-    Bitmaps.LoadImageFile(kMagicGround12Bitmap,
-        "Data\\RISE\\Slayer\\Effect\\magic_ground12.OZJ", GL_LINEAR, GL_CLAMP);
-    Bitmaps.LoadImageFile(kRingOfGradation2Bitmap,
-        "Data\\RISE\\Slayer\\Effect\\ring_of_gradation2.OZJ", GL_LINEAR, GL_CLAMP);
-    Bitmaps.LoadImageFile(kPinStar03Bitmap,
-        "Data\\RISE\\Slayer\\Effect\\pin_star03.OZJ", GL_LINEAR, GL_CLAMP);
-    Bitmaps.LoadImageFile(kFlare01RedBitmap,
-        "Data\\RISE\\Slayer\\Effect\\flare01_red.OZJ", GL_LINEAR, GL_CLAMP);
-    Bitmaps.LoadImageFile(kEnemyRing01Bitmap,
-        "Data\\RISE\\Slayer\\Effect\\enemy_ring01.OZJ", GL_LINEAR, GL_CLAMP);
-    Bitmaps.LoadImageFile(kGhostMark02RedBitmap,
-        "Data\\RISE\\Slayer\\Effect\\gostmark02_red.OZJ", GL_LINEAR, GL_CLAMP);
-    Bitmaps.LoadImageFile(kSmoke01Bitmap,
-        "Data\\RISE\\Slayer\\Effect\\smoke01.OZJ", GL_LINEAR, GL_CLAMP);
-    Bitmaps.LoadImageFile(kSmokeLines01Bitmap,
-        "Data\\RISE\\Slayer\\Effect\\smokelines01.OZJ", GL_LINEAR, GL_CLAMP);
-    Bitmaps.LoadImageFile(kSmokeLines02Bitmap,
-        "Data\\RISE\\Slayer\\Effect\\smokelines02.OZJ", GL_LINEAR, GL_CLAMP);
-    Bitmaps.LoadImageFile(kSmokeLines03Bitmap,
-        "Data\\RISE\\Slayer\\Effect\\smokelines03.OZJ", GL_LINEAR, GL_CLAMP);
-    Bitmaps.LoadImageFile(kPinStar02RedBitmap,
-        "Data\\RISE\\Slayer\\Effect\\pin_star02_red.OZJ", GL_LINEAR, GL_CLAMP);
-    Bitmaps.LoadImageFile(kFireHik01MagentaBitmap,
-        "Data\\RISE\\Slayer\\Effect\\firehik01_magenta.OZJ", GL_LINEAR, GL_CLAMP);
-    Bitmaps.LoadImageFile(kEmpact01Bitmap,
-        "Data\\RISE\\Slayer\\Effect\\empact01.OZJ", GL_LINEAR, GL_CLAMP);
-    Bitmaps.LoadImageFile(kGhostMark02Bitmap,
-        "Data\\RISE\\Slayer\\Effect\\gostmark02.OZJ", GL_LINEAR, GL_CLAMP);
-    Bitmaps.LoadImageFile(kAlphaRingX256Bitmap,
-        "Data\\RISE\\Slayer\\Effect\\alpha_RingX256_1.OZJ", GL_LINEAR, GL_CLAMP);
-    Bitmaps.LoadImageFile(kDamage1MonoBitmap,
-        "Data\\RISE\\Slayer\\Effect\\Damage1mono.OZJ", GL_LINEAR, GL_CLAMP);
-    Bitmaps.LoadImageFile(kGroundStarBitmap,
-        "Data\\RISE\\Slayer\\Effect\\ground_star.OZJ", GL_LINEAR, GL_CLAMP);
-    Bitmaps.LoadImageFile(kFireHik01GoldBitmap,
-        "Data\\RISE\\Slayer\\Effect\\firehik01_gold.OZJ", GL_LINEAR, GL_CLAMP);
-    Bitmaps.LoadImageFile(kFlare01YellowBitmap,
-        "Data\\RISE\\Slayer\\Effect\\flare01_yellow.OZJ", GL_LINEAR, GL_CLAMP);
+    RegisterSlayerBitmap(kMagicGround12Bitmap,
+        "Data\\RISE\\Slayer\\Effect\\magic_ground12.jpg", GL_LINEAR, GL_CLAMP);
+    RegisterSlayerBitmap(kRingOfGradation2Bitmap,
+        "Data\\RISE\\Slayer\\Effect\\ring_of_gradation2.jpg", GL_LINEAR, GL_CLAMP);
+    RegisterSlayerBitmap(kPinStar03Bitmap,
+        "Data\\RISE\\Slayer\\Effect\\pin_star03.jpg", GL_LINEAR, GL_CLAMP);
+    RegisterSlayerBitmap(kFlare01RedBitmap,
+        "Data\\RISE\\Slayer\\Effect\\flare01_red.jpg", GL_LINEAR, GL_CLAMP);
+    RegisterSlayerBitmap(kEnemyRing01Bitmap,
+        "Data\\RISE\\Slayer\\Effect\\enemy_ring01.jpg", GL_LINEAR, GL_CLAMP);
+    RegisterSlayerBitmap(kGhostMark02RedBitmap,
+        "Data\\RISE\\Slayer\\Effect\\gostmark02_red.jpg", GL_LINEAR, GL_CLAMP);
+    RegisterSlayerBitmap(kSmoke01Bitmap,
+        "Data\\RISE\\Slayer\\Effect\\smoke01.jpg", GL_LINEAR, GL_CLAMP);
+    RegisterSlayerBitmap(kSmokeLines01Bitmap,
+        "Data\\RISE\\Slayer\\Effect\\smokelines01.jpg", GL_LINEAR, GL_CLAMP);
+    RegisterSlayerBitmap(kSmokeLines02Bitmap,
+        "Data\\RISE\\Slayer\\Effect\\smokelines02.jpg", GL_LINEAR, GL_CLAMP);
+    RegisterSlayerBitmap(kSmokeLines03Bitmap,
+        "Data\\RISE\\Slayer\\Effect\\smokelines03.jpg", GL_LINEAR, GL_CLAMP);
+    RegisterSlayerBitmap(kPinStar02RedBitmap,
+        "Data\\RISE\\Slayer\\Effect\\pin_star02_red.jpg", GL_LINEAR, GL_CLAMP);
+    RegisterSlayerBitmap(kFireHik01MagentaBitmap,
+        "Data\\RISE\\Slayer\\Effect\\firehik01_magenta.jpg", GL_LINEAR, GL_CLAMP);
+    RegisterSlayerBitmap(kEmpact01Bitmap,
+        "Data\\RISE\\Slayer\\Effect\\empact01.jpg", GL_LINEAR, GL_CLAMP);
+    RegisterSlayerBitmap(kGhostMark02Bitmap,
+        "Data\\RISE\\Slayer\\Effect\\gostmark02.jpg", GL_LINEAR, GL_CLAMP);
+    RegisterSlayerBitmap(kAlphaRingX256Bitmap,
+        "Data\\RISE\\Slayer\\Effect\\alpha_RingX256_1.jpg", GL_LINEAR, GL_CLAMP);
+    RegisterSlayerBitmap(kDamage1MonoBitmap,
+        "Data\\RISE\\Slayer\\Effect\\Damage1mono.jpg", GL_LINEAR, GL_CLAMP);
+    RegisterSlayerBitmap(kGroundStarBitmap,
+        "Data\\RISE\\Slayer\\Effect\\ground_star.jpg", GL_LINEAR, GL_CLAMP);
+    RegisterSlayerBitmap(kFlareBlueBitmap,
+        "Data\\RISE\\Slayer\\Effect\\flareBlue.jpg", GL_LINEAR, GL_CLAMP);
+    RegisterSlayerBitmap(kFlareBitmap,
+        "Data\\RISE\\Slayer\\Effect\\Flare.jpg", GL_LINEAR, GL_CLAMP);
+    RegisterSlayerBitmap(kWaterBoardRedBitmap,
+        "Data\\RISE\\Slayer\\Effect\\water_board_red.jpg", GL_LINEAR, GL_CLAMP);
+    RegisterSlayerBitmap(kWaterWallBitmap,
+        "Data\\RISE\\Slayer\\Effect\\water_wall.tga", GL_LINEAR, GL_CLAMP);
+    RegisterSlayerBitmap(kSmoke01StrongBitmap,
+        "Data\\RISE\\Slayer\\Effect\\smoke01_strong.jpg", GL_LINEAR, GL_CLAMP);
+    RegisterSlayerBitmap(kBlur02MonoLongVan2Bitmap,
+        "Data\\RISE\\Slayer\\Effect\\blur02_mono_long_van2.jpg", GL_LINEAR, GL_CLAMP);
+    RegisterSlayerBitmap(kBlur02MonoLongVanBitmap,
+        "Data\\RISE\\Slayer\\Effect\\blur02_mono_long_van.jpg", GL_LINEAR, GL_CLAMP);
+    RegisterSlayerBitmap(kBetGrilsShot2RedBitmap,
+        "Data\\RISE\\Slayer\\Effect\\bet_grilsshot2red.jpg", GL_LINEAR, GL_CLAMP);
+    RegisterSlayerBitmap(kImpack03Bitmap,
+        "Data\\RISE\\Slayer\\Effect\\Impack03.jpg", GL_LINEAR, GL_CLAMP);
+    RegisterSlayerBitmap(kPinStarBitmap,
+        "Data\\RISE\\Slayer\\Effect\\pin_star.jpg", GL_LINEAR, GL_CLAMP);
+    RegisterSlayerBitmap(kJujugBitmap,
+        "Data\\RISE\\Slayer\\Effect\\jujug_R.jpg", GL_LINEAR, GL_CLAMP);
+    RegisterSlayerBitmap(kWaterFall4Bitmap,
+        "Data\\RISE\\Slayer\\Effect\\waterFall4.jpg", GL_LINEAR, GL_CLAMP);
     LoadWaveFile(SOUND_SLAYER_SWORD_INERTIA_START,
         "Data\\RISE\\Slayer\\Sound\\SwordInertiastart.wav");
     LoadWaveFile(SOUND_SLAYER_SWORD_INERTIA_ATTACK,

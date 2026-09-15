@@ -14,6 +14,8 @@ namespace rise { namespace slayerqa {
 void AppendRuntimeQALog(const char* message);
 bool HandleRuntimeQAHotKey();
 void RunRuntimeQAAutoSequence();
+// Consume one scheduled post-cast framebuffer capture at render time.
+bool ConsumeRuntimeQAAutoCapture(int* skillId, int* step, int* sample);
 bool IsRuntimeQAIconPanelVisible();
 int RuntimeQASelectedSkillId();
 const char* RuntimeQASelectedSkillName();

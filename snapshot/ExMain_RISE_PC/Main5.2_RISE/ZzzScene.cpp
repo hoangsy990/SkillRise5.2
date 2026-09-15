@@ -2427,6 +2427,29 @@ void MainScene(HDC hDC)
 
 	g_PhysicsManager.Render();
 
+#ifdef RISE_SLAYER_RUNTIME_QA
+	if (SceneFlag == MAIN_SCENE)
+	{
+		int qaSkill = 0, qaStep = 0, qaSample = 0;
+		if (rise::slayerqa::ConsumeRuntimeQAAutoCapture(
+			&qaSkill, &qaStep, &qaSample))
+		{
+			// Read the completed OpenGL framebuffer using the client's
+			// existing JPEG writer. Only a bounded 5x3 private QA series is
+			// saved in this executable's isolated working directory.
+			sprintf_s(GrabFileName, MAX_PATH,
+				"SlayerQA_skill_%d_step_%d_sample_%d_pid_%lu.jpg",
+				qaSkill, qaStep, qaSample, GetCurrentProcessId());
+			SaveScreen();
+			char qaCaptureLine[256];
+			sprintf_s(qaCaptureLine, sizeof(qaCaptureLine),
+				"frame-capture skill=%d step=%d sample=%d file=%s written=%d",
+				qaSkill, qaStep, qaSample, GrabFileName,
+				GetFileAttributesA(GrabFileName) != INVALID_FILE_ATTRIBUTES ? 1 : 0);
+			rise::slayerqa::AppendRuntimeQALog(qaCaptureLine);
+		}
+	}
+#endif
 
 	if (GrabEnable)
 	{

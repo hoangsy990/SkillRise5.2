@@ -30,6 +30,10 @@ std::uint64_t gVirtualNowMs = 0;
 int gAutoSequenceStep = -1;
 DWORD gAutoSequenceNextTick = 0;
 bool gAutoSequenceComplete = false;
+int gAutoCaptureStep = -1;
+DWORD gAutoCaptureCastTick = 0;
+int gAutoCaptureSample = 0;
+const DWORD kAutoCaptureDelaysMs[] = { 500, 1500, 3000 };
 
 const char* SkillName(int id)
 {
@@ -77,7 +81,9 @@ OBJECT* SelectedTarget()
 	if (Hero && Hero->Object.Live && CharactersClient)
 	{
 		OBJECT* nearest = 0;
-		float nearestDistance = 100000000.f;
+		// Imported offensive rows have range six terrain tiles.  A visible
+		// but distant actor is not a valid unattended cast fixture.
+		float nearestDistance = 600.f * 600.f;
 		for (int i = 0; i < MAX_CHARACTERS_CLIENT; ++i)
 		{
 			OBJECT* candidate = &CharactersClient[i].Object;
@@ -103,7 +109,7 @@ CHARACTER* SelectedTargetCharacter()
 {
 	OBJECT* object = SelectedTarget();
 	if (!object || !CharactersClient)
-		return Hero;
+		return 0;
 	for (int i = 0; i < MAX_CHARACTERS_CLIENT; ++i)
 		if (&CharactersClient[i].Object == object)
 			return &CharactersClient[i];
@@ -112,11 +118,12 @@ CHARACTER* SelectedTargetCharacter()
 
 int SelectedTargetId()
 {
-	if (!SelectedTarget())
+	OBJECT* target = SelectedTarget();
+	if (!target || !CharactersClient)
 		return -1;
-	if (SelectedCharacter >= 0 && SelectedCharacter < MAX_CHARACTERS_CLIENT &&
-		CharactersClient[SelectedCharacter].Object.Kind == KIND_MONSTER)
-		return SelectedCharacter;
+	for (int i = 0; i < MAX_CHARACTERS_CLIENT; ++i)
+		if (&CharactersClient[i].Object == target)
+			return i;
 	return -1;
 }
 
@@ -368,6 +375,15 @@ void RunRuntimeQAAutoSequence()
     if (gAutoSequenceStep >= 0 && gAutoSequenceStep < kRuntimeQASkillCount)
     {
         gRuntimeQASkill = gAutoSequenceStep;
+        const int skillId = RuntimeQASelectedSkillId();
+        if (skillId != slayer::kDetection &&
+            skillId != slayer::kDemolish && !SelectedTarget())
+        {
+            AppendQALog("auto-sequence paused=no-live-monster-target; no offensive cast sent");
+            SetResult("no-live-monster-target");
+            gAutoSequenceNextTick = now + 7000;
+            return;
+        }
         gVirtualNowMs += 7000;
         char line[192];
         sprintf_s(line, sizeof(line), "auto-sequence cast step=%d skill=%d name=%s",
@@ -380,6 +396,10 @@ void RunRuntimeQAAutoSequence()
         // packet path.
         SendAuthoritativeCast(RuntimeQASelectedSkillId());
         SetResult("authoritative-send-issued");
+
+        gAutoCaptureStep = gAutoSequenceStep;
+        gAutoCaptureCastTick = now;
+        gAutoCaptureSample = 0;
 
         ++gAutoSequenceStep;
         // Let the complete production graph finish before the next skill is
@@ -400,6 +420,23 @@ void RunRuntimeQAAutoSequence()
             gAutoSequenceStep, kRuntimeQASkillCount);
         AppendQALog(stateLine);
     }
+}
+
+bool ConsumeRuntimeQAAutoCapture(int* skillId, int* step, int* sample)
+{
+    if (!IsSlayerAutoQaEnabled() || !skillId || !step || !sample ||
+        gAutoCaptureStep < 0 || gAutoCaptureSample >=
+            static_cast<int>(sizeof(kAutoCaptureDelaysMs) /
+                sizeof(kAutoCaptureDelaysMs[0])))
+        return false;
+    const DWORD now = GetTickCount();
+    if (static_cast<LONG>(now - gAutoCaptureCastTick) <
+        static_cast<LONG>(kAutoCaptureDelaysMs[gAutoCaptureSample]))
+        return false;
+    *step = gAutoCaptureStep;
+    *sample = gAutoCaptureSample++;
+    *skillId = kRuntimeQASkills[*step];
+    return true;
 }
 
 bool IsRuntimeQAIconPanelVisible()

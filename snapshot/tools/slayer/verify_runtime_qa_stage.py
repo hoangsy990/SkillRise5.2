@@ -23,7 +23,8 @@ def sha256(path: Path) -> str:
 
 
 def is_reparse(path: Path) -> bool:
-    attributes = getattr(path.stat(), "st_file_attributes", 0)
+    # stat() follows a junction and hides its reparse-point attribute.
+    attributes = getattr(path.lstat(), "st_file_attributes", 0)
     return bool(attributes & getattr(os.stat_result, "FILE_ATTRIBUTE_REPARSE_POINT", 0x400))
 
 
@@ -44,6 +45,26 @@ def main() -> None:
     assert TARGET.resolve() == TARGET, "unexpected QA target resolution"
     assert not is_reparse(TARGET / "Data" / "RISE"), "RISE must be a private directory"
     assert not is_reparse(TARGET / "Data" / "Player"), "Player must be a private directory"
+    source_data = SOURCE_CLIENT / "Data"
+    stage_data = TARGET / "Data"
+    source_links = {
+        entry.name: entry for entry in source_data.iterdir()
+        if entry.is_dir() and entry.name not in {"Player", "RISE"}
+    }
+    staged_links = {
+        entry.name: entry for entry in stage_data.iterdir()
+        if entry.is_dir() and is_reparse(entry)
+    }
+    assert staged_links.keys() == source_links.keys(), (
+        f"QA junction set mismatch: expected={len(source_links)} staged={len(staged_links)} "
+        f"extra={sorted(staged_links.keys() - source_links.keys())} "
+        f"missing={sorted(source_links.keys() - staged_links.keys())}"
+    )
+    for name, source_dir in source_links.items():
+        assert not is_reparse(source_dir), f"source asset directory is not frozen: {name}"
+        assert staged_links[name].resolve().as_posix().casefold() == (
+            source_dir.resolve().as_posix().casefold()
+        ), f"QA asset junction escapes Slayer worktree: {name}"
     assert not (TARGET / "Engine.exe").exists(), "legacy Engine.exe must not remain in isolated QA client"
     assert (TARGET / "Engine-Slayer S21.exe").is_file(), "Engine-Slayer S21.exe missing"
 
@@ -59,6 +80,11 @@ def main() -> None:
         assert sha256(target_file) == sha256(source_file), f"base Player hash mismatch: {relative}"
         player_count += 1
     base_count = verify_tree(SOURCE_CLIENT / "Data" / "RISE", TARGET / "Data" / "RISE", "base RISE")
+    slayer_count = verify_tree(
+        PRIVATE_CLIENT / "Data" / "RISE" / "Slayer",
+        TARGET / "Data" / "RISE" / "Slayer",
+        "private Slayer",
+    )
 
     root_data_count = 0
     for source_file in (SOURCE_CLIENT / "Data").iterdir():
@@ -74,8 +100,10 @@ def main() -> None:
     assert (TARGET / "Data" / "RISE" / "Config" / "Mix.bmd").is_file()
     assert not (TARGET / "Data" / "RISE" / "GrowLancer").exists(), "GrowLancer overlay leaked into Slayer QA"
     print(f"PASS: complete private base RISE tree ({base_count} files)")
+    print(f"PASS: complete private Slayer overlay ({slayer_count} files)")
     print(f"PASS: complete private base Player tree ({player_count} base files plus Slayer player.bmd)")
     print(f"PASS: complete root Data file set ({root_data_count} files), including login keys")
+    print(f"PASS: {len(staged_links)} asset junctions target only frozen Slayer Data")
     print("PASS: Engine-Slayer S21, Player/RISE roots, Mix.bmd and no GrowLancer overlay")
 
 

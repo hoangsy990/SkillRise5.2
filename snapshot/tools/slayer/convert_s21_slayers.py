@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import re
 from pathlib import Path
 
 
@@ -21,8 +22,6 @@ CONVERTER = Path(
 )
 
 ASSETS = {
-    "ak_skill_sword.bmd": "E7EA146D4B6433A8F12D53E872804B53438986E76D39CF3999D494136A7DFA33",
-    "ak_skill_sword_s01.bmd": "7EFEE893EA9E803DF72A9694D3F4C59C353295D80B6D9B40F6658EEDECD11C4F",
     "Bat_van01.bmd": "A01A9F4C767811CF5B5E2E855354A6DE2C63976C26BBE8A40DE886808E713C7E",
     "van_object02_skill.bmd": "EC45FCBADBC129D1056D64EBFB70EA32D3AD3C0A29F47AF7D341A5A762DF5A5B",
     "Van_object04_skill.bmd": "E223A0D578DEB234AE30CB4CC67FBA1809B7D640CC86B2A7D7031754D9A0EC6D",
@@ -31,9 +30,6 @@ ASSETS = {
 }
 
 TEXTURES = {
-    "sword_ak.OZJ": "AFD13120F4BF24427DB5012D52A913D532D390970D83D6DF04F0838F9A7D0FDF",
-    "volcano_of_stone2_render.OZJ": "8235C8CCC386EC5B6990D481B69F67ED12F717E89E53B87084FE3D2CAEA25CC4",
-    "Swordeff_mono2_temp.OZJ": "4197369C2212C49F5B16D68F39777EF868DC79871B2B22D86A07479F6909A315",
     "alpha_RingX128_mono.OZJ": "37BBD0E324F174676B42D6C193079ACE5781BEA0663FA5B7031F8A9F7BB090CE",
     "bet_grilsshot2.OZJ": "A32EE489023F6EE3E30388A2BCCC1C40EA779150FEA021BA3EC9160EB36B477A",
     "marks_m03.OZJ": "AAB0CFA2A69CCEA87CB9B81341F134B08814648C0D2AE30FF193320D44173233",
@@ -56,9 +52,25 @@ TEXTURES = {
     "gostmark02.OZJ": "58B0579B0AF41BF7A3D779B25E35DC472119BF3E8188933AFB8DBB1154ED0BCA",
     "alpha_RingX256_1.OZJ": "1EDD0918435A806B0B4BA2FDA7F3FD715D9AC67C7534AD90FA1C3F93C3CC27D3",
     "Damage1mono.OZJ": "A095432CB1BAA4FE21BBAB6D7A3E4422C8C114C1E9BC4B0AE563FBE7D1078D31",
-    # 297 Demolish root 0x695 gold/yellow aura family.
-    "firehik01_gold.OZJ": "29A78D5D0D1FC172B3944C3431C82317F926B32A5CAEB25CE0AE3A99C31D68D8",
-    "flare01_yellow.OZJ": "1ED5F4B24FBBC454F806CAEE584BA3174EF8342C7E4BD6A95460DE853423CB18",
+    # Exact 0x692 and 0x695 initializer sprites (S21 ids 0x7FDD/0x7F78).
+    "flareBlue.OZJ": "E261B59F57FDF0C514917A388F02AC66B832C2BE9F97A3F90BC36C98D7B2FB32",
+    "Flare.OZJ": "5778EA278113B8A1E33905EB8519A782CF3D141FF78229C66219E368EC99647B",
+    # Exact consecutive S21 sprite block 0x82F0..0x82F4 and 0x82F9.
+    "water_board_red.OZJ": "3C9FB55B65E0999BB8754E22D5E056FE6C7024E43F8775EBFA39AFDA5BB5EC42",
+    "water_wall.OZT": "70C1659B1EDD931315944067613F9F34F4588423C9DD91DAA4DA01D848B59F35",
+    "smoke01_strong.OZJ": "20D63B6AF959B008F7EE257E0D0727963AA34739DDE24FDE9E003F53B2E6C303",
+    "blur02_mono_long_van2.OZJ": "7818B68969D2B134123CE58A81B7E2950ED6C2B6853F4560631A238033E8F689",
+    "blur02_mono_long_van.OZJ": "055F4D6F94807F3F507DC84A9CBED509F05E4F3C65E1CF0D49E0BF040AB18FB9",
+    "bet_grilsshot2red.OZJ": "E70B6AA393E9EED346F4B3CD423B1EE5F942E2BB22920D1ABEA461F72B6ADD40",
+    "Impack03.OZJ": "22F9F2481C6B7CB6CE4A4D674E72A35D72DC20D20B850674B3C06AE3BE84019D",
+    "pin_star.OZJ": "07638DBE1BC4D993915E51EF121A03E8977AF57F107D9698C91EF2C1B0270549",
+    # S21 loader VA 0x018BE786 maps native bitmap 0x8020 to WATERFALL4.
+    "waterFall4.OZJ": "4650F6571447C1A4D4CCA81E9387A70B9B489AA4989820AF7D375855895B44D2",
+}
+
+ITEM_TEXTURES = {
+    # S21 id 0x80F0 is intentionally an Item texture reused by effect 0x67E.
+    "partCharge3/jujug_R.OZJ": "CE84410D9E044B42F0B1379FA9E39A062D3AD5F927D0B594354FF187662A3AD9",
 }
 
 SKILL_TEXTURES = {
@@ -76,6 +88,30 @@ SOUNDS = {
     "FierceAttack_Attack_3.wav": "832D2F84EB06797D688945DF9DA91B048F54B8A72B39D5B07FBD6E917A84B3FF",
     "Detection_3.wav": "798BC237214A3A81152B648BA9F355B33CDF8DC02511BD000BDFAA26BF740473",
 }
+
+
+def mesh_texture_references(plaintext: bytes, mesh_count: int) -> list[str]:
+    """Read the authored mesh texture names from the decrypted S21 BMD."""
+    names = sorted({
+        match.decode("ascii")
+        for match in re.findall(
+            rb"[ -~]{3,64}\.(?:bmp|tga|jpg|png)", plaintext, re.I
+        )
+    })
+    if mesh_count and not names:
+        raise ValueError("S21 model has meshes but no embedded texture names")
+    if len(names) > mesh_count:
+        raise ValueError(
+            f"S21 model has {mesh_count} meshes but {len(names)} texture names"
+        )
+    for name in names:
+        source_name = Path(name).name
+        if Path(source_name).suffix.lower() != ".jpg":
+            raise ValueError(f"unmapped S21 mesh texture format: {name}")
+        staged_name = Path(source_name).stem + ".OZJ"
+        if staged_name.lower() not in {key.lower() for key in TEXTURES}:
+            raise ValueError(f"S21 mesh texture absent from Slayer manifest: {name}")
+    return names
 
 
 def load_converter():
@@ -107,6 +143,9 @@ def main() -> int:
             converter.parse_s21_container(source_bytes)
         )
         identity = converter.inspect_plaintext(plaintext)
+        mesh_textures = mesh_texture_references(
+            plaintext, identity["meshCount"]
+        )
         output = effect_root / filename
         encoded = converter.encrypt_rise_v0c(plaintext)
         if converter.decrypt_rise_v0c(encoded) != plaintext:
@@ -118,6 +157,7 @@ def main() -> int:
                 "sourceSha256": actual_hash,
                 "outputSha256": converter.sha256(encoded),
                 "plaintextSha256": converter.sha256(plaintext),
+                "meshTextures": mesh_textures,
                 **identity,
             }
         )
@@ -139,6 +179,17 @@ def main() -> int:
             raise ValueError(f"source hash mismatch for {filename}: {actual_hash}")
         (effect_root / filename).write_bytes(source_bytes)
         report.append({"file": filename, "sourceSha256": actual_hash, "kind": "texture"})
+
+    item_source_root = SOURCE_ROOT.parent / "Item"
+    for relative, expected_hash in ITEM_TEXTURES.items():
+        source = item_source_root / relative
+        source_bytes = source.read_bytes()
+        actual_hash = converter.sha256(source_bytes)
+        if actual_hash != expected_hash:
+            raise ValueError(f"source hash mismatch for {relative}: {actual_hash}")
+        output_name = Path(relative).name
+        (effect_root / output_name).write_bytes(source_bytes)
+        report.append({"file": output_name, "sourceSha256": actual_hash, "kind": "texture"})
 
     sound_source_root = SOURCE_ROOT.parent / "Sound"
     for filename, expected_hash in SOUNDS.items():

@@ -416,6 +416,7 @@ public:
 	bool SkillSlayerSwordInertia(int aIndex,int bIndex,CSkill* lpSkill);
 	bool SkillSlayerBatFlock(int aIndex,int bIndex,CSkill* lpSkill);
 	bool SkillSlayerPierceAttack(int aIndex,int bIndex,CSkill* lpSkill);
+	void CGSlayerPierceLaneRecv(BYTE* lpMsg,int size,int aIndex);
 	bool SkillSlayerDetection(int aIndex,int bIndex,CSkill* lpSkill);
 	bool SkillSlayerDemolish(int aIndex,int bIndex,CSkill* lpSkill);
 	void ApplyVongTronLuaEffect(LPOBJ lpObj,LPOBJ lpTarget,CSkill* lpSkill,int damage);

@@ -15,7 +15,13 @@ void MoveBlurs();
 void RenderBlurs();
 void ClearAllObjectBlurs();
 
-void CreateObjectBlur(OBJECT *Owner,vec3_t p1,vec3_t p2,vec3_t Light,int Type,bool Short=false,int SubType = 0,int iLimitLifeTime = -1,int RenderStyle = 0);
+void CreateObjectBlur(OBJECT *Owner,vec3_t p1,vec3_t p2,vec3_t Light,int Type,bool Short=false,int SubType = 0,int iLimitLifeTime = -1);
+#ifdef RISE_SLAYER_PORT
+// S21 Slayer's zero-mesh sword-line controller supplies an authored bitmap
+// directly (0x82EC/0x82F4) instead of selecting BITMAP_BLUR + Type.
+void CreateObjectBlurBitmap(OBJECT *Owner,vec3_t p1,vec3_t p2,vec3_t Light,
+    int Bitmap,bool Short=false,int SubType=0,int iLimitLifeTime=-1);
+#endif
 
 void MoveObjectBlurs();
 void RenderObjectBlurs();
@@ -33,6 +39,15 @@ void RenderFlag(OBJECT *o,vec3_t Light,int Tex1,int Tex2);
 void CreateEffectFpsChecked(int Type, vec3_t Position, vec3_t Angle, vec3_t Light, int SubType = 0, OBJECT* Target = NULL, short PKKey = -1,
 	WORD SkillIndex = 0, WORD Skill = 0, WORD SkillSerialNum = 0, float Scale = 0.0f, short int sTargetIndex = -1);
 int CreateParticle(int Type,vec3_t Position,vec3_t Angle,vec3_t Light,int SubType=0,float Scale=1.f,OBJECT *Owner=NULL);
+#ifdef RISE_SLAYER_PORT
+// Run a stock 5.2 particle behavior while rendering the exact S21 Slayer
+// bitmap.  S21 inserted texture ids into a much newer particle table, so
+// using those private bitmap slots as Type would otherwise hit the legacy
+// default (two ticks and no authored movement).
+int CreateParticleTexture(int BehaviorType,int TextureType,vec3_t Position,
+	vec3_t Angle,vec3_t Light,int SubType=0,float Scale=1.f,
+	OBJECT *Owner=NULL);
+#endif
 int CreateParticleFpsChecked(int Type, vec3_t Position, vec3_t Angle, vec3_t Light, int SubType = 0, float Scale = 1.f, OBJECT* Owner = NULL);
 void RenderParticles ( BYTE byRenderOneMore=0 );
 void MoveParticles();
@@ -63,7 +78,8 @@ void RenderEffects ( bool bRenderBlendMesh=false );
 void RenderAfterEffects ( bool bRenderBlendMesh=false );
 void RenderEffectShadows();
 void CreateEffect(int Type,vec3_t Position,vec3_t Angle,vec3_t Light,int SubType=0,OBJECT *Target=NULL,short PKKey=-1,
-				  WORD SkillIndex=0,WORD Skill=0,WORD SkillSerialNum=0, float Scale = 0.0f, short int sTargetIndex = -1);
+				  WORD SkillIndex=0,WORD Skill=0,WORD SkillSerialNum=0, float Scale = 0.0f, short int sTargetIndex = -1,
+                  OBJECT** createdEffect = NULL);
 void MoveEffects();
 
 void RenderCircle(int Type,vec3_t ObjectPosition,float ScaleBottom,float ScaleTop,float Height,float Rotation=0.f,float LightTop=1.f,float TextureV=0.f);

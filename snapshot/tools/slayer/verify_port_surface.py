@@ -7,6 +7,7 @@ class has been migrated or that an owner has accepted the visuals in-game.
 
 from __future__ import annotations
 
+import re
 from pathlib import Path
 
 
@@ -36,11 +37,51 @@ def main() -> int:
     shared = read("ExMain_RISE_PC/Main5.2_RISE/RISE/Slayer/shared/SlayerSkillContractData.h")
     server_catalog = read("ExGameServer/GameServer/RISE/SlayerServerCatalog.h")
     server = read("ExGameServer/GameServer/SkillManager.cpp")
+    server_protocol = read("ExGameServer/GameServer/Protocol.cpp")
+    attack = read("ExGameServer/GameServer/Attack.cpp")
+    server_overlay = read("ExGameServer/GameServer/RISE/SlayerServerCatalog.h")
     client_receive = read("ExMain_RISE_PC/Main5.2_RISE/WSclient.cpp")
     client_use = read("ExMain_RISE_PC/Main5.2_RISE/ZzzInterface.cpp")
+    character_render = read("ExMain_RISE_PC/Main5.2_RISE/ZzzCharacter.cpp")
+    minimap = read("ExMain_RISE_PC/Main5.2_RISE/NewUIMiniMap.cpp")
     runtime = read("ExMain_RISE_PC/Main5.2_RISE/RISE/Slayer/client/SlayerNativeRuntime.cpp")
     resources = read("ExMain_RISE_PC/Main5.2_RISE/RISE/Slayer/client/SlayerSkillResources.cpp")
+    effect_allocator = read("ExMain_RISE_PC/Main5.2_RISE/ZzzEffect.cpp")
+    joints = read("ExMain_RISE_PC/Main5.2_RISE/ZzzEffectJoint.cpp")
     packet = read("ExMain_RISE_PC/Main5.2_RISE/RISE/Slayer/server/SlayerPacketContract.h")
+    converter = read("tools/slayer/convert_s21_slayers.py")
+    project = read("ExMain_RISE_PC/Main.vcxproj")
+    if project.count("<PostBuildEvent Condition=\"'$(SlayerIsolatedBuild)'!='true'\">") != 2:
+        raise AssertionError("isolated Slayer builds can run shared-client post-build xcopy")
+    require(converter, "mesh_textures = mesh_texture_references(",
+            "imported S21 model BMD mesh textures checked against Slayer manifest")
+    require(server_overlay, "kBatFlockMastery = 782",
+            "S21 Pierce mastery prerequisite uses pinned skill 782")
+    require(server_overlay, "kBatFlockStrengthener = 781",
+            "S21 Bat Flock mastery parent uses pinned skill 781")
+    require(server_overlay, '"Bat Flock Strengthener", 22, 25, 9, 6',
+            "GS mastery-781 catalog preserves S21 SkillList row")
+    require(server_overlay, '"Bat Flock Mastery", 23, 30, 12, 6',
+            "GS mastery-782 catalog preserves S21 SkillList row")
+    require(server, "IsSlayerBatMasterySkill(index)",
+            "GS mastery learning has an explicit persisted Slayer class gate")
+    require(server, "kBatFlockStrengthener) < 10",
+            "GS mastery 782 learning requires ten points in 781")
+    require(server, "client dispatch/effect branches are not yet recovered",
+            "GS mastery cast IDs fail closed instead of using unrelated generic damage")
+    require(server, "this->GetSkill(lpObj, rise::slayerserver::kBatFlock) == 0",
+            "GS Pierce gate requires learned base Bat Flock")
+    require(server, "rise::slayerserver::kBatFlockStrengthener) == 0",
+            "GS Pierce gate accepts the 5.2 stored Bat mastery lineage")
+    require(server, "gMasterSkillTree.GetMasterSkillLevel(lpObj,",
+            "GS Pierce gate uses the displayed mastery level, not the zero-based stored level")
+    require(server, "rise::slayerserver::kBatFlockMastery) < 10",
+            "GS Pierce gate requires 10 Bat Flock mastery points")
+    qa = read("ExMain_RISE_PC/Main5.2_RISE/RISE/SlayerRuntimeQA.cpp")
+    if "if (!object || !CharactersClient)\n\t\treturn Hero;" in qa:
+        raise AssertionError("Slayer QA offensive target silently falls back to caster")
+    require(qa, "auto-sequence paused=no-live-monster-target; no offensive cast sent",
+            "unattended offensive QA fails closed without live monster")
 
     for skill_id, (name, handler) in SKILLS.items():
         enum_name = name
@@ -54,6 +95,512 @@ def main() -> int:
         require(resources, f"case {enum_name}:", f"resource case {skill_id}")
         require(packet, f"{{ {name},", f"packet row {skill_id}")
         print(f"PASS: skill={skill_id} name={name[1:]} source-surface=shared/server/receive/use/runtime/resources/packet")
+
+    use_body = client_use.split("void UseSkillSlayer(", 1)[1].split("\n#endif", 1)[0]
+    require(use_body, "if (rise::slayer::ApplyCastAction(*pObj, iSkill))",
+            "Slayer local cast uses the imported S21 action immediately")
+    require(use_body, "rise::slayer::DispatchNativeLocalCast(pCha, visualTarget, iSkill);",
+            "Slayer local action branch seeds native roots immediately")
+    require(use_body, "if (pCha->MovementType == MOVEMENT_SKILL)\n\t\tpCha->MovementType = MOVEMENT_MOVE;",
+            "completed Slayer movement intent cannot re-spawn buff roots each frame")
+    require(client_use, "if (!MouseRButton && !MouseRButtonPush)\n\t\tslayerSelfBuffHeld = false;",
+            "Slayer self-buff input latch re-arms only after right-button release")
+    require(client_use, "if ((MouseRButton || MouseRButtonPush) && slayerSelfBuffHeld)\n\t\t\t\t\treturn;",
+            "held right-button cannot stack Slayer buff graphs each frame")
+    require(runtime, "if (localSlot >= 0 && gPendingLocalGraphs[localSlot] > 0)",
+            "GS 0x19 acknowledgment does not duplicate a local Slayer graph")
+    require(client_receive, "rise::slayer::ResetNativeRuntime(HeroKey);",
+            "re-login clears local cast acknowledgment state")
+    require(use_body, "CharactersClient[targetIndex].Object.Kind != KIND_PLAYER",
+            "Slayer hostile-player cast route remains available for server PvP checks")
+    if "SetPlayerAttack(pCha);" in use_body:
+        raise AssertionError("Slayer cast falls back to a legacy weapon action")
+    require(server_overlay, "(7 * static_cast<__int64>(strength) +",
+            "S21 Lua fractional STR/8 damage numerator")
+    require(server_overlay, "2 * static_cast<__int64>(dexterity) + 6720)",
+            "S21 Lua fractional DEX/28 damage numerator")
+    require(server_overlay, "batFlockHalfStrike ? 11200 : 5600",
+            "Bat Flock half strike applies after full fractional rate")
+    require(attack, "rise::slayerserver::ScaleSlayerDamage(damage,",
+            "Sword/Bat/Pierce damage uses the fractional S21 rate")
+    require(server_overlay, "inline int BatFlockDotDamage(int energy)",
+            "S21 Bat Flock has a distinct Energy-based DOT formula")
+    require(server_overlay, "((stat - 800.0) * (stat - 500.0) / 200.0)",
+            "S21 FormulaData Character 9 offset terms")
+    require(server_overlay, "const double result = formula9 / 100.0;",
+            "S21 Lua Bat Flock player/monster DOT result")
+    require(server, "rise::slayerserver::BatFlockDotDamage(\n",
+            "GS Bat Flock DOT uses S21 distinct calculator")
+    require(server, "classStage < seed->classRequirement",
+            "GS Slayer DB class stage requirement")
+    require(server, "rise::slayer::MeetsStats(index, lpObj->Level,",
+            "GS Slayer level and STR/DEX requirements")
+    require(client_receive, "if (Success)\n\t\t\trise::slayer::DispatchNativeReceive",
+            "Slayer visual graph requires an accepted 5.2 cast packet")
+
+    for banned in (
+        "ak_skill_sword.bmd",
+        "ak_skill_sword_s01.bmd",
+        "kSwordFlightController",
+        "kPierceBurstController",
+        "kPierceFanController",
+    ):
+        if banned in resources or banned in runtime or banned in converter:
+            raise AssertionError(f"placeholder residue: {banned}")
+
+    graph_tokens = (
+        "kSwordSecondaryController", "kSword68BController",
+        "kSword68CController", "kSword68DController",
+        "kSword68EController", "kSword68FController", "kSword690Controller",
+        "kPierce67AController", "kPierce67BController",
+        "kPierce67CController", "kPierce67DController",
+        "kPierce67EController", "kPierce680Controller",
+        "kBatFlock686Controller", "kBatFlock687Controller",
+    )
+    for token in graph_tokens:
+        require(resources, token, f"native graph node {token}")
+
+    # S21 0x143E57C allocates effect objects, not particle-pool objects.
+    # This check is intentionally separate from the five-skill wiring PASS.
+    header = read("ExMain_RISE_PC/Main5.2_RISE/RISE/Slayer/client/SlayerSkillResources.h")
+    require(header, "kDetectionAction = 287,", "native Detection action slot")
+    require(header, "kDemolishAction = 288", "distinct native Demolish action slot")
+    if "kDemolishAction = kDetectionAction" in header:
+        raise AssertionError("Detection/Demolish action IDs were aliased")
+    bitmap_block = header.split("enum BitmapId", 1)[1].split("};", 1)[0]
+    bitmap_ids = [int(value) for value in re.findall(r"^\s*k\w+Bitmap\s*=\s*(\d+)", bitmap_block, re.M)]
+    if len(bitmap_ids) != 29 or len(set(bitmap_ids)) != len(bitmap_ids):
+        raise AssertionError("Slayer bitmap IDs are incomplete or duplicated")
+    if min(bitmap_ids) != 32983 or max(bitmap_ids) != 33011:
+        raise AssertionError("Slayer bitmap IDs overlap Grow Lancer or exceed the reserved tail")
+    global_bitmap = read("ExMain_RISE_PC/Main5.2_RISE/GlobalBitmap.cpp")
+    require(global_bitmap, "kSlayerLastReservedBitmap = 33011",
+            "unnamed allocator private range boundary")
+    require(global_bitmap, "m_uiTextureIndexStream = kSlayerLastReservedBitmap",
+            "unnamed allocator skips Slayer fixed slots")
+    require(global_bitmap, "candidate >= BITMAP_black_gold_crom05 &&",
+            "Slayer unnamed allocator detects compiled fixed-loader texture range")
+    require(global_bitmap, "candidate = BITMAP_LOADER_TEXTURES_END + 1;",
+            "Slayer unnamed allocator skips fixed-loader texture range")
+    require(global_bitmap, "m_mapBitmap.find(candidate) != m_mapBitmap.end()",
+            "Slayer unnamed allocator cannot reuse a loaded named texture ID")
+    print("PASS: Slayer bitmap IDs 32983..33011 do not overlap Grow Lancer or unnamed allocation")
+    for token in (
+        "kFlare01RedEffect", "kRingOfGradation2Effect",
+        "kEnemyRing01Effect", "kMagicGround12Effect",
+        "kFlareBlueEffect", "kFlareEffect",
+    ):
+        require(header, token, f"secondary-pool effect id {token}")
+        require(resources, f"SpawnBitmapChild({token}",
+                f"secondary-pool creation {token}")
+    for bitmap in (
+        "kRingOfGradation2Bitmap", "kEnemyRing01Bitmap",
+        "kMagicGround12Bitmap", "kFlareBlueBitmap",
+        "kFlareBitmap",
+    ):
+        if f"CreateParticle({bitmap}" in resources:
+            raise AssertionError(f"effect object accidentally allocated as particle: {bitmap}")
+    require(resources, "if (IsBitmapEffect(effect.Type))", "bitmap effect runtime")
+    bitmap_render = resources.split("bool RenderEffect(OBJECT& effect)", 1)[1]
+    bitmap_render = bitmap_render.split("if (IsController(effect.Type))", 1)[0]
+    blend_begin = bitmap_render.find("EnableAlphaBlend();")
+    terrain_submit = bitmap_render.find("RenderTerrainAlphaBitmap(bitmap,")
+    blend_end = bitmap_render.find("DisableAlphaBlend();")
+    if not (0 <= blend_begin < terrain_submit < blend_end):
+        raise AssertionError("Slayer terrain bitmap is not isolated in an additive blend pass")
+    require(resources, "SpawnChild(kDetectionChildController, effect, effect.Owner",
+            "0x693 caster owner")
+    require(resources, "SpawnChild(kDemolishChildController, effect, effect.Owner",
+            "0x696 caster owner")
+    require(resources, "SpawnBitmapChild(kMagicGround12Effect, effect, &effect",
+            "0x81CF root owner")
+    require(resources, "SpawnBitmapChild(kRingOfGradation2Effect, effect, 0",
+            "0x82F6 null owner")
+    require(resources, "SpawnChild(kDetectionChildController, effect, effect.Owner, 0, 0.f)",
+            "0x693 native zero-scale seed")
+    require(resources, "SpawnChild(kDemolishChildController, effect, effect.Owner, 0, 0.f)",
+            "0x696 native zero-scale seed")
+    require(resources, "4, 0.f);\n        SpawnBitmapChild(kMagicGround12Effect",
+            "0x81CF mode 4 native zero-scale seed")
+    require(resources, "5, 0.f);\n        SpawnBitmapChild(kFlareBlueEffect",
+            "0x81CF mode 5 native zero-scale seed")
+    require(resources, "SpawnChild(kPierceSwordLineModel, effect, owner, 0",
+            "0x679 center 0x681 caster owner")
+    pierce_root_update = resources.split("case kPierceController:", 2)[-1].split(
+        "case kPierce67AController:", 1)[0]
+    require(pierce_root_update, "if (!owner || !owner->Live)",
+            "0x679 stale owner destruction")
+    require(pierce_root_update, "VectorCopy(effect.StartPosition, effect.Position);",
+            "0x679 saved launch-position restore")
+    require(pierce_root_update, "effect.AnimationFrame >= 4.f",
+            "0x679 center root-frame gate")
+    require(pierce_root_update, "effect.AnimationFrame >= 7.f",
+            "0x679 mirrored flank root-frame gate")
+    if "owner->AnimationFrame >=" in pierce_root_update:
+        raise AssertionError("0x679 incorrectly gated on owner animation")
+    buff_update = resources[resources.index("case kDetectionController:",
+        resources.index("void UpdateEffect")):].split("default:", 1)[0]
+    require(buff_update, "VectorCopy(effect.StartPosition, effect.Position);",
+            "0x692/0x695 root smoke cast-origin anchor")
+    require(buff_update, "VectorCopy(effect.StartPosition, bat.Position);",
+            "0x693/0x696 child 0x678 cast-origin anchor")
+    if "VectorCopy(owner->Position, effect.Position);" in buff_update or \
+       "VectorCopy(owner->Position, bat.Position);" in buff_update:
+        raise AssertionError("buff effects incorrectly follow moving owner")
+    require(resources, "SpawnChild(kPierceSwordLineModel, swordLine, &effect, 3",
+            "0x68B 0x681 immediate-parent owner")
+    require(resources, "effect.Type == kMagicGround12Effect ? 1.f : 0.f",
+            "0x81CF subtype 4/5 starts fully lit")
+    bitmap_update = resources[resources.index("if (IsBitmapEffect(effect.Type))",
+              resources.index("void UpdateEffect")):]
+    bitmap_update = bitmap_update[:bitmap_update.index("if (IsController(effect.Type))")]
+    require(bitmap_update, "effect.LifeTime > half ? 1.f : -1.f",
+            "native half-life bitmap alpha triangle")
+    require(bitmap_update, "effect.Alpha -= animationFactor / initialLife",
+            "0x81CF linear alpha decrease")
+    require(bitmap_update, "effect.SubType == 4 ? 0.3f : 1.f",
+            "0x81CF independent ring expansion")
+    if "fadeIn" in bitmap_update or "effect.Owner->Position" in bitmap_update:
+        raise AssertionError("dump-unproven bitmap quarter-fade or owner-follow rule")
+    print("PASS: six S21 bitmap effect-object nodes use the 5.2 effect pool, not particle pool")
+
+    for texture in ("kGhostMark02Bitmap", "kGhostMark02RedBitmap"):
+        require(resources, f"CreateJoint({texture}",
+                f"Bat Flock native joint creation {texture}")
+        require(joints, f"case rise::slayer::{texture}:",
+                f"private joint constructor/update {texture}")
+    require(joints, "o->NumTails = -1;", "native joint initial tail sentinel")
+    require(joints, "o->MaxTails = 10;", "0x82EF native joint tail capacity")
+    require(joints, "o->MaxTails = 5;", "0x82F3 native joint tail capacity")
+    require(joints, "o->Weapon * 0.5f", "native joint half-life fade")
+    require(resources, "CreateJoint(BITMAP_FORCEPILLAR, effect.Position",
+            "0x678 subtype 1 native 0x80E3 joint-pool child")
+    require(resources, "effect.LifeTime >= initialLife",
+            "0x683 guaranteed first-frame red joint")
+    require(server, "BatFanoutWire fanout = {};",
+            "Bat Flock distinct server fanout envelope")
+    require(server, "int candidates[rise::slayer::kBatFanoutMaxTargets] = { bIndex };",
+            "Bat Flock server multi-target candidate list")
+    require(server, "this->CheckSkillTarget(caster, index, -1, type)",
+            "Bat Flock server native legal-target gate")
+    require(server, "fanout.count = static_cast<BYTE>(affectedCount);",
+            "Bat Flock visual packet uses exact affected set")
+    bat_server = server.split("bool CSkillManager::SkillSlayerBatFlock", 1)[1].split(
+        "bool CSkillManager::SkillSlayerPierceAttack", 1)[0]
+    require(bat_server, "gMap[caster->Map].CheckAttr(gObj[index].X,",
+            "Bat Flock fanout excludes 5.2 safe-zone targets")
+    require(server, "DetectionWire reveal = {};",
+            "Detection server-authoritative minimap reveal start")
+    require(client_receive, "case rise::slayer::kDetectionSub:",
+            "Detection private reveal receiver")
+    require(runtime, "bool DispatchDetectionReveal(",
+            "Detection local-Slayer reveal bridge")
+    require(minimap, "void SEASON3B::CNewUIMiniMap::RenderSlayerDetection()",
+            "Detection full-minimap moving life-form markers")
+    require(minimap, "GetTickCount() - m_SlayerDetectionStartTick >=",
+            "Detection server-supplied duration expiry")
+    require(client_receive, "case rise::slayer::kBatFanoutSub:",
+            "Bat Flock distinct client fanout receiver")
+    require(runtime, "bool DispatchBatFanout(",
+            "Bat Flock supplemental two-root graph")
+    require(resources, "SetBatFlockTargets(OBJECT& effect",
+            "Bat Flock private target-list sidecar")
+    require(resources, "pulse.m_sTargetIndex = PickBatFlockTargetIndex(effect);",
+            "0x682 random list target per child pulse")
+    require(resources, "EmitBatTargetJoint(effect, PickBatFlockTarget(effect));",
+            "0x683 random list target per joint pulse")
+    require(resources, "if (effect.SubType == 0)",
+            "packet-born 0x682 subtype1 skips 0x688 initializer")
+    bat_graph = runtime.split("void CreateBatFlockGraph", 1)[1].split(
+        "void CreatePierceAttackGraph", 1)[0]
+    sword_graph = runtime.split("void CreateSwordInertiaGraph", 1)[1].split(
+        "void CreateBatFlockGraph", 1)[0]
+    require(sword_graph, "SpawnModel(kPierceController,",
+            "base Sword action creates S21 0x679 root")
+    if "SpawnModel(kSwordInertiaController," in sword_graph or "SpawnModel(kSwordSecondaryController," in sword_graph:
+        raise AssertionError("0x818-only 0x68A/0x689 leaked into base Sword")
+    require(bat_graph, "kBatFlock, 0, 0.f);",
+            "0x682 canonical root has an empty target list")
+    require(bat_graph, "caster, kBatFlock, 0, 0.f);",
+            "0x683/0x684 canonical roots have empty target lists")
+    if "kBatFlock, &target, 0.f);" in bat_graph:
+        raise AssertionError("packet target leaked into Bat Flock visual roots")
+    pierce_graph = runtime.split("void CreatePierceAttackGraph", 1)[1].split(
+        "void CreateDetectionGraph", 1)[0]
+    require(pierce_graph, "SpawnModel(kSwordInertiaController,",
+            "base Pierce 0x126 uses the native 0x68A root")
+    if "SpawnModel(kPierceController," in pierce_graph:
+        raise AssertionError("upgrade-only 0x679 leaked into base Pierce")
+    require(pierce_graph, "kPierceAttack, 0, 0.f);",
+            "base Pierce 0x68A root has no target-list adapter")
+    pierce_wire = read(
+        "ExMain_RISE_PC/Main5.2_RISE/RISE/Slayer/shared/SlayerPierceFanoutWire.h")
+    require(pierce_wire, "kPierceFanoutSub = 0xE5",
+            "private Pierce list-bearing packet subtype")
+    require(pierce_wire, "kPierceLaneRequestSub = 0xE6",
+            "private Pierce per-lane request subtype")
+    require(pierce_wire, "static_assert(sizeof(PierceLaneRequestWire) == 12",
+            "Pierce per-lane packet remains unpadded")
+    require(client_receive, "case rise::slayer::kPierceFanoutSub:",
+            "Pierce supplemental receive parser")
+    require(runtime, "bool DispatchPierceFanout(",
+            "Pierce 0x689 list-bearing supplemental root")
+    require(runtime, "SetPierceTargets(*listRoot, targetIndexes, targetCount, castSerial);",
+            "Pierce resolved target-list and cast serial owner")
+    require(client_receive, "wire.serial);",
+            "Pierce accepted fanout serial reaches effect sidecar")
+    require(resources, "SendPierceLaneRequest(effect, effect.m_sTargetIndex,",
+            "local 0x689 emits one request per selected lane")
+    require(resources, "effect.Owner != &Hero->Object",
+            "remote 0x689 effects never send skill requests")
+    require(resources, "gPierceLaneDirection >= 50 ? 1 : gPierceLaneDirection + 1",
+            "Pierce native outbound direction byte cycles through 1..50")
+    require(resources, "gPierceCastSerial.erase(&effect);",
+            "Pierce cast serial cleared on effect-pool reuse")
+    require(server_protocol, "gSkillManager.CGSlayerPierceLaneRecv(lpMsg, size, aIndex);",
+            "GS routes private F4:E6 lane request")
+    require(resources, "gPierceTargets.erase(&effect);",
+            "Pierce sidecar cleared on effect-pool reuse")
+    require(resources, "PierceTargetAt(effect, effect.CurrentAction)",
+            "Pierce 0x689 list traversal")
+    require(resources, "Vector(0.f, -1.f, 0.f, nativeForward);",
+            "0x689 native forward basis")
+    require(resources, "VectorRotate(nativeForward, launchMatrix,",
+            "0x689 launch uses native angle-matrix vector rotation")
+    require(resources, "launch.Position[0] -= rotatedForward[0] * 100.f;",
+            "0x689 launch backs from target rather than overshooting it")
+    require(resources, "const float sourceScale = effect.Scale;",
+            "0x689 passes root effect scale to Sword/Pierce child models")
+    pierce_root = resources.split("case kPierceController:", 2)[2].split(
+        "case kPierce67AController:", 1)[0]
+    require(pierce_root, "SpawnChild(kPierce67AController, flank, &effect, subtype,\n                    owner->Scale);",
+            "0x679 flank children use actor scale, unlike 0x689 lanes")
+    if "if (rise::slayer::IsEffectType(Type))\n                o->Scale = Scale;" in effect_allocator:
+        raise AssertionError("Slayer effect allocator bypasses S21 0.9 zero-scale fallback")
+    require(effect_allocator, "if (Scale <= 0.0f)\n                o->Scale = 0.9f;",
+            "Slayer effects retain S21/5.2 non-positive scale fallback")
+    require(effect_allocator, "rise::slayer::InitializeEffect(*o, Scale);",
+            "Slayer initializer receives raw CreateEffect scale")
+    require(resources, "if (effect.SubType == 0)\n            effect.Scale = incomingScale;",
+            "0x691 subtype0 restores raw scale after allocator fallback")
+    require(resources, "if (effect.SubType == 4 || effect.SubType == 5)\n            effect.Scale = incomingScale;",
+            "0x81CF buff rings start at raw zero scale")
+    require(resources, "if (pierceList && effect.SubType == 2)",
+            "Pierce lane advances only on child completion state")
+    require(resources, "owner->SubType = 2;",
+            "0x68B child completes owning Pierce 0x689 lane")
+    require(resources, "gPierceCastTargetIndex[&effect] = list.front();",
+            "5.2 Pierce fanout keeps the clicked target separate from lane index")
+    require(resources, "!ResolveTarget(original->second)",
+            "0x689 validates its fixed original cast target each frame")
+    require(resources, "model.PlayAnimation(&effect.AnimationFrame,",
+            "0x68B completion follows native 5.2 BMD action keys")
+    require(character_render, "rise::slayer::ApplyPlayerActionSpeeds(CharacterAttribute->AttackSpeed);",
+            "5.2 attack-speed refresh applies S21 Slayer-specific action speeds")
+    require(resources, "const float term = attackSpeed * 0.002f;",
+            "S21 Slayer action speed uses its decoded attack-speed multiplier")
+    require(resources, "Actions[kSwordInertiaAction].PlaySpeed = 0.43f + term;",
+            "S21 Sword E0 native base action speed")
+    initializer = resources[resources.index("void InitializeEffect("):
+                            resources.index("void UpdateEffect(")]
+    sword_root = initializer[initializer.index("case kPierceController:"):
+                             initializer.index("case kPierceSwordLineModel:")]
+    require(sword_root, "effect.Velocity = Models[MODEL_PLAYER].Actions[",
+            "0x679 Sword controller follows native E0 PlaySpeed")
+    require(sword_root, "kSwordInertiaAction].PlaySpeed;",
+            "0x679 native E0 action selection")
+    require(resources, "Actions[kBatFlockAction].PlaySpeed = 0.40f + term;",
+            "S21 Bat E3 native base action speed")
+    require(resources, "Actions[kPierceAttackAction].PlaySpeed = 0.40f + term;",
+            "S21 Pierce E4 native base action speed")
+    require(resources, "Actions[kDetectionAction].PlaySpeed = 0.10f + term;",
+            "S21 Detection E8 native base action speed")
+    require(resources, "Actions[kDemolishAction].PlaySpeed = 0.10f + term;",
+            "S21 Demolish E9 native base action speed")
+    require(resources, "effect.Velocity = Models[MODEL_PLAYER].Actions[\n                effect.Owner->CurrentAction].PlaySpeed;",
+            "0x681 subtype 3 copies its owner-current-action PlaySpeed")
+    require(resources, "effect.Velocity = 0.40f + attackSpeedTerm;",
+            "0x681 E1/E2 flank modes use native speed formula without extra player clips")
+    if "effect.Velocity = 0.35f;" in resources:
+        raise AssertionError("provisional fixed .35 animation speed returned to S21 0x681")
+    require(resources, "Models[kPierceSwordLineModel].Actions[0].PlaySpeed =\n                effect.Velocity;",
+            "0x681 copies selected player speed into its zero-mesh model")
+    require(resources, "actor.Velocity = Models[MODEL_PLAYER].Actions[action].PlaySpeed;",
+            "Slayer cast actor follows decoded action speed instead of fixed .35")
+    require(resources, "model.Actions[model.CurrentAction].PlaySpeed",
+            "0x68B animation speed comes from target action")
+    require(resources, "const float frame = owner->AnimationFrame;",
+            "0x68A opacity follows owning actor's frame")
+    require(resources, "frame / 3.5f : 1.f - (frame - 3.5f) / 3.5f",
+            "0x68A S21 3.5-frame opacity triangle")
+    require(resources, "if (rand() % 6 == 0)",
+            "0x68A 0x691 child uses native one-in-six gate")
+    require(resources, "markAnchor.Angle[2] = NativeRandomRange(0.f, 360.f);",
+            "0x68A 0x691 child rotates around the native yaw range")
+    require(resources, "SpawnChild(kDetectionMarkModel, markAnchor, &effect,",
+            "0x68A randomized model child retains its root owner")
+    if "effect.Timer >= 8.f" in resources:
+        raise AssertionError("provisional eight-tick Pierce lane timer regressed")
+    if "effect.LifeTime <= 1.f" in resources:
+        raise AssertionError("provisional lifetime Pierce helper fallback regressed")
+    require(server, "rise::slayer::PierceFanoutWire fanout = {};",
+            "server-authoritative Pierce target-key fanout")
+    pierce_server = server.split("bool CSkillManager::SkillSlayerPierceAttack", 1)[1].split(
+        "bool CSkillManager::SkillSlayerDetection", 1)[0]
+    initial_pierce, lane_pierce = pierce_server.split(
+        "void CSkillManager::CGSlayerPierceLaneRecv", 1)
+    require(initial_pierce, "kPierceFanoutMaxTargets; ++n)",
+            "Pierce AOE victim selection respects S21 list cap")
+    require(initial_pierce, "this->CheckSkillTarget(caster, index, -1, type)",
+            "Pierce multi-target adapter retains 5.2 legal-target gate")
+    require(initial_pierce, "gMap[caster->Map].CheckAttr(gObj[index].X,",
+            "Pierce fanout excludes targets its delayed lane would reject")
+    require(initial_pierce, "gDuel.GetDuelArenaBySpectator(index) == 0",
+            "Pierce fanout excludes duel spectators before sending lanes")
+    if "BasicSkillAttack(aIndex, index, lpSkill" in initial_pierce:
+        raise AssertionError("Pierce damage applied before S21 0x689 lane request")
+    require(initial_pierce, "gPendingSlayerPierce[aIndex] = pending;",
+            "Pierce accepted cast creates one GS authorization session")
+    require(initial_pierce, "fanout.serial = pending.serial;",
+            "Pierce fanout binds client lanes to GS cast serial")
+    require(initial_pierce, "fanout.count = static_cast<BYTE>(candidateCount);",
+            "Pierce fanout count matches authorized GS targets")
+    require(lane_pierce, "pending.connectedAt != caster->ConnectTickCount",
+            "Pierce lane cannot survive a reused GS connection")
+    require(lane_pierce, "pending.serial != lane.serial",
+            "Pierce lane matches its accepted cast")
+    require(lane_pierce, "lane.direction < 1 || lane.direction > 50",
+            "Pierce lane direction uses S21 helper's 1..50 sequence range")
+    require(lane_pierce, "it->second.consumed[ordinal] = true;",
+            "Pierce target lane consumed before damage")
+    require(lane_pierce, "it->second.openedAt != pending.openedAt",
+            "Pierce lane cannot consume a replacement cast after serial wrap")
+    require(lane_pierce, "const bool batMarked = gEffectManager.CheckEffect",
+            "Pierce Bat mark captured when an authorized lane lands")
+    require(lane_pierce, "const int strikes = batMarked ? 4 : 2;",
+            "Pierce two/four S21 strike contract remains GS authoritative")
+    require(lane_pierce, "gAttack.Attack(caster, target, skill, 1, 0, 0, 0, false);",
+            "Pierce delayed lane applies native 5.2 damage after saved-origin range check")
+    require(server, "if (!gEffectManager.AddEffect(target, 0, EFFECT_SLAYER_DEMOLISH,",
+            "Demolish does not broadcast a rejected authoritative buff")
+    demolish_server = server.split("bool CSkillManager::SkillSlayerDemolish", 1)[1]
+    demolish_apply = demolish_server.split("auto ApplyTo =", 1)[1].split(
+        "if (OBJECT_RANGE(lpObj->PartyNumber)", 1)[0]
+    if "GCSkillAttackSend" in demolish_apply:
+        raise AssertionError("party Demolish duplicates its caster cast graph per recipient")
+    require(character_render, "struct ScopedSlayerActionOpacity",
+            "Sword and Pierce action alpha scoped to character draw")
+    require(character_render, "visual->CurrentAction == rise::slayer::kSwordInertiaAction",
+            "S21 Sword action 0xE0 draw-opacity branch")
+    require(character_render, "frame <= 5.f ?",
+            "Sword alpha transitions at native frame five")
+    require(character_render, "1.f - frame / 10.f : 0.f;",
+            "Sword action uses native fade then zero alpha")
+    require(character_render, "object->Alpha = 0.3f;",
+            "S21 Pierce action 0xE4 translucency")
+    require(character_render, "object->Alpha = previous;",
+            "ordinary alpha restored after Pierce draw")
+    require(resources, "RandomBatSpread(spread, false);",
+            "0x683 signed X/Z localized joint spread")
+    require(resources, "RandomBatSpread(spread, true);",
+            "0x684 upward X/Z localized child spread")
+    require(resources, "SpawnChild(kBatFlockOrbitController, pulse, 0, 0, 0.f);",
+            "0x684 null-owner zero-scale 0x685 child")
+    require(resources, "VectorRotate(spread, matrix, rotated);",
+            "0x682 native angle-rotated random spread")
+    require(resources, "SpawnChild(kBatFlockModel, pulse, &effect, 2, 2.5f);",
+            "0x682 immediate-parent owner for subtype-2 bat")
+    require(resources, "Vector(0.5f, 0.5f, 0.5f, pinLight);",
+            "0x682 native 0x810B light")
+    require(resources, "Vector(0.65f, 0.65f, 0.65f, impactLight);",
+            "0x682 native 0x8070 light")
+    require(resources, "0.26f * particleScale, &effect);",
+            "0x682 native 0x8070 scale")
+    require(resources, "40.f * effect.Scale", "0x80E3 native bat-scale multiplier")
+    require(joints, "o->SubType == 6 && o->Target &&",
+            "0x80E3 subtype 6 private joint constructor/update guard")
+    require(joints, "o->MaxTails = 50;", "0x80E3 native joint tail capacity")
+    require(joints, "o->LifeTime = 5;", "0x80E3 native five-tick life")
+    require(joints, "VectorCopy(o->Target->Position, o->Position);",
+            "0x80E3 native bat-owner position update")
+    require(resources, "Calc_RenderObject(&effect, false, 0, 0)",
+            "native generic model Calc wrapper")
+    require(resources, "effect.Type == kDetectionMarkModel ||",
+            "S21 0x691 fading ring avoids GL_ONE/GL_ONE accumulation")
+    require(resources, "effect.Type == kDetectionImpactModel ? RENDER_TEXTURE :",
+            "S21 0x694 fading vortex avoids GL_ONE/GL_ONE accumulation")
+    require(resources, "(RENDER_TEXTURE | RENDER_BRIGHT);",
+            "Slayer luminous bat/trail models use isolated additive body pass")
+    require(resources, "model.RenderBody(renderFlags, effect.Alpha,",
+            "Slayer S21 models retain single complete RenderBody pass")
+    require(resources, "Bitmaps.ApplySlayerBlackKeyAlpha(model.IndexTexture[mesh])",
+            "0x691 JPEG-black field adapted to RGBA in private model loader")
+    bitmap_header = read("ExMain_RISE_PC/Main5.2_RISE/GlobalBitmap.h")
+    bitmap_source = read("ExMain_RISE_PC/Main5.2_RISE/GlobalBitmap.cpp")
+    require(bitmap_header, "bool ApplySlayerBlackKeyAlpha(GLuint uiBitmapIndex);",
+            "Slayer-only bitmap alpha API")
+    require(bitmap_source, "bool CGlobalBitmap::ApplySlayerBlackKeyAlpha(GLuint uiBitmapIndex)",
+            "Slayer-only in-memory JPEG black-key implementation")
+    if "model.RenderMesh(mesh, RENDER_TEXTURE, effect.Alpha," in resources:
+        raise AssertionError("Slayer model render bypasses BeginRender/EndRender")
+    object_renderer = read("ExMain_RISE_PC/Main5.2_RISE/ZzzObject.cpp")
+    require(object_renderer, "b->RenderBody(RENDER_TEXTURE, o->Alpha,",
+            "5.2 generic Draw_RenderObject textured body")
+    bmd_renderer = read("ExMain_RISE_PC/Main5.2_RISE/ZzzBMD.cpp")
+    require(bmd_renderer, "void BMD::RenderBody(int Flag, float Alpha,",
+            "5.2 RenderBody transform wrapper")
+    if "model.BodyLight[0] = effect.Light[0] * effect.Alpha;" in resources:
+        raise AssertionError("model body light incorrectly multiplied by alpha twice")
+    print("PASS: Bat Flock 0x82EF/0x82F3 joint-pool routes initialized")
+
+    update_start = resources.index("void UpdateEffect")
+    sword_start = resources.index("case kSwordSecondaryController:", update_start)
+    sword_end = resources.index("case kSword68BController:", sword_start)
+    sword_base = resources[sword_start:sword_end]
+    require(sword_base, "CreateAngle(effect.StartPosition[0]", "0x689 target yaw")
+    require(sword_base, "SpawnChild(kSword68BController, launch, &effect, 0",
+            "0x689 single base 0x68B subtype")
+    require(sword_base, "SpawnChild(kSword68EController, launch, &effect, 0",
+            "0x689 base 0x68E subtype")
+    if "SpawnChild(kBatFlock686Controller" in sword_base:
+        raise AssertionError("0x817-only 0x686 leaked into base Sword Inertia")
+    require(resources, "swordLine.Angle[1] += 180.f", "0x68B angle lane 180")
+    require(resources, "swordLine.Angle[1] += 90.f", "0x68B angle lane 90")
+    require(resources, "CreateParticle(kWaterFall4Bitmap", "0x678 native 0x8020 trail")
+    require(resources, "Vector(0.5f, 0.05f, 0.f", "0x678 native 0x8020 light")
+    require(resources, "VectorDistance3(effect.Position, target->Position) <= 50.f",
+            "0x678 subtype 2 real target expiry radius")
+    require(resources, "terrainOrigin[2] = RequestTerrainHeight",
+            "0x678 subtype 2 terrain-projected flight origin")
+    require(resources, "VectorSubtract(target->Position, terrainOrigin",
+            "0x678 subtype 2 native target direction")
+    require(resources, "NativeRandomRange(80.f, 100.f) * 0.5f",
+            "0x678 subtype 2 native floating speed range")
+    if "destination[2] += 35.f;" in resources:
+        raise AssertionError("dump-unproven Bat Flock target +35 Z leaked into port")
+    require(converter, "4650F6571447C1A4D4CCA81E9387A70B9B489AA4989820AF7D375855895B44D2",
+            "0x8020 WATERFALL4 asset hash")
+    require(resources, "swordLine.TransformPosition(BoneTransform[3]",
+            "0x681 first ribbon bone")
+    require(resources, "swordLine.TransformPosition(BoneTransform[1]",
+            "0x681 second ribbon bone")
+    require(resources, "CreateObjectBlurBitmap(&effect", "0x681 explicit S21 blur")
+    require(resources, "frame > 5.5f", "0x681 native frame ceiling")
+    require(resources, "float frame = (initialLife - effect.LifeTime) * actionSpeed",
+            "0x681 native elapsed-life frame origin")
+    require(resources, "frame <= 5.f ? 1.f :",
+            "0x681 native full-alpha frame gate")
+    require(resources, "1.f - frame / static_cast<float>(samples)",
+            "0x681 native seven-key alpha tail")
+    require(resources, "effect.SubType == 1 ? 140.f : 60.f",
+            "0x681 native flank Angle Y offsets")
+    require(converter, "055F4D6F94807F3F507DC84A9CBED509F05E4F3C65E1CF0D49E0BF040AB18FB9",
+            "0x82EC blur02_mono_long_van asset hash")
+    require(resources, "CreateParticle(kGroundStarBitmap, position, angle, light",
+            "0x68C native randomized 0x8149 emitter")
+    if "case kSword68CController:\n            AttachToTarget" in resources:
+        raise AssertionError("0x68C incorrectly attached to selected target")
+    print("PASS: placeholder carriers removed and decoded 0x679..0x690 graph nodes present")
     return 0
 
 

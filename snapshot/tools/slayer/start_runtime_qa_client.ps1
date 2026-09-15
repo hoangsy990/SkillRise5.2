@@ -1,4 +1,4 @@
-param([switch]$Launch)
+param([switch]$Launch, [switch]$UseLegacyFixture)
 
 $ErrorActionPreference = 'Stop'
 $qaRoot = 'D:\RISE-CrossPlatform\Source_PC_Slayer'
@@ -27,11 +27,15 @@ $startInfo.UseShellExecute = $false
 # named Windows Generic Credential and never receives a password on argv.
 $startInfo.EnvironmentVariables['RISE_QA_CREDENTIAL'] = 'RISE_QA:SlayerSmoke'
 $startInfo.EnvironmentVariables['RISE_SLAYER_QA_ACCOUNT'] = 'admin4'
-$startInfo.EnvironmentVariables['RISE_SLAYER_QA_CHARACTER'] = 'Slayer'
+$qaCharacter = if ($UseLegacyFixture) { 'MainRF' } else { 'Slayer' }
+$startInfo.EnvironmentVariables['RISE_SLAYER_QA_CHARACTER'] = $qaCharacter
 # Keep this run on the isolated local Sub-1 stack.  ConnectIP.bmd remains
 # hash-pinned production data; the QA-only build consumes this in-memory
 # endpoint override before opening the login socket.
 $startInfo.EnvironmentVariables['RISE_SLAYER_LOCAL_SERVER_IP'] = '127.0.0.2'
 $startInfo.EnvironmentVariables['RISE_SLAYER_LOCAL_SERVER_PORT'] = '55901'
 $qaProcess = [System.Diagnostics.Process]::Start($startInfo)
-Write-Output "Started isolated Slayer QA PID: $($qaProcess.Id) with saved-credential auto-login marker. Login and cast are not verified."
+Write-Output "Started isolated Slayer QA PID: $($qaProcess.Id) target-character=$qaCharacter with saved-credential auto-login marker. Login and cast are not verified."
+if ($UseLegacyFixture) {
+    Write-Output 'WARNING: MainRF is a legacy renderer fixture, not Slayer class-9 ingame acceptance.'
+}

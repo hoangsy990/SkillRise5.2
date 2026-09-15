@@ -15,12 +15,7 @@
 #include "WSClient.h"
 #include "CSPetSystem.h"
 #include "GMBattleCastle.h"
-#include "RISE/GrowLancerCircleJoint.h"
-#include "RISE/GrowLancerPinJoint.h"
-
-// Reset on every pool allocation, including reuse by an unrelated joint.
-static float g_circleJointRemainder[MAX_JOINTS] = {};
-static float g_pinJointRemainder[MAX_JOINTS] = {};
+#include "RISE/Slayer/client/SlayerSkillResources.h"
 
 extern float g_fBoneSave[10][3][4];
 
@@ -32,8 +27,6 @@ void CreateJoint(int Type, vec3_t Position, vec3_t TargetPosition, vec3_t Angle,
         JOINT* o = &Joints[i];
         if (!o->Live)
         {
-            g_circleJointRemainder[i] = 0.f;
-            g_pinJointRemainder[i] = 0.f;
             o->Live = true;
             o->Type = Type;
             o->TexType = o->Type;
@@ -95,6 +88,32 @@ void CreateJoint(int Type, vec3_t Position, vec3_t TargetPosition, vec3_t Angle,
             vec3_t Position, p;
 
             bool bCreateStartTail = true;
+            const bool slayerGhostJoint =
+                Type == rise::slayer::kGhostMark02Bitmap ||
+                Type == rise::slayer::kGhostMark02RedBitmap;
+            if (slayerGhostJoint)
+            {
+                // S21 joint-pool constructor 0x15E00D4/0x15E0780 starts
+                // without a seed tail (NumTails=-1).  Initialize the 5.2
+                // private slot before its generic tail path can read stale
+                // Scale from a previously recycled JOINT.
+                bCreateStartTail = false;
+                o->NumTails = -1;
+                VectorCopy(o->Position, o->StartPosition);
+                o->Velocity = 0.f;
+                o->Weapon = 0.f;
+                o->MultiUse = 1.f;
+            }
+#ifdef RISE_SLAYER_PORT
+            if (Type == BITMAP_FORCEPILLAR && SubType == 6 && Target &&
+                Target->Type == rise::slayer::kBatFlockModel)
+            {
+                // The generic seed-tail path precedes the type switch.
+                // Seed it with this joint's input scale, never a recycled
+                // slot's stale Scale.
+                o->Scale = Scale;
+            }
+#endif
             if (Type == BITMAP_FLARE + 1 && o->SubType == 8)
             {
                 bCreateStartTail = false;
@@ -159,6 +178,47 @@ void CreateJoint(int Type, vec3_t Position, vec3_t TargetPosition, vec3_t Angle,
             vec3_t BitePosition;
             switch (Type)
             {
+            case rise::slayer::kGhostMark02Bitmap:
+                // Native 0x82EF subtype 0: LifeTime=rand()%15+15,
+                // MaxTails=10, Scale=(rand[80,100]*.01)*input Scale.
+                o->LifeTime = 15.f + static_cast<float>(rand() % 15);
+                o->Weapon = o->LifeTime;
+                o->MaxTails = 10;
+                o->Scale = Scale *
+                    static_cast<float>(80 + rand() % 21) * 0.01f;
+                o->Angle[0] = static_cast<float>(rand() % 360);
+                o->Angle[1] = 0.f;
+                o->Angle[2] = static_cast<float>(rand() % 360);
+                // Native +A08 is the orbit radius, initialized [80,100].
+                o->MultiUse = static_cast<float>(80 + rand() % 21);
+                {
+                    // 0x15E02E2..0x15E0436: native (0.8,.13,.13)
+                    // tint multiplied by random [30,100] percent.
+                    const float tint =
+                        static_cast<float>(30 + rand() % 71) * 0.01f;
+                    Vector(0.8f * tint, 0.13f * tint, 0.13f * tint,
+                        o->Light);
+                }
+                break;
+            case rise::slayer::kGhostMark02RedBitmap:
+                // Native 0x82F3 subtype 0/1: fixed 30-frame life,
+                // MaxTails=5, Scale=(rand[20,140]*.01)*input Scale.
+                o->LifeTime = 30.f;
+                o->Weapon = o->LifeTime;
+                o->MaxTails = 5;
+                o->Scale = Scale *
+                    static_cast<float>(20 + rand() % 121) * 0.01f;
+                o->Angle[2] = static_cast<float>(rand() % 360);
+                o->MultiUse = o->SubType == 1 ? 10.f : 30.f;
+                o->Direction[0] = static_cast<float>((rand() % 31) - 15);
+                {
+                    // Native subtype 1 constructor 0x15E09ED uses
+                    // [10,70] percent equal-RGB ghost tint.
+                    const float tint = static_cast<float>(
+                        10 + rand() % 61) * 0.01f;
+                    Vector(tint, tint, tint, o->Light);
+                }
+                break;
             case BITMAP_SCOLPION_TAIL:
                 o->Scale = Scale;
                 o->LifeTime = 120;
@@ -2715,11 +2775,6 @@ void CreateJoint(int Type, vec3_t Position, vec3_t TargetPosition, vec3_t Angle,
             break;
             case BITMAP_PIN_LIGHT:
             {
-                if (SubType >= 2 && SubType <= 4)
-                {
-                    rise::growlancer::InitPinJoint(*o, Scale);
-                    break;
-                }
                 o->Scale = Scale;
                 o->Velocity = (float)(rand() % 60 + 15);
                 o->LifeTime = rand() % 3 + 1;
@@ -2728,40 +2783,28 @@ void CreateJoint(int Type, vec3_t Position, vec3_t TargetPosition, vec3_t Angle,
             break;
             case BITMAP_FORCEPILLAR:
             {
+#ifdef RISE_SLAYER_PORT
+                if (o->SubType == 6 && o->Target &&
+                    o->Target->Type == rise::slayer::kBatFlockModel)
+                {
+                    // S21 joint 0x80E3 subtype 6 constructor
+                    // 0x15DEED8..0x15DEF1C: bat-owned short ribbon.
+                    o->RenderType = RENDER_TYPE_ALPHA_BLEND;
+                    o->RenderFace = RENDER_FACE_ONE | RENDER_FACE_TWO;
+                    o->Scale = Scale;
+                    o->LifeTime = 5;
+                    o->MaxTails = 50;
+                    o->m_bCreateTails = true;
+                    break;
+                }
+#endif
                 o->RenderType = RENDER_TYPE_ALPHA_BLEND;
                 o->RenderFace = RENDER_FACE_TWO;
                 o->Scale = Scale;
-                if (o->SubType == 2)
-                {
-                    // SS21 Circle Shield, CreateJoint branch 0x15DEB72.
-                    // Keep this subtype isolated from the legacy down-attack
-                    // dummy contract used by force-pillar subtypes 0/1.
-                    o->Velocity = 0.0f;
-                    o->LifeTime = 18;
-                    o->MaxTails = 10;
-                    VectorCopy(TargetPosition, o->TargetPosition);
-                    o->TargetPosition[2] += 100.0f;
-                    o->m_byReverseUV = 2;
-                    Vector(0.2f, 0.45f, 0.65f, o->Light);
-                }
-                else
-                {
-                    o->LifeTime = 7;
-                    o->MaxTails = 5;
-                    Vector(0.95f, 0.72f, 0.48f, o->Light);
-                }
-                if (o->SubType == 3)
-                {
-                    // S21 15DECA1: separate received Circle contact primitive.
-                    o->RenderFace = RENDER_FACE_ONE | RENDER_FACE_TWO;
-                    o->LifeTime = 100;
-                    o->MaxTails = 10;
-                    o->MultiUse = (rand() % 2) ? 1.f : -1.f;
-                    o->Velocity = 10.f;
-                    o->m_byReverseUV = 2;
-                    Vector(0.5f, 0.4f, 1.f, o->Light);
-                }
+                o->LifeTime = 7;
+                o->MaxTails = 5;
                 o->m_bCreateTails = true;
+                Vector(0.95f, 0.72f, 0.48f, o->Light);
             }
             break;
             case BITMAP_SWORDEFF:
@@ -2802,11 +2845,7 @@ void CreateJoint(int Type, vec3_t Position, vec3_t TargetPosition, vec3_t Angle,
 
             // Because the Tails will be too short when FPS is high, we need to
             // increase the MaxTails.
-            // Circle subtype2 emits tails on fixed S21 ticks, not render
-            // frames. S21 15E21B9 only caps MaxTails; its value stays10.
-            if (!(Type == BITMAP_FORCEPILLAR && (SubType == 2 || SubType == 3))
-                && !(Type == BITMAP_PIN_LIGHT && SubType >= 2 && SubType <= 4))
-                o->MaxTails = static_cast<int>(o->MaxTails / FPS_ANIMATION_FACTOR);
+            o->MaxTails = static_cast<int>(o->MaxTails / FPS_ANIMATION_FACTOR);
             if (o->MaxTails > MAX_TAILS)
             {
                 o->MaxTails = MAX_TAILS;
@@ -3028,101 +3067,6 @@ else Angle[2] = TurnAngle2(Angle[2],0.f,FarAngle(Angle[2],0.f)*0.5f);
 
 void MoveJoint(JOINT* o, int iIndex)
 {
-    if (o->Type == BITMAP_PIN_LIGHT && o->SubType >= 2 && o->SubType <= 4)
-    {
-        float matrix[3][4];
-        rise::growlancer::AdvancePinJoint(*o, g_pinJointRemainder[iIndex],
-            FPS_ANIMATION_FACTOR,
-            [&](JOINT& joint) {
-                AngleMatrix(joint.Angle, matrix);
-                vec3_t speed, displacement;
-                Vector(0.f, -joint.Velocity, 0.f, speed);
-                VectorRotate(speed, matrix, displacement);
-                VectorAdd(joint.Position, displacement, joint.Position);
-            },
-            [&](JOINT& joint) {
-                if (joint.m_bCreateTails) CreateTail(&joint, matrix);
-            });
-        return;
-    }
-    if (o->Type == BITMAP_FORCEPILLAR && o->SubType == 3)
-    {
-        // Additional native safety boundary: S21's subtype handler directly
-        // dereferences Target. Never synthesize a target on invalid ownership.
-        if (!o->Target || !o->Target->Live)
-        {
-            o->Live = false;
-            return;
-        }
-        rise::growlancer::AdvanceCircleContactJoint(*o,
-            g_circleJointRemainder[iIndex], FPS_ANIMATION_FACTOR, [&](JOINT&) {
-            float matrix[3][4];
-            AngleMatrix(o->Angle, matrix);
-            vec3_t speed, displacement;
-            Vector(0.f, -o->Velocity, 0.f, speed);
-            VectorRotate(speed, matrix, displacement);
-            VectorAdd(o->Position, displacement, o->Position);
-            if (o->LifeTime > 85)
-            {
-                Vector(0.f, -10.f, 0.f, speed);
-                VectorRotate(speed, matrix, displacement);
-                VectorAdd(o->Position, displacement, o->Position);
-            }
-            o->Velocity = rise::growlancer::CircleContactVelocity(o->LifeTime, o->Velocity);
-            const float priorYaw = o->Angle[2];
-            VectorCopy(o->Target->Position, o->TargetPosition);
-            o->TargetPosition[2] += 120.f;
-            vec3_t range;
-            VectorSubtract(o->Position, o->TargetPosition, range);
-            const float horizontal = sqrtf(range[0]*range[0] + range[1]*range[1]);
-            o->Angle[2] = TurnAngle2(o->Angle[2],
-                CreateAngle2D(o->Position, o->TargetPosition), o->Velocity);
-            const float pitch = 360.f - CreateAngle(o->Position[2],
-                horizontal, o->TargetPosition[2], 0.f);
-            o->Angle[0] = TurnAngle2(o->Angle[0], pitch, o->Velocity);
-            const float distance = sqrtf(range[0]*range[0] + range[1]*range[1] + range[2]*range[2]);
-            if (rise::growlancer::CircleContactReached(distance))
-                o->Live = false;
-            o->Velocity = rise::growlancer::CircleContactBrake(distance,
-                fabsf(priorYaw - o->Angle[2]), o->Velocity);
-            // 1613285 consumes random for a local color vector, not joint.Light.
-            (void)rand();
-            // Common source tail uses PRE-turn matrix even on contact death.
-            if (o->m_bCreateTails)
-                CreateTail(o, matrix);
-        });
-        return;
-    }
-    if (o->Type == BITMAP_FORCEPILLAR && o->SubType == 2)
-    {
-        float matrix[3][4];
-        rise::growlancer::AdvanceCircleJoint(*o, g_circleJointRemainder[iIndex],
-            FPS_ANIMATION_FACTOR,
-            [&](JOINT& joint) {
-                AngleMatrix(joint.Angle, matrix);
-                vec3_t speed, displacement;
-                Vector(0.f, -joint.Velocity, 0.f, speed);
-                VectorRotate(speed, matrix, displacement);
-                VectorAdd(joint.Position, displacement, joint.Position);
-            },
-            [](JOINT& joint) {
-                // Fixed-tick version of native MoveHumming math; its public
-                // wrapper would multiply the turn by the FPS factor again.
-                joint.Angle[2] = TurnAngle2(joint.Angle[2],
-                    CreateAngle2D(joint.Position, joint.TargetPosition), 10.f);
-                vec3_t range;
-                VectorSubtract(joint.Position, joint.TargetPosition, range);
-                const float distance = sqrtf(range[0]*range[0] + range[1]*range[1]);
-                const float targetAngle = 360.f - CreateAngle(joint.Position[2],
-                    distance, joint.TargetPosition[2], 0.f);
-                joint.Angle[0] = TurnAngle2(joint.Angle[0], targetAngle, 10.f);
-            },
-            [&](JOINT& joint) {
-                if (joint.m_bCreateTails)
-                    CreateTail(&joint, matrix);
-            });
-        return;
-    }
     float Height;
     vec3_t Light;
     float Luminosity;
@@ -3153,6 +3097,44 @@ void MoveJoint(JOINT* o, int iIndex)
 
     switch (o->Type)
     {
+    case rise::slayer::kGhostMark02Bitmap:
+    case rise::slayer::kGhostMark02RedBitmap:
+    {
+        // S21 joint updater 0x1615406/0x1615A15: the target-owned
+        // 0x82EF and 0x82F3 joints expire with their owning effect.
+        if (!o->Target || !o->Target->Live)
+        {
+            o->Live = false;
+            return;
+        }
+
+        if (o->Type == rise::slayer::kGhostMark02Bitmap)
+        {
+            // 0x82EF subtype 0 rotates 20 degrees per native tick and
+            // grows its orbit radius by 2 before appending the next tail.
+            o->Angle[2] += 20.f * FPS_ANIMATION_FACTOR;
+            o->MultiUse += 2.f * FPS_ANIMATION_FACTOR;
+            AngleMatrix(o->Angle, Matrix);
+            Vector(0.f, o->MultiUse, 0.f, p);
+            VectorRotate(p, Matrix, Position);
+            VectorAdd(o->StartPosition, Position, o->Position);
+        }
+        else if (o->SubType == 1)
+        {
+            // 0x82F3 subtype 1 advances the signed angular step in
+            // alternating three-frame phases, then grows its offset.
+            const float step =
+                (static_cast<int>(o->LifeTime) % 6 < 3 ? 1.f : -1.f) *
+                o->Direction[0];
+            o->Angle[2] += step * FPS_ANIMATION_FACTOR;
+            o->MultiUse += FPS_ANIMATION_FACTOR;
+            AngleMatrix(o->Angle, Matrix);
+            Vector(0.f, o->MultiUse, 0.f, p);
+            VectorRotate(p, Matrix, Position);
+            VectorAdd(o->Position, Position, o->Position);
+        }
+        break;
+    }
     case BITMAP_JOINT_LASER:
         VectorCopy(o->Target->Position, o->TargetPosition);
         o->TargetPosition[2] += 130.f;
@@ -7038,6 +7020,20 @@ void MoveJoint(JOINT* o, int iIndex)
     break;
     case BITMAP_FORCEPILLAR:
     {
+#ifdef RISE_SLAYER_PORT
+        if (o->SubType == 6 && o->Target &&
+            o->Target->Type == rise::slayer::kBatFlockModel)
+        {
+            // S21 joint 0x80E3 subtype 6 update at
+            // 0x1613393..0x1613428: expire with bat owner or copy its
+            // current position. No dummy-model bone transform is involved.
+            if (!o->Target->Live)
+                o->Live = false;
+            else
+                VectorCopy(o->Target->Position, o->Position);
+            break;
+        }
+#endif
         if (!o->Target)
         {
             o->Live = false;
@@ -7219,6 +7215,19 @@ void RenderJoints(BYTE bRenderOneMore)
                     EnableAlphaBlendMinus();
                     break;
                 }
+            }
+            else if (o->Type == rise::slayer::kGhostMark02Bitmap ||
+                o->Type == rise::slayer::kGhostMark02RedBitmap)
+            {
+                // Native joint +A4C remains 1 until half its initial
+                // life, then decreases by 1/(initial life/2) per tick.
+                // JOINT in 5.2 has no alpha member; the authored texture
+                // gets the equivalent color envelope without changing
+                // its stored RGB light on every update.
+                const float alpha = min(1.f, max(0.f,
+                    o->LifeTime / max(1.f, o->Weapon * 0.5f)));
+                glColor3f(alpha * o->Light[0], alpha * o->Light[1],
+                    alpha * o->Light[2]);
             }
             else if (o->Type == BITMAP_FLARE_BLUE && o->SubType == 20)
             {

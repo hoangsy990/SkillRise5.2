@@ -450,8 +450,10 @@ void CheckTargetRange(OBJECT* o)
     }
 }
 
-void CreateEffect(int Type, vec3_t Position, vec3_t Angle, vec3_t Light, int SubType, OBJECT* Owner, short PKKey, WORD SkillIndex, WORD Skill, WORD SkillSerialNum, float Scale, short int sTargetIndex)
+void CreateEffect(int Type, vec3_t Position, vec3_t Angle, vec3_t Light, int SubType, OBJECT* Owner, short PKKey, WORD SkillIndex, WORD Skill, WORD SkillSerialNum, float Scale, short int sTargetIndex, OBJECT** createdEffect)
 {
+    if (createdEffect)
+        *createdEffect = NULL;
     for (int icntEffect = 0; icntEffect < MAX_EFFECTS; icntEffect++)
     {
         OBJECT* o = &Effects[icntEffect];
@@ -477,6 +479,8 @@ void CreateEffect(int Type, vec3_t Position, vec3_t Angle, vec3_t Light, int Sub
             o->Alpha = 1.f;
             o->PriorAnimationFrame = 0.f;
 
+            // S21 CreateEffect at 0x143E7E1..0x143E80D uses the same
+            // non-positive scale fallback (0.9) as native RISE 5.2.
             if (Scale <= 0.0f)
                 o->Scale = 0.9f;
             else
@@ -511,7 +515,9 @@ void CreateEffect(int Type, vec3_t Position, vec3_t Angle, vec3_t Light, int Sub
                     o->Live = false;
                     return;
                 }
-                rise::slayer::InitializeEffect(*o);
+                rise::slayer::InitializeEffect(*o, Scale);
+                if (createdEffect && o->Live)
+                    *createdEffect = o;
                 return;
             }
 #endif
