@@ -1081,7 +1081,11 @@ BOOL ReceiveJoinMapServer(const BYTE* ReceiveBuffer, BOOL bEncrypted)
 	}
 
 #if(NEW_MASTER_SKILL_TREE)
-	g_pMasterSkillTreeInterface->SetMasterType(gCharacterManager.GetCharacterClass(CharacterAttribute->Class));
+	g_pMasterSkillTreeInterface->SetMasterType(
+#ifdef RISE_SLAYER_PORT
+		gCharacterManager.IsSlayerClientClass(CharacterAttribute->Class) ? CharacterAttribute->Class :
+#endif
+		gCharacterManager.GetCharacterClass(CharacterAttribute->Class));
 #endif
 
 	g_ConsoleDebug->Write(3, "0xF3, 0x03 LPPRECEIVE_JOIN_MAP_SERVER size: %d bytes", sizeof(*Data));
@@ -10037,7 +10041,11 @@ void ReceiveQuestPrize(const BYTE* ReceiveBuffer)
 		SetAction(&c->Object, PLAYER_CHANGE_UP);
 		PlayBuffer(SOUND_CHANGE_UP);
 #if(NEW_MASTER_SKILL_TREE)
-		g_pMasterSkillTreeInterface->SetMasterType(gCharacterManager.GetCharacterClass(Hero->Class));
+		g_pMasterSkillTreeInterface->SetMasterType(
+#ifdef RISE_SLAYER_PORT
+			gCharacterManager.IsSlayerClientClass(Hero->Class) ? Hero->Class :
+#endif
+			gCharacterManager.GetCharacterClass(Hero->Class));
 #endif
 	}
 	break;
@@ -13223,7 +13231,11 @@ void Receive_Master_SkillList(BYTE* ReceiveBuffer)
 
 	g_pMasterSkillTreeInterface->ClearSkillTreeInfo();
 	g_pMasterSkillTreeInterface->InitMasterSkillPoint();
-	g_pMasterSkillTreeInterface->SetMasterType(gCharacterManager.GetCharacterClass(CharacterAttribute->Class));
+	g_pMasterSkillTreeInterface->SetMasterType(
+#ifdef RISE_SLAYER_PORT
+		gCharacterManager.IsSlayerClientClass(CharacterAttribute->Class) ? CharacterAttribute->Class :
+#endif
+		gCharacterManager.GetCharacterClass(CharacterAttribute->Class));
 	for (int n = 0; n < lpMsg->count; n++)
 	{
 		PMSG_MASTER_SKILL_LIST* lpInfo = (PMSG_MASTER_SKILL_LIST*)(((BYTE*)lpMsg) + sizeof(PMSG_MASTER_SKILL_LIST_SEND) + (sizeof(PMSG_MASTER_SKILL_LIST) * n));

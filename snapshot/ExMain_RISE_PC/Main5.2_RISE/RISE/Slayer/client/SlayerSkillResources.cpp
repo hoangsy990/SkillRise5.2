@@ -2343,6 +2343,12 @@ void ApplySkillCatalog()
         // only seven class bytes; writing Slayer's S21 class number 9 here
         // would corrupt the adjacent SkillRank/metadata ABI.
     }
+
+    // The 650-record legacy Skill.bmd stays intact. The independent Master
+    // Slayer overlay fills only the unused >=650 metadata tail; collision
+    // IDs such as 631 remain class-scoped in the master UI accessor.
+    if (!LoadMasterSlayerSkillMetadata())
+        OutputDebugStringA("Slayer: private Master Slayer metadata missing or invalid\n");
 }
 
 }}

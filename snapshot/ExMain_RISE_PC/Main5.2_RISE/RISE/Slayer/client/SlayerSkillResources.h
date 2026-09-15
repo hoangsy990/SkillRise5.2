@@ -176,5 +176,10 @@ void PlayCastSound(int skillId, OBJECT* actor);
 void PlayImpactSound(int skillId, OBJECT* actor, int ordinal = 0);
 
 void ApplySkillCatalog();
+#ifdef RISE_SLAYER_PORT
+// Loads the private, hash-pinned 58-node Master Slayer metadata overlay.
+bool LoadMasterSlayerSkillMetadata();
+bool HasMasterSlayerSkillMetadata(int skillId);
+#endif
 
 }}

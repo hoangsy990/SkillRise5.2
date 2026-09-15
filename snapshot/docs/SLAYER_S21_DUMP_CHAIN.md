@@ -1133,3 +1133,23 @@ now rebinds only exact private QA junctions to
 private junctions without traversing their targets. The stage verifier uses
 `lstat()` rather than `stat()` to detect reparse points, checks the exact
 126-junction set, and rejects any target outside the isolated source.
+
+The separate Master Slayer resource conversion is now wired to the client
+master UI. The pinned S21 tree and tooltip convert to 58 private 5.2 records;
+the pinned S21 SkillList adds a third 58-record, 77-byte metadata overlay
+(`MasterSlayerSkills.bmd`, SHA-256
+`1A8932E3C3CDE1155F3DBFF426F627758293132CAA7ED75C54B9CAB559CC806C`).
+The reader checks exact byte length, EOF, plaintext CRC32, class bit 512,
+unique slots and equal tree/tooltip/metadata skill sets before exposing any
+node. Raw Slayer marker 7 routes only that class to the overlay; other
+classes retain the existing 512-record tree. `SkillAttribute` is a separate
+metadata allocation enlarged to 800 in isolated Slayer builds, while
+`MAX_SKILLS=650` still controls legacy Skill.bmd, character skill slots and
+packets. Only SS21 Master Slayer IDs >=650 fill its unused metadata tail;
+low IDs such as 631 remain class-scoped to the Slayer UI and do not overwrite
+5.2 legacy metadata. The isolated Win32 client built and private stage
+verified after this change. The visible category captions are explicitly
+temporary, the S21 icon atlas is not yet imported, and the GS master-tree
+learning path plus high-ID gameplay dispatch are not yet accepted. No ingame
+preview was launched from this build; static conversion/build/staging does
+not close five-skill behavior or render parity.

@@ -71,6 +71,7 @@
 #include <dbghelp.h>
 #include <strsafe.h>
 #include <ProtectSend/AntiStreamClient.h>
+#include "RISE/Slayer/shared/SlayerSkillMetadataCapacity.h"
 extern RISE_SHARED_INFO g_RISESharedInfo;
 #ifdef RISE_SLAYER_RUNTIME_QA
 #define SLAYER_QA_STEP(text) rise::slayerqa::AppendRuntimeQALog(text)
@@ -1929,7 +1930,7 @@ int __stdcall APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PST
 
 	RendomMemoryDump = new BYTE[rand() % 100 + 1];
 	GateAttribute = new GATE_ATTRIBUTE[MAX_GATES];
-	SkillAttribute = new SKILL_ATTRIBUTE[MAX_SKILLS];
+	SkillAttribute = new SKILL_ATTRIBUTE[rise::slayer::kSkillAttributeCapacity];
 
 	ItemAttRibuteMemoryDump = new ITEM_ATTRIBUTE[MAX_ITEM + 1024];
 	ItemAttribute = ((ITEM_ATTRIBUTE*)ItemAttRibuteMemoryDump) + rand() % 1024;
@@ -1939,7 +1940,7 @@ int __stdcall APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PST
 	CharacterMachine = new CHARACTER_MACHINE;
 	memset(GateAttribute, 0, sizeof(GATE_ATTRIBUTE) * (MAX_GATES));
 	memset(ItemAttribute, 0, sizeof(ITEM_ATTRIBUTE) * (MAX_ITEM));
-	memset(SkillAttribute, 0, sizeof(SKILL_ATTRIBUTE) * (MAX_SKILLS));
+	memset(SkillAttribute, 0, sizeof(SKILL_ATTRIBUTE) * rise::slayer::kSkillAttributeCapacity);
 	memset(CharacterMachine, 0, sizeof(CHARACTER_MACHINE));
 	CharacterAttribute = &CharacterMachine->Character;
 	CharacterMachine->Init();

@@ -27,6 +27,7 @@ TARGET = Path(
 TREE_RECORD = struct.Struct("<HHBBBBiiif")  # 5.2 _MASTER_SKILLTREE_DATA, 24 bytes
 S21_TOOLTIP_RECORD = struct.Struct("<iH64s256s32s46s")  # native S21, 404 bytes
 RISE_TOOLTIP_RECORD = struct.Struct("<iH64s256s32s64s64s64s64s2x")  # 5.2, 616 bytes
+RISE_SKILL_RECORD = struct.Struct("<H32sHHHHIiiHBIBHBiiBBH")  # private 77-byte metadata
 if TREE_RECORD.size != 24 or S21_TOOLTIP_RECORD.size != 404 or RISE_TOOLTIP_RECORD.size != 616:
     raise AssertionError("master-tree record layout drifted")
 
@@ -60,7 +61,7 @@ def source_tooltips() -> dict[int, tuple[int, bytes]]:
     return result
 
 
-def build() -> tuple[bytes, bytes]:
+def build() -> tuple[bytes, bytes, bytes]:
     s21_rows = [row for row in rows(S21, S21_SHA, 2048)
                 if row[0] and row[1] & 512]
     if len(s21_rows) != 58 or len({row[8] for row in s21_rows}) != 58:
@@ -68,11 +69,13 @@ def build() -> tuple[bytes, bytes]:
     skill_list = S21_SKILL_LIST.read_bytes()
     if digest(skill_list) != S21_SKILL_LIST_SHA:
         raise AssertionError("S21 SkillList hash drifted")
-    damage = {int(node.attrib["Index"]): int(node.attrib["Damage"])
-              for node in ET.fromstring(skill_list).findall("Skill")}
+    skill_nodes = {int(node.attrib["Index"]): node.attrib
+                   for node in ET.fromstring(skill_list).findall("Skill")}
+    damage = {skill: int(node["Damage"]) for skill, node in skill_nodes.items()}
     native_tooltips = source_tooltips()
     tree_records: list[bytes] = []
     tooltip_records: list[bytes] = []
+    skill_records: list[bytes] = []
     for row in s21_rows:
         (slot, _class_code, group, min_points, max_points, arrow,
          parent1, parent2, skill, default_integer) = row
@@ -92,9 +95,25 @@ def build() -> tuple[bytes, bytes]:
             skill, 512, info1, info2, info3, info4.ljust(64, b"\0"),
             b"\0" * 64, b"\0" * 64, b"\0" * 64,
         ))
-    return packet(tree_records, TREE_RECORD.size), packet(
-        tooltip_records, RISE_TOOLTIP_RECORD.size
-    )
+        source_skill = skill_nodes[skill]
+        if source_skill["Slayer"] != "3":
+            raise AssertionError(f"S21 master skill {skill} lost class-9 provenance")
+        name = source_skill["Name"].encode("utf-8")[:31].ljust(32, b"\0")
+        skill_records.append(RISE_SKILL_RECORD.pack(
+            skill, name,
+            int(source_skill["ReqLevel"]), int(source_skill["Damage"]),
+            int(source_skill["ManaUsage"]), int(source_skill["BPUsage"]),
+            int(source_skill["Distance"]), int(source_skill["Delay"]),
+            int(source_skill["ReqEnergy"]), int(source_skill["ReqCommand"]),
+            int(source_skill["UseType"]), int(source_skill["Brand"]),
+            int(source_skill["Rank"]), int(source_skill["Group"]),
+            int(source_skill["Type"]) & 0xFF, int(source_skill["ReqStrength"]),
+            int(source_skill["ReqDexterity"]), int(source_skill["ItemSkill"]),
+            int(source_skill["isDamage"]), int(source_skill["IconNumber"]),
+        ))
+    return (packet(tree_records, TREE_RECORD.size),
+            packet(tooltip_records, RISE_TOOLTIP_RECORD.size),
+            packet(skill_records, RISE_SKILL_RECORD.size))
 
 
 def verify_packet(encoded: bytes, size: int) -> None:
@@ -107,12 +126,14 @@ def verify_packet(encoded: bytes, size: int) -> None:
 
 
 def main() -> None:
-    tree, tooltip = build()
+    tree, tooltip, skills = build()
     verify_packet(tree, TREE_RECORD.size)
     verify_packet(tooltip, RISE_TOOLTIP_RECORD.size)
+    verify_packet(skills, RISE_SKILL_RECORD.size)
     TARGET.mkdir(parents=True, exist_ok=True)
     for name, value in (("MasterSlayerTree.bmd", tree),
-                        ("MasterSlayerTooltip.bmd", tooltip)):
+                        ("MasterSlayerTooltip.bmd", tooltip),
+                        ("MasterSlayerSkills.bmd", skills)):
         output = TARGET / name
         if output.exists() and output.read_bytes() != value:
             raise AssertionError(f"refusing to overwrite divergent private asset {output}")

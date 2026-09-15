@@ -302,12 +302,19 @@ void OpenSkillScript(char* FileName)
 
 BOOL IsValidateSkillIdx(INT iSkillIdx)
 {
-	if (iSkillIdx >= MAX_SKILLS || iSkillIdx < 0)
+	if (iSkillIdx < 0)
 	{
 		return FALSE;
 	}
+	if (iSkillIdx < MAX_SKILLS)
+		return TRUE;
+#ifdef RISE_SLAYER_PORT
+	if (CharacterAttribute && gCharacterManager.IsSlayerClientClass(CharacterAttribute->Class) &&
+		rise::slayer::HasMasterSlayerSkillMetadata(iSkillIdx))
+		return TRUE;
+#endif
 
-	return TRUE;
+	return FALSE;
 }
 
 BOOL IsCorrectSkillType(INT iSkillSeq, eTypeSkill iSkillTypeIdx)
