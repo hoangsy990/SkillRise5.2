@@ -335,6 +335,14 @@ local cast acknowledgment via its pending-graph guard and does not re-run
 the initializer for that cast. This now starts the `0x81CD` subtype-2
 controller once, with all ten direct children now ported; it does not prove XY
 rush/return parity.
+The 5.2 stationary `SetPlayerStop` path does not ground `OBJECT.Position[2]`;
+only movement sets it from `RequestTerrainHeight`. Without a scoped retirement,
+repeated local Pierce casts would accumulate this genuine S21 `+5 Z` write.
+The isolated port now saves the actor's pre-cast Z and retires that one-shot
+lift after the action transition or before another Slayer cast. It restores
+only when the actor still has exactly the saved `+5` offset, never overwriting
+a newer movement/server correction. This is a **5.2 lifecycle adapter**, not
+decoded evidence of the S21 caster rush/return or native grounding path.
 The same native E4 block calls `0x14B6619` at `0x128BE8A`, after the Z lift
 and before creating `0x81CD`. That helper scans two effect-object pools:
 `0x10F0032` and `0x14B679A` compare each live record's owner pointer

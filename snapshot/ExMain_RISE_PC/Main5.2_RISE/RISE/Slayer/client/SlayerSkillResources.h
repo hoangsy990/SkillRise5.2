@@ -170,6 +170,7 @@ void UpdateEffect(OBJECT& effect, float animationFactor);
 bool RenderEffect(OBJECT& effect);
 void ApplyPlayerActionSpeeds(int attackSpeed);
 bool ApplyCastAction(OBJECT& actor, int skillId);
+void UpdatePierceActorLift(OBJECT& actor);
 void LoadSounds();
 void PlayCastSound(int skillId, OBJECT* actor);
 void PlayImpactSound(int skillId, OBJECT* actor, int ordinal = 0);

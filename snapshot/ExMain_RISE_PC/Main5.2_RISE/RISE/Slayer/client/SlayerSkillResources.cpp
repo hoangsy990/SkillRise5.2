@@ -36,7 +36,21 @@ std::map<const OBJECT*, std::vector<short> > gBatFlockTargets;
 std::map<const OBJECT*, std::vector<short> > gPierceTargets;
 std::map<const OBJECT*, unsigned char> gPierceCastSerial;
 std::map<const OBJECT*, short> gPierceCastTargetIndex;
+std::map<const OBJECT*, float> gPierceActorBaselineZ;
 unsigned char gPierceLaneDirection = 0;
+
+void RetirePierceActorLift(OBJECT& actor)
+{
+    std::map<const OBJECT*, float>::iterator it =
+        gPierceActorBaselineZ.find(&actor);
+    if (it == gPierceActorBaselineZ.end())
+        return;
+    // Movement or an authoritative position packet may have grounded this
+    // actor already. Never replace that newer position with an old snapshot.
+    if (fabsf(actor.Position[2] - (it->second + 5.f)) < 0.01f)
+        actor.Position[2] = it->second;
+    gPierceActorBaselineZ.erase(it);
+}
 
 float NativeRandomUnitStep(int lower, int upper)
 {
@@ -2102,6 +2116,10 @@ bool ApplyCastAction(OBJECT& actor, int skillId)
         return false;
     if (CharacterAttribute)
         ApplyPlayerActionSpeeds(CharacterAttribute->AttackSpeed);
+    // 5.2 does not ground a stationary actor in SetPlayerStop. Retire the
+    // previous Pierce-only lift before any new Slayer action, including a
+    // repeated Pierce cast; the native +5 write remains one-shot per cast.
+    RetirePierceActorLift(actor);
     actor.CurrentAction = action;
     actor.AnimationFrame = 0.f;
     actor.PriorAnimationFrame = 0.f;
@@ -2113,6 +2131,7 @@ bool ApplyCastAction(OBJECT& actor, int skillId)
         // a visual lift, not evidence of the unrecovered XY rush/return.
         // The local 0x19 acknowledgment is consumed by the pending-graph
         // receive guard, so it does not run this action initializer twice.
+        gPierceActorBaselineZ[&actor] = actor.Position[2];
         actor.Position[2] += 5.f;
         // Native 0x128BE87 calls 0x14B6619 between the lift and 0x81CD
         // creation. It clears actor-owned effect objects in both S21 pools.
@@ -2131,6 +2150,16 @@ bool ApplyCastAction(OBJECT& actor, int skillId)
     (void)actor;
     (void)skillId;
     return false;
+#endif
+}
+
+void UpdatePierceActorLift(OBJECT& actor)
+{
+#ifdef RISE_SLAYER_PORT
+    if (actor.CurrentAction != kPierceAttackAction)
+        RetirePierceActorLift(actor);
+#else
+    (void)actor;
 #endif
 }
 

@@ -85,6 +85,16 @@ def main() -> int:
             "unattended offensive QA fails closed without live monster")
     require(resources, "actor.Position[2] += 5.f;",
             "S21 Pierce action initializer lifts the selected actor by five units")
+    require(resources, "gPierceActorBaselineZ[&actor] = actor.Position[2];",
+            "5.2 Pierce lift records its pre-cast actor Z")
+    require(resources, "RetirePierceActorLift(actor);\n    actor.CurrentAction = action;",
+            "a repeated Pierce cast or another Slayer action retires the prior lift")
+    require(resources, "if (fabsf(actor.Position[2] - (it->second + 5.f)) < 0.01f)",
+            "Pierce lift retirement cannot overwrite newer movement/server Z")
+    require(resources, "if (actor.CurrentAction != kPierceAttackAction)\n        RetirePierceActorLift(actor);",
+            "Pierce actor lift retires after the cast action exits")
+    require(character_render, "rise::slayer::UpdatePierceActorLift(*o);",
+            "normal 5.2 animation transition drives private Pierce lift retirement")
     require(runtime, "if (localSlot >= 0 && gPendingLocalGraphs[localSlot] > 0)",
             "local 0x19 acknowledgment cannot repeat the Pierce action lift")
 

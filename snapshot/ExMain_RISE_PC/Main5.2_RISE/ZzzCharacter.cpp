@@ -3866,6 +3866,11 @@ void MoveCharacter(CHARACTER* c, OBJECT* o)
     }
 
     AnimationCharacter(c, o, b);
+#ifdef RISE_SLAYER_PORT
+    // Retire only the private Pierce action's one-shot Z lift after the
+    // normal 5.2 animation transition; other actor motion stays untouched.
+    rise::slayer::UpdatePierceActorLift(*o);
+#endif
 
     if (c->Dead > 0)
     {
