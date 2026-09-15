@@ -305,6 +305,16 @@ write to actor `OBJECT+0x158`. The E4 compare at `0x133F0F4` only sets
 draw alpha to `.3`, and the other E4 comparison at `0x1A5A5AD` is an
 unrelated upper-bound check. These E4 hits narrow the likely movement
 origin but still do **not** identify a native rush/return implementation.
+An expanded decoded immediate-`0xE4` scan in the mapped main-image code
+found eight comparison sites. Beyond the action initializer, `0x13F254D`
+sets object alpha (`+0xDC`) to `0.3`, `0x154676E` selects the `0x818`
+upgrade/list-effect branch and reads owner action progress for fade, and
+`0x12F67DE`/`0x17526F3` merely gate the broad `0xE4..0xFA` action range.
+`0x17D641D` groups E4/EA in an animation/render branch. None of these
+decoded branches writes caster XY (`OBJECT+0x158` components 0/1).
+This bounded direct-compare result does **not** exclude generic receive,
+indirect dispatch or GS-driven movement; it prevents assigning a speculative
+Pierce-only teleport to these specific branches.
 
 A wider decoded `0xE4` search found the action-init dispatcher at
 `0x1289DD1` (called only by `0x12FD7BB`). Its Pierce branch at
@@ -323,7 +333,7 @@ Pierce `+5 Z` lift after a valid Slayer action selection. Local `UseSkillSlayer`
 checks a live target before calling it; `DispatchNativeReceive` consumes the
 local cast acknowledgment via its pending-graph guard and does not re-run
 the initializer for that cast. This now starts the `0x81CD` subtype-2
-controller once, but does **not** port all ten children or prove XY
+controller once, with all ten direct children now ported; it does not prove XY
 rush/return parity.
 The missing graph is now bounded by dump branches, rather than a vague
 "extra Pierce particle": native `0x81CD` initializer compare at
@@ -348,10 +358,9 @@ now hash-pins/copies `marks_m04.OZJ`, reserves bitmap ID `33012`, and
 registers that exact sprite. This was an asset prerequisite; the first
 three `0x81CE` children, `0x80BA` subtype 6, `0x8149` subtype 2 and the
 `0x81CF` subtype-2 parent, `0x5D8` subtype 1 and three `0x80BA`
-subtype-7 flare objects are now spawned. All ten direct calls and the
-`0x81CF` nested `0x8012` subtype-17 object are present, but subtype-7's
-per-frame particle fanout remains unported; visual parity is
-still unproven.
+subtype-7 flare objects are now spawned. All ten direct calls, the
+`0x81CF` nested `0x8012` subtype-17 object, and subtype-7's per-frame
+particle fanout are present. Visual parity is still unproven.
 Further render decode shows `0x81CE` subtype 3 submits bitmap `0x81CE`
 at `0x15AE502`, but subtypes 4 and 5 submit bitmap `0x81CD` at
 `0x15AE675/0x15AE740`. Loader `0xAA995F` binds `0x81CD` to
@@ -396,8 +405,9 @@ submits native bitmap `0x7EF7`. Loader `0x18BD1DA` binds that bitmap to
 Slayer-owned branch. The hash-pinned S21 `flare01.OZJ` input has SHA-256
 `874B708AA0CF304EFC3BACCE089FEC9FD69CC934E24F378E21655124FCFD7AF8`;
 the private 5.2 adapter reserves bitmap ID `33014` and spawns subtype 6 as
-child four. Native subtype 7 additionally emits three particles per frame
-and is not yet spawned. Child five is native `0x8149` subtype 2: loader
+child four. Native subtype 7 additionally emits three particles per frame;
+its three flare objects and nine particles per update are now ported.
+Child five is native `0x8149` subtype 2: loader
 `0x18D234A` binds bitmap `0x8149` to `Skill\\ground_star.jpg`; parent call
 `0x147D840` supplies light `(0.9, 0, 1)` and scale `1.7`. Its initializer
 `0x147637E` sets life 50, alpha `0.9` and the current millisecond clock;

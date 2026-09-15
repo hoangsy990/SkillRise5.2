@@ -4249,7 +4249,7 @@ void MoveParticles()
                         o->Alpha -= 0.1f * FPS_ANIMATION_FACTOR;
                     else if (o->Alpha < 0.7f)
                         o->Alpha += (rand() % 5 + 2) * 0.1f * FPS_ANIMATION_FACTOR;
-                    if (o->Alpha < 0.1f && o->LifeTime < 10.f)
+                    if (o->Alpha < 0.1f)
                         o->Live = false;
                     VectorScale(o->TurningForce, o->Alpha, o->Light);
                     o->Scale += (rand() % 3 + 6) * 0.01f * FPS_ANIMATION_FACTOR;

@@ -263,6 +263,12 @@ def main() -> int:
         if at(va, len(expected)) != expected:
             raise AssertionError(f"S21 0x694/E4 action-init bytes drifted at {va:#x}")
     print("PASS: S21 0x694 ordinary body flag=2; E4 action-init actor Position Z +=5 (not XY rush proof)")
+    if at(0x13F254D, 5) != bytes.fromhex("3de4000000") or \
+       at(0x154676E, 5) != bytes.fromhex("3de4000000"):
+        raise AssertionError("S21 E4 alpha/upgrade-list compare sites drifted")
+    if abs(struct.unpack("<f", at(0x1B4E6E0, 4))[0] - 0.3) > 0.0001:
+        raise AssertionError("S21 E4 object alpha constant drifted")
+    print("PASS: S21 E4 object alpha=.3 and upgraded-list branch pinned; no caster-XY claim")
 
     pierce_action_child_codes = {
         0x128BED1: 0x81CD,

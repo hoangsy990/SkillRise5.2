@@ -642,8 +642,8 @@ void InitializeEffect(OBJECT& effect, float incomingScale)
     case kPierce81CDController:
     {
         // Native 0x147D373 subtype 2 creates its children in call order.
-        // Only the decoded legs are submitted until the remaining five
-        // init/update/render paths are ported.
+        // All ten direct children now follow their native call order;
+        // the subtype-7 particle fanout is emitted by their update path.
         if (effect.SubType != 2 || !effect.Owner)
         {
             effect.LifeTime = 0.f;
@@ -671,7 +671,7 @@ void InitializeEffect(OBJECT& effect, float incomingScale)
         SpawnChild(kPierceMarksCylinderModel, cylinder, effect.Owner, 1, 0.f);
         // S21 0x147D9D3..0x147DEBF: three subtype-7 flares use a fixed
         // 180-degree X rotation for their authored offsets, not actor yaw.
-        // Their per-frame three-particle fanout is still a separate graph.
+        // Each flare owns three particles per update in the separate pool.
         const float offsets[3][3] = {
             {-126.71f, 73.69f, 0.f},
             {134.72f, 84.32f, 0.f},
