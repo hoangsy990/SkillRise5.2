@@ -111,8 +111,24 @@ def main() -> int:
             "client has an isolated Master Slayer Brand resolver")
     require(resources, "const DWORD brand = SkillAttribute[current].SkillBrand;",
             "client resolver follows the S21 SkillList Brand chain")
+    require(resources, "return IsSlayerSkill(skillId) || skillId == 781 || skillId == 782;",
+            "only five base casts and S21 Bat 781/782 have client/GS routes")
+    require(resources, "skillId >= 779 && skillId <= 794 &&",
+            "unported exclusive S21 mastery rows are not generic 5.2 casts")
     require(client_receive, "CanonicalSlayerVisualSkill(MagicNumber)",
             "remote ReceiveMagic canonicalizes high Bat mastery visuals")
+    require(client_receive, "IsUnportedSlayerExclusiveMasterSkill(MagicNumber)",
+            "remote ReceiveMagic drops unported mastery before actor mutation")
+    require(client_use, "if (!rise::slayer::IsPortedSlayerRawCastSkill(requestedSkill))",
+            "local Slayer cast fails closed before sending unsupported raw ID")
+    require(client_use, "IsUnportedSlayerExclusiveMasterSkill(Skill)",
+            "selected exclusive mastery cannot fall through to 5.2 attack")
+    movement_cast = client_use.split("case MOVEMENT_SKILL:", 1)[1].split(
+        "case AT_SKILL_SPEAR:", 1)[0]
+    require(movement_cast, "case 781: // S21 Bat Flock Strengthener",
+            "pathfinding arrival accepts acquired Bat strengthener raw ID")
+    require(movement_cast, "case 782: // S21 Bat Flock Mastery",
+            "pathfinding arrival accepts acquired Bat mastery raw ID")
     require(client_use, "SendRequestMagic(requestedSkill, target->Key);",
             "local Slayer cast retains authoritative raw mastery skill ID")
     require(server_overlay, "IsSlayerBatMasterySkill(id) || id == kPierceAttack",
@@ -121,6 +137,8 @@ def main() -> int:
             "GS Bat mastery damage remains a half-strike")
     require(client_receive, "CanonicalSlayerVisualSkill(skillId) != rise::slayer::kBatFlock",
             "private Bat fanout accepts Brand-resolved mastery cast IDs")
+    require(client_receive, "!rise::slayer::IsPortedSlayerRawCastSkill(skillId)",
+            "Bat fanout cannot invent an unported Brand-derived cast")
     require(client_receive, "!rise::slayer::IsSlayerClientClass(CharactersClient[casterIndex].Class)",
             "private Bat fanout rejects non-Slayer source classes")
     require(server, "this->GetSkill(lpObj, rise::slayerserver::kBatFlock) == 0",

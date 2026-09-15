@@ -3857,7 +3857,13 @@ BOOL ReceiveMagic(BYTE* ReceiveBuffer, int Size, BOOL bEncrypted)
 	int VisualMagicNumber = MagicNumber;
 #ifdef RISE_SLAYER_PORT
 	if (rise::slayer::IsSlayerClientClass(sc->Class))
+	{
+		// A loaded Master Slayer tooltip is not a 5.2 cast route. Ignore
+		// unsupported exclusive mastery packets before changing actor state.
+		if (rise::slayer::IsUnportedSlayerExclusiveMasterSkill(MagicNumber))
+			return TRUE;
 		VisualMagicNumber = rise::slayer::CanonicalSlayerVisualSkill(MagicNumber);
+	}
 #endif
 
 	if (MagicNumber != AT_SKILL_COMBO)
@@ -13503,6 +13509,7 @@ BOOL TranslateProtocol(int HeadCode, BYTE* ReceiveBuffer, int Size, BOOL bEncryp
                     const int skillId = (wire.skill[0] << 8) | wire.skill[1];
                     if (wire.size != Size || wire.head != rise::slayer::kBatFanoutHead ||
                         wire.sub != rise::slayer::kBatFanoutSub ||
+                        !rise::slayer::IsPortedSlayerRawCastSkill(skillId) ||
                         rise::slayer::CanonicalSlayerVisualSkill(skillId) != rise::slayer::kBatFlock ||
                         wire.count == 0 || wire.count > rise::slayer::kBatFanoutMaxTargets)
                         break;

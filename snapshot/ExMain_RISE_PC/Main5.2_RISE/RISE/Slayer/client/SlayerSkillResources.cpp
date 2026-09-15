@@ -2352,6 +2352,20 @@ void ApplySkillCatalog()
         OutputDebugStringA("Slayer: private Master Slayer metadata missing or invalid\n");
 }
 
+bool IsPortedSlayerRawCastSkill(int skillId)
+{
+    return IsSlayerSkill(skillId) || skillId == 781 || skillId == 782;
+}
+
+bool IsUnportedSlayerExclusiveMasterSkill(int skillId)
+{
+    // Pinned S21 Master Slayer Class ID=512 exclusively owns 779..794.
+    // Loading all 58 metadata rows is not permission to cast every active
+    // mastery: 5.2 currently handles only Bat Flock 781/782 in this range.
+    return skillId >= 779 && skillId <= 794 &&
+        !IsPortedSlayerRawCastSkill(skillId);
+}
+
 int CanonicalSlayerVisualSkill(int skillId)
 {
     if (IsSlayerSkill(skillId))

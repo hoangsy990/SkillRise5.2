@@ -1024,6 +1024,15 @@ windows.  A PASS here proves the source mapping is present in the captured
 dump/disassembly; it is not a substitute for a live server cast or owner
 visual acceptance.
 
+The pinned S21 SkillList Brand chain also maps raw 779/780 to Sword Inertia,
+787/788 to Demolish, and 794 to Detection. Merely loading their metadata
+previously allowed 5.2 to draw a base Slayer graph for a cast its GS does not
+handle. The isolated client now permits raw casts only for the five base
+skills and Bat Flock mastery 781/782. Its input, movement, 0x19 receive, and
+Bat fanout routes reject the other exclusive 779..794 rows before any local
+graph or actor state is changed. This prevents a false preview; it does not
+claim those S21 mastery upgrades themselves have been ported.
+
 The isolated Slayer client project now disables its legacy post-build
 `xcopy` commands whenever `SlayerIsolatedBuild=true`. Those commands target
 the shared `D:\RISE-CrossPlatform\Client\Data` tree rather than

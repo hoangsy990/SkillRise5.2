@@ -180,6 +180,11 @@ void ApplySkillCatalog();
 // Loads the private, hash-pinned 58-node Master Slayer metadata overlay.
 bool LoadMasterSlayerSkillMetadata();
 bool HasMasterSlayerSkillMetadata(int skillId);
+// Only these raw IDs have both a 5.2 GS handler and a client effect route.
+bool IsPortedSlayerRawCastSkill(int skillId);
+// S21's exclusive 779..794 tree is loaded for UI, but most active nodes
+// have not yet been ported as castable 5.2 server skills.
+bool IsUnportedSlayerExclusiveMasterSkill(int skillId);
 // S21 ReceiveMagic 0x12CEBBC -> 0xBCFF9F follows SkillBrand to base ID.
 int CanonicalSlayerVisualSkill(int skillId);
 #endif

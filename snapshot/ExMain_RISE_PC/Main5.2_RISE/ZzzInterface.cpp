@@ -2828,6 +2828,8 @@ void UseSkillSlayer(CHARACTER* pCha, OBJECT* pObj)
 	const int requestedSkill = g_MovementSkill.m_bMagic
 		? CharacterAttribute->Skill[g_MovementSkill.m_iSkill]
 		: g_MovementSkill.m_iSkill;
+	if (!rise::slayer::IsPortedSlayerRawCastSkill(requestedSkill))
+		return;
 	const int visualSkill = rise::slayer::CanonicalSlayerVisualSkill(requestedSkill);
 	if (!rise::slayer::IsSlayerSkill(visualSkill))
 		return;
@@ -3596,6 +3598,8 @@ void Action(CHARACTER* c, OBJECT* o, bool Now)
 #ifdef RISE_SLAYER_PORT
 		case rise::slayer::kSwordInertia:
 		case rise::slayer::kBatFlock:
+		case 781: // S21 Bat Flock Strengthener: Brand -> 293
+		case 782: // S21 Bat Flock Mastery: Brand -> 781 -> 293
 		case rise::slayer::kPierceAttack:
 		{
 			const int targetIndex = g_MovementSkill.m_iTarget;
@@ -7258,8 +7262,15 @@ void Attack(CHARACTER* c)
 	if (Success && c->Dead == 0)
 	{
 #ifdef RISE_SLAYER_PORT
+		// The full S21 mastery UI is present, but 779/780, 787/788 and 794
+		// have no 5.2 GS cast handler. Never fall through to a legacy attack
+		// or seed the base Slayer graph merely because Brand reaches it.
+		if (rise::slayer::IsSlayerClientClass(c->Class) &&
+			rise::slayer::IsUnportedSlayerExclusiveMasterSkill(Skill))
+			return;
 		const int visualSkill = rise::slayer::CanonicalSlayerVisualSkill(Skill);
-		if (rise::slayer::IsSlayerSkill(visualSkill))
+		if (rise::slayer::IsPortedSlayerRawCastSkill(Skill) &&
+			rise::slayer::IsSlayerSkill(visualSkill))
 		{
 			g_MovementSkill.m_bMagic = TRUE;
 			g_MovementSkill.m_iSkill = Hero->CurrentSkill;
