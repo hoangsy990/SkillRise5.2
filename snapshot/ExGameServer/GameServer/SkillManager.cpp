@@ -64,15 +64,15 @@ const DWORD kSlayerPierceLaneWindowMs = 15000;
 const size_t kSlayerPierceMaxPendingPerCaster = 32;
 
 void PruneSlayerPierceCasts(std::deque<PendingSlayerPierce>& casts,
-	DWORD connectedAt, int map, DWORD now)
+	DWORD connectedAt, DWORD now)
 {
 	for (auto it = casts.begin(); it != casts.end(); )
 	{
-		bool allConsumed = it->count > 0;
-		for (int n = 0; n < it->count; ++n)
-			allConsumed = allConsumed && it->consumed[n];
-		if (it->connectedAt != connectedAt || it->map != map ||
-			now - it->openedAt > kSlayerPierceLaneWindowMs || allConsumed)
+		// Keep fully consumed and previous-map sessions as serial tombstones
+		// until the replay window closes. Their lanes fail the normal map /
+		// one-use checks, but an old packet cannot match a new cast serial.
+		if (it->connectedAt != connectedAt ||
+			now - it->openedAt > kSlayerPierceLaneWindowMs)
 			it = casts.erase(it);
 		else
 			++it;
@@ -5221,7 +5221,7 @@ bool CSkillManager::SkillSlayerPierceAttack(int aIndex, int bIndex,
 		std::lock_guard<std::mutex> guard(gPendingSlayerPierceMutex);
 		std::deque<PendingSlayerPierce>& casts = gPendingSlayerPierce[aIndex];
 		PruneSlayerPierceCasts(casts, caster->ConnectTickCount,
-			caster->Map, pending.openedAt);
+			pending.openedAt);
 		// Do not overwrite an earlier in-flight visual lane. Refuse a new
 		// cast once the bounded 5.2 adapter queue is full.
 		if (casts.size() >= kSlayerPierceMaxPendingPerCaster)
@@ -5306,7 +5306,7 @@ void CSkillManager::CGSlayerPierceLaneRecv(BYTE* lpMsg, int size,
 		if (it == gPendingSlayerPierce.end())
 			return;
 		PruneSlayerPierceCasts(it->second, caster->ConnectTickCount,
-			caster->Map, GetTickCount());
+			GetTickCount());
 		if (it->second.empty())
 		{
 			gPendingSlayerPierce.erase(it);
@@ -5364,7 +5364,7 @@ void CSkillManager::CGSlayerPierceLaneRecv(BYTE* lpMsg, int size,
 			return;
 		matched->consumed[ordinal] = true;
 		PruneSlayerPierceCasts(it->second, caster->ConnectTickCount,
-			caster->Map, GetTickCount());
+			GetTickCount());
 		if (it->second.empty())
 			gPendingSlayerPierce.erase(it);
 	}

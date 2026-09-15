@@ -227,7 +227,10 @@ The first 5.2 transaction adapter stored only one pending Pierce cast per
 caster, so an immediate recast discarded all unconsumed lanes from the
 previous cast despite S21 Pierce having `Delay=0`. GS now retains up to 32
 simultaneous cast sessions per connected caster, assigns a serial not used
-by any outstanding session, and prunes expired/fully consumed sessions.
+by any session still inside the 15-second replay window, and prunes only
+expired or previous-connection sessions. Fully consumed and previous-map
+sessions remain serial tombstones until expiry: their lanes are rejected,
+but a delayed packet cannot be matched to a fresh cast after wrap.
 New casts fail closed when the bounded queue is full; an authorized lane
 cannot consume a different session after serial wrap. This is a concurrency
 repair of the 5.2 adapter, **not** recovered S21 GS collision geometry.

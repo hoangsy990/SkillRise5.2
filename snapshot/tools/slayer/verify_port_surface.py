@@ -465,6 +465,8 @@ def main() -> int:
             "Pierce concurrent cast queue is bounded and fails closed")
     require(initial_pierce, "prior.serial == pending.serial",
             "Pierce cast serial cannot collide with an in-flight cast")
+    require(server, "Keep fully consumed and previous-map sessions as serial tombstones",
+            "Pierce replay serials remain reserved until the 15-second window expires")
     require(initial_pierce, "fanout.serial = pending.serial;",
             "Pierce fanout binds client lanes to GS cast serial")
     require(initial_pierce, "fanout.count = static_cast<BYTE>(candidateCount);",
@@ -480,7 +482,7 @@ def main() -> int:
     require(lane_pierce, "matched->openedAt != pending.openedAt",
             "Pierce lane cannot consume a replacement cast after serial wrap")
     require(lane_pierce, "PruneSlayerPierceCasts(it->second",
-            "Pierce consumed or expired casts release queue slots")
+            "Pierce expired cast sessions release bounded queue slots")
     require(lane_pierce, "const bool batMarked = gEffectManager.CheckEffect",
             "Pierce Bat mark captured when an authorized lane lands")
     require(lane_pierce, "const int strikes = batMarked ? 4 : 2;",
