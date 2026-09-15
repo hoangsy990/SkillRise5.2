@@ -652,6 +652,31 @@ void InitializeEffect(OBJECT& effect, float incomingScale)
         OBJECT cylinder = effect;
         Vector(0.8f, 0.5f, 1.f, cylinder.Light);
         SpawnChild(kPierceMarksCylinderModel, cylinder, effect.Owner, 1, 0.f);
+        // S21 0x147D9D3..0x147DEBF: three subtype-7 flares use a fixed
+        // 180-degree X rotation for their authored offsets, not actor yaw.
+        // Their per-frame three-particle fanout is still a separate graph.
+        const float offsets[3][3] = {
+            {-126.71f, 73.69f, 0.f},
+            {134.72f, 84.32f, 0.f},
+            {0.f, -144.92f, 0.f}
+        };
+        vec3_t turn, flareLight;
+        float matrix[3][4];
+        Vector(180.f, 0.f, 0.f, turn);
+        Vector(0.38f, 0.2f, 1.f, flareLight);
+        AngleMatrix(turn, matrix);
+        for (int lane = 0; lane < 3; ++lane)
+        {
+            vec3_t offset, rotated;
+            Vector(offsets[lane][0], offsets[lane][1], offsets[lane][2],
+                offset);
+            VectorRotate(offset, matrix, rotated);
+            OBJECT flareLane = effect;
+            for (int axis = 0; axis < 3; ++axis)
+                flareLane.Position[axis] += rotated[axis];
+            SpawnBitmapChild(kPierce80BAEffect, flareLane, effect.Owner,
+                flareLight, 7, 2.f);
+        }
         break;
     }
     case kPierce81CEEffect:

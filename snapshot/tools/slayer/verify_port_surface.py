@@ -229,6 +229,10 @@ def main() -> int:
             "native Pierce 0x5D8 subtype-1 30-tick life")
     require(resources, "effect.Type == kPierceMarksCylinderModel ? RENDER_TEXTURE :",
             "native Pierce 0x5D8 ordinary textured model adapter")
+    require(resources, "Vector(180.f, 0.f, 0.f, turn);",
+            "native Pierce three 0x80BA subtype-7 lanes use fixed 180-degree transform")
+    require(resources, "SpawnBitmapChild(kPierce80BAEffect, flareLane, effect.Owner,",
+            "native Pierce three separate subtype-7 flare objects")
     for token in (
         "kFlare01RedEffect", "kRingOfGradation2Effect",
         "kEnemyRing01Effect", "kMagicGround12Effect",

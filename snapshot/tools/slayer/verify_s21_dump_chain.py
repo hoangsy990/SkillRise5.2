@@ -383,6 +383,21 @@ def main() -> int:
     if at(0x15AE9A2, 12) != bytes.fromhex("6aff6aff6a006a006a00ffb5"):
         raise AssertionError("S21 0x5D8 ordinary model render wrapper drifted")
     print("PASS: S21 Pierce 0x5D8 subtype1 marks_cylinder model init/update/render jump-table paths pinned")
+    for va in (0x147DB3D, 0x147DCFE, 0x147DEBA):
+        if at(va, 5) != bytes.fromhex("68ba800000"):
+            raise AssertionError(f"S21 Pierce 0x80BA subtype-7 flare call drifted at {va:#x}")
+    flare_lane_floats = {
+        0x1B4E4E4: 180.0, 0x1B502B0: 0.38, 0x1B4DF08: 0.2,
+        0x1B4E474: 2.0, 0x1B9EAB8: -126.71, 0x1B9EA38: 73.69,
+        0x1B9EA44: 134.72, 0x1B9EA40: 84.32,
+        0x1B9EABC: -144.92,
+    }
+    for va, expected in flare_lane_floats.items():
+        if abs(struct.unpack("<f", at(va, 4))[0] - expected) > 0.001:
+            raise AssertionError(f"S21 Pierce 0x80BA lane offset/light drifted at {va:#x}")
+    if at(0x151F0D3, 4) != bytes.fromhex("83786007"):
+        raise AssertionError("S21 0x80BA subtype-7 updater selector drifted")
+    print("PASS: S21 Pierce three 0x80BA subtype7 fixed-180 flare lanes and per-frame updater selector pinned")
 
     if at(0x10EEB92, 7) != bytes.fromhex("6a5768c1000000"):
         raise AssertionError("S21 shared C1:57 skill packet constructor drifted")

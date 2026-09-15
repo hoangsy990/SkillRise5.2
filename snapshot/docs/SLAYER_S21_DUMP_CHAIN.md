@@ -347,8 +347,10 @@ them separately at `0x15A1724/0x15A1734`. The private 5.2 Slayer overlay
 now hash-pins/copies `marks_m04.OZJ`, reserves bitmap ID `33012`, and
 registers that exact sprite. This was an asset prerequisite; the first
 three `0x81CE` children, `0x80BA` subtype 6, `0x8149` subtype 2 and the
-`0x81CF` subtype-2 parent and `0x5D8` subtype 1 are now spawned, while three direct children and
-the `0x81CF` nested child remain unported; visual parity is
+`0x81CF` subtype-2 parent, `0x5D8` subtype 1 and three `0x80BA`
+subtype-7 flare objects are now spawned. All ten direct calls are present,
+but the subtype-7 per-frame particle fanout and the `0x81CF` nested child
+remain unported; visual parity is
 still unproven.
 Further render decode shows `0x81CE` subtype 3 submits bitmap `0x81CE`
 at `0x15AE502`, but subtypes 4 and 5 submit bitmap `0x81CD` at
@@ -408,6 +410,16 @@ consumed by RenderSprites. Sprite material/blend parity still requires
 ingame validation after the whole graph is ported. The remaining
 `0x80BA` subtype-7 fanout and `0x81CF` nested child
 and owner/class-9 ingame parity remain open.
+The three direct `0x80BA` subtype-7 calls at `0x147DB3D/0x147DCFE/0x147DEBA`
+each supply light `(0.38, 0.2, 1)`, scale 2 and actor ownership. Their
+positions are the root position plus vectors `(-126.71, 73.69, 0)`,
+`(134.72, 84.32, 0)` and `(0, -144.92, 0)` transformed by a fixed
+`AngleMatrix(180, 0, 0)` at `0x147D4DE`, not by actor yaw. The private 5.2
+adapter now creates those three separate positions in call order with the
+S21 `flare01` terrain-alpha draw and six-second timer. Native subtype-7
+updater `0x151F0D0` additionally creates three particles *per object per
+frame* (`0x807E..0x8080`, then two `0x7FFD`); these particle types and
+their exact materials are still to be ported before visual QA.
 The next direct parent `0x81CF` subtype 2 is now connected to the root in
 its native call order with light `(0.8, 0.6, 1)` and incoming scale zero.
 Initializer `0x147E7C4` overrides scale to 1, alpha to 1, sets life 15 and
