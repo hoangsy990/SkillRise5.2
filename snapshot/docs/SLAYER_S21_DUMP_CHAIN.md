@@ -1032,6 +1032,11 @@ skills and Bat Flock mastery 781/782. Its input, movement, 0x19 receive, and
 Bat fanout routes reject the other exclusive 779..794 rows before any local
 graph or actor state is changed. This prevents a false preview; it does not
 claim those S21 mastery upgrades themselves have been ported.
+The client demand path also checks the same pinned level/STR/DEX rows used by
+the GS before the legacy Energy-zero shortcut; Bat 781/782 use their native
+level-160, STR-100, DEX-380 row. It cannot replace the GS's class-stage,
+mastery-point or target validation, so local rendering is still not a server
+acceptance proof.
 
 The isolated Slayer client project now disables its legacy post-build
 `xcopy` commands whenever `SlayerIsolatedBuild=true`. Those commands target

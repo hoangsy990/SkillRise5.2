@@ -10,6 +10,7 @@
 #include <ZzzInterface.h>
 #ifdef RISE_SLAYER_PORT
 #include "RISE/Slayer/client/SlayerSkillResources.h"
+#include "RISE/Slayer/shared/SlayerSkillContractData.h"
 #endif
 
 CSkillManager gSkillManager;
@@ -403,6 +404,31 @@ bool CSkillManager::DemendConditionCheckSkill(WORD SkillType)
 	{
 		return false;
 	}
+
+#ifdef RISE_SLAYER_PORT
+	if (CharacterAttribute && CharacterMachine &&
+		gCharacterManager.IsSlayerClientClass(CharacterAttribute->Class))
+	{
+		// Loading a native Master Slayer row for UI is not a cast grant.
+		if (rise::slayer::IsUnportedSlayerExclusiveMasterSkill(SkillType))
+			return false;
+		if (rise::slayer::IsPortedSlayerRawCastSkill(SkillType))
+		{
+			const int base = rise::slayer::CanonicalSlayerVisualSkill(SkillType);
+			const int level = CharacterMachine->Character.Level;
+			const int strength = CharacterMachine->Character.Strength +
+				CharacterMachine->Character.AddStrength;
+			const int dexterity = CharacterMachine->Character.Dexterity +
+				CharacterMachine->Character.AddDexterity;
+			// S21 SkillList rows 781/782 are stage-3 Bat casts at level 160,
+			// STR 100, DEX 380; the five base rows share GS MeetsStats.
+			if (SkillType == 781 || SkillType == 782)
+				return base == rise::slayer::kBatFlock && level >= 160 &&
+					strength >= 100 && dexterity >= 380;
+			return rise::slayer::MeetsStats(base, level, strength, dexterity);
+		}
+	}
+#endif
 
 	if( (true == gMapManager.IsEmpireGuardian()) && (SkillType == AT_SKILL_TELEPORT_B || SkillType == AT_SKILL_TELEPORT) )
 	{

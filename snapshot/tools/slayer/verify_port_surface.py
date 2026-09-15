@@ -42,6 +42,7 @@ def main() -> int:
     server_overlay = read("ExGameServer/GameServer/RISE/SlayerServerCatalog.h")
     client_receive = read("ExMain_RISE_PC/Main5.2_RISE/WSclient.cpp")
     client_use = read("ExMain_RISE_PC/Main5.2_RISE/ZzzInterface.cpp")
+    client_skill_manager = read("ExMain_RISE_PC/Main5.2_RISE/SkillManager.cpp")
     character_render = read("ExMain_RISE_PC/Main5.2_RISE/ZzzCharacter.cpp")
     minimap = read("ExMain_RISE_PC/Main5.2_RISE/NewUIMiniMap.cpp")
     runtime = read("ExMain_RISE_PC/Main5.2_RISE/RISE/Slayer/client/SlayerNativeRuntime.cpp")
@@ -123,6 +124,12 @@ def main() -> int:
             "local Slayer cast fails closed before sending unsupported raw ID")
     require(client_use, "IsUnportedSlayerExclusiveMasterSkill(Skill)",
             "selected exclusive mastery cannot fall through to 5.2 attack")
+    require(client_skill_manager, "IsUnportedSlayerExclusiveMasterSkill(SkillType)",
+            "client demand rejects tooltip-only exclusive mastery IDs")
+    require(client_skill_manager, "return rise::slayer::MeetsStats(base, level, strength, dexterity);",
+            "client base Slayer demand uses the same S21 stats as GS")
+    require(client_skill_manager, "SkillType == 781 || SkillType == 782",
+            "client Bat mastery checks the pinned S21 level/STR/DEX requirements")
     movement_cast = client_use.split("case MOVEMENT_SKILL:", 1)[1].split(
         "case AT_SKILL_SPEAR:", 1)[0]
     require(movement_cast, "case 781: // S21 Bat Flock Strengthener",
