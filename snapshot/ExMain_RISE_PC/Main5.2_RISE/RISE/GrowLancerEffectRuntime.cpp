@@ -2692,11 +2692,12 @@ void CreateCircleShieldRoot(OBJECT& caster)
 {
     if (!PrepareFixedPlayerAction(caster, 286))
         return;
-    caster.CurrentAction = 286;
-    caster.AnimationFrame = 0.0f;
-    caster.PriorAnimationFrame = 0.0f;
+    // S21 local sends only; receive creates controller5DD BEFORE the
+    // conditional primary187/auxiliary316 preserving action setter.
     CreateEffect(kCircleShieldControllerModel, caster.Position, caster.Angle,
         caster.Light, 0, &caster, -1, 0, kCircleShieldSkill);
+    // Only the proven primary187->private286 clip is mapped here.
+    SetAction(&caster, 286, true);
     PlayBuffer(kCircleShieldSound, &caster);
 }
 

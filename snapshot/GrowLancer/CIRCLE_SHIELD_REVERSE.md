@@ -124,6 +124,17 @@ runtime visual parity QA remains.
 
 ## Identity and dispatch
 
+Focused action-order audit `verify_circle_receive_action_order.py` pins
+the entire local `0x10E3E77..0x10E3FF2` branch as send-only: no root5DD
+construction or `0x1327DE8` setter. Received block
+`0x12CB2F7..0x12CB392` constructs caster-owned controller5DD FIRST,
+then calls the preserving setter with primary187 and conditional316.
+The isolated native receive adapter now creates the controller before
+`SetAction(&caster,286,true)` for proven primary187→286; auxiliary316
+remains unmapped. The direct F7 QA preview uses this receive adapter for
+visual probing and is not proof that S21 local cast created a root.
+QA/nonQA isolated Win32 links PASS; owner buff pixels/GS authority OPEN.
+
 - `SkillList.xml` identifies base skill `272` as `Circle Shield`, Grow Lancer
   tier 1, level 220, mana 100, AG 50, range 0, buff index 216 and PvP-only.
 - The local cast dispatcher compares `0x110` and enters `0x10E3E77`. That path

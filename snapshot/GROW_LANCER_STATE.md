@@ -2,6 +2,26 @@
 
 STATUS: IN_PROCESS
 
+### 2026-09-15 — Circle Shield receive controller/action order corrected
+
+- CURRENT PHASE: nine S21 Grow Lancer skills native PC5.2 client/server, equipment/quests1–3 excluded; `IN_PROCESS`.
+- CURRENT TASK: preserve S21 Circle Shield local-send vs received-effect distinction and controller/action ordering.
+- CURRENT SUBTASK: pin contiguous local/receive dump branches and change only proven native primary receive adapter.
+- COMPLETED THIS RUN: decoded local `10E3E77..10E3FF2` as send-only with no root5DD or action setter. Received `12CB2F7..12CB392` constructs caster-owned controller5DD before calling `1327DE8` with primary187/conditional316. Native `CreateCircleShieldRoot` now creates controller before preserving `SetAction(&caster,286,true)` and does not zero prior frame; conditional316 remains unmapped. New focused verifier PASS, isolated QA/nonQA Global Release|Win32 links exit0. Pinned exact previous private Engine rollback71A4DD85... and staged new QA Engine3E9DFCD6... with full Data/hash verifier PASS. Hidden Circle bitmap PID3272 exits0 and logs loaded/exactPath/cpuGpuEqual64x64/GL0/valid1/releaseStable1; no gameplay cast or owner-visible QA.
+- REVERSE EVIDENCE: pinned S21 dump SHA6422CB4E..., complete local/no-root and receive root-before-setter order in `verify_circle_receive_action_order.py`; shared setter selects conditional316 only under auxiliary predicate.
+- CHAIN COVERAGE: Circle native primary receive order STATIC/BUILD PASS; S21 local-preview distinction recorded. Conditional316, separate buff-contact receiver, owner purple shoulder/blue lightning pixels, GS PvP-only cast/buff authority and cleanup OPEN.
+- ASSET PROVENANCE: no asset changed; private staged merged player SHA0CC3D22D..., Engine SHA3E9DFCD6..., Circle firehik mono native 64x64 CPU/GPU/path test PASS. Private base2521/overlay91/root3/126 junction verifier PASS, no production stage.
+- FILES MODIFIED: isolated `GrowLancerEffectRuntime.cpp`, `verify_circle_receive_action_order.py`, `verify_runtime_qa_stage.py`, `CIRCLE_SHIELD_REVERSE.md`, `ACCEPTANCE_GATE_MATRIX.md`, this state; only private QA stage/rollback binaries/Data.
+- LAST STATIC CHECK: focused Circle local/receive order verifier exit0, private full Data/hash verifier PASS; prior Harsh/Shining/Wrath verifiers separate checkpoints.
+- LAST BUILD RESULT: isolated QA/nonQA x86 Main links exit0; known cryptlib missing-PDB LNK4099 only; no GS build or deployment.
+- LAST RUNTIME QA: hidden WGL Circle bitmap PID3272 exit0/valid1/releaseStable1 only, no owner cast by preference; shoulder/flame/lightning and actual receiver OPEN.
+- KNOWN DIFFERENCES: direct F7 QA preview uses receive visual adapter, whereas S21 local branch only sends; primary187→private286 mapped, conditional316 not represented. Bitmap upload alone cannot close owner visual.
+- MISSING CHAIN PARTS: separate buff-contact receiver, conditional316 native predicate/clip, real class7 ordinary incoming activation, PvP GS authority/persistence, same-frame owner/S21 visual and pool/map cleanup.
+- BLOCKER: owner deferred visible cast and S21 protected GS/default-class handler absent; independent source/hidden checks remain, `IN_PROCESS`.
+- NEXT EXACT ACTION: verify remaining local/receive direct-action resets by exact source block and normal class7 activation contract; only stage/test evidence-backed adapter changes. Maintain owner visual FAIL/OPEN separately.
+- NEXT FILE TO OPEN: `GrowLancer/CLASH_REVERSE.md`, `GrowLancer/CLASS_INTEGRATION_CONTRACT.md` and native receive/cast gates.
+- NEXT FUNCTION TO IMPLEMENT: normal class7-targeted receive adapter only after proven class/protocol/animation inputs; no local-DK QA shortcut.
+
 ### 2026-09-15 — Harsh Strike local/receive action setter corrected
 
 - CURRENT PHASE: nine S21 Grow Lancer skills native PC5.2 client/server, equipment/quests1–3 excluded; `IN_PROCESS`.
