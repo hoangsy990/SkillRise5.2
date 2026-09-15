@@ -60,13 +60,18 @@ enum ModelId
     kEnemyRing01Effect = MAX_MODELS + 72, // native 0x82F7
     kMagicGround12Effect = MAX_MODELS + 73, // native 0x81CF
     kFlareBlueEffect = MAX_MODELS + 74, // native 0x7FDD
-    kFlareEffect = MAX_MODELS + 75 // native 0x7F78
+    kFlareEffect = MAX_MODELS + 75, // native 0x7F78
+    // Pierce E4 one-shot action initializer: 0x81CD subtype 2 owns the
+    // native child graph; 0x81CE subtypes 3/4/5 are bitmap-backed children.
+    kPierce81CDController = MAX_MODELS + 76,
+    kPierce81CEEffect = MAX_MODELS + 77,
+    kPierce80BAEffect = MAX_MODELS + 78 // native 0x80BA modes 6/7
 };
 
 enum BitmapId
 {
     // Grow Lancer reserves 32940..32982. The isolated Slayer allocation
-    // starts at 32983; 33001..33013 are reserved from the 5.2 unnamed
+    // starts at 32983; 33001..33014 are reserved from the 5.2 unnamed
     // allocator in GlobalBitmap when RISE_SLAYER_PORT is enabled.
     kMagicGround12Bitmap = 32983,
     kRingOfGradation2Bitmap = 32984,
@@ -105,7 +110,8 @@ enum BitmapId
     kMarksM04Bitmap = 33012,
     // S21 0x81CE subtype 4/5 render with native bitmap 0x81CD,
     // loaded from NPC\\marks_m03.JPG at 0xAA995F.
-    kMarksM03Bitmap = 33013
+    kMarksM03Bitmap = 33013,
+    kFlare01Bitmap = 33014 // native 0x7EF7 Effect\\flare01.JPG
 };
 
 // Numeric controller ids recovered from the S21 ReceiveMagic dispatcher at

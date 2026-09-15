@@ -173,12 +173,12 @@ def main() -> int:
         raise AssertionError("Detection/Demolish action IDs were aliased")
     bitmap_block = header.split("enum BitmapId", 1)[1].split("};", 1)[0]
     bitmap_ids = [int(value) for value in re.findall(r"^\s*k\w+Bitmap\s*=\s*(\d+)", bitmap_block, re.M)]
-    if len(bitmap_ids) != 31 or len(set(bitmap_ids)) != len(bitmap_ids):
+    if len(bitmap_ids) != 32 or len(set(bitmap_ids)) != len(bitmap_ids):
         raise AssertionError("Slayer bitmap IDs are incomplete or duplicated")
-    if min(bitmap_ids) != 32983 or max(bitmap_ids) != 33013:
+    if min(bitmap_ids) != 32983 or max(bitmap_ids) != 33014:
         raise AssertionError("Slayer bitmap IDs overlap Grow Lancer or exceed the reserved tail")
     global_bitmap = read("ExMain_RISE_PC/Main5.2_RISE/GlobalBitmap.cpp")
-    require(global_bitmap, "kSlayerLastReservedBitmap = 33013",
+    require(global_bitmap, "kSlayerLastReservedBitmap = 33014",
             "unnamed allocator private range boundary")
     require(global_bitmap, "m_uiTextureIndexStream = kSlayerLastReservedBitmap",
             "unnamed allocator skips Slayer fixed slots")
@@ -192,11 +192,22 @@ def main() -> int:
             "S21 Pierce 0x81CE marks_m04 private bitmap registration")
     require(resources, "RegisterSlayerBitmap(kMarksM03Bitmap,",
             "S21 Pierce 0x81CD marks_m03 private bitmap registration")
+    require(resources, "RegisterSlayerBitmap(kFlare01Bitmap,",
+            "S21 0x80BA subtype-6 flare01 private bitmap registration")
     require(header, "kPierceMarksCylinderModel = MAX_MODELS + 41,",
             "native Pierce 0x5D8 child model allocated to private unused slot")
     require(resources, '{kPierceMarksCylinderModel, "marks_cylinder.bmd"}',
             "native Pierce 0x5D8 model resource mapping")
-    print("PASS: Slayer bitmap IDs 32983..33013 do not overlap Grow Lancer or unnamed allocation")
+    for token in (
+        "CreateEffect(kPierce81CDController,",
+        "SpawnBitmapChild(kPierce81CEEffect, effect, effect.Owner,",
+        "SpawnBitmapChild(kPierce80BAEffect, effect, effect.Owner,",
+        "effect.Timer = WorldTime;",
+        "WorldTime - effect.Timer > 6000.f",
+        "bitmap = effect.SubType == 3 ? kMarksM04Bitmap :",
+    ):
+        require(resources, token, f"first native Pierce 0x81CD/0x81CE graph leg {token}")
+    print("PASS: Slayer bitmap IDs 32983..33014 do not overlap Grow Lancer or unnamed allocation")
     for token in (
         "kFlare01RedEffect", "kRingOfGradation2Effect",
         "kEnemyRing01Effect", "kMagicGround12Effect",
@@ -208,7 +219,7 @@ def main() -> int:
     for bitmap in (
         "kRingOfGradation2Bitmap", "kEnemyRing01Bitmap",
         "kMagicGround12Bitmap", "kFlareBlueBitmap",
-        "kFlareBitmap",
+        "kFlareBitmap", "kMarksM04Bitmap", "kMarksM03Bitmap",
     ):
         if f"CreateParticle({bitmap}" in resources:
             raise AssertionError(f"effect object accidentally allocated as particle: {bitmap}")
@@ -274,7 +285,7 @@ def main() -> int:
             "0x81CF independent ring expansion")
     if "fadeIn" in bitmap_update or "effect.Owner->Position" in bitmap_update:
         raise AssertionError("dump-unproven bitmap quarter-fade or owner-follow rule")
-    print("PASS: six S21 bitmap effect-object nodes use the 5.2 effect pool, not particle pool")
+    print("PASS: eight S21 bitmap effect-object nodes use the 5.2 effect pool, not particle pool")
 
     for texture in ("kGhostMark02Bitmap", "kGhostMark02RedBitmap"):
         require(resources, f"CreateJoint({texture}",
@@ -453,7 +464,13 @@ def main() -> int:
             "0x68A randomized model child retains its root owner")
     if "effect.Timer >= 8.f" in resources:
         raise AssertionError("provisional eight-tick Pierce lane timer regressed")
-    if "effect.LifeTime <= 1.f" in resources:
+    # 0x81CE subtype 4 legitimately refreshes its 20-tick envelope at one
+    # remaining tick. Keep the old generic Pierce-lane fallback prohibited;
+    # the only allowed occurrence is inside this decoded child updater.
+    if resources.count("effect.LifeTime <= 1.f") != 1 or not re.search(
+        r"case kPierce81CEEffect:.*?if \(effect\.LifeTime <= 1\.f\).*?case kFlare01RedEffect:",
+        resources, re.S,
+    ):
         raise AssertionError("provisional lifetime Pierce helper fallback regressed")
     require(server, "rise::slayer::PierceFanoutWire fanout = {};",
             "server-authoritative Pierce target-key fanout")

@@ -322,8 +322,9 @@ The shared 5.2 `ApplyCastAction` bridge now carries that exact one-shot
 Pierce `+5 Z` lift after a valid Slayer action selection. Local `UseSkillSlayer`
 checks a live target before calling it; `DispatchNativeReceive` consumes the
 local cast acknowledgment via its pending-graph guard and does not re-run
-the initializer for that cast. This still does **not** port the `0x81CD`
-subtype-2 child graph or prove XY rush/return parity.
+the initializer for that cast. This now starts the `0x81CD` subtype-2
+controller once, but does **not** port all ten children or prove XY
+rush/return parity.
 The missing graph is now bounded by dump branches, rather than a vague
 "extra Pierce particle": native `0x81CD` initializer compare at
 `0x143F67F` jumps to `0x147BE22`; subtype 2 enters `0x147D373`, copies
@@ -344,8 +345,10 @@ The high-code update dispatcher routes `0x81CD` at `0x14B8383` to
 `0x1533E1A` and `0x81CE` at `0x14B82E2` to `0x15341D6`; the renderer routes
 them separately at `0x15A1724/0x15A1734`. The private 5.2 Slayer overlay
 now hash-pins/copies `marks_m04.OZJ`, reserves bitmap ID `33012`, and
-registers that exact sprite. This is an asset prerequisite only: no
-`0x81CD` child is spawned yet, and visual parity is still unproven.
+registers that exact sprite. This was an asset prerequisite; the first
+three `0x81CE` children and the next `0x80BA` subtype-6 child are now
+spawned, while six direct children remain unported and visual parity is
+still unproven.
 Further render decode shows `0x81CE` subtype 3 submits bitmap `0x81CE`
 at `0x15AE502`, but subtypes 4 and 5 submit bitmap `0x81CD` at
 `0x15AE675/0x15AE740`. Loader `0xAA995F` binds `0x81CD` to
@@ -364,6 +367,26 @@ action (`marks_cylinder.SMD`), and its sole material `lines2.jpg` from
 S21 `lines2.OZJ` SHA-256
 `79D2A20143B15E406344F43DCDAF6232DD131986BC28603B10BF70DA4F208F7A`.
 Both model and texture are copied only to the isolated Slayer client.
+The native `0x81CE` initializer at `0x147E153` sets subtype-3 scale
+`2.86`, subtype-4/5 scale `4.55`, and snapshots the S21 millisecond clock
+at `OBJECT+0xB4`. Its update dispatcher at `0x15341D6` refreshes
+LifeTime 30/20 through a 6000-ms window; subtype 4 derives scale from
+`(20-LifeTime)*.05+4.35` and alpha from `LifeTime/20`. The isolated 5.2
+effect-pool port now creates the first three `0x81CE` subtypes from the
+one-shot Pierce action initializer, uses actor ownership, refreshes their
+lifetime from `WorldTime`, and selects `marks_m04` only for subtype 3,
+`marks_m03` for 4/5. Render is the scoped terrain-alpha bitmap pass, not
+the ordinary model path. Native `0x80BA` subtype 6 is the next direct child:
+initializer `0x1471BDD` stores scale 7 and the S21 clock; updater
+`0x151F08A` refreshes lifetime 30 until 6000 ms; renderer `0x15A97FC`
+submits native bitmap `0x7EF7`. Loader `0x18BD1DA` binds that bitmap to
+`Effect\\flare01.jpg`, distinct from `flare01_red` used by an older
+Slayer-owned branch. The hash-pinned S21 `flare01.OZJ` input has SHA-256
+`874B708AA0CF304EFC3BACCE089FEC9FD69CC934E24F378E21655124FCFD7AF8`;
+the private 5.2 adapter reserves bitmap ID `33014` and spawns subtype 6 as
+child four. Native subtype 7 additionally emits three particles per frame
+and is not yet spawned. The remaining `0x80BA` subtype-7 fanout,
+`0x8149/0x81CF/0x5D8` branches and owner/class-9 ingame parity remain open.
 
 The native character render/update paths at `0x133F0EA` and `0x13F2546`
 compare current action to `0xE4` and assign `OBJECT+0xDC = 0.3`; the

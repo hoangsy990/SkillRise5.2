@@ -80,12 +80,14 @@ bool IsKnownModel(int modelId)
 
 bool IsController(int type)
 {
-    return type >= kSwordInertiaController && type <= kLastEffect;
+    return (type >= kSwordInertiaController && type <= kLastEffect) ||
+        type == kPierce81CDController;
 }
 
 bool IsBitmapEffect(int type)
 {
-    return type >= kFlare01RedEffect && type <= kFlareEffect;
+    return (type >= kFlare01RedEffect && type <= kFlareEffect) ||
+        type == kPierce81CEEffect || type == kPierce80BAEffect;
 }
 
 float InitialLife(const OBJECT& effect)
@@ -128,6 +130,9 @@ float InitialLife(const OBJECT& effect)
     case kRingOfGradation2Effect: return 30.f;
     case kEnemyRing01Effect: return 40.f;
     case kMagicGround12Effect: return 30.f;
+    case kPierce81CDController: return 30.f;
+    case kPierce81CEEffect: return effect.SubType == 4 ? 20.f : 30.f;
+    case kPierce80BAEffect: return 50.f;
     case kFlareBlueEffect:
     case kFlareEffect: return 30.f;
     default: return 20.f;
@@ -614,6 +619,48 @@ void InitializeEffect(OBJECT& effect, float incomingScale)
     // corresponds to a decoded S21 secondary-pool code or bitmap id.
     switch (effect.Type)
     {
+    case kPierce81CDController:
+    {
+        // Native 0x147D373 subtype 2 first creates three 0x81CE children
+        // with actor ownership. The remaining seven child calls are not
+        // submitted until their distinct init/update/render paths are ported.
+        if (effect.SubType != 2 || !effect.Owner)
+        {
+            effect.LifeTime = 0.f;
+            break;
+        }
+        vec3_t mark;
+        Vector(1.f, 0.4f, 0.95f, mark);
+        for (int subtype = 3; subtype <= 5; ++subtype)
+            SpawnBitmapChild(kPierce81CEEffect, effect, effect.Owner,
+                mark, subtype, 0.f);
+        vec3_t flare;
+        Vector(0.2f, 0.f, 1.f, flare);
+        SpawnBitmapChild(kPierce80BAEffect, effect, effect.Owner,
+            flare, 6, 7.f);
+        break;
+    }
+    case kPierce81CEEffect:
+        // Native 0x147E153 subtypes 3/4/5 set 0xB4 to the current S21
+        // millisecond clock. Their updater refreshes LifeTime every frame
+        // until its elapsed-time cutoff, so an ordinary 30-tick effect dies
+        // far too early in 5.2.
+        effect.Timer = WorldTime;
+        effect.Scale = effect.SubType == 3 ? 2.86f : 4.55f;
+        effect.Alpha = 1.f;
+        break;
+    case kPierce80BAEffect:
+        // S21 0x1471BDD: subtypes 6/7 copy the incoming scale and light,
+        // start at life 50, and stamp the current millisecond clock.
+        if (effect.SubType != 6 && effect.SubType != 7)
+        {
+            effect.LifeTime = 0.f;
+            break;
+        }
+        effect.Timer = WorldTime;
+        effect.Scale = incomingScale;
+        effect.Alpha = 1.f;
+        break;
     case kPierceController:
         // Native 0x679 subtype zero initializes EFFECT+0xBC from player
         // action 0xE0 at 0x148EE0F..0x148EE29. Its update compares the
@@ -886,6 +933,39 @@ void UpdateEffect(OBJECT& effect, float animationFactor)
         // triangle; 0x81CF's two buff rings expand and fade independently.
         switch (effect.Type)
         {
+        case kPierce80BAEffect:
+            // 0x151F08A / 0x151F2F9 refresh to 30 until six seconds.
+            // Subtype 7's three per-frame particle children remain pending;
+            // only native subtype 6 is currently created by the Pierce root.
+            effect.LifeTime = 30.f;
+            if (WorldTime - effect.Timer > 6000.f)
+            {
+                effect.LifeTime = 0.f;
+                effect.Timer = 0.f;
+            }
+            break;
+        case kPierce81CEEffect:
+            if (effect.SubType == 4)
+            {
+                // 0x1534339: LifeTime/20 drives alpha; scale grows from
+                // 4.35 by .05 for each elapsed tick, then life refreshes.
+                effect.Scale = (20.f - effect.LifeTime) * 0.05f + 4.35f;
+                effect.Alpha = effect.LifeTime / 20.f;
+                if (effect.LifeTime <= 1.f)
+                    effect.LifeTime = 20.f;
+            }
+            else
+            {
+                // 0x1534250/0x1534422: subtype 3/5 retain 30 ticks
+                // while their authored millisecond window is still open.
+                effect.LifeTime = 30.f;
+            }
+            if (WorldTime - effect.Timer > 6000.f)
+            {
+                effect.LifeTime = 0.f;
+                effect.Timer = 0.f;
+            }
+            break;
         case kFlare01RedEffect: // 0x80BA subtype A, update 0x151F416
         case kRingOfGradation2Effect: // 0x82F6, update 0x1548E75
         case kEnemyRing01Effect: // 0x82F7, update 0x15484D8
@@ -1655,6 +1735,13 @@ bool RenderEffect(OBJECT& effect)
         case kMagicGround12Effect: bitmap = kMagicGround12Bitmap; break;
         case kFlareBlueEffect: bitmap = kFlareBlueBitmap; break;
         case kFlareEffect: bitmap = kFlareBitmap; break;
+        case kPierce81CEEffect:
+            // 0x15AE502 uses bitmap 0x81CE for subtype 3;
+            // 0x15AE675/0x15AE740 use 0x81CD for subtypes 4/5.
+            bitmap = effect.SubType == 3 ? kMarksM04Bitmap :
+                kMarksM03Bitmap;
+            break;
+        case kPierce80BAEffect: bitmap = kFlare01Bitmap; break;
         default: return false;
         }
         // A failed registration must never submit the black fallback
@@ -1662,13 +1749,24 @@ bool RenderEffect(OBJECT& effect)
         if (!Bitmaps.FindTexture(bitmap))
             return false;
         vec3_t light;
-        Vector(effect.Light[0] * effect.Alpha,
-            effect.Light[1] * effect.Alpha,
-            effect.Light[2] * effect.Alpha, light);
+        if (effect.Type == kPierce80BAEffect)
+        {
+            // 0x15A925E: mode 6/7 submits 0x7EF7 with a white time wave,
+            // not the incoming blue light used during child construction.
+            const float wave = (sinf(WorldTime * 0.005f) + 1.f) *
+                0.25f + 0.2f;
+            Vector(wave, wave, wave, light);
+        }
+        else
+            Vector(effect.Light[0] * effect.Alpha,
+                effect.Light[1] * effect.Alpha,
+                effect.Light[2] * effect.Alpha, light);
         // Each imported bitmap-object subtype reaches native 0x1765DF1,
         // the terrain-tile alpha renderer. None is a billboard sprite.
-        const float rotation = effect.Type == kRingOfGradation2Effect ||
-            effect.Type == kMagicGround12Effect ? 0.f : effect.Angle[2];
+        const float rotation = effect.Type == kPierce80BAEffect ?
+            effect.Angle[0] : effect.Type == kRingOfGradation2Effect ||
+            effect.Type == kMagicGround12Effect ||
+            effect.Type == kPierce81CEEffect ? 0.f : effect.Angle[2];
         // RenderEffects invokes this branch in its ordinary opaque/model pass.
         // RenderTerrainAlphaBitmap only binds and submits textured tiles; it
         // never enables blending. These S21 OZJ/JPEG effect images have black
@@ -1762,6 +1860,12 @@ bool ApplyCastAction(OBJECT& actor, int skillId)
         // The local 0x19 acknowledgment is consumed by the pending-graph
         // receive guard, so it does not run this action initializer twice.
         actor.Position[2] += 5.f;
+        vec3_t position, angle, light;
+        VectorCopy(actor.Position, position);
+        VectorCopy(actor.Angle, angle);
+        VectorCopy(actor.Light, light);
+        CreateEffect(kPierce81CDController, position, angle, light, 2,
+            &actor, -1, kPierceAttack, 0, 0, 0.f, actor.m_sTargetIndex);
     }
     return true;
 #else
@@ -1845,6 +1949,8 @@ void LoadSounds()
         "Data\\RISE\\Slayer\\Effect\\marks_m04.jpg", GL_LINEAR, GL_CLAMP);
     RegisterSlayerBitmap(kMarksM03Bitmap,
         "Data\\RISE\\Slayer\\Effect\\marks_m03.jpg", GL_LINEAR, GL_CLAMP);
+    RegisterSlayerBitmap(kFlare01Bitmap,
+        "Data\\RISE\\Slayer\\Effect\\flare01.jpg", GL_LINEAR, GL_CLAMP);
     RegisterSlayerBitmap(kBetGrilsShot2RedBitmap,
         "Data\\RISE\\Slayer\\Effect\\bet_grilsshot2red.jpg", GL_LINEAR, GL_CLAMP);
     RegisterSlayerBitmap(kImpack03Bitmap,

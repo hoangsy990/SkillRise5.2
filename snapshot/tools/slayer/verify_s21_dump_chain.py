@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import hashlib
 import re
+import struct
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
@@ -310,6 +311,20 @@ def main() -> int:
         if at(va, len(expected)) != expected:
             raise AssertionError(f"S21 0x81CD/0x81CE update/render selector drifted at {va:#x}")
     print("PASS: S21 0x81CE subtype3=marks_m04, subtype4/5=marks_m03 and high-code dispatch pinned")
+    pierce_mark_floats = {
+        0x1B9E9F8: 2.86,
+        0x1B9EA24: 4.55,
+        0x1B9EA20: 4.35,
+        0x1B4E6D4: 0.05,
+        0x1B9EA80: 6000.0,
+    }
+    for va, expected in pierce_mark_floats.items():
+        actual = struct.unpack("<f", at(va, 4))[0]
+        if abs(actual - expected) > 0.0001:
+            raise AssertionError(f"S21 Pierce 0x81CE scale/timer float drifted at {va:#x}: {actual}")
+    if at(0x147E165, 6) != bytes.fromhex("837860030f85"):
+        raise AssertionError("S21 Pierce 0x81CE subtype-3 init branch drifted")
+    print("PASS: S21 Pierce 0x81CE scale=2.86/4.55 and 6000-ms refresh window pinned")
 
     if at(0x10EEB92, 7) != bytes.fromhex("6a5768c1000000"):
         raise AssertionError("S21 shared C1:57 skill packet constructor drifted")
