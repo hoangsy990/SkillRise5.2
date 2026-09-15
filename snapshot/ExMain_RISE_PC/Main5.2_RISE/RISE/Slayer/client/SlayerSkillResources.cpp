@@ -584,6 +584,20 @@ bool EnsureModel(int modelId)
                 return false;
             }
         }
+        else if (modelId == kDetectionImpactModel)
+        {
+            // The S21 0x694 model has two RGB ring materials with authored
+            // black fields. Key only these imported private textures, so
+            // 5.2's ordinary textured-alpha pass can blend the empty field.
+            const char* material = model.Textures[mesh].FileName;
+            if ((_stricmp(material, "ark.JPG") != 0 &&
+                    _stricmp(material, "empact01.JPG") != 0) ||
+                !Bitmaps.ApplySlayerBlackKeyAlpha(model.IndexTexture[mesh]))
+            {
+                model.Release();
+                return false;
+            }
+        }
     }
     return model.NumBones > 0 && model.NumActions > 0;
 #else

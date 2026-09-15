@@ -198,6 +198,12 @@ def main() -> int:
             "S21 0x8012 subtype-17 ShockWave private bitmap registration")
     require(resources, "RegisterSlayerBitmap(kClud64Bitmap,",
             "S21 Pierce flare particle 0x7FFD Clud64 private bitmap registration")
+    require(resources, "modelId == kDetectionImpactModel",
+            "S21 0x694 private ring material adapter")
+    require(resources, '_stricmp(material, "ark.JPG")',
+            "S21 0x694 ark material isolated black key")
+    require(resources, '_stricmp(material, "empact01.JPG")',
+            "S21 0x694 empact01 material isolated black key")
     require(header, "kPierceMarksCylinderModel = MAX_MODELS + 41,",
             "native Pierce 0x5D8 child model allocated to private unused slot")
     require(resources, '{kPierceMarksCylinderModel, "marks_cylinder.bmd"}',

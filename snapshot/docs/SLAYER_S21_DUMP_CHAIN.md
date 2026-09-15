@@ -886,9 +886,12 @@ an explicit additive flag at this call site. The 5.2 adapter likewise uses
 `RENDER_TEXTURE` for `0x694`. The two source textures of this model,
 `ark.OZJ` and `empact01.OZJ`, are RGB JPEG rings with authored black fields.
 Thus the current hard black funnel cannot be attributed to an old 5.2 skill
-graph, but neither is there decoded evidence that globally erasing the black
-texels would reproduce S21. The remaining mismatch must be isolated through
-model pose/origin, per-mesh material handling, and one-shot cast ownership.
+graph. The 5.2 adapter now color-keys only imported `ark` and `empact01`
+instances to RGBA in memory before the ordinary textured-alpha draw; the
+S21 files and unrelated 5.2 materials remain byte-for-byte intact. This
+is a scoped render adaptation responding to the observed black field, not
+a decoded claim that S21 globally erases every black texel. Model pose/origin,
+per-mesh state and one-shot cast ownership still require ingame comparison.
 The QA log formerly labelled shared `0x694` Demolish submissions as Detection
 and called every textured pass opaque; its diagnostic labels now use the
 effect's skill ID and report textured-alpha while the effect alpha is below

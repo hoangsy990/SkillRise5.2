@@ -453,9 +453,9 @@ bool CGlobalBitmap::LoadImageFile(GLuint uiBitmapIndex, const std::string& filen
 #ifdef RISE_SLAYER_PORT
 bool CGlobalBitmap::ApplySlayerBlackKeyAlpha(GLuint uiBitmapIndex)
 {
-	// S21's van_object03_skill material is an RGB JPEG whose black field is
-	// intended as empty space around the silver mark.  Keep its source bytes
-	// and all other 5.2 textures untouched; adapt only the imported instance.
+	// Private S21 silver-mark/ring materials are RGB JPEGs with black fields
+	// around the visible effect. Keep their source bytes and all 5.2 textures
+	// untouched; adapt only the imported Slayer material instances.
 	BITMAP_t* bitmap = FindTexture(uiBitmapIndex);
 	if (!bitmap || bitmap->Components != 3 || !bitmap->Buffer ||
 		bitmap->TextureNumber == 0 || bitmap->Width <= 0.f ||
