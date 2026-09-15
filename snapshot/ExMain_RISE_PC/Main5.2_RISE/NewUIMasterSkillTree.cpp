@@ -747,6 +747,12 @@ void SEASON3B::CNewUIMasterSkillTree::LoadImages()
 	LoadBitmapFile("Interface\\new_Master_back01.jpg", IMAGE_MASTER_INTERFACE, GL_LINEAR);
 
 	LoadBitmapFile("Interface\\new_Master_Icon.jpg", IMAGE_MASTER_INTERFACE + 2, GL_LINEAR);
+#ifdef RISE_SLAYER_PORT
+	// SS21 first atlas has all Master Slayer groups <=399. Keep legacy atlas
+	// at +2 for every other class; the private OZJ is only staged for Slayer.
+	LoadBitmapFile("RISE\\Slayer\\Interface\\new_Master_Icon.jpg",
+		IMAGE_MASTER_INTERFACE + 16, GL_LINEAR, GL_CLAMP_TO_EDGE, false);
+#endif
 
 	LoadBitmapFile("Interface\\new_Master_Non_Icon.jpg", IMAGE_MASTER_INTERFACE + 3, GL_LINEAR);
 
@@ -781,6 +787,9 @@ void SEASON3B::CNewUIMasterSkillTree::UnloadImages()
 	{
 		DeleteBitmap(i + IMAGE_MASTER_INTERFACE, 0);
 	}
+#ifdef RISE_SLAYER_PORT
+	DeleteBitmap(IMAGE_MASTER_INTERFACE + 16, 0);
+#endif
 }
 
 void SEASON3B::CNewUIMasterSkillTree::RenderText()
@@ -896,7 +905,13 @@ void SEASON3B::CNewUIMasterSkillTree::RenderIcon()
 		v21 = (double)(p->SkillGroup % 25) * 0.0390625;
 		v20 = CalcY + 5.0;
 		v19 = CalcX + 8.5;
-		SEASON3B::RenderImage(IMAGE_MASTER_INTERFACE + 2, v19, v20, 20.0, 28.0, v21, v22, 0.0390625, 0.053710938, textColor);
+		SEASON3B::RenderImage(IMAGE_MASTER_INTERFACE +
+#ifdef RISE_SLAYER_PORT
+			(this->classCode == 512 ? 16 : 2),
+#else
+			2,
+#endif
+			v19, v20, 20.0, 28.0, v21, v22, 0.0390625, 0.053710938, textColor);
 		//===Draw Skill Point
 		SEASON3B::RenderImage(IMAGE_MASTER_INTERFACE + 4, CalcX + 6, CalcY + 2, 37.0, 33.0, 0.0, 0.0, textColor);
 		//sprintf(Buffer, "%d", skillPoint);

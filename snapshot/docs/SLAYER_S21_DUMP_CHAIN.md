@@ -1153,3 +1153,13 @@ temporary, the S21 icon atlas is not yet imported, and the GS master-tree
 learning path plus high-ID gameplay dispatch are not yet accepted. No ingame
 preview was launched from this build; static conversion/build/staging does
 not close five-skill behavior or render parity.
+The master icon previously still came from 5.2's
+`Interface/new_Master_Icon.OZJ` (SHA-256 `DD1E63C006EE004CD11D7D2DF8A4C649ECB9169E34334C2C7BEA87DAF30CB5AA`).
+The pinned S21 first 512x512 atlas has SHA-256
+`DF3D1F863741E720EFC7B9ECC90117BB1BE9CA49852A86420FA8CA3E396D9F74`;
+all 58 Slayer SkillList groups are <=399 and fit its 25-column page.
+It is now copied byte-for-byte to the private Slayer interface overlay and
+loaded at master UI bitmap slot `+16` only for class bit 512. Other classes
+continue to render from legacy slot `+2`; private stage verification pins
+the exact S21 atlas hash. This is asset provenance and code routing, not
+ingame UI/icon acceptance.

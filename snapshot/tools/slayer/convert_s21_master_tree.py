@@ -24,6 +24,8 @@ TARGET = Path(
     r"D:\RISE-CrossPlatform\Source_PC_Slayer\ExMain_RISE_PC\Tests"
     r"\SlayerBuild\Client\Data\RISE\Slayer\Config"
 )
+S21_ICON = Path(r"D:\MU FICA Season 21\Data\Interface\new_Master_Icon.OZJ")
+S21_ICON_SHA = "DF3D1F863741E720EFC7B9ECC90117BB1BE9CA49852A86420FA8CA3E396D9F74"
 TREE_RECORD = struct.Struct("<HHBBBBiiif")  # 5.2 _MASTER_SKILLTREE_DATA, 24 bytes
 S21_TOOLTIP_RECORD = struct.Struct("<iH64s256s32s46s")  # native S21, 404 bytes
 RISE_TOOLTIP_RECORD = struct.Struct("<iH64s256s32s64s64s64s64s2x")  # 5.2, 616 bytes
@@ -140,6 +142,16 @@ def main() -> None:
         if not output.exists():
             output.write_bytes(value)
         print(f"PASS: {output} records=58 sha256={digest(value)}")
+    icon = S21_ICON.read_bytes()
+    if digest(icon) != S21_ICON_SHA or icon[24:26] != b"\xff\xd8":
+        raise AssertionError("native S21 Master Icon OZJ hash/header drifted")
+    icon_output = TARGET.parent / "Interface" / "new_Master_Icon.OZJ"
+    icon_output.parent.mkdir(parents=True, exist_ok=True)
+    if icon_output.exists() and icon_output.read_bytes() != icon:
+        raise AssertionError(f"refusing to overwrite divergent private asset {icon_output}")
+    if not icon_output.exists():
+        icon_output.write_bytes(icon)
+    print(f"PASS: {icon_output} native S21 atlas sha256={digest(icon)}")
 
 
 if __name__ == "__main__":

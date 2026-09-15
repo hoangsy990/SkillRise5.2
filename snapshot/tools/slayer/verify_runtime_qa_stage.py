@@ -12,6 +12,12 @@ ROOT = Path(r"D:\RISE-CrossPlatform\Source_PC_Slayer")
 SOURCE_CLIENT = ROOT / "Client"
 PRIVATE_CLIENT = ROOT / "ExMain_RISE_PC" / "Tests" / "SlayerBuild" / "Client"
 TARGET = ROOT / "ExMain_RISE_PC" / "Tests" / "SlayerBuild" / "RuntimeQA" / "Client"
+MASTER_SLAYER_HASHES = {
+    "Config/MasterSlayerTree.bmd": "00C02A1E4CAA84BFAB603DCAC7545C2B65E05390615BF5A81F867807656CA0DC",
+    "Config/MasterSlayerTooltip.bmd": "11ECF321341659F14CC606DDADC1B463D4F3A95B637B2904C2E58F38DFA4CCF3",
+    "Config/MasterSlayerSkills.bmd": "1A8932E3C3CDE1155F3DBFF426F627758293132CAA7ED75C54B9CAB559CC806C",
+    "Interface/new_Master_Icon.OZJ": "DF3D1F863741E720EFC7B9ECC90117BB1BE9CA49852A86420FA8CA3E396D9F74",
+}
 
 
 def sha256(path: Path) -> str:
@@ -85,6 +91,11 @@ def main() -> None:
         TARGET / "Data" / "RISE" / "Slayer",
         "private Slayer",
     )
+    for relative, expected in MASTER_SLAYER_HASHES.items():
+        asset = TARGET / "Data" / "RISE" / "Slayer" / relative
+        assert asset.is_file() and sha256(asset) == expected, (
+            f"private Master Slayer SS21 asset missing/drifted: {relative}"
+        )
 
     root_data_count = 0
     for source_file in (SOURCE_CLIENT / "Data").iterdir():
@@ -101,6 +112,7 @@ def main() -> None:
     assert not (TARGET / "Data" / "RISE" / "GrowLancer").exists(), "GrowLancer overlay leaked into Slayer QA"
     print(f"PASS: complete private base RISE tree ({base_count} files)")
     print(f"PASS: complete private Slayer overlay ({slayer_count} files)")
+    print("PASS: S21 Master Slayer tree/tooltip/metadata/icon exact hashes")
     print(f"PASS: complete private base Player tree ({player_count} base files plus Slayer player.bmd)")
     print(f"PASS: complete root Data file set ({root_data_count} files), including login keys")
     print(f"PASS: {len(staged_links)} asset junctions target only frozen Slayer Data")
