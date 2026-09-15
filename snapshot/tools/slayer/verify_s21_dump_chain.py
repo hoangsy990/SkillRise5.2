@@ -604,6 +604,25 @@ def main() -> int:
         if at(va, len(expected)) != expected:
             raise AssertionError(f"S21 Detection 0x7FDD subtype-2 bytes drifted at {va:#x}")
     print("PASS: S21 Detection 0x7FDD subtype-2 alpha/5-degree update and terrain render pinned")
+    # 0x81CE is the opposite initializer exception: CreateEffect starts at
+    # alpha 1. Modes 3/5 have no OBJECT+0xDC write in their complete blocks;
+    # mode 4 writes 1 explicitly. Pin the complete branch bytes rather than
+    # relying on a filtered snippet that could hide an xorps instruction.
+    if at(0x143E7C0, 16) != bytes.fromhex(
+            "f30f100548ddb401f30f1180dc000000"):
+        raise AssertionError("S21 CreateEffect default alpha-one bytes drifted")
+    pierce_mark_init_blocks = {
+        (0x147E16F, 0x147E20C): "F860AC210D76B20B7294B6B65BD96858856C35E1B00DE5D23B08C07E6C7651F7",
+        (0x147E228, 0x147E2DB): "6B464CB9F0B69D620B9DD771B2070994E5D1F1C13CE6F329FFF919F68CEAF5C8",
+        (0x147E2F7, 0x147E394): "98AE00B97E0F207EF995E3E8DEDD1A4EFA7A9E3745251F096681C5D5513A1F96",
+    }
+    for (start, end), expected in pierce_mark_init_blocks.items():
+        if hashlib.sha256(at(start, end - start)).hexdigest().upper() != expected:
+            raise AssertionError(f"S21 0x81CE complete init block drifted at {start:#x}")
+    if at(0x147E22E, 16) != bytes.fromhex(
+            "f30f100548ddb401f30f1180dc000000"):
+        raise AssertionError("S21 0x81CE subtype-4 alpha-one write drifted")
+    print("PASS: S21 Pierce 0x81CE modes 3/5 retain allocator alpha one; mode 4 writes one")
     print("PASS: 0x691/0x81CF raw zero scale overrides allocator .9; 0x693/0x696 keep allocator scale")
 
     sword_draw_bytes = {

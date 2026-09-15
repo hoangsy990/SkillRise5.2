@@ -390,7 +390,15 @@ S21 `lines2.OZJ` SHA-256
 Both model and texture are copied only to the isolated Slayer client.
 The native `0x81CE` initializer at `0x147E153` sets subtype-3 scale
 `2.86`, subtype-4/5 scale `4.55`, and snapshots the S21 millisecond clock
-at `OBJECT+0xB4`. Its update dispatcher at `0x15341D6` refreshes
+at `OBJECT+0xB4`. Native CreateEffect starts alpha at 1
+(`0x143E7C0`); the complete subtype-3 and subtype-5 initializer blocks
+`0x147E16F..0x147E20C` and `0x147E2F7..0x147E394` do not overwrite it,
+while subtype 4 writes 1 explicitly at `0x147E22E`. The previous 5.2
+generic bitmap initializer forced these Pierce marks to alpha zero, and
+subtypes 3/5 never raised it in update. Their terrain renderer multiplies
+RGB by alpha, so they were invisible. The 5.2 port now preserves alpha 1
+for all `0x81CE` marks, with the complete S21 init blocks hash-pinned.
+Its update dispatcher at `0x15341D6` refreshes
 LifeTime 30/20 through a 6000-ms window; subtype 4 derives scale from
 `(20-LifeTime)*.05+4.35` and alpha from `LifeTime/20`. The isolated 5.2
 effect-pool port now creates the first three `0x81CE` subtypes from the
