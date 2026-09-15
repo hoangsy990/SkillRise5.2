@@ -118,6 +118,29 @@ The 5.2 `MasterSkillTreeData.bmd` is SHA-256
 `D67B20890CBB2DCFF9FF9CAB670E30D51A3DD13C97B17D4C641676B43A7DDECC`,
 has exactly 512 occupied records, and its UI field `DefValue` interprets the
 last four bytes as a float, whereas the S21 rows contain integers `22/23`.
+Cross-checking all 58 Slayer records with the pinned S21 `SkillList.xml`
+proves that this integer is **SkillList Damage**, not an opaque unknown:
+`781=22`, `782=23`, and every other node agrees too. A native-to-5.2
+adapter can convert those numeric defaults to floats without copying their
+integer bit patterns. The S21 `masterskilltooltip.bmd` (SHA-256
+`76E07F264FCA9C20692EF8C1870B90C63B2C0EB0456E273D9DBBC6628BE73F0A`)
+has 4096 Bux-XOR records of 404 bytes, not the 5.2 616-byte tooltip struct;
+all 58 Slayer MagicNumbers have matching native tooltip records. The Bat
+tooltips are records 854 (`781`) and 856 (`782`), with native rank/required
+point strings. They need field-aware repacking, not a raw file copy.
+`convert_s21_master_tree.py` now emits **58-node** private 5.2 records
+`MasterSlayerTree.bmd` and `MasterSlayerTooltip.bmd` under the isolated
+SlayerBuild client. It converts integer Damage to float DefValue, expands
+the 404-byte native tooltip fields to the 616-byte 5.2 struct, checks every
+record, and appends a private CRC32 trailer. These are staged data inputs,
+not an active client loader or a server learning-path PASS yet.
+The next client code dependency is real: `_define.h` has `MAX_SKILLS=650`,
+`Winmain.cpp` allocates exactly 650 `SkillAttribute` rows, while the SS21
+Slayer tree references 781/782 and other IDs up to 794. Loading the new
+tree without a Slayer-specific high-skill metadata capacity/access path
+would index beyond that allocation. The 650-slot `CharacterAttribute`
+arrays and the checksum-protected 650-record `Skill.bmd` must stay at their
+legacy sizes; a blanket change to `MAX_SKILLS` would alter those ABIs.
 5.2 `GetCharacterClass` also currently returns Knight for the reserved Slayer
 client marker, so `SetMasterType` cannot select class bit 512. The isolated
 `verify_s21_master_tree_shape.py` pins all of these facts. Importing only
