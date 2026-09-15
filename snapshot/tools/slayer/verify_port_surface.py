@@ -192,6 +192,10 @@ def main() -> int:
             "S21 Pierce 0x81CE marks_m04 private bitmap registration")
     require(resources, "RegisterSlayerBitmap(kMarksM03Bitmap,",
             "S21 Pierce 0x81CD marks_m03 private bitmap registration")
+    require(header, "kPierceMarksCylinderModel = MAX_MODELS + 41,",
+            "native Pierce 0x5D8 child model allocated to private unused slot")
+    require(resources, '{kPierceMarksCylinderModel, "marks_cylinder.bmd"}',
+            "native Pierce 0x5D8 model resource mapping")
     print("PASS: Slayer bitmap IDs 32983..33013 do not overlap Grow Lancer or unnamed allocation")
     for token in (
         "kFlare01RedEffect", "kRingOfGradation2Effect",

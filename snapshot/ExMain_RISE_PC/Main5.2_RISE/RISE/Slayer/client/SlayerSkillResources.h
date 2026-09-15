@@ -15,7 +15,8 @@ enum ModelId
     kUnusedAkSwordAuraModel = MAX_MODELS + 38,
     kBatFlockModel = MAX_MODELS + 39,
     kBatFlockTrailModel = MAX_MODELS + 40,
-    kUnusedPierceImpactModel = MAX_MODELS + 41,
+    // Native Pierce 0x81CD subtype-2 child 0x5D8 is marks_cylinder.bmd.
+    kPierceMarksCylinderModel = MAX_MODELS + 41,
     kDetectionMarkModel = MAX_MODELS + 42,
     kDetectionImpactModel = MAX_MODELS + 43,
     kPierceSwordLineModel = MAX_MODELS + 44,

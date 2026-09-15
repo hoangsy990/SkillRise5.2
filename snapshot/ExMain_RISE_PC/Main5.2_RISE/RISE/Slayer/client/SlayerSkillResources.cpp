@@ -58,6 +58,8 @@ const ModelRow kModels[] = {
     // Native models 0x691 and 0x694.
     {kDetectionMarkModel, "van_object03_skill.bmd"},
     {kDetectionImpactModel, "Van_object04_skill.bmd"},
+    // Native 0x5D8 child from Pierce's action-start 0x81CD subtype 2.
+    {kPierceMarksCylinderModel, "marks_cylinder.bmd"},
     // Native model 0x681, created by Pierce 0x679 and Sword child 0x68B.
     {kPierceSwordLineModel, "van_swordline01.bmd"}
 };

@@ -352,6 +352,18 @@ at `0x15AE502`, but subtypes 4 and 5 submit bitmap `0x81CD` at
 `NPC\\marks_m03.JPG`, already present as a hash-pinned S21 overlay file.
 The private 5.2 adapter now reserves bitmap ID `33013` and registers it
 separately; using only `marks_m04` for all three children would be wrong.
+Native `0x5D8` model registration at `0xAA99ED` names
+`Data\\Effect\\marks_cylinder.bmd` (string at `0x1B527D8`); its renderer
+selector goes to `0x15AE9A2`, which calls the ordinary model path
+`0x176D621`. The source BMD SHA-256 is
+`F91EA00CFC10DC3E36935FE80AD6CA391EAED64142E7D572E5AB2939A7689BE3`.
+The formerly unused private model slot `MAX_MODELS+41` is now assigned to
+this named child asset, but the effect child is not spawned yet.
+The hash-pinned v0F-to-v0C conversion reports one mesh, two bones, one
+action (`marks_cylinder.SMD`), and its sole material `lines2.jpg` from
+S21 `lines2.OZJ` SHA-256
+`79D2A20143B15E406344F43DCDAF6232DD131986BC28603B10BF70DA4F208F7A`.
+Both model and texture are copied only to the isolated Slayer client.
 
 The native character render/update paths at `0x133F0EA` and `0x13F2546`
 compare current action to `0xE4` and assign `OBJECT+0xDC = 0.3`; the
