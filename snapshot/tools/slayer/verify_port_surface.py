@@ -68,6 +68,15 @@ def main() -> int:
             "GS mastery learning has an explicit persisted Slayer class gate")
     require(server, "kBatFlockStrengthener) < 10",
             "GS mastery 782 learning requires ten points in 781")
+    mastery_tree = read("ExGameServer/GameServer/MasterSkillTree.cpp")
+    learning = mastery_tree.split("void CMasterSkillTree::CGMasterSkillRecv", 1)[1]
+    learning = learning.split("void CMasterSkillTree::GCMasterInfoSend", 1)[0]
+    require(learning, "rise::slayerserver::IsSlayerBatMasterySkill(MasterSkillTreeInfo.Index)",
+            "GS mastery learning packet recognizes the two S21 Bat nodes")
+    require(learning, "!rise::slayerserver::IsSlayerDbClass(lpObj->DBClass)",
+            "GS mastery learning packet rejects non-Slayer DB classes")
+    require(learning, "this->GetMasterSkillLevel(lpObj,",
+            "GS mastery learning packet enforces 781/10 before 782")
     require(server, "client dispatch/effect branches are not yet recovered",
             "GS mastery cast IDs fail closed instead of using unrelated generic damage")
     require(server, "this->GetSkill(lpObj, rise::slayerserver::kBatFlock) == 0",

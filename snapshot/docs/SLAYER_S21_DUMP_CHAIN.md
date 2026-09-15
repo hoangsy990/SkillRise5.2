@@ -98,6 +98,26 @@ This is a remaining class/tree import dependency, not proof that Pierce is
 playable merely because its GS binary builds. The same S21 Slayer tree has
 `Rush` as a distinct skill `631`; it is not evidence for a base Pierce
 world-position write and must not be used as a substitute animation.
+The read-only S21 `Data\Local\masterskilltreedata.bmd` is SHA-256
+`A0381045194779304C7922685D1DDB9EA1E23DD0354FE02A36A9C91C8305D586`.
+Its Bux-XOR 24-byte records carry 2048 slots; Master Slayer uses class bit
+`512` on **58 nodes** across all three categories. Bat nodes are native
+records 653 (`Index=58`, `Skill=781`, `MaxLevel=20`) and 655 (`Index=62`,
+`Skill=782`, `RequireSkill[0]=781`, `RequiredPoints=10`, `MaxLevel=10`).
+The 5.2 `MasterSkillTreeData.bmd` is SHA-256
+`D67B20890CBB2DCFF9FF9CAB670E30D51A3DD13C97B17D4C641676B43A7DDECC`,
+has exactly 512 occupied records, and its UI field `DefValue` interprets the
+last four bytes as a float, whereas the S21 rows contain integers `22/23`.
+5.2 `GetCharacterClass` also currently returns Knight for the reserved Slayer
+client marker, so `SetMasterType` cannot select class bit 512. The isolated
+`verify_s21_master_tree_shape.py` pins all of these facts. Importing only
+two rows or copying the SS21 BMD without a full client/GS class-tree adapter
+would manufacture an unusable Pierce prerequisite; no such shortcut is used.
+The GS `CGMasterSkillRecv` now independently checks persisted Master Slayer
+class/stats and the 781/10 parent before accepting a future 781/782 learning
+packet. This closes a class-authorization bypass when the full tree is later
+mounted; because the config rows and class-512 UI are still absent, it does
+**not** make Pierce normally learnable yet.
 The S21 `SkillList.xml` rows 781/782 (SHA-256
 `3E238C786ECAB3445A0DB4756FE3D2A3923FBC0594506BB9C3FF206020A7E0A0`)
 show both Bat mastery nodes as **castable** stage-3 Slayer skills, with

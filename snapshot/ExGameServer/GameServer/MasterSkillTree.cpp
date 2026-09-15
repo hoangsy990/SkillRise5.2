@@ -9,6 +9,7 @@
 #include "Util.h"
 #include "Log.h"
 #include "RISE/CustomRankUser.h"
+#include "RISE/SlayerServerCatalog.h"
 CMasterSkillTree gMasterSkillTree;
 CMasterSkillTree::CMasterSkillTree()
 {
@@ -1389,6 +1390,24 @@ void CMasterSkillTree::CGMasterSkillRecv(PMSG_MASTER_SKILL_RECV* lpMsg, int aInd
 	if (this->GetInfo(lpMsg->MasterSkill, &MasterSkillTreeInfo) == 0)
 	{
 		return;
+	}
+	if (rise::slayerserver::IsSlayerBatMasterySkill(MasterSkillTreeInfo.Index))
+	{
+		// The legacy tree stores no Slayer class column. Once the 512-bit
+		// client tree and 781/782 rows are imported, this learning packet
+		// must still be checked against the persisted S21 Master Slayer.
+		if (lpObj->DBClass < rise::slayerserver::kS21MasterSlayerDbClass ||
+			!rise::slayerserver::IsSlayerDbClass(lpObj->DBClass) ||
+			lpObj->Level < 160 ||
+			lpObj->Strength + lpObj->AddStrength < 100 ||
+			lpObj->Dexterity + lpObj->AddDexterity < 380)
+			return;
+		// S21 third-tree node 782 names 781 as its parent; 5.2 checks
+		// a mastered parent at ten displayed points (stored m_level=9).
+		if (MasterSkillTreeInfo.Index == rise::slayerserver::kBatFlockMastery &&
+			this->GetMasterSkillLevel(lpObj,
+				rise::slayerserver::kBatFlockStrengthener) < 10)
+			return;
 	}
 	if (lpObj->MasterPoint < MasterSkillTreeInfo.MinLevel)
 	{
