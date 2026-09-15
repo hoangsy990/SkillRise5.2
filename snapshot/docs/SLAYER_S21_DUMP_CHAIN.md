@@ -335,6 +335,17 @@ local cast acknowledgment via its pending-graph guard and does not re-run
 the initializer for that cast. This now starts the `0x81CD` subtype-2
 controller once, with all ten direct children now ported; it does not prove XY
 rush/return parity.
+The same native E4 block calls `0x14B6619` at `0x128BE8A`, after the Z lift
+and before creating `0x81CD`. That helper scans two effect-object pools:
+`0x10F0032` and `0x14B679A` compare each live record's owner pointer
+(`OBJECT+0x34C`) with the actor and destroy matches. Native `0x81CD`
+destruction calls the helper again at `0x14B6915` for children owned by that
+root. The isolated 5.2 bridge now sweeps both `Effects` and `g_SkillEffects`
+at the same one-shot action point, releasing target-list sidecars on
+destruction. It is deliberately restricted to private Slayer effect types:
+deleting unrelated legacy class/equipment effects would broaden this port
+beyond the isolated client. This is owner/pool cleanup parity within Slayer,
+**not** evidence for an XY rush or complete visual parity.
 The missing graph is now bounded by dump branches, rather than a vague
 "extra Pierce particle": native `0x81CD` initializer compare at
 `0x143F67F` jumps to `0x147BE22`; subtype 2 enters `0x147D373`, copies

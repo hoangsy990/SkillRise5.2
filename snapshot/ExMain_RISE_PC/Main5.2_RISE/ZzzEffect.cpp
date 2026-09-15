@@ -232,6 +232,12 @@ void CreateForce(OBJECT* o, vec3_t Pos)
 
 void EffectDestructor(OBJECT* o)
 {
+#ifdef RISE_SLAYER_PORT
+    const bool clearPierceChildren =
+        o->Type == rise::slayer::kPierce81CDController;
+    if (rise::slayer::IsEffectType(o->Type))
+        rise::slayer::ReleaseEffectSidecars(*o);
+#endif
     switch (o->Type)
     {
     case MODEL_EFFECT_FLAME_STRIKE:
@@ -249,7 +255,39 @@ void EffectDestructor(OBJECT* o)
 
     o->Live = false;
     o->Owner = NULL;
+#ifdef RISE_SLAYER_PORT
+    // Native 0x14B6912 destroys effect objects owned by a dying 0x81CD.
+    // Mark this parent dead first so even a malformed owner cycle cannot
+    // recurse back into it while the private graph is swept.
+    if (clearPierceChildren)
+        ClearSlayerOwnerEffectGraph(o);
+#endif
 }
+
+#ifdef RISE_SLAYER_PORT
+void ClearSlayerOwnerEffectGraph(OBJECT* owner)
+{
+    if (!owner)
+        return;
+    // S21 0x14B6619 scans its two effect-object pools by owner before a
+    // Pierce E4 cast. The 5.2 pool pair is Effects/g_SkillEffects; only
+    // imported Slayer nodes are in scope here, never legacy class effects.
+    for (int i = 0; i < MAX_EFFECTS; ++i)
+    {
+        OBJECT* child = &Effects[i];
+        if (child != owner && child->Live && child->Owner == owner &&
+            rise::slayer::IsEffectType(child->Type))
+            EffectDestructor(child);
+    }
+    for (int i = 0; i < g_SkillEffects.GetSize(); ++i)
+    {
+        OBJECT* child = g_SkillEffects.GetEffect(i);
+        if (child && child != owner && child->Live && child->Owner == owner &&
+            rise::slayer::IsEffectType(child->Type))
+            EffectDestructor(child);
+    }
+}
+#endif
 
 void TerminateOwnerEffectObject(int iOwnerObjectType)
 {

@@ -107,6 +107,9 @@ void CreateArrows(CHARACTER *c,OBJECT *o,OBJECT *to,WORD SkillIndex=0,WORD Skill
 void DeleteEffect( int efftype );
 
 void EffectDestructor(OBJECT *o);
+#ifdef RISE_SLAYER_PORT
+void ClearSlayerOwnerEffectGraph(OBJECT* owner);
+#endif
 
 void TerminateOwnerEffectObject( int iOwnerObjectType = -1 );
 

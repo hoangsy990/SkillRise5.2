@@ -539,6 +539,14 @@ bool IsEffectType(int type)
 #endif
 }
 
+void ReleaseEffectSidecars(OBJECT& effect)
+{
+    gBatFlockTargets.erase(&effect);
+    gPierceTargets.erase(&effect);
+    gPierceCastSerial.erase(&effect);
+    gPierceCastTargetIndex.erase(&effect);
+}
+
 bool RequiresModel(int type)
 {
 #ifdef RISE_SLAYER_PORT
@@ -618,10 +626,7 @@ bool EnsureModel(int modelId)
 void InitializeEffect(OBJECT& effect, float incomingScale)
 {
     // Effect-pool pointers are recycled; never inherit a previous cast's list.
-    gBatFlockTargets.erase(&effect);
-    gPierceTargets.erase(&effect);
-    gPierceCastSerial.erase(&effect);
-    gPierceCastTargetIndex.erase(&effect);
+    ReleaseEffectSidecars(effect);
 #ifdef RISE_SLAYER_PORT
     if (!IsEffectType(effect.Type))
         return;
@@ -2109,6 +2114,11 @@ bool ApplyCastAction(OBJECT& actor, int skillId)
         // The local 0x19 acknowledgment is consumed by the pending-graph
         // receive guard, so it does not run this action initializer twice.
         actor.Position[2] += 5.f;
+        // Native 0x128BE87 calls 0x14B6619 between the lift and 0x81CD
+        // creation. It clears actor-owned effect objects in both S21 pools.
+        // Restrict the 5.2 adapter to private Slayer effect types so legacy
+        // equipment/class effects are never deleted by this imported cast.
+        ClearSlayerOwnerEffectGraph(&actor);
         vec3_t position, angle, light;
         VectorCopy(actor.Position, position);
         VectorCopy(actor.Angle, angle);

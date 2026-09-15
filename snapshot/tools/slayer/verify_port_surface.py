@@ -47,6 +47,7 @@ def main() -> int:
     runtime = read("ExMain_RISE_PC/Main5.2_RISE/RISE/Slayer/client/SlayerNativeRuntime.cpp")
     resources = read("ExMain_RISE_PC/Main5.2_RISE/RISE/Slayer/client/SlayerSkillResources.cpp")
     effect_allocator = read("ExMain_RISE_PC/Main5.2_RISE/ZzzEffect.cpp")
+    effect_header = read("ExMain_RISE_PC/Main5.2_RISE/ZzzEffect.h")
     joints = read("ExMain_RISE_PC/Main5.2_RISE/ZzzEffectJoint.cpp")
     packet = read("ExMain_RISE_PC/Main5.2_RISE/RISE/Slayer/server/SlayerPacketContract.h")
     converter = read("tools/slayer/convert_s21_slayers.py")
@@ -298,6 +299,28 @@ def main() -> int:
         if f"CreateParticle({bitmap}" in resources:
             raise AssertionError(f"effect object accidentally allocated as particle: {bitmap}")
     require(resources, "if (IsBitmapEffect(effect.Type))", "bitmap effect runtime")
+    require(effect_header, "void ClearSlayerOwnerEffectGraph(OBJECT* owner);",
+            "private Slayer two-pool owner-effect cleanup declaration")
+    require(effect_allocator, "rise::slayer::ReleaseEffectSidecars(*o);",
+            "Slayer target-list sidecars released at effect destruction")
+    require(effect_allocator, "if (clearPierceChildren)",
+            "S21 0x81CD destructor-owned child cleanup")
+    require(effect_allocator, "void ClearSlayerOwnerEffectGraph(OBJECT* owner)",
+            "S21 Pierce owner-effect cleanup bridge")
+    require(effect_allocator, "OBJECT* child = &Effects[i];",
+            "S21 Pierce primary effect-pool cleanup")
+    require(effect_allocator, "OBJECT* child = g_SkillEffects.GetEffect(i);",
+            "S21 Pierce secondary effect-pool cleanup")
+    require(effect_allocator, "rise::slayer::IsEffectType(child->Type)",
+            "Pierce cleanup remains private to Slayer effect nodes")
+    pierce_cast_action = resources.split("bool ApplyCastAction", 1)[1]
+    pierce_cast_action = pierce_cast_action.split(
+        "if (skillId == kPierceAttack)", 1)[1].split("return true;", 1)[0]
+    lift = pierce_cast_action.find("actor.Position[2] += 5.f;")
+    clear = pierce_cast_action.find("ClearSlayerOwnerEffectGraph(&actor);")
+    root = pierce_cast_action.find("CreateEffect(kPierce81CDController,")
+    if not (0 <= lift < clear < root):
+        raise AssertionError("S21 Pierce pre-root owner cleanup is out of action-init order")
     pierce_mark_init = resources.split("void InitializeEffect", 1)[1]
     pierce_mark_init = pierce_mark_init.split("case kPierce81CEEffect:", 1)[1]
     pierce_mark_init = pierce_mark_init.split("case kPierce80BAEffect:", 1)[0]

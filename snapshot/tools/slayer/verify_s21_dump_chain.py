@@ -623,6 +623,26 @@ def main() -> int:
             "f30f100548ddb401f30f1180dc000000"):
         raise AssertionError("S21 0x81CE subtype-4 alpha-one write drifted")
     print("PASS: S21 Pierce 0x81CE modes 3/5 retain allocator alpha one; mode 4 writes one")
+    # Pierce E4 clears owner-associated effect objects across both native
+    # pools between its actor-Z lift and its new 0x81CD root. The 0x81CD
+    # destructor invokes the same helper again for children owned by it.
+    if at(0x128BE42, 4) != bytes.fromhex("f30f1100") or \
+       at(0x128BED1, 5) != bytes.fromhex("68cd810000"):
+        raise AssertionError("S21 Pierce lift/0x81CD cleanup-order anchors drifted")
+    for call_va, target in (
+            (0x128BE8A, 0x14B6619),
+            (0x14B6629, 0x10F0032),
+            (0x14B6641, 0x14B679A),
+            (0x14B6915, 0x14B6619)):
+        call = at(call_va, 5)
+        if call[0] != 0xE8 or \
+           call_va + 5 + int.from_bytes(call[1:], "little", signed=True) != target:
+            raise AssertionError(f"S21 Pierce owner-effect cleanup call drifted at {call_va:#x}")
+    for va in (0x10F0076, 0x14B67FB):
+        owner_compare = bytes.fromhex("8b45f48b804c0300003b4508")
+        if at(va, len(owner_compare)) != owner_compare:
+            raise AssertionError(f"S21 effect-pool owner-pointer compare drifted at {va:#x}")
+    print("PASS: S21 Pierce E4 pre-cast two-pool owner cleanup and 0x81CD destructor cleanup pinned")
     print("PASS: 0x691/0x81CF raw zero scale overrides allocator .9; 0x693/0x696 keep allocator scale")
 
     sword_draw_bytes = {

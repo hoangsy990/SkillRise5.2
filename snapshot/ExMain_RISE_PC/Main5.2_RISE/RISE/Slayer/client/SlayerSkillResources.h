@@ -159,6 +159,7 @@ enum PlayerActionId
 };
 
 bool IsEffectType(int type);
+void ReleaseEffectSidecars(OBJECT& effect);
 bool RequiresModel(int type);
 bool EnsureModel(int modelId);
 void InitializeEffect(OBJECT& effect, float incomingScale);
