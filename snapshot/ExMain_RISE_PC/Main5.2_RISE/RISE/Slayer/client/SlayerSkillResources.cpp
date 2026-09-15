@@ -1046,9 +1046,8 @@ void UpdateEffect(OBJECT& effect, float animationFactor)
             break;
         case kPierce80BAEffect:
             // 0x151F08A / 0x151F2F9 refresh to 30 until six seconds.
-            // Subtype 7's first native child is a random 0x807E..0x8080
-            // smokeline/9. Two separate 0x7FFD Clud64/17 children remain
-            // pending until their per-type particle updater is pinned.
+            // S21 0x151F0D0: each subtype-7 flare emits exactly three
+            // particle children every update, in native call order.
             if (effect.SubType == 7)
             {
                 vec3_t smokeLight;
@@ -1058,6 +1057,15 @@ void UpdateEffect(OBJECT& effect, float animationFactor)
                     Vector(0.6f, 0.2f, 1.f, smokeLight);
                 CreateParticle(kSmokeLines01Bitmap + rand() % 3,
                     effect.Position, effect.Angle, smokeLight, 9, 1.3f,
+                    &effect);
+                vec3_t cloudLight;
+                Vector(0.2f, 0.2f, 1.f, cloudLight);
+                CreateParticleTexture(BITMAP_CLUD64, kClud64Bitmap,
+                    effect.Position, effect.Angle, cloudLight, 17, 2.3f,
+                    &effect);
+                Vector(0.8f, 0.8f, 1.f, cloudLight);
+                CreateParticleTexture(BITMAP_CLUD64, kClud64Bitmap,
+                    effect.Position, effect.Angle, cloudLight, 17, 1.3f,
                     &effect);
             }
             effect.LifeTime = 30.f;

@@ -423,11 +423,19 @@ frame* (`0x807E..0x8080`, then two `0x7FFD`). The first lane is now ported:
 `0x1661781` gives it 25 ticks, scale `(55..104)/100 * incoming`, rotation
 `0..359`, gravity `(35..38)*0.15`, and the flare object as owner;
 `0x16D5AD6` contracts scale `(10..29)*0.001` per tick and follows that owner.
-Both `0x7FFD` subtype-17 Clud64 children remain open. The native loader
+The two `0x7FFD` subtype-17 Clud64 children now follow the smokeline in
+each flare update with native lights `(0.2,0.2,1)`/`(0.8,0.8,1)` and scales
+`2.3`/`1.3`. The native loader
 `0x18BDB86` names `Effect\\Clud64.jpg`; its S21 `Clud64.OZJ` source SHA-256
 `64C359CE760E517B1D5201DF10AE3A0EFFCA4F08A3690CAB6FEEF1C34FFE379D`
-is now copied and registered at private bitmap 33016, but registration alone
-does not prove the subtype-17 particle behavior or render parity.
+is copied and registered at private bitmap 33016. Constructor `0x1654E03`
+sets life 25, scale `(50..57)/100 * incoming`, rotation `0..359`, gravity
+`(35..44)*0.2`, zero initial alpha/light and owner position snapshot.
+Updater `0x16C498D` reveals alpha by `0.3/0.4` until full, fades `0.2`
+after life below 10, sets RGB from authored light times alpha, contracts
+scale by `0.055..0.059`, moves up by gravity and follows the flare owner.
+Thus the full three-particle *creation and update graph* is now present in
+the 5.2 overlay. This is code/build evidence, not visual parity acceptance.
 The next direct parent `0x81CF` subtype 2 is now connected to the root in
 its native call order with light `(0.8, 0.6, 1)` and incoming scale zero.
 Initializer `0x147E7C4` overrides scale to 1, alpha to 1, sets life 15 and

@@ -401,8 +401,15 @@ def main() -> int:
        at(0x1661781, 4) != bytes.fromhex("83781409") or \
        at(0x16D5AD6, 4) != bytes.fromhex("83781409"):
         raise AssertionError("S21 Pierce smokeline subtype-9 create/init/update drifted")
+    for call_va in (0x151F25B, 0x151F2EC):
+        if at(call_va, 5) != bytes.fromhex("68fd7f0000"):
+            raise AssertionError("S21 Pierce Clud64 particle call drifted")
+    if at(0x1654E03, 4) != bytes.fromhex("83781411") or \
+       at(0x16C498D, 4) != bytes.fromhex("83781411"):
+        raise AssertionError("S21 Clud64 subtype-17 constructor/updater drifted")
     print("PASS: S21 Pierce three 0x80BA subtype7 fixed-180 flare lanes and per-frame updater selector pinned")
     print("PASS: S21 Pierce smokelines 0x807E..0x8080 subtype-9 constructor/updater pinned")
+    print("PASS: S21 Pierce two Clud64 0x7FFD subtype-17 constructor/updater pinned")
     if at(0x145CBE0, 4) != bytes.fromhex("83786011"):
         raise AssertionError("S21 nested 0x8012 subtype-17 initializer drifted")
     if at(0x14FD81E, 4) != bytes.fromhex("83786011"):

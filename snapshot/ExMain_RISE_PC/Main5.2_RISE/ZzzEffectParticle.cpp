@@ -1330,6 +1330,23 @@ static int CreateParticleInternal(int Type, int TextureType, vec3_t Position,
                     o->Position[2] += ((float)(rand() % 20 - 10)) * FPS_ANIMATION_FACTOR;
                     o->Gravity = -1.5f;
                 }
+#ifdef RISE_SLAYER_PORT
+                else if (o->SubType == 17 && o->TexType == rise::slayer::kClud64Bitmap)
+                {
+                    // S21 0x1654E03: the Pierce flare supplies two exact
+                    // Clud64/17 children with different incoming scales.
+                    o->LifeTime = 25.f;
+                    o->fRepeatedlyHeight = 25.f;
+                    o->Scale = Scale * (50.f + static_cast<float>(rand() % 8)) * 0.01f;
+                    o->Rotation = static_cast<float>(rand() % 360);
+                    o->Gravity = (35.f + static_cast<float>(rand() % 10)) * 0.2f;
+                    o->Alpha = 0.f;
+                    VectorCopy(Light, o->TurningForce);
+                    Vector(0.f, 0.f, 0.f, o->Light);
+                    if (Owner != NULL)
+                        VectorCopy(Owner->Position, o->StartPosition);
+                }
+#endif
             }
             break;
             case BITMAP_LIGHT + 3:
@@ -5520,6 +5537,33 @@ void MoveParticles()
                     o->Scale -= 0.03f * FPS_ANIMATION_FACTOR;
                     o->Alpha -= FPS_ANIMATION_FACTOR * 0.05f;
                 }
+#ifdef RISE_SLAYER_PORT
+                else if (o->SubType == 17 && o->TexType == rise::slayer::kClud64Bitmap)
+                {
+                    // S21 0x16C498D: reveal/fade envelope, authored RGB
+                    // scaled by alpha, rapid contraction and owner-follow.
+                    if (o->LifeTime < 10.f)
+                        o->Alpha -= 0.2f * FPS_ANIMATION_FACTOR;
+                    else if (o->Alpha < 1.f)
+                        o->Alpha += (rand() % 2 + 3) * 0.1f * FPS_ANIMATION_FACTOR;
+                    else
+                        o->Alpha = 1.f;
+                    if (o->Alpha < 0.1f && o->LifeTime < 10.f)
+                        o->Live = false;
+                    VectorScale(o->TurningForce, o->Alpha, o->Light);
+                    if (o->Scale > 0.f)
+                        o->Scale -= (rand() % 5 + 55) * 0.001f * FPS_ANIMATION_FACTOR;
+                    else if (o->Scale < 0.1f)
+                        o->Live = false;
+                    o->Position[2] += o->Gravity * FPS_ANIMATION_FACTOR;
+                    if (o->Target != NULL)
+                    {
+                        VectorSubtract(o->Position, o->StartPosition, o->Position);
+                        VectorCopy(o->Target->Position, o->StartPosition);
+                        VectorAdd(o->Position, o->StartPosition, o->Position);
+                    }
+                }
+#endif
                 else if (o->SubType == 1 || o->SubType == 2)
                 {
                     o->Scale += FPS_ANIMATION_FACTOR * 0.5f;

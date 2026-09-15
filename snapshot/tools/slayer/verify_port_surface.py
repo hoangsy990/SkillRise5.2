@@ -252,6 +252,10 @@ def main() -> int:
             "S21 smokelines subtype-9 constructor")
     require(particle, "if (o->SubType == 9)",
             "S21 smokelines subtype-9 updater")
+    if resources.count("CreateParticleTexture(BITMAP_CLUD64, kClud64Bitmap,") != 2:
+        raise AssertionError("Pierce must emit two distinct native Clud64 children")
+    require(particle, "o->SubType == 17 && o->TexType == rise::slayer::kClud64Bitmap",
+            "S21 Clud64 subtype-17 private constructor/updater")
     for token in (
         "kFlare01RedEffect", "kRingOfGradation2Effect",
         "kEnemyRing01Effect", "kMagicGround12Effect",
