@@ -5131,9 +5131,10 @@ bool CSkillManager::SkillSlayerBatFlock(int aIndex, int bIndex,
 				return false;
 			continue;
 		}
-		// BasicSkillAttack already calls gAttack.Attack once. The S21
-		// Bat formula halves that initial strike; a second invocation here
-		// doubled it before the independently scheduled five-second DOT.
+		// Webzen's Slayer guide specifies two contact-damage hits before
+		// the separate DOT. BasicSkillAttack invokes gAttack.Attack once,
+		// so repeat it for the second S21 half-strike on this same target.
+		this->BasicSkillAttack(aIndex, index, lpSkill, false);
 		gEffectManager.AddEffect(&gObj[index], 0, EFFECT_SLAYER_BAT_FLOCK,
 			5, aIndex, 1, SET_NUMBERHW(dotDamage), SET_NUMBERLW(dotDamage));
 		affected[affectedCount++] = index;

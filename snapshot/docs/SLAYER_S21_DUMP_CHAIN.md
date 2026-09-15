@@ -73,12 +73,13 @@ Its comment points to `FormulaData.xml::Character` formula 9 (SHA-256
 which substitutes caster Energy four times. GS Bat DOT now follows that
 Energy-based formula instead of reusing half of Bat's initial hit and keeps
 the S21 five-second duration.
-The GS Bat fanout previously called 5.2 `BasicSkillAttack` twice for each
-accepted target; that function itself calls `gAttack.Attack`, so the code
-applied two initial half-strikes before DOT. The second call is removed:
-each accepted target now receives one initial half-strike and one separately
-scheduled five-second DOT. This source correction still needs ingame damage
-and timing verification.
+The [Webzen Slayer guide](https://muonline.webzen.com/es/gameinfo/guide/detail/100)
+explicitly describes **two** Bat Flock contact-damage hits before DOT.
+5.2 `BasicSkillAttack` calls `gAttack.Attack` once, so the two GS invocations
+on each accepted target are intentional; each applies the separately pinned
+half-damage formula. A transient one-hit edit was withdrawn after checking
+this primary specification. Exact protected-GS rounding and ingame damage
+timing remain unverified.
 The protected GS still prevents verifying
 which of the two supplied Lua paths it loads and its exact final rounding.
 The S21 `SkillList.xml` rows also specify Slayer class stages 1/2/3 and

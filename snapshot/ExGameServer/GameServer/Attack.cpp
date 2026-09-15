@@ -536,7 +536,8 @@ bool CAttack::Attack(LPOBJ lpObj, LPOBJ lpTarget, CSkill* lpSkill, bool send, BY
 		}
 
 		// S21 Slayer physical scaling: STR/8 + DEX/28 + 120 percent. Bat
-		// Flock applies half damage per strike and emits two initial strikes.
+		// Flock applies half damage per strike; Webzen specifies two
+		// contact-damage hits before the separately scheduled DOT.
 		if (rise::slayerserver::IsSlayerDamageSkill(skill))
 		{
 			damage = rise::slayerserver::ScaleSlayerDamage(damage,
