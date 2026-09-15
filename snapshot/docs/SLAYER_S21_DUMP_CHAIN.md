@@ -223,6 +223,14 @@ same 5.2 `gAttack.Attack` damage call after validating the saved cast-origin
 range: `BasicSkillAttack` would otherwise recheck the moving caster tile
 and drop a valid delayed lane. This restores the
 S21 per-target attack cadence instead of an immediate all-target burst.
+The first 5.2 transaction adapter stored only one pending Pierce cast per
+caster, so an immediate recast discarded all unconsumed lanes from the
+previous cast despite S21 Pierce having `Delay=0`. GS now retains up to 32
+simultaneous cast sessions per connected caster, assigns a serial not used
+by any outstanding session, and prunes expired/fully consumed sessions.
+New casts fail closed when the bounded queue is full; an authorized lane
+cannot consume a different session after serial wrap. This is a concurrency
+repair of the 5.2 adapter, **not** recovered S21 GS collision geometry.
 The accepted 5.2 fanout now excludes safe-zone occupants and duel
 spectators at cast time too, matching the delayed-lane legality gate; the
 private Bat Flock affected-list selection uses that same 5.2 filter.
@@ -231,6 +239,14 @@ adapters; their exact S21 GS implementation is unavailable. This restores
 list-bearing multi-enemy behavior rather than forcing
 one target, but **the AOE collider/selection geometry remains provisional**:
 the supplied S21 GS is a protected binary without a matching dump/source.
+Static PE preflight of the supplied
+`D:\GameServer S21\GameServer\IGC.GameServer2_R.exe` (SHA-256
+`134BAEBF654D103B3FD65F8262CB20D2AEC5969B3C09C68E26A87F6547F77D74`)
+shows x64 machine `0x8664`, an entrypoint in a high-entropy `.boot`
+section, and a `.vm_sec` section; no local `.dmp/.pdb/.map/.idb` for
+that GS exists. It was inspected read-only and never executed by this
+port. Its protected on-disk bytes are not reliable evidence of the native
+Pierce collider or caster movement path.
 The caster outbound position/return path also remains unverified. The
 model-helper completion condition is now decoded: `0x1417693` resolves the
 child's target actor model, selects effect action zero, then calls animation

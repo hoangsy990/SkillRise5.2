@@ -459,22 +459,28 @@ def main() -> int:
             "Pierce fanout excludes duel spectators before sending lanes")
     if "BasicSkillAttack(aIndex, index, lpSkill" in initial_pierce:
         raise AssertionError("Pierce damage applied before S21 0x689 lane request")
-    require(initial_pierce, "gPendingSlayerPierce[aIndex] = pending;",
-            "Pierce accepted cast creates one GS authorization session")
+    require(initial_pierce, "casts.push_back(pending);",
+            "Pierce accepted cast retains concurrent GS authorization sessions")
+    require(initial_pierce, "casts.size() >= kSlayerPierceMaxPendingPerCaster",
+            "Pierce concurrent cast queue is bounded and fails closed")
+    require(initial_pierce, "prior.serial == pending.serial",
+            "Pierce cast serial cannot collide with an in-flight cast")
     require(initial_pierce, "fanout.serial = pending.serial;",
             "Pierce fanout binds client lanes to GS cast serial")
     require(initial_pierce, "fanout.count = static_cast<BYTE>(candidateCount);",
             "Pierce fanout count matches authorized GS targets")
     require(lane_pierce, "pending.connectedAt != caster->ConnectTickCount",
             "Pierce lane cannot survive a reused GS connection")
-    require(lane_pierce, "pending.serial != lane.serial",
+    require(lane_pierce, "cast.serial == lane.serial",
             "Pierce lane matches its accepted cast")
     require(lane_pierce, "lane.direction < 1 || lane.direction > 50",
             "Pierce lane direction uses S21 helper's 1..50 sequence range")
-    require(lane_pierce, "it->second.consumed[ordinal] = true;",
+    require(lane_pierce, "matched->consumed[ordinal] = true;",
             "Pierce target lane consumed before damage")
-    require(lane_pierce, "it->second.openedAt != pending.openedAt",
+    require(lane_pierce, "matched->openedAt != pending.openedAt",
             "Pierce lane cannot consume a replacement cast after serial wrap")
+    require(lane_pierce, "PruneSlayerPierceCasts(it->second",
+            "Pierce consumed or expired casts release queue slots")
     require(lane_pierce, "const bool batMarked = gEffectManager.CheckEffect",
             "Pierce Bat mark captured when an authorized lane lands")
     require(lane_pierce, "const int strikes = batMarked ? 4 : 2;",

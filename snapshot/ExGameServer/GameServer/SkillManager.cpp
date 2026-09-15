@@ -40,6 +40,7 @@
 #include "../../ExMain_RISE_PC/Main5.2_RISE/RISE/Slayer/shared/SlayerDetectionWire.h"
 #include <map>
 #include <mutex>
+#include <deque>
 
 namespace {
 
@@ -56,10 +57,27 @@ struct PendingSlayerPierce
 	bool consumed[rise::slayer::kPierceFanoutMaxTargets];
 };
 
-std::map<int, PendingSlayerPierce> gPendingSlayerPierce;
+std::map<int, std::deque<PendingSlayerPierce> > gPendingSlayerPierce;
 std::mutex gPendingSlayerPierceMutex;
 BYTE gSlayerPierceSerial = 0;
 const DWORD kSlayerPierceLaneWindowMs = 15000;
+const size_t kSlayerPierceMaxPendingPerCaster = 32;
+
+void PruneSlayerPierceCasts(std::deque<PendingSlayerPierce>& casts,
+	DWORD connectedAt, int map, DWORD now)
+{
+	for (auto it = casts.begin(); it != casts.end(); )
+	{
+		bool allConsumed = it->count > 0;
+		for (int n = 0; n < it->count; ++n)
+			allConsumed = allConsumed && it->consumed[n];
+		if (it->connectedAt != connectedAt || it->map != map ||
+			now - it->openedAt > kSlayerPierceLaneWindowMs || allConsumed)
+			it = casts.erase(it);
+		else
+			++it;
+	}
+}
 
 }
 CSkillManager gSkillManager;
@@ -5201,8 +5219,27 @@ bool CSkillManager::SkillSlayerPierceAttack(int aIndex, int bIndex,
 		pending.target[n] = candidates[n];
 	{
 		std::lock_guard<std::mutex> guard(gPendingSlayerPierceMutex);
-		pending.serial = ++gSlayerPierceSerial;
-		gPendingSlayerPierce[aIndex] = pending;
+		std::deque<PendingSlayerPierce>& casts = gPendingSlayerPierce[aIndex];
+		PruneSlayerPierceCasts(casts, caster->ConnectTickCount,
+			caster->Map, pending.openedAt);
+		// Do not overwrite an earlier in-flight visual lane. Refuse a new
+		// cast once the bounded 5.2 adapter queue is full.
+		if (casts.size() >= kSlayerPierceMaxPendingPerCaster)
+			return false;
+		bool serialFree = false;
+		for (int attempt = 0; attempt < 256; ++attempt)
+		{
+			pending.serial = ++gSlayerPierceSerial;
+			serialFree = true;
+			for (const PendingSlayerPierce& prior : casts)
+				if (prior.serial == pending.serial)
+					serialFree = false;
+			if (serialFree)
+				break;
+		}
+		if (!serialFree)
+			return false;
+		casts.push_back(pending);
 	}
 	this->GCSkillAttackSend(caster, lpSkill->m_index, bIndex, 1);
 	// Supplemental lanes are bounded by this server-selected, serialed list.
@@ -5268,7 +5305,23 @@ void CSkillManager::CGSlayerPierceLaneRecv(BYTE* lpMsg, int size,
 		auto it = gPendingSlayerPierce.find(aIndex);
 		if (it == gPendingSlayerPierce.end())
 			return;
-		pending = it->second;
+		PruneSlayerPierceCasts(it->second, caster->ConnectTickCount,
+			caster->Map, GetTickCount());
+		if (it->second.empty())
+		{
+			gPendingSlayerPierce.erase(it);
+			return;
+		}
+		const PendingSlayerPierce* matched = 0;
+		for (const PendingSlayerPierce& cast : it->second)
+			if (cast.serial == lane.serial)
+			{
+				matched = &cast;
+				break;
+			}
+		if (!matched)
+			return;
+		pending = *matched;
 		if (pending.serial != lane.serial ||
 			pending.connectedAt != caster->ConnectTickCount ||
 			pending.map != caster->Map ||
@@ -5290,16 +5343,30 @@ void CSkillManager::CGSlayerPierceLaneRecv(BYTE* lpMsg, int size,
 	{
 		std::lock_guard<std::mutex> guard(gPendingSlayerPierceMutex);
 		auto it = gPendingSlayerPierce.find(aIndex);
-		if (it == gPendingSlayerPierce.end() ||
-			it->second.serial != lane.serial ||
-			it->second.openedAt != pending.openedAt ||
-			it->second.castX != pending.castX ||
-			it->second.castY != pending.castY ||
-			it->second.connectedAt != caster->ConnectTickCount ||
-			it->second.target[ordinal] != targetIndex ||
-			it->second.consumed[ordinal])
+		if (it == gPendingSlayerPierce.end())
 			return;
-		it->second.consumed[ordinal] = true;
+		PendingSlayerPierce* matched = 0;
+		for (PendingSlayerPierce& cast : it->second)
+			if (cast.serial == lane.serial)
+			{
+				matched = &cast;
+				break;
+			}
+		if (!matched ||
+			matched->openedAt != pending.openedAt ||
+			matched->castX != pending.castX ||
+			matched->castY != pending.castY ||
+			matched->connectedAt != caster->ConnectTickCount ||
+			matched->map != caster->Map ||
+			GetTickCount() - matched->openedAt > kSlayerPierceLaneWindowMs ||
+			matched->target[ordinal] != targetIndex ||
+			matched->consumed[ordinal])
+			return;
+		matched->consumed[ordinal] = true;
+		PruneSlayerPierceCasts(it->second, caster->ConnectTickCount,
+			caster->Map, GetTickCount());
+		if (it->second.empty())
+			gPendingSlayerPierce.erase(it);
 	}
 	// A packet cannot create targets, refresh a cast or strike the same lane
 	// twice. GS observes the Bat mark at the moment the lane lands.
