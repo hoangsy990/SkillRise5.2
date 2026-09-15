@@ -346,8 +346,8 @@ The high-code update dispatcher routes `0x81CD` at `0x14B8383` to
 them separately at `0x15A1724/0x15A1734`. The private 5.2 Slayer overlay
 now hash-pins/copies `marks_m04.OZJ`, reserves bitmap ID `33012`, and
 registers that exact sprite. This was an asset prerequisite; the first
-three `0x81CE` children and the next `0x80BA` subtype-6 child are now
-spawned, while six direct children remain unported and visual parity is
+three `0x81CE` children, `0x80BA` subtype 6 and `0x8149` subtype 2 are now
+spawned, while five direct children remain unported and visual parity is
 still unproven.
 Further render decode shows `0x81CE` subtype 3 submits bitmap `0x81CE`
 at `0x15AE502`, but subtypes 4 and 5 submit bitmap `0x81CD` at
@@ -385,8 +385,19 @@ Slayer-owned branch. The hash-pinned S21 `flare01.OZJ` input has SHA-256
 `874B708AA0CF304EFC3BACCE089FEC9FD69CC934E24F378E21655124FCFD7AF8`;
 the private 5.2 adapter reserves bitmap ID `33014` and spawns subtype 6 as
 child four. Native subtype 7 additionally emits three particles per frame
-and is not yet spawned. The remaining `0x80BA` subtype-7 fanout,
-`0x8149/0x81CF/0x5D8` branches and owner/class-9 ingame parity remain open.
+and is not yet spawned. Child five is native `0x8149` subtype 2: loader
+`0x18D234A` binds bitmap `0x8149` to `Skill\\ground_star.jpg`; parent call
+`0x147D840` supplies light `(0.9, 0, 1)` and scale `1.7`. Its initializer
+`0x147637E` sets life 50, alpha `0.9` and the current millisecond clock;
+updater `0x152BA06` refreshes life only when it reaches two ticks and
+expires after 6000 ms. The subtype-2 renderer jumps to `0x15B145C` and
+creates a sprite through `0x172760A`, not a terrain tile. The private
+5.2 adapter keeps this as a parent-owned effect object and submits a
+one-frame `kGroundStarBitmap` sprite during RenderEffects, which is then
+consumed by RenderSprites. Sprite material/blend parity still requires
+ingame validation after the whole graph is ported. The remaining
+`0x80BA` subtype-7 fanout, `0x81CF/0x5D8` branches and owner/class-9
+ingame parity remain open.
 
 The native character render/update paths at `0x133F0EA` and `0x13F2546`
 compare current action to `0xE4` and assign `OBJECT+0xDC = 0.3`; the

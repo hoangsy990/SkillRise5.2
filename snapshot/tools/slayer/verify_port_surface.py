@@ -202,12 +202,19 @@ def main() -> int:
         "CreateEffect(kPierce81CDController,",
         "SpawnBitmapChild(kPierce81CEEffect, effect, effect.Owner,",
         "SpawnBitmapChild(kPierce80BAEffect, effect, effect.Owner,",
+        "SpawnBitmapChild(kPierce8149Effect, effect, effect.Owner,",
         "effect.Timer = WorldTime;",
         "WorldTime - effect.Timer > 6000.f",
         "bitmap = effect.SubType == 3 ? kMarksM04Bitmap :",
     ):
         require(resources, token, f"first native Pierce 0x81CD/0x81CE graph leg {token}")
     print("PASS: Slayer bitmap IDs 32983..33014 do not overlap Grow Lancer or unnamed allocation")
+    require(header, "kPierce8149Effect = MAX_MODELS + 79",
+            "native Pierce 0x8149 subtype-2 sprite object private slot")
+    require(resources, "CreateSprite(kGroundStarBitmap, effect.Position, effect.Scale,",
+            "native Pierce 0x8149 renders through sprite queue, not terrain bitmap")
+    require(resources, "if (effect.LifeTime <= 2.f)",
+            "native Pierce 0x8149 near-zero lifetime refresh")
     for token in (
         "kFlare01RedEffect", "kRingOfGradation2Effect",
         "kEnemyRing01Effect", "kMagicGround12Effect",
@@ -285,7 +292,7 @@ def main() -> int:
             "0x81CF independent ring expansion")
     if "fadeIn" in bitmap_update or "effect.Owner->Position" in bitmap_update:
         raise AssertionError("dump-unproven bitmap quarter-fade or owner-follow rule")
-    print("PASS: eight S21 bitmap effect-object nodes use the 5.2 effect pool, not particle pool")
+    print("PASS: nine S21 bitmap effect-object nodes use the 5.2 effect pool, not particle pool")
 
     for texture in ("kGhostMark02Bitmap", "kGhostMark02RedBitmap"):
         require(resources, f"CreateJoint({texture}",

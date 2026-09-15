@@ -65,7 +65,8 @@ enum ModelId
     // native child graph; 0x81CE subtypes 3/4/5 are bitmap-backed children.
     kPierce81CDController = MAX_MODELS + 76,
     kPierce81CEEffect = MAX_MODELS + 77,
-    kPierce80BAEffect = MAX_MODELS + 78 // native 0x80BA modes 6/7
+    kPierce80BAEffect = MAX_MODELS + 78, // native 0x80BA modes 6/7
+    kPierce8149Effect = MAX_MODELS + 79 // native 0x8149 mode 2
 };
 
 enum BitmapId

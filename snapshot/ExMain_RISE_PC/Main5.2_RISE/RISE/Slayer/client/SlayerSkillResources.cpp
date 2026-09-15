@@ -87,7 +87,8 @@ bool IsController(int type)
 bool IsBitmapEffect(int type)
 {
     return (type >= kFlare01RedEffect && type <= kFlareEffect) ||
-        type == kPierce81CEEffect || type == kPierce80BAEffect;
+        type == kPierce81CEEffect || type == kPierce80BAEffect ||
+        type == kPierce8149Effect;
 }
 
 float InitialLife(const OBJECT& effect)
@@ -133,6 +134,7 @@ float InitialLife(const OBJECT& effect)
     case kPierce81CDController: return 30.f;
     case kPierce81CEEffect: return effect.SubType == 4 ? 20.f : 30.f;
     case kPierce80BAEffect: return 50.f;
+    case kPierce8149Effect: return 50.f;
     case kFlareBlueEffect:
     case kFlareEffect: return 30.f;
     default: return 20.f;
@@ -621,9 +623,9 @@ void InitializeEffect(OBJECT& effect, float incomingScale)
     {
     case kPierce81CDController:
     {
-        // Native 0x147D373 subtype 2 first creates three 0x81CE children
-        // with actor ownership. The remaining seven child calls are not
-        // submitted until their distinct init/update/render paths are ported.
+        // Native 0x147D373 subtype 2 creates its children in call order.
+        // Only the decoded legs are submitted until the remaining five
+        // init/update/render paths are ported.
         if (effect.SubType != 2 || !effect.Owner)
         {
             effect.LifeTime = 0.f;
@@ -638,6 +640,10 @@ void InitializeEffect(OBJECT& effect, float incomingScale)
         Vector(0.2f, 0.f, 1.f, flare);
         SpawnBitmapChild(kPierce80BAEffect, effect, effect.Owner,
             flare, 6, 7.f);
+        vec3_t star;
+        Vector(0.9f, 0.f, 1.f, star);
+        SpawnBitmapChild(kPierce8149Effect, effect, effect.Owner,
+            star, 2, 1.7f);
         break;
     }
     case kPierce81CEEffect:
@@ -660,6 +666,18 @@ void InitializeEffect(OBJECT& effect, float incomingScale)
         effect.Timer = WorldTime;
         effect.Scale = incomingScale;
         effect.Alpha = 1.f;
+        break;
+    case kPierce8149Effect:
+        // Native 0x147637E: subtype 2 snapshots the millisecond clock,
+        // sets life 50 and alpha .9. The parent supplies scale 1.7.
+        if (effect.SubType != 2)
+        {
+            effect.LifeTime = 0.f;
+            break;
+        }
+        effect.Timer = WorldTime;
+        effect.Scale = incomingScale;
+        effect.Alpha = 0.9f;
         break;
     case kPierceController:
         // Native 0x679 subtype zero initializes EFFECT+0xBC from player
@@ -933,6 +951,17 @@ void UpdateEffect(OBJECT& effect, float animationFactor)
         // triangle; 0x81CF's two buff rings expand and fade independently.
         switch (effect.Type)
         {
+        case kPierce8149Effect:
+            // 0x152BA06: unlike 0x81CE, life refreshes only near zero.
+            // Its S21 clock still cuts the sprite object off at 6000 ms.
+            if (effect.LifeTime <= 2.f)
+                effect.LifeTime = 50.f;
+            if (WorldTime - effect.Timer > 6000.f)
+            {
+                effect.LifeTime = 0.f;
+                effect.Timer = 0.f;
+            }
+            break;
         case kPierce80BAEffect:
             // 0x151F08A / 0x151F2F9 refresh to 30 until six seconds.
             // Subtype 7's three per-frame particle children remain pending;
@@ -1724,6 +1753,17 @@ void UpdateEffect(OBJECT& effect, float animationFactor)
 bool RenderEffect(OBJECT& effect)
 {
 #ifdef RISE_SLAYER_PORT
+    if (effect.Type == kPierce8149Effect)
+    {
+        // Native 0x15B145C calls sprite allocator 0x172760A for subtype 2.
+        // It submits the object's light/scale and owns a one-frame sprite;
+        // this is not the terrain-alpha path used by the other bitmap nodes.
+        if (!Bitmaps.FindTexture(kGroundStarBitmap))
+            return false;
+        CreateSprite(kGroundStarBitmap, effect.Position, effect.Scale,
+            effect.Light, &effect, 0.f, 0);
+        return true;
+    }
     if (IsBitmapEffect(effect.Type))
     {
         int bitmap = 0;

@@ -325,6 +325,27 @@ def main() -> int:
     if at(0x147E165, 6) != bytes.fromhex("837860030f85"):
         raise AssertionError("S21 Pierce 0x81CE subtype-3 init branch drifted")
     print("PASS: S21 Pierce 0x81CE scale=2.86/4.55 and 6000-ms refresh window pinned")
+    # Native 0x8149 subtype 2 is an effect-pool object which submits a
+    # ground_star sprite each draw, not a terrain-alpha tile. The root call
+    # supplies light (.9,0,1) and scale 1.7; the native sprite jump table
+    # routes subtype 2 to the 0x172760A allocator path.
+    if at(0x18D234A, 5) != bytes.fromhex("6849810000"):
+        raise AssertionError("S21 0x8149 ground_star loader ID drifted")
+    if not at(0x1BAAE18, 30).startswith(b"Skill\\ground_star.jpg\x00"):
+        raise AssertionError("S21 0x8149 ground_star loader filename drifted")
+    if at(0x147D840, 5) != bytes.fromhex("6849810000"):
+        raise AssertionError("S21 Pierce root 0x8149 child call drifted")
+    if at(0x1476378, 6) != bytes.fromhex("83786002753e"):
+        raise AssertionError("S21 0x8149 subtype-2 init selector drifted")
+    if at(0x152BA00, 6) != bytes.fromhex("837860027549"):
+        raise AssertionError("S21 0x8149 subtype-2 update selector drifted")
+    render_targets = struct.unpack("<10I", at(0x15BDCAC, 40))
+    if render_targets[2] != 0x15B145C or at(0x15B14BC, 5)[0] != 0xE8:
+        raise AssertionError("S21 0x8149 subtype-2 sprite renderer drifted")
+    for va, expected in ((0x1B4EDA4, 0.9), (0x1B6A954, 1.7)):
+        if abs(struct.unpack("<f", at(va, 4))[0] - expected) > 0.0001:
+            raise AssertionError(f"S21 0x8149 root light/scale drifted at {va:#x}")
+    print("PASS: S21 Pierce 0x8149 subtype2 ground_star sprite, 1.7 scale, .9 light and 6000-ms clock pinned")
 
     if at(0x10EEB92, 7) != bytes.fromhex("6a5768c1000000"):
         raise AssertionError("S21 shared C1:57 skill packet constructor drifted")
