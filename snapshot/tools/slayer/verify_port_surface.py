@@ -48,6 +48,7 @@ def main() -> int:
     runtime = read("ExMain_RISE_PC/Main5.2_RISE/RISE/Slayer/client/SlayerNativeRuntime.cpp")
     resources = read("ExMain_RISE_PC/Main5.2_RISE/RISE/Slayer/client/SlayerSkillResources.cpp")
     effect_allocator = read("ExMain_RISE_PC/Main5.2_RISE/ZzzEffect.cpp")
+    effect_allocator = read("ExMain_RISE_PC/Main5.2_RISE/ZzzEffect.cpp")
     effect_header = read("ExMain_RISE_PC/Main5.2_RISE/ZzzEffect.h")
     joints = read("ExMain_RISE_PC/Main5.2_RISE/ZzzEffectJoint.cpp")
     packet = read("ExMain_RISE_PC/Main5.2_RISE/RISE/Slayer/server/SlayerPacketContract.h")
@@ -112,6 +113,17 @@ def main() -> int:
             "client has an isolated Master Slayer Brand resolver")
     require(resources, "const DWORD brand = SkillAttribute[current].SkillBrand;",
             "client resolver follows the S21 SkillList Brand chain")
+    for material_default in (
+        "o->HiddenMesh = -1;", "o->BlendMesh = -1;",
+        "o->BlendMeshLight = 1.f;", "o->BlendMeshTexCoordU = 0.f;",
+        "o->BlendMeshTexCoordV = 0.f;",
+    ):
+        require(effect_allocator, material_default,
+                "5.2 Slayer effect keeps the native material allocator defaults")
+    require(resources, "model.RenderBody(renderFlags, effect.Alpha,",
+            "5.2 model draw forwards native per-object alpha")
+    require(resources, "effect.BlendMesh, effect.BlendMeshLight,",
+            "5.2 model draw forwards native blend-material fields")
     require(resources, "return IsSlayerSkill(skillId) || skillId == 781 || skillId == 782;",
             "only five base casts and S21 Bat 781/782 have client/GS routes")
     require(resources, "skillId >= 779 && skillId <= 794 &&",

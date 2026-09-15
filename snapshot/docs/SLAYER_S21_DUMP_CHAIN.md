@@ -807,6 +807,12 @@ which brackets the authored meshes under `BeginRender/EndRender` and the
 shader scope. The earlier direct `RenderMesh` loop skipped that scope.
 Full basic-block decoding of `0x1887EB0` shows the ordinary native body
 flag is `2` for both buff models `0x691` and `0x694`. The native alpha
+allocator at `0x143E759..0x143E797` sets HiddenMesh/BlendMesh to `-1`,
+blend-light to `1`, and both blend-UV offsets to `0`. The ordinary draw
+call at `0x1887E5E..0x1887EBA` forwards those fields plus `OBJECT+0xDC`
+alpha and flag `2`; the isolated 5.2 CreateEffect/RenderBody path currently
+matches these material inputs. Missing default BlendMesh state is therefore
+not an evidence-backed explanation for the black funnel. The native alpha
 helper `0x18E709C` enables `GL_BLEND` with `GL_SRC_ALPHA` /
 `GL_ONE_MINUS_SRC_ALPHA`; `0x18E7137` is the separate `GL_ONE`/`GL_ONE`
 bright helper. Hence replacing these model passes with additive blending

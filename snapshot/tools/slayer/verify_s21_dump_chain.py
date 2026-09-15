@@ -274,6 +274,21 @@ def main() -> int:
     native_model_bytes = {
         0x15B2A24: bytes.fromhex("6aff6aff6a006a006a00ffb52cf6ffffe8e8ab1b0083c418"),
         0x15B2BCA: bytes.fromhex("6aff6aff6a006a006a00ffb52cf6ffffe842aa1b0083c418"),
+        # Native effect allocator defaults: HiddenMesh=-1, BlendMesh=-1,
+        # BlendMeshLight=1, both texture-coordinate offsets=0.
+        0x143E759: bytes.fromhex("834868ff"),
+        0x143E763: bytes.fromhex("834874ff"),
+        0x143E775: bytes.fromhex("f30f1180a8000000"),
+        0x143E786: bytes.fromhex("f30f1180ac000000"),
+        0x143E797: bytes.fromhex("f30f1180b0000000"),
+        # Native RenderBody argument order reads exactly those fields,
+        # OBJECT+0xDC alpha, and ordinary material flag 2.
+        0x1887E5E: bytes.fromhex(
+            "6aff8b4508ff70688b450851f30f1080b0000000f30f110424"
+            "8b450851f30f1080ac000000f30f1104248b450851f30f1080"
+            "a8000000f30f1104248b4508ff70748b450851f30f1080dc"
+            "000000f30f1104246a028b4df8e89e0d0eff"
+        ),
         0x1887EB0: bytes.fromhex("6a028b4df8e89e0d0e"),
         0x128A082: bytes.fromhex("81bdd8feffffe40000000f84821d0000"),
         0x128BE14: bytes.fromhex("6a028b4d0c81c158010000e8aa21aaff"),
@@ -291,6 +306,7 @@ def main() -> int:
         if at(va, len(expected)) != expected:
             raise AssertionError(f"S21 model alpha/bright GL blend bytes drifted at {va:#x}")
     print("PASS: S21 0x691/0x694 ordinary body flag=2, native alpha GL_SRC_ALPHA/GL_ONE_MINUS_SRC_ALPHA; E4 action-init actor Position Z +=5 (not XY rush proof)")
+    print("PASS: S21 model draw forwards allocator HiddenMesh=-1/BlendMesh=-1/light=1/UV=0 and OBJECT alpha; 5.2 must preserve these material inputs")
     # 0x688 and 0x691 mode 0, plus both 0x694 modes, write incoming
     # scale into +0xA0. Crucially, xorps clears xmm0 before the +0xDC
     # write: alpha is zero, not the incoming scale. Decode full blocks.
