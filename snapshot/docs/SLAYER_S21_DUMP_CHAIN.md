@@ -549,6 +549,12 @@ values in the wrong order; both private branches now use the decoded
 square offsets and family-first order. The `0x693/0x696`
 update windows (`0x1548BAC..0x1548C31`, `0x1549549..0x15495CE`)
 also create their `0x678` children at saved cast position plus 100 Z.
+The paired per-frame `0x691` child uses the saved root position and scale
+`0.2` (`0x1B4DF08`). Its angle-Z branch at `0x1548A57..0x1548AE9` and
+`0x15493F4..0x1549486` selects inclusive `Random(0,360,1)` on even
+remaining life and negates inclusive `Random(1,360,1)` on odd life. The
+first port omitted the upper endpoint and allowed zero on the negative
+branch; both private buff roots now preserve the decoded ranges.
 All four cases delete their effect when the owner handle is invalid.
 The initializer argument windows at `0x14923BB..0x149251A` and
 `0x14928F6..0x1492B47` show that `0x693`, `0x696`, and Detection's two

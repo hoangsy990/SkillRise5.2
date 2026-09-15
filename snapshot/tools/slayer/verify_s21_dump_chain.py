@@ -277,6 +277,13 @@ def main() -> int:
         if at(va, len(expected)) != expected:
             raise AssertionError(f"S21 buff smoke-family rand branch drifted at {va:#x}")
     print("PASS: S21 0x692/0x695 smoke family-first RNG and independent signed 30-unit XY offsets pinned")
+    if abs(struct.unpack("<f", at(0x1B4DF34, 4))[0] - 360.0) > 0.0001 or \
+       abs(struct.unpack("<f", at(0x1B4DF08, 4))[0] - 0.2) > 0.0001:
+        raise AssertionError("S21 0x691 buff-wave angle/scale constants drifted")
+    for va in (0x1548A57, 0x15493F4):
+        if at(va, 21) != bytes.fromhex("8b45088b406c250100008079054883c8fe4085c075"):
+            raise AssertionError(f"S21 buff-wave life-parity branch drifted at {va:#x}")
+    print("PASS: S21 0x691 buff-wave scale=.2 and inclusive signed angle branches pinned")
     if at(0x13F254D, 5) != bytes.fromhex("3de4000000") or \
        at(0x154676E, 5) != bytes.fromhex("3de4000000"):
         raise AssertionError("S21 E4 alpha/upgrade-list compare sites drifted")

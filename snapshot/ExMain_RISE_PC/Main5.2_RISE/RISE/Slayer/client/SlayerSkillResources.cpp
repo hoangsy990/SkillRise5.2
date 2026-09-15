@@ -1654,9 +1654,11 @@ void UpdateEffect(OBJECT& effect, float animationFactor)
             }
             {
                 OBJECT wave = effect;
+                // 0x1548A6D/0x154940A: even life uses inclusive
+                // Random(0,360,1); odd life negates Random(1,360,1).
                 wave.Angle[2] = (static_cast<int>(effect.LifeTime) & 1) == 0 ?
-                    static_cast<float>(rand() % 360) :
-                    -static_cast<float>(rand() % 360);
+                    static_cast<float>(rand() % 361) :
+                    -static_cast<float>(1 + rand() % 360);
                 Vector(1.f, 1.f, 1.f, wave.Light);
                 SpawnChild(kDetectionMarkModel, wave, &effect, 0, 0.2f);
             }

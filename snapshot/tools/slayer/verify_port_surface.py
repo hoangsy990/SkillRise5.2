@@ -333,6 +333,10 @@ def main() -> int:
         raise AssertionError("S21 buff smoke RNG order drifted")
     if "cosf(yaw)" in buff_update or "sinf(yaw)" in buff_update:
         raise AssertionError("S21 buff smoke reverted to nonnative circle")
+    require(buff_update, "static_cast<float>(rand() % 361) :",
+            "S21 0x691 even-life wave uses inclusive 0..360 angle")
+    require(buff_update, "-static_cast<float>(1 + rand() % 360);",
+            "S21 0x691 odd-life wave uses negative inclusive 1..360 angle")
     require(buff_update, "VectorCopy(effect.StartPosition, bat.Position);",
             "0x693/0x696 child 0x678 cast-origin anchor")
     if "VectorCopy(owner->Position, effect.Position);" in buff_update or \
