@@ -1752,6 +1752,15 @@ bool ApplyCastAction(OBJECT& actor, int skillId)
     actor.AnimationFrame = 0.f;
     actor.PriorAnimationFrame = 0.f;
     actor.Velocity = Models[MODEL_PLAYER].Actions[action].PlaySpeed;
+    if (skillId == kPierceAttack)
+    {
+        // S21 one-shot action initializer 0x128A082 -> 0x128BE14 writes
+        // actor Position Z += 5 before its subtype-2 0x81CD child. This is
+        // a visual lift, not evidence of the unrecovered XY rush/return.
+        // The local 0x19 acknowledgment is consumed by the pending-graph
+        // receive guard, so it does not run this action initializer twice.
+        actor.Position[2] += 5.f;
+    }
     return true;
 #else
     (void)actor;
@@ -1830,6 +1839,8 @@ void LoadSounds()
         "Data\\RISE\\Slayer\\Effect\\blur02_mono_long_van2.jpg", GL_LINEAR, GL_CLAMP);
     RegisterSlayerBitmap(kBlur02MonoLongVanBitmap,
         "Data\\RISE\\Slayer\\Effect\\blur02_mono_long_van.jpg", GL_LINEAR, GL_CLAMP);
+    RegisterSlayerBitmap(kMarksM04Bitmap,
+        "Data\\RISE\\Slayer\\Effect\\marks_m04.jpg", GL_LINEAR, GL_CLAMP);
     RegisterSlayerBitmap(kBetGrilsShot2RedBitmap,
         "Data\\RISE\\Slayer\\Effect\\bet_grilsshot2red.jpg", GL_LINEAR, GL_CLAMP);
     RegisterSlayerBitmap(kImpack03Bitmap,

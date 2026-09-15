@@ -65,7 +65,7 @@ enum ModelId
 enum BitmapId
 {
     // Grow Lancer reserves 32940..32982. The isolated Slayer allocation
-    // starts at 32983; 33001..33011 are reserved from the 5.2 unnamed
+    // starts at 32983; 33001..33012 are reserved from the 5.2 unnamed
     // allocator in GlobalBitmap when RISE_SLAYER_PORT is enabled.
     kMagicGround12Bitmap = 32983,
     kRingOfGradation2Bitmap = 32984,
@@ -98,7 +98,10 @@ enum BitmapId
     // that S21 id, so the isolated overlay uses the next private gap slot.
     kWaterFall4Bitmap = 33010,
     // Native S21 0x82EC, selected by 0x681 subtypes 0..2.
-    kBlur02MonoLongVanBitmap = 33011
+    kBlur02MonoLongVanBitmap = 33011,
+    // Native S21 bitmap 0x81CE is NPC\\marks_m04.JPG, used by Pierce's
+    // subtype-2 0x81CD initializer children 3/4/5.
+    kMarksM04Bitmap = 33012
 };
 
 // Numeric controller ids recovered from the S21 ReceiveMagic dispatcher at

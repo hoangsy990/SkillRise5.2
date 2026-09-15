@@ -263,6 +263,45 @@ def main() -> int:
             raise AssertionError(f"S21 0x694/E4 action-init bytes drifted at {va:#x}")
     print("PASS: S21 0x694 ordinary body flag=2; E4 action-init actor Position Z +=5 (not XY rush proof)")
 
+    pierce_action_child_codes = {
+        0x128BED1: 0x81CD,
+        0x147D5A3: 0x81CE,
+        0x147D64F: 0x81CE,
+        0x147D6FB: 0x81CE,
+        0x147D7A2: 0x80BA,
+        0x147D840: 0x8149,
+        0x147D8DE: 0x81CF,
+        0x147D97C: 0x5D8,
+        0x147DB3D: 0x80BA,
+        0x147DCFE: 0x80BA,
+        0x147DEBA: 0x80BA,
+    }
+    for va, code in pierce_action_child_codes.items():
+        if at(va, 5) != b"\x68" + code.to_bytes(4, "little"):
+            raise AssertionError(f"S21 Pierce 0x81CD child code drifted at {va:#x}")
+    if at(0x143F67F, 10) != bytes.fromhex("81bd9cceffffcd810000"):
+        raise AssertionError("S21 0x81CD initializer selector drifted")
+    if at(0x147D373, 10) != bytes.fromhex("8b85c8ceffff83786002"):
+        raise AssertionError("S21 0x81CD subtype-2 branch drifted")
+    print("PASS: Pierce 0xE4 subtype-2 0x81CD root and ten exact S21 child effect codes pinned")
+    # Native S21 does not use a guessed Pierce texture for 0x81CE. Its
+    # bitmap loader binds 0x81CE to NPC\\marks_m04.JPG; the high-code update
+    # and render switches route 0x81CD/0x81CE independently.
+    if at(0xAA997F, 5) != bytes.fromhex("68ce810000"):
+        raise AssertionError("S21 0x81CE bitmap loader code drifted")
+    if not at(0x1B52784, 28).startswith(b"NPC\\marks_m04.JPG\x00"):
+        raise AssertionError("S21 0x81CE bitmap loader filename drifted")
+    dispatch_bytes = {
+        0x14B8383: bytes.fromhex("81bd8cdbfeffcd810000"),
+        0x14B82E2: bytes.fromhex("81bd8cdbfeffce810000"),
+        0x15A1724: bytes.fromhex("81bd28f6ffffcd810000"),
+        0x15A1734: bytes.fromhex("81bd28f6ffffce810000"),
+    }
+    for va, expected in dispatch_bytes.items():
+        if at(va, len(expected)) != expected:
+            raise AssertionError(f"S21 0x81CD/0x81CE update/render selector drifted at {va:#x}")
+    print("PASS: S21 0x81CE bitmap=NPC/marks_m04 and 0x81CD/0x81CE update/render selectors pinned")
+
     if at(0x10EEB92, 7) != bytes.fromhex("6a5768c1000000"):
         raise AssertionError("S21 shared C1:57 skill packet constructor drifted")
     for call_va in (0x10E68D7, 0x10E6D4F, 0x10E6F5B, 0x10E7029):

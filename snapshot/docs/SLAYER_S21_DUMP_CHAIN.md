@@ -316,7 +316,36 @@ so the narrower statement above that the earlier `0x173F390` branch has no
 position write remains true, but a blanket "E4 never moves an actor" claim
 would be false. It does **not** disclose the Pierce XY rush/return or whether
 the local 5.2 use/receive callbacks correspond to this one-shot action-init
-call. Do not attach `+5 Z` to both callbacks or invent a teleport yet.
+call. It must be attached to the action initializer once, not independently
+to both local use and receive callbacks; it does not justify a teleport.
+The shared 5.2 `ApplyCastAction` bridge now carries that exact one-shot
+Pierce `+5 Z` lift after a valid Slayer action selection. Local `UseSkillSlayer`
+checks a live target before calling it; `DispatchNativeReceive` consumes the
+local cast acknowledgment via its pending-graph guard and does not re-run
+the initializer for that cast. This still does **not** port the `0x81CD`
+subtype-2 child graph or prove XY rush/return parity.
+The missing graph is now bounded by dump branches, rather than a vague
+"extra Pierce particle": native `0x81CD` initializer compare at
+`0x143F67F` jumps to `0x147BE22`; subtype 2 enters `0x147D373`, copies
+position/angle/light, stores owner `OBJECT+0x34C`, and sets life to 30.
+Its ten direct child `CreateEffect` calls in `0x147D5A3..0x147DEBF`
+are `0x81CE` subtypes 3/4/5, `0x80BA` subtypes 6/7/7/7, `0x8149`
+subtype 2, `0x81CF` subtype 2, and `0x5D8` subtype 1. `0x81CE`
+initializer starts at `0x147E153` and its renderer at `0x15AE426`;
+`0x81CD` subtype 2 itself uses the ordinary object draw path at
+`0x15AF05F`, while subtypes 3/4/5 take a terrain-alpha path at
+`0x15AEF90`. The 5.2 port must recover each child's update, asset,
+ownership and pass before calling this action-start graph complete.
+The pinned native bitmap loader at `0xAA997F` binds `0x81CE` to
+`NPC\\marks_m04.JPG` (string at `0x1B52784`). The read-only S21 `NPC` and
+`Effect` copies of `marks_m04.OZJ` have the same SHA-256
+`42DDB35AB1EB1F34E4EF6194959BB1B19E577ADC832BF272C1FAEBCAA89A4AB7`.
+The high-code update dispatcher routes `0x81CD` at `0x14B8383` to
+`0x1533E1A` and `0x81CE` at `0x14B82E2` to `0x15341D6`; the renderer routes
+them separately at `0x15A1724/0x15A1734`. The private 5.2 Slayer overlay
+now hash-pins/copies `marks_m04.OZJ`, reserves bitmap ID `33012`, and
+registers that exact sprite. This is an asset prerequisite only: no
+`0x81CD` child is spawned yet, and visual parity is still unproven.
 
 The native character render/update paths at `0x133F0EA` and `0x13F2546`
 compare current action to `0xE4` and assign `OBJECT+0xDC = 0.3`; the
