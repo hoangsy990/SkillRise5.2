@@ -64,6 +64,10 @@ print('PASS observed class-fallback caller precedes action224, not a general rem
 caller = {i.address:(i.mnemonic,i.op_str) for i in decoder.disasm(
     data[0x1408580-IMAGE_BASE:0x14087C8-IMAGE_BASE],0x1408580)}
 for address,pair in {
+    0x140858B:('movzx','eax, word ptr [eax + 0x1b6]'),
+    0x1408596:('movss','dword ptr [ebp - 8], xmm0'),
+    0x14085A0:('movzx','eax, word ptr [eax + 0x1c2]'),
+    0x14085AB:('movss','dword ptr [ebp - 4], xmm0'),
     0x14086AF:('movzx','eax, byte ptr [eax + 0x1a6]'),
     0x14086B6:('and','eax, 1'),
     0x14086C0:('addss','xmm0, dword ptr [0x1b4e4d4]'),
@@ -85,6 +89,10 @@ for address,pair in {
     0x140879D:('jbe','0x14087a9'),
     0x14087A4:('movss','dword ptr [ebp - 4], xmm0'),
     0x14087BF:('call','0x1408811'),
+    0x14087AA:('movss','xmm0, dword ptr [ebp - 4]'),
+    0x14087AF:('movss','dword ptr [esp], xmm0'),
+    0x14087B5:('movss','xmm0, dword ptr [ebp - 8]'),
+    0x14087BA:('movss','dword ptr [esp], xmm0'),
     0x14087C7:('ret',''),
 }.items(): assert caller[address] == pair,hex(address)
 print('PASS source tail: flag1 OR flag8 adds20 once, optional object Tornado176 halves both speeds, optional cap follows; native input mapping remains OPEN')
@@ -116,6 +124,10 @@ assert 'return false;' in qa_helper.split('#else',1)[1]
 for name,action in [('CreateSpinStepRoot',285),('CreateMagicPinRoots',287),
                     ('CreateHarshStrikeRoot',284),('CreateShiningPeakRoots',288),
                     ('CreateBrecheAction',289)]:
-    body=native.split('void '+name+'(',1)[1].split('\nvoid ',1)[0]
-    assert body.index(f'PrepareLocalQADynamicAction(caster, {action})') < body.index('caster.CurrentAction =')
+    signature = next(s for s in ('void ', 'bool ') if s+name+'(' in native)
+    body=native.split(signature+name+'(',1)[1].split('\n}',1)[0]
+    transition = ('SetAction(&caster, %d, true);' % action
+                  if name in ('CreateSpinStepRoot', 'CreateMagicPinRoots', 'CreateBrecheAction')
+                  else 'caster.CurrentAction =')
+    assert body.index(f'PrepareLocalQADynamicAction(caster, {action})') < body.index(transition)
 print('PASS five local-DK QA dynamic cast entrypoints register speed without duplicate ability bonus; remote/non-QA stays disabled pending final contracts')

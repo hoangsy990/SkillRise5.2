@@ -15,6 +15,7 @@ where the frame sequence does not independently prove the boundary.
 |---|---:|---:|---|---|
 | `batch_20260912_2136` | 802 | 150093 ms | `E520671C3517BAE7065D9547FAA1C8A3D66B44459099C659ADB1503590867CF6` | `4CD0352E43BE0D6CE01FC25B5E87A0077D38207319641165837F078AD914DD64` |
 | `batch_20260912_2138_tail` | 272 | about 51 s | `29755603CD0248F81767EFDF6C7274F962D09424E81E42A04DA15B06098E557E` | capture was stopped externally after Breche; no result file |
+| `breche_owner_recast_20260915_b` | 134 | 20054 ms | `A3EA97183DB454E93A6C99074EE5BE65ECAB70721E9935316B581DFC076CA899` | capture result `captured_frames=134` |
 
 The first batch occupies 313,608,241 bytes across 802 JPEG frames plus its
 manifest/result.  The tail occupies 107,196,948 bytes across 272 JPEG frames
@@ -36,6 +37,7 @@ plus its manifest.  Both batches are under
 | Shining Peak | `2136/frame_00794.jpg` | `14:37:30.975Z` | `7BF2BE0CD1CE94C12181BEEEB3B04EA8478D7F9654C2D1C9D25DA426B7A5F2E9` | intense blue-white/green spear beam through target with blue energy geometry around caster |
 | Wrath | `2138_tail/frame_00041.jpg` | `14:38:04.065Z` | `29823101CA42B41EEB6D59E1B2D4ECA4A688B6E1C4B9C4B706B742FA4C43D8F2` | very large cyan-purple octagonal ground field/dome, purple ground lightning and vertical cyan core |
 | Breche | `2138_tail/frame_00153.jpg` | `14:38:25.354Z` | `E5B293BDB39A8F17D9FFFEACAD66A0E166FF0AA43F8BE54366806C5F85CA040A` | large red/orange/pink circular sweeping vortex, sparks and bright white contact core |
+| Breche owner recast | `breche_owner_recast_20260915_b/frame_00042.jpg` | `17:01:33.6588555Z` | `B115DF7DF5E335DC8A98A5FD3F2F8D9C0D15B184E2323CB5923599F27C969DEB` | caster ring/vortex is separate from independent upright white/orange target fire columns |
 
 ## Conclusions that the capture supports
 

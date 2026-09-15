@@ -7,7 +7,7 @@ Status: VERIFIED DIVERGENCE. Do not merge the two profiles implicitly.
 | Profile | Source | SHA-256 |
 |---|---|---|
 | S21 client bundled with the reference client | `D:\MU FICA Season 21\Data\Local\skill.bmd` | `AC74B3A175D08B50D8C5C3D5BD8C05420E9F6690BC7A5C6C95EF3D7F8278BF79` |
-| Supplied server configuration | `C:\Users\DELL\Desktop\Skills\SkillList.xml` | `3E238C786ECAB3445A0DB4756FE3D2A3923FBC0594506BB9C3FF206020A7E0A0` |
+| Supplied server configuration | `D:\GameServer S21\Data\Skills\SkillList.xml` | `3E238C786ECAB3445A0DB4756FE3D2A3923FBC0594506BB9C3FF206020A7E0A0` |
 
 The client table has 750 independently XOR-decoded records of 120 bytes. The
 stable fields used below are name bytes `0..31`, level `32`, damage `34`, mana
@@ -43,3 +43,27 @@ as equivalent to the server XML because the S21 client layout/encoding differs.
   disagreeing with server authority.
 
 The executable verifier is `tools\grow_lancer\verify_catalog_profiles.py`.
+
+## Legacy MuServer52 source check (reference only)
+
+The local `D:\MU-CrossPlatform\MuServer52` tree is not interchangeable with
+the supplied S21 server tree. Its legacy `Data\Skill\Skill.txt` does contain
+the nine numeric rows `271..279`, but its header exposes only the seven classic
+class columns (`DW..RF`) and therefore cannot prove a native Grow Lancer class.
+The language tables `Skill_eng.txt` and `Skill_chs.txt` contain no rows
+`271..279`; `SkillDamage.txt` is only a 131-byte stub. `MasterSkillTree.txt`
+contains unrelated legacy rows and is not used to infer S21 handlers.
+
+Pinned read-only hashes:
+
+| File | SHA-256 |
+|---|---|
+| `D:\MU-CrossPlatform\MuServer52\Data\Skill\Skill.txt` | `A7664F0A54D603EEE100C0BA1719C547B58F74EF1B4C3B384DB81DB06F24D314` |
+| `D:\MU-CrossPlatform\MuServer52\Data\Skill\Skill_eng.txt` | `3A9064BFB7C043683E6EB983108BAC2BA817DDE4D7DFFF3189B9D7B5F1F87922` |
+| `D:\MU-CrossPlatform\MuServer52\Data\Skill\Skill_chs.txt` | `7B914E78EA46B0378126D0465EACEF27A36F955A436ECEAC085606B24DBD5FD2` |
+| `D:\MU-CrossPlatform\MuServer52\Data\Skill\SkillDamage.txt` | `3881F2B64112CE7D68AD4A43ED9ED6A699824472CB714CE27E31604AD2F9D83F` |
+| `D:\MU-CrossPlatform\MuServer52\Data\Skill\MasterSkillTree.txt` | `9D9AD5CE5FCF09708503455D94751BEF4EFB37E9E5EE789FEE1F04247001E391` |
+
+The authoritative catalog split remains the S21 `skill.bmd` versus
+`D:\GameServer S21\Data\Skills\SkillList.xml` pair above. No legacy file
+was copied or modified.

@@ -9,7 +9,13 @@
     "ss6CompatibilityClass": null,
     "finalRecipientDecision": "new native Grow Lancer class (owner requested)",
     "temporaryQAActor": "Dark Knight; isolated local visual testing only",
-    "temporaryQAActorIsServerMapping": false
+    "temporaryQAActorIsServerMapping": false,
+    "candidateSourceClassByte": 7,
+    "candidateDbClasses": [112, 113, 114, 115],
+    "byteSafeCandidateDbClasses": [112, 113, 114],
+    "candidateWireClasses": {"112": 224, "113": 240, "114": 255, "115": 271},
+    "candidateActivationGate": "GrowLancer/compat/GrowLancerClassAdapter.h",
+    "candidateActivationStatus": "FAIL_CLOSED_UNTIL_NATIVE_SLOT_DEFAULTS_CREATE_LOGIN_PACKETS_PERSISTENCE_AND_CLASS_CONSUMERS_ARE_VERIFIED"
   },
   "actionAdapter": {
     "source": "D:\\MU FICA Season 21\\Data\\Player\\player.bmd",
@@ -33,42 +39,79 @@
   },
   "sources": {
     "skillList": {
-      "path": "C:\\Users\\DELL\\Desktop\\Skills\\SkillList.xml",
+      "path": "D:\\GameServer S21\\Data\\Skills\\SkillList.xml",
       "sha256": "3E238C786ECAB3445A0DB4756FE3D2A3923FBC0594506BB9C3FF206020A7E0A0"
     },
     "regularSkillCalc": {
-      "path": "C:\\Users\\DELL\\Desktop\\Skills\\RegularSkillCalc.lua",
+      "path": "D:\\GameServer S21\\Data\\Skills\\RegularSkillCalc.lua",
       "sha256": "F735D95E32C70E38AC6E65086E4AA21CDE1CD1A1C6E4B6549D124E502F9D3847"
     },
+    "s21CharacterCalc": {
+      "path": "D:\\GameServer S21\\Data\\Scripts\\Character\\CalcCharacter.lua",
+      "sha256": "9DA5000449CCEC0B3DA0CD2ADE11E55863B5CC0C56EC4063C5A64F78414C0A70",
+      "classConstant": "CLASS_GROWLANCER=7",
+      "defaultDelegation": "MuOnline.dbo.DefaultClassType is referenced by CalcCharacter.ini; row values are not supplied"
+    },
+    "s21CharacterDefaults": {
+      "path": "D:\\GameServer S21\\Data\\CalcCharacter.ini",
+      "sha256": "BE300D43E4849FE2445C0DF3BDDEAA672F6E07FFBCEEF963F6FA1C9D2F9A631D",
+      "evidence": "tools/grow_lancer/verify_s21_server_tree.py"
+    },
+    "s21StatSpecialize": {
+      "path": "D:\\GameServer S21\\Data\\StatSpecialize.xml",
+      "sha256": "D79F1CBBE8A6FD7207499CC5198E2F0E99A5BE06E2607C0A8B4879A3378E9AC9",
+      "growLancerClassId": 8,
+      "verifiedOptions": [["1", "1"], ["2", "4"]]
+    },
     "masterSkillCalc3rd": {
-      "path": "C:\\Users\\DELL\\Desktop\\Skills\\MasterSkillCalc_3rd.lua",
+      "path": "D:\\GameServer S21\\Data\\Skills\\MasterSkillCalc_3rd.lua",
       "sha256": "771066684E4478A69659D46C27EEB87A9242D8B6D8566E73A4D31AD0F479F699"
     },
     "skillSettings": {
-      "path": "C:\\Users\\DELL\\Desktop\\Skills\\SkillSettings.ini",
+      "path": "D:\\GameServer S21\\Data\\Skills\\SkillSettings.ini",
       "sha256": "7CF1FF432D337EF3420B8037C2D26F95D768E317A0DFC6CA7E46C4EAF2F847C9"
     },
     "skillAoeTargetting": {
-      "path": "C:\\Users\\DELL\\Desktop\\Skills\\SkillAOETargetting.xml",
+      "path": "D:\\GameServer S21\\Data\\Skills\\SkillAOETargetting.xml",
       "sha256": "CE5C501CB82D2179DB5ED5407DC89BEA4CB118446BA444D8FF95D7DE96F984D9"
     },
     "skillUseArea": {
-      "path": "C:\\Users\\DELL\\Desktop\\Skills\\Skill_UseArea.xml",
+      "path": "D:\\GameServer S21\\Data\\Skills\\Skill_UseArea.xml",
       "sha256": "7C6B0C57A33F2E288AF106D8E19D43D9093279D01CE9DFB9C0E03EB62621BFC2"
     },
     "skillRequire": {
-      "path": "C:\\Users\\DELL\\Desktop\\Skills\\SkillRequire.xml",
+      "path": "D:\\GameServer S21\\Data\\Skills\\SkillRequire.xml",
       "sha256": "4E6B765FF7DCFB62E58AD9720F5E8C8E81DC8ECC5BA30C3BC3B842B390C9AC58"
     },
     "skillDirectionalHitMask": {
-      "path": "C:\\Users\\DELL\\Desktop\\Skills\\SkillElect.hit",
+      "path": "D:\\GameServer S21\\Data\\Skills\\SkillElect.hit",
       "sha256": "809B8D5724DB063EB497C09722B894E1BEB6A66D7103FD075B9331858455BE10",
       "shape": [36, 21, 21],
       "scope": "generic directional mask; not per-skill damage evidence"
     },
     "skillTree3rd": {
-      "path": "C:\\Users\\DELL\\Desktop\\Skills\\SkillTreeData_3rd.xml",
+      "path": "D:\\GameServer S21\\Data\\Skills\\SkillTreeData_3rd.xml",
       "sha256": "CE19B7482839524A6FC8B76563F60D0D0EAEA89F4F4E534DFC835046366539F0"
+    },
+    "itemList": {
+      "path": "D:\\GameServer S21\\Data\\Items\\ItemList.xml",
+      "sha256": "61711D9E6B0E6F14028191AA739AAD4A3B0C5911CDB3468A3BC61B988B12AF78",
+      "section": "12: Pets and Rings and Misc",
+      "evidence": "tools/grow_lancer/verify_s21_itemlist_scroll_mapping.py"
+    },
+    "s21BuffEffectManager": {
+      "path": "D:\\GameServer S21\\Data\\BuffEffectManager.xml",
+      "sha256": "201452C00D9D5CE0DB83820EF48EC4317A6654864C0BE9176A6389694A4AD6B0",
+      "evidence": "tools/grow_lancer/verify_s21_server_tree.py"
+    },
+    "s21ServerDataAudit": {
+      "root": "D:\\GameServer S21\\Data",
+      "gameServerBinary": "D:\\GameServer S21\\GameServer\\IGC.GameServer2_R.exe",
+      "gameServerBinarySha256": "134BAEBF654D103B3FD65F8262CB20D2AEC5969B3C09C68E26A87F6547F77D74",
+      "handlerSourcePresent": false,
+      "symbolOrDumpPresent": false,
+      "evidence": "tools/grow_lancer/verify_s21_server_tree.py",
+      "policy": "data contracts are authoritative; no handler/class ABI is guessed from the protected binary"
     },
     "s21MainDump": "D:\\RISE-CrossPlatform\\Source\\artifacts\\visual_studio\\season21_client_qa\\memory_dump\\process_23824\\400000.main.exe",
     "upstreamReverseTaskAudit": {
@@ -142,7 +185,7 @@
       ],
       "circleShield": null,
       "clash": null,
-      "evidence": "decoded S21 item.bmd records 2891..2897"
+      "evidence": "decoded S21 item.bmd records 2891..2897 + pinned server ItemList.xml corroboration; verify_s21_no_circle_clash_scroll.py pins ItemSkill=0 and no named Circle/Clash scroll row"
     },
     "serverCatalogSeeded": true,
     "serverCatalogClassPolicy": "all seven SS6 class columns zero; fail closed because Grow Lancer class is absent",
@@ -242,6 +285,27 @@
           "fanoutTarget": "packet target index retained as native m_sTargetIndex; resolve at frame gate; no caster fallback",
           "fanoutOwnership": "secondary/crosses target-owned; ground owner null; blur stays caster-owned",
           "crossAngleContract": "three same input angles; subtype0 constructor overwrites Z with absolute120 degrees"
+        },
+        {
+          "role": "caster_weapon_ribbon_style1",
+          "api": "CreateObjectBlur / native RenderObjectBlurs",
+          "owner": "cast_controller (caster bone pose)",
+          "attachmentBone": 33,
+          "localEndpoints": [[0, 0, 0], [0, -180, 20]],
+          "rotatedLocalOffset": [0, -10, 0],
+          "sampleCountPerUpdate": 3,
+          "sampledActionFramesInclusive": [0.0, 4.5],
+          "blurType": 1,
+          "blurSubtype": 0,
+          "renderStyle": 1,
+          "light": [1, 1, 1],
+          "s21ResourceId": 32520,
+          "texture": "Data\\RISE\\GrowLancer\\SpinStep\\motion_blur.OZJ",
+          "textureSha256": "934716E4C09EBCA25B43E62BC1F6B69B26663FA54306F5054FA12A354B6DC5AF",
+          "s21Sampler": {"min": "GL_NEAREST", "mag": "GL_NEAREST", "wrapS": "GL_CLAMP", "wrapT": "GL_CLAMP"},
+          "risePrivateBitmapId": 32986,
+          "nativePool": "SS6 object-blur pool with style1-only UV path; controller normal/map retirement",
+          "ownerVisualAcceptance": "FAIL: owner saw ground ring only; native GPU bitmap PASS is not ribbon pixels"
         },
         {
           "role": "cast_secondary_controller",
@@ -390,6 +454,46 @@
           "localMovementPerTick": [0.0, -3.0, 0.0],
           "scaleStep": -0.05,
           "render": "native BMD mesh selector -2; effect alpha; mode argument 2"
+        },
+        {
+          "role": "persistent_buff_upper_arm_pair",
+          "trigger": "character buff membership 216/221/222; follows Wrath branch in S21 character-render traversal 13ECB52",
+          "owner": "buffed character for flares; null native particle Target for mono subtype12",
+          "boneProvider": "132EC63 current character model/bone pose; native BMD::TransformByObjectBone",
+          "flare": {
+            "s21Type": 32503,
+            "file": "Data\\Effect\\flare01.OZJ",
+            "api": "CreateSprite",
+            "bones": [20, 26, 35, 25, 34],
+            "boneNames": ["Head", "R UpperArm", "L UpperArm", "R Clavicle", "L Clavicle"],
+            "countPerCharacterRender": 5,
+            "scale": 2.0,
+            "rgb": ["0.5*pulse", 0.0, "1.0*pulse"],
+            "pulse": "0.4 + rand()%15 / 37.5; sampled once per traversal",
+            "rotation": 0.0,
+            "riseRuntimeId": "BITMAP_LIGHT"
+          },
+          "upperArmMono": {
+            "s21Type": 32902,
+            "file": "Data\\Effect\\firehik_mono01.OZJ",
+            "api": "CreateParticle",
+            "subtype": 12,
+            "bones": [26, 35],
+            "countPerBone": 2,
+            "countPerCharacterRender": 4,
+            "scaleArgument": 0.6,
+            "rgb": [0.3, 0.38, 1.0],
+            "constructorLifetime": "rand()%5 + 27",
+            "constructorScale": "(rand()%72 + 52)*0.01*0.6",
+            "constructorGravity": "(rand()%14 + 20)*0.1",
+            "constructorRotation": "rand()%360",
+            "update": "whole tick: life<15 alpha-.2 else alpha+(.2/.3) capped1; RGB=initial*alpha; scale-(.02..04); Z+=gravity; rotation+3; native particle life precheck/decrement",
+            "render": "source billboard via 18E8B0C; native RenderSprite of private texture",
+            "riseRuntimeId": 32983
+          },
+          "timingContract": "one emitter visit per character render traversal, not per later sprite/particle pass",
+          "sourceEvidence": "13ECB52..13ECFBC, 166844B..16685EB, 16DB10E..16DB3D5, 1635D58 and pinned HelmClass08 bone names",
+          "acceptance": "static/build PASS; buff receipt, owner shoulder pixels, repeated/map pool QA OPEN"
         }
       ],
       "reverseEvidence": "GrowLancer/CIRCLE_SHIELD_REVERSE.md",
@@ -912,6 +1016,62 @@
           "subtype1": { "initialScale": 0.7, "initialAlpha": 0.0, "recreateOnExpireWhileOwnerHasBuff": [424, 425] },
           "angleZStepPerTick": 1.5,
           "render": "native BMD mesh 0; flags 0x42; subtype 1 uses per-channel effect light"
+        },
+        {
+          "role": "persistent_buff_post_tail",
+          "status": "STATIC_REVERSE_QA_OPEN",
+          "owner": "caster",
+          "trigger": "native buff membership 424 OR 425",
+          "order": [
+            {
+              "stage": "player_fire_dots",
+              "count": 2,
+              "api": "CreateSprite",
+              "s21Resource": 32503,
+              "file": "Data\\Effect\\flare01.OZJ",
+              "riseFile": "Data\\RISE\\GrowLancer\\Wrath\\flare01.jpg",
+              "attachments": [29, 38],
+              "owner": "caster",
+              "subtype": 0,
+              "scale": 4.0,
+              "rgb": [0.22, 0.2, 1.0],
+              "render": "native RenderSprites subtype 0 additive path; private visibility envelope"
+            },
+            {
+              "stage": "player_blue_lightning",
+              "count": 4,
+              "api": "CreateParticle",
+              "s21Resources": [8086, 8087, 8089],
+              "files": [
+                "Data\\Effect\\firehik_mono01.OZJ",
+                "Data\\Effect\\firehik_mono02.OZJ",
+                "Data\\Effect\\firehik_mono03.OZJ"
+              ],
+              "riseFiles": [
+                "Data\\RISE\\GrowLancer\\Wrath\\firehik_mono01.jpg",
+                "Data\\RISE\\GrowLancer\\Wrath\\firehik_mono02.jpg",
+                "Data\\RISE\\GrowLancer\\Wrath\\firehik_mono03.jpg"
+              ],
+              "attachments": [29, 38, 29, 38],
+              "owner": "caster",
+              "subtypeByResource": {
+                "8086": [13, 14],
+                "8087": [14, 15],
+                "8089": [13, 14]
+              },
+              "scale": 0.75,
+              "rgb": [0.4, 0.6, 1.0],
+              "render": "native RenderParticles full-UV sprite path; owner-bone update and retirement"
+            }
+          ],
+          "precedingSeparateLayer": {
+            "stage": "world_scatter",
+            "count": 2,
+            "s21Resources": [8081, 8082, 8083],
+            "owner": null,
+            "note": "lighting_mega scatter is not part of the two player-attached fire dots"
+          },
+          "qa": "F12 isolated owner fixture; live pixels, cadence, recurrence/removal and pool cleanup remain open"
         }
       ],
       "reverseEvidence": "GrowLancer/WRATH_REVERSE.md",
@@ -948,9 +1108,28 @@
             { "s21Type": 32926, "subtype": 14, "riseType": "kBrecheTwilight01Model", "bitmap": 32969, "scale": 0.2, "rgb": [1, 0.7, 0.2], "initialAlpha": 0.1, "flipV": true, "renderAlpha": "storedAlpha" },
             { "s21Type": 32878, "subtype": 15, "riseType": "kBrecheEmitterModel", "scale": 0.9, "suppliedScale": 0, "rgb": "root inherited", "emissionsPerTick": 2, "bone": "random valid owner bone", "sprite": "7EF7 -> native BITMAP_LIGHT", "particles": ["8084/0", "806E/4", "8085/0"] }
           ],
-          "sharedContract": { "owner": "root.Owner, not root object", "origin": "copied target position/angle", "lifetimeTicks": 20, "updateAtZeroBeforeDestroy": true, "terrainHeight": 5, "groundRgb": "storedLight * storedAlpha", "nativeCleanup": "EffectDestructor", "runtimeEntry": "CreateBrecheHit", "localQA": "F9 selected target" },
+          "sharedContract": { "owner": "root.Owner, not root object", "origin": "copied target position/angle", "lifetimeTicks": 20, "updateAtZeroBeforeDestroy": true, "terrainHeight": 5, "groundRgb": "storedLight * storedAlpha", "nativeCleanup": "EffectDestructor", "runtimeEntry": "CreateBrecheHit", "localQA": "F7 selected target + caster action state; F9 contact-only replay" },
           "evidence": ["GrowLancer/BRECHE_REVERSE.md", "GrowLancer/BRECHE_CHILDREN_REVERSE.md", "tools/grow_lancer/inspect_breche_full_dump.py"],
           "remainingAcceptance": ["native sprite visibility/FPS behavior", "terrain world eligibility", "contact/movement and visual reference comparison", "pool exhaustion/reuse", "GameServer targeting and damage"]
+        },
+        {
+          "role": "caster_owned_primary_controller",
+          "status": "IN_PROCESS",
+          "reason": "S21 per-character update emits 5FD/subtype0 on the caster; its primary handler is separate from the target receive root.",
+          "producer": { "routineVA": "0x1424B34", "brecheBranchVA": "0x142B21D", "s21Type": 1533, "subtype": 0, "scale": 10.0, "owner": "current character object", "riseType": "kBrecheControllerModel", "nativeApi": "CreateEffect" },
+          "layers": [
+            { "s21Type": 32883, "subtype": 5, "role": "owner_pin_light_joints", "resource": "Effect\\pin_lights.jpg", "registrationVA": "0x18BEF18", "riseType": "native BITMAP_PIN_LIGHT", "nativeApi": "CreateJoint", "countPerTick": 10, "scale": 6.0, "target": null, "rgb": [1, 0.7, 0.15] },
+            { "s21Type": 32956, "subtype": 1, "role": "owner_ring_ground", "resource": "effect\\ring_of_gradation.jpg", "registrationVA": "0x18BF5CA", "riseType": "kBrecheOwnerRingModel", "bitmap": 32982, "scale": 5.5, "gateRemainingLife": 17 },
+            { "s21Type": 33260, "subtype": 0, "role": "owner_lightmarks_ground", "resource": "Effect\\lightmarks_red.jpg", "registrationVA": "0x18BEFD8", "riseType": "kBrecheOwnerLightMarksModel", "bitmap": 32967, "scale": 6.0, "gateRemainingLife": 17 },
+            { "s21Type": 33259, "subtype": 0, "role": "owner_fire_ring_ground", "resource": "Effect\\firering01.jpg", "registrationVA": "0x18BEFB8", "riseType": "kBrecheOwnerFireRingModel", "bitmap": 32981, "scale": 6.5, "gateRemainingLife": 7 },
+            { "s21Type": 2777, "subtype": 6, "role": "owner_wind_model", "resource": "Effect\\wind_foce.bmd", "registrationVA": "0x18D1A63", "riseType": "kBrecheOwnerWindModel", "nativeApi": "BMD::Open2 + BMD::RenderBody", "scale": 3.0, "gateRemainingLife": 7, "position": "owner snapshot with local Y minus 5", "texture": "ground_wind.jpg" },
+            { "s21Type": 32927, "subtype": 2, "role": "owner_twilight02_ground", "resource": "Skill\\twlighthik02.jpg", "registrationVA": "0x18BD42C", "riseType": "kBrecheOwnerTwilight02Model", "bitmap": 32968, "scale": 3.0, "gateRemainingLife": 15 },
+            { "s21Type": 32926, "subtype": 13, "role": "owner_twilight01_ground", "resource": "Skill\\twlighthik01.jpg", "registrationVA": "0x18BD40C", "riseType": "kBrecheOwnerTwilight01Model", "suppliedScale": 0, "constructorScale": 0.9, "gateRemainingLife": 15, "count": 2 }
+          ],
+          "timing": { "controllerLifetimeTicks": 20, "ringAndMarksAtRemainingLife": 17, "fireRingAtRemainingLife": 7, "twilightAtRemainingLife": 15, "ownerParticles": "three random 8084/0, 806E/4 or 8085/0 branches per primary update" },
+          "ownership": { "controllerOwner": "caster", "pinJointTarget": null, "windOwner": "caster", "particleOwner": null, "receiveRoot": "separate target-owned 5FD/subtype1" },
+          "evidence": ["GrowLancer/BRECHE_REVERSE.md", "GrowLancer/BRECHE_CHILDREN_REVERSE.md", "tools/grow_lancer/verify_breche_owner_primary_dump_contract.py"],
+          "remainingAcceptance": ["exact S21 local transform/random distribution", "native owner BMD pixel parity", "owner/target lifetime and pool stress", "runtime comparison with frame_00042.jpg", "GameServer targeting and damage"]
         }
       ],
       "excludedVisualLeads": [

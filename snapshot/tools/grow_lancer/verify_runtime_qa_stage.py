@@ -11,10 +11,10 @@ from pathlib import Path
 
 
 ROOT = Path(r"D:\RISE-CrossPlatform\Source\_PC_GrowLancer")
-SOURCE_CLIENT = Path(r"D:\RISE-CrossPlatform\Client")
+SOURCE_CLIENT = ROOT / "Client"
 PRIVATE_CLIENT = ROOT / "ExMain_RISE_PC" / "Tests" / "GrowLancerBuild" / "Client"
 TARGET = ROOT / "ExMain_RISE_PC" / "Tests" / "GrowLancerBuild" / "RuntimeQA" / "Client"
-ENGINE_SHA = "0EA22D643B4D51BC577B4923F7302500BDE3DA1F64C5EBB50C07B08041994EBD"
+ENGINE_SHA = "95736241063643B58F8ECE167A2B9CFBADB6EAB1FCDBE59CBF06F2CBEDC14643"
 PLAYER_SHA = "0CC3D22D5BBD426128E6BFFE9C3766585F9F28BBDA5B3DD50122EC7AD6B9CA63"
 PLAYER_CRC32 = 0xE51E1780
 
@@ -28,6 +28,8 @@ def sha256(path: Path) -> str:
 
 
 def is_reparse(path: Path) -> bool:
+    if hasattr(os.path, "isjunction") and os.path.isjunction(path):
+        return True
     attributes = getattr(path.stat(), "st_file_attributes", 0)
     return bool(attributes & getattr(os.stat_result, "FILE_ATTRIBUTE_REPARSE_POINT", 0x400))
 
@@ -45,13 +47,13 @@ def verify_tree(source: Path, target: Path, label: str) -> int:
     return count
 
 
-def main() -> None:
+def main(expected_engine_sha: str = ENGINE_SHA) -> None:
     expected = TARGET.resolve()
     assert expected == TARGET, "unexpected QA target resolution"
     assert not is_reparse(TARGET / "Data" / "RISE"), "RISE must be a private directory"
     assert not is_reparse(TARGET / "Data" / "Player"), "Player must be a private directory"
     assert not (TARGET / "Engine.exe").exists(), "legacy Engine.exe must not remain in isolated QA client"
-    assert sha256(TARGET / "Engine-Port S21.exe") == ENGINE_SHA
+    assert sha256(TARGET / "Engine-Port S21.exe") == expected_engine_sha
     player = TARGET / "Data" / "Player" / "player.bmd"
     assert sha256(player) == PLAYER_SHA
     assert zlib.crc32(player.read_bytes()) == PLAYER_CRC32
@@ -64,6 +66,31 @@ def main() -> None:
     assert crc_match, "merged Player.bmd CRC contract is missing"
     assert int(crc_match.group(1), 16) == PLAYER_CRC32
 
+    expected_junctions = {
+        source_dir.name
+        for source_dir in (SOURCE_CLIENT / "Data").iterdir()
+        if source_dir.is_dir() and source_dir.name not in {"Player", "RISE"}
+    }
+    actual_junctions = {
+        target_dir.name
+        for target_dir in (TARGET / "Data").iterdir()
+        if target_dir.is_dir() and is_reparse(target_dir)
+    }
+    assert actual_junctions == expected_junctions, (
+        f"QA Data junction set mismatch; extra={sorted(actual_junctions - expected_junctions)}, "
+        f"missing={sorted(expected_junctions - actual_junctions)}"
+    )
+    junction_count = 0
+    for source_dir in (SOURCE_CLIENT / "Data").iterdir():
+        if source_dir.name not in expected_junctions:
+            continue
+        target_dir = TARGET / "Data" / source_dir.name
+        assert is_reparse(target_dir), f"frozen Data junction missing: {source_dir.name}"
+        assert target_dir.resolve() == source_dir.resolve(), (
+            f"Data junction escaped frozen worktree snapshot: {source_dir.name}"
+        )
+        junction_count += 1
+
     base_count = verify_tree(
         SOURCE_CLIENT / "Data" / "RISE",
         TARGET / "Data" / "RISE",
@@ -75,6 +102,12 @@ def main() -> None:
         "Grow Lancer overlay",
     )
     root_data_count = 0
+    current_overlay_count = verify_tree(
+        ROOT / "Client" / "Data" / "RISE" / "GrowLancer",
+        TARGET / "Data" / "RISE" / "GrowLancer",
+        "current Grow Lancer assets",
+    )
+    print(f"PASS: current Grow Lancer assets ({current_overlay_count} files)")
     for source_file in (SOURCE_CLIENT / "Data").iterdir():
         if not source_file.is_file():
             continue
@@ -90,6 +123,7 @@ def main() -> None:
     print(f"PASS: complete private base RISE tree ({base_count} files)")
     print(f"PASS: complete private Grow Lancer overlay ({overlay_count} files)")
     print(f"PASS: complete root Data file set ({root_data_count} files), including login keys")
+    print(f"PASS: {junction_count} Data junctions target the frozen worktree snapshot")
     print("PASS: Engine/player hashes, merged-player CRC and non-reparse Player/RISE roots")
 
 

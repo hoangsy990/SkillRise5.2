@@ -81,3 +81,23 @@ may be registered or forwarded by numeric similarity. A native 5.2 adapter
 must map the proven fields into a skill-local packet/handler contract without
 changing existing opcode behavior; it stays disabled until authoritative
 server target/hit/push semantics are recovered.
+
+## Isolated RISE 5.2 target-bearing duration echo — 2026-09-15
+
+The native `SendRequestMagicContinue` sender and
+`PMSG_DURATION_SKILL_ATTACK_RECV` receiver on C1:1E already carry a 16-bit
+skill, map tile, direction and selected 16-bit target. The stock 5.2 server
+echo `PMSG_DURATION_SKILL_ATTACK_SEND` stops after caster key, tile and angle;
+its matching client `PRECEIVE_MAGIC_CONTINUE` cannot recover the selected
+target. A plain opcode translation would therefore lose the secondary actor
+used by Breche's target-contact chain.
+
+The isolated client/server adapter now defines a target-bearing C1:1E echo
+for Breche (and the positional Shining Peak transport shape), appending the
+two target-key bytes after the unchanged 5.2 prefix. Every existing SS6 echo
+retains the old struct and size. Breche receive checks the exact extended
+size and resolves a live target before creating its independent caster and
+contact visuals; no S21 `0x57` receiver is registered. This is a static
+transport correction, not a GameServer cast PASS: `HasProvenServerRuntimeHandler`
+still rejects Breche until its authoritative target/hit-count and class
+handler is implemented.

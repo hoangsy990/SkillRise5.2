@@ -1,5 +1,5 @@
 param(
-    [string]$SourceClient = 'D:\RISE-CrossPlatform\Client',
+    [string]$SourceClient = 'D:\RISE-CrossPlatform\Source\_PC_GrowLancer\Client',
     [string]$TargetClient = 'D:\RISE-CrossPlatform\Source\_PC_GrowLancer\ExMain_RISE_PC\Tests\GrowLancerBuild\Client',
     [string]$BuiltEngine = 'D:\RISE-CrossPlatform\Source\_PC_GrowLancer\ExMain_RISE_PC\Tests\GrowLancerBuild\Bin\Engine-Port S21.exe'
 )
@@ -71,4 +71,4 @@ $junctionCount = @(Get-ChildItem -LiteralPath $targetData -Directory |
     Where-Object { $_.Attributes -band [IO.FileAttributes]::ReparsePoint }).Count
 Write-Output "PASS: isolated client prepared at $TargetClient"
 Write-Output "PASS: merged player SHA-256 $mergedHash"
-Write-Output "PASS: $junctionCount read-only source Data junctions; Player and RISE remain isolated"
+Write-Output "PASS: $junctionCount frozen worktree Data junctions; Player and RISE remain isolated"

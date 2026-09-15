@@ -1,9 +1,38 @@
 # Grow Lancer S21 server-contract evidence
 
 Status: `IN_PROCESS`. This file records only contracts present in the accepted
-S21 server tables under `C:\Users\DELL\Desktop\Skills` and facts verified in
+S21 server tables under `D:\GameServer S21\Data\Skills` and facts verified in
 the RISE 5.2 server source. It is not evidence that RISE currently implements
 the Grow Lancer class or these skills.
+
+2026-09-15 isolated local transport smoke: the current-user 32-bit ODBC DSN
+connected specifically to `GrowLancer_QA`; the verified private CS/DS/JS/GS
+test stack launched four hidden binaries inside the Grow Lancer worktree and
+each owned its configured listener (44412/55964/55974/55910). CS and GS
+accepted loopback TCP; the four checked task PIDs were stopped after smoke
+to avoid idle load. This proves local startup/transport only. It does **not**
+prove account login, class112 creation/persistence, learning/cast/damage,
+Magic internal281 hit, or a matching S21 GameServer handler. The native RISE
+`RunningSkill` still fail-closes IDs271..281 before state mutation.
+
+Fresh supplied-S21 evidence scan (2026-09-15): the protected GS hash/RSDS
+remains the same and no matching PDB, runtime dump or handler source has
+appeared. `SkillAOETargetting.xml` has no 271..279 rows, so it cannot supply
+their exact target/hit selection by absence; skill Lua/XML rows are formula
+and catalog evidence only. `CalcCharacter.ini` explicitly defers additional
+initial class defaults to the unsupplied S21
+`MuOnline.dbo.DefaultClassType` table. Do not use the separate private QA
+class112 seed or a newer-source RF preset as S21 class/handler authority.
+
+2026-09-15 static server-binary check: the supplied read-only
+`D:\GameServer S21\GameServer\IGC.GameServer2_R.exe` hashes to SHA-256
+`134BAEBF654D103B3FD65F8262CB20D2AEC5969B3C09C68E26A87F6547F77D74`.
+Its PE is x64, with `.winlice` and `.boot` sections; exact ASCII strings
+`CircleShieldDecreaseAG`, `CircleShieldTime`, `CircleShieldRate` and
+`SkillSettings.ini` are absent from the on-disk image. The ini values below
+are source configuration evidence, not executable handler or probability
+formula evidence. No Circle Shield GS rule is activated from these values
+alone; a verified runtime handler dump or equivalent source remains required.
 
 ## Item/scroll identity recovered from the native client table
 
@@ -25,6 +54,14 @@ The names correlate to base skill IDs 271, 273, 274 and 276..279; the item
 index is not assumed to equal the skill ID. No decoded item-name record names
 Circle Shield or Clash, so those mappings remain explicitly absent rather
 than being filled from adjacent numbers.
+
+The independent server `D:\GameServer S21\Data\Items\ItemList.xml` is pinned
+to SHA-256
+`61711D9E6B0E6F14028191AA739AAD4A3B0C5911CDB3468A3BC61B988B12AF78` and
+corroborates the seven exact names, group-12 indices, GrowLancer class gate,
+stat gates, drop levels and prices. The read-only check is
+`tools/grow_lancer/verify_s21_itemlist_scroll_mapping.py`; it does not turn
+the table's absent Circle Shield/Clash rows into guessed learn paths.
 
 ## Pinned inputs
 
@@ -72,6 +109,17 @@ relabeled as an item, prerequisite or siege flag without loader/runtime proof.
   then divides the result by three. This proves a three-part damage formula but
   does not by itself prove packet timing or target selection.
 - Obsidian returns effect value `Strength / 20` and duration `240` seconds.
+
+2026-09-13 revalidation: verify_wrath_server_formula.py still pins Character
+formulas44/46/47 and skill278/895 -> buff424/425, but not their handler semantics.
+It now also pins BuffEffectManager.xml SHA256
+201452C00D9D5CE0DB83820EF48EC4317A6654864C0BE9176A6389694A4AD6B0:
+424/425 have qualitative attack/combat/defense descriptions. Legacy218/223/224
+share EffectType123 yet describe50% damage/30% defense; those text values are
+NOT accepted as formulas for424/425. The file contains unrelated malformed XML
+at line414; the verifier parses only exact selected single-line records without
+changing source. No matching PDB/map/dmp was found in the supplied GS tree during
+this recheck. Server handler/duration evidence remains required for activation.
 
 No regular formula for Circle Shield, Clash or Wrath is present in
 `RegularSkillCalc.lua`. Their behavior must come from server handler/runtime
@@ -169,7 +217,32 @@ the missing S21 server handlers.
 
 ## Still open
 
-- Item group/index or another authoritative learn path for every base skill.
+## Direct S21 GameServer tree revalidation — 2026-09-15
+
+The user-supplied `D:\GameServer S21` tree was checked read-only. Its
+`Data\Skills\SkillList.xml`, `SkillRequire.xml`, `SkillSettings.ini`,
+`SkillTreeData_3rd.xml`, `Data\Skills\MasterSkillCalc_5th.lua`,
+`Data\Items\ItemList.xml` and `Data\Scripts\Character\CalcCharacter.lua`
+are the same pinned tables already used above (the hashes for the pinned
+`SkillList`, `RegularSkillCalc`, `MasterSkillCalc_3rd`, `SkillSettings`,
+`SkillTreeData_3rd` and `ItemList.xml` match exactly). The base rows 271..279,
+the seven group-12
+scroll records (item indices 271..277), Circle Shield settings, active
+Grow-Lancer third-master rows and the Wind Soul 5th-master formula were
+re-read from this tree. `SkillRequire.xml` still has no base learn rows for
+271..279; its active Grow-Lancer rows are enhancement requirements only.
+
+`D:\GameServer S21\GameServer` contains `IGC.GameServer2_R.exe` and
+configuration files. The protected executable currently hashes to
+`134BAEBF654D103B3FD65F8262CB20D2AEC5969B3C09C68E26A87F6547F77D74`; it has
+no accompanying source, PDB, MAP, C/C++ project or handler dump.
+The bounded read-only name search found no additional named handler or class
+mapping beyond the XML/Lua contracts above. The executable is not patched or
+decompiled into a guessed SS6 handler, so live server-authoritative learn,
+cast, damage, target-selection and class ABI evidence remain open.
+
+- Another authoritative learn path for Circle Shield 272 and Clash 275; the
+  seven scroll group/index mappings above are now independently corroborated.
 - Native 5.2 packet translation and rollback/error response.
 - Spin Step target selection and internal Explosion timing.
 - Harsh Strike two-hit timing/selection.

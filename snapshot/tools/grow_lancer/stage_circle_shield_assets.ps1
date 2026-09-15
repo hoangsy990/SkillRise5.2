@@ -18,6 +18,13 @@ $env:PYTHONIOENCODING = 'utf-8'
 function Assert-CopyPinnedAsset([string]$Source, [string]$ExpectedSha256, [string]$Destination) {
     $actual = (Get-FileHash -Algorithm SHA256 -LiteralPath $Source).Hash
     if ($actual -ne $ExpectedSha256) { throw "Source SHA-256 mismatch for ${Source}: expected=$ExpectedSha256 actual=$actual" }
+    if (Test-Path -LiteralPath $Destination) {
+        $existing = (Get-FileHash -Algorithm SHA256 -LiteralPath $Destination).Hash
+        if ($existing -ne $ExpectedSha256) {
+            throw "Refusing to overwrite different staged asset ${Destination}: actual=$existing"
+        }
+        return
+    }
     Copy-Item -LiteralPath $Source -Destination $Destination -Force
     $copied = (Get-FileHash -Algorithm SHA256 -LiteralPath $Destination).Hash
     if ($copied -ne $ExpectedSha256) { throw "Staged SHA-256 mismatch for ${Destination}: expected=$ExpectedSha256 actual=$copied" }
@@ -37,6 +44,7 @@ $copies = @(
     @{ Root=$sourceEffect; File='force_Pillar.OZJ'; Hash='921F24FEA42D3182130BACAED610720640F71B5D46155A775D54F5BA61691898' },
     @{ Root=$sourceEffect; File='shiny04.OZJ'; Hash='568A27A2B3F0E8B8004FDA7DA9CBC9F1C3A83E933AC159554CB5F3A573CC3B13' },
     @{ Root=$sourceEffect; File='flare01.OZJ'; Hash='874B708AA0CF304EFC3BACCE089FEC9FD69CC934E24F378E21655124FCFD7AF8' },
+    @{ Root=$sourceEffect; File='firehik_mono01.OZJ'; Hash='C3E18C474BA5AE9F06B9E7159AFC0DAB34869B78EAB425CB5538B94FE0E7138F' },
     @{ Root=$sourceSound; File='CircleShield.wav'; Hash='3B2A719E6A69DBEEC590AF595A98D96C32E3E8262315E51D47CD48EBE020E7B3' }
 )
 foreach ($copy in $copies) {

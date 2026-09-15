@@ -10,7 +10,7 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 
 
-ROOT = Path(r"C:\Users\DELL\Desktop\Skills")
+ROOT = Path(r"D:\GameServer S21\Data\Skills")
 ITEM_BMD = Path(r"D:\MU FICA Season 21\Data\Local\item.bmd")
 ITEM_BMD_HASH = "9B9D62B7F3BA085D31B4AEFBCC9DE5DB505C48D45C336A18CAD424C93D3B02F6"
 HASHES = {

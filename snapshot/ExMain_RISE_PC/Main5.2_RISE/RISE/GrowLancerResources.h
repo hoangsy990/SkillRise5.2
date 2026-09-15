@@ -4,6 +4,8 @@
 #include "../DSPlaySound.h"
 #include "GrowLancerRuntimeCapacity.h"
 
+class OBJECT;
+
 namespace rise { namespace growlancer {
 
 enum SkillId
@@ -57,9 +59,18 @@ enum ModelId
     kBrecheTwilight02Model = MAX_MODELS + 28,
     kBrecheTwilight01Model = MAX_MODELS + 29,
     kBrecheEmitterModel = MAX_MODELS + 30,
+    // S21 5FD/subtype0 owner-side producer.  These are deliberately separate
+    // from the receive-root children even when they reuse the same texture;
+    // the owner branch has different timing, scale and attachment semantics.
+    kBrecheOwnerRingModel = MAX_MODELS + 31,
+    kBrecheOwnerLightMarksModel = MAX_MODELS + 32,
+    kBrecheOwnerFireRingModel = MAX_MODELS + 33,
+    kBrecheOwnerWindModel = MAX_MODELS + 34,
+    kBrecheOwnerTwilight02Model = MAX_MODELS + 35,
+    kBrecheOwnerTwilight01Model = MAX_MODELS + 36,
     kFirstModel = kWrathAuraModel,
     kLastVisibleModel = kClashRearModel,
-    kLastModel = kBrecheEmitterModel
+    kLastModel = kBrecheOwnerTwilight01Model
 };
 
 static_assert(31 <= kDynamicModelCapacity,
@@ -109,7 +120,34 @@ enum BitmapId
     // Private native slots, NOT the S21 runtime resource numbers.
     kBrecheLightMarksBitmap = 32967,
     kBrecheTwilight02Bitmap = 32968,
-    kBrecheTwilight01Bitmap = 32969
+    kBrecheTwilight01Bitmap = 32969,
+    kWrathMono01Bitmap = 32970,
+    kWrathMono02Bitmap = 32971,
+    kWrathMono03Bitmap = 32972,
+    kWrathScatter01Bitmap = 32973,
+    kWrathScatter02Bitmap = 32974,
+    kWrathScatter03Bitmap = 32975,
+    kWrathLightmarksBitmap = 32976,
+    kWrathFlare01Bitmap = 32977,
+    kWrathFlareBlueBitmap = 32978,
+    kWrathShockwaveBitmap = 32979,
+    kWrathBuffAtlasBitmap = 32980,
+    // firering01 is not present in the SS6 named texture registry.  It is
+    // staged privately and loaded only for the Breche owner-side branch.
+    kBrecheOwnerFireRingBitmap = 32981,
+    // Owner-side 0x80BC is kept on a private registration even though the
+    // image is also used by unrelated effects in the source client.
+    kBrecheOwnerRingBitmap = 32982,
+    // S21 Circle Shield buff216/221/222: upper-arm firehik_mono01/subtype12.
+    // Private Circle registration; no reuse of Wrath's bitmap slot/ownership.
+    kCircleUpperArmMonoBitmap = 32983,
+    // S21 master-icon page 0 is a distinct bitmap from the base skill atlas.
+    // Only the source-pinned Grow Lancer master 895 uses this private slot.
+    kWrathMasterIconAtlasBitmap = 32984,
+    kWrathMasterDisabledIconAtlasBitmap = 32985,
+    // S21 motion_blur registers NEAREST/CLAMP; SS6's shared BITMAP_BLUR+1
+    // is NEAREST/CLAMP_TO_EDGE. Keep only Spin's style-1 ribbon private.
+    kSpinMotionBlurBitmap = 32986
 };
 
 enum SkillIconContract
@@ -118,6 +156,13 @@ enum SkillIconContract
     kSkillIconWidth = 20,
     kSkillIconHeight = 28,
     kSkillIconAtlasSize = 512
+};
+
+enum WrathMasterIconContract
+{
+    kWrathMasterSkillId = 895,
+    kWrathMasterSkillGroup = 354,
+    kWrathMasterIconNumber = 408
 };
 
 enum SoundId
@@ -137,9 +182,25 @@ enum SoundId
 };
 
 bool EnsureModel(int modelId);
+// Source-class contract is explicit; this does not enable native class learning.
+// Caller supplies sampler policy, which still needs gameplay parity validation.
+bool EnsureClassBodyModel(unsigned sourceClassByte, unsigned part, unsigned filter, unsigned wrap);
+enum class BaseBodySubmitResult { Unavailable, Skipped, Submitted };
+// Ordinary base texture pass only. Caller owns equipment selection, final class
+// identity, shadows/buffs/selection passes and the validity of its bone array.
+BaseBodySubmitResult SubmitClassBaseBody(unsigned sourceClassByte, unsigned part,
+    OBJECT* owner, unsigned boneCount, const float* light, bool hideSkin,
+    bool translate, unsigned filter, unsigned wrap);
 bool IsVisibleModel(int modelId);
 bool EnsureBitmaps();
 bool EnsureBrecheBitmaps();
+bool EnsureWrathPersistentBitmaps();
+bool EnsureCirclePersistentBitmap();
+bool EnsureSpinMotionBlurBitmap();
+bool EnsureWrathScatterBitmaps();
+bool EnsureWrathGroundSpriteBitmaps();
+bool EnsureWrathBuffAtlas();
+void ReleaseWrathBuffAtlas();
 void LoadSounds();
 void ApplySkillCatalog();
 

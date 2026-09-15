@@ -4,6 +4,52 @@ Status: `IN_PROCESS`. IMPORTANT CORRECTION: the previously claimed
 action-specific body-equipment chain below is RETRACTED. It is an item-index
 switch, not an action switch. Historical notes are retained for audit only.
 
+## QA caster-action correction (2026-09-14)
+
+The isolated F7 fixture previously wrote `CurrentAction=289` and reset both
+animation fields directly. That did not mirror the recovered S21 call through
+the native action setter. `CreateBrecheAction` now uses `SetAction(289, true)`
+so the appended S21 clip receives the outgoing action/frame transition. The
+QA-only cast path also mirrors the receive-side source state (`Skill=279`,
+selected target, success flag, attack flag, target coordinates and
+`AttackTime=1`). This is a lifecycle correction, not evidence of a new
+caster-owned effect root. The verified S21 base local branch still has action
+190 + sound 1119, while the 5FD root and five children remain owned by the
+resolved secondary actor in the receive path.
+
+## Owner-side producer pinned from S21 per-character update (2026-09-15)
+
+The fresh read-only S21 cast capture is
+`artifacts/runtime_qa/s21_reference/breche_owner_recast_20260915_b`.
+Frame `frame_00042.jpg` is the decisive owner/target separation: the
+Grow Lancer has a large red/orange ground vortex centred under the caster,
+while each pig has an independent upright white/orange fire column. These
+are not one root copied to both actors.
+
+Static decompilation now pins the owner-side call site. In the per-character
+update/render routine `0x1424B34`, the normalized skill switch compares
+`0x117` (base skill `279`, Breche) at `0x14259F9..0x1425A03` and branches to
+`0x142B21D`. That branch calls `0x143E57C` with runtime type `0x5FD`,
+subtype `0`, scale `10.0f` (float at `0x1B4E4D0`), the current character's
+position (`object+0x158/+0x164/+0xEC`) and the current character as owner.
+This is distinct from receive `0x12CB7F5..0x12CB854`, which creates the same
+type with subtype `1` on the packet-resolved secondary actor and then emits
+the five child layers.
+
+The pinned full-dump cache and subtype-0 constructor still show the owner
+`0x5FD` record as a lifecycle/control object with zero bones, meshes and
+actions and no child allocation. Therefore this call site proves the owner
+control producer, but it does not identify the visible vortex's draw producer
+or asset. The former `bursta*.bmd` lead is explicitly excluded: its `0x5ED`
+chain belongs normalized skill `700` (Burst), not Breche `279`; no such asset
+is staged for Breche.
+
+That initial checkpoint is superseded by the 2026-09-15 owner-handler closure
+below: the owner draw producer is now pinned to `0x1535478` and its exact
+owner-only layer calls are recorded there.  The safety boundary remains: do
+not attach target children to the caster and do not synthesize a root BMD or
+choose `Fire_Blood`/`Damage_ring_2` by appearance alone.
+
 ## Attribution correction (authoritative, 2026-09-12)
 
 ### Actual local/receive branch recheck
@@ -104,11 +150,13 @@ velocity/action still require closure; no animation speed was guessed.
 Renderer15A0C98 routes5FD through bounded table15A11A4 (base4EE,
 limit190), selector byte51 at15BD910+(5FD-4EE), target15BD5DC in15BD840.
 The default branch range[40F,7A6) includes5FD and calls176D621 at15BD60A
-with object,0,0,0,-1,-1. This is NOT a no-render branch. The table verifier
-now checks this exact bounded default route; shared176D621 internals remain
-to map. Extracted model_registry.json has no runtimeId1533 entry at this
-checkpoint: absence from that extraction does not prove no model exists.
-Next:176D621 model lookup/render and binary registration provenance for5FD.
+with object,0,0,0,-1,-1. This is an attempted generic model pass, not proof
+of visible geometry. The full-dump cache snapshot now resolves key1533 to a
+model with zero bones, meshes and actions; the RISE root therefore remains a
+lifecycle-only record and must not stage or synthesize a root BMD. The bounded
+dispatch remains guarded by `verify_breche_dispatch_tables.py`; root output is
+guarded by `verify_breche_root_contract.py`. Remaining work is child render,
+contact, lifetime and pool evidence, not another root-asset hunt.
 
 Protocol mapping follow-up (2026-09-13): anchored ProtocolCore12FE380
 bounds its first argument to0xFD at12FE3CD and indexes130505C directly.
@@ -178,7 +226,11 @@ angle and light come from local [ebp-0x1948] (+0x158/+0x164/+0xEC).
 That local is derived from character local [ebp-0x1958]+0x3254 at
 0x12C5372..0x12C537D; caster/target identity requires tracing this local's
 producer before native mapping. Prior blanket exclusion of0x5FD from base
-Breche is RETRACTED. Receive effect is not yet implemented in RISE.
+Breche is RETRACTED. The isolated RISE `ReceiveMagic` branch now preserves the
+native source/target lookup and invokes `CreateBrecheAction(*so)` followed by
+`CreateBrecheHit(*to)`. This is a client receive-to-visual handoff only; it
+does not prove server authority, damage, target validity or owner pixels.
+Guard: `tools/grow_lancer/verify_breche_receive_render_wiring.py`.
 
 Update-table leads: primary slot0x59 ->0x153542A; subtype1 takes default
 to0x1538599 ->0x1574472. CORRECTION: secondary candidate0x15956D0
@@ -390,3 +442,154 @@ passes are skipped in S21. Preserve that behavior, do not duplicate geometry.
 - Exact GameServer line/AOE target selection and hit scheduling.
 - Evidence-backed recipient class/equipment mapping in RISE.
 - Isolated load/build/runtime comparison and regression validation.
+
+## Authoritative owner-side correction from fresh S21 cast (2026-09-15)
+
+The fresh native-reference capture `artifacts/runtime_qa/s21_reference/breche_owner_recast_20260915_b/frame_00042.jpg`
+separates two presentations that must never be merged in the port: the caster has
+a large red/orange/pink circular sweep with radial sparks, while each contacted
+target has its own upright white/orange fire column.  The latter is the receive
+root, not the caster effect.
+
+The owner path is now pinned in the protected S21 dump.  Per-character update
+`0x1424B34` selects skill `0x117` at `0x14259F9..0x1425A03` and enters
+`0x142B21D`.  That producer submits type `0x5FD`, subtype `0`, through the
+native allocator `0x143E57C`, with the current character as owner, copied
+character transform arguments, and a ten-unit scalar.  The independent receive
+packet path normalizes skill 279 and enters `0x12CB7F5`, which submits the same
+type with subtype `1` against the resolved secondary target; it is not the owner
+presentation.
+
+Primary update dispatch `0x14B769F` normalizes `0x5FD` to table index `0x12A`;
+selector `0x59` at `0x153542A` routes subtype `0` to `0x1535478` and subtype
+`1` to the common handler `0x1538599`.  The owner handler keeps a 20-tick
+lifetime and, while the owner is valid, emits three native particle-wrapper
+records per primary tick (`0x8084/0`, `0x806E/4`, `0x8085/0`), ten
+`0x8073` pin-light joints (extended CreateJoint, subtype 5, scale 6.0,
+orange color), and the timed layers below.  It also emits one `0xAD9` wind
+model record per primary tick with subtype 6, scale 3.0 and skill metadata 279.
+
+Owner timed layers recovered from the exact call sites are:
+
+- remaining life 17: ring-of-gradation (`0x80BC/sub1`, scale 5.5, red light)
+  and lightmarks (`0x81EC/sub0`, scale 6.0, red light);
+- remaining life 7: fire ring (`0x81EB/sub0`, scale 6.5, white light);
+- remaining life 15: `0x809F/sub2`, scale 3.0, plus two `0x809E/sub13`
+  records with scale 0 and skill metadata 279.
+
+The isolated 5.2 adapter now creates the owner controller separately from the
+target-contact helper, uses private hash-pinned owner resources under
+`Data\\RISE\\GrowLancer\\Breche\\Owner`, and renders the converted `wind_foce`
+through the native BMD Open2/Calc_RenderObject/RenderMesh path.  This is an
+implementation checkpoint, not visual acceptance: exact S21 random local
+placement, native blend/flip state for every owner bitmap, and an accepted 5.2
+owner frame remain open.
+
+## Owner controller position contract (2026-09-15)
+
+The fresh cast was followed by a full decode of the position writes in
+`0x15354EA..0x1535561`.  The S21 helper `0xD3189D` receives the local vector
+`(0,-200,0)`, the matrix built from the controller's own `+0x164` angle, and
+the controller's `+0x158` position as its output pointer.  The output is then
+added to the generic allocator's owner snapshot at `+0x1D0` (copied from the
+owner `+0x158` by `0xD2DF9E`).  Therefore the native semantic is:
+
+```text
+controller.Position = owner.Position + rotate(controller.Angle, (0,-200,0))
+```
+
+This is not a raw S21 offset and must not be implemented as a double owner
+position.  The first three owner particle records are emitted before this
+rewrite and use the previous controller position. Pin lights use the rewritten
+controller position. A later exact argument audit corrected an earlier
+attribution error: the `0x80BC` ring and `0x81EC` marks calls at
+`0x1535C6C..0x1535C86` and `0x1535CD6..0x1535CF0` load Position through
+`root.Owner + 0x158`, not through `root + 0x158`. The `0x81EB` fire ring and
+the two `0x809E/0x809F` twilight calls use the owner snapshot (`+0x1D0`).
+Thus every visible timed ground layer remains centered on the caster; only
+the pin/particle carrier retains the rotated -200 offset.
+
+Renderer evidence confirms `0x81EB` subtype 0 enters `0x15AEAED` and calls
+`0x1765DF1` with the effect's own `+0x158` X/Y, scale, angle Z and
+`Light*Alpha`, using additive blend and terrain height 5.  It does not read
+`+0x1D0` at render time. The owner wind call is wholly inside the S21
+remaining-life-7 branch (`0x1535DC1..0x1535FCF`): it copies the owner snapshot,
+subtracts the pinned `5.0f` constant from local Y, then passes that local at
+`0x1535FC2`. It is therefore a single child, not an every-tick emission.
+The previous 5.2 mapping created up to 20 overlapping wind bodies at the
+forward carrier position and is retracted.
+
+## Owner spatial correction after second 5.2 visual FAIL (2026-09-15)
+
+The owner-observed frame showed the large white arc still displaced beyond a
+one-tile target. Runtime breadcrumbs measured caster Y=12950, target Y=12850,
+and the ring/wind carriers Y=12750. Re-reading the complete call arguments
+proved that the 200-unit carrier offset was wrongly propagated to visible
+ring/marks and that AD9 was wrongly emitted every tick. The adapter now puts
+ring/marks at `owner.Position` and emits one AD9 record at owner snapshot Y-5
+only when remaining life is 7. This correction is dump-backed and build-tested;
+pixel acceptance remains open until the new binary is cast in the QA client.
+
+The same constructor branch at `0x147134E..0x14714FD` sets AD9/subtype6
+`LifeTime=MaxLifeTime=20` and alpha `0.9`. Its producer builds light
+`(1,.2,.2) * 3`, so the 5.2 adapter now initializes the child with
+`(3,.6,.6)` instead of inheriting the caster's white light.
+
+The neighboring `0x81EB/subtype0` constructor at `0x1482B5A` sets both
+life/max-life to 12 and alpha to zero. Its update compares life against half
+of max-life and changes alpha by `1/(maxLife*0.5)`, so the exact fixed form is
+`life > 6 ? +1/6 : -1/6`. The previous life20/alpha1 envelope is retracted.
+
+## Owner motion correction after 5.2 visual FAIL (2026-09-15)
+
+The first visible 5.2 preview proved two symptoms that static submission logs
+could not: the forward layer used a stale direction in the F7-only fixture,
+and its ring/wind presentation appeared frozen. The verified 200-unit local
+offset above is retained. F7 now reproduces the already-established
+ReceiveMagic ordering by resolving caster facing toward the selected target
+before owner-controller creation; no production packet or target behavior was
+changed.
+
+Fresh primary-dispatch decoding closes the missing child motion branches:
+
+- `0x80BC/sub1`, `0x1518760..0x1518819`: divide Scale and all three Light
+  components by constant 1.1 each tick;
+- `0x81EB/sub0`, `0x15385D2..0x153868B`: add 15 degrees to Angle.z and add or
+  subtract 0.1 alpha across the two halves of its 20-tick lifetime;
+- `0xAD9/sub6`, `0x151D307..0x151D459`: subtract 50 degrees from Angle.z,
+  subtract 0.01 alpha, then multiply each stored Light component by alpha.
+
+`verify_breche_owner_primary_dump_contract.py` pins the branch entries and
+float constants; `verify_breche_owner_adapter.py` pins their 5.2 mappings and
+the pre-controller QA facing order. Build and static checks pass, but visual
+acceptance remains open until the rebuilt frame sequence is observed.
+
+The owner wind model also does not use a private bright mesh-zero pass in S21.
+Render dispatch `0x15A136D` recognizes `0xAD9` and reaches `0x15AD77D`, which
+calls generic wrapper `0x176D621`. That wrapper runs `0x1886382` for the object
+transform and `0x1887B8B` for rendering. The default body submission at
+`0x1887E5E` pushes texture -1, the carrier's hidden/blend/light/UV/alpha tuple
+and render flag 2 (`RENDER_TEXTURE`). The 5.2 adapter now calls native
+`BMD::RenderBody` with the same named fields after `Calc_RenderObject`; it no
+longer multiplies light by alpha again or forces `RENDER_BRIGHT` on mesh zero.
+
+## S21 blend-mesh material contract (2026-09-15)
+
+Owner QA accepted the corrected caster-centered position and the yellow
+`0x8073/subtype5` slash streaks, while the center spiral visible in native S21
+frame 42 was absent. PID22760 nevertheless logged the AD9 child as live,
+visible and submitted with one mesh, one bone, one action and texture 35443.
+The staged `ground_wind.OZJ` is the hash-pinned S21 asset and decodes after its
+24-byte container prefix to a 256x128 three-component JPEG whose background is
+black. This narrows the failure to material blending rather than chain timing,
+position, model parsing or texture lookup.
+
+S21's generic body call supplies numeric flag 2. Common object reset
+`0x1315FEC` initializes BlendMesh field `+0x74` to zero and wrapper
+`0x1887E99..0x1887E9F` forwards that value. The decoded model has one mesh and
+that mesh references texture slot zero. Consequently RenderMesh
+`0x1332CBB..0x1332CFB` selects its additive blend-mesh path before the ordinary
+flag-2 texture branch. The isolated adapter now maps this exactly as
+`RENDER_TEXTURE + BlendMesh 0`; the prior extra `RENDER_BRIGHT` compatibility
+inference is retracted. This changes only the private Breche wind carrier.
+Static/build checks and owner-observed visual acceptance remain separate.

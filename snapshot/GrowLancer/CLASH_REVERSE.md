@@ -5,6 +5,28 @@ controller, both visible children, render/update/lifetime contracts and assets
 are statically closed. Server siege validation/pushback and RISE runtime parity
 remain open.
 
+### QA log correction — 2026-09-15
+
+The earlier no-launch statement below is historical, not the current QA
+status. Isolated QA PID 23952 invoked Clash skill 275 with a selected live
+target (index 12): `cast-input` changed native action 11 to 293 and
+`root-dispatched` recorded the target. The `target-skill-render` records
+include 993 successful native `clash-ensure` gates, 871 successful
+`clash-calc`/`clash-submit` pairs, and 120 `clash-calc result=0` skips. Every
+skip has alpha exactly 0.000000, consistent with the intentional invisible
+alpha envelope; no nonzero-alpha calculation skip was found. The two visible
+child model types are 10135/10136 in the private RISE ID range.
+Visible native submit samples for front 10135 (560 records) span life 25..0,
+alpha 0.05..0.65 and scale 0.76..0.89; rear 10136 (311 records) span life
+8..0, alpha 0.18..0.90 and scale 0.85..1.25. These match the bounded front
+alpha peak 0.65 and rear peak 0.90 encoded by the native scalar adapter;
+they do not provide S21 frame/pixel measurements. The rear theoretical final
+scale 1.30 is not submitted at alpha-zero expiry and is not a visual mismatch.
+These observations prove this selected-target native submit path reached its
+renderer; they do **not** prove correct pixels, source action-194 timing parity,
+caster/target displacement, siege eligibility or GameServer pushback. Clash
+remains `IN_PROCESS` and owner visual acceptance is OPEN.
+
 ## Identity and dispatch
 
 - `SkillList.xml` identifies skill 275 as Grow Lancer `Clash`: damage 50,
@@ -188,3 +210,16 @@ of runtime model mutation safety or owner pointer reuse.
 - Still open: authoritative GameServer siege/PvP eligibility, target
   validation and pushback displacement; exact packet symbol names; isolated
   model loading, native RISE IDs and in-game comparison.
+
+### Isolated model/texture render pipeline rechecked — 2026-09-14
+
+`tools/grow_lancer/verify_clash_model_pipeline.py` now pins the two private
+model rows (`crasha01.bmd` and `crasha02.bmd`), native `BMD::Open2`, the
+existing bitmap loader's `.jpg` -> `.OZJ` path and the renderer order
+`EnsureModel -> Calc_RenderObject -> RenderMesh(mesh0)`.  It also verifies the
+four staged Clash asset hashes against `asset_provenance.json`.
+
+This closes the source/staging contract only.  `BMD::RenderMesh` may use the
+native shader queue or its existing legacy fallback; no renderer replacement
+or S21 pointer transplant is allowed.  GPU pixels, pool/cache reuse and a
+selected-target owner cast remain open.

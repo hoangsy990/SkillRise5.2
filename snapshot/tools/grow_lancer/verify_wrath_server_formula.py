@@ -26,3 +26,29 @@ for skill, buff in ((278, 424), (895, 425)):
     assert row.get('Duration') == '0'
     print(f'PASS skill {skill} -> buff {buff}, table Duration=0 (meaning unresolved)')
 print('OPEN duration/lifecycle implementation, formula call sites, units and integer rounding')
+
+raw = (base/'BuffEffectManager.xml').read_bytes()
+assert hashlib.sha256(raw).hexdigest() == '201452c00d9d5ce0db83820ef48ec4317a6654864c0be9176a6389694a4ad6b0'
+# This supplied file has malformed unrelated XML at line414. Parse only the
+# exact single-line records under audit, without repairing or rewriting source.
+def buff_rows(buff):
+    marker = f'<Buff Index="{buff}"'.encode('ascii')
+    return [ET.fromstring(line.strip()) for line in raw.splitlines() if marker in line]
+
+for buff, name in ((424, 'Wrath'), (425, 'Wrath Strengthener')):
+    rows = buff_rows(buff)
+    assert len(rows) == 1
+    row = rows[0]
+    for key, value in {
+        'EffectType': '123', 'ItemType': '-1', 'ItemIndex': '-1',
+        'Type': '0', 'NoticeType': '1', 'ClearType': '1',
+        'BuffOutputValue': '0', 'Name': name,
+        'Description': 'Attack and combat power increase. Defense decreases.',
+    }.items():
+        assert row.get(key) == value, (buff, key, row.get(key))
+for buff in (218, 223, 224):
+    rows = buff_rows(buff)
+    assert len(rows) == 1 and rows[0].get('EffectType') == '123'
+    assert rows[0].get('Description') == 'Decreases Defense by 30%, increases Damage by 50%'
+print('PASS: exact424/425 rows pinned; same EffectType123 also labels legacy218/223/224 with different descriptions.')
+print('Do not identify buff behavior by EffectType or copy legacy50%/30% descriptions into new Wrath rules.')

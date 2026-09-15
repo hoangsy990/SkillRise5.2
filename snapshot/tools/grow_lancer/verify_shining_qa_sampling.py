@@ -2,7 +2,10 @@
 from pathlib import Path
 root = Path(__file__).resolve().parents[2] / 'ExMain_RISE_PC/Main5.2_RISE/RISE'
 qa = (root/'GrowLancerRuntimeQA.cpp').read_text()
-body = qa.split('void RecordShiningQASample(', 1)[1].split('bool HandleRuntimeQAHotKey()', 1)[0]
+# Stop at the next function.  The body-texture probe intentionally allocates
+# a private BMD table and lives after this callback; including it here made
+# the old guard reject its own unrelated ``new``/OpenGL QA code.
+body = qa.split('void RecordShiningQASample(', 1)[1].split('int RunBodyTextureProbeQA()', 1)[0]
 assert 'controller.Owner != &Hero->Object' in body
 assert 'controller.SubType != 0' in body
 assert 'gShiningSampleCount >= 512' in body

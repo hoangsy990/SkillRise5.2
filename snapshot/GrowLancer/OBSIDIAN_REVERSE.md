@@ -1,5 +1,20 @@
 # Obsidian (skill 273) Season 21 client reverse
 
+## Owner S21 hand-lightning observation — 2026-09-15
+
+The owner supplied a native S21 gameplay crop (temporary screenshot SHA-256
+`3D3016F13CF6A16A3DF198C108257B23A9B34C3C39D516D525071E9E12F6064C`)
+and reports blue lightning at the hand for Obsidian. Keep this distinct from
+Spin Step's observed purple shoulder lights. The proven Obsidian constructor
+`0x1480640` emits `Thunder01` particle subtype 8 at an angle-transformed
+caster-relative `(-10,0,170)` offset with null owner; the port uses the
+byte-identical native `BITMAP_ENERGY` texture at that offset. No hand-bone
+attachment or weapon ownership has yet been proved for this particle. The
+two `obsidiana`/`obsidian` BMD meshes may contribute to the pictured blue
+light, and an equipment effect must be ruled out with a fixed-camera
+before/after-cast comparison. Do not move the proven offset to a guessed
+hand bone. Source screen-space placement and 5.2 parity remain OPEN.
+
 Status: client visual chain is statically verified; server party-buff selection
 and SS6 compatibility/runtime QA remain open.
 

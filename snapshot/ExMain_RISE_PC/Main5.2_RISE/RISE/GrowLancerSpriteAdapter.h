@@ -1,5 +1,20 @@
 #pragma once
 
+class OBJECT;
+
+namespace rise { namespace growlancer {
+
+// The S21 7EF7 flare is byte-identical to SS6 BITMAP_LIGHT, so its
+// provenance cannot be carried in the texture id.  Keep a private pool mark
+// instead of changing the shared OBJECT layout or the legacy sprite subtype.
+int CreateBrecheSprite(int texture, float* position, float scale, float* light,
+    OBJECT* owner, float rotation = 0.0f);
+void MarkBrecheSprite(OBJECT* sprite);
+void ClearBrecheSprite(OBJECT* sprite);
+bool IsBrecheSprite(const OBJECT* sprite);
+
+} }
+
 // Include after native GL, BindTexture, RenderSprite and SpriteBatch330.
 namespace rise { namespace growlancer {
 namespace detail {

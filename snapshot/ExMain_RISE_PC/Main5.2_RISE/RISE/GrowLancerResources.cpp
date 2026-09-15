@@ -1,9 +1,13 @@
 #include "stdafx.h"
 #include "GrowLancerResources.h"
+#include "GrowLancerSkillIdCapacity.h"
 #include "ZzzBMD.h"
 #include "ZzzInfomation.h"
 #include "ZzzTexture.h"
 #include "DSPlaySound.h"
+#include "../../../GrowLancer/compat/ClassBodyDescriptor.h"
+
+extern float BoneScale; // existing native ZzzBMD.cpp transform scale
 
 namespace rise { namespace growlancer {
 namespace {
@@ -33,7 +37,11 @@ const ModelRow kModels[] = {
     {kHarshWind01Model, "Data\\RISE\\GrowLancer\\HarshStrike\\", "h_strike_wind01.bmd"},
     {kHarshWind02Model, "Data\\RISE\\GrowLancer\\HarshStrike\\", "h_strike_wind02.bmd"},
     {kClashFrontModel, "Data\\RISE\\GrowLancer\\Clash\\", "crasha01.bmd"},
-    {kClashRearModel, "Data\\RISE\\GrowLancer\\Clash\\", "crasha02.bmd"}
+    {kClashRearModel, "Data\\RISE\\GrowLancer\\Clash\\", "crasha02.bmd"},
+    // S21 0xAD9 is a one-mesh BMD using ground_wind.jpg.  The converted
+    // file is staged under the Breche owner package, not the shared model
+    // registry, so native MODEL_WINDFOCE is never replaced.
+    {kBrecheOwnerWindModel, "Data\\RISE\\GrowLancer\\Breche\\Owner\\", "wind_foce.bmd"}
 };
 
 struct BitmapRow
@@ -95,13 +103,179 @@ const SkillRow kSkills[] = {
 
 }
 
+static bool EnsureClassBodyGpu(unsigned part)
+{
+#ifdef jdk_shader_local330
+    if (!Models || part >= kClassBodyModelCount || !wglGetCurrentContext()) return false;
+    if (!OGL330::IsShader()) return true; // native legacy path needs no VAO
+    BMD& model = Models[ClassBodyModelId(part, MAX_MODELS)];
+    if (model.NumMeshs != kBaseClassBodies[part].meshCount) return false;
+    if (!model.NewMeshes)
+    {
+        // Reuse native conversion/upload, scoped to our five private body slots.
+        // The legacy registry wrapper deliberately rejects extended model IDs.
+        GLint vao = 0, arrayBuffer = 0, elementBuffer = 0;
+        glGetIntegerv(GL_VERTEX_ARRAY_BINDING, &vao);
+        glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &arrayBuffer);
+        glGetIntegerv(GL_ELEMENT_ARRAY_BUFFER_BINDING, &elementBuffer);
+        model.LoadMeshToVAO();
+        model.UploadAllToGPU();
+        glBindVertexArray(static_cast<GLuint>(vao));
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, static_cast<GLuint>(elementBuffer));
+        glBindBuffer(GL_ARRAY_BUFFER, static_cast<GLuint>(arrayBuffer));
+    }
+    bool valid = model.NewMeshes && model.NewMeshes->size() == static_cast<size_t>(model.NumMeshs);
+    if (valid)
+    {
+        for (size_t mesh = 0; mesh < model.NewMeshes->size(); ++mesh)
+        {
+            const VAOMesh& gpu = (*model.NewMeshes)[mesh];
+            valid = valid && gpu.VertexCount > 0 && gpu.IndexCount > 0
+                && glIsVertexArray(gpu.VAO) && glIsBuffer(gpu.VBO) && glIsBuffer(gpu.IBO);
+        }
+    }
+    if (!valid) model.ReleaseGpuMeshes(); // retry without reacquiring CPU/material refs
+    return valid;
+#else
+    return part < kClassBodyModelCount;
+#endif
+}
+
+static bool ClassBodyMaterialMatches(GLuint id, const ClassBodyMaterial* material,
+    unsigned filter, unsigned wrap)
+{
+    BITMAP_t* bitmap = Bitmaps.FindTexture(id);
+    if (!material || !bitmap || bitmap->Components != material->components
+        || !glIsTexture(bitmap->TextureNumber)) return false;
+    const std::string path = std::string("Data\\RISE\\GrowLancer\\ClassBody\\") + material->textureFile;
+    if (Bitmaps.FindTexture(path) != bitmap) return false;
+    GLint previous = 0, minFilter = 0, magFilter = 0, wrapS = 0, wrapT = 0;
+    glGetIntegerv(GL_TEXTURE_BINDING_2D, &previous);
+    glBindTexture(GL_TEXTURE_2D, bitmap->TextureNumber);
+    glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, &minFilter);
+    glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, &magFilter);
+    glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, &wrapS);
+    glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, &wrapT);
+    glBindTexture(GL_TEXTURE_2D, static_cast<GLuint>(previous));
+    return minFilter == filter && magFilter == filter && wrapS == wrap && wrapT == wrap;
+}
+
+bool EnsureClassBodyModel(unsigned sourceClassByte, unsigned part, unsigned filter, unsigned wrap)
+{
+    if (!HasVerifiedBaseBodyMaterial(sourceClassByte) || part >= kClassBodyModelCount
+        || !Models || !wglGetCurrentContext()) return false;
+    if ((filter != GL_NEAREST && filter != GL_LINEAR)
+        || (wrap != GL_REPEAT && wrap != GL_CLAMP_TO_EDGE)) return false;
+    const int id = ClassBodyModelId(part, MAX_MODELS);
+    const ClassBodyDescriptor& descriptor = kBaseClassBodies[part];
+    BMD& model = Models[id];
+    if (model.NumMeshs > 0)
+    {
+        if (model.NumMeshs != descriptor.meshCount || model.NumBones != descriptor.boneCount
+            || model.NumActions != descriptor.actionCount || !model.Meshs || !model.IndexTexture)
+            return false;
+        for (unsigned mesh = 0; mesh < descriptor.meshCount; ++mesh)
+            if (model.Meshs[mesh].Texture != mesh || !ClassBodyMaterialMatches(model.IndexTexture[mesh],
+                BaseClassMaterial(descriptor.part, mesh), filter, wrap)) return false;
+        return EnsureClassBodyGpu(part);
+    }
+    char directory[] = "Data\\RISE\\GrowLancer\\ClassBody\\";
+    char filename[32] = {};
+    strcpy_s(filename, descriptor.modelFile);
+    model.m_iBMDSeqID = id;
+    if (!model.Open2(directory, filename)) return false;
+    bool valid = model.NumMeshs == descriptor.meshCount && model.NumBones == descriptor.boneCount
+        && model.NumActions == descriptor.actionCount;
+    // Native Release reads IndexTexture[mesh.Texture]. Initialize every slot
+    // before any material load can fail. These fixed bodies use unique slots.
+    for (int mesh = 0; mesh < model.NumMeshs; ++mesh)
+    {
+        model.IndexTexture[mesh] = BITMAP_SKIN; // native no-delete sentinel
+        if (model.Meshs[mesh].Texture != mesh) valid = false;
+        model.Meshs[mesh].Texture = static_cast<short>(mesh);
+    }
+    if (!valid) { model.Release(); model.m_bCompletedAlloc = false; return false; }
+    for (unsigned mesh = 0; mesh < descriptor.meshCount; ++mesh)
+    {
+        const ClassBodyMaterial* material = BaseClassMaterial(descriptor.part, mesh);
+        const GLuint texture = material ? Bitmaps.LoadImageFile(
+            std::string(directory) + material->textureFile, filter, wrap) : BITMAP_UNKNOWN;
+        if (texture == BITMAP_UNKNOWN)
+        {
+            // Unassigned slots remain sentinel; previously acquired refs are
+            // released exactly once by the existing native BMD lifecycle.
+            model.Release();
+            model.m_bCompletedAlloc = false;
+            return false;
+        }
+        model.IndexTexture[mesh] = texture;
+        // Native filename cache ignores requested sampler on reuse. Never mutate
+        // a shared texture to satisfy this private body request.
+        if (!ClassBodyMaterialMatches(texture, material, filter, wrap))
+        {
+            model.Release(); model.m_bCompletedAlloc = false;
+            return false;
+        }
+    }
+    return EnsureClassBodyGpu(part);
+}
+
+BaseBodySubmitResult SubmitClassBaseBody(unsigned sourceClassByte, unsigned part,
+    OBJECT* owner, unsigned boneCount, const float* light, bool hideSkin,
+    bool translate, unsigned filter, unsigned wrap)
+{
+    if (!HasVerifiedBaseBodyMaterial(sourceClassByte) || part >= kClassBodyModelCount
+        || !owner || !light) return BaseBodySubmitResult::Unavailable;
+    // Every verified base-body material is skin/hair. Concrete private texture
+    // IDs bypass legacy sentinels, so suppress this pass before resource loading.
+    if (hideSkin || owner->Alpha <= 0.01f) return BaseBodySubmitResult::Skipped;
+    if (!owner->BoneTransform || boneCount < kBaseClassBodies[part].boneCount
+        || !EnsureClassBodyModel(sourceClassByte, part, filter, wrap))
+        return BaseBodySubmitResult::Unavailable;
+    BMD& body = Models[ClassBodyModelId(part, MAX_MODELS)];
+    body.HideSkin = false;
+    body.BodyScale = owner->Scale;
+    body.ContrastEnable = owner->ContrastEnable;
+    body.LightEnable = owner->LightEnable;
+    VectorCopy(owner->Position, body.BodyOrigin);
+    VectorCopy(light, body.BodyLight);
+    // Ordinary RenderPartObject resets BoneScale to1. Preserve the caller's
+    // global value, and do not enter its item/Monk/cloth/selection dispatch.
+    struct BoneScaleScope
+    {
+        float previous;
+        BoneScaleScope() : previous(BoneScale) { BoneScale = 1.0f; }
+        ~BoneScaleScope() { BoneScale = previous; }
+    } scaleScope;
+    body.Transform(owner->BoneTransform, owner->BoundingBoxMin, owner->BoundingBoxMax,
+        &owner->OBB, translate);
+    // Matches generic native base-body pass: no owner HiddenMesh override.
+    // BMD::RenderBody keeps its native mesh scripts and synchronous shader flush.
+    body.RenderBody(RENDER_TEXTURE, owner->Alpha, owner->BlendMesh, owner->BlendMeshLight,
+        owner->BlendMeshTexCoordU, owner->BlendMeshTexCoordV);
+    return BaseBodySubmitResult::Submitted;
+}
+
 bool EnsureModel(int modelId)
 {
     if (!Models || !IsVisibleModel(modelId))
         return false;
     BMD& model = Models[modelId];
     if (model.NumMeshs > 0 && model.NumBones > 0 && model.NumActions > 0)
+    {
+#ifdef jdk_shader_local330
+        // Stock ConvertOldMeshToVaoMesh returns for modelId >= MAX_MODELS.
+        // These are only the package's registered private BMDs, and can have
+        // been opened before shader initialization. Reuse native BMD upload
+        // once the real GL/shader context exists; leave SS6 converter intact.
+        if (OGL330::IsShader() && wglGetCurrentContext() && !model.NewMeshes)
+        {
+            model.LoadMeshToVAO();
+            model.UploadAllToGPU();
+        }
+#endif
         return true;
+    }
     const ModelRow* row = 0;
     for (int i = 0; i < static_cast<int>(sizeof(kModels) / sizeof(kModels[0])); ++i)
         if (kModels[i].id == modelId) { row = &kModels[i]; break; }
@@ -125,14 +299,22 @@ bool EnsureModel(int modelId)
         }
     }
 #ifdef jdk_shader_local330
-    OGL330MODEL::ConvertOldMeshToVaoMesh(modelId);
+    // The stock converter's MAX_MODELS guard excludes every private Grow
+    // Lancer BMD. Follow the already-native class-body Open2/VAO adapter,
+    // scoped here instead of widening the global SS6 shader model limit.
+    if (OGL330::IsShader() && wglGetCurrentContext())
+    {
+        model.LoadMeshToVAO();
+        model.UploadAllToGPU();
+    }
 #endif
     return model.NumMeshs > 0 && model.NumBones > 0 && model.NumActions > 0;
 }
 
 bool IsVisibleModel(int modelId)
 {
-    return modelId >= kFirstModel && modelId <= kLastVisibleModel;
+    return (modelId >= kFirstModel && modelId <= kLastVisibleModel) ||
+        modelId == kBrecheOwnerWindModel;
 }
 
 bool EnsureBitmaps()
@@ -155,13 +337,125 @@ bool EnsureBrecheBitmaps()
     const BitmapRow rows[] = {
         {kBrecheLightMarksBitmap, "Data\\RISE\\GrowLancer\\Breche\\lightmarks_red.jpg"},
         {kBrecheTwilight02Bitmap, "Data\\RISE\\GrowLancer\\Breche\\twlighthik02.jpg"},
-        {kBrecheTwilight01Bitmap, "Data\\RISE\\GrowLancer\\Breche\\twlighthik01.jpg"}
+        {kBrecheTwilight01Bitmap, "Data\\RISE\\GrowLancer\\Breche\\twlighthik01.jpg"},
+        {kBrecheOwnerFireRingBitmap, "Data\\RISE\\GrowLancer\\Breche\\Owner\\firering01.jpg"},
+        {kBrecheOwnerRingBitmap, "Data\\RISE\\GrowLancer\\Breche\\Owner\\ring_of_gradation.jpg"}
     };
     for (int i = 0; i < static_cast<int>(sizeof(rows) / sizeof(rows[0])); ++i)
     {
         if (!Bitmaps.FindTexture(rows[i].id) &&
             !Bitmaps.LoadImageFile(rows[i].id, rows[i].path, GL_LINEAR, GL_CLAMP))
             return false;
+    }
+    return true;
+}
+
+bool EnsureWrathBuffAtlas()
+{
+    const char* path = "Data\\RISE\\GrowLancer\\Wrath\\WrathBuffAtlas.tga";
+    BITMAP_t* bitmap = Bitmaps.FindTexture(kWrathBuffAtlasBitmap);
+    if (bitmap && _stricmp(bitmap->FileName, path) != 0) return false;
+    if (!bitmap && !Bitmaps.LoadImageFile(kWrathBuffAtlasBitmap, path, GL_LINEAR, GL_CLAMP)) return false;
+    bitmap = Bitmaps.FindTexture(kWrathBuffAtlasBitmap);
+    return bitmap && bitmap->Components == 4 && bitmap->Width == 1024.f && bitmap->Height == 256.f;
+}
+
+void ReleaseWrathBuffAtlas()
+{
+    BITMAP_t* bitmap = Bitmaps.FindTexture(kWrathBuffAtlasBitmap);
+    if (bitmap && _stricmp(bitmap->FileName, "Data\\RISE\\GrowLancer\\Wrath\\WrathBuffAtlas.tga") == 0)
+        DeleteBitmap(kWrathBuffAtlasBitmap);
+}
+
+bool EnsureWrathPersistentBitmaps()
+{
+    // Private IDs and sampler: never replace an existing unrelated bitmap.
+    // Missing persistent assets do not disable other Grow Lancer skills.
+    const BitmapRow rows[] = {
+        {kWrathMono01Bitmap, "Data\\RISE\\GrowLancer\\Wrath\\firehik_mono01.jpg"},
+        {kWrathMono02Bitmap, "Data\\RISE\\GrowLancer\\Wrath\\firehik_mono02.jpg"},
+        {kWrathMono03Bitmap, "Data\\RISE\\GrowLancer\\Wrath\\firehik_mono03.jpg"}
+    };
+    for (int i = 0; i < static_cast<int>(sizeof(rows) / sizeof(rows[0])); ++i)
+    {
+        BITMAP_t* bitmap = Bitmaps.FindTexture(rows[i].id);
+        if (bitmap && _stricmp(bitmap->FileName, rows[i].path) != 0)
+            return false;
+        if (!bitmap && !Bitmaps.LoadImageFile(rows[i].id, rows[i].path, GL_LINEAR, GL_CLAMP))
+            return false;
+        bitmap = Bitmaps.FindTexture(rows[i].id);
+        if (!bitmap || bitmap->Components != 3 || bitmap->Width != 64.f || bitmap->Height != 64.f)
+            return false;
+    }
+    return true;
+}
+
+bool EnsureCirclePersistentBitmap()
+{
+    // S21 0x18BD7EC registers 0x8086 with GL_LINEAR/GL_CLAMP_TO_EDGE.
+    // Keep Circle's staged asset and native slot separate from Wrath.
+    const BitmapRow row = {kCircleUpperArmMonoBitmap,
+        "Data\\RISE\\GrowLancer\\CircleShield\\firehik_mono01.jpg"};
+    BITMAP_t* bitmap = Bitmaps.FindTexture(row.id);
+    if (bitmap && _stricmp(bitmap->FileName, row.path) != 0) return false;
+    if (!bitmap && !Bitmaps.LoadImageFile(row.id, row.path,
+        GL_LINEAR, GL_CLAMP_TO_EDGE)) return false;
+    bitmap = Bitmaps.FindTexture(row.id);
+    return bitmap && bitmap->Components == 3 && bitmap->Width == 64.f &&
+        bitmap->Height == 64.f;
+}
+
+bool EnsureSpinMotionBlurBitmap()
+{
+    // S21 registration18BDDB8..18BDDD5: motion_blur ID0x7F08,
+    // min/mag GL_NEAREST (0x2600), wrap GL_CLAMP (0x2900). This is a
+    // private 5.2 registration, not a replacement of SS6 BITMAP_BLUR+1.
+    const BitmapRow row = {kSpinMotionBlurBitmap,
+        "Data\\RISE\\GrowLancer\\SpinStep\\motion_blur.jpg"};
+    BITMAP_t* bitmap = Bitmaps.FindTexture(row.id);
+    if (bitmap && _stricmp(bitmap->FileName, row.path) != 0) return false;
+    if (!bitmap && !Bitmaps.LoadImageFile(row.id, row.path,
+        GL_NEAREST, GL_CLAMP)) return false;
+    bitmap = Bitmaps.FindTexture(row.id);
+    return bitmap && bitmap->Components == 3 && bitmap->Width > 0.f &&
+        bitmap->Height > 0.f;
+}
+
+bool EnsureWrathScatterBitmaps()
+{
+    const BitmapRow rows[] = {
+        {kWrathScatter01Bitmap, "Data\\RISE\\GrowLancer\\Wrath\\lighting_mega01.jpg"},
+        {kWrathScatter02Bitmap, "Data\\RISE\\GrowLancer\\Wrath\\lighting_mega02.jpg"},
+        {kWrathScatter03Bitmap, "Data\\RISE\\GrowLancer\\Wrath\\lighting_mega03.jpg"}
+    };
+    for (int i = 0; i < 3; ++i)
+    {
+        BITMAP_t* bitmap = Bitmaps.FindTexture(rows[i].id);
+        if (bitmap && _stricmp(bitmap->FileName, rows[i].path) != 0) return false;
+        // S21 scatter uses REPEAT, unlike the mono fire's CLAMP.
+        if (!bitmap && !Bitmaps.LoadImageFile(rows[i].id, rows[i].path, GL_LINEAR, GL_REPEAT)) return false;
+        bitmap = Bitmaps.FindTexture(rows[i].id);
+        if (!bitmap || bitmap->Components != 3 || bitmap->Width != 128.f || bitmap->Height != 128.f) return false;
+    }
+    return true;
+}
+
+bool EnsureWrathGroundSpriteBitmaps()
+{
+    const BitmapRow rows[] = {
+        {kWrathLightmarksBitmap, "Data\\RISE\\GrowLancer\\Wrath\\lightmarks.jpg"},
+        {kWrathFlare01Bitmap, "Data\\RISE\\GrowLancer\\Wrath\\flare01.jpg"},
+        {kWrathFlareBlueBitmap, "Data\\RISE\\GrowLancer\\Wrath\\flareBlue.jpg"},
+        {kWrathShockwaveBitmap, "Data\\RISE\\GrowLancer\\Wrath\\Shockwave2.jpg"}
+    };
+    const float sizes[] = {128.f,64.f,64.f,256.f};
+    for (int i = 0; i < 4; ++i)
+    {
+        BITMAP_t* bitmap = Bitmaps.FindTexture(rows[i].id);
+        if (bitmap && _stricmp(bitmap->FileName, rows[i].path) != 0) return false;
+        if (!bitmap && !Bitmaps.LoadImageFile(rows[i].id, rows[i].path, GL_LINEAR, GL_CLAMP)) return false;
+        bitmap = Bitmaps.FindTexture(rows[i].id);
+        if (!bitmap || bitmap->Components != 3 || bitmap->Width != sizes[i] || bitmap->Height != sizes[i]) return false;
     }
     return true;
 }
@@ -187,6 +481,8 @@ void ApplySkillCatalog()
         "Grow Lancer skill ID capacity is too small");
     static_assert(MAX_CLASS == 7,
         "Fail-closed class contract must be reviewed if class count changes");
+    static_assert(kSkillAttributeIdCapacity > kWrathMasterSkillId,
+        "The source-pinned S21 master ID must fit the isolated attribute lookup");
     for (int i = 0; i < static_cast<int>(sizeof(kSkills) / sizeof(kSkills[0])); ++i)
     {
         const SkillRow& row = kSkills[i];
@@ -211,6 +507,28 @@ void ApplySkillCatalog()
         // Intentionally leave all seven RequireClass bytes zero. RISE 5.2 has
         // no Grow Lancer class slot; assigning an SS6 class would be guessing.
     }
+    // Skill.bmd remains the original 650-record SS6 format. This one high-ID
+    // row comes from pinned S21 SkillList.xml + active third tree, not from
+    // an out-of-bounds read or an inferred adjacent client skill record.
+    // The native seven-class requirement bytes stay zero and GS cast stays
+    // fail-closed until real class7/server behavior is ported.
+    SKILL_ATTRIBUTE& master = SkillAttribute[kWrathMasterSkillId];
+    ZeroMemory(&master, sizeof(master));
+    strcpy_s(master.Name, "Wrath Strengthener");
+    master.Level = 66;
+    master.Damage = 312;
+    master.Mana = 50;
+    master.AbilityGuage = 40;
+    master.Distance = 0;
+    master.Delay = 0;
+    master.Strength = 200;
+    master.Dexterity = 200;
+    master.MasteryType = 255;
+    master.SkillUseType = SKILL_USE_TYPE_MASTERACTIVE;
+    master.SkillBrand = kWrathSkill;
+    master.SkillRank = 4;
+    master.SkillGroup = kWrathMasterSkillGroup;
+    master.Magic_Icon = kWrathMasterIconNumber;
 }
 
 }}

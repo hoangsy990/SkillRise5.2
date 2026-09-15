@@ -48,6 +48,31 @@ def main():
     if (render_selector, render_target) != (51, 0x15BD5DC):
         raise ValueError('Breche default model render dispatch changed')
     print('PASS: bounded render5FD ->selector51 ->15BD5DC (default model route)')
+    # Per-character owner branch: normalized skill 0x117 (279/Breche) at
+    # 0x1424B34 jumps 0x142B21D and creates 0x5FD subtype 0 on the current
+    # object with the 10.0f scale constant. This is not the receive subtype1
+    # child tree above and must never be reused as a target visual.
+    branch = 0x14259F9 - BASE
+    if data[branch:branch + 10] != b'\x81\xbd\x00\xfd\xff\xff\x17\x01\x00\x00':
+        raise ValueError('Breche owner normalized-skill compare changed')
+    owner_jump = 0x1425A03 - BASE
+    if data[owner_jump:owner_jump + 2] != b'\x0f\x84':
+        raise ValueError('Breche owner branch conditional jump changed')
+    rel = struct.unpack_from('<i', data, owner_jump + 2)[0]
+    if BASE + owner_jump + 6 + rel != 0x142B21D:
+        raise ValueError('Breche owner branch target changed')
+    owner_call = 0x142B26B - BASE
+    if data[owner_call] != 0x68 or struct.unpack_from('<I', data, owner_call + 1)[0] != 0x5FD:
+        raise ValueError('Breche owner CreateEffect type changed')
+    call = owner_call + 5
+    if data[call] != 0xE8 or BASE + call + 5 + struct.unpack_from('<i', data, call + 1)[0] != 0x143E57C:
+        raise ValueError('Breche owner CreateEffect call changed')
+    scale = struct.unpack_from('<f', data, 0x1B4E4D0 - BASE)[0]
+    if abs(scale - 10.0) > 1e-6:
+        raise ValueError('Breche owner scale constant changed')
+    if data[0x142B23C - BASE:0x142B23C - BASE + 2] != b'\x6a\x00':
+        raise ValueError('Breche owner subtype push changed')
+    print('PASS: normalized skill279 owner branch ->142B21D ->5FD subtype0, scale10')
     for particle, expected_selector, expected_target in (
         (0x8084, 30, 0x16673C6), (0x806E, 20, 0x164B3FF),
         (0x8085, 31, 0x166C453),

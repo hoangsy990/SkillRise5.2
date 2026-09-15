@@ -3,13 +3,47 @@
 Status: `STATIC_EVIDENCE_COMPLETE`, runtime handlers remain outside the base-nine
 port until the recipient class and authoritative server dispatch are available.
 
+## Wrath active master 895 icon route — 2026-09-15
+
+Pinned SkillList.xml row 895 names `Wrath Strengthener`, sets GrowLancer=3,
+Rank=4, Group=354 and IconNumber=408. The client main dump (SHA-256
+`6422CB4EBA9432130EB247B47723EA6FC0014F5100EA0C6E63DB8350F9275637`)
+has a master-icon renderer at `0xC4633B..0xC4642D`: a per-skill field at
+`+0x8C` is divided by 450 for atlas page and the remainder by 25 for UV.
+The normal master branch adds the page to runtime bitmap `0x7E18`, registered
+at `0x18BC8EC` as `Interface\new_Master_Icon.jpg`; disabled uses `0x7E1A`.
+For source Group354 this selects page0 and cell `(80,392,20,28)` in the
+512x512 first master atlas. The matching ordinary `newui_skill00` cell354 is
+grayscale placeholder content, so it is not an acceptable atlas replacement.
+
+Another decoded S21 master renderer at `0xBCF221..0xBCF2F0` reads the same
+`+0x8C` field, divides by450 and25 and renders master page `0x7E18`.
+Its exact user-facing panel attribution remains OPEN; it is not proof that
+IconNumber408 selects ordinary atlas cell408.
+
+The isolated 5.2 package now has private normal/disabled bitmap32984/32985
+and `SkillAttribute[895]` overlay from the pinned row. The existing native
+master-tree and skill-list UV paths use `SkillGroup`; only skill895 selects
+the private S21 master atlas in either path. Its normal source
+OZJ SHA-256 is `DF3D1F863741E720EFC7B9ECC90117BB1BE9CA49852A86420FA8CA3E396D9F74`.
+A normal and disabled hash-identical copy exist in the *inactive* Grow Lancer
+test client; the disabled source `new_Master_non_Icon.OZJ` SHA-256 is
+`9FBD4B584C260A97B39E7C5FB93473879ECF96B8646396288BC4542DE36B9D5A`.
+On 2026-09-15 the old QA PID25016 exited and the guarded stage copied both
+assets plus EXE to the active isolated QA client; full overlay hash verification
+passed. No live icon pixels have been inspected. The seven native
+`RequireClass` bytes and server handlers remain fail-closed. IconNumber408
+belongs to the S21 table but its separate live skill-list renderer attribution
+is still OPEN; do not use cell408 from the ordinary base atlas or call this
+visual PASS. `verify_wrath_master_icon_route.py` pins the bounded evidence.
+
 ## Pinned sources
 
-- `C:\Users\DELL\Desktop\Skills\SkillList.xml`, SHA-256
+- `D:\GameServer S21\Data\Skills\SkillList.xml`, SHA-256
   `3E238C786ECAB3445A0DB4756FE3D2A3923FBC0594506BB9C3FF206020A7E0A0`.
-- `C:\Users\DELL\Desktop\Skills\SkillTreeData_3rd.xml`, SHA-256
+- `D:\GameServer S21\Data\Skills\SkillTreeData_3rd.xml`, SHA-256
   `CE19B7482839524A6FC8B76563F60D0D0EAEA89F4F4E534DFC835046366539F0`.
-- `C:\Users\DELL\Desktop\Skills\MasterSkillCalc_3rd.lua`, SHA-256
+- `D:\GameServer S21\Data\Skills\MasterSkillCalc_3rd.lua`, SHA-256
   `771066684E4478A69659D46C27EEB87A9242D8B6D8566E73A4D31AD0F479F699`.
 
 ## Active tree rows

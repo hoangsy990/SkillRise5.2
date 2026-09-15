@@ -1,7 +1,122 @@
 # Circle Shield (skill 272) Season 21 client reverse
 
-Status: `IN_PROCESS` — cast dispatch/action/root/model and direct cast children
-are recovered. Separate buff-contact joint subtype3 constructor/update is
+### Bounded native upper-arm allocator outcome QA — 2026-09-15
+
+The S21 post-buff traversal proves four subtype-12 upper-arm mono particle
+calls per character render. Native 5.2 `CreateParticleInternal` can still
+reject a request when effect options are off, the shared FPS/distance budget
+rejects it, or no native pool slot is available. The close-camera budget
+is unconditional inside 650 world units, so rejection is only a possible
+cause of missing owner pixels, **not** a demonstrated cause. The QA-only
+owner/skill272 probe now counts successful native indices out of four per
+traversal (maximum 64 records per F7), plus ready/bone gate, camera distance,
+FPS and effect options. It preserves all four source calls, null S21 owner,
+stock SS6 allocator/budget and buff state. A clean local F7/F11 is needed to
+decide whether emission reached the pool; a count of four still does not
+prove visible paired-shoulder pixels.
+
+`verify_circle_persistent_source.py` and
+`verify_circle_emission_qa_contract.py` PASS; isolated QA/nonQA Win32
+compile/link PASS. New private staged QA Engine SHA-256
+`EEF727AE8377D2844DDAAEA05C8F7847B45C22E6F348DA6765461CADCBE7CFDF`
+has old `E3EC7999...` rollback and complete private Data verifier PASS.
+Hidden offline GPU QA on this exact stage PID10688 exit0 reports 64x64
+CPU/GPU-equal mono bytes, GL error0, valid1 and stable release1. No new
+Circle gameplay cast, real buff receipt or owner visual PASS follows.
+
+The hash-pinned selected S21 particle renderer `0x1635D58..0x1635DFC`
+calls its 11-argument native sprite helper `0x18E8B0C` with mode 4.
+The callee tests its final mode bit 4 at `0x18E8EDB` and applies the
+rotation to axis 2 (Z). Native 5.2 `RenderSprite` likewise transforms the
+world position through `CameraMatrix` and constructs `(0,0,Rotation)`
+for the sprite quad; subtype12 passes its own light, texture and rotation.
+`verify_circle_mono_renderer_contract.py` PASS. This narrows the render-mode
+hypothesis; it does not verify exact projected pixels, depth or batching.
+
+### Native resource and targeted pool QA checkpoint — 2026-09-15
+
+Hidden offline private QA PID44356 and follow-up PID34608 both exited0:
+native bitmap32983 loaded the exact hash-staged source `firehik_mono01`,
+64x64 RGB CPU/GPU bytes matched, min/mag were linear, S/T were clamp-edge,
+GL error0, and bitmap memory/count returned to baseline after unload.
+The historical staged QA Engine SHA256 13F48071... also added QA-only F11/map
+`circleMono` live subtype12 particle and `circleContact` live subtype3 joint
+counts; `verify_circle_pool_snapshot_contract.py` PASS. This does not claim
+actual shoulder pixels, emission cadence, pool exhaustion or gameplay buff
+receipt. Those and matching-frame S21 parity remain OPEN.
+
+## Isolated post-buff shoulder preview — 2026-09-15
+
+The source-verified five flares/four `firehik_mono01` subtype-12 particles
+are callable from the native character-render stage either when real status
+216/221/222 is present or, only in `RISE_GROW_LANCER_RUNTIME_QA`, for three
+seconds after an explicit Circle Shield F7 cast. The preview is bound to the
+current live Hero and map; unrelated actors in the traversal cannot consume
+or cancel it. It does not register a buff, send a skill packet, change
+persistence, or demonstrate S21 server acceptance. The new Win32 QA candidate
+built and the guarded asset+EXE stage dry-run verified hashes, but refused to
+overwrite the older live QA process. Owner visual and pool checks remain OPEN.
+
+## Persistent upper-arm pair source closure — 2026-09-15
+
+The previously unattributed purple shoulder pair now has a direct S21 source
+edge. The pinned client image (SHA-256
+`6422CB4EBA9432130EB247B47723EA6FC0014F5100EA0C6E63DB8350F9275637`)
+decodes continuously from `13ECB52..13ECFBC`: character buff membership
+`216/221/222` reaches **five** `0x7EF7` flare01 sprite calls and **four**
+`0x8086` firehik_mono01 subtype-12 particle calls. Five `0x132EC63`
+bone transforms use indices `20,26,35,25,34` in source order. The hash-pinned
+original S21 Grow Lancer `HelmClass08.bmd` bone records name these `Head`,
+`R UpperArm`, `L UpperArm`, `R Clavicle`, `L Clavicle` respectively. Exactly
+two mono particles are emitted after each `R UpperArm`/`L UpperArm` flare;
+their source owner arguments are null, while the flares own the character.
+This is a persistent buff-render branch following Wrath in the same
+`13DB9D7` character traversal, **not** the local cast root `0x5DD` and not
+Spin Step. The owner photo is consistent with the upper-arm origin, but
+matching-frame GPU pixels still require ingame QA.
+
+The flare color uses one `rand()%15 / 37.5 + .4` pulse per traversal and
+RGB `(0.5*pulse,0,1*pulse)`, scale2 and zero rotation. The mono has source
+RGB `(0.3,0.38,1)`, scale argument0.6 and subtype12. Source subtype table
+entries pin constructor `166844B`, update `16DB10E`, and billboard renderer
+`1635D58`. Constructor life is `rand()%5+27`, size
+`(rand()%72+52)*.01*.6`, rising velocity `(rand()%14+20)*.1`, rotation
+`rand()%360`, alpha0. Whole-tick update fades after life<15, multiplies
+initial RGB by alpha, shrinks scale, raises world Z by velocity and rotates
++3. The 16,340-byte source OZJ SHA-256 is
+`C3E18C474BA5AE9F06B9E7159AFC0DAB34869B78EAB425CB5538B94FE0E7138F`;
+the exact hash is staged only in CircleShield's isolated asset package.
+
+RISE 5.2 now has a Circle-only private bitmap slot32983, hash-staged asset
+and native loader with S21 `GL_LINEAR/GL_CLAMP_TO_EDGE`. The adapter uses
+native `BMD::TransformByObjectBone`, `CreateSprite`, the private particle
+allocator, whole-tick `MoveParticles`, and existing `RenderSprite`; it runs
+only with live buff216/221/222 during native character rendering. It does not
+reuse Wrath's bitmap ID/particle ownership or alter other SS6 subtype cases.
+`verify_circle_persistent_source.py` PASS for image tables/call counts/bones/
+asset/source, focused x86 `/W4 /WX` constexpr tick test PASS, and isolated
+QA Win32 client build/link PASS (Bin SHA-256
+`F78482281B189518048B3D718D18902D0AB424E5DEC14972AA9AA8648E342220`).
+The active prior QA PID25016 still uses staged SHA4A606548; this new binary
+and private asset have **not** been restaged into the running client. Actual
+buff receipt, paired pixels, FPS cadence, repeated casts, map cleanup and
+visual parity remain OPEN. Do not promote static/build results to owner PASS.
+
+## Owner S21 purple-shoulder observation — 2026-09-15
+
+The owner corrected the attribution of the native S21 gameplay crop
+(temporary screenshot SHA-256
+`6F0692ACB12765BD1E27EB3F3635268CD4FAACE64715FAFFB46254A5B2500F40`):
+two purple fire-like lights at the caster's shoulders belong to Circle
+Shield, **not** Spin Step. This is an owner-visible layer requirement. The
+The direct source-owned emitter/attachment is closed in the section above;
+the photo itself alone did not identify the primitive. The tempting purple filenames
+`fire01_purple.jpg`/`fire02_purple.jpg` (IDs `0x8310`/`0x8311`) have known
+consumers in separate post-1000 handlers; no Circle spawn edge to them is
+proved. Do not stage those filenames merely because their color matches.
+
+Status: `IN_PROCESS` — cast dispatch/action/root/model, direct cast children
+and persistent upper-arm emitter are recovered. Separate buff-contact joint subtype3 constructor/update is
 now transcribed in native ZzzEffectJoint.cpp, but its receiver is NOT wired yet;
 the previous broad child-coverage statement did not cover this receiver.
 Both controller branches and direct Shiny04/flare01 primitives are transcribed;
@@ -41,6 +156,15 @@ this handler is not evidence for Clash skill275 or its learning source.
 `verify_packet_effect_lead.py` pins dispatcher and selector evidence.
 Do not copy opcode75 or source offsets directly into SS6; establish the
 native server-authoritative trigger/packet adapter and paired-target QA.
+The supplied protected `IGC.GameServer2_R.exe` is x64 and its pinned
+CodeView `RSDS` record points to a `Season 20\GameServer\Release` PDB path
+(GUID `30c7611f-171b-4f28-9b0d-8dfc4377f4aa`, age3); no PDB exists in
+the supplied server tree. This embedded path is build provenance, **not**
+proof that the actual binary implements S20 instead of S21 skill semantics.
+The S21 `BuffEffectManager.xml` status216 is a data contract, not decoded
+proof that this particular server emits the opcode75/contact packet. Keep
+real receiver integration and GS authority OPEN; the isolated F9 adapter
+only previews exact client visuals, without manufacturing server semantics.
 
 The complete216/221/222 branch ends129F60C (unconditional exit), before
 unrelated buff333 at129F60E. It creates exactly one5DD/subtype1 then three
@@ -246,6 +370,119 @@ All source files remain read-only. The BMD conversion and every copied hash are
 verified only under the isolated Grow Lancer test client.
 
 ## Still open
+
+- Nine insertion sites in function13F93C1 decoded through140794C all load
+  [ebp-1754], add3254 and call1316DE7:1400C87,140514C,14052F2,
+  1405529,1405692,1406095,14066F2,1407048,1407661. For first site,
+  producer1400AD5 calls13F8ED7 and stores its result at1400ADD;
+  that producer scans400 character records and uses embedded object+3254.
+  These are character-object insertion call sites, not direct sprite-pool
+  insertion evidence. Full per-branch payload identities remain unproven.
+  Pinned verifier now also checks27 caller instructions and4 producer facts.
+  Remaining unclassified direct leads:DD24A0/DD24BE/DD24DC/DD24FA,
+  11A3C88. No absence claim about indirect calls or shared objects.
+
+- Caller18CC8C2 attribution narrowed: decoded from actual prologue18CC6A9
+  through18CC90B. Two16-iteration loops address gridBE9D2B8 with16byte
+  cells, read first object at cell+4, follow object+354, clear list then
+  populate by object+5C catalog lookup and invoke13167E1. This is NOT the
+  sprite manager's fixed1000 records atA4C1130, stride3D8 (1726E56).
+  The linked-grid shape corresponds structurally to native ObjectBlock[256]
+  traversal, but no recovered symbolic scene function name is asserted.
+  This caller cannot be used to attribute auxiliary-list payloads to Circle
+  sprites. Other insertion callers remain unclassified.57instruction verifier
+  PASS; no runtime adapter added and no acceptance gate upgraded.
+
+- Member+3D0 writer/arithmetic audit:962D30 supplies1 to96320D;
+  962905 negates the operand,9631E0 uses LOCK XADD and returns the prior
+  value. Thus the cleanup compare==1 is the last-reference transition,
+  with concrete virtual targets still unresolved. Anchored function1316DE7
+  constructs a24byte local payload (pointer wrapper,scalar,argument,flags,
+  float duration), forwards its owner to A8122A, and calls13189BD on+3D0.
+  Anchored13169F0 tests payload+11 flag, subtracts its argument from+14,
+  and removes expired records via131892E. Getter/insert/erase symbolic names
+  are structural interpretations, not source symbol recovery.
+  Direct call candidates for1316DE7: DD24A0/DD24BE/DD24DC/DD24FA,
+  11A3C88,1400C87,140514C,14052F2,1405529,1405692,1406095,
+  14066F2,1407048,1407661,18CC8C2. These are unvalidated xref leads,
+  not proof Circle creates a payload.46-instruction verifier PASS.
+  Next anchor caller18CC8C2 and the adjacent render-list call18CC8DD;
+  check caller type/arguments before attributing this feature to sprites.
+
+- Sprite member+3D0 cleanup follow-up:9B4068 is a no-op wrapper;
+  9694F8->9693F9 returns this.9B3343 null-terminates the linked chain,
+  saves each next pointer and calls966734. Node payload starts+8;
+  96704F calls968A5C with deleting flag0. Payload destructor9679DC->
+  967954 cleans payload+4 via960742, which conditionally calls963437.
+  966673 then routes one node through969C9B (count<<5,32bytes) to946140.
+  9B436B restores self-linked head pointers and zero count. New verifier
+  now pins33instructions plus3scalars PASS. No guessed container port.
+  Additional decoded tail963437 calls962D30 on control+4, branches when
+  returned value==1 to virtual slot+4, then9635C2 repeats on control+8
+  and invokes virtual slot+8. This is consistent with shared ownership,
+  but concrete payload type/virtual targets and Circle-specific writers are
+  not yet established.962D30->96320D arithmetic must be decoded before
+  naming the exact refcount operation. Full sprite cleanup remains OPEN.
+
+- Sprite visibility audit2026-09-13: function1726FCF..1727014 scans1000
+  records and sets byte+B=1 only when96139E reports Live. Renderer1727079
+  reads the same+B; its +/-0.1 envelope uses1.0/.2 bounds. Native CheckSprites
+  similarly sets all live sprites Visible=true; gameplay ZzzScene calls it
+  after RenderEffects/RenderBlurs and before sprite rendering. No owner
+  dereference occurs in native RenderSprite(OBJECT*,OBJECT*) itself.
+  verify_circle_sprite_visibility.py PASS15 pinned instructions,3scalars,
+  native guards. This closes the selected producer/consumer field meaning,
+  not all S21 scene call ordering; numeric callers18F49CF/18F4F76/18F693B/
+  18F6B48 are still leads only.
+  Separate S21 owner-retirement1727015 matches+34C, calls Live setter and
+  clears owner. Setter13167BB additionally calls9B3D94->9B436B on member+3D0.
+  9B436B calls9B4068/9694F8/9B3343, resets two header links to themselves,
+  and zeroes a count-like dword. Container payload/writers remain unproven;
+  do NOT declare it equivalent to native Live=false or invent a new container.
+  No runtime/source implementation change was justified by this audit.
+
+- Controller owner-reuse follow-up2026-09-13: controller update dereferences
+  Owner Live/BoneTransform/CurrentAction/Type. Native EffectDestructor clears
+  Live and Owner; DeleteEffect(type,owner,-1) filters live owned effects and
+  delegates destruction, with skill-pool fallback. Added skill-local
+  RetireCircleCharacterEffects before character reactivation; it returns for
+  a live character and deletes only kCircleShieldControllerModel owned by the
+  dead slot. No new allocator, renderer or global destruction semantics.
+  Child kCircleShieldModel uses its own transform/lifetime; Shiny carrier
+  updates its own alpha and renders with &effect as sprite owner. No blanket
+  child deletion introduced. Remaining sprite-owner visibility/pool ordering
+  must still be verified separately. Source guards and extracted joint test
+  PASS; QA x86 build/link PASS2936BEB411D2FB10D858DD5F37BF46066F59DB15294DBF99FC02EAC51F92BA64.
+  Not staged, not owner visual accepted, no runtime controller-reuse test.
+
+- Dead character slot reuse correction2026-09-13: DeleteCharacter overloads
+  and ClearCharacters mark Live=false without deleting force-pillar joints.
+  CreateCharacter selects a free slot and CreateCharacterPointer sets Live=true;
+  a remove/recreate sequence before MoveJoints can therefore bypass the
+  contact3 Live guard. Added only DeleteJoint(BITMAP_FORCEPILLAR,o,3) when
+  entering CreateCharacterPointer with !Live, before reactivation. This is a
+  native compatibility safety correction, not a recovered S21 generation rule.
+  Same-live-key refresh and other joint types/subtypes/targets are unchanged.
+  Source guard PASS; test_circle_target_reuse.py compiles the exact native
+  DeleteJoint body and actual reuse call against six mock joint categories,
+  both dead-slot and live-refresh cases, /std:c++17 /W4 /WX PASS. Initial
+  standalone fixture lacked NULL definition; corrected fixture then passed.
+  Full isolated QA x86 build PASS, hash355F282A6445E54A329AAB73175C077BE40401E2979F12A755B1A9EBC591CBFE.
+  NOT STAGED: preview remainsE6FED7D0. Actual scheduling/reuse QA remains OPEN.
+  Circle controller Owner and child-effect slot reuse are separate unresolved
+  paths; this joint-only fix must not be called full ownership cleanup.
+
+- Native pool-boundary audit2026-09-13: CreateJoint scans existing MAX_JOINTS,
+  resets private Circle remainder before marking a free slot Live, and clears
+  then assigns Target. DeleteJoint matches Type/Target/optional SubType and
+  only clears Live; Circle contact does not own/delete the target OBJECT.
+  MoveJoints supplies the pool index only for live slots. Contact3 rejects
+  null/non-live targets before dereference and returns before legacy updates.
+  Source guards in verify_circle_pool_boundary.py PASS;31-instruction pinned
+  renderer verifier also PASS. This does NOT close identity reuse: Target is
+  a raw pointer and Live alone does not distinguish a newly reused character
+  slot. Target generation/removal ordering, pool exhaustion and gameplay
+  cleanup remain OPEN; no speculative global lifecycle fix was introduced.
 
 - UV/draw-mode audit closed for Shiny04's selected defaults: A13A00 writes
   metadata(1,1,1.0); allocator1726E0F stores columns/rows1 and interval1.

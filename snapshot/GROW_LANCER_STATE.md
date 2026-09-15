@@ -2,6 +2,3236 @@
 
 STATUS: IN_PROCESS
 
+### 2026-09-15 — Spin two-message acceptance path corrected (271 cast + 280 contact)
+
+- CURRENT PHASE: nine S21 Grow Lancer skills native PC 5.2 client/server, equipment/quests 1–3 excluded; `IN_PROCESS`.
+- CURRENT TASK: make the next Spin Step local QA cover the actual S21 cast and contact chain, not only F7 root.
+- CURRENT SUBTASK: verify base271 and internal280 receive branches independently against source and pinned S21 target frame.
+- COMPLETED THIS RUN: read-only checked S21 frame41 SHA256 `3FFD5023...` and visual blue target-side column; `WSclient.cpp` dispatches271 to root and280 to separate target `CreateSpinStepHit`. QA F7 invokes only271, F9 invokes only280. Added `verify_spin_two_message_visual_contract.py` with frame/hash/source/QA branch assertions PASS; corrected Spin reverse/runtime QA/matrix next test to one F7 **plus one F9 on the same target**. Private stack/QA launcher dry-runs PASS (local 32-bit `GrowLancer_QA` DSN, owned ports free, staged client/Data exact); no stack/client launched or DB/prod mutation.
+- REVERSE EVIDENCE: internal280 S21 received branch creates subtype2 target controller and hit sound independent of271; verified native frame target contact; manual F9 remains only visual fixture, not server hit authority.
+- CHAIN COVERAGE: correct two-message QA sequence source/static PASS. Owner caster action/ribbon ring-only FAIL remains independent; target contact, owner pixels and authoritative GS280 handling OPEN.
+- ASSET PROVENANCE: pinned S21 frame41 exact hash verified; BMD/texture/private QA Engine `95736241...` unchanged.
+- FILES MODIFIED: focused verifier, Spin reverse/runtime QA/acceptance matrix/state only; no client/GameServer/equipment/quest code edit this checkpoint.
+- LAST STATIC CHECK: two-message source/frame verifier, local stack/client dry-run and scoped docs diff check PASS.
+- LAST BUILD RESULT: no new code build; previous QA/nonQA Win32 `95736241...`/`268AB780...` link PASS retained. Build is not visual/server PASS.
+- LAST RUNTIME QA: no login/cast; previous hidden Spin PID1776 and Magic PID19448 fixture PASS. Owner Spin root ring-only visual FAIL retained; no paired F7/F9 on current candidate.
+- KNOWN DIFFERENCES: F9 manually previews S21 internal280 receive visual without a server damage packet; do not infer hit authority or exact native timing from the fixture. A missing caster ribbon after F7 still needs its own fix.
+- MISSING CHAIN PARTS: current private local target-bound F7/F9/F11 paired frames, root cross GPU/ribbon vertices and separate contact pixels, camera/repeat/map parity; native GS271/280 target/hit semantics and class7 login; other skill visual gates.
+- BLOCKER: owner direct paired cast and matching protected S21 GS handler/default-class evidence needed for respective acceptance, while other source work continues; `IN_PROCESS`.
+- NEXT EXACT ACTION: on owner availability start only local four-stack/current QA, select one target, Spin F7 once then F9 once on same target, F11 and capture caster/target phases; analyze PID-scoped query/blur/contact before code correction.
+- NEXT FILE TO OPEN: fresh private `GrowLancerRuntimeQA.log` gameplay PID and S21 `frame_00037/41/46` reference frames.
+- NEXT FUNCTION TO IMPLEMENT: source/runtime-evidenced missing root/contact layer or authoritative GS271/280 only after handler proof; do not auto-inject hit into production client.
+
+### 2026-09-15 — Spin target-cross gameplay GPU query built/staged, F7 pending
+
+- CURRENT PHASE: nine S21 Grow Lancer skills native PC 5.2 client/server; equipment and quests 1–3 excluded; `IN_PROCESS`.
+- CURRENT TASK: distinguish historical Spin target cross `RenderMesh` submits from real shader-batch draw samples in owner gameplay.
+- CURRENT SUBTASK: bounded opt-in query around only native target-owned `spin_cross` mesh0, with current world position and shader/depth state.
+- COMPLETED THIS RUN: added QA-only 12-draw non-nested `GL_SAMPLES_PASSED` Spin cross query and explicit native shader-queue flush inside it, reset per armed F7, launcher `-SpinCrossRasterProbe` child-only env with parent restoration and guarded local-only route. Scope verifier PASS; isolated QA and nonQA Global Release|Win32 build/link exit0. Hash-staged private QA Engine `95736241063643B58F8ECE167A2B9CFBADB6EAB1FCDBE59CBF06F2CBEDC14643` with prior `73602038...` rollback/full Data PASS. Hidden current Spin fixture PID1776 and Magic PID19448 exit0/verifiers PASS. No production/base/other-task/S21-original or GS change.
+- REVERSE EVIDENCE: S21 cross is a visible child at target, initial scale8.5/Z120 and bright mesh0; old PID28160 logged 19 submits but not GPU samples. Shader `RenderMesh` can enqueue, so query must flush queued draws before/inside its scope; diagnostic flush is opt-in and is not production timing parity.
+- CHAIN COVERAGE: cross BMD/native fixture raster and current gameplay query source/build/stage PASS. **No current owner F7 query row or screen pixels**; Spin visual owner FAIL. Other nine-skill visual/GS gates retained.
+- ASSET PROVENANCE: Spin S21 and staged BMD/OZJ hashes unchanged; private QA Engine `95736241...`, exact rollback `73602038...`, normal isolated Engine SHA256 `268AB78009E9263E36C344C5C12B2F47BE6C3E57FA3429631CDF5365AC00BE4A` (not deployed).
+- FILES MODIFIED: QA-only runtime/source header, Spin cross native call-site guard, local QA launcher and scoped verifier, stage/hash verifier, Spin/Wrath/runtime QA docs, acceptance matrix and this state; no GS handler/equipment/quest edit.
+- LAST STATIC CHECK: `verify_spin_cross_gameplay_query_scope.py`, hidden PID-bound Spin/Magic verifiers, `verify_runtime_qa_stage.py`, scoped diff check PASS.
+- LAST BUILD RESULT: isolated QA/nonQA `Main.vcxproj` Global Release|Win32 link exit0; known cryptlib missing-PDB LNK4099 warnings only; no server build/deployment this run.
+- LAST RUNTIME QA: hidden staged Spin PID1776 four fixture bright-pixel camera draws/release1 and Magic PID19448 eight fixture mesh draws/release1; no local gameplay F7, login, movement or damage validation. No QA Engine or private stack remains running.
+- KNOWN DIFFERENCES: query's explicit shader flush may alter diagnostic presentation relative to probe OFF, so compare both before production correction. GPU samples are not visible pixels or source visual parity. Prior Spin ring-only owner failure unchanged.
+- MISSING CHAIN PARTS: fresh private target-bound Spin F7/F11 query/blur vertices and fixed/360 owner frames, repeat/map/pool, S21 same-frame comparison; Magic foot, Wrath square, class7/login and S21 GS authoritative skill semantics.
+- BLOCKER: one direct owner Spin cast is needed for world/camera attribution; original protected S21 GS handler/default-class evidence absent for authority. Independent work continues; `IN_PROCESS`.
+- NEXT EXACT ACTION: on owner availability start only the private four-stack and current QA with `-LocalServer -SpinCrossRasterProbe`; cast Spin once into a selected target, F11 and screenshot, then compare GPU query/owner target position and ribbon vertices to owner pixels, optionally probe OFF.
+- NEXT FILE TO OPEN: staged `GrowLancerRuntimeQA.log` fresh gameplay PID and `GrowLancer/SPIN_STEP_REVERSE.md` target/blur renderer sections.
+- NEXT FUNCTION TO IMPLEMENT: runtime-attributed Spin visibility/timing/origin correction only; do not invent S21 effects or modify stock SS6 renderer.
+
+### 2026-09-15 — current QA candidate/loopback readiness reconciled
+
+- CURRENT PHASE: nine S21 Grow Lancer skills native PC 5.2 client/server, equipment and quests 1–3 excluded; `IN_PROCESS`.
+- CURRENT TASK: ensure the next owner Spin cast uses the actual current isolated candidate and not an older documented fixture or VPS route.
+- CURRENT SUBTASK: reconcile acceptance-matrix “current” hash against executable, then read-only local stack/client preflight.
+- COMPLETED THIS RUN: verified current staged Engine SHA256 `73602038BDAC5255BA6951E5B106225CBA26E588E4E3980CC7BB6F2F8A0C4C5B`, corrected acceptance matrix's stale `DD72...` claim to historical, removed equipment/quest obligations from skill-gate wording. Private stack dry-run verified four hash-pinned components, local ports free and current-user 32-bit `GrowLancer_QA` DSN; QA client dry-run verified complete private Data/staged Engine and refused default/VPS launch without `-LocalServer`. No stack/client launched or DB row changed.
+- REVERSE EVIDENCE: current Spin source/model fixture evidence in prior checkpoint; no new S21 binary inference this run.
+- CHAIN COVERAGE: QA candidate identity and private route readiness PASS; local login/movement/F7/owner pixels and all remaining visual/GS gates OPEN.
+- ASSET PROVENANCE: staged Engine exact hash and private Data verifier PASS; no asset mutation.
+- FILES MODIFIED: acceptance matrix and this state only; no native client/GS/equipment/quest edit.
+- LAST STATIC CHECK: `verify_isolated_server_stack.py`, 32-bit QA ODBC connection preflight, `verify_runtime_qa_stage.py`, scoped diff check PASS.
+- LAST BUILD RESULT: no code edit or rebuild; prior QA Win32 `73602038...` link PASS and GameServer isolated build-only PASS remain narrower evidence.
+- LAST RUNTIME QA: no process, login or cast this run; hidden Spin PID19452 and Magic PID5644 from prior checkpoint, owner Spin ring-only FAIL retained.
+- KNOWN DIFFERENCES: prior body adapter candidate `DD72...` was not currently staged; matrix now names it historical. QA launch is local-only when `-LocalServer` and owned listeners are live.
+- MISSING CHAIN PARTS: current local Spin target-bound F7/F11/world ribbon+cross pixels, remaining eight skills owner parity, class7 login and authoritative S21 GS handler semantics.
+- BLOCKER: next owner-visible Spin frame needs direct cast; external S21 GS handler/class defaults remain absent, but independent source checks can continue; `IN_PROCESS`.
+- NEXT EXACT ACTION: upon owner availability, start only four private stack processes and QA with `-LocalServer`, one target-bound Spin F7/F11 and fixed/360 screenshots; stop only task-owned processes after evidence.
+- NEXT FILE TO OPEN: new gameplay PID section in private `GrowLancerRuntimeQA.log`, then Spin render/blur vertex source.
+- NEXT FUNCTION TO IMPLEMENT: runtime-proven Spin world-visibility or ribbon fix; do not treat hidden pixels as gameplay PASS.
+
+### 2026-09-15 — Spin cross source geometry and native fixture pixels PASS; owner Spin FAIL
+
+- CURRENT PHASE: nine S21 Grow Lancer skills native RISE PC 5.2 client/server; equipment and quests 1–3 excluded; `IN_PROCESS`.
+- CURRENT TASK: isolate owner Spin Step ring-only symptom from child model failure versus gameplay-origin/ribbon/target failure.
+- CURRENT SUBTASK: hash-pinned S21 cross mesh geometry, private conversion parity and native draw/actual pixel check on four hidden fixture views.
+- COMPLETED THIS RUN: validated read-only S21 `spin_cross.bmd`/private v0C equal plaintext (12 vertices,8 triangles, four planes, line_fire.jpg, one bone/action). Added mutually exclusive QA-only hidden cross native mesh/pixel mode to existing BMD/shader fixture. Isolated QA Win32 build/link PASS, candidate SHA256 `73602038BDAC5255BA6951E5B106225CBA26E588E4E3980CC7BB6F2F8A0C4C5B` hash-staged in private Client with prior `8494C078...` rollback and complete Data verifier PASS. Hidden Spin PID19452 exit0 and focused verifier PASS; Magic regression PID5644 exit0/verifier PASS. No production/base/other-task/S21-original/server write.
+- REVERSE EVIDENCE: source cross initial Z=120, scale17 input halved to8.5 by constructor, source light0.2/0.6/1 and mesh flags `RENDER_TEXTURE|RENDER_BRIGHT`; pinned mesh has embedded line_fire.jpg and Y extent28.8716. Native fixture cross samples12250/11844/2548/11844 and nonblack pixels4761/4716/1152/4813, GL0/release stable1 at camera sweeps0/90/180/270. Fixture camera/pose are not owner gameplay.
+- CHAIN COVERAGE: exact child mesh geometry/converted bytes/native GPU draw/pixels in fixture PASS; prior selected-target native submits and blur draws remain narrower evidence. Current gameplay Spin ribbon/cross position, timing, visible pixels, hit and S21 frame parity remain OPEN/owner visual FAIL; other skills unchanged.
+- ASSET PROVENANCE: S21 BMD SHA `B0097042...`, staged v0C SHA `6E0B4051...` with plaintext equality, no asset edit; QA Engine `73602038...` only private stage, exact `8494C078...` rollback.
+- FILES MODIFIED: QA-only native fixture, geometry/focused verifiers, pinned private stage/hash verifier, Spin reverse/acceptance matrix/state; no GS/equipment/quest implementation.
+- LAST STATIC CHECK: `inspect_spin_cross_model_geometry.py`, `verify_spin_cross_native_fixture_draw.py --pid 19452`, `verify_magic_native_fixture_draw.py --pid 5644`, `verify_runtime_qa_stage.py`, scoped `git diff --check` PASS.
+- LAST BUILD RESULT: isolated `Main.vcxproj` `Global Release|Win32` QA link exit0, known cryptlib missing-PDB LNK4099 warnings only; no production deployment or GS build this run.
+- LAST RUNTIME QA: offline hidden native WGL Spin PID19452 four fragment and actual bright-pixel views/release PASS; Magic PID5644 regression PASS. No new F7 Spin ingame cast/owner screenshot; QA Engine and private server stack not left running.
+- KNOWN DIFFERENCES: positive fixture cross pixels refute intrinsic BMD raster failure only there; cannot attribute historical ring-only screenshot to world transform, depth, caster animation, target or sampler without new gameplay pixels. Purple shoulders belong to Circle Shield, not Spin.
+- MISSING CHAIN PARTS: fresh local target-bound Spin one-cast F7/F11 ribbon vertices and cross world/camera/pixels plus S21 same-frame reference, repeated map/pool and GameServer hit. Magic owner triangle, Wrath square and other visual/server gates remain open.
+- BLOCKER: current owner-visible cast and matching S21 GS handler/class defaults required for respective gates, but native client work continues; `IN_PROCESS`.
+- NEXT EXACT ACTION: when owner can test, launch only private local stack/current QA, select Spin F6 with target, cast F7 once then F11 and fixed/360 screenshot; inspect PID-scoped blur geometry, cross target origin and framebuffer before modifying effect transform.
+- NEXT FILE TO OPEN: staged `GrowLancerRuntimeQA.log` after new Spin F7 PID and `GrowLancer/SPIN_STEP_REVERSE.md` ribbon/render sections.
+- NEXT FUNCTION TO IMPLEMENT: only source/runtime-evidenced Spin gameplay visibility/timing/target correction, not invented purple lights or shared SS6 renderer edits.
+
+### 2026-09-15 — Wrath projected-ground QA guard built/staged
+
+- CURRENT PHASE: nine S21 Grow Lancer skills native RISE PC 5.2 client/server; equipment and quests 1–3 excluded; `IN_PROCESS`.
+- CURRENT TASK: make the opt-in Wrath black-square attribution cast safe and reproducible without changing actual skill visuals or shared SS6 rendering.
+- CURRENT SUBTASK: check native camera projection preconditions before bounded Wrath ground pixel readback.
+- COMPLETED THIS RUN: found native `TransformPosition` divides by `PerspectiveX/Y` and negative camera-space Z. Moved QA preconditions before that call using the same `CameraPosition`/`CameraMatrix` and native vector math, pinned the source-order verifier, built isolated Win32 QA, hash-staged only private RuntimeQA with exact rollback, full Data verifier PASS. Hidden staged Magic mesh regression PID4720 exit0/8 draws/release PASS. No production, S21-original, other worktree or GameServer change.
+- REVERSE EVIDENCE: `ZzzOpenglUtil.cpp::TransformPosition` subtracts `CameraPosition`, rotates by `CameraMatrix`, then divides screen X/Y by `PerspectiveX/Y/-WorldPosition[2]`; probe now rejects invalid projection before native call. Wrath ground native additive layer remains unchanged.
+- CHAIN COVERAGE: opt-in ground diagnostic safer to cast; no new gameplay Wrath pixel, owner black-square attribution or visual PASS. Other nine-skill gates unchanged.
+- ASSET PROVENANCE: assets unchanged; staged private QA Engine SHA256 `8494C078D7B88E308007F07DCA97EE2299CCC30A70CC579E6DFD03E243484700`, previous `FB4C8E42...` preserved in `Bin/Engine-Port S21.before-wrath-projection-guard-FB4C8E42.exe` and hash checked.
+- FILES MODIFIED: QA-only `GrowLancerRuntimeQA.cpp`, focused source verifier, isolated stage/hash verifier and this state; no GS handler or equipment/quest work.
+- LAST STATIC CHECK: `verify_wrath_ground_pixel_probe.py`, `verify_runtime_qa_stage.py`, scoped `git diff --check` PASS.
+- LAST BUILD RESULT: isolated `Main.vcxproj` QA `Global Release|Win32` MSBuild exit0/link PASS; only existing cryptlib missing-PDB LNK4099 warnings. NonQA path not changed by QA guard; no server build this run.
+- LAST RUNTIME QA: hidden staged Magic PID4720 exit0 and `verify_magic_native_fixture_draw.py --pid 4720` PASS; Wrath F7 ground pixels and owner square frame still untested. No QA Engine/stack left running.
+- KNOWN DIFFERENCES: the projection guard prevents invalid diagnostic readback, not the reported black square. Hidden Magic mesh draw is fixture-only, not gameplay triangle PASS.
+- MISSING CHAIN PARTS: fresh private local Wrath F7/F11 owner frame/ground pixel/material/fragment attribution; Spin and Magic owner failures, other per-skill/parity/pool QA, native class/GS handler authority.
+- BLOCKER: owner-visible cast and S21 GS handler/default-class evidence remain needed for those gates, while independent native/client work continues; `IN_PROCESS`.
+- NEXT EXACT ACTION: on owner availability launch only private local stack and current guarded QA with `-LocalServer -WrathPixelProbe`, cast Wrath once, F11 flush and compare ground bound-material/fragment/pixel deltas to screenshot before changing any draw layer.
+- NEXT FILE TO OPEN: private staged `GrowLancerRuntimeQA.log` gameplay PID, then `GrowLancer/WRATH_REVERSE.md` ground renderer section.
+- NEXT FUNCTION TO IMPLEMENT: only the runtime-attributed Wrath offending layer correction; do not change global alpha or guess an asset.
+
+### 2026-09-15 — Wrath ground actual blend/texture/pixel attribution probe staged
+
+- CURRENT PHASE: nine S21 Grow Lancer skills native RISE PC 5.2 client/server; equipment and quest 1–3 excluded; `IN_PROCESS`.
+- CURRENT TASK: isolate owner-reported Wrath large black square to its true draw layer without changing shared SS6 renderer or inventing a texture.
+- CURRENT SUBTASK: native ground `RenderTerrainAlphaBitmap` opt-in QA before/after frame samples and exact material binding comparison.
+- COMPLETED THIS RUN: decoded that native terrain ground emits immediate tiled triangle fans over `BackTerrainHeight+5`, under `EnableAlphaBlend` GL_ONE/GL_ONE; historical selected-target PID28160 recorded ground blend1/src1/dst1/texture3207 but no material identity or pixel delta. Added QA-only `RISE_GL_WRATH_PIXEL_QA` bounded four-draw/five-point actual projected framebuffer readback with GL query, plus registered `brocken` expected texture matching in existing ground log. Exposed opt-in launcher switch and state-safe environment restoration. Built isolated QA/nonQA Win32, hash-staged private QA with rollback/Data PASS and independent hidden GPU regressions PASS. No production/base/other-task/GS write.
+- REVERSE EVIDENCE: `ZzzLodTerrain::RenderTerrainAlphaBitmap` binds its texture then calls `RenderTerrainBitmapTile` immediate GL_TRIANGLE_FAN; native `EnableAlphaBlend` selects GL_ONE/GL_ONE and disables alpha test/depth mask. `TransformPosition` is the native camera projection to GL viewport; `RequestTerrainHeight+5` matches ground tile height. Original `brocken` dark edges cannot darken additively; only actual F7 before/after pixels/registered texture check can settle this reported frame.
+- CHAIN COVERAGE: Wrath exact BMD/texture/VAO upload/release and static additive ground contract PASS. New source/build/stage of owner-only ground pixel/fragment/material probe PASS, but no fresh gameplay sample or black-square owner acceptance; post-buff children and GS authority remain OPEN.
+- ASSET PROVENANCE: original/staged BMD/texture hashes unchanged; QA Engine SHA256 FB4C8E4228FC9096B33A13CD36F07F53609306915998D1A3B45282C9A5F15174, nonQA D33F4A7AD8DA8D6D4A465F76496EA04C63DDEFF9C0E3542658997FFFE3896B3E. Private rollback 4C5A21C1... hash-checked, Data verifier PASS.
+- FILES MODIFIED: QA-only Wrath probe in `GrowLancerRuntimeQA.cpp/.h` and guarded native call-site, local QA launcher/stage/hash verifier, focused probe verifier, Wrath reverse/runtime QA/matrix and state; no GS handler edit.
+- LAST STATIC CHECK: `verify_wrath_ground_pixel_probe.py` scope/bound/order/material check, Data-stage verifier, targeted `git diff --check`, prior Wrath material/edge verifiers PASS.
+- LAST BUILD RESULT: isolated Global Release|Win32 QA and nonQA client link exit0; only known cryptlib missing-PDB LNK4099 warnings. No server build or production deployment.
+- LAST RUNTIME QA: hidden staged Wrath material PID12060 exit0/release1 and Magic angular PID23760 exit0/8 samples/release1; **new Wrath ground pixel probe has not run in gameplay**. Owner last black-square report remains OPEN.
+- KNOWN DIFFERENCES: five projected points and fragment count are diagnostic, not full framebuffer visual PASS. A point may be outside the drawn ground; only matching texture, fragments, darkening and owner screenshot together can attribute the square. Probe is OFF by default and cannot fire without explicitly armed Wrath F7 cast.
+- MISSING CHAIN PARTS: current staged local F7 Wrath ground query/pixels at fixed/360 camera and owner square screenshot, post-buff F12 shoulder/fire/mono recurring pixels/removal, map/repeat pool, S21 same-frame parity, GS buff424/425 and defense tradeoff.
+- BLOCKER: one owner-visible local controlled cast is required to diagnose the black square; protected S21 GS handler evidence remains absent. Other native source work continues, so `IN_PROCESS`.
+- NEXT EXACT ACTION: when owner is available start only private loopback stack/client with `-LocalServer -WrathPixelProbe`; select Wrath F6, cast F7 once, F11 flush and capture square frame; compare `wrath-ground` matched1/ONE-ONE with `wrath-ground-pixel` fragments/deltas. Do not blame or replace ground until measured.
+- NEXT FILE TO OPEN: staged `GrowLancerRuntimeQA.log` new gameplay PID Wrath pixel rows and `GrowLancer/WRATH_REVERSE.md` source ground renderer section.
+- NEXT FUNCTION TO IMPLEMENT: only runtime-attributed offending layer blend/texture/queue correction, not global SS6 alpha behavior or an imagined `alpha_line.OZT`.
+
+### 2026-09-15 — S21 GS handler/default-class evidence boundary rechecked
+
+- CURRENT PHASE: nine S21 Grow Lancer skills native RISE PC 5.2 client/server; equipment and quest 1–3 excluded; `IN_PROCESS`.
+- CURRENT TASK: identify exact missing GS/class data before enabling client-visible QA casts as authoritative server damage.
+- CURRENT SUBTASK: read-only rescan of supplied S21 server binary/data and S21 class default source contract, compare current SS6 class7/DB112 adapter.
+- COMPLETED THIS RUN: verified same supplied x64 protected GS hash/RSDS, no PDB/dump/handler source in `D:\GameServer S21`, and no separate S21 SQL/default-class data file there. `CalcCharacter.ini` line13 explicitly delegates additional initial class settings to `MuOnline.dbo.DefaultClassType`. Current 32-bit `MuOnline` DSN points to `VIE`, not private QA loopback; no connection to it or production data. Rechecked S21 class-data/class adapter verifiers PASS. No source/asset/GS/client executable edit or other-task write.
+- REVERSE EVIDENCE: protected GS SHA256 134BAEBF... RSDS GUID30c7611f... age3 has embedded Season20 PDB path only, which does not prove actual 271..281 handler version. S21 CalcCharacter.ini SHA BE300D43... names DB DefaultClassType as source of extra defaults; supplied files have GL rates/Lua formulas but not authoritative initial DB row. Class7/DB112 byte route is algebraically representable; source `MAX_CLASS` and packet/class consumers are a separate activation gate.
+- CHAIN COVERAGE: external GS handler and original S21 class default row now identified as exact missing evidence, not substituted by local QA class112 stats or RF/DK compatibility presets. Client BMD GPU/fixture progress from prior checkpoints retained; native GS 271..281 remains fail-closed.
+- ASSET PROVENANCE: unchanged pinned S21 GS and CalcCharacter.ini/read-only file hashes; no staging or asset conversion.
+- FILES MODIFIED: only class consumer/source-reference and server-rules documentation, acceptance matrix and state; no executable/source implementation this checkpoint.
+- LAST STATIC CHECK: `verify_supplied_gs_codeview.py`, `verify_s21_grow_lancer_class_data.py`, `verify_class_adapter_contract.py` PASS; S21 server file scan found no PDB/dump/SQL default table snapshot.
+- LAST BUILD RESULT: no code edit or new build this checkpoint; prior isolated QA client570A7B99... and nonQA clientC5AB297C... link PASS, staged private GS from earlier isolated build. Builds do not prove authority.
+- LAST RUNTIME QA: no new cast/login; previous Grow Lancer-only four-stack transport PASS then stopped, hidden Magic source-scale angle PID24324 PASS; owner Magic/Spin visual FAIL remains.
+- KNOWN DIFFERENCES: `GrowLancer_QA` class112 seed/stats are a reversible local fixture and not S21 `DefaultClassType` proof. Do not connect to `MuOnline` DSN/VIE or copy the active Add-classes task's RF-class compatibility rates as S21 GL balance. Equipment and quests1–3 are excluded, but native base class7 learning/cast/login still required.
+- MISSING CHAIN PARTS: matching S21 GS runtime handler source/PDB/dump for exact target/damage/AOE/buff, original S21 DB `DefaultClassType` class112 row, native DS/GS create/login/persistence/class-rate consumers and owner visible QA frames.
+- BLOCKER: those external data items are needed for authoritative GS/class completion; client visual/source work can continue, so `IN_PROCESS`.
+- NEXT EXACT ACTION: when owner is available use only the private local stack/client for Magic F7/F11/F9 actual frame samples; independently continue source-proven client pool/Spin/Wrath work. Request original S21 class112 DefaultClassType export and matching GS handler evidence only when owner can supply, never infer from alternate server.
+- NEXT FILE TO OPEN: `GrowLancer/CLASS_INTEGRATION_CONTRACT.md` base112 packet/create boundary, then staged gameplay Magic QA log after owner cast.
+- NEXT FUNCTION TO IMPLEMENT: native base7 create/login/stat/cast consumer only after exact DB row and packet round-trip proof; never remove GS fail-closed handler gate from configuration tables alone.
+
+### 2026-09-15 — local GS stack transport smoke and Magic source-scale angle raster
+
+- CURRENT PHASE: nine S21 Grow Lancer skills native RISE PC 5.2 client/server; equipment and quest 1–3 excluded; `IN_PROCESS`.
+- CURRENT TASK: move Magic Pin intermittent/missing foot diagnosis toward actual gameplay while validating only isolated local QA server readiness.
+- CURRENT SUBTASK: four-component loopback server live smoke, then native Magic two-model fixture with S21 scale0.7 and four Z rotations under exact bright-mesh flags.
+- COMPLETED THIS RUN: verified QA DSN `GrowLancer_QA` via 32-bit ODBC and private free ports, launched CS/DS/JS/GS inside private stack (PIDs14992/19932/23180/11656), all four bound owned ports and CS/GS accepted 127.0.0.1 TCP; explicitly stopped only four isolated task processes after smoke, no QA Engine/VPS connection. Added QA-only source-scale angle sweep, built/staged hash-pinned client, hidden PID24324 exit0, focused log verifier PASS. No production/base/Pegasus/Slayer/S21-original write.
+- REVERSE EVIDENCE: S21/native Magic01/root constructor scale0.7, root Z rotation +20 per tick, render flags `RENDER_TEXTURE|RENDER_BRIGHT` with alpha1 peak. PID24324 model10125 samples3141/8456/3141/8456 at Z0/90/180/270, root10127 samples7708 at each angle, GL error0 and releaseStable1. Fixed fixture camera is not gameplay camera; model draw feasibility is proven, no in-game triangle.
+- CHAIN COVERAGE: private local CS/DS/JS/GS startup/owned listeners and CS/GS loopback transport PASS; actual login/class/cast/damage/persistence OPEN. Magic BMD/texture/VAO and two-model source-scale native angular raster PASS in hidden fixture; actual F7 timing/world position/depth/owner pixels and internal281 target burst OPEN.
+- ASSET PROVENANCE: no asset conversion or change; private staged QA Engine SHA256 570A7B99792E52C74E82439F4BD497CAB70BCA55589289217E2FA56B46E68DC2 with exact prior 5C997622... rollback and full Data verifier PASS.
+- FILES MODIFIED: QA-only `GrowLancerRuntimeQA.cpp`, stage/hash verifiers, Magic draw-log verifier, Magic reverse, server-rules reverse, acceptance matrix and state; no GS skill handler change.
+- LAST STATIC CHECK: `verify_magic_native_fixture_draw.py --pid 24324`, prior 18-model log verifier, full staged Data verifier, targeted diff-check PASS. Local stack executable/config/DSN preflight PASS.
+- LAST BUILD RESULT: isolated QA client Global Release|Win32 exit0/link PASS, known cryptlib LNK4099 missing-PDB warnings only; prior nonQA native model upload build retained. Local GS process startup PASS is not a new GS build or damage PASS.
+- LAST RUNTIME QA: local CS/DS/JS/GS owned listeners/live loopback CS+GS TCP PASS then four verified task PIDs stopped; hidden staged QA Magic PID24324 exit0, shader1/8 angle raster draws/GL0/release1. No owner F7/gameplay pixels.
+- KNOWN DIFFERENCES: fixed fixture pose/projection/scale-parent and no terrain/target; positive four-angle fragments refute an intrinsic zero-fragment issue only in those sampled fixture conditions, not owner report. Current RISE GS intentionally rejects271..281 pending proven S21 handler; transport smoke does not authorize skill activation.
+- MISSING CHAIN PARTS: current staged F7/F11 Magic root+strip GPU sample query at owner caster angle/world Z and fixed/360 camera, target F9 hit, Spin/Wrath owner visuals, client/GS class and authoritative learning/cast/damage, repeated map/pool QA.
+- BLOCKER: direct owner gameplay cast is needed for final visible-foot diagnosis; matching protected S21 GS handler evidence absent. Native source work can continue, so `IN_PROCESS`.
+- NEXT EXACT ACTION: use private local stack only when ingame cast is actionable, open current QA via guarded `-LocalServer -MagicFixedTick -MagicRasterProbe`; one Magic F7/F11/F9 and owner screenshot, then inspect actual sample/depth/Z/angle for a source-proven scoped correction.
+- NEXT FILE TO OPEN: staged gameplay `GrowLancerRuntimeQA.log` PID section after cast, `GrowLancer/MAGIC_PIN_REVERSE.md`, `GrowLancerEffectRuntime.cpp::RenderGrowLancerEffect` and protected S21 target handler evidence if supplied.
+- NEXT FUNCTION TO IMPLEMENT: runtime-proven Magic world/visibility/target correction or exact native GS handler only after evidence; do not unguard 271..281 from table data or broad SS6 renderer change.
+
+### 2026-09-15 — Magic Pin exact native mesh raster fixture PASS, owner foot still FAIL
+
+- CURRENT PHASE: nine S21 Grow Lancer skills native PC 5.2 client/GS, isolated QA; equipment and quest 1–3 excluded; `IN_PROCESS`.
+- CURRENT TASK: separate Magic Pin missing caster-foot owner pixels from BMD shader-upload/material inability to rasterize.
+- CURRENT SUBTASK: hidden WGL native `BMD::RenderMesh` for source-proven angular `magicpin01` and annular `magicpina01_new`, with exact gameplay mesh flags/peak-alpha blend and bounded GPU sample query.
+- COMPLETED THIS RUN: added QA-only mutually exclusive `RISE_GL_MAGIC_NATIVE_DRAW_QA` hidden mode with native shader queue flush and model lifetime. Initial build-Bin PID8400 shader enabled0 was an invalid test environment (shader assets resolved near EXE); hash-staged private Client, then fixture texture-only PID8800 and exact bright-flags PID1900 exit0. Added PID-bound fixture verifier PASS. No production/base/other task/GS write.
+- REVERSE EVIDENCE: native `BMD::RenderMesh` first attempts `GMMeshShader::AddMeshCommand`; absent VAO previously forced legacy fallthrough, so old submit logs alone did not establish raster state. Current package upload enables native VAO. PID1900 shader enabled1: `magicpin01` model10125 6484 GL samples and annular root10127 15804 with `RENDER_TEXTURE|RENDER_BRIGHT`, alpha1/blend0, GL error0 and stable release1; fixture pose/camera only, not S21/gameplay projection.
+- CHAIN COVERAGE: exact two source caster model material/VAO/peak shader-mesh draw feasibility STATIC/GPU PASS; owner foot world transform, timing, depth/cull and target internal281 explosion still OPEN. Older owner cast PID36328 reported no triangle; no new F7 owner cast on current candidate.
+- ASSET PROVENANCE: no new/altered BMD or texture; QA Engine SHA256 5C9976220C5D8CF531B85977AFE689BAF45C34E5B55B3F863AEC7A102B09BBF4 staged with exact prior A129E20D... rollback, complete Data verifier PASS.
+- FILES MODIFIED: QA-only `GrowLancerRuntimeQA.cpp`, safe stage/hash verifier, `verify_magic_native_fixture_draw.py`, Magic reverse/acceptance matrix and state; nonQA upload package remains prior C5AB297C... build.
+- LAST STATIC CHECK: Magic PID1900 native fixture verifier, private model upload verifier, opt-in gameplay query verifier, full Data-stage verifier, targeted diff-check PASS.
+- LAST BUILD RESULT: isolated QA Global Release|Win32 compile/link exit0; only known cryptlib PDB LNK4099 warnings. NonQA unchanged by QA-only fixture; GS not built/deployed.
+- LAST RUNTIME QA: hidden Client PID1900 exit0, shader1, both exact Magic caster models samples>0/GL0/release stable1. Same staged binary independent private-model PID22660 exit0 (18/18/release1) and Wrath PID21264 exit0/release1. No gameplay cast, pixel-frame comparison, target hit or class/server authority validation.
+- KNOWN DIFFERENCES: fixture camera/pose/scale do not match S21; source Magic models cast at scale0.7 and caster/world transform via `Calc_RenderObject`. Positive hidden fragments cannot overturn owner's missing foot observation or identify transform fault without controlled ingame query/pixels.
+- MISSING CHAIN PARTS: current-candidate F7/F11 Magic `magic-raster-probe` samples for strip/root at actual owner angle/Z/frame, F9 target internal281 contact and explosion, S21 same-frame pixels, repeat/map cleanup and GS handler.
+- BLOCKER: final owner visual requires one local controlled gameplay cast; protected S21 GS handler evidence remains missing. Other source/client checks can continue, so `IN_PROCESS`.
+- NEXT EXACT ACTION: start only the verified local Grow Lancer stack when an ingame cast is actionable; on current staged QA use `-LocalServer -MagicFixedTick -MagicRasterProbe` and one target-bound F7/F11/F9, then compare actual strip/root samples/Z/angle/pixels to S21 before a visual correction.
+- NEXT FILE TO OPEN: current staged `GrowLancerRuntimeQA.log` after gameplay PID and `GrowLancer/MAGIC_PIN_REVERSE.md` transform/stage section; then source `GrowLancerEffectRuntime.cpp::CreateMagicPinRoots`/`RenderGrowLancerEffect`.
+- NEXT FUNCTION TO IMPLEMENT: only runtime-evidenced caster-foot transform/raster or target-burst correction, not an invented asset or global SS6 renderer change.
+
+### 2026-09-15 — all 18 registered visible S21 BMDs hidden GPU audit PASS
+
+- CURRENT PHASE: nine Grow Lancer skills native PC 5.2 client/GS, isolated QA; equipment and quest 1–3 excluded; `IN_PROCESS`.
+- CURRENT TASK: check whether the corrected private native BMD upload covers Spin, Magic, Wrath and other visible model layers beyond the two Wrath models.
+- CURRENT SUBTASK: bounded QA-only hidden WGL run of `kFirstModel..kLastVisibleModel`, model/bitmap/mesh GPU upload and release.
+- COMPLETED THIS RUN: added mutually exclusive `RISE_GL_PRIVATE_MODELS_QA=1` probe, isolated QA Win32 link PASS, hash-staged candidate with B47BF165... rollback, full Data verifier PASS. Hidden Client PID3248 exit0 proves registered model IDs 10119..10136 (18/18) opened, all materials have live native GPU textures, all geometrical meshes have VAO/VBO/IBO/index, GL error0 and bitmap/model release stable1. Added PID-bound log verifier PASS; no production/other task/GS write.
+- REVERSE EVIDENCE: previous stock `ConvertOldMeshToVaoMesh` excludes `modelId>=MAX_MODELS`; package-scoped native BMD upload corrects only registered visible tail. GPU run log identifies 18 individual model records, including Spin 10124 and Magic 10125..10128; no framebuffer pixels or gameplay action inferred.
+- CHAIN COVERAGE: registration/Open2/material GPU/VAO plumbing and hidden-release for all 18 visible BMDs PASS. Draw matrices, timing, particles/sprites/joints, contact/owner and owner visual parity still OPEN by skill.
+- ASSET PROVENANCE: no new asset conversion or stage; pinned QA Engine 6BF097F6364C9B83406303C27F8508E706883F23E41CCCDF6A893F7938ED1504, rollback B47BF165..., Data roots/verifier PASS.
+- FILES MODIFIED: QA-only `GrowLancerRuntimeQA.cpp`, stage/hash verifiers, `verify_private_model_gpu_log.py`, acceptance matrix and this state; package `EnsureModel` correction and focused static verifier from previous checkpoint retained.
+- LAST STATIC CHECK: `verify_private_model_gpu_log.py --pid 3248`, package shader-upload verifier, full QA Data-stage verifier and targeted diff-check PASS. Local four-component Grow Lancer stack dry-run verified 32-bit QA DSN/DB and five private free ports; no server process launched.
+- LAST BUILD RESULT: isolated Win32 QA client link exit0; nonQA BMD-upload client C5AB297C... from previous checkpoint link PASS and unchanged by QA-only broad probe. No GameServer build/deployment.
+- LAST RUNTIME QA: hidden WGL PID3248 exit0, 18/18 visible BMDs texturesReady1/shaderUploaded1/GL error0/releaseStable1; same staged client independent Wrath material/readback regression PID18168 exit0 with both VAOs and stable release. No gameplay owner cast or pixel sample on this candidate.
+- KNOWN DIFFERENCES: infrastructure BMD upload gap closed for all registered visible models; owner Spin ring-only/Magic missing foot triangle/Wrath black square reports are not thereby visually resolved. Breche full owner/target gameplay cleanup and other layers remain OPEN.
+- MISSING CHAIN PARTS: fixed-frame gameplay GPU draws/pixels for Spin/Magic/Wrath and other seven, source-parity child timing/contact/pool, real class recipient and S21 authoritative GS handlers.
+- BLOCKER: owner-visible local gameplay casts and matching S21 GS handler evidence required for final acceptance; further native client/GS reverse work remains possible, so `IN_PROCESS`.
+- NEXT EXACT ACTION: inspect selected Magic Pin root/strip shader draw and world transform against the owner-missing foot triangle on the new QA candidate; then targeted Spin gameplay pixel/ribbon log and Wrath black-square draw-state attribution.
+- NEXT FILE TO OPEN: `GrowLancer/MAGIC_PIN_REVERSE.md` and `GrowLancerRuntimeQA.cpp` opt-in raster probe, then the current staged QA log after one controlled F7 cast.
+- NEXT FUNCTION TO IMPLEMENT: only source/runtime-proven Magic Pin root/strip visible-draw correction; no synthetic visual PASS from model upload counts.
+
+### 2026-09-15 — registered S21 private BMD shader-upload gap fixed and Wrath GPU probe PASS
+
+- CURRENT PHASE: nine S21 Grow Lancer skills native 5.2 client/server, isolated QA; equipment and quest 1–3 excluded; `IN_PROCESS`.
+- CURRENT TASK: restore real shader VAO upload for visible Grow Lancer BMDs without changing global SS6 model conversion.
+- CURRENT SUBTASK: validate two Wrath model materials, texture GPU readback, mesh VAO/VBO/IBO and release in a hidden private WGL client run.
+- COMPLETED THIS RUN: `EnsureModel` now uses native `BMD::LoadMeshToVAO`/`UploadAllToGPU` for registered visible models at shader/context availability, including previously opened models. Built QA/nonQA Win32 isolated clients, hash-staged QA with exact C699C5CD... rollback, Data verifier PASS and hidden GPU probe PID4008 exit0. No base RISE/Pegasus/Slayer/S21 original/production/VPS/GS write.
+- REVERSE EVIDENCE: stock `OGL330MODEL::ConvertOldMeshToVaoMesh` exits at `modelId >= MAX_MODELS`, whereas package models start at `MAX_MODELS`. Earlier hidden PID5924 proved texture readback but `shaderMesh=0`. Native BMD instance upload methods have no such model-ID guard. PID4008 logged `wratha01` 256x128 alpha_line RGB and `wratha02` 64x64 dust01 RGBA, material/bitmap/CPU-GPU equality=1, actual VAO/VBO/IBO/index upload=1, GL error0, stable release1.
+- CHAIN COVERAGE: Wrath model registration/Open2/material texture native GPU and first-mesh shader upload/release PASS in isolated hidden probe. Model draw/pixel state, ground black-square cause, owner visual and repeated gameplay pool remain OPEN. Other package visible models use the same corrected loader path but have not been individually GPU-probed.
+- ASSET PROVENANCE: unchanged original/staged Wrath BMD/texture hashes; no asset conversion or new staged asset. Candidate QA Engine SHA256 B47BF165F828C9E62B2BF42F3FC2D0549104B24F81130360A7D89A26D13BDF11; nonQA Engine C5AB297CD71B7B07720036580BF2CE2CBE6859063B6720A8B653744AD41BB317.
+- FILES MODIFIED: package `GrowLancerResources.cpp`, QA-only `GrowLancerRuntimeQA.cpp`, stage script/QA-stage hash verifier, focused shader-upload verifier, Wrath reverse, acceptance matrix and this state; no GameServer edit this subtask.
+- LAST STATIC CHECK: private upload verifier, Wrath material verifier, hash-pinned pixel-edge verifier, full staged Data verifier and targeted `git diff --check` PASS.
+- LAST BUILD RESULT: isolated Global Release|Win32 QA/nonQA client MSBuild exit0/link PASS; known cryptlib LNK4099 missing PDB warnings only. No server build/deployment.
+- LAST RUNTIME QA: staged hidden WGL PID4008 exit0, shader enabled1, both Wrath material/texture GPU readbacks and VAO/VBO/IBO uploads PASS, GL error0, release stable1. No new owner F7 black-square gameplay cast.
+- KNOWN DIFFERENCES: stock SS6 converter MAX_MODELS guard excludes package models; scoped package native BMD upload fixes that transport gap only. GPU upload PASS does not establish shader draw/pixels or solve reported large Wrath black square. Owner visual acceptance OPEN.
+- MISSING CHAIN PARTS: individual GPU/draw checks for other registered skill BMDs; Wrath ground/buff visible draw state, fixed-camera S21 parity, buff cadence/map/repeat cleanup; GameServer authority and native class recipient.
+- BLOCKER: final owner visual gate needs a controlled local gameplay cast and protected S21 GS handler evidence remains missing; meaningful native client work continues, so `IN_PROCESS`.
+- NEXT EXACT ACTION: run broader private registered-model GPU probe (especially Spin/Magic), then Wrath F7/F11 fixed-camera local owner cast against S21 reference; isolate ground/mesh layer actually occupying any remaining black square.
+- NEXT FILE TO OPEN: `GrowLancerRuntimeQA.cpp::RunBodyTextureProbeQA` private model branch, then `GrowLancerResources.cpp::EnsureModel` and Wrath gameplay QA log.
+- NEXT FUNCTION TO IMPLEMENT: only a source/runtime-proven remaining visible draw/ground correction, not a global MAX_MODELS increase or an invented Wrath texture.
+
+### 2026-09-15 — Wrath black-square original asset edges and BMD material ownership corrected
+
+- CURRENT PHASE: nine S21 Grow Lancer skills, native 5.2 client visual/GS authority isolated QA; gear and quest 1–3 excluded; `IN_PROCESS`.
+- CURRENT TASK: determine owner-reported large black square in Wrath buff without mistaking the JPG ground for another effect or inventing a missing material.
+- CURRENT SUBTASK: hash-pin original/staged RGB/RGBA edges through the exact native loader offsets and verify both Wrath model embedded materials.
+- COMPLETED THIS RUN: audited `brocken`, `!Combo3`, `Combo4`, `alpha_line`, `alpha_light`, `dust01` source/stage hashes and pixel edges. Corrected OZT sample offset from initial erroneous24 to native22 before drawing any conclusion; rerun verifier PASS. Original/staged BMD payloads prove `wratha01` material `alpha_line.jpg`, `wratha02` only `dust01.tga`; corrected old false `alpha_line.tga` attribution and provenance owners. No new asset staged, no GS/client binary/production/VPS/other task write.
+- REVERSE EVIDENCE: native `GlobalBitmap::OpenJpeg` seeks24; `OpenTga` reads dimensions16/18, depth20 and starts BGRA stream22. `brocken.OZJ` 256x256 outer4 RGB max4/corners0; alpha_light OZT 128x128 outer4 alpha max44, dust01 64x64 max16 (native alpha-test threshold0.25). S21 wratha01/wratha02 SHA256 9AEB30A8.../A1A748BE... match converted private plaintext and sole material strings. Intended 5.2 BMD 0x42 path and Wrath ground use additive GL_ONE/GL_ONE; actual owner draw state not measured.
+- CHAIN COVERAGE: Wrath exact asset provenance/model material identity and intended additive render state static PASS, private earlier blend-state restoration build PASS. Owner black-square framebuffer attribution, actual bound texture/blend/shader batch, persistent post-buff duration, pool and S21 frame parity OPEN. Other eight skill/GS gates unchanged.
+- ASSET PROVENANCE: six checked original/staged textures hash-identical; `wratha01.bmd` -> `alpha_line.OZJ`, `wratha02.bmd` -> `dust01.OZT`. No original `alpha_line.OZT`; provenance remains95 assets, two corrected `materialOwner` fields and no asset conversion/stage change.
+- FILES MODIFIED: `tools/grow_lancer/verify_wrath_asset_edge_alpha.py`, `verify_wrath_model_material_identity.py`, `GrowLancer/WRATH_REVERSE.md`, `asset_provenance.json`, acceptance matrix and this state; no executable/model/renderer edit.
+- LAST STATIC CHECK: both new asset/BMD verifiers exit0 after OZT offset correction, provenance JSON parses with95 assets and material owners; previous Wrath blend verifier/build evidence preserved.
+- LAST BUILD RESULT: no code edit this subtask; prior isolated QA/nonQA client EEF727AE.../3C32AB35... builds PASS, not rerun; no GameServer edit/build or deployment.
+- LAST RUNTIME QA: no fresh Wrath F7 owner cast or GL ground-state/pixel capture; last owner black-square report remains OPEN. Offline Circle bitmap PID10688 and Spin bitmap PID16616 are not Wrath gameplay evidence.
+- KNOWN DIFFERENCES: intended additive black source corners should not darken a framebuffer, but owner square may arise from actual bound state, later draw or shader batching; do not name culprit from asset-only stats. `!Combo3`/`alpha_line` have brighter borders than `brocken`. GS buff424/425 authority remains OPEN.
+- MISSING CHAIN PARTS: fixed-camera clean Wrath owner pixels and bounded ground blend/bound texture/alpha state at visible square frame, post-buff fire/blue mono recurrence/removal, map/repeat pool, matching S21 frames and GS authoritative buff/defense tradeoff.
+- BLOCKER: owner-visible local Wrath cast needed for visual attribution and matching protected GS handler evidence needed for authority; source/native skill work can continue, so `IN_PROCESS`.
+- NEXT EXACT ACTION: local-only QA one Wrath F7/F11 with fixed/360 camera and screenshot of square, inspect `wrath-ground` blend/texture log and identify which submitted layer occupies square before any scoped correction; meanwhile test native BMD material GPU binding with private hidden model probe if gameplay unavailable.
+- NEXT FILE TO OPEN: `GrowLancer/WRATH_REVERSE.md` ground/model material sections and latest isolated QA log after fresh cast; then `GrowLancerRuntimeQA.cpp::RunBodyTextureProbeQA` for native hidden material check.
+- NEXT FUNCTION TO IMPLEMENT: only a source/runtime-proven Wrath material/blend/ground correction; no missing `alpha_line.OZT` staging or global SS6 renderer change.
+
+### 2026-09-15 — supplied protected GS CodeView provenance pinned; Circle receiver authority still OPEN
+
+- CURRENT PHASE: nine S21 Grow Lancer skills client/server, isolated native 5.2 QA; gear and quest 1–3 excluded; `IN_PROCESS`.
+- CURRENT TASK: connect Circle Shield buff-contact receiver only with verified native server-authoritative packet/target semantics.
+- CURRENT SUBTASK: audit the actual supplied S21 GameServer executable and matching symbols before interpreting data XML as handler authority.
+- COMPLETED THIS RUN: read-only PE headers/CodeView checked on `IGC.GameServer2_R.exe`; verified x64 image SHA256 and RSDS GUID/age/embedded PDB path with `verify_supplied_gs_codeview.py` PASS. The embedded build path says `Season 20\GameServer\Release`; no PDB in supplied GameServer tree. Circle S21 client receive opcode75/status216 branch and native 1controller+3joint preview remain pinned; did not invent a GS producer, copy S21 opcode or alter local/VPS/production server. Read-only task “Add classes and items to Rise” is still independently active, no task handoff or edit.
+- REVERSE EVIDENCE: S21 client table `130505C[75h]` -> `1300320` -> `129E990` -> Circle status216/221/222 `129F04C..129F60C`; 1 target-owned 5DD/subtype1 plus 3 80E3/subtype3 joints. Supplied x64 GS SHA256 `134BAEBF654D103B3FD65F8262CB20D2AEC5969B3C09C68E26A87F6547F77D74` embeds RSDS GUID `30c7611f-171b-4f28-9b0d-8dfc4377f4aa`, age3, path `G:\DATA\Server Suite\Development\Sources\Head (Git)\Output\Season 20\GameServer\Release\IGC.GameServer.pdb`. Embedded path alone does not prove runtime handler version.
+- CHAIN COVERAGE: Circle client cast/buff/contact visual constructors, native preview adapter and recipient owner semantics static PASS; actual incoming native server trigger/packet, server target/buff rules, gameplay receiver visual/pool and all nine skill GS authority OPEN. Other skill client evidence unchanged.
+- ASSET PROVENANCE: no new asset; pinned source/staged Circle assets unchanged and no source server/client write.
+- FILES MODIFIED: `tools/grow_lancer/verify_supplied_gs_codeview.py`, `GrowLancer/CIRCLE_SHIELD_REVERSE.md`, acceptance matrix, this state; no GameServer executable/config edit.
+- LAST STATIC CHECK: supplied binary CodeView hash/GUID/age/path verifier exit0; `verify_packet_effect_lead.py` remains prior pinned Circle client receiver evidence. S21 XML status216 is data, not live handler proof.
+- LAST BUILD RESULT: no code change this subtask; prior isolated QA/nonQA client EEF727AE.../3C32AB35... builds PASS, not rerun. GS not rebuilt or deployed.
+- LAST RUNTIME QA: no new Circle receiver cast/F9 or authoritative GS packet; prior hidden Circle bitmap PID10688 exit0/GPU valid1 is narrower than target visual authority. No QA gameplay process active at audit.
+- KNOWN DIFFERENCES: supplied GS debug path refers Season20 while Data is S21; cannot infer actual handler version, producer timing or opcode from path/XML. Circle native F9 is visual preview only, real receiver OPEN; Spin/Magic owner visual FAIL and other skill gates remain.
+- MISSING CHAIN PARTS: Circle matching GS status216 producer/target packet semantics and native receiver activation; contact frames/pool, real buff and AG rules, all nine server learn/cast/damage and per-skill owner visual QA.
+- BLOCKER: matching protected server PDB or runtime handler dump is needed to assert exact S21 GS authority; native/client skill work and static source comparisons can still advance, so `IN_PROCESS`.
+- NEXT EXACT ACTION: continue client-only Circle subtype3 movement/renderer and QA F9 pool/pixel parity; keep server trigger fail-closed until matching GS handler evidence or explicit new native contract. In parallel resume Magic/Spin owner visibility probes on local-only QA when cast is available.
+- NEXT FILE TO OPEN: `GrowLancer/CIRCLE_SHIELD_REVERSE.md` received buff-contact section and `ZzzEffectJoint.cpp` subtype3 renderer; then latest isolated QA log after a local F9.
+- NEXT FUNCTION TO IMPLEMENT: verified RISE native buff-contact receiver/GS producer only after target/packet authority is established; otherwise a source-proven client renderer correction, not a guessed server packet.
+
+### 2026-09-15 — Circle Shield four upper-arm emissions now distinguish allocator rejection in isolated QA
+
+- CURRENT PHASE: nine S21 Grow Lancer skills only; no equipment or quest 1–3; native client visual and GS authority `IN_PROCESS`.
+- CURRENT TASK: determine why the S21-proven post-buff purple shoulder pair is not yet accepted in native 5.2 gameplay.
+- CURRENT SUBTASK: observe the four exact subtype12 `firehik_mono01` allocator outcomes after a Circle owner F7 without altering buff/server state or shared SS6 budget.
+- COMPLETED THIS RUN: source/native budget inspected; close-camera <=650 units accepts requests, so allocator rejection is only a testable hypothesis. Added QA-only bounded owner/skill272 per-traversal ready/bone/0..4-created/FPS/distance/options record and F7 reset. Source-verifier PASS; isolated QA/nonQA Win32 build/link exit0. Hash-guarded QA stage/rollback and full Data verifier PASS. Hidden GPU on staged PID10688 exited0. Hash-pinned S21 subtype12 sprite mode4 selects Z rotation, matching native camera-space Z-axis rotation; renderer verifier PASS. No local login, socket, production/VPS, gear/quest, live GS change.
+- REVERSE EVIDENCE: pinned S21 `13ECB52..13ECFBC` status216/221/222 reaches five flare sprites and four subtype12 mono particles, two on each bone26/35, null particle owner. S21 subtype12 renderer `0x1635D58..DFC` calls sprite helper `0x18E8B0C` with final mode4; helper applies Angle to axis2/Z. Native `RenderSprite` uses camera transform and `(0,0,Rotation)`. Native `CreateParticleInternal` can reject via options/budget/pool; source budget accepts near camera, no rejection established in owner gameplay yet.
+- CHAIN COVERAGE: Circle exact asset/bitmap GPU, native primitive source mapping and new allocator-result telemetry static/build/offline PASS. Real buff receipt, actual shoulder pixels, motion/alpha cadence, contact receiver, repeated casts/map pool and matched S21 frames OPEN. Other eight skill visual and GS authority gates unchanged.
+- ASSET PROVENANCE: Circle original/staged `firehik_mono01.OZJ` SHA256 `C3E18C474BA5AE9F06B9E7159AFC0DAB34869B78EAB425CB5538B94FE0E7138F` preserved; private Data verifier covers 91 overlay files and no production write.
+- FILES MODIFIED: private `GrowLancerEffectRuntime.cpp`, QA-only `GrowLancerRuntimeQA.h/.cpp`, `verify_circle_emission_qa_contract.py`, hash-pinned private stage/verifier tools, Circle reverse, acceptance matrix and this state.
+- LAST STATIC CHECK: `verify_circle_persistent_source.py`, `verify_circle_emission_qa_contract.py` and pinned `verify_circle_mono_renderer_contract.py` exit0; complete QA Data verifier PASS (13 skill assets,2521 base files,91 overlay files,3 root files,126 junctions). No owner pixels inferred.
+- LAST BUILD RESULT: isolated Global Release|Win32 QA Engine SHA256 `EEF727AE8377D2844DDAAEA05C8F7847B45C22E6F348DA6765461CADCBE7CFDF` and nonQA SHA256 `3C32AB352F98B920849212E4A625256E268F32447D64140DE86B5F83869B237A` MSBuild exit0/link PASS; cryptlib PDB warnings only. QA stage EEF727AE... has E3EC7999... exact rollback; no production deployment.
+- LAST RUNTIME QA: hidden offline staged QA PID10688 exit0 `circle-native-bitmap` loaded1/exactPath1/cpuGpuEqual1/64x64/GL error0/valid1, release stable1. No fresh Circle F7/F11 or owner shoulder pixels; visual acceptance OPEN.
+- KNOWN DIFFERENCES: null-owner S21 particles pass through native SS6 FPS/distance budget; exact live rejection unknown. S21 mode4 and native camera-space Z rotation match statically, but actual depth/pixel/batch parity is unproved. Spin last visible ring-only FAIL, Magic foot/target FAIL, Wrath black-square owner OPEN and other skills/GS authority OPEN.
+- MISSING CHAIN PARTS: Circle successful emissions vs budget/pool, paired shoulder pixels and cadence, real buff/status delivery, contact receiver, map/repeat cleanup, S21 matched frames; remaining skill visual and GS learn/cast/damage/target semantics.
+- BLOCKER: fresh controlled local owner gameplay cast and matching protected S21 GS handler evidence needed for final visual/authority acceptance; other source/native work remains possible, so `IN_PROCESS`.
+- NEXT EXACT ACTION: on isolated loopback-only QA, select Circle Shield and F7 once, collect `circle-persistent-emission` plus F11 post-expiry/map pool and fixed/360-degree shoulder pixels. If monoCreated<4, determine option/budget/pool reason before any scoped correction; if 4, diagnose actual particle renderer/camera/alpha. Continue skill-only static work meanwhile.
+- NEXT FILE TO OPEN: latest isolated `RuntimeQA/Client/GrowLancerRuntimeQA.log` Circle event after fresh cast, then `ZzzEffectParticle.cpp` subtype12 renderer and `CIRCLE_SHIELD_REVERSE.md`.
+- NEXT FUNCTION TO IMPLEMENT: only a source/runtime-proven Circle allocator/render discrepancy or verified buff receiver; no generic particle-budget bypass.
+
+### 2026-09-15 — Spin S21 motion-blur sampler native GPU verified, owner visual still FAIL
+
+- CURRENT PHASE: nine Grow Lancer S21 skills only; equipment and quest 1–3 excluded; client visual and GS authority `IN_PROCESS`.
+- CURRENT TASK: map source-proven Spin Step ribbon sampler discrepancy to isolated native Main 5.2 without changing SS6 shared bitmap behavior.
+- CURRENT SUBTASK: verify S21 registration bytes/asset hash, scoped 5.2 bitmap binding, GPU sampler/readback and release; preserve owner-visible FAIL until gameplay pixels exist.
+- COMPLETED THIS RUN: pinned S21 `0x7F08` motion-blur NEAREST/CLAMP registration; byte-identical OZJ staged privately; type1/style1 Spin-only bitmap slot32986 through native loader/renderer. Isolated QA/nonQA Win32 client compile/link PASS, hash-guarded private QA stage PASS. Hidden offline QA PID16616 exit0/valid1/stable-release1, no login/socket or live GS edit. Draw-log inspector now has optional private-texture assertion while preserving historical PID28160 PASS; its assertion correctly FAILs old shared-slot evidence. Updated Spin reverse and acceptance matrix.
+- REVERSE EVIDENCE: main dump SHA256 `6422CB4EBA9432130EB247B47723EA6FC0014F5100EA0C6E63DB8350F9275637`, registration `0x18BDDB8..0x18BDDD5` pushes `0x7F08`, NEAREST `0x2600`, CLAMP `0x2900`; stock 5.2 `BITMAP_BLUR+1` is NEAREST/CLAMP_TO_EDGE. S21 object-blur renderer `0x15C04B6/0x15C0544` invokes `0x18E7137`, which sets additive GL_ONE/GL_ONE, matching native `EnableAlphaBlend`. Old PID28160 records have texture32019 but no ribbon world vertices. Private slot32986 is native allocation, not S21 identity.
+- CHAIN COVERAGE: Spin ribbon image/sampler native GPU and scoped style1 binding PASS; earlier selected-target20 native triangle-fan draws/19 cross submits/map style1 retirement PASS. Owner visible ribbon/cross, world/target contact, S21 frame parity, repeat-cast cleanup and SS6 ingame regression remain OPEN/FAIL as recorded.
+- ASSET PROVENANCE: read-only `D:\MU FICA Season 21\Data\Effect\motion_blur.OZJ` SHA256 `934716E4C09EBCA25B43E62BC1F6B69B26663FA54306F5054FA12A354B6DC5AF`, 8734 bytes, byte-identical to frozen base and isolated `Data\RISE\GrowLancer\SpinStep` stage; no original/production write.
+- FILES MODIFIED: `GrowLancerResources.h/.cpp`, `GrowLancerEffectRuntime.cpp`, scoped `ZzzEffectBlurSpark.cpp`, QA-only `GrowLancerRuntimeQA.cpp`/`Winmain.cpp`, private stage/verify tools including `inspect_spin_blur_draw_log.py`, descriptor/provenance, `SPIN_STEP_REVERSE.md`, acceptance matrix and this state.
+- LAST STATIC CHECK: `verify_spin_private_sampler_contract.py` PASS after descriptor update, Python compile PASS; historical PID28160 inspector exit0 and `--expected-texture 32986` exit1 as intended for the old shared-slot cast. Native probe is separate stronger GPU evidence, not owner pixels.
+- LAST BUILD RESULT: isolated Global Release|Win32 QA Engine SHA256 `E3EC7999EE3D9D361A6F41724D0E9077FE4042AD92ABCC97E2DD3C9BE0A7F2D3` and nonQA SHA256 `31FAA894A6FA713FFEC80A177BE77545B75E0B4B135241BF65AF5ED5EF98CB1B` MSBuild exit0/link PASS; no post-build production deployment.
+- LAST RUNTIME QA: hidden offline WGL PID16616: 32x64 same CPU pixels/private GPU match, stock wrap33071 unchanged, private wrap10496, both filter9728, GL error0, stable release. No fresh Spin gameplay cast; owner last saw only ring, visual FAIL.
+- KNOWN DIFFERENCES: private bitmap corrects source-proven sampler mismatch but does not yet explain a fully invisible ribbon; blend is source/native matched, not a proved mismatch. Old draw log lacks world vertices, so off-camera geometry is unproved. Magic foot/target, Wrath black square, Circle shoulders and other skill/GS gates remain open.
+- MISSING CHAIN PARTS: fresh Spin world ribbon vertices/actual texture binding/screen pixels at fixed and 360-degree camera, S21 matched frames, target contact, repeat/map pool and SS6 runtime regression; other eight skill visual and authoritative GS learning/cast/damage.
+- BLOCKER: controlled local gameplay owner pixels and matching protected S21 GS handler evidence needed for final gates; source/native work can continue, so `IN_PROCESS`.
+- NEXT EXACT ACTION: one clean local-only selected-target Spin F7/F11 on private QA candidate; compare slot32986 draw/vertex positions and owner pixels to S21. If still invisible, fix only a source/geometry/blend-proven discrepancy; continue Magic/Circle/Wrath source work without equipment/quests.
+- NEXT FILE TO OPEN: `tools/grow_lancer/inspect_spin_blur_draw_log.py` for new texture-aware cast evidence, then `GrowLancer/SPIN_STEP_REVERSE.md` and latest isolated QA log.
+- NEXT FUNCTION TO IMPLEMENT: a scoped Spin ribbon visibility correction only after new world-space/pixel evidence; otherwise resume Magic Pin target/caster layers.
+
+### 2026-09-15 — Shining Peak pin +A44 selected direct chain audited
+
+- CURRENT PHASE: nine Grow Lancer skill S21 client-chain reverse/client visual and GS authority; equipment/quest 1–3 excluded.
+- CURRENT TASK: identify unported Shining Peak joint field consumers without copying S21 object offsets into 5.2.
+- CURRENT SUBTASK: distinguish raw +A44 numeric candidates from reachable subtype2/3/4 reads and downstream tail/render accesses.
+- COMPLETED THIS RUN: hash-pinned read-only main dump scan identified 65 canonical direct +A44 operands after overlapping prefix decodes were removed. Decoded selected pin dispatch1612773..1612CB8 and renderer1618F44..161AEB9, called tail-shift band15E2756..15E37EF: no direct +A44 reader. Selected update18calls/tail98calls have no indirect call; renderer48 indirect calls all resolve through mapped PE imports to six OpenGL APIs, not a joint vtable. Separate real read1613AD7 is owner-model0xAE4 guarded, not proof of pin reachability. Updated Shining reverse and acceptance gate. No runtime code, build, asset, live process, production, GS or VPS changes.
+- REVERSE EVIDENCE: exact selected writer15DE586 and common writer15C670E, three subtype jumps161279C/16127A9/16127B6 to1612963, terminal1612CB8 jump to shared1618ADA. `scan_s21_joint_a44_operands.py` checks pinned S21 dump SHA2566422CB4E... and the unrelated owner-type guard16139F2.
+- CHAIN COVERAGE: Shining direct +A44 consumption in selected update/renderer/called tail-shift excluded by decoded instructions; local indirect renderer calls identified as OpenGL PE IAT, not joint vtables. External global pool/registration readers, initial mixed-pool seed pixel results, gameplay target/damage, model/particle parity and cleanup OPEN. Other eight skill/GS gates unchanged.
+- ASSET PROVENANCE: no new assets; existing hash-pinned Shining package unchanged.
+- FILES MODIFIED: read-only A44 scanner and mapped-PE-import verifier under `tools/grow_lancer`, `GrowLancer/SHINING_PEAK_REVERSE.md`, acceptance matrix, this state.
+- LAST STATIC CHECK: S21 dump scanner and mapped import verifier exit0; selected dispatch/no direct operand, update/tail no indirect calls and renderer IAT names pinned. `verify_pin_joint_contract.py` rerun PASS. This is reverse evidence, not owner runtime QA.
+- LAST BUILD RESULT: no code edit this subtask; previous isolated QA Engine SHA256 13F48071... and nonQA SHA256 3E15F86D... builds PASS, not rerun.
+- LAST RUNTIME QA: no Shining gameplay cast, shader samples or owner pixels on this subtask; existing isolated QA stage remains hash-pinned.
+- KNOWN DIFFERENCES: no native +A44 field adapter because selected S21 read not established; external global callback access remains possible, not silently treated as absent. Other owner visual failures (Spin/Magic/Wrath) and GS authority OPEN.
+- MISSING CHAIN PARTS: Shining external global reader reachability, mixed-pool seed/four source frame gates/pixels, particle/model cleanup and server line target/hit; other skill visual/server requirements.
+- BLOCKER: source and static reverse can continue, but final visual parity needs controlled local owner frames and matching S21 GS handler evidence is still missing; IN_PROCESS.
+- NEXT EXACT ACTION: inspect external global joint pool/registration callbacks that could consume +A44; then test Shining native four frame gates in isolated local QA. Keep equipment/quests out.
+- NEXT FILE TO OPEN: `GrowLancer/SHINING_PEAK_REVERSE.md` selected update/tail renderer sections and `tools/grow_lancer/verify_pin_joint_contract.py`; S21 dispatcher around1612773 and selected renderer1618F44.
+- NEXT FUNCTION TO IMPLEMENT: only a source-proven indirect pin consumer or renderer correction if new reachability/pixel evidence shows an actual native gap.
+
+### 2026-09-15 — Wrath native blend state restored; Circle targeted pool snapshot staged
+
+- CURRENT PHASE: all nine Grow Lancer skills only; equipment and quest 1–3 excluded.
+- CURRENT TASK: correct owner-visible skill effects and verify native render/pool lifecycle against S21, then GS authority.
+- CURRENT SUBTASK: isolate a Wrath ONE/ONE state leak and prepare Circle-specific F11/map pool evidence without claiming visual PASS.
+- COMPLETED THIS RUN: `kWrathBrokenBitmap` now calls native `DisableAlphaBlend` after its source-proven additive terrain draw and QA state capture; 5.2 `RenderEffects` has no pass-end reset. Added QA-only `circleMono` subtype12 and `circleContact` subtype3 live-pool counters. Static verifiers PASS; fixed stale Wrath sampler extraction boundary and reran its controlled C++14/W4/WX test PASS. Isolated QA/nonQA Win32 client builds/link exit0. Staged private QA SHA256 13F48071... with old6E2BAFC1... rollback, complete Data verifier PASS. Hidden offline Circle GPU rerun PID34608 exit0/valid1/release stable1; no game/socket/VPS/production/live GS changes.
+- REVERSE EVIDENCE: S21 Wrath ground `15A0B63` selects ONE/ONE; native helper only draws, native effect pass does not reset. S21 Circle buff216/221/222 emits four subtype12 mono particles and contact receiver separately emits three subtype3 ForcePillar joints. The state restore is native 5.2 hygiene after the draw, not an inferred S21 pixel fix.
+- CHAIN COVERAGE: Wrath additive draw/source colors and scoped state restoration static/build PASS; actual black-square pixels OPEN. Circle bitmap CPU/GPU/release offline PASS, targeted native pool snapshot source/build PASS; buff receipt, cadence/pixels/repeat/map pool runtime OPEN. All other skill visual/GS gates unchanged.
+- ASSET PROVENANCE: original Circle mono SHA256 C3E18C47... and current skill overlay hashes unchanged; only private QA EXE SHA256 13F48071... staged with rollback.
+- FILES MODIFIED: private `GrowLancerEffectRuntime.cpp`, QA-only `GrowLancerRuntimeQA.cpp`, Wrath restore verifier, repaired Wrath sampler test, Circle snapshot verifier, stage/hash pins, Circle/Wrath reverse docs, acceptance matrix, this state.
+- LAST STATIC CHECK: Wrath blend restore, extracted sampler and Circle pool snapshot verifiers PASS; full QA Data verifier PASS. Current QA client not gameplay-launched.
+- LAST BUILD RESULT: isolated Global Release|Win32 QA client SHA256 13F48071... and nonQA client SHA256 3E15F86D... MSBuild exit0/link PASS; existing cryptlib LNK4099 debug-symbol warnings. No GS edit/build this subtask.
+- LAST RUNTIME QA: hidden offline PID34608 Circle native bitmap `loaded=1 exactPath=1 cpuGpuEqual=1 valid=1`, release stable1, exit0. No new Wrath or Circle ingame cast/pixel/pool acceptance.
+- KNOWN DIFFERENCES: owner Wrath black square remains unresolved until visible QA; Circle paired shoulders not yet confirmed in 5.2. Spin/Magic visible layers still owner FAIL; only Breche caster render owner accepted. Server authoritative nine-skill behavior OPEN.
+- MISSING CHAIN PARTS: Wrath owner pixels and recurrent buff removal; Circle shoulder/contact pixels, repeat/map cleanup and buff receiver; Spin ribbon/Magic foot/target, remaining skill parity, GS learn/cast/damage/target/buff/siege.
+- BLOCKER: controlled local gameplay cast/owner pixels needed for visual gates and S21 GS handler evidence missing for full server authority; source/other skill work remains possible, so IN_PROCESS.
+- NEXT EXACT ACTION: on private local-only QA, capture one Wrath F7/F11 for actual bound blend/black square and one Circle F7/F9/F11 plus post-expiry/map `circleMono`/`circleContact` counts; while no owner gameplay is available continue S21 chain reverse for missing external/indirect children. Do not work equipment/quests.
+- NEXT FILE TO OPEN: `GrowLancer/SHINING_PEAK_REVERSE.md` unresolved external A44 consumers, or latest private `GrowLancerRuntimeQA.log` after local skill casts.
+- NEXT FUNCTION TO IMPLEMENT: source-proven next child/receiver adapter after confirming exact chain; no guessed sprite or global renderer change.
+
+### 2026-09-15 — Circle Shield native persistent bitmap offline GPU PASS; owner visuals OPEN
+
+- CURRENT PHASE: nine Grow Lancer skills only; equipment and class-change quests excluded by owner.
+- CURRENT TASK: close source/native resource gaps before accepting Circle Shield paired shoulder/post-buff layer.
+- CURRENT SUBTASK: probe the original S21 `firehik_mono01` through the real 5.2 bitmap loader in a hidden WGL context before gameplay/network.
+- COMPLETED THIS RUN: QA-only `RISE_GL_CIRCLE_BITMAP_QA=1` native load/readback/sampler/release probe added; isolated QA Win32 build/link exit0. Hash-staged private Engine B0156F2B... with previous4972546B... rollback and complete QA Data verifier PASS. Hidden offline QA PID44356 exited0; `loaded=1 exactPath=1 cpuGpuEqual=1 width=64 height=64 components=3 min=mag=GL_LINEAR wrapS=wrapT=GL_CLAMP_TO_EDGE glError=0 valid=1`, bitmap memory/count stable after native unload. No gameplay, socket, live GS, VPS, production or other-task changes.
+- REVERSE EVIDENCE: pinned S21 Circle buff216/221/222 branch emits five flare01 sprites on bones20/26/35/25/34 and two `firehik_mono01` subtype12 particles per UpperArm26/35; `verify_circle_persistent_source.py` PASS. Native `SubmitCirclePersistentVisuals` uses same bone attachment/ownership and existing sprite/particle pool. The offline probe proves resource upload, not shoulder pixels.
+- CHAIN COVERAGE: Circle persistent source dispatch/bones/bitmap and native load/GPU/release PASS at static/offline scope; actual buff receipt, emission cadence, shoulder pixels at camera angles, particle lifetime/pool reuse and post-map cleanup OPEN. Other eight skill visual/GS gates unchanged.
+- ASSET PROVENANCE: staged original S21 Circle `firehik_mono01.OZJ` SHA256 C3E18C47... under private `Data\RISE\GrowLancer\CircleShield`; flare01 is byte-identical stock BITMAP_LIGHT source. No production Data copy.
+- FILES MODIFIED: QA-only `GrowLancerRuntimeQA.cpp`, hash-pinned Circle stage script and QA-stage verifier, acceptance matrix, this state.
+- LAST STATIC CHECK: Circle source verifier PASS, QA Data stage verifier PASS; native bitmap readback/sampler/release record valid=1.
+- LAST BUILD RESULT: isolated Global Release|Win32 QA Engine SHA256 B0156F2B... MSBuild exit0/link PASS. No GS change or live staging.
+- LAST RUNTIME QA: hidden offline PID44356 exit0, native Circle bitmap GPU/readback/release PASS; no ingame Circle cast or owner visual acceptance on this binary.
+- KNOWN DIFFERENCES: Circle shoulder fire/lightning visibility after actual server buff remains unverified; Spin and Magic owner visual FAIL and other skills QA OPEN. Build/resource PASS is not nine-skill PASS.
+- MISSING CHAIN PARTS: Circle buff receipt/recurrent ticks/paired pixels/particle cleanup; per-skill owner matching-frame visuals and authoritative GS learn/cast/damage/target/buff/siege.
+- BLOCKER: actual Circle shoulder/pool behavior needs controlled local buff QA; S21 GS handler evidence still missing for authoritative semantics, but source/other skill work remains, so IN_PROCESS.
+- NEXT EXACT ACTION: inspect native Circle particle recurrence and retirement against S21 subtype12 source and run private Circle buff-preview/pool QA only when local cast evidence is available; then resume Wrath square and Magic/Spin owner-visible discrepancies.
+- NEXT FILE TO OPEN: `RISE/GrowLancerEffectRuntime.cpp::SubmitCirclePersistentVisuals`, `ZzzEffectParticle.cpp` subtype12 native update/render and `GrowLancer/CIRCLE_SHIELD_REVERSE.md`.
+- NEXT FUNCTION TO IMPLEMENT: only a source-proven Circle owner-bone/pool correction if recurrent live QA identifies a mismatch; no guessed replacement sprites.
+
+### 2026-09-15 — Magic Pin two-model native raster diagnostic staged, pixels still FAIL
+
+- CURRENT PHASE: nine Grow Lancer skills only, exact S21 visual/animation and authoritative GS with isolated local QA; gear/quests excluded by owner.
+- CURRENT TASK: identify why Magic Pin caster-foot triangle remains invisible despite source-valid BMDs, GPU texture allocation, and old native mesh submissions.
+- CURRENT SUBTASK: measure both proved caster-foot model candidates `0x5E6` angular-strip and always-created `0x5E8` annular-root in the same native RenderMesh path, without changing production render math.
+- COMPLETED THIS RUN: verified prior QA PID36328 emitted 0x5E6 at caster pos14050,12850,184.5 after stage0 with alpha.2 and root0x5E8 since cast; old query sampled 0x5E6 only. QA-only query now has separate eight-sample caps for both source models, preserves before/inside shader-queue flush and logs candidate/depth/cull/VAO/index/program. Source boundary verifier PASS; isolated QA/nonQA Win32 builds exit0/link PASS; new private QA EXE SHA256 4972546B... hash-staged with previous587A2976... rollback; QA Data verifier PASS. No gameplay launch, other-task/production/VPS/GS changes.
+- REVERSE EVIDENCE: `MAGIC_PIN_REVERSE.md` pins S21 0x5E6 angular strips and 0x5E8 annular root, source rendererA48FEF/A49189, exact wind1 texture and birth/alpha timing; native old PID36328 model submit evidence cannot identify actual GPU samples/pixels. Query is diagnostic, not visual proof.
+- CHAIN COVERAGE: Magic Pin source model identity, stage0 creation, native model/texture/submit and root candidate raster hooks covered static/build; actual new GPU sample results, screen foot primitive attribution, stage3, target internal281 burst, owner visual parity, pool and GS authority OPEN.
+- ASSET PROVENANCE: same original S21 magicpin BMD/OZT hash-pinned and converted byte-equal v0C copies; no new asset guessed/staged. Only private QA EXE SHA256 4972546B... updated.
+- FILES MODIFIED: QA-only `GrowLancerRuntimeQA.cpp/.h`, `GrowLancerEffectRuntime.cpp` query arm, `verify_magic_raster_probe_contract.py`, QA stage/hash pins, `MAGIC_PIN_REVERSE.md`, acceptance matrix, this state.
+- LAST STATIC CHECK: two-model opt-in query/shader-flush verifier PASS, full private QA Data stage verifier PASS, scoped `git diff --check` exit0; old PID36328 submit evidence remains owner visual FAIL.
+- LAST BUILD RESULT: isolated Global Release|Win32 QA client SHA256 4972546B... and nonQA client SHA256 D026A041... MSBuild exit0/link PASS; no GameServer edit this subtask, existing local GS PID39876 remains old.
+- LAST RUNTIME QA: no fresh Magic F7/F9 on new opt-in raster binary; private QA client not running, local GS live. Old PID36328 owner saw no triangle; no internal281 target burst QA.
+- KNOWN DIFFERENCES: root0x5E8 and strip0x5E6 may both raster but source-visible foot primitive remains unassigned; model submit, texture allocation or positive GL samples alone would still not prove screenshot parity. Other eight skill visual gates/GS authority OPEN.
+- MISSING CHAIN PARTS: root/strip GPU sample and matched owner pixels at fixed/360 camera, source foot assignment, third stage, target burst/reaction, repeated cast pool/map cleanup, nine-skill GS handler/hit/buff rules and S21 parity.
+- BLOCKER: fresh controlled local Magic cast/owner screenshot needed for final visual acceptance; source and other skill work remains, so IN_PROCESS.
+- NEXT EXACT ACTION: run opt-in local-only QA Magic F7 one cast and separately F9 hit, analyze root/strip sample records together with caster/target pixels; if no owner test available, continue independent S21 shader/depth/coordinate reverse and other skill child chains. Do not work equipment/class-change quests.
+- NEXT FILE TO OPEN: latest private `GrowLancerRuntimeQA.log` after Magic cast; `RISE/GrowLancerRuntimeQA.cpp::Begin/EndMagicPinFootSamplesQA` and native `ZzzBMD.cpp::RenderMesh` shader branch.
+- NEXT FUNCTION TO IMPLEMENT: only source-proven Magic foot transform/render or target-burst handler correction identified by matched S21/QA evidence, not an invented triangle sprite.
+
+### 2026-09-15 — Spin ribbon native vertex probe staged; visual owner FAIL still open
+
+- CURRENT PHASE: nine Grow Lancer skill client visual and GS authoritative port, skill-only scope (no gear/class-change quests).
+- CURRENT TASK: diagnose the owner-visible Spin Step ground-ring-only outcome even though an older cast reached native blur draw/cross renderer.
+- CURRENT SUBTASK: record world-space head/tail ribbon vertices after native style-1 triangle-fan draw, build/stage isolated QA and pin old/new evidence.
+- COMPLETED THIS RUN: confirmed PID28160 selected-target log has draw20/cross submit19/map-after-delete blur live0; renderer's prior diagnostic had no ribbon vertex positions. Added QA-only four-edge `p1/p2` geometry to bounded `spin-blur-draw` records, leaving actual glBegin/UV/blend/native pool unchanged. Isolated Win32 QA build PASS; new EXE SHA256 587A2976... staged private Client with previous B7049F50... rollback. Full QA Data verifier and old Spin draw/fanout checks PASS. Gear metadata hooks remain absent; running GS and VPS untouched.
+- REVERSE EVIDENCE: S21 Spin 0x5F8 weapon ribbon style1 and bone33 chain in `SPIN_STEP_REVERSE.md`; native draw fan registered motion_blur texture at BITMAP_BLUR+1; old actual renderer/map-pool log PID28160. New QA geometry probe measures existing pool vertices, not an inferred visual layer.
+- CHAIN COVERAGE: Spin action/root/blur allocator/native draw and map style1 retirement reached in older cast; actual screen pixels, world-space geometry on new probe, target contact and S21 frame parity OPEN. Magic Pin/Circle/Wrath and other eight skill gates unchanged and not promoted.
+- ASSET PROVENANCE: skill overlay hashes/79-file provenance unchanged; Spin `motion_blur` source/read-only SHA pinned in reverse; staged private QA EXE SHA256 587A2976... only, no production Data copy.
+- FILES MODIFIED: QA-only `ZzzEffectBlurSpark.cpp`, `GrowLancerRuntimeQA.cpp/.h`, stage/hash verifier, `SPIN_STEP_REVERSE.md`, this state.
+- LAST STATIC CHECK: full QA stage verifier PASS, retained Spin draw/map verifier PASS, selected-target cross/ground source/log verifier PASS, scoped `git diff --check` exit0 with line-ending warnings.
+- LAST BUILD RESULT: isolated Global Release|Win32 QA client MSBuild exit0/link PASS, SHA256 587A2976...; no GS change this subtask, prior skills-only GS candidate build PASS but live GS old.
+- LAST RUNTIME QA: no fresh cast on new vertex-probe EXE; old PID28160 draw20/cross19/pool0 is narrower than owner visible pixels. Owner Spin observation remains ring only; local QA client not running at last check.
+- KNOWN DIFFERENCES: blur fan submits/draws registered texture, but user-visible ribbon/cross not accepted; prior log lacks geometry/depth/pixel sample. Do not infer pixels from draw count.
+- MISSING CHAIN PARTS: fresh Spin single-cast head/tail world positions + raster/pixel attribution; hit/contact/movement/repeat pool/camera parity, other eight skills' owner visual QA and GS authoritative handlers.
+- BLOCKER: fresh local-only owner cast may be needed for final visible pixels, but static/source diagnostics and other skill work remain, so IN_PROCESS.
+- NEXT EXACT ACTION: run one clean Spin cast on the isolated local QA when available, compare head/tail vertices to caster/camera/target and visible pixels; then fix only a source-proven transform/blend discrepancy. Continue Magic Pin foot/target and Circle/Wrath layers without equipment/quest work.
+- NEXT FILE TO OPEN: latest private `GrowLancerRuntimeQA.log` after a Spin cast; `ZzzEffectBlurSpark.cpp::RenderObjectBlurs` and `GrowLancerEffectRuntime.cpp::UpdateSpinWeaponBlur`.
+- NEXT FUNCTION TO IMPLEMENT: source-proven Spin ribbon transform/visibility correction only if new positional/pixel evidence identifies mismatch; otherwise Magic Pin GPU/world transform diagnostic.
+
+### 2026-09-15 — owner narrows task to nine skills only; equipment/quest hooks removed
+
+- CURRENT PHASE: nine Grow Lancer skill client visual/animation and authoritative GS port with isolated runtime QA; no equipment or class-change quest work.
+- CURRENT TASK: fix the owner-visible missing/intermittent skill layers and complete skill cast/hit/buff/server contract, while keeping local QA isolated from VPS.
+- CURRENT SUBTASK: remove the recent lance item metadata runtime hooks, rebuild/stage skills-only QA, reclassify Spin draw evidence without claiming visual PASS.
+- COMPLETED THIS RUN: removed newly added client `OpenItemScript` lance overlay, GS `ItemManager::Load` lance insertion and shared descriptor; no equip/quest changes are in runtime. Isolated skills-only client QA Win32 and GS Ex603 Win32 candidate link PASS; QA EXE hash B7049F50... staged with old164B9F4E rollback, complete QA Data verifier PASS. Retained PID28160 Spin cast parsed: native style-1 blur draw20, cross submit19 and map-after-delete pool live0 (`inspect_spin_blur_draw_log.py` PASS); owner ring-only observation still visual FAIL. Live GS PID39876 was not replaced; production/VPS/other tasks untouched.
+- REVERSE EVIDENCE: skill IDs271..279 and S21 actions/child chain in nine reverse docs; Spin style-1 native draw/bitmap and pool records from bounded PID28160 log; old source item/lance evidence retained only as reference, not a task gate.
+- CHAIN COVERAGE: nine skill descriptor/dispatch/action/visual implementations exist at static/build scope; Spin native blur/cross draw and map cleanup proved in one older QA cast. Magic Pin caster-foot triangle/target burst, Circle shoulder pixels, Wrath black-square/recurrent buff, Harsh timing, Clash/Breche full contact, all matching-frame QA and GS authoritative handlers OPEN.
+- ASSET PROVENANCE: existing skill-specific hash-pinned overlays unchanged; converted lance candidate remains isolated read-only and is not registered for gameplay. Skills-only private QA EXE SHA256 B7049F50... staged; non-production.
+- FILES MODIFIED: client `ZzzInfomation.cpp`, GS `ItemManager.cpp` (recent item additions removed); removed `Shared/GrowLancerLanceItemData.h` and metadata verifier; QA stage/hash verifier; `SPIN_STEP_REVERSE.md`, acceptance matrix, provenance note, this state.
+- LAST STATIC CHECK: QA stage verifier PASS, old PID28160 Spin draw/map verifier PASS, runtime item metadata hooks absent by search; scoped `git diff --check` exit0 with line-ending warnings.
+- LAST BUILD RESULT: isolated skills-only QA client Global Release|Win32 SHA256 B7049F50... and GS Ex603|Win32 candidate SHA256 C913F2B3... MSBuild exit0/link PASS; live GS remains earlier build, no deployment.
+- LAST RUNTIME QA: no fresh owner cast on new skills-only QA; prior Spin PID28160 native draw20/cross19/map live0 is narrower than visible pixels. Client QA was not running and local CS44412/GS55910 listened at last check.
+- KNOWN DIFFERENCES: last owner Spin showed ground ring only despite old native draw records; Magic Pin triangle absent/intermittent, Wrath black square, Circle shoulder/post-buff pixels unaccepted. Build/static progress is not full visual parity; server skill casting is fail-closed.
+- MISSING CHAIN PARTS: per-skill owner matching-frame visuals/target-hit/pool stress and authoritative GS learn/cast/damage/target/buff/siege semantics; native class7 prerequisite to final playable skills, but no independent item/equipment/quest work in this task.
+- BLOCKER: matching S21 authoritative GS handler dump/PDB absent for full damage/hit proof; source/client/runtime diagnostic work remains possible, so STATUS IN_PROCESS.
+- NEXT EXACT ACTION: diagnose Spin style-1 blur/cross screen invisibility from actual draw transform/depth/camera, then Magic Pin foot triangle/target explosion and Circle/Wrath owner pixels. Run local-only QA with a single controlled cast when owner interaction is needed; do not shift back to equipment/quest.
+- NEXT FILE TO OPEN: `ExMain_RISE_PC/Main5.2_RISE/ZzzEffectBlurSpark.cpp::RenderObjectBlurs`, `RISE/GrowLancerEffectRuntime.cpp::CreateSpinStepRoot/UpdateSpinWeaponBlur`, `GrowLancer/MAGIC_PIN_REVERSE.md`.
+- NEXT FUNCTION TO IMPLEMENT: scoped Spin draw/pixel diagnostic for native style-1 ribbon/cross after comparing source transform; no fabricated visual asset or effect.
+
+### 2026-09-15 — source-pinned lance item metadata integrated client+GS; equip still fail-closed
+
+- CURRENT PHASE: class7 item/model/authoritative GS import alongside full nine-skill and visual acceptance.
+- CURRENT TASK: make verified S21 group3 lance metadata available in native client and GS without overriding SS6 catalog or guessing class7 evolution stage.
+- CURRENT SUBTASK: shared 19-field descriptor for seven rows, guarded native loaders, x86 builds, hash-staged isolated client QA.
+- COMPLETED THIS RUN: source XML field comparison and section-aware GS ID occupancy verifier PASS; `Shared/GrowLancerLanceItemData.h` records 7×19 exact fields. Client `OpenItemScript` fills only seven empty records after Item.bmd CRC; GS `ItemManager::Load` inserts only missing IDs after base Item.txt parse. Existing SS6 rows are skipped, and class7 `RequireClass` remains zero. QA/nonQA client Win32 and Ex603 GS Win32 candidate built/link PASS; new QA EXE staged with F0112DA5 rollback and full QA Data verifier PASS. Running Grow Lancer GS PID39876 not replaced; production/VPS/other tasks untouched.
+- REVERSE EVIDENCE: source S21 ItemList XML SHA256 61711D9E... has section3 indexes13..19 exact slot0, skill20, width1/height4, damage/speed/durability/stat and stage1/3; native GS QA Item.txt SHA256 85E92BB4... has group3 rows only0..11, while group4 rows13..19 are distinct bow/arrow catalog; native QA Item.bmd SHA256 C5A5693D... has empty group3 rows13..19. Descriptor verifier compares every source field.
+- CHAIN COVERAGE: seven lance source identity/item metadata → client/GS native loader code and native geometry Open2/release covered; texture/model renderer, class7 equip/ChangeUp, account create/login, full nine-skill GS/client parity and owner visual QA OPEN.
+- ASSET PROVENANCE: seven original S21 v0F BMD and twelve OZJ hash-pinned, converted native v0C candidate assets remain isolated ClassItems staging; new QA EXE SHA256 164B9F4E... staged only private client with rollback old F0112DA5; new GS candidate SHA256 D171D11F... only private Bin, not running live.
+- FILES MODIFIED: shared `GrowLancerLanceItemData.h`, client `ZzzInfomation.cpp`, server `ItemManager.cpp`, `verify_gl_lance_item_metadata.py`, hash-pinned QA stage/verifier, `GL_LANCE_ASSET_PROVENANCE.md`, this state.
+- LAST STATIC CHECK: seven-row/19-field source verifier PASS, GS section3/4 occupancy verifier PASS, old PID42344 native Open2/release7/7 verifier PASS, full QA stage verifier PASS, scoped `git diff --check` exit0 with existing line-ending warnings.
+- LAST BUILD RESULT: isolated Global Release|Win32 client nonQA SHA256 02A720DC... and QA SHA256 164B9F4E... MSBuild exit0/link PASS; Ex603|Win32 GS candidate SHA256 D171D11F... MSBuild exit0/link PASS. No post-build deployment.
+- LAST RUNTIME QA: old offline PID42344 Open2 geometry PASS, no new metadata ingame load/equip test; local CS44412/GS55910 remain live but GS is previous build. Owner visual, class7 login/movement and nine-skill casts unverified.
+- KNOWN DIFFERENCES: source GL stages1/3 preserved but native ChangeUp ABI not yet proven; client item records now populated by code rather than signed BMD content; GS metadata compiled only in candidate while running GS old; model/texture rendering not registered; equip still rejected for class7.
+- MISSING CHAIN PARTS: stage/progression mapping, GS class7 authorization, original S21 DefaultClassType112 profile, account create/login, lance model/GPU texture registration and actual equip/render, nine-skill authoritative handlers, full S21 matching-frame runtime comparison.
+- BLOCKER: original S21 class112 default DB row unavailable for exact live profile; source-driven item/render work remains possible, so STATUS IN_PROCESS.
+- NEXT EXACT ACTION: trace S21 GL evolution-stage semantics against native `ChangeUp`/character packet before enabling client+GS equip; register converted lance model/texture via existing native item/BMD path and run private offline texture/ItemAttribute QA, leaving live GS untouched until guarded candidate staging.
+- NEXT FILE TO OPEN: `ExGameServer/GameServer/ObjectManager.cpp` class create/ChangeUp checks, `ExMain_RISE_PC/Main5.2_RISE/ZzzOpenData.cpp` item model load, S21 source class-stage config/packet evidence.
+- NEXT FUNCTION TO IMPLEMENT: class7 stage eligibility adapter only after source/native ABI proof; native item model/texture registration for group3 rows13..19 with source-hash guard.
+
+### 2026-09-15 — seven S21 lance asset candidates native-loaded; item/GS activation OPEN
+
+- CURRENT PHASE: source-proven Grow Lancer class7 item/model chain, within full nine-skill/client/GS/runtime acceptance.
+- CURRENT TASK: distinguish native 5.2 asset parse from complete item entitlement and visual gameplay.
+- CURRENT SUBTASK: hash-pin seven S21 lance BMDs and twelve textures, convert isolated BMD candidates, probe native Open2/release, compare native QA Item.bmd and server item gate.
+- COMPLETED THIS RUN: source registry/XML/model/texture SHA checks PASS; seven v0F BMD copies converted to native v0C with plaintext roundtrip and isolated staging. Offline QA PID42344 exited0; independent log verifier confirms 7/7 native Open2 valid load and 7/7 release. Native QA Item.bmd has zero records1549..1555; GS group3 indexes13..19 are unoccupied (bow rows belong to group4), and GS class check has no class7 requirement column. NonQA isolated Win32 build and staging dry-run PASS; no gameplay launch/VPS/production writes.
+- REVERSE EVIDENCE: source S21 item.bmd SHA256 9B9D62B7... maps group3 indexes13..19 to exact BMD filenames; S21 ItemList SHA256 61711D9E... maps GL stage1/stage3, slot0 and item stat requirements. Individual SHA/model mesh/texture inventory is pinned in `inspect_gl_lance_item_chain.py` and `GL_LANCE_ASSET_PROVENANCE.md`.
+- CHAIN COVERAGE: seven lance source item→model→embedded texture chain and native geometry Open2/release PASS; native item metadata/texture GPU/load/render, GS item authorization, class7 create/login/equip and nine-skill visual/server behavior OPEN.
+- ASSET PROVENANCE: original S21 seven BMD v0F and twelve OZJ hash-pinned; converted BMD v0C and byte-exact original textures isolated under `Tests/GrowLancerBuild/ClassItems/Data/RISE/GrowLancer/ClassItems`, not production Data. Candidate texture loading was deliberately disabled in geometry probe.
+- FILES MODIFIED: `inspect_gl_lance_item_chain.py`, `stage_gl_lance_candidates.py`, QA-only `GrowLancerRuntimeQA.cpp/.h` and `Winmain.cpp` probe, `verify_gl_lance_native_probe.py`, QA stage/hash verifier, `GL_LANCE_ASSET_PROVENANCE.md`, this state; isolated candidate assets and QA EXE staged.
+- LAST STATIC CHECK: source/model/texture and conversion roundtrip verifier PASS; native PID42344 seven load/release verifier PASS; hash-pinned GS section3/4 ID occupancy verifier PASS; `git diff --check` exit0 (pre-existing line-ending warnings).
+- LAST BUILD RESULT: isolated QA Win32 client link PASS, staged EXE SHA256 F0112DA56...; nonQA Win32 client MSBuild exit0/link PASS after QA-only probe edit. Build does not prove item or visual acceptance.
+- LAST RUNTIME QA: hidden offline staged QA process PID42344 exited0 before UI/network and native geometry load/release7/7. No class7 gameplay login/equip/cast or S21 frame parity. Local CS44412/GS55910 listen; private QA gameplay Engine was not running at last check.
+- KNOWN DIFFERENCES: native QA Item.bmd group3 indexes13..19 empty; GS same IDs unoccupied but lack item metadata and seven-column class table denies GL7; source BMDs v0F converted only as isolated candidates; textures/visual not yet registered.
+- MISSING CHAIN PARTS: native client item record and render registry, twelve GPU texture loads, GS item metadata/authorization/stage, S21 class7 DB defaults, class7 gameplay, full nine-skill GS handlers and owner visual QA.
+- BLOCKER: original S21 DefaultClassType class112 profile still unavailable for exact live class7 creation; asset/metadata integration remains safe work, so STATUS IN_PROCESS.
+- NEXT EXACT ACTION: derive source S21 item metadata field-by-field against native Item.bmd and GS ItemManager schema; implement a scoped client+server item adapter for verified group3 lance rows without changing SS6 records globally or enabling unauthorized equip.
+- NEXT FILE TO OPEN: `ExMain_RISE_PC/Main5.2_RISE/ZzzInfomation.cpp::OpenItemScript`, `ExGameServer/GameServer/ItemManager.cpp::Load`/`CheckItemRequireClass`, S21 ItemList group3 lance rows.
+- NEXT FUNCTION TO IMPLEMENT: native client item metadata registration plus matching authoritative server class7 item rule, guarded by verified source requirements and explicit stage mapping.
+
+### 2026-09-15 — class7 fixed-layout lookup guards; exact S21 item rules extracted; defaults still unproven
+
+- CURRENT PHASE: Grow Lancer native class7 client safety/item entitlement and authoritative server profile, alongside nine-skill visual/server acceptance.
+- CURRENT TASK: remove base7 out-of-bounds access in SS6 seven-column item/quest records and derive separate GL item requirement rules from S21 source without RF alias or BMD struct resize.
+- CURRENT SUBTASK: verify S21 `DefaultClassType` provenance, generate hash-pinned native-capacity GL item descriptor, static/x86 test, rebuild/stage isolated client.
+- COMPLETED THIS RUN: read-only S21 CalcCharacter.ini points four per-class multipliers to `MuOnline.dbo.DefaultClassType`; local SQL has no verified S21 DB112 row and patch zip explicitly aliases112 to RF96 starter template. Recorded why class7 create/login cannot use those values as parity. Guarded seven-column client dynamic class indexes in inventory, item tooltip, set option, guild master skill and two quest renderers; then found and bounded seven-class MuHelper tab arrays, protected attack-speed config and client starter-profile array. Left GL entitlement/profile fail-closed instead of indexing7 or expanding serialized SS6 structs. CP949-only NPC quest comment and one malformed MuHelper comment byte mechanically normalized after exact hash backups, then patched through apply_patch. Generated exact source-driven GL ItemList descriptor for native item groups0..15 via apply_patch, source verifier PASS, focused x86 /W4 /WX compile/run PASS. Isolated QA and non-QA client builds PASS after both guard phases; hash-staged latest QA EXE and retained prior hash rollbacks; full QA Data verifier PASS. No production/other-task/S21 writes.
+- REVERSE EVIDENCE: S21 ItemList.xml SHA256 61711D9E... has `GrowLancer=0/1/3/4/5` section/index requirement; exact native item capacity16*512, class requirement field seven entries; 869 nonzero legacy-range GL item rows and 757 eligible newer-group rows excluded. S21 CalcCharacter.ini SHA256 BE300D43... names DefaultClassType four multipliers; supplied patch zip SHA256 303C9C67... copies RF96 to GL112 and labels starter template, not S21 final profile. SQL comparison and source details in `S21_CLASS_DEFAULT_DB_AUDIT.md`/`GL_ITEM_REQUIREMENT_PROVENANCE.md`.
+- CHAIN COVERAGE: client class7 legacy fixed-record safety PASS; precise S21 item entitlement source subset extracted/tested but not activated; new item groups, evolution ABI, native item model/stat/slot, GS item gate and class7 defaults/login OPEN. Full nine skill client/GS/runtimes remain OPEN.
+- ASSET PROVENANCE: original S21 ItemList.xml read-only SHA256 61711D9E...; generated private descriptor verified row-for-row; original NewUINPCQuest.cpp CP949 SHA256 68424FE0... and original NewUIMuHelper.cpp SHA256 24C54E60... backed up inside isolated EncodingBackup. No production Data write.
+- FILES MODIFIED: `NewUIMyInventory.cpp`, `ZzzInfomation.cpp`, `CSItemOption.cpp`, `UIGuildInfo.cpp`, `CSQuest.cpp`, `NewUINPCQuest.cpp`, `NewUIMuHelper.cpp`, `ZzzCharacter.cpp`, new two hash-guarded encoding/comment normalizers, `verify_client_legacy_class_lookups.py`, `extract_gl_item_requirements.py`, generated `GrowLancerItemRequirements.generated.h`, focused `GrowLancerItemRequirementsTest.cpp`, stage/verifier hash pins, two provenance docs, this state.
+- LAST STATIC CHECK: seven-column client lookup verifier PASS; generated descriptor source XML row/order/hash verifier PASS; Magic raster probe verifier PASS; scoped x86 item descriptor /W4 /WX compile/run PASS; full isolated QA Data stage verifier PASS.
+- LAST BUILD RESULT: isolated Global Release|Win32 QA/nonQA client MSBuild exit0/link PASS, only third-party LNK4099 PDB warnings; latest QA SHA256 6B115C5660128432ADC26FA02A185BFAF7C29FF5BD6F6DD103663D8D723EED36 staged, nonQA SHA256 EB8AAFCC06041FB16797E87CE3AE12E77117F8291BBE85C4DF8D416797D340B6 isolated Bin only. Previous QA DEA9CAFF... and 3E586178... hash rollbacks retained. New generated item descriptor not yet linked to equip UI.
+- LAST RUNTIME QA: native focused item lookup test process exit0. Private local CS44412/GS55910 listen and Grow Lancer QA Engine was not running at last check; no class7 login/equip/movement/visual or fresh Magic Pin cast. Production Engine/VPS untouched.
+- KNOWN DIFFERENCES: S21 original class7 default DB/multipliers and stage/item-group capacity absent; local QA DB112 and other patch are RF-derived or unknown, not proof of S21 parity. Client guards currently deny GL equip where SS6 record has no column; exact source descriptor is prepared but client/server bridge not activated.
+- MISSING CHAIN PARTS: source S21 DB112 row and multipliers/rates, exact GL evolution-stage ABI, all new item groups/models/stats/GS validation, class7 native create/login/equip/movement, nine-skill authoritative handlers and matching-frame visual QA.
+- BLOCKER: S21 original `MuOnline.dbo.DefaultClassType` Class112 provenance unavailable; client/source work remains possible, so IN_PROCESS.
+- NEXT EXACT ACTION: decode current QA Item.bmd slot/stat/model entries for S21-approved GL stage1 sample items and compare with S21 ItemList, then add a scoped client+GS requirement adapter only where identity/asset/validation are proven. Separately obtain source class7 S21 DB profile before live create/load activation.
+- NEXT FILE TO OPEN: `ExMain_RISE_PC/Tests/GrowLancerBuild/RuntimeQA/Client/Data/RISE/Config/Item.bmd` with native `ZzzInfomation.cpp` record size/Bux/CRC; `ExGameServer/GameServer/ItemManager.cpp` class requirement/equip checks and S21 ItemList group3 lance rows.
+- NEXT FUNCTION TO IMPLEMENT: verified GL stage1 item eligibility bridge for native item types, with server-authoritative same source rule and no RF alias; defer class7 create/login until default profile is explicit.
+
+### 2026-09-15 — Magic Pin QA raster probe flushes deferred shader draw; local stack verified, visual gate OPEN
+
+- CURRENT PHASE: Magic Pin caster-foot/target-contact visual diagnosis within the full nine-skill/class/server Grow Lancer port.
+- CURRENT TASK: distinguish native shader enqueue from actual MagicPin01 GPU raster while keeping QA on isolated local endpoint.
+- CURRENT SUBTASK: correct the opt-in peak-alpha sample query boundaries, build/stage the private QA client, and preserve previous QA EXE as hash-pinned rollback.
+- COMPLETED THIS RUN: verified production `D:\RISE-CrossPlatform\Client\Engine.exe` PID21472 has established VPS sockets to `103.90.224.58`; private Grow Lancer Engine-Port S21 is not running. Verified independent local Grow Lancer CS PID41404 listens44412 and GS QA PID39876 listens55910. Source inspection showed native shader `AddMeshCommand` defers draw beyond the old query end. QA-only begin/end now flush pending shader queue before/inside the query and record VAO/index/program/depth/cull diagnostics. Static verifier PASS, isolated Win32 QA build/link PASS, guarded stage applied to isolated Client with rollback of old staged EXE; full QA Data verifier and local-only launcher dry-run PASS. Did not touch production Engine, VPS, Pegasus, Slayer, or S21 original.
+- REVERSE EVIDENCE: S21 `0x5E6` RenderMesh flags `0x42` and magicpin01 BMD/texture remain source-pinned from preceding reverse. Native SS6 `ZzzBMD.cpp` returns on successful shader `AddMeshCommand`; `New_ModelBMD.cpp::FlushAllMesh` draws insertion-order entries. The prior query could observe only enqueue, not actual pixels.
+- CHAIN COVERAGE: caster-foot shader-queue diagnostic route corrected; shader backend runtime samples, actual geometry occlusion, owner foot pixels, target burst, all nine skill/server chains OPEN.
+- ASSET PROVENANCE: original S21 assets unchanged/read-only; QA tree 2521 base files/90 overlay files/126 junctions verified.
+- FILES MODIFIED: `RISE/GrowLancerRuntimeQA.cpp`, new `verify_magic_raster_probe_contract.py`, guarded `stage_circle_preview_qa_candidate.ps1`, `verify_runtime_qa_stage.py`, `MAGIC_PIN_REVERSE.md`, this state.
+- LAST STATIC CHECK: `verify_magic_raster_probe_contract.py` PASS; runtime stage verifier PASS; query scope/queue order is source-only evidence.
+- LAST BUILD RESULT: isolated `Main.vcxproj` Global Release|Win32 QA MSBuild exit0/link PASS; staged Engine SHA256 3E5861785524CC539B30E8294290FD9D16A69D05B1A5443132F376742DBF070C. Older staged QA FD3CAE63... and prior 43C2155C... retained under private Bin rollback. No post-build deployment.
+- LAST RUNTIME QA: local CS44412 and GS55910 currently listen, private QA Engine not running; no cast on newly staged raster-probe binary. Production Engine PID21472 connects VPS and was not operated.
+- KNOWN DIFFERENCES: a query sample is only raster diagnostic and still cannot prove visible Magic Pin triangle, exact S21 frame or target explosion. Diagnostic queue flush changes batching only while explicit QA probe is enabled.
+- MISSING CHAIN PARTS: fresh local-only Magic Pin F7/F9 ingame sample/pixel match; protected GS Magic hit producer/authoritative damage, full class7 create/login and nine-skill acceptance.
+- BLOCKER: owner visual retest needed for exact missing-pixel comparison; additional source/QA work remains possible, so IN_PROCESS.
+- NEXT EXACT ACTION: launch the staged Engine-Port S21 only through local-only `start_runtime_qa_client.ps1 -LocalServer -MagicRasterProbe` when a controlled cast is available; analyze peak-alpha sample alongside F11/F9 contact. Meanwhile trace native depth/cull and S21 effect transform, not add an inferred layer.
+- NEXT FILE TO OPEN: `ExMain_RISE_PC/Main5.2_RISE/New_ModelBMD.cpp` shader draw/depth branch and S21 dump renderer 0xC4633B range; then latest private QA log after a cast.
+- NEXT FUNCTION TO IMPLEMENT: only source/runtime-proven MagicPin01 transform/render correction after samples/pixels pinpoint failure; no speculative foot sprite.
+
+### 2026-09-15 — other class task compatibility presets rejected for S21 parity; GL Lua damage fractions pinned
+
+- CURRENT PHASE: server-authoritative Grow Lancer class/damage evidence and nine-skill acceptance; isolated QA client is staged, class7 create/login still OPEN.
+- CURRENT TASK: compare active other-task class code read-only and prevent RF/DK seven-column/rate aliases from entering this strict S21 port; map S21 GL fist/magic source expression before native integer conversion.
+- CURRENT SUBTASK: repair stale class-boundary verifiers after source-pinned GS capacity reservation, without claiming full class activation or copying other task files.
+- COMPLETED THIS RUN: read-only inspection of `Add classes and items to Rise` private clone found `GetLegacyConfigClass(GrowLancer)=RageFighter` and `ServerInfo` RF-derived rates/matrix explicitly labeled compatibility presets, not S21 balance; recorded SHA-pinned snapshot and did not modify that clone. Added exact fractional `GrowLancerSourceDamage.h` for S21 Lua GL fist/magic expressions with focused x86 /W4 /WX compile PASS; intentionally left native OBJECT integer bridge and skill damage unwired. Repaired four old verifier false failures so they distinguish GS reserved8 from client SS6 seven-column format, no legacy config aliases, and create/load still closed.
+- REVERSE EVIDENCE: S21 `CalcCharacter.lua` SHA256 9DA500... has GL Strength/8+Dexterity/10 minimum per hand, Strength/4+Dexterity/6 maximum per hand, Energy/9 magic minimum and Energy/4 maximum; source comment names Grow Lancer/Mirage Lancer but not full evolution packet stages. Other task source hashes and compatibility behavior recorded in `ADD_CLASSES_CROSS_TASK_AUDIT.md`, not S21 authority.
+- CHAIN COVERAGE: fractional class-base damage source terms and no-alias class capacity/static guards covered; exact protected GS rounding, class7 defaults/15 matrix cells, skill hit/damage handlers, login and visual QA remain OPEN.
+- ASSET PROVENANCE: unchanged from prior active QA stage; S21 data and other task private clone read-only.
+- FILES MODIFIED: new `RISE/GrowLancerSourceDamage.h`, `GrowLancerSourceDamageTest.cpp`, `verify_gl_source_damage.py`, `ADD_CLASSES_CROSS_TASK_AUDIT.md`, `S21_GROW_LANCER_CLASS_DATA.md`, current-worktree notes in `NEWER_SOURCE_CLASS_REFERENCE.md`/`CLASS_CONSUMER_CAPACITY_AUDIT.md`, repaired four class-boundary verifiers, this state.
+- LAST STATIC CHECK: Lua damage verifier PASS; focused C++17 x86 /W4 /WX source adapter compile PASS; class-consumer capacity/no-alias verifier PASS; adapter/boundary/newer-reference verifiers PASS; scoped `git diff --check` exit0.
+- LAST BUILD RESULT: no new full server binary this run because the fractional adapter is not yet connected to native OBJECT fields; preceding Ex603/Ex603CS isolated builds and staged PC client builds remain compilation evidence only.
+- LAST RUNTIME QA: active Grow Lancer Engine-Port S21 not running at last process check; local CS44412, DS55964, JS55974 and GS55910 still listen. Prior staged QA overlay verifier and hidden WGL native body probe passed; no class7 login/cast/pixels.
+- KNOWN DIFFERENCES: other class task's RF-compatible presets may enable broad class entry but cannot meet this task's S21 GL rates/requirements; no wholesale merge. Source Lua fractions cannot be assigned to integer GS fields without verifying S21 protected handler conversion and bonus order.
+- MISSING CHAIN PARTS: S21 integer damage bridge, source-backed class7 defaults and directed PvP/elemental matrix, full DS/GS/client class/evolution ABI, nine authoritative skill handlers/learn/persistence, nine matching-frame ingame visual checks.
+- BLOCKER: protected S21 GS image has no handler-level source/dump and supplied default DB provenance is missing; source/client QA work remains possible, so task stays active.
+- NEXT EXACT ACTION: trace native ObjectManager physical/magic and item-bonus order against S21 Lua plus newer-source lead to isolate the required rounding bridge; in parallel map S21 class list/create packet byte through client dump, not generic-task RF presets.
+- NEXT FILE TO OPEN: `ExGameServer/GameServer/ObjectManager.cpp` 2851..2997 and S21 `CalcCharacter.lua` 159..170/375..382; then `GrowLancer/MAGIC_PIN_REVERSE.md` peak raster probe if class handler evidence remains unavailable.
+- NEXT FUNCTION TO IMPLEMENT: source-verified native integer conversion/bonus bridge for class7 base damage once protected-GS or runtime numeric evidence identifies truncation; do not wire an inferred rounding rule.
+
+### 2026-09-15 — class7 private base-body native caller linked; active QA staged; hidden WGL probe PASS
+
+- CURRENT PHASE: class7 body gameplay-render integration and isolated QA readiness; nine-skill source/server/visual acceptance still OPEN.
+- CURRENT TASK: bypass unregistered SS6 `MODEL_BODY_*+7` only for verified unevolved Grow Lancer base body; preserve equipped SS6/other-class paths.
+- CURRENT SUBTASK: after old QA PID25016 exited, hash-stage new isolated QA EXE/assets and rerun hidden native body GPU probe before owner ingame comparison.
+- COMPLETED THIS RUN: added 1..5 native-body-part to private0..4 choice adapter and class7-only normal-player render branch using native `SubmitClassBaseBody` (Open2/Transform/RenderBody); worn equipment stays original when render-equipment is on, render-equipment-off selects base body. Empty/missing private assets do not fall through to unregistered SS6 placeholder. Focused x86 /W4 /WX compile PASS; QA/nonQA x86 client builds PASS. Guarded old-QA-exit stage installed candidate plus Circle mono and both normal/disabled master atlases with hash backup; complete 2521-file base/90-file overlay QA verifier PASS. Current QA EXE hidden WGL body shader/upload/cache/draw/owner/release probe PID39236 exit0 and runtime verifier PASS.
+- REVERSE EVIDENCE: native SetCharacter writes five `MODEL_BODY_* + GetBaseClass(Class)` types at15216..15220; native render loop indexes1..5 and calls RenderPartObject, but source class7 lacks registered SS6 body model. S21 base7 body BMD/material identities remain pinned in `ClassBodyDescriptor.h`; the private body native renderer had prior offline source and current GPU evidence, not S21 pose parity.
+- CHAIN COVERAGE: unevolved class7 normal-player base-body choice/model/texture/native draw source and hidden WGL context bounded; actual class7 login actor, bone origin/shape/material pixels, equipped GL gear, selection outline, transformations, nine skill visuals/GS authority OPEN.
+- ASSET PROVENANCE: active isolated QA master normal SHA256 DF3D1F... and disabled SHA256 9FBD4B..., Circle mono C3E18C... staged hash-identical; active EXE SHA256 43C2155C8F7B352342C98FAF58A19539DC5C1D5015976DFE7A99ED6EDEF81C24. S21 original unchanged; rollback EXE SHA4A606548... retained in isolated Bin.
+- FILES MODIFIED: `RISE/GrowLancerClassBodyCaller.h`, `ZzzCharacter.cpp`, focused `GrowLancerClassBodyCallerTest.cpp`, `verify_class_body_gameplay_caller.py`, `stage_circle_preview_qa_candidate.ps1`, `verify_runtime_qa_stage.py`, `asset_provenance.json`, `MASTER_SKILL_REVERSE.md`, `CLASS_INTEGRATION_CONTRACT.md`, this state.
+- LAST STATIC CHECK: focused C++14 x86 /W4 /WX class-body caller choice compile PASS, gameplay caller verifier PASS, client identity verifier PASS, complete QA overlay verifier PASS, scoped diff check exit0. Inactive/active master assets hash-pinned; no production/Pegasus writes.
+- LAST BUILD RESULT: isolated QA and nonQA PC client Global Release|Win32 MSBuild exit0 (third-party PDB warnings only); QA SHA256 43C2155C8F7B352342C98FAF58A19539DC5C1D5015976DFE7A99ED6EDEF81C24, nonQA SHA256 004F9D3799569635DA52CD9945AA6B9CC5A0FB8328004C6F88DC05E02BC38407. Earlier GS Ex603/Ex603CS capacity builds PASS; no deploy.
+- LAST RUNTIME QA: hidden offline native WGL probe PID39236 exit0; `verify_class_body_gpu_runtime.py` PASS shader/upload/cache/draw/owner/release and separate rollback/sampler fixtures. Local CS44412, DS55964, JS55974, GS55910 listened at last check, but no fresh local login/cast/movement or matching-frame S21 visual QA. Active isolated QA client is staged and currently not running.
+- KNOWN DIFFERENCES: the new gameplay caller is class7 unevolved normal-player base body only; no selection-outline, actual owner bone-layout, equipment/material override, mount/transform or class evolution parity. Offline GPU draw is not ingame/pixel PASS.
+- MISSING CHAIN PARTS: class7 DS/GS/client create/list/login/defaults/rates/persistence, equipment/selection/mount/body visual parity, server-authoritative nine learning/cast/damage/buff/siege handlers, nine root/child frame comparisons and regression.
+- BLOCKER: S21 supplied GS handler/default DB provenance remains unproved; active client stage no longer blocked, but actual class7 local login/visual needs an authoritative class path or owner QA fixture. Other source work remains possible.
+- NEXT EXACT ACTION: add scoped QA telemetry for class7 body submit and trace class7 DS/GS create/load whitelists plus source-equivalent defaults; then run local-only ingame test after coherent temporary QA activation without touching production.
+- NEXT FILE TO OPEN: `ExGameServer/GameServer/ObjectManager.cpp` class load whitelist3541 and `ExGameServer/GameServer/Protocol.cpp` character-create validation, then `ZzzCharacter.cpp` class7 selection/equipment pass.
+- NEXT FUNCTION TO IMPLEMENT: native class7 create/load/login path with verified isolated QA DB defaults and proper class-consumer guards, not a DK alias or unverified S21 final profile.
+
+### 2026-09-15 — client base7 no longer aliases Wizard; isolated x86 builds PASS
+
+- CURRENT PHASE: native Grow Lancer client class identity port before create/login/body and full nine-skill runtime acceptance.
+- CURRENT TASK: map source class7 through native byte-safe wire224 and character selector without renumbering SS6 or inventing evolution labels.
+- CURRENT SUBTASK: keep active QA untouched while exact old PID25016 lives; continue client class/body and DS/GS round-trip mapping.
+- COMPLETED THIS RUN: verified clean `CharacterManager.cpp` CP949 roundtrip (only two Korean comments outside ASCII), mechanically normalized to UTF-8 with SHA-pinned original backup in isolated test folder; added private client class selector18 after native enum17 with compile-time boundary assertion; mapped unevolved base7 to Grow Lancer text, evolution bits to unsupported255 instead of Wizard0; included class7 in female classification. GS capacities from preceding checkpoint remain coherent but create/login gates unchanged.
+- REVERSE EVIDENCE: S21 `CalcCharacter.lua` SHA256 9DA500... names Grow Lancer class7; native DS/GS class formula DB112->wire224 and client extracts base7. S21 reaction source class7 follows female sound selector109/110; exact evolution identity/packet, defaults and class equipment remain unproven.
+- CHAIN COVERAGE: class7 source identity to native byte/unevolved client selector statically/build covered; native stage2/3/4, body model assignment, UI create/list/login, server defaults/rates/skills and owner visual QA OPEN.
+- ASSET PROVENANCE: CP949 source backup SHA256 0C6D473AA862C3FE77ED9D0474AB81B9B0B917A5CD769FFA0B05A996010DF76B inside `ExMain_RISE_PC/Tests/GrowLancerBuild/EncodingBackup`; S21 assets original read-only, active QA atlas still not staged.
+- FILES MODIFIED: `CharacterManager.cpp/.h`, new `RISE/GrowLancerClassIdentity.h`, `normalize_character_manager_encoding.ps1`, `verify_client_class_identity.py`, repinned `stage_circle_preview_qa_candidate.ps1`, `CLASS_INTEGRATION_CONTRACT.md`, this state.
+- LAST STATIC CHECK: pinned client class identity verifier PASS; original/comment Unicode backup validated; native class encoding PASS24; scoped `git diff --check` exit0 and CharacterManager diff19 added/3 removed, not a wholesale source rewrite; guarded active stage dry-run WAIT/hash PASS.
+- LAST BUILD RESULT: isolated client QA and non-QA Global Release|Win32 MSBuild exit0 with third-party PDB warnings only; QA candidate SHA256 C6F4221D22983AE42D0C9CFFFFE062AE1F34E271EC7A4BD014D7BECE4F40773A, nonQA SHA256 3596F1C446925C1B0F51A268CCCC0A263CCBDBEE8516607CCF5C97D83AE76365. No deployment.
+- LAST RUNTIME QA: old QA Engine-Port S21 PID25016 still live; candidate inactive, no class7 local login, movement, cast, body draw or pixel QA.
+- KNOWN DIFFERENCES: source identity base7 is now represented only for unevolved byte7; unknown evolution bits deliberately unsupported. `GetSkinModelIndex`/body parts still follow SS6 stride and are not proven GL render paths. Build is not visual PASS.
+- MISSING CHAIN PARTS: S21 evolution/type names and wire width, actual class create/load/default stats/matrix, scoped body+equipment registration, nine GS learning/cast/damage/buff/siege handlers, isolated matching-frame visual QA.
+- BLOCKER: old QA process prevents safe replacement; supplied S21 default DB/handler source not identified, but other work remains possible.
+- NEXT EXACT ACTION: map class7 `GetSkinModelIndex`/SetCharacter body assignment to already proved private body slots and render-equipment policy, then trace DS/GS create-list-login activation in local QA DB; stage candidate after exact old QA closes.
+- NEXT FILE TO OPEN: `ExMain_RISE_PC/Main5.2_RISE/ZzzCharacter.cpp` SetCharacter body part block 15216..15220 and `GrowLancer/compat/ClassBodyAppearance.h`.
+- NEXT FUNCTION TO IMPLEMENT: scoped native class7 body model selection for verified unevolved source class byte7 without changing SS6 global class stride.
+
+### 2026-09-15 — GS class7 capacity reserved coherently; activation still closed
+
+- CURRENT PHASE: native Grow Lancer class7/server boundary preparation while isolated client QA remains open.
+- CURRENT TASK: reserve class index7 coherently in GS class metadata arrays without consuming an eighth token from SS6 data rows or activating a zero-stat class.
+- CURRENT SUBTASK: map default/rate/create prerequisites after coherent capacity and Ex603/Ex603CS builds; preserve exact old QA PID25016.
+- COMPLETED THIS RUN: changed all three GS `MAX_CLASS` macro definitions (DefaultClassInfo, CustomStartItem, CustomStartItemDame) from7 to8 and added source-pinned `CLASS_GL=7`; kept all legacy 7-column readers, class7 default row absent and create/load whitelists unchanged. Added focused capacity verifier and updated migration-contract verifier/documentation.
+- REVERSE EVIDENCE: S21 `CalcCharacter.lua` SHA256 9DA500... defines `CLASS_GROWLANCER=7`; existing native DS/GS byte algebra gives candidate DB112/wire224, not proof of S21 DB encoding. Isolated QA database row112 is a test candidate, not S21 default authority.
+- CHAIN COVERAGE: bounded GS class-array capacity and legacy parser shape statically/build covered; S21 true defaults, 15 missing class7 damage-rate matrix cells, create/list/login/persistence/equipment/action and nine server handlers remain OPEN.
+- ASSET PROVENANCE: unchanged from preceding Wrath/skill/body checkpoints; original S21 data read-only.
+- FILES MODIFIED: `DefaultClassInfo.h`, `CustomStartItem.h`, `CustomStartItemDame.h`, `verify_gs_class_capacity.py`, `verify_class_table_migration_boundary.py`, `CLASS_INTEGRATION_CONTRACT.md`, this state.
+- LAST STATIC CHECK: GS capacity verifier PASS, native class encoding verifier PASS24, full legacy parser/matrix migration verifier PASS, scoped `git diff --check` exit0.
+- LAST BUILD RESULT: isolated Ex603 and Ex603CS Win32 MSBuild exit0 with explicit output/intermediate roots under `ExGameServer/Tests/GrowLancerBuild/ClassCapacity`; SHA256 CB6EA2C3D724E350696F1A5BC7E19D5A9453D9835B9D488E5E65E60299158CBB / D9F0EE2457161EB2720FA838CD8E06B65C2936486F9A32CFED8EE8119278AD7F. No deploy.
+- LAST RUNTIME QA: exact old Engine-Port S21 PID25016 still live on local command-line route; new candidate not staged. No class7 login/cast/visual test.
+- KNOWN DIFFERENCES: reserved capacity does not seed valid S21 stats/rates and cannot make class playable; runtime class7 remains rejected by explicit object/create gates. Legacy SS6 seven-column data unchanged.
+- MISSING CHAIN PARTS: verified S21 default row/evolutions, versioned GL class metadata and 15 matrix rates, DS/GS/client create/list/login/persistence, body/equipment caller, nine authoritative GS skill handlers and full visual/runtime QA.
+- BLOCKER: old QA process prevents active client stage; S21 source default DB/profile and protected handler dump are missing, but source work remains possible.
+- NEXT EXACT ACTION: trace native DS/GS class list/load and client class selector for a coherent QA-only class7 round-trip using the owner-approved GrowLancer_QA DB without presenting candidate defaults as S21; stage new client only after old QA exits.
+- NEXT FILE TO OPEN: `ExGameServer/GameServer/ObjectManager.cpp` class-load/create whitelists, `ExDataServer/DataServer/DataServerProtocol.cpp` Class byte assignments, `ExMain_RISE_PC/Main5.2_RISE/CharacterManager.cpp` selector.
+- NEXT FUNCTION TO IMPLEMENT: scoped class7 create/load/login contract once exact database/default/equipment rates and packet gates are fully mapped; not a DK alias or a guessed S21 handler.
+
+### 2026-09-15 — Wrath master895 skill-list normal/disabled atlas isolated, client builds PASS
+
+- CURRENT PHASE: S21 Grow Lancer master UI mapping in isolated 5.2 client; full nine-skill/class/server acceptance remains OPEN.
+- CURRENT TASK: route active master895 icon in native master tree and skill list without changing SS6 master icon behavior.
+- CURRENT SUBTASK: hold active QA stage while exact old Engine-Port S21 PID25016 remains live; continue static reverse and local-only build.
+- COMPLETED THIS RUN: decoded second S21 master render block `0xBCF221..0xBCF2F0` using `+0x8C` Group/page/UV and bitmap0x7E18; native 5.2 list enters master use-type4 branch. Added private normal/disabled master atlas slots32984/32985 for 895 only, private disabled loader/unload, hash-pinned S21 disabled OZJ to inactive test client, and updated focused verifier/provenance.
+- REVERSE EVIDENCE: S21 SkillList.xml row895 Group354/IconNumber408; S21 renderer divide450 then25; source master `new_Master_Icon.OZJ` SHA256 DF3D1F... and disabled `new_Master_non_Icon.OZJ` SHA256 9FBD4B..., both 512x512. Exact S21 visible skill-list function attribution remains OPEN.
+- CHAIN COVERAGE: master895 UI Group354 page0 source/5.2 tree+list normal/disabled selection statically mapped; pixels, class7 availability, learning/cast/damage and nine visual chains not proven.
+- ASSET PROVENANCE: both S21 master atlases copied hash-identical to inactive `ExMain_RISE_PC/Tests/GrowLancerBuild/Client/Data/RISE/GrowLancer/Master`; active QA assets not staged. Original S21 unchanged.
+- FILES MODIFIED: `RISE/GrowLancerResources.h`, `NewUIMasterSkillTree.cpp`, `NewUIMainFrameWindow.cpp`, two hash-pinned stage scripts plus disabled inactive-stage script, `verify_wrath_master_icon_route.py`, `asset_provenance.json`, `MASTER_SKILL_REVERSE.md`, this state.
+- LAST STATIC CHECK: `verify_wrath_master_icon_route.py` PASS including secondary basic block, normal/disabled source hashes and inactive copies; provenance JSON parses; `git diff --check` exit0. Active guarded stage dry-run WAIT, hashes verified/no writes.
+- LAST BUILD RESULT: isolated client QA and non-QA Global Release|Win32 MSBuild exit0 (third-party PDB warnings only); QA candidate SHA256 C4E7CCDD512CDB8EEC1D3E8179DC0CF5FA8DF841497F91E463121FFC9032A420. No production deployment.
+- LAST RUNTIME QA: exact old QA PID25016 still live, new candidate inactive; no local login/movement/cast or matching-frame S21 visual QA.
+- KNOWN DIFFERENCES: master895 overlay not a playable class bridge; IconNumber408 table attribution to a separate S21 skill-list icon path unresolved; build PASS is not visual PASS.
+- MISSING CHAIN PARTS: active safe QA stage and pixels, all nine skill full runtime parity, class7 native login/equipment/action integration, server-authoritative nine handlers/learning/damage, local DB acceptance.
+- BLOCKER: old QA process prevents replacing active EXE; S21 GS handler binary remains packed/unavailable, but other source work is possible.
+- NEXT EXACT ACTION: once exact old QA process closes, run guarded `stage_circle_preview_qa_candidate.ps1 -Apply`, repin `verify_runtime_qa_stage.py` active EXE hash, then launch local-only client and inspect Spin and master895 normal/disabled icons; meanwhile reverse native class7 recipient boundary.
+- NEXT FILE TO OPEN: `GrowLancer/CLASS_INTEGRATION_CONTRACT.md`, then `tools/grow_lancer/verify_runtime_qa_stage.py` only after guarded stage.
+- NEXT FUNCTION TO IMPLEMENT: proven native Grow Lancer class7 create/login/appearance bridge; no guessed server handler or production alias.
+
+### 2026-09-15 — active Wrath master895 private S21 master-icon page mapped, inactive asset staged
+
+- CURRENT PHASE: source-pinned Grow Lancer master client presentation and isolated QA asset readiness; nine base-skill visual/server gate still OPEN.
+- CURRENT TASK: distinguish S21 active master895 tree Group354 from IconNumber408 and from the ordinary 271..279 atlas.
+- CURRENT SUBTASK: keep active QA process intact while staging only the inactive candidate master atlas; await exact old QA exit for full client stage.
+- COMPLETED THIS RUN: pinned S21 XML row895 Rank4/Group354/IconNumber408/GrowLancer3 and decoded client master renderer slot `+0x8C`: divide by450 for page and25 for UV; normal master page0 bitmap0x7E18. Registered only master895 on private 5.2 bitmap32984; added high-ID `SkillAttribute[895]` table overlay and native master-tree conditional render/cleanup. Added SHA-guarded source-to-inactive-client atlas staging; dry-run/apply/repeat PASS and source untouched. Built isolated client QA and nonQA Win32; active client not replaced.
+- REVERSE EVIDENCE: pinned main dump SHA256 6422CB4EBA9432130EB247B47723EA6FC0014F5100EA0C6E63DB8350F9275637 at `0xC46360..0xC4642D`; S21 resource registry `0x18BC8EC` binds `Interface/new_Master_Icon.jpg` to0x7E18. SkillList.xml SHA256 3E238C786ECAB3445A0DB4756FE3D2A3923FBC0594506BB9C3FF206020A7E0A0 row895 Group354 and IconNumber408. Source group354 maps page0 cell(80,392,20,28); ordinary atlas cell354 is grayscale while master page0 cell354 is colored.
+- CHAIN COVERAGE: bounded master-tree page/UV/asset/native registration and attribute lookup structurally covered; live skill-list icon408 attribution, master UI pixels, class7 learning/cast/buff, base-nine visual/GS parity remain OPEN.
+- ASSET PROVENANCE: read-only S21 `D:/MU FICA Season 21/Data/Interface/new_Master_Icon.OZJ` size688952 SHA256 DF3D1F863741E720EFC7B9ECC90117BB1BE9CA49852A86420FA8CA3E396D9F74 (24-byte OZJ +512x512 JPEG). Exact hash-identical inactive copy at `ExMain_RISE_PC/Tests/GrowLancerBuild/Client/Data/RISE/GrowLancer/Master`; active QA asset pending guarded stage. Private RISE bitmap32984; S21 ID0x7E18 not transplanted.
+- FILES MODIFIED: `GrowLancerResources.h/.cpp`, `NewUIMasterSkillTree.cpp`, `MASTER_SKILL_REVERSE.md`, `asset_provenance.json`, `verify_wrath_master_icon_route.py`, `stage_wrath_master_icon_candidate.ps1`, guarded active stage script/candidate hash, this state. No original S21/base/Pegasus/Slayer/production writes.
+- LAST STATIC CHECK: master icon route verifier PASS, JSON parse PASS, `git diff --check` exit0; inactive stage dry-run/apply/repeat hash PASS; active stage dry-run WAIT/no writes.
+- LAST BUILD RESULT: isolated nonQA client x86 Global Release SHA256 FF943269C42E5A9306156A89B689F5F085C3E4251964877950798DAAA4FB2DE1; QA candidate SHA256 4294BB15FF174293D665B0BAFACE013F405CA44753800F7EDF6CD44458DA182F, both MSBuild exit0, no deployment. Previous Ex603/Ex603CS isolated builds remain build-only evidence.
+- LAST RUNTIME QA: old QA PID25016 still live/disconnected; candidate master bitmap/attribute path not run ingame. No local movement/cast, master icon pixels, class/server authority or S21 matching-frame visual acceptance.
+- KNOWN DIFFERENCES: stock SS6 master atlas may not contain Group354; private S21 atlas is selected only in master-tree RenderIcon for895. Native skill-list master icon408 handling is not proven and may still choose the wrong shared atlas. `SkillAttribute[895]` has seven RequireClass bytes zero; it is a descriptor/lookup bridge, not class unlock. Server master895 remains fail-closed.
+- MISSING CHAIN PARTS: active QA stage and owner master/icon plus nine base-skill visual QA, source-pinned list icon408 renderer, native Grow Lancer class create/login/DB/equipment/evolution, nine GS handlers/master authority/packet/cooldown, pool QA.
+- BLOCKER: exact old QA process prevents safe active stage; protected S21 GS handler/effective class bridge still absent. Independent source work is possible.
+- NEXT EXACT ACTION: after PID25016 exits, apply guarded candidate stage including Circle and master OZJs, update full active QA verifier expected engine hash, run local-only QA. In parallel reverse S21 skill-list icon408 atlas/UV route before adding any list-icon adapter.
+- NEXT FILE TO OPEN: `tools/grow_lancer/verify_runtime_qa_stage.py` after stage; for icon source, main dump UI xrefs around `0xBCF2EA` and `0xF6269D`.
+- NEXT FUNCTION TO IMPLEMENT: verified master895 skill-list icon mapping only after producer/atlas page/cell is closed; no guessed GS handler or visual PASS.
+
+### 2026-09-15 — S21 master895 skill-ID lookup/cooldown capacity split from slots and Skill.bmd
+
+- CURRENT PHASE: nine Grow Lancer base skills plus source-confirmed master-ID capacity; native class/server authority and visual acceptance OPEN.
+- CURRENT TASK: accommodate active S21 Wrath master ID895 without changing character skill slots or the 650-record SS6 Skill.bmd format.
+- CURRENT SUBTASK: keep all active/legacy GL master handlers fail-closed while native class7 and authoritative S21 GS evidence are missing; stage inactive client QA only after old process exit.
+- COMPLETED THIS RUN: pinned SkillList.xml row895 (`Wrath Strengthener`, GrowLancer=3, IconNumber=408). Added server cooldown ID array capacity896 with bounds guard while leaving `MAX_SKILL` editor629, owned slots60, master slots120. Added client `SkillAttribute` ID lookup capacity896 and high-ID validation/UI guard while preserving MAX_SKILLS650 for fixed file read/CRC and slot array. Rejected 13 active GL masters plus legacy Wrath708..710 from default GS handler gate. Built isolated Ex603/Ex603CS and client QA/nonQA x86; focused C++ contract test PASS.
+- REVERSE EVIDENCE: S21 `SkillList.xml` SHA256 3E238C786ECAB3445A0DB4756FE3D2A3923FBC0594506BB9C3FF206020A7E0A0 exact row895; active third tree pins MagicNumber895. Native `CheckSkillDelay` indexes by skill ID; native client Skill.bmd reader hashes 650 records; GS skill ownership uses MAX_SKILL_LIST60, separate from indexed cooldown.
+- CHAIN COVERAGE: [0,896) server cooldown and client attribute lookup bounds statically/build covered; high-ID master attribute/catalog/UI asset registration, class7, GS handlers/cast, visual nine-skill parity and runtime cleanup remain OPEN.
+- ASSET PROVENANCE: no asset changed; row895 IconNumber408 is source table evidence, not verified 5.2 atlas mapping.
+- FILES MODIFIED: `ExGameServer/GameServer/{SkillManager.h,SkillManager.cpp,MemoryAllocatorInfo.cpp,User.cpp}`, `Shared/GrowLancerSkillContractData.h`, `ExGameServer/Tests/GrowLancerServerContractTest.cpp`, client `RISE/GrowLancerSkillIdCapacity.h`, `Winmain.cpp`, `ZzzInfomation.cpp`, `SkillManager.cpp`, `NewUIMasterSkillTree.cpp`, `tools/grow_lancer/verify_skill_delay_id_capacity.py`, candidate stage hash and this state. No base/Pegasus/Slayer/production writes.
+- LAST STATIC CHECK: source capacity verifier PASS, focused x86 `/W4 /WX` GrowLancerServerContractTest compile/run PASS, `git diff --check` exit0, stage dry-run WAIT/hash-verified/no writes.
+- LAST BUILD RESULT: isolated Ex603 Win32 SHA256 63E00921C4BDDB93BF60DF31DEA03271358E240ED68BC133B553953F87CD8F8C; Ex603CS Win32 SHA256 E09BD328D8CC4D245E63F40F5FEF9CDB75E41756BF78EA557B84FFA63DBEE03D; nonQA client x86 SHA256 62D8A7BD128C02B9F15197A92427B515E4FA30E35DFDDCC46EF9EAE5474DB1F7; QA candidate x86 SHA256 E3AF1ED55FCE903AD1B91E508047C742DC598C8F2ECDFBB4BE062E5A4FC234B4. No deployment or new GS process launch.
+- LAST RUNTIME QA: exact old QA PID25016 still live/disconnected, candidate stage guard WAIT. No new local login/movement/cast, master895 cooldown or S21 matching-frame visual acceptance. Production Engine PID2468 VPS socket was a separate prior observation, not a Grow Lancer QA result.
+- KNOWN DIFFERENCES: client MuHelper's high-ID selection guard still uses 650 in a non-UTF8 source file and was not changed by unsafe whole-file encoding conversion; SkillAttribute895 is zero until source-confirmed overlay/atlas mapping. Capacity PASS is not master activation. SS6 Skill.bmd still contains650 records intentionally.
+- MISSING CHAIN PARTS: safe QA stage and nine skill visual/parity QA, source-confirmed master895 runtime overlay/icon, MuHelper ID guard, native Grow Lancer create/login/evolution/DB/equipment/animation, GS learn/cast/damage/buff/PvP/siege handlers, pool QA.
+- BLOCKER: old live QA process prevents replacement; source-accurate S21 GS handler/effective class bridge absent. Other independent source work is possible.
+- NEXT EXACT ACTION: after old QA process closes, apply guarded stage and update active QA expected hash before local-only Spin/Magic QA. Separately verify S21 icon408 asset/5.2 atlas equivalence before implementing any master895 visual descriptor; keep handler fail-closed.
+- NEXT FILE TO OPEN: `GrowLancer/MASTER_SKILL_REVERSE.md` with S21 icon registry and native 5.2 Skill.bmd/icon atlas; then `tools/grow_lancer/verify_runtime_qa_stage.py` after stage.
+- NEXT FUNCTION TO IMPLEMENT: verified master895 SkillAttribute/atlas adapter once pixel mapping is proven, not a guessed class7 cast handler.
+
+### 2026-09-15 — received Spin/Magic AttackTime gated; production VPS distinct from local QA
+
+- CURRENT PHASE: isolated client receive-state correction and local runtime QA readiness.
+- CURRENT TASK: prevent unprepared Grow Lancer action roots from arming native receive attack time.
+- CURRENT SUBTASK: stage new hash-pinned QA client after exact old PID25016 exits, then test local login/movement and Spin/Magic visual chains.
+- COMPLETED THIS RUN: wider live-process check again found production `D:/RISE-CrossPlatform/Client/Engine.exe` PID2468 connected to VPS `103.90.224.58:55858`, while distinct isolated QA PID25016 runs `/u127.0.0.1 /p44412` without an established socket. No process was stopped. Conditioned only Spin271/Magic274 `WSclient.cpp` AttackTime writes on root action/model prerequisite success; added received-path assertion to pinned Spin verifier. Built QA and non-QA Win32 clients isolated and repinned candidate hash.
+- REVERSE EVIDENCE: pinned local S21 Spin action186/-1 setter edge, Magic188 equivalent and 5.2 receive `ReceiveMagic` AttackTime field; native root functions explicitly return false if action/model preparation fails. No S21 server cast/recipient parity inferred.
+- CHAIN COVERAGE: receive AttackTime false-arm prevention statically covered for two skills. Full client render/child/contact/movement/cleanup and GameServer class/handler contracts remain OPEN.
+- ASSET PROVENANCE: Circle mono source asset SHA256 C3E18C474BA5AE9F06B9E7159AFC0DAB34869B78EAB425CB5538B94FE0E7138F unchanged; active QA stage still pending.
+- FILES MODIFIED: `WSclient.cpp`, `tools/grow_lancer/verify_spin_action_reset.py`, `tools/grow_lancer/stage_circle_preview_qa_candidate.ps1`, this state; no Source/Pegasus/Slayer/production edits.
+- LAST STATIC CHECK: Spin pinned action/received-state verifier PASS, QA no-VPS socket source verifier PASS, `git diff --check` exit0, guarded stage dry-run WAIT/no writes.
+- LAST BUILD RESULT: isolated non-QA Global Release|Win32 MSBuild exit0 SHA256 53E9184DD8576D4636EF2A300A95F206CE5B97A6779384FC34642BC6B4F1EABE; isolated QA x86 MSBuild exit0 candidate SHA256 8F52894CAA6545CD690C2F24C558C73C823A8C3AF4502896EACEBE6A61634B86. LNK4099 third-party PDB warnings only; no deployment.
+- LAST RUNTIME QA: QA PID25016 remains live but disconnected; candidate inactive. No new local login, movement, cast, pool or S21 matching-frame visual acceptance.
+- KNOWN DIFFERENCES: production Engine is a distinct VPS-connected process outside scope. The new receive gate prevents only AttackTime false-arm; common receive `Skill`/target fields are written before the GL switch and are not yet an acceptance claim. Dynamic remote action-speed/real class7 bridge remains unproven.
+- MISSING CHAIN PARTS: safe QA stage and owner visual test, native GL class7 create/login/DB/equipment/actions, nine authoritative GS handlers and full visual parity.
+- BLOCKER: old live QA process prevents safe EXE replacement; supplied S21 GS packed image has no handler-level evidence. Other source work remains possible.
+- NEXT EXACT ACTION: after old QA exits, run `stage_circle_preview_qa_candidate.ps1 -Apply`, update active QA verifier expected hash, launch local-only QA and test movement plus single Spin F7/F9/F11 chain.
+- NEXT FILE TO OPEN: `tools/grow_lancer/verify_runtime_qa_stage.py` after guarded stage; for class work, `GrowLancer/CLASS_INTEGRATION_CONTRACT.md` remaining create/load boundaries.
+- NEXT FUNCTION TO IMPLEMENT: proven native Grow Lancer class/recipient bridge, not a guessed GS skill handler or DK production alias.
+
+### 2026-09-15 — QA local không nối VPS; Spin action setter và F7 gate đã build, chờ stage
+
+- CURRENT PHASE: Spin Step/Magic Pin isolated client action QA; full nine-skill acceptance OPEN.
+- CURRENT TASK: pin native S21 action-transition behavior and prevent F7 false cast reporting.
+- CURRENT SUBTASK: stage hash-pinned new QA candidate only after old exact QA process exits; then local login/movement and one Spin cast.
+- COMPLETED THIS RUN: inspected QA PID25016 command line `/u127.0.0.1 /p44412`; it had no established TCP connection. CS PID41404 listens on 44412 and GS PID39876 listens on 55910. Wider process check found **separate production** `D:/RISE-CrossPlatform/Client/Engine.exe` PID2468 with an established VPS socket to `103.90.224.58:55858`; no production process was touched. Replaced direct Spin action/frame writes with native `SetAction(&caster,285,true)` after model preparation; Spin/Magic roots now report prerequisite success, and F7 rejects missing action/model instead of logging `root-dispatched`. Repaired focused source verifiers and added pinned Spin action/F7 verifier.
+- REVERSE EVIDENCE: S21 local Spin action186 dispatch through setter `0x1327DE8`; native setter preserves previous action/frame on transition and leaves identical action phase intact. This is action equivalence evidence only, not complete effect/visual parity.
+- CHAIN COVERAGE: Spin action entry and QA rejection semantics statically covered; Spin root/child render, actual movement/contact, Magic Pin foot raster, full nine-skill runtime and GS authority remain OPEN.
+- ASSET PROVENANCE: Circle mono source asset SHA256 C3E18C474BA5AE9F06B9E7159AFC0DAB34869B78EAB425CB5538B94FE0E7138F unchanged; active QA asset not yet staged.
+- FILES MODIFIED: `GrowLancerEffectRuntime.cpp/.h`, `GrowLancerRuntimeQA.cpp`, `verify_magic_action_reset.py`, `verify_cast_speed_registration.py`, `verify_spin_action_reset.py`, `stage_circle_preview_qa_candidate.ps1`, this state. No base/Pegasus/Slayer/production writes.
+- LAST STATIC CHECK: Magic and Spin pinned action verifiers PASS, cast-speed/action registration verifier PASS, no-VPS **QA socket** verifier PASS, `git diff --check` exit0; stage dry-run WAIT with hashes verified/no writes. Production PID2468 does have a VPS socket and is out of this task's modification scope.
+- LAST BUILD RESULT: isolated client QA Global Release|Win32 MSBuild exit0, candidate SHA256 B36935D52495A5F3D4D393663BE768A67198B77160A78B14C44041B2CBB5FFEF; isolated non-QA x86 MSBuild exit0. Build does not prove pixels.
+- LAST RUNTIME QA: old QA PID25016 still live, command line local but no established socket; a distinct production Engine PID2468 is connected to VPS. No fresh local QA login/cast/movement or S21 visual comparison.
+- KNOWN DIFFERENCES: old staged QA EXE SHA4A606548... lacks new Spin/Pin/F7 guard; new candidate is inactive. Spin action parity does not establish Spin visual parity.
+- MISSING CHAIN PARTS: client stage and owner Spin/Magic QA; full root/child/lifetime/ownership verification for nine skills; native Grow Lancer class7 and server learning/cast/damage.
+- BLOCKER: precise old QA process is live, and replacement guard correctly refuses writes. Source/adapter work remains possible; S21 packed GS handler evidence incomplete.
+- NEXT EXACT ACTION: after user closes the old QA instance, run guarded `stage_circle_preview_qa_candidate.ps1 -Apply`, update active QA hash verifier, verify isolated overlay, launch with `-LocalServer`, and test login/movement plus a single Spin F7/F11 cast.
+- NEXT FILE TO OPEN: `tools/grow_lancer/stage_circle_preview_qa_candidate.ps1`, then `tools/grow_lancer/verify_runtime_qa_stage.py` after stage.
+- NEXT FUNCTION TO IMPLEMENT: source-verified Spin Step child/render correction guided by new local QA logs; do not infer visual PASS from build.
+
+### 2026-09-15 — Grow Lancer S21 Lua AG numeric adapter isolated; native MaxBP bridge OPEN
+
+- CURRENT PHASE: native Grow Lancer class/server authority port under strict source evidence.
+- CURRENT TASK: map source-confirmed class gauge arithmetic without copying S21 object layouts or guessing the SS6 rounding/bridge.
+- CURRENT SUBTASK: retain the exact numeric helper unused until effective-stat inputs, native class7 dispatch and MaxBP conversion are proven.
+- COMPLETED THIS RUN: pinned `CalcCharacter.lua::CalcAbilityGauge` GL branch and created isolated native constexpr adapter plus x86 focused test and source verifier. Read-only search found no supplied S21 GS dump/PDB/map; packed on-disk handler still not direct evidence.
+- REVERSE EVIDENCE: S21 `CalcCharacter.lua` SHA256 `9DA5000449CCEC0B3DA0CD2ADE11E55863B5CC0C56EC4063C5A64F78414C0A70` defines `CLASS_GROWLANCER=7` and AG=STR*.15+DEX*.2+VIT*.3+ENE*1; Lua returns numeric AG. SS6 `CharacterCalcBP` assigns `(int)` to native MaxBP and has only seven explicit class cases.
+- CHAIN COVERAGE: GL class-gauge numeric expression statically closed; effective stat-option arguments, conversion/rounding, class7 activation, packet/persistence and skill-specific AG deductions remain OPEN.
+- ASSET PROVENANCE: no visual asset changed; source Lua file read-only/hash-pinned.
+- FILES MODIFIED: `ExGameServer/GameServer/RISE/GrowLancerAbilityGauge.h`, `ExGameServer/Tests/GrowLancerAbilityGaugeTest.cpp`, `tools/grow_lancer/verify_s21_gl_ability_gauge_adapter.py`, class contract and this state. No base/Pegasus/Slayer worktree edits.
+- LAST STATIC CHECK: Lua-to-adapter verifier PASS; focused x86 `/std:c++17 /W4 /WX /c` PASS for fractional/candidate tests. Real GS runtime semantics not inferred from compile.
+- LAST BUILD RESULT: client QA candidate from prior checkpoint SHA2366A305... isolated build PASS, not staged; no GS target build this run because the helper remains unused and header-only.
+- LAST RUNTIME QA: older Grow Lancer QA PID25016 still live with expired CS connection; candidate stage script dry-run returns WAIT/no writes. No new local login, movement, visual or server-authoritative cast result.
+- KNOWN DIFFERENCES: S21 Lua number 1.65 for four unit attributes differs from SS6 native `(int)` result1; choosing either for class7 MaxBP without bridge evidence would be a guess.
+- MISSING CHAIN PARTS: class7 create/login/DB/wire/defaults/evolution/items, GS skill handlers/learn/cost/damage, client runtime visual parity and pool cleanup.
+- BLOCKER: live old QA process prevents safe stage; packed S21 GS handler evidence unavailable. Source/adapter work remains possible.
+- NEXT EXACT ACTION: inspect native and S21 effective attribute calculation/AG return caller; only then decide isolated MaxBP bridge. Stage new QA candidate after exact PID25016 exit.
+- NEXT FILE TO OPEN: `D:/GameServer S21/Data/Scripts/Character/CalcCharacter.lua` around CalcAbilityGauge callers (read only), then `ExGameServer/GameServer/ObjectManager.cpp::CharacterCalcBP`.
+- NEXT FUNCTION TO IMPLEMENT: verified class7 AG-to-MaxBP bridge, not a guessed cast or global DK reuse.
+
+### 2026-09-15 — removed QA Wrath auto-on-login buff injection; F12 remains explicit
+
+- CURRENT PHASE: isolated Grow Lancer gameplay QA readiness and nine-skill parity.
+- CURRENT TASK: prevent unexpected QA buff state at login from contaminating movement/visual diagnosis, while preserving manual Wrath owner-preview evidence.
+- CURRENT SUBTASK: stage the new no-auto/angle/query/Circle client only after old live QA PID25016 exits; no process termination was performed.
+- COMPLETED THIS RUN: removed `DriveAutoWrathBuffFixtureQA` from QA hotkey traversal, retired `-AutoWrath` with an explicit early error, and forced child `RISE_GL_AUTO_WRATH_QA=0` while restoring the parent's original environment afterward. Manual F12 on/off remains QA-only and server incoming buff handling is unchanged. Updated source verifier/docs and built isolated QA x86.
+- REVERSE EVIDENCE: no new S21 GS dump/symbol found under the provided artifacts; the only supplied GS binary remains packed on disk. Wrath visual source/renderer evidence in prior checkpoints is unchanged.
+- CHAIN COVERAGE: auto-on-login contamination removed in new candidate; actual local login/movement, Wrath server buff receipt and owner visual acceptance remain OPEN.
+- ASSET PROVENANCE: no asset changes this run; staged Circle mono remains inactive and hash-pinned.
+- FILES MODIFIED: `GrowLancerRuntimeQA.cpp`, local QA launcher, `verify_wrath_buff_visual_qa.py`, Runtime QA/state docs and candidate stage hash.
+- LAST STATIC CHECK: Wrath visual source verifier PASS with new no-auto assertion; negative `-AutoWrath` launcher invocation refused before duplicate-process check. No-VPS source verifier from previous checkpoint remains PASS.
+- LAST BUILD RESULT: isolated QA `Global Release|Win32` exit0, Bin candidate SHA256 `2366A30536F5088577A9FE43C799CAE1208AD319E51ADB639DFDE51369BEF898`, not staged. Non-QA build previously PASS; no post-build deployment.
+- LAST RUNTIME QA: old PID25016 still runs prior 4A606548... EXE and had lost its local CS socket after idle timeout; new no-auto path has not run ingame.
+- KNOWN DIFFERENCES: manual F12 can still register a fake QA buff by user action and cannot prove server authority; no automatic QA buff starts on login in the new candidate.
+- MISSING CHAIN PARTS: safe stage + owner cast/movement QA, real Grow Lancer class7/DB ABI, all nine authoritative GS handlers, full root/child parity and pool cleanup.
+- BLOCKER: old QA client is live, so hash-guarded script refuses replacement; source work can continue. No S21 GS runtime handler dump is present.
+- NEXT EXACT ACTION: after precise old QA process exit, run guarded candidate+Circle asset stage and full overlay verifier; launch only local client, verify entry has no injected QA buff and movement works, then one isolated skill cast.
+- NEXT FILE TO OPEN: `tools/grow_lancer/stage_circle_preview_qa_candidate.ps1`, then `tools/grow_lancer/verify_runtime_qa_stage.py`.
+- NEXT FUNCTION TO IMPLEMENT: source-confirmed GS recipient/class/cast pathway after executable handler evidence; do not turn table values into guessed authority.
+
+### 2026-09-15 — Magic Pin native yaw-only foot geometry height computed; real angle pending
+
+- CURRENT PHASE: Magic Pin caster-foot parity diagnosis and guarded local runtime QA.
+- CURRENT TASK: distinguish below-terrain transform from actual raster/depth failure for source `0x5E6`.
+- CURRENT SUBTASK: capture the real effect Angle on a new local QA cast before treating the yaw-only height calculation as runtime behavior.
+- COMPLETED THIS RUN: added source/staged hash-pinned BMD bone quaternion/world-Z inspector and appended effect Angle to bounded native QA render telemetry; isolated x86 client build PASS and stage candidate hash repinned.
+- REVERSE EVIDENCE: source Plane02 one-key Euler(-pi,pi/2,0) maps native QuaternionMatrix rowZ approximately(-1,0,0). With model scale0.7 and yaw-only parent, ten local vertices span relative Z -7.466..+63.311; example prior QA originZ184.5 yields 177.034..247.811. This is conditional math, not a runtime terrain/pixel sample.
+- CHAIN COVERAGE: mesh UV/alpha, constructor/tick/submission and yaw-only bone height mapped; real Angle, GL sample probe, depth/camera and exact visible triangle attribution OPEN.
+- ASSET PROVENANCE: original/staged MagicPin01 SHA and plaintext equality checked by `inspect_magic_pin_world_z.py`; originals read-only.
+- FILES MODIFIED: `inspect_magic_pin_world_z.py`, isolated QA `GrowLancerRuntimeQA.cpp`, repinned stage script, Magic reverse/state docs.
+- LAST STATIC CHECK: world-Z inspector PASS; previous UV-alpha and no-VPS socket verifiers PASS. Scoped `git diff --check` PASS after telemetry edit (preexisting WSctlc LF/CRLF warning only).
+- LAST BUILD RESULT: isolated QA `Global Release|Win32` exit0 SHA256 `C9769260EA28821B43248224F7ECE465BF332452BEF8B08D10A04F2795134C7D`; normal non-QA build earlier PASS. No deployment.
+- LAST RUNTIME QA: no cast on the new angle/query/Circle build; older QA PID25016 remains open and disconnected after local CS idle timeout.
+- KNOWN DIFFERENCES: if real effect pitch/roll or terrain height differs from the caster-origin premise, calculated yaw-only Z range cannot rule out clipping; `GL_SAMPLES_PASSED` is opt-in diagnostic, not visual PASS.
+- MISSING CHAIN PARTS: current ingame angle/sample/pixels, local GS login/movement, nine skills' full server behavior/native class and synchronized S21 visual parity.
+- BLOCKER: live old QA PID25016 prevents replacement; stage guard returns WAIT, no writes.
+- NEXT EXACT ACTION: once that process exits, stage new candidate and Circle mono asset with rollback, update stage verifier hash after success, launch only local QA, cast Magic Pin once with -MagicFixedTick/-MagicRasterProbe and check actual angle+sample+owner frame.
+- NEXT FILE TO OPEN: `tools/grow_lancer/stage_circle_preview_qa_candidate.ps1`, then `tools/grow_lancer/verify_runtime_qa_stage.py`.
+- NEXT FUNCTION TO IMPLEMENT: only source-confirmed transform/depth correction after real runtime angle/sample evidence; do not guess an extra effect.
+
+### 2026-09-15 — Grow Lancer QA game socket/launcher local-only gate built; normal SS6 path build PASS
+
+- CURRENT PHASE: isolated local runtime QA and nine-skill/client-server integration.
+- CURRENT TASK: prevent a Grow Lancer QA client launch from silently connecting to VPS while preserving normal SS6 production behavior.
+- CURRENT SUBTASK: wait for exact older QA PID25016 exit; keep new client and Circle asset staged only through the hash-pinned script.
+- COMPLETED THIS RUN: launcher now refuses gameplay `-Launch` without verified `-LocalServer`; QA compilation arm of native `CWsctlc::Connect` rejects nonliteral `127.0.0.1`, ports other than44412/55910, or missing child env before DNS/native connect. Direct double-click of the QA EXE no longer authorizes a VPS game socket. Normal non-QA `#ifdef` branch is unchanged. Source verifiers, guarded launch negative tests, QA and non-QA isolated Win32 builds PASS.
+- REVERSE EVIDENCE: code10 CS advertises `127.0.0.1:55910`; the Grow Lancer CS/GS local ports are44412/55910. This is a routing/QA safety fix, not S21 server skill reverse evidence.
+- CHAIN COVERAGE: local game-socket endpoint boundary closed statically and compiled; client receipt/login/GS gameplay and every visual parity gate still OPEN.
+- ASSET PROVENANCE: no original or production asset changed; Circle mono source/target hash pinned in the candidate stage script.
+- FILES MODIFIED: isolated `WSctlc.cpp` QA guard, local client launcher, `verify_qa_no_vps_game_socket.py`, Runtime QA/matrix/state docs and repinned candidate stage script.
+- LAST STATIC CHECK: `verify_local_loopback_socket_qa.py` PASS, `verify_qa_no_vps_game_socket.py` PASS; negative launcher check refuses no-LocalServer and duplicate launch; stage dry-run returns WAIT with all hashes valid/no writes.
+- LAST BUILD RESULT: isolated `Global Release|Win32` QA client exit0, latest angle-telemetry candidate SHA256 `C9769260EA28821B43248224F7ECE465BF332452BEF8B08D10A04F2795134C7D`; isolated non-QA normal client exit0 SHA256 `EBBC6EED4E7AF06547E243BB3F146F23CBFC93B57E364DA2E70217404258E42A`. No post-build deployment.
+- LAST RUNTIME QA: live PID25016 still older staged 4A606548... QA binary, previous local CS receipt then five-minute idle close; no new Circle/Magic probe or local GS login result.
+- KNOWN DIFFERENCES: QA guard is intentionally local-only while ordinary non-QA binary retains native endpoint behavior; static/build PASS cannot establish ingame local movement or visual correctness.
+- MISSING CHAIN PARTS: local account/character/GS login and movement, nine skill runtime parity, S21 authoritative server handlers, native Grow Lancer class and owner visual acceptance.
+- BLOCKER: live older QA process prevents safe candidate replacement, not source work. S21 GS binary lacks on-disk handler evidence.
+- NEXT EXACT ACTION: once PID25016 exits, apply guarded Circle/Magic candidate+asset stage; update stage verifier expected hash only after actual stage; launch isolated local-only QA and capture one cast/packet/movement log.
+- NEXT FILE TO OPEN: `tools/grow_lancer/stage_circle_preview_qa_candidate.ps1`, then `tools/grow_lancer/verify_runtime_qa_stage.py`.
+- NEXT FUNCTION TO IMPLEMENT: GS verified Grow Lancer cast/class rules after handler evidence; current skill activation stays fail-closed.
+
+### 2026-09-15 — Magic Pin UV-alpha gap narrowed and QA-only peak raster probe built
+
+- CURRENT PHASE: Grow Lancer client visual QA and source-verified primitive diagnosis.
+- CURRENT TASK: isolate why the Magic Pin caster-foot angular layer is absent to owner while Circle shoulder candidate waits for safe stage.
+- CURRENT SUBTASK: hash-pin current candidate and verify stage guard; after older QA PID25016 exits, run local Magic Pin F7 with optional raster probe separately from visual acceptance.
+- COMPLETED THIS RUN: read-only original S21 magicpin01 BMD/wind1 OZT UV-alpha sampling, QA-only peak-alpha GL sample query, launcher opt-in isolated child env and Win32 compile/link. Corrected Circle preview actor-traversal gate and x86 focused test remain in previous checkpoint.
+- REVERSE EVIDENCE: original `magicpin01.bmd` SHA256 `2C1F5FD48EA22FD4497A749F46397F31769BFAED74AA3F0672E52C78EF1CF292`, original `wind1.OZT` SHA256 `098E001E87FE37CDCD2D29D96E806F7009395E338ADA2294EF0590B4F9C277AC`; eight source UV triangles cover3968/4096 unique texels, 3573 nonzero alpha under either V orientation. Existing PID36328/37752 live logs record `0x5E6` peak alpha1 native submissions and 64x64 GPU allocation; missing pixels remain a visual FAIL.
+- CHAIN COVERAGE: Magic material input/UV and peak render submission narrowed; live depth/shader samples, transform and exact foot primitive attribution remain OPEN. All nine skills and native class acceptance OPEN.
+- ASSET PROVENANCE: all Magic source/staged hashes and v0F-to-v0C plaintext equality pinned by existing inspector; no original asset writes.
+- FILES MODIFIED: `tools/grow_lancer/inspect_magic_pin_uv_alpha.py`, `GrowLancerRuntimeQA.cpp/.h`, `GrowLancerEffectRuntime.cpp`, local QA launcher, guarded stage script, Magic reverse/state docs.
+- LAST STATIC CHECK: UV-alpha inspector PASS and Circle preview gate x86 `/W4 /WX /c` PASS. `git diff --check` scoped tracked source PASS with preexisting line-ending warning.
+- LAST BUILD RESULT: isolated `Global Release|Win32` QA client link exit0. New Bin candidate SHA256 `F28C287A4517F838A3A89C3370106EECC34B0382CBADDBDEE4AECE3245AC4256`, not staged.
+- LAST RUNTIME QA: current live QA PID25016 still old 4A606548... client, no current Established TCP after CS idle timeout. New Magic query, Circle shoulder preview, local login/movement not tested. CS/DS/JS/GS local ports remain the target fixture; VPS is not the Grow Lancer endpoint.
+- KNOWN DIFFERENCES: `GL_SAMPLES_PASSED` query can miss shader-deferred draws and cannot establish visual parity; launcher default OFF and max8/explicit opt-in only. Circle F7 shoulder preview remains visual-only, not real buff.
+- MISSING CHAIN PARTS: owner/target raster and S21 frame parity, local GS login/movement, full client chains, S21 authoritative server handlers and native Grow Lancer class.
+- BLOCKER: exact older QA PID25016 is live; guarded stage refuses replacement. Packed S21 GS on-disk image does not prove Circle handler formula; client work can continue.
+- NEXT EXACT ACTION: rerun hash-guard dry-run; stage only once PID exits and full RuntimeQA client hashes pass, then local client launch with explicit Magic fixed-tick/raster flags for one cast and Circle F7 separately.
+- NEXT FILE TO OPEN: `tools/grow_lancer/stage_circle_preview_qa_candidate.ps1`, then `verify_runtime_qa_stage.py` after stage.
+- NEXT FUNCTION TO IMPLEMENT: complete actual paired-target Circle buff-contact receiver only after GS/packet authority is established; no speculative send now.
+
+### 2026-09-15 — manually armed Circle shoulder QA fixture compiled; guarded stage WAIT on live client
+
+- CURRENT PHASE: Circle Shield owner visual QA on local Grow Lancer stack.
+- CURRENT TASK: compare the S21 paired purple shoulder fire against a native PC5.2 render while keeping actual buff/server acceptance separate.
+- CURRENT SUBTASK: wait for the currently running older QA client to exit before a hash-pinned, rollback-capable isolated replacement.
+- COMPLETED THIS RUN: added F7-only three-second Circle shoulder preview on the current DK QA actor/map, no `g_CharacterRegisterBuff`, no skill packet and no auto-on-login path. Native character render gates source buff216/221/222 OR this compile-time QA-only predicate. Built `Global Release|Win32` isolated client exit0/link PASS after correcting missing `MapManager.h` include.
+- REVERSE EVIDENCE: Circle five-bone/four-subtype12 source verifier remains PASS; previous checkpoint below retains VA, table, bone and asset details.
+- CHAIN COVERAGE: visual-only post-buff emitter is now manually exercisable in a QA build; neither server buff receipt nor in-game owner pixels are proven.
+- ASSET PROVENANCE: Circle mono OZJ hash pinned `C3E18C474BA5AE9F06B9E7159AFC0DAB34869B78EAB425CB5538B94FE0E7138F`; inactive stage already present, active client asset still absent.
+- FILES MODIFIED: `GrowLancerRuntimeQA.cpp/.h`, `ZzzCharacter.cpp`, `tools/grow_lancer/stage_circle_preview_qa_candidate.ps1`, this state.
+- LAST STATIC CHECK: source verifier PASS; `GrowLancerCirclePreviewGateTest.cpp` x86 `/W4 /WX /c` PASS including unrelated-actor/map/expiry/tick-wrap cases; scoped `git diff --check` PASS (existing LF/CRLF warning only). Stage dry-run validated all expected hashes and returned WAIT without writes.
+- LAST BUILD RESULT: isolated Win32 client exit0; latest candidate SHA256 `812D04329F892B3514A8EA0517F0DBA8117A157CA8538E0038EA305EFE573EE3`, not the live staged binary. A first compiled preview gate cleared on unrelated actor traversal; corrected it, extracted a pure QA policy and rebuilt before repinning the stage script.
+- LAST RUNTIME QA: live PID25016 still holds staged SHA `4A606548FAEC1187B93E8E28A71CFE2F94EAA0C91C5DA66210CD73E01B0D5DE3`; no current Established client TCP after five-minute CS idle timeout. Isolated local CS/DS/JS/GS remain listening on 44412/55964/55974/55910. Circle preview has NOT run ingame.
+- KNOWN DIFFERENCES: F7 fixture is visual-only by design; it is not a server-approved cast or real buff. Existing optional Wrath auto-fixture requires explicit `RISE_GL_AUTO_WRATH_QA=1`; local QA launcher defaults that variable to `0`.
+- MISSING CHAIN PARTS: owner frame/pool visual proof, real Circle buff packet/GS authority, local login/movement, all nine skill and native class acceptance. Supplied S21 GS PE SHA `134BAEBF654D103B3FD65F8262CB20D2AEC5969B3C09C68E26A87F6547F77D74` is packed with `.winlice`/`.boot`; on-disk image has no exact Circle settings strings and cannot independently prove its handler formula.
+- BLOCKER: live older QA PID25016 prevents safe candidate stage/restart; work on source/verification continues and no stage overwrite was attempted.
+- NEXT EXACT ACTION: after that precise QA process exits, run `stage_circle_preview_qa_candidate.ps1 -Apply`, verify active asset/client hashes and full QA tree, launch only the isolated QA client with local-server override, then one manual F7 Circle cast and F11 pool log.
+- NEXT FILE TO OPEN: `tools/grow_lancer/start_runtime_qa_client.ps1` and `tools/grow_lancer/verify_runtime_qa_stage.py` after safe stage.
+- NEXT FUNCTION TO IMPLEMENT: real server-authoritative Circle buff receipt remains pending S21 GS evidence; preview predicate is already compiled.
+
+### 2026-09-15 — Circle Shield native shoulder chain closed in source; new QA client candidate built, visual OPEN
+
+- CURRENT PHASE: Grow Lancer S21 visual-chain reverse and isolated local gameplay QA.
+- CURRENT TASK: prove Circle Shield's persistent shoulder pair in native PC5.2 without altering Spin Step or foreign tasks.
+- CURRENT SUBTASK: stage the new client candidate only after the older live QA window exits, then compare a single Circle Shield cast/post-buff against S21; local CS/GS login remains unproven.
+- COMPLETED THIS RUN: traced S21 character-render block `13ECB52..13ECFBC` inside `13DB9D7`; checked real Circle-family buff IDs 216/221/222, five flare sprites and four subtype-12 shoulder particles. Added native isolated Circle bitmap registration, bone attachment, ctor/tick/render branches, descriptor/provenance/verifier and focused test. Hash-pinned inactive Circle asset stage and Win32 client build PASS.
+- REVERSE EVIDENCE: pinned S21 dump SHA256 `6422CB4EBA9432130EB247B47723EA6FC0014F5100EA0C6E63DB8350F9275637`; five source bones `[20,26,35,25,34]`, paired particle bones 26/35 (R/L UpperArm by original HelmClass08 BMD), sprite `0x7EF7`, particle `0x8086` subtype12, ctor/update/renderer table entries `166844B`/`16DB10E`/`1635D58`. `tools/grow_lancer/verify_circle_persistent_source.py` PASS, not runtime visual evidence.
+- CHAIN COVERAGE: persistent Circle emitter and private native particle ctor/update/render covered statically. Actual server buff receipt, owner-frame parity, complete Circle lifetime/contact and all nine-skill acceptance remain OPEN.
+- ASSET PROVENANCE: original `Effect/firehik_mono01.OZJ` SHA256 `C3E18C474BA5AE9F06B9E7159AFC0DAB34869B78EAB425CB5538B94FE0E7138F`, size16340; staged byte-identical in inactive `GrowLancerBuild/Client/Data/RISE/GrowLancer/CircleShield/`. Private native bitmap32983 isolates subtype12 from existing SS6/Wrath bitmap registration.
+- FILES MODIFIED: Circle persistent header, GrowLancer resources/effect runtime, native `ZzzEffectParticle.cpp` and `ZzzCharacter.cpp`, Circle staging script, source verifier, provenance/descriptor/reverse/matrix docs and focused test; all inside this worktree.
+- LAST STATIC CHECK: Circle source verifier PASS; descriptor/catalog verifiers PASS; `GrowLancerCirclePersistentTest.cpp` x86 `/W4 /WX /c` PASS. Full visual and pool leak checks are not implied.
+- LAST BUILD RESULT: isolated `Main.vcxproj` `Global Release|Win32`, `GrowLancerIsolatedBuild=true`, `GrowLancerRuntimeQA=true`, no post-build deployment, exit0/link PASS. Candidate Bin SHA256 `F78482281B189518048B3D718D18902D0AB424E5DEC14972AA9AA8648E342220`; live QA PID25016 still runs older staged SHA `4A606548FAEC1187B93E8E28A71CFE2F94EAA0C91C5DA66210CD73E01B0D5DE3`.
+- LAST RUNTIME QA: current PID25016 previously connected to local `127.0.0.1:44412`, no VPS socket; idle CS closed after five minutes and at last check has no Established TCP. Local GS selection/account login/movement, new Circle candidate and paired shoulder pixels NOT tested.
+- KNOWN DIFFERENCES: SS6 stock mono particle path lacks S21 subtype12; Circle-only private native adapter now models ctor/tick/render. Buff-gated persistent layer cannot display on current fail-closed GS until true buff receipt or a clearly visual-only, manually armed QA fixture.
+- MISSING CHAIN PARTS: owner frame comparison, server-authoritative Circle buff/cast, Grow Lancer native class activation, full nine skills' server damage/learn/persistence, isolated movement QA and regressions.
+- BLOCKER: no current owner login/movement or visual frame evidence; older QA process prevents safe candidate replacement. Not a blocker to source/QA-fixture work.
+- NEXT EXACT ACTION: add bounded QA-only Circle post-buff shoulder preview without mutating buff status, compile focused/Win32, prepare hash-pinned stage; wait for live QA client exit before replacement.
+- NEXT FILE TO OPEN: `ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerRuntimeQA.cpp` F7 cast and `ZzzCharacter.cpp` Circle buff gate.
+- NEXT FUNCTION TO IMPLEMENT: manually armed Circle shoulder preview gate in QA runtime, then check real buff receipt separately.
+
+### 2026-09-15 — Grow Lancer local DB/stack online; client local route isolated, login not proven
+
+- CURRENT PHASE: local transport QA and Magic Pin caster/target visual diagnosis.
+- CURRENT TASK: prove a Grow Lancer-only local endpoint before attributing
+  movement or visual behavior to GameServer; retain owner visual FAIL.
+- CURRENT SUBTASK: inspect PID25016 local server-list/selection/login path;
+  no credential automation or VPS ingame testing.
+- CHECKPOINT AFTER LOCAL TRACE BUILD: added QA-only non-sensitive
+  `CreateSocket`/FD_CONNECT/FD_CLOSE/greeting/server-list/selected-GS
+  breadcrumbs. Isolated Win32 QA build exit0; new Bin SHA256
+  `E01EC1963C567CC11AF91D6BA9E42BB89ED3F1407161C5F94BF9A094B20795C1`.
+  PID42320 still runs the preceding staged D7B303... binary; no executable
+  staging/restart while owner may be using that QA window. Next staging needs
+  verified PID exit plus old/new hash-pinned rollback.
+- TRACE STAGING GUARD: added
+  `tools/grow_lancer/stage_local_cs_receive_trace_candidate.ps1` with
+  pinned staged D7B303.../candidate E01EC... hashes and isolated rollback.
+  Dry run correctly refused while PID42320 still runs, so neither client
+  executable nor stage verifier was repinned prematurely.
+- LOCAL CS PACKET PROBE: unauthenticated loopback greeting
+  `C1-04-00-01`, native `C1-04-F4-06` list request returned
+  `C2-00-0B-F4-06-00-01-0A-00-00-CC` (one advertised code10); native
+  `C1-06-F4-03-0A-00` address request returned
+  `127.0.0.1:55910`. This proves CS registration/list/address packet route,
+  not client UI receipt or account login. `git diff --check` PASS for scoped
+  tracked source; existing LF/CRLF warnings only.
+- MAGIC PIN ASSET RECHECK: extended hash-pinned read-only inspector to native
+  BMD action/bone order. Each of four source BMDs has one action/one fixed
+  bone key; `0x5E6` Plane02 rotation is `(-pi,pi/2,0)` and `0x5E8`
+  Cylinder03 has zero rotation. All four staged v0C BMDs decrypt to exactly
+  the original S21 v0F plaintext, so the missing owner triangle is not
+  evidenced as asset-conversion pose loss. Render transform/pixel attribution
+  still OPEN; `GrowLancer/MAGIC_PIN_REVERSE.md` updated without visual PASS.
+- LOCAL CLIENT BREAKTHROUGH: previous PID42980 captured synchronous
+  `SocketClient.Connect` failure before any CS greeting. Native
+  `WSctlc.cpp::CWsctlc::Connect` explicitly rejects `127.0.0.1` before
+  calling `connect()`. Added compile-time QA-only allow path requiring child
+  env `RISE_GL_LOCAL_SERVER_QA=1` and exact verified ports44412/55910;
+  ordinary client retains original rejection. Focused source-order verifier
+  PASS and isolated Win32 build exit0. Staged/rollback hash-pinned QA client
+  SHA256 `4A606548FAEC1187B93E8E28A71CFE2F94EAA0C91C5DA66210CD73E01B0D5DE3`.
+  New PID25016 has real `127.0.0.1:44412` Established socket and breadcrumbs
+  for CS greeting then server list. No VPS socket. At 14:17:45, approximately
+  five minutes after CS connect, it logged `FD_CLOSE error=0`; PID25016 still
+  responds but has no TCP socket. Native CS `MAX_ONLINE_TIME=300000` and
+  `ConnectServerTimeoutProc` disconnect an unselected client after this
+  interval. This is an idle CS expiry, not GS login evidence. GS selection/
+  login/movement still pending owner test.
+- LOCAL SERVER-LIST GROUP EVIDENCE: native
+  `ServerListManager.cpp::InsertServerGroup` maps code10 to group `10/20=0`.
+  Read-only Bux decode of the actual staged `Data/RISE/Config/ServerList.bmd`
+  found indexes 0/1/2; group0 name `Việt Nam`. New
+  `verify_local_server_list_group.py` PASS on the staged file, and static
+  four-component stack verifier PASS. The client received the server-list
+  packet, but owner GS selection/login still has no runtime evidence.
+- ISOLATED DB CREATE/ROLLBACK EVIDENCE: current `GrowLancer_QA` has a
+  `DefaultClassType.Class=112` row STR25/DEX27/VIT32/ENE20, Life100,
+  Mana40, map0 (150,126), **not** the older `MuOnline52` reference
+  STR30/DEX30/VIT25/ENE24. QA `dbo.WZ_CreateCharacter` uses a tinyint class,
+  checks the starter row and transacts writes. A synthetic class112 create
+  inside an outer transaction returned result1 and correct QA starter stats;
+  rollback plus independent after-query left synthetic account/character
+  counts0/0. Repeatable QA SQL verifier also rejected absent starter
+  class111 with result2 and zero synthetic writes; `sqlcmd -b` PASS.
+  Documented in `GrowLancer/LOCAL_DB_CLASS_PROFILE_REVERSE.md`.
+  DB path only: no native GS/class7 login or S21 default-stat provenance PASS.
+- COMPLETED THIS RUN: user-approved `GrowLancer_QA` restored from a COPY_ONLY
+  CHECKSUM backup of `RISE5.2` (backup SHA256
+  `B1C724640E5F713C1FF35856995A0C5FE6B6B8B09CAF0F0C888BF5D3CF04ED9B`),
+  `DBCC CHECKDB` PASS, original DB ONLINE/files unchanged. Created current-user
+  32-bit `GrowLancer_QA` ODBC DSN; real x86 ODBC query returned that DB.
+  Isolated CS/DS/JS/GS ports 44412/UDP55561/55964/55974/55910 and server
+  code10 to avoid foreign GS global mutex code0. Started only worktree QA
+  stack PIDs41404/36788/40044/39876; DS log says connected to
+  `GrowLancer_QA`, DS/JS registered GS cluster10, CS connected group10.
+  Active Slayer/Pegasus listeners remained. Client QA was rebuilt/staged with
+  native `/u127.0.0.1 /p44412` source-order correction, local-only
+  `CreateSocket` destination guard and local-only AntiStream omission.
+  Latest PID42320 has no remote VPS socket; source/runtime breadcrumb shows
+  game `CreateSocket: 127.0.0.1:44412`. Local CS handshake probe replied
+  `C1-04-00-01`. Login, server selection, move and cast remain unproven.
+- REVERSE EVIDENCE: `GameMainInit` mutex name is
+  `WZ_MU_GS_MUTEX_<ServerCode>`; code0 collision produced exact popup
+  `Could not open GameServer`. Native `Util_CheckOption` scans slash tokens
+  starting at input+1, so `-u/-p` and first-tail `/u` were skipped.
+  `OpenInitFile` subsequently overwrote the WinMain route from protected
+  `ConnectIP.bmd`; QA re-applies full-command-line parser after it.
+  `AntiStream_StreamThread` separately connects protected `IpAddress:AntiPort`
+  (observed VPS port55858), distinct from game `CreateSocket`.
+- CHAIN COVERAGE: local DB and GS/CS registration established; synthetic QA
+  DB create/rollback contract proven; CS handshake,
+  client server-list receipt and sustained loopback TCP Established proven.
+  GS selection/login, movement and actual Grow Lancer damage handler still
+  OPEN. Magic Pin foot triangle/target bright burst visual FAIL.
+- ASSET PROVENANCE: S21/client production/other worktrees unchanged; QA DB
+  files and backup only in `.../GrowLancerBuild/DatabaseQA`, executable rollback
+  copies and BMD stage only in Grow Lancer RuntimeQA.
+- FILES MODIFIED: QA-only `Winmain.cpp`, `WSclient.cpp`,
+  `RISE/MainProtocol.cpp`, `start_runtime_qa_client.ps1`, new concurrent local
+  stack launcher/staging guards, six isolated stack config files,
+  `verify_isolated_server_stack.py`, `verify_runtime_qa_stage.py`, this state.
+- LAST STATIC CHECK: server stack verifier PASS four hashes, code10,
+  DSN/port/loopback/advertised-single-server; native staged server-list group
+  verifier PASS code10->group0; client stage verifier PASS
+  13 assets,2521 base,87 overlay,126 frozen Data junctions.
+- LAST BUILD RESULT: isolated Global Release|Win32 QA client exit0,
+  staged SHA256 `4A606548FAEC1187B93E8E28A71CFE2F94EAA0C91C5DA66210CD73E01B0D5DE3`;
+  existing cryptlib PDB warnings only. GS staged/build hash
+  `E10E0CDE8D91A00B495A5C34B05A207AD590E919ECFD6E77053BB5E1DACAE854`.
+- LAST RUNTIME QA: local stack four processes/listeners online, ODBC and
+  GS cluster registration logged. PID25016 earlier had 127.0.0.1:44412
+  Established, CS greeting and native server-list receipt; at 14:17:45
+  idle CS timeout closed it (`FD_CLOSE error=0`), no current game socket.
+  No VPS remote socket.
+  OpenGL window capture via computer-use failed twice with
+  `SetIsBorderRequired 0x80004002`; no screenshot/login/move/cast PASS.
+- KNOWN DIFFERENCES: local-only QA omits remote AntiStream and rejects any
+  non-loopback/non-44412/55910 native game socket; production behavior
+  untouched. Current-user DSN can serve only same-user QA processes; DS
+  auto-System-DSN registration reports Access Denied but subsequent ODBC
+  connection PASS. Local GS still fail-closed for Grow Lancer274/281 damage.
+- MISSING CHAIN PARTS: client GS selection/login disconnect trace,
+  movement packet/GS reply, class7 permanent activation, 274/281 server
+  learning/cast/damage, Magic Pin angular foot and target contact visual.
+- BLOCKER: no owner login/movement/cast evidence yet; screenshot helper cannot
+  capture this OpenGL window. Non-UI packet/log source tracing can continue.
+- NEXT EXACT ACTION: restart only the isolated QA client when owner is ready
+  and select the code10 server within the CS five-minute idle window; capture
+  selected-GS/login telemetry from an owner-authenticated local session,
+  prove local movement with a DK fixture
+  before attributing prior VPS Slayer
+  movement symptoms to Grow Lancer code. Then resume Magic Pin foot/target
+  native parity, keep visual gate FAIL until owner reference comparison.
+- NEXT FILE TO OPEN: `ExMain_RISE_PC/Main5.2_RISE/WSclient.cpp` receive
+  server-list/connection functions and `Winmain.cpp` FD_CLOSE path.
+- NEXT FUNCTION TO IMPLEMENT: exact native class/protocol adapter after
+  confirming local login/movement; not speculative GS Magic damage or global
+  movement override.
+
+### 2026-09-15 — current QA movement/class mismatch and local GS isolation audit
+
+- CURRENT PHASE: isolate the player movement symptom and local GS endpoint
+  without affecting active Slayer/Pegasus stacks; Magic visual remains FAIL.
+- CURRENT TASK: distinguish QA F7 fixture/buff effects from class/transport
+  mismatch, prepare a truly local Grow Lancer runtime QA path.
+- CURRENT SUBTASK: inspect exact PID42588 class/action/pool/TCP and local GS
+  ports/ODBC; prevent misleading non-DK F7 `root-dispatched` logs.
+- COMPLETED THIS RUN: current QA PID42588 remains responsive on Slayer, source
+  class byte30/base6; repeated Magic F7 leaves action4/17 instead of287.
+  No auto-Wrath fixture event was logged, Grow Lancer effect pool was zero
+  after map cleanup. QA TCP is established to VPS103.90.224.58:55858/55901.
+  Added QA-only DK class gate and visible F7 rejection before sample arming;
+  source-order verifier PASS and isolated Win32 client build PASS. Updated
+  hash-backed-up staged local Grow Lancer GS to current isolated build; stack
+  manifest verifier PASS. No foreign service was stopped.
+- REVERSE EVIDENCE: native QA `PrepareLocalQADynamicAction` explicitly requires
+  base `CLASS_KNIGHT`; class30&7=6 fails it. Native `Winmain` supports `-u/-p`
+  ConnectServer override, so a local endpoint needs no binary patch. Current
+  local Slayer listeners CS44405/UDP55557, DS55960, JS55970, GS55901;
+  Pegasus CS44408, DS55961, JS55971, GS55902. Grow Lancer copied stack uses
+  those Slayer ports and ODBC `RISE5.2`, also used by Slayer/Pegasus.
+- CHAIN COVERAGE: class mismatch to QA cast non-activation and foreign GS
+  connection proved; actual buff producer and movement packet/GS reply OPEN.
+  Local GS Magic base274/internal281 `RunningSkill` still returns false.
+- ASSET PROVENANCE: no S21/production/client asset changed; server stack copied
+  component hashes verified, local GS prior EE447... rollback retained.
+- FILES MODIFIED: QA-only `RISE/GrowLancerRuntimeQA.cpp` DK guard,
+  `verify_qa_dk_fixture_gate.py`, `stage_current_isolated_gs.ps1`, private
+  `STACK_MANIFEST.json`, Magic material-alpha inspector and this state.
+- LAST STATIC CHECK: client DK fixture verifier PASS; isolated GS stack
+  verifier PASS for four components and relative CashShop path; no runtime
+  DB, login or movement acceptance.
+- LAST BUILD RESULT: isolated client Global Release|Win32 QA build exit0,
+  Bin SHA256 `AAE8FDE7EA235B6D5B4113B17674504FF1EA6784CFF96F4550362CA11A4C0DB0`
+  not staged while PID42588 runs; staged QA remains 8F544F... . Local
+  GameServer staged SHA256 `E10E0CDE8D91A00B495A5C34B05A207AD590E919ECFD6E77053BB5E1DACAE854`.
+- LAST RUNTIME QA: PID42588 user reports buff-like glow and no movement;
+  connection alive, class30 F7 invalid for temporary DK fixture. No causal
+  proof of buff/movement source; local Grow Lancer stack not launched.
+- KNOWN DIFFERENCES: QA player class30 is not approved temporary DK, VPS
+  connection bypasses local GS, and current copy shares `RISE5.2` ODBC with
+  other active tasks. Static GS binary exists but is not a live handler PASS.
+- MISSING CHAIN PARTS: exact movement request/response and buff receipt,
+  isolated local DB/DSN/ports, server-authoritative 274/281, target burst and
+  caster-foot visual parity.
+- BLOCKER: local in-game stack cannot safely start on copied ports/shared DB
+  while Slayer/Pegasus are active; awaiting owner choice for a separate QA DB
+  or a later non-colliding window. Source/static work can continue.
+- NEXT EXACT ACTION: verify source/DB migration path for new isolated DSN
+  without touching `RISE5.2`; stage client DK gate only after exact QA PID
+  exits; then run one DK F7 and separate F9 visual probe locally when stack
+  isolation is resolved.
+- NEXT FILE TO OPEN: copied `ConnectServer.ini`, `DataServer.ini`,
+  `JoinServer.ini`, `GameServerInfo - Common.ini` and Windows ODBC DSN registry
+  read-only; then PID42588 movement packet evidence if available.
+- NEXT FUNCTION TO IMPLEMENT: local QA port/DSN adapter after owner choice;
+  not a speculative class30 movement fix or GS Magic damage handler.
+
+### 2026-09-15 — controlled Magic Pin cast: stage creation improved, foot visual FAIL
+
+- CURRENT PHASE: Magic Pin caster-foot pixel attribution and target-contact chain.
+- CURRENT TASK: repair intermittent base-274 caster visual and missing foot
+  triangle/skill-281 target burst without substituting unproven effects.
+- CURRENT SUBTASK: compare owner S21 pixels against exact private model
+  geometry, material and native GPU presentation; isolate cast vs hit.
+- COMPLETED THIS RUN: launched hash-verified QA PID 36328 with Magic 40 ms
+  opt-in. Owner cast Magic and reported triangle still absent. Parsed three F11
+  frame groups; fixed opt-in's unrelated-action replay with a live Magic model
+  guard, tested, built, hash-backed-up and staged a new isolated QA candidate.
+  Hash-pinned source mesh vertices/triangles narrow 5E6 angular strips versus
+  annular 5E8/circular 5E7/5E9. Added a bounded QA-only exact bitmap path/GL
+  allocation probe, built/staged another isolated candidate with rollback.
+- REVERSE EVIDENCE: log SHA256
+  `4B53399A4932BC583ABB2ED3BF810B3E2CDDC3EABD51AB64B4367A3FF2D8F35B`.
+  First base-274 selected target18: stage0 reached at owner frame5.508000851;
+  stage1 reached after frame7.128002644; action changed to231 before stage2
+  window and no subtype1 5E7 recorded. Four caster model types10125..10128
+  submitted 17/14/37/13 times in first cast, without visible foot triangle.
+  Frame parser: 3 consistent groups, 408 owned rows, 169 completed quanta,
+  zero dropped/truncated; `visual_acceptance=false`. No internal281/F9 event.
+  GS `RunningSkill` still returns false for Magic base274/internal281.
+- CHAIN COVERAGE: native BMD open/calc/submit and first two gated children
+  observed; GPU/pixel attribution, third gate, target-hit producer and burst OPEN.
+- ASSET PROVENANCE: original S21 Magic source assets/hash-pinned converted
+  copies unchanged; staging verifier PASS (13 files). No production assets.
+- FILES MODIFIED: QA-only `RISE/GrowLancerEffectRuntime.cpp` clock guard,
+  `RISE/GrowLancerRuntimeQA.cpp/.h` material probe,
+  `test_magic_frame_transitions.py`, `verify_magic_frame_ownership.py`,
+  `inspect_magic_pin_model_geometry.py`, `stage_magic_clock_guard_candidate.ps1`,
+  `stage_magic_material_probe_candidate.ps1`, `verify_runtime_qa_stage.py`,
+  `MAGIC_PIN_REVERSE.md`, acceptance matrix and this state.
+- LAST STATIC CHECK: extracted actual frame-flow tests PASS (post-cast live
+  continuation and unrelated-action guard), ownership verifier PASS, stage
+  verifier PASS after staging (2521 frozen base,87 overlay,126 Data junctions).
+- LAST BUILD RESULT: isolated Global Release|Win32 RuntimeQA client MSBuild
+  exit0, existing cryptlib PDB warnings; latest staged SHA256
+  `8F544F139D46AD446427A7E0D3FC6322BB6C80CC191362572199D426BC625C67`,
+  prior 141C... and 63EC... QA binaries retained as isolated rollbacks.
+- LAST RUNTIME QA: PID36328 visual FAIL for foot triangle; stage/model
+  telemetry PASS narrowly. New clock-guard+material candidate not ingame retested.
+- KNOWN DIFFERENCES: caster foot triangle missing despite BMD submit; third
+  child subtype1 unobserved; F7 base274 != S21 GS-authoritative hit281.
+- MISSING CHAIN PARTS: exact foot primitive/source render pass and texture
+  identity at GPU, third-stage timing/owner action interruption, hit/contact
+  packet/target-burst visual, GameServer damage, full class/parity/regressions.
+- BLOCKER: none for source/asset/GPU diagnostics; owner pixel acceptance remains
+  open. No production/other task mutation authorized.
+- NEXT EXACT ACTION: run one selected-target isolated Magic F7 with the
+  staged material probe, F11 flush, then separate F9 preview; compare exact
+  `magic-material` against angular 5E6 pixels and S21 caster-foot transform.
+- NEXT FILE TO OPEN: PID-specific `GrowLancerRuntimeQA.log` `magic-material`
+  rows, then S21 Magic renderer `A48EFA` proof in `MAGIC_PIN_REVERSE.md`.
+- NEXT FUNCTION TO IMPLEMENT: only source-proven Magic bitmap/transform/render
+  discrepancy; keep GameServer base274/internal281 fail-closed until handlers.
+
+### 2026-09-15 — Magic Pin owner visual FAIL and staged isolated probe
+
+- CURRENT PHASE: Magic Pin caster child timing and target-contact visual QA.
+- CURRENT TASK: reproduce S21 caster-foot triangle and target white-blue burst
+  without misattributing internal skill 281 to the base skill 274 root.
+- CURRENT SUBTASK: separate missed stage creation from BMD render skips using
+  PID 28160 frames and a new QA-only four-model ensure/calc/submit probe.
+- COMPLETED THIS RUN: owner S21 screenshot hashes and missing-layer report
+  recorded in Magic reverse. Added a hash-pinned read-only geometry inspector:
+  5E8 root spans local Z0..108.50, 5E6 stage child -149.28..149.28 and
+  5E9 child is nearly planar; exact foot-pixel attribution remains OPEN.
+  Added explicit `-MagicFixedTick` to the scoped
+  launcher (child process only, default OFF). Extended PID-specific frame-log
+  inspector and tests. Added QA-only model-render telemetry, built isolated
+  Win32 client, hash-guarded staged it after PID 28160 exited, backed up the
+  prior D36C... QA executable and repinned the stage verifier. Production,
+  Pegasus and original S21 client were untouched.
+- REVERSE EVIDENCE: full QA action287 cast sampled 4.991940975→5.877425194,
+  skipping S21 stage0 [5.2,5.8], then skipped narrow stage1/2 frames while
+  controller remained stage0. Rapid separate casts first sampled action34
+  instead of 287 and expired early. PID-specific inspector: 41 groups,
+  2 dropped, 0 truncated, 2638 rows, 0 owned/0 completed quanta. S21
+  internal skill281 separately spawns target-owned 0x5B9/subtype1 at Z+140;
+  QA F7 base cast does not produce it, QA F9 previews it with selected target.
+- CHAIN COVERAGE: stage0 *non-creation* proved for representative missed cast;
+  caster-foot model/primitive attribution, child GPU pixels and target burst
+  visual parity OPEN. Action34 producer and clock opt-in gameplay still OPEN.
+- ASSET PROVENANCE: no new game asset staged; both S21 screenshot hashes in
+  `MAGIC_PIN_REVERSE.md`. Existing hash-pinned 13 private assets verified.
+- FILES MODIFIED: `RISE/GrowLancerEffectRuntime.cpp`,
+  `RISE/GrowLancerRuntimeQA.cpp/.h`, `tools/grow_lancer/start_runtime_qa_client.ps1`,
+  `inspect_magic_frame_log.py`, `test_magic_frame_log.py`,
+  `stage_magic_probe_candidate.ps1`, `verify_runtime_qa_stage.py`,
+  `inspect_magic_pin_model_geometry.py`, Magic reverse,
+  acceptance matrix and this state.
+- LAST STATIC CHECK: launcher PowerShell parse PASS; frame ownership and
+  transition tests PASS; PID-filter inspector tests 9/9 PASS. Stage verifier
+  exit0 after staging (13 assets, 2521 frozen base, 87 overlay, 126 junctions).
+  Four hash-pinned source Magic BMDs decrypted/layout-validated read-only;
+  this does not establish runtime render.
+- LAST BUILD RESULT: isolated `Global Release|Win32` RuntimeQA client exit0
+  via VS18 Insiders MSBuild; existing cryptlib PDB warnings only. QA Bin/staged
+  SHA256 `63EC10F15FC8C0908B41AF2B749F776FCF160A43E9A4978B51E11C76773DDCC0`.
+  Prior staged D36C... binary retained under isolated RuntimeQA/Bin rollback.
+- LAST RUNTIME QA: old PID 28160 owner visual FAIL/incomplete mode-off frame
+  capture; process now exited. New probe/clock candidate has NOT cast in-game.
+- KNOWN DIFFERENCES: isolated F7 base cast vs S21 server-driven internal281
+  target explosion; variable 5.2 owner-frame sampling skips exact source
+  windows and action34 overrides some casts. No target/caster pixel PASS.
+- MISSING CHAIN PARTS: foot primitive origin/texture/draw pass, reliable
+  three-stage timing under actual gameplay, skill281 authoritative producer,
+  target burst pixels, GS damage/reaction and full SS21 parity/regressions.
+- BLOCKER: none for source/static work; next gameplay QA requires a fresh
+  isolated session, not modifying the live/production clients.
+- NEXT EXACT ACTION: launch staged QA with explicit `-MagicFixedTick` when
+  another isolated client is not being used; one clean single F7 cast with
+  target selected, F11 flush, then F9 contact preview separately. Parse
+  clock-owned/stage/render records before changing source timing or pixels.
+- NEXT FILE TO OPEN: current `GrowLancerRuntimeQA.log` for the new process PID
+  and four-model `magic-ensure/calc/submit` rows.
+- NEXT FUNCTION TO IMPLEMENT: only a source- and QA-proven Magic timing,
+  foot-render or skill281 receive/GS discrepancy; do not widen source gates.
+
+### 2026-09-15 — QA launch directory and new S21 caster-layer evidence
+
+- CURRENT PHASE: isolated runtime QA plus caster-side layer reverse.
+- CURRENT TASK: distinguish Circle Shield shoulder purple lights from Obsidian hand
+  lightning and reproduce each only after a source-owned spawn edge is pinned.
+- CURRENT SUBTASK: keep the staged QA session live from its own Client working
+  directory; inspect current PID records without modifying its executable.
+- COMPLETED THIS RUN: `Mix.bmd` exists under isolated QA `Data/RISE/Config`
+  (87,960 bytes). A generic executable launch produced a relative-file error;
+  the dedicated hash/stage verifier passed and the scoped QA launcher
+  (`start_runtime_qa_client.ps1 -Launch`) started the exact client as
+  PID 28160. Process path was verified; no production client was touched.
+  Owner corrected the purple-shoulder attribution from Spin to Circle Shield;
+  the two S21 crop hashes/source boundaries are in Circle and Obsidian notes.
+- REVERSE EVIDENCE: base-271 local action branch has no shoulder spawn; the
+  proven 0x5F8 controller fanout has weapon blur/target effects. Circle's
+  0x5DD controller has joints, timed Shiny04/flare01 and model children, but
+  which emitter draws the observed paired shoulder pixels is OPEN. Purple bitmap
+  IDs 0x8310/0x8311 have known consumers in another post-1000 handler family,
+  so they are not assigned to Spin or Circle. Obsidian's proven Thunder01 subtype-8
+  particle starts at transformed caster-relative (-10,0,170), not a proven
+  hand bone. The new screenshots are owner visual evidence, not xref closure.
+- CHAIN COVERAGE: Circle shoulder/Obsidian hand screen-space attribution OPEN; native
+  Spin draw-pass/map retirement and Obsidian alternate action also OPEN.
+- ASSET PROVENANCE: no new asset staged; screenshot SHA-256 values are in the
+  two reverse notes. Existing hash-pinned QA overlay verifier PASS.
+- FILES MODIFIED: `GrowLancer/SPIN_STEP_REVERSE.md`,
+  `GrowLancer/CIRCLE_SHIELD_REVERSE.md`, `GrowLancer/OBSIDIAN_REVERSE.md`,
+  this state only.
+- LAST STATIC CHECK: isolated QA stage verifier exit0 (13 Grow Lancer assets,
+  2521 frozen base RISE files, 87 private overlay files, 126 Data junctions).
+- LAST BUILD RESULT: prior QA x86 build PASS; no build or binary replacement
+  during this live QA session.
+- LAST RUNTIME QA: exact `Engine-Port S21.exe` PID 28160 live after corrected
+  launch; user login/casts and pixel parity are not thereby PASS. Its current
+  log has Obsidian selected/root-dispatched; no post-stage selected-target
+  Spin cast or `spin-blur-draw` record yet.
+- KNOWN DIFFERENCES: owner attributes paired purple shoulder lights to Circle
+  Shield, but their exact source emitter and 5.2 pixels are unverified.
+  Obsidian hand lightning may involve the root particle, mesh or equipment;
+  its pictured screen-space source is still unclassified.
+- MISSING CHAIN PARTS: source owner/spawn/attachment for the pictured lights,
+  matching-frame 5.2 comparison, selected-target Spin ribbon pixels and map
+  cleanup, Obsidian party GS behavior, full authoritative skill integration.
+- BLOCKER: none for source reverse; isolated visual comparison depends on a
+  controlled same-camera cast with stable equipment/buffs.
+- NEXT EXACT ACTION: pin S21 Circle caster/character-render indirect paths and
+  Obsidian hand placement for the two pictured layers; then inspect PID 28160
+  selected-target Spin draw/map logs
+  if such a cast occurs before changing native visuals.
+- NEXT FILE TO OPEN: S21 dump character-render indirect call sites and the
+  current isolated `GrowLancerRuntimeQA.log` PID 28160 records.
+- NEXT FUNCTION TO IMPLEMENT: only a source-proven paired shoulder/hand
+  emitter or a draw discrepancy demonstrated by current runtime telemetry.
+
+### 2026-09-15 — Spin Step ribbon draw/retirement path
+
+- CURRENT PHASE: isolated Spin Step visual and native pool-lifecycle QA.
+- CURRENT TASK: resolve the last owner ring-only FAIL using actual draw-pass
+  evidence instead of treating blur allocator calls as visible ribbon pixels.
+- CURRENT SUBTASK: instrument style-1 object-blur draw and prevent retained
+  controller-owned blur across expiry/map slot reuse.
+- COMPLETED THIS RUN: PID 23952 Spin Step selected-target F7 log shows
+  root-dispatched target 12, 273 weapon-blur allocator submissions and
+  cross/ground native submissions. Added QA-only bounded telemetry after
+  actual `RenderObjectBlurs` triangle fans and before/after map style-1 blur
+  pool counts. Native controller destruction now removes its owned blur;
+  `CMapManager::DeleteObjects` removes it before clearing/reusing the private
+  Spin controller slot (stock SS6 blur/effect behavior unchanged).
+- REVERSE EVIDENCE: S21 0x157C2A8..0x157CA4A emits three bone-33 style-1
+  ribbon samples; 0x15C09DE..0x15C0BB8 selects style-1 UV orientation.
+  Native `CreateObjectBlur` owns by controller pointer and draws only at
+  Number>=2; native map teardown previously set Effects.Live=false without
+  calling EffectDestructor, which could leave a live blur owner until scene
+  init. `ZzzScene` eventually calls `ClearAllObjectBlurs`, but that later
+  global reset is not a substitute for scoped teardown at the native slot.
+- CHAIN COVERAGE: native blur ownership and source draw gate are mapped;
+  actual ribbon draw records and owner-visible pixels are not yet captured.
+- ASSET PROVENANCE: S21 registry motion_blur.jpg runtime ID 0x7F08,
+  registration VA 0x18BDDB8; source and frozen QA OZJ hashes match exactly
+  `934716E4C09EBCA25B43E62BC1F6B69B26663FA54306F5054FA12A354B6DC5AF`.
+  Native 5.2 Type1 blur uses its existing `BITMAP_BLUR+1` registration.
+- FILES MODIFIED: `ZzzEffect.cpp/.h`, `ZzzEffectBlurSpark.cpp`, `MapManager.cpp`,
+  `RISE/GrowLancerRuntimeQA.h/.cpp`, `verify_spin_blur_lifecycle.py`,
+  `verify_runtime_qa_stage.py`, `stage_spin_blur_candidate.ps1`,
+  `inspect_spin_blur_draw_log.py`, two synthetic QA fixtures, Spin reverse,
+  class backend-identity note, acceptance matrix and this state.
+- LAST STATIC CHECK: scoped Spin blur lifecycle verifier PASS; parser synthetic
+  PASS fixture exit0 and retained-blur FAIL fixture exit1; real post-stage
+  runtime log correctly PENDING exit2. Whitespace check no diff errors,
+  only existing LF/CRLF warnings.
+- LAST BUILD RESULT: final isolated Global Release Win32 QA and normal x86
+  client builds exited0 (only existing cryptlib PDB warnings); QA Bin/staged
+  SHA256 `D36C749B3F4BE6418F35CF6B08049F778926AA4CD5E1CE1A10AFA1FA9669B9E7`.
+  Hash-pinned backup of owner-accepted QA binary SHA256
+  `F023313844C3192B26D093942E5A6DD4003D7AC7CFF91E2A779EB3371C97C0E7`
+  is retained in isolated RuntimeQA/Bin. No production deployment.
+- LAST RUNTIME QA: prior owner Spin FAIL/ring-only is still the only visual
+  observation; no new draw-pass/map-count log yet. New isolated QA candidate
+  is staged with recoverable backup; no QA process was launched. Runtime
+  stage verifier exit0: 13 current assets, 2521 base RISE files, 87 private
+  overlay files, 3 root Data files and 126 frozen Data junctions.
+- KNOWN DIFFERENCES: 5.2 action 285 maps S21 action 186; target fanout is
+  statically mapped, but source pixel/timing parity and hit server logic OPEN.
+  S21 GameServer.ini points to local DS 127.0.0.1:57960, but supplied folder
+  and ZIP have no DS DB config or DefaultClassType export; local MuOnline52
+  class candidate cannot activate a native S21 class by association.
+- MISSING CHAIN PARTS: actual `spin-blur-draw` records, texture/upload pixels,
+  repeated cast/map style-1 pool retirement, owner retest and GS damage.
+- BLOCKER: no blocker for isolated source/build; visual confirmation requires
+  staged isolated QA session, not production or another task's client.
+- NEXT EXACT ACTION: run the staged isolated QA client when the machine is
+  available; capture one selected-target Spin F7 cast and map transition,
+  inspect `spin-blur-draw` and `map-style1-blurs` before an owner verdict.
+- NEXT FILE TO OPEN: `ExMain_RISE_PC/Tests/GrowLancerBuild/RuntimeQA/Client/GrowLancerRuntimeQA.log`
+  for the new PID after its first isolated cast.
+- NEXT FUNCTION TO IMPLEMENT: only a draw/texture/pass discrepancy proven by
+  the new runtime telemetry; keep native blur renderer underneath.
+
+### 2026-09-15 — Clash QA evidence reclassified
+
+- CURRENT PHASE: remaining Grow Lancer visual parity and lifecycle QA.
+- CURRENT TASK: correct Clash's stale no-launch note using the actual isolated
+  client log before making another render change.
+- CURRENT SUBTASK: classify native ensure/calc/submit skips by alpha.
+- COMPLETED THIS RUN: PID 23952 Clash F7 selected target 12, switched native
+  action 11 to 293 and dispatched skill 275. Log counts: 993 successful model
+  ensures, 871 successful calculation/submission pairs. All 120 calc skips
+  occurred at alpha 0, not at visible alpha. Visible submit peaks were front
+  alpha 0.65/scale 0.89 and rear alpha 0.90/scale 1.25; no S21 pixel claim.
+  Documented in `CLASH_REVERSE.md`.
+- REVERSE EVIDENCE: source action 194/controller 0x5FA/children 0x5FB/0x5FC
+  remains pinned separately; native QA uses mapped action 293, private model
+  types 10135/10136.
+- CHAIN COVERAGE: selected-target native render submissions verified by log;
+  pixel parity, siege-only GameServer behavior, target pushback and cleanup
+  remain OPEN. No owner Clash visual PASS inferred.
+- ASSET PROVENANCE: unchanged hash-pinned private Clash model/texture assets.
+- FILES MODIFIED: `GrowLancer/CLASH_REVERSE.md`, this state.
+- LAST STATIC CHECK: prior Clash emission/renderer/model verifiers PASS;
+  no source render edit in this checkpoint.
+- LAST BUILD RESULT: prior isolated client build PASS; not a new Clash build.
+- LAST RUNTIME QA: old isolated PID 23952 log inspected; no QA process now.
+- KNOWN DIFFERENCES: mapped 5.2 action 293 vs S21 action 194, server siege
+  handler absent, no authoritative pushback packet verified.
+- MISSING CHAIN PARTS: owner visual comparison, effect lifetime across
+  repeated casts/map travel, movement/pushback and GS cast acceptance.
+- BLOCKER: no S21 siege runtime cast available from current owner location;
+  static/client work can continue.
+- NEXT EXACT ACTION: compare source child pose/UV/alpha against the logged
+  native frames, then capture an isolated gameplay view if one can be run.
+- NEXT FILE TO OPEN: `RISE/GrowLancerEffectRuntime.cpp` Clash render and
+  `GrowLancer/CLASH_REVERSE.md` renderer clauses.
+- NEXT FUNCTION TO IMPLEMENT: only a proved Clash render/timing discrepancy;
+  do not invent siege pushback from a screenshot.
+
+### 2026-09-15 — Breche packet rejection before caster mutation
+
+- CURRENT PHASE: Grow Lancer client/server packet contract, still gated from
+  authoritative cast.
+- CURRENT TASK: keep Breche action/contact tied to a complete accepted native
+  C1:1E echo and a live source plus selected target.
+- CURRENT SUBTASK: reject malformed or stale receive frames before caster
+  skill, angle, attack state or effect creation changes.
+- COMPLETED THIS RUN: moved Breche's extended-size check ahead of caster
+  lookup; moved all Breche caster mutation after source/target liveness checks.
+  SS6 `ReceiveMagicContinue` ordering remains unchanged. Added compile-time
+  `sizeof(extended)==sizeof(native)+2` checks in client and GS headers and
+  expanded the source verifier to assert mutation order.
+- REVERSE EVIDENCE: native GS C1:1E echo omitted the selected target; S21
+  Breche positional cast includes it. The isolated echo appends exactly two
+  bytes, while S21 numeric C1:57 is occupied by 5.2 guild-cancel dispatch.
+- CHAIN COVERAGE: malformed/stale target rejection is statically and build
+  checked; live accepted-cast receive, GS damage and movement are OPEN.
+- ASSET PROVENANCE: unchanged hash-pinned private Grow Lancer assets.
+- FILES MODIFIED: `WSclient.cpp/.h`, `SkillManager.h`, focused duration-echo
+  verifier, this state, class integration cross-check note.
+- LAST STATIC CHECK: duration echo verifier PASS; compile-time struct checks
+  passed in both x86 targets. Scoped diff check pending this checkpoint.
+- LAST BUILD RESULT: isolated Global Release Win32 RuntimeQA client exit0,
+  SHA256 `52D150793DAF97669FE0CB529E2787DAC6FE30F6BD140176FB50018C2C459BC7`;
+  isolated Ex603 Win32 GameServer incremental confirmation exit0, SHA256
+  `E10E0CDE8D91A00B495A5C34B05A207AD590E919ECFD6E77053BB5E1DACAE854`.
+  Neither binary was deployed or staged over the owner-accepted QA client.
+- LAST RUNTIME QA: no QA client is running, no Grow Lancer GS process running;
+  owner acceptance remains limited to prior Breche visual render.
+- KNOWN DIFFERENCES: native Grow Lancer class absent and GL server handlers
+  reject; supplied server patch ZIP contains no native class-7 create/login
+  implementation and was read-only inspected, not imported.
+- MISSING CHAIN PARTS: GS target selection/hit scheduling/damage, live packet
+  receive and movement/map QA, native class/DB ABI, other skill parity.
+- BLOCKER: S21 GameServer handler unavailable in supplied protected binary;
+  this does not block further isolated client/static work.
+- NEXT EXACT ACTION: check packet struct/source layout and receiver lifetime
+  under an isolated accepted-cast fixture when authoritative handler exists;
+  separately QA post-map pool snapshot, then continue Clash visual parity.
+- NEXT FILE TO OPEN: `ExGameServer/GameServer/SkillManager.cpp` Breche
+  dispatch and `GrowLancer/CLASH_REVERSE.md` next client chain.
+- NEXT FUNCTION TO IMPLEMENT: dedicated GS Breche target/hit handler only
+  after handler evidence; do not route to generic `BasicSkillAttack`.
+
+### 2026-09-15 — Map-teardown telemetry after accepted Breche render
+
+- CURRENT PHASE: isolated client lifecycle verification; owner reports the
+  Breche effect render is stable. GameServer authority remains a separate gate.
+- CURRENT TASK: check the reported effect remaining still after map travel.
+- CURRENT SUBTASK: record native effect/particle/joint pools immediately before
+  and after `CMapManager::DeleteObjects` in the QA-only executable.
+- COMPLETED THIS RUN: added bounded pool snapshots around map teardown; fixed
+  the diagnostic's anonymous-namespace linkage. Confirmed `DeleteObjects`
+  clears main Effects, Particles, Joints and Sprites, while the separate stock
+  `g_SkillEffects` pool is not cleared there. Its stock routing table accepts
+  only legacy effect types, not Grow Lancer's dedicated Breche model IDs.
+- REVERSE EVIDENCE: `MapManager.cpp` native teardown and
+  `SkillEffectMgr.cpp::IsSkillEffect`; Breche IDs `MAX_MODELS+26..` are dispatched
+  through native main `CreateEffect`, not the private stock skill-effect pool.
+- CHAIN COVERAGE: static main-pool teardown exists; runtime map-change cleanup,
+  visual persistence and movement after transition are NOT yet proven.
+- ASSET PROVENANCE: unchanged isolated hash-pinned asset staging.
+- FILES MODIFIED: `MapManager.cpp`, `RISE/GrowLancerRuntimeQA.h/.cpp`, state.
+- LAST STATIC CHECK: duration echo verifier PASS; GameServer fail-closed guard
+  verifier PASS. Existing logs contain no map-before/after records from this
+  new build, so no runtime cleanup PASS is claimed.
+- LAST BUILD RESULT: isolated Global Release Win32 RuntimeQA build/link PASS;
+  private Bin SHA256 `970D1BE02B727296285E24E9307B41840AD88B7960101B82AFC562CF65C8246C`.
+  It was not staged over the accepted QA client or any production executable.
+- LAST RUNTIME QA: owner Breche render accepted on prior staged QA build;
+  no map-transition session with the new telemetry has run.
+- KNOWN DIFFERENCES: temporary DK visual fixture; positional server handler
+  still rejects Grow Lancer casts, and target-selection/hit count is unproven.
+- MISSING CHAIN PARTS: live map before/after snapshots, immediate movement,
+  full native GL class/server skill handler and S21 visual parity for others.
+- BLOCKER: none for source/static investigation; live transition observation
+  requires an isolated QA session, not a production client.
+- NEXT EXACT ACTION: inspect renderer lifetime/owner invalidation paths and
+  compare the first QA map-before/after snapshot; fix any proven retained GL
+  record only, preserving SS6 private pool behavior.
+- NEXT FILE TO OPEN: `ExMain_RISE_PC/Main5.2_RISE/ZzzEffect.cpp` main effect
+  retirement and `SkillEffectMgr.cpp` stock private effect routing.
+- NEXT FUNCTION TO IMPLEMENT: scoped GL retirement only if runtime snapshot
+  proves an actual survivor; otherwise investigate non-effect movement/GS path.
+
+### 2026-09-15 — Breche target-bearing native duration echo
+
+- CURRENT PHASE: authoritative GameServer integration while preserving owner
+  accepted Breche visual rendering.
+- CURRENT TASK: correct the selected-target loss at the 5.2 positional echo
+  boundary without changing any SS6 packet.
+- CURRENT SUBTASK: verify isolated C1:1E extension build and leave damage
+  disabled until the S21 handler is pinned.
+- COMPLETED THIS RUN: traced native C1:1E sender/GS receive carrying skill,
+  caster position and selected target. Found stock GS echo and client receiver
+  discard target. Added an isolated two-byte target-bearing duration echo for
+  Grow Lancer positional skill IDs, and Breche client receive now validates
+  the extended size and target before emitting the separate action/contact
+  layers. Stock SS6 C1:1E prefix, size and handlers are unchanged; S21 0x57
+  remains occupied by guild-create cancel in 5.2.
+- REVERSE EVIDENCE: `CLIENT_PACKET_REVERSE.md` pins Breche's S21 selected
+  target plus caster position; native `wsclientinline.h` C1:1E and GS
+  `PMSG_DURATION_SKILL_ATTACK_RECV` carry equivalent semantic fields. Native
+  `GCDurationSkillAttackSend` has no target field, requiring a scoped echo.
+- CHAIN COVERAGE: Breche transport and receive target identity are mapped;
+  up-to-four-target selection and hit scheduling are not proven.
+- ASSET PROVENANCE: unchanged hash-pinned isolated Breche assets.
+- FILES MODIFIED: `SkillManager.h/.cpp`, `WSclient.h/.cpp`, this state,
+  `CLIENT_PACKET_REVERSE.md`, focused duration-echo verifier.
+- LAST STATIC CHECK: duration echo and server dispatch guard verifiers PASS;
+  scoped whitespace check had no reported diff errors. Added accepted-cast
+  sequencing: only a successful dedicated Grow Lancer `RunningSkill` may
+  emit the target-bearing echo and consume mana/BP; SS6 duration ordering is
+  unchanged.
+- LAST BUILD RESULT: isolated Ex603 Win32 GS PASS, SHA256
+  `9A5E20FDF4D87C371D395FBEA0F60DA74CAA2CB8A2750BCC8F544DA3B96CA76A`.
+  Isolated Global Release Win32 RuntimeQA client PASS, SHA256
+  `07B0A3BA9703DEC5684F6BE1FF4037103AF50CED7A430062EAB68E4442D43695`.
+  The new client is still in private `RuntimeQA/Bin`, not restaged over the
+  owner-accepted QA client or production client.
+- LAST RUNTIME QA: owner Breche render accepted on the prior build; no live
+  GameServer cast/echo tested because all 271..281 handlers remain fail-closed.
+- KNOWN DIFFERENCES: stock GS code still intentionally rejects Breche and
+  temporary DK remains QA-only.
+- MISSING CHAIN PARTS: class ABI, server target/hit-count/damage, packet
+  accepted-cast rollback and isolated GS runtime QA.
+- BLOCKER: no authoritative Breche target-selection/hit-count handler in
+  supplied S21 GS source (protected binary, no PDB/MAP/source).
+- NEXT EXACT ACTION: finish isolated builds; reverse target selection from
+  available S21 evidence before enabling any Breche server dispatch.
+- NEXT FILE TO OPEN: `ExGameServer/GameServer/SkillManager.cpp` Breche handler
+  boundary and the S21 server evidence ledger.
+- NEXT FUNCTION TO IMPLEMENT: dedicated Breche server handler after the
+  target scheduling contract is pinned; never `BasicSkillAttack` fallthrough.
+
+### 2026-09-15 — Breche owner visual render accepted
+
+- CURRENT PHASE: Breche lifecycle/runtime QA after owner visual acceptance.
+- CURRENT TASK: preserve the accepted render while verifying movement and map
+  cleanup independently from GameServer authority.
+- CURRENT SUBTASK: cast-completion, immediate movement and map-change cleanup.
+- COMPLETED THIS RUN: owner accepted the current Breche render after the
+  BlendMesh-0 correction. The accepted presentation includes the corrected
+  caster position, yellow slash layer and rotating ground spiral under the
+  caster.
+- REVERSE EVIDENCE: accepted candidate uses S21 flag 2 with mesh texture slot
+  zero selecting the additive BlendMesh path; no extra global bright flag.
+- CHAIN COVERAGE: Breche owner visual render is OWNER PASS. GameServer damage,
+  repeated-cast cleanup and post-map movement remain separate gates.
+- ASSET PROVENANCE: unchanged hash-pinned Breche assets in isolated staging.
+- FILES MODIFIED: this state only.
+- LAST STATIC CHECK: previously PASS for owner adapter, primary dump contract,
+  retirement and isolated stage verifier.
+- LAST BUILD RESULT: isolated Win32 RuntimeQA PASS; staged SHA256
+  `F023313844C3192B26D093942E5A6DD4003D7AC7CFF91E2A779EB3371C97C0E7`.
+- LAST RUNTIME QA: owner visual acceptance PASS for current Breche render.
+  PID 23952 additionally recorded 256/256 successful bounded Breche render
+  submissions across visible/target/owner stages. Repeated F7 input produced
+  64 explicit `289 -> 11` action boundaries and no retained Breche action;
+  this proves cast-action release, but not yet map-change pool cleanup.
+- KNOWN DIFFERENCES: temporary DK actor and visual-only F7 remain; this result
+  does not prove server-authoritative cast or damage.
+- MISSING CHAIN PARTS: immediate click-move, map-change pool cleanup,
+  target reaction parity and authoritative GameServer handler.
+- BLOCKER: none for offline lifecycle work; GameServer target scheduling still
+  requires authoritative evidence.
+- NEXT EXACT ACTION: inspect a new accepted-candidate runtime log for action
+  completion and pool cleanup across cast/move/map change.
+- NEXT FILE TO OPEN: `ExMain_RISE_PC/Tests/GrowLancerBuild/RuntimeQA/Client/GrowLancerRuntimeQA.log`.
+- NEXT FUNCTION TO IMPLEMENT: only a lifecycle mismatch shown by the accepted
+  build; retain the visual material contract unchanged.
+
+### 2026-09-15 — Active GameServer attribution corrected
+
+- CURRENT PHASE: isolate client visual QA from authoritative GameServer work.
+- CURRENT TASK: determine whether the reported post-map movement block came
+  from the Grow Lancer GameServer code.
+- CURRENT SUBTASK: identify the exact client/server processes and packet edge.
+- COMPLETED THIS RUN: process and TCP inspection proves Grow Lancer QA client
+  PID 23952 is connected to remote `103.90.224.58:55858/44408`. No GameServer
+  binary from this Grow Lancer worktree is running. The only local GameServers
+  belong to the isolated Slayer and Pegasus worktrees. Therefore this
+  worktree's fail-closed Grow Lancer server guards cannot be the cause of the
+  currently observed client movement symptom. Separately confirmed those
+  guards would reject a real 271..281 cast if a Grow Lancer GS were launched.
+- REVERSE EVIDENCE: Breche's S21 client edge is selected target plus caster
+  position on C1:57. RISE 5.2 already carries the same semantic fields through
+  native duration-skill C1:1E; top-level 0x57 remains reserved for guild-create
+  cancellation and must not be reused.
+- CHAIN COVERAGE: client/server transport family is mapped; Breche target
+  selection beyond the selected target and authoritative up-to-four-target
+  scheduling remain open.
+- ASSET PROVENANCE: unchanged; no production or S21 source asset modified.
+- FILES MODIFIED: this state only.
+- LAST STATIC CHECK: exact process paths, TCP owners, packet structs and
+  protocol switch re-read; no inferred handler enabled.
+- LAST BUILD RESULT: unchanged isolated client build PASS; no server rebuild
+  was needed for this attribution check.
+- LAST RUNTIME QA: PID 23952 remains responsive but has produced no new cast
+  record; latest log record still belongs to old PID 22760.
+- KNOWN DIFFERENCES: F7 is visual-only and never sends authoritative damage;
+  the active remote GS does not contain this worktree's handler changes.
+- MISSING CHAIN PARTS: one cast/move/map-change run on PID 23952 and the full
+  server-authoritative handlers.
+- BLOCKER: current movement report cannot be attributed to Grow Lancer GS;
+  Breche multi-target scheduling still lacks an authoritative handler source.
+- NEXT EXACT ACTION: capture a new PID 23952 F7 cast/move record, while
+  continuing the isolated C1:1E Breche transport and handler reverse.
+- NEXT FILE TO OPEN: `ExMain_RISE_PC/Tests/GrowLancerBuild/RuntimeQA/Client/GrowLancerRuntimeQA.log`.
+- NEXT FUNCTION TO IMPLEMENT: Breche server handler only after target-count and
+  target-selection semantics are pinned; keep `BasicSkillAttack` fallthrough
+  disabled.
+
+### 2026-09-15 — Breche flag2/BlendMesh0 contract corrected
+
+- CURRENT PHASE: isolated Breche visual parity; full Grow Lancer remains
+  `IN_PROCESS`.
+- CURRENT TASK: separate the reported map-move block from Breche rendering and
+  correct the missing central spiral without inferred render flags.
+- CURRENT SUBTASK: stage and owner-test the exact S21 wind material selector.
+- COMPLETED THIS RUN: confirmed the live QA client was connected to remote
+  `103.90.224.58:55858`, while no isolated Grow Lancer GameServer was running.
+  Reversed the complete S21 flag-2 route far enough to recover the missing
+  material state: common reset initializes BlendMesh to zero, the wrapper
+  forwards it, and wind_foce mesh zero references texture slot zero, selecting
+  the additive blend-mesh path before ordinary texture alpha testing. Replaced
+  the prior extra-BRIGHT inference with `RENDER_TEXTURE + BlendMesh 0`.
+- REVERSE EVIDENCE: `0x1315FEC` writes object `+0x74=0`;
+  `0x1887E99..0x1887EB5` forwards BlendMesh, alpha and flag 2;
+  `0x1332CBB..0x1332CFB` compares the mesh texture slot and calls additive
+  state function `0x18E7137` on match. Decoded wind_foce has one mesh with
+  texture slot zero.
+- CHAIN COVERAGE: caster/target split, action completion, timed wind emission,
+  rotation/fade, exact material selector and main-pool retirement are pinned.
+  Server authority remains intentionally separate.
+- ASSET PROVENANCE: unchanged hash-pinned S21 wind_foce/ground_wind assets;
+  no production Data modified.
+- FILES MODIFIED: `GrowLancerEffectRuntime.cpp`, Breche adapter/dump verifiers,
+  `BRECHE_REVERSE.md`, RuntimeQA stage hash, runtime/state documentation.
+- LAST STATIC CHECK: focused owner adapter, primary dump, retirement and
+  whitespace checks PASS.
+- LAST BUILD RESULT: isolated Global Release Win32 RuntimeQA PASS with zero
+  errors and known cryptlib PDB warnings only; Bin SHA256
+  `F023313844C3192B26D093942E5A6DD4003D7AC7CFF91E2A779EB3371C97C0E7`.
+- LAST RUNTIME QA: previous PID 37292 used the pre-correction staged binary and
+  remote GS. It was closed only after exact-path validation. Corrected staged
+  SHA F0233138 launched as isolated PID 23952; login/cast/map-move are not yet
+  verified.
+- KNOWN DIFFERENCES: temporary DK actor, QA-local target contact and remote
+  non-isolated server remain.
+- MISSING CHAIN PARTS: owner-visible central spiral acceptance, cast then move,
+  map-change and repeated-cast cleanup, plus all authoritative GS handlers.
+- BLOCKER: visual acceptance requires one owner cast; no offline blocker.
+- NEXT EXACT ACTION: in PID 23952 cast Breche once, test immediate click-move
+  and map change, then inspect the new timestamped QA events.
+- NEXT FILE TO OPEN: `ExMain_RISE_PC/Tests/GrowLancerBuild/RuntimeQA/Client/GrowLancerRuntimeQA.log`.
+- NEXT FUNCTION TO IMPLEMENT: only a mismatch demonstrated by that run; GS
+  cases 271..281 stay fail-closed until each S21 handler is recovered.
+
+### 2026-09-15 — GS block separated from visual-only F7 state
+
+- CURRENT PHASE: isolated Breche visual parity; full Grow Lancer remains
+  `IN_PROCESS`.
+- CURRENT TASK: remove the QA-only attack-state coupling before the next
+  Breche spiral test.
+- CURRENT SUBTASK: owner-test the local-only F7 candidate without relying on
+  any GameServer Grow Lancer handler.
+- COMPLETED THIS RUN: proved PID 12756 was connected to remote
+  `103.90.224.58:55901/55858`, while the isolated Grow Lancer GameServer was
+  not running. The source GameServer intentionally rejects IDs 271..281
+  because their authoritative handlers are still unproved; that binary cannot
+  have blocked the observed remote session. Removed F7 writes to
+  `CHARACTER::Skill`, `AttackTime`, `TargetCharacter`, `SkillSuccess` and
+  `AttackFlag`; F7 now changes only visual/action state and creates the isolated
+  Breche roots.
+- REVERSE EVIDENCE: prior PID 22760 log proves action 289 completed and returned
+  to action 1 at about 391 ms. `CMapManager::DeleteObjects` retires every main
+  effect, particle, joint and sprite slot on a map load.
+- CHAIN COVERAGE: visual dispatch remains isolated from server authorization;
+  no damage/cast handler was inferred or enabled.
+- ASSET PROVENANCE: unchanged and hash-pinned; no production Data modified.
+- FILES MODIFIED: `GrowLancerRuntimeQA.cpp`, Breche owner adapter verifier,
+  RuntimeQA stage verifier and this state.
+- LAST STATIC CHECK: Breche owner adapter, Breche retirement and complete stage
+  verifier PASS.
+- LAST BUILD RESULT: isolated Global Release Win32 RuntimeQA PASS with only
+  known cryptlib PDB warnings; staged Engine SHA256
+  `2873EFB0C226163A9D9191613B2FE019F84191D58B55C9C9B1D85659B25D3342`.
+- LAST RUNTIME QA: new local-only F7 binary is staged but not launched. Prior
+  runtime showed clean action completion; remote movement failure is not yet
+  attributable to the Grow Lancer GameServer or Breche pools.
+- KNOWN DIFFERENCES: temporary DK actor, QA-local target contact and remote
+  non-isolated server remain.
+- MISSING CHAIN PARTS: central spiral visual acceptance, movement after local
+  F7, repeated-cast/map-change cleanup and all authoritative server handlers.
+- BLOCKER: no offline blocker; one owner-visible cast/move check is required
+  for this candidate.
+- NEXT EXACT ACTION: launch staged SHA 2873EFB0, cast Breche once with F7, then
+  click-move before and after `/move`; keep GameServer damage testing separate.
+- NEXT FILE TO OPEN: `ExMain_RISE_PC/Tests/GrowLancerBuild/RuntimeQA/Client/GrowLancerRuntimeQA.log`.
+- NEXT FUNCTION TO IMPLEMENT: only the next mismatch proven by the local-only
+  runtime; server dispatch stays fail-closed until its S21 handler is recovered.
+
+### 2026-09-15 — Breche position/slashes accepted; spiral material rebuilt
+
+- CURRENT PHASE: isolated Breche visual parity; full Grow Lancer remains
+  `IN_PROCESS`.
+- CURRENT TASK: restore the red/yellow rotating ground spiral visible in the
+  S21 native cast.
+- CURRENT SUBTASK: owner-test the additive `wind_foce` candidate.
+- COMPLETED THIS RUN: owner confirmed the Breche center position is correct
+  and the yellow slash streaks are present. The remaining missing layer was
+  identified against the supplied crop and saved S21 frame 42 as the central
+  ground spiral. Runtime PID 22760 proved the private `wind_foce` model was
+  alive, visible and submitted with one mesh/bone/action, excluding allocation,
+  asset-load, position and lifetime failure.
+- REVERSE EVIDENCE: S21 supplies generic body flag 2 at `0x1887E5E`. The
+  staged `ground_wind.OZJ` decodes to a 256x128 three-component JPEG with a
+  black background; SS6 texture-only handling alpha-tests that material. The
+  compatibility adapter now adds SS6 `RENDER_BRIGHT` only for private Breche
+  `wind_foce`, preserving the complete BMD body and all S21 transform/timing.
+- CHAIN COVERAGE: owner position PASS; `0x8073/subtype5` yellow slashes PASS;
+  ground spiral candidate rebuilt and awaiting visual acceptance.
+- ASSET PROVENANCE: unchanged and hash-pinned; no production Data modified.
+- FILES MODIFIED: `GrowLancerEffectRuntime.cpp`, focused Breche adapter/dump
+  verifiers, RuntimeQA stage verifier, Breche QA docs and this state.
+- LAST STATIC CHECK: owner adapter, S21 dump, pool retirement and tick schedule
+  verifiers PASS.
+- LAST BUILD RESULT: isolated Global Release Win32 RuntimeQA build PASS with
+  only known cryptlib PDB warnings; staged Engine SHA256
+  `DD72E9056FC2A93EFDFD833F6157623A91FB9192D99E4552E30294889305D20C`.
+- LAST RUNTIME QA: PID 22760 owner-observed position PASS and yellow slashes
+  PASS; central spiral FAIL on the prior SHA. New candidate PID 12756 reached
+  gameplay as `MainEF`, but no F7 cast has entered its QA log. The owner then
+  observed a blocked/frozen state after `/move`. Netstat proves this process is
+  connected to remote `103.90.224.58:55901/55858`, not the isolated Grow Lancer
+  GameServer; no client-effect or local-GS cause is attributed without evidence.
+- KNOWN DIFFERENCES: temporary DK actor and QA-local target contact remain.
+- MISSING CHAIN PARTS: spiral visual acceptance, 360-degree camera,
+  repeated-cast pool cleanup and remaining global skill/class/server gates.
+- BLOCKER: none; owner interaction is needed only for this visible pixel gate.
+- NEXT EXACT ACTION: enter PID 12756, select Breche and a target, press F7 once
+  and compare the central spiral with S21 frame 42.
+- NEXT FILE TO OPEN: `ExMain_RISE_PC/Tests/GrowLancerBuild/RuntimeQA/Client/GrowLancerRuntimeQA.log`.
+- NEXT FUNCTION TO IMPLEMENT: only the next spiral mismatch proven by the new
+  frame; do not change the accepted position or subtype-5 slash layer.
+
+### 2026-09-15 — Breche visible-layer center and AD9 multiplicity corrected
+
+- CURRENT PHASE: isolated Breche visual correction; full Grow Lancer remains
+  `IN_PROCESS`.
+- CURRENT TASK: correct the owner-observed Breche ring/arc displacement.
+- CURRENT SUBTASK: stage and visually test the corrected one-shot owner layers.
+- COMPLETED THIS RUN: re-disassembled the full S21 argument setup around
+  `0x1535C6C..0x1535FCF`. Corrected ring/lightmarks from the controller's
+  forward position to the caster position. Corrected `wind_foce` from an
+  every-tick forward emission to one remaining-life-7 emission at the owner
+  snapshot with exact local Y minus 5.
+- REVERSE EVIDENCE: ring call `0x1535C86` and marks call `0x1535CF0` load
+  Position from `root.Owner+0x158`; AD9 call `0x1535FC7` is dominated by the
+  life==7 comparison at `0x1535DC1`, and constant `0x1B4E4CC` is 5.0f.
+- CHAIN COVERAGE: corrected owner timed-layer position and multiplicity; pin
+  lights/particles still intentionally use the rotated -200 controller.
+- ASSET PROVENANCE: unchanged and hash-pinned; no production Data modified.
+- FILES MODIFIED: `GrowLancerEffectRuntime.cpp`, both Breche owner verifiers,
+  skill descriptor, `BRECHE_REVERSE.md`, RuntimeQA stage hash and this state.
+- LAST STATIC CHECK: focused dump and adapter verifiers PASS.
+- LAST BUILD RESULT: isolated Global Release Win32 RuntimeQA build PASS; Bin
+  and staged Engine SHA256
+  `A4D9F2ABF572E87041AF33BD0B4A0E93B3AD3CDF53E5E6B906B5091BC973DA3F`.
+- LAST RUNTIME QA: prior binary is owner-observed FAIL; measured caster
+  `(14750,12950)`, target `(14750,12850)`, wrong visible carrier
+  `(14750,12750)`. Corrected binary has not yet been cast.
+- KNOWN DIFFERENCES: temporary DK actor and QA-local target contact remain.
+- MISSING CHAIN PARTS: corrected Breche pixel acceptance, 360-degree camera,
+  repeated-cast pool cleanup and the remaining global skill/class/server gates.
+- BLOCKER: none for continued offline work; owner input is needed only for the
+  final visible cast acceptance.
+- NEXT EXACT ACTION: launch staged SHA A4D9F2AB, select Breche and a target,
+  press F7 once, then compare center/multiplicity with S21 frame 42.
+- NEXT FILE TO OPEN: `ExMain_RISE_PC/Tests/GrowLancerBuild/RuntimeQA/Client/GrowLancerRuntimeQA.log`.
+- NEXT FUNCTION TO IMPLEMENT: only the next mismatch proven by the corrected
+  frame; do not restore the retracted forward visible-layer mapping.
+
+### 2026-09-15 — Isolated server stack prepared; production junction leak removed
+
+- CURRENT PHASE: restore trustworthy Grow Lancer gameplay QA without sharing
+  mutable client Data or another class task's GameServer.
+- CURRENT TASK: make movement/cast testing independent and correct the QA Data
+  boundary discovered during relaunch.
+- COMPLETED THIS RUN: copied the 0.18 GB base MU server stack read-only into
+  `ExGameServer/Tests/GrowLancerBuild/ServerStackSmoke`, rebuilt Ex603 Win32,
+  staged the Grow Lancer GameServer under a unique name and added hash-pinned
+  verify/start/stop tooling. The launcher correctly refused to collide with
+  four active Slayer stack processes.
+- COMPLETED THIS RUN: found one stale `RuntimeQA/Client/Data/Map` junction
+  pointing to mutable production `D:/RISE-CrossPlatform/Client/Data/Map`.
+  Closed only exact Grow Lancer PID 37680, removed only that reparse point and
+  verified the production target remained. Staging now deletes stale junction
+  entries without traversing targets; verification requires exact set equality.
+- REVERSE EVIDENCE: unchanged; this checkpoint hardens the runtime evidence
+  boundary and does not promote visual/server semantics.
+- CHAIN COVERAGE: server stack path/working-directory contract is prepared;
+  database/login/movement/cast/damage/persistence remain runtime-open.
+- ASSET PROVENANCE: client stage now has exactly 126 frozen worktree Data
+  junctions, private physical Player/RISE trees, 2521 base RISE files, 87
+  overlay files and no link to production Data/Map.
+- FILES MODIFIED: `prepare_runtime_qa_client.ps1`,
+  `verify_runtime_qa_stage.py`, new server stack manifest/verifier/start/stop
+  tools, `GrowLancer/ISOLATED_SERVER_QA.md` and this state.
+- LAST STATIC CHECK: isolated server verifier PASSes four component hashes,
+  current GameServer equality and CashShop relative path. Client stage verifier
+  PASSes the exact 126-junction set and all hashes.
+- LAST BUILD RESULT: Ex603 Win32 GameServer PASS, SHA-256
+  `EE447339687920A5504DCEF52B7593A2CE7AFE683ED97D1CFE988CBC8EECD390`;
+  PC x86 staged client remains
+  `70EDA3EE7DA22F07F059818F62E187D9ECD2C4C51D258FF33584E5B40A518FE4`.
+- LAST RUNTIME QA: Slayer GameServer was restarted at 10:34 and reached title
+  `Sub-1: 0`. After the client isolation repair, the exact Grow Lancer client
+  was relaunched as PID 3368; login, movement and Breche have not yet been
+  observed in this process.
+- KNOWN DIFFERENCES: current live ports still belong to the Slayer stack; the
+  prepared Grow Lancer stack has deliberately not been launched concurrently.
+- MISSING CHAIN PARTS: PID3368 movement and corrected Breche pixels; later run
+  the dedicated Grow Lancer stack when foreign ports are free.
+- BLOCKER: no static/build blocker. Owner interaction is needed only for the
+  visible login/cast step; offline reverse work continues independently.
+- NEXT EXACT ACTION: observe PID3368 reaching gameplay, confirm movement, then
+  select Breche/target and press F7 once for direction/motion comparison.
+- NEXT FILE TO OPEN: `RuntimeQA/Client/GrowLancerRuntimeQA.log` filtered to
+  PID3368.
+- NEXT FUNCTION TO IMPLEMENT: only the next mismatch proven by the corrected
+  Breche frame sequence.
+
+### 2026-09-15 — Breche owner direction, tick motion and AD9 renderer rebuilt
+
+- CURRENT PHASE: isolated Breche visual correction; nine-skill acceptance is
+  still `IN_PROCESS`.
+- CURRENT TASK: correct the owner-side ring direction and the visibly frozen
+  owner layers reported in the current 5.2 QA screenshot.
+- COMPLETED THIS RUN: compared the reported frame with the saved S21 native
+  sequence. The S21 200-unit forward offset remains intentional; the F7 QA
+  shortcut was missing ReceiveMagic's source-to-target facing update, so the
+  controller rotated that offset using a stale movement angle. F7 now calls
+  native `CreateAngle2D(caster.Position, target.Position)` before creating the
+  owner controller. The production receive path is unchanged.
+- REVERSE EVIDENCE: dump branches now pinned by
+  `verify_breche_owner_primary_dump_contract.py`: `0x80BC/sub1` at
+  `0x1518760` divides scale and RGB by 1.1; `0x81EB/sub0` at `0x15385D2`
+  rotates +15 degrees with a symmetric 20-tick alpha envelope; `0xAD9/sub6`
+  at `0x151D307` rotates -50 degrees, subtracts 0.01 alpha and compounds RGB
+  by alpha. These behaviors replace the three static 5.2 carrier branches.
+- REVERSE EVIDENCE: S21 render dispatch `0x15A136D -> 0x15AD77D` routes
+  `0xAD9` through generic wrapper `0x176D621`, then transform `0x1886382`
+  and body renderer `0x1887B8B`. Its default call at `0x1887E5E` uses
+  `RENDER_TEXTURE` (2), the full carrier blend tuple and texture -1. The old
+  5.2 mesh-zero bright pass was therefore not native and has been removed.
+- FILES MODIFIED: `GrowLancerEffectRuntime.cpp`, `GrowLancerRuntimeQA.cpp`,
+  both focused Breche owner verifiers, runtime stage hash verifier, this state
+  file, `GrowLancer/RUNTIME_QA.md` and `GrowLancer/BRECHE_REVERSE.md`.
+- LAST STATIC CHECK: both focused owner verifiers PASS, including the pinned
+  AD9 generic RenderBody chain; merged action clips
+  source185..194 -> native284..293 PASS; frozen runtime stage PASS; 33/33
+  explicit offline harnesses PASS.
+- LAST BUILD RESULT: isolated x86 `Global Release|Win32` PASS; only existing
+  cryptlib missing-PDB warnings. Built and staged Engine SHA-256 is
+  `70EDA3EE7DA22F07F059818F62E187D9ECD2C4C51D258FF33584E5B40A518FE4`.
+- LAST RUNTIME QA: the earlier frame is an owner-observed FAIL for direction
+  and motion. The currently open Grow Lancer client is connected to
+  `GameServer-Slayer-S21-QA5.exe`, whose UI reports the relative CashShop file
+  error; movement/cast evidence from that broken foreign stack is invalid.
+  The corrected Bin has not yet been accepted in pixels.
+- KNOWN DIFFERENCES: the local QA still uses DK as the temporary actor and
+  creates target contact locally; neither is server-authoritative acceptance.
+- MISSING CHAIN PARTS: one clean rebuilt Breche F7 frame sequence, camera
+  rotation check and repeated-cast pool cleanup; remaining skill/class/server
+  gates stay open.
+- BLOCKER: the separate Slayer QA GameServer was launched with a working
+  directory that does not resolve its existing `..\Data\CashShop` file. The
+  exact issue was sent to task `Engine-Port S21_Slayer`; no Slayer source or
+  stage was modified here.
+- NEXT EXACT ACTION: launch the now-staged corrected Grow Lancer client only
+  after a healthy isolated GameServer is available; select the target and cast
+  Breche once and compare direction plus ring/wind motion against the saved
+  S21 native sequence.
+- NEXT FILE TO OPEN: `ExMain_RISE_PC/Tests/GrowLancerBuild/RuntimeQA/Client/GrowLancerRuntimeQA.log`.
+- NEXT FUNCTION TO IMPLEMENT: only the next discrepancy proven by that rebuilt
+  frame sequence; do not compensate by centering all S21 layers.
+
+### 2026-09-15 — Runtime QA detached from the live class/item client
+
+- CURRENT PHASE: isolated Breche runtime diagnosis; nine-skill acceptance is
+  still `IN_PROCESS`.
+- CURRENT TASK: obtain one clean Breche F7 cast without consuming mutable Data
+  from another active class/item task.
+- COMPLETED THIS RUN: proved the live `D:\RISE-CrossPlatform\Client\Engine.exe`
+  SHA-256 is `9C256A2935AE39AAFFA4B583CC01060CC59FB1ABB84915410C4E388AA299A36B`,
+  byte-identical to the supplied `Rise-S21-Client-Patch.zip` Engine. The old QA
+  stage still had 127 Data junctions into that changing client and crashed with
+  C++ exception `0xE06D7363`; the owner also observed incompatible Item/Mix
+  loader errors.
+- COMPLETED THIS RUN: changed runtime staging and verification to use the
+  versioned `Client/Data` snapshot inside this Grow Lancer worktree. The 126
+  non-Player/non-RISE junctions now resolve only into that frozen snapshot;
+  Player and RISE remain private physical directories with the Grow Lancer
+  overlay. No file in the live client or the class/item task was changed.
+- LAST STATIC CHECK: runtime stage verifier PASSes 13 current skill assets,
+  2521 base RISE files, 87 private overlay files, 3 root Data files, 126 frozen
+  junction targets, Engine hash and merged Player hash/CRC. Appended action
+  verifier PASSes all source185..194 -> native284..293 payload hashes.
+- LAST RUNTIME QA: isolated `Engine-Port S21 [Grow Lancer QA]` PID 2212 reached
+  its message loop, remained alive and responsive after 15 seconds. Startup is
+  recovered; login/gameplay and the new Breche boundary events are not yet
+  observed.
+- FILES MODIFIED: `tools/grow_lancer/prepare_runtime_qa_client.ps1`,
+  `tools/grow_lancer/prepare_isolated_client.ps1`,
+  `tools/grow_lancer/verify_runtime_qa_stage.py`,
+  `tools/grow_lancer/verify_staged_action_clips.py`, this state file and
+  `GrowLancer/RUNTIME_QA.md`.
+- BLOCKER: none for startup/build. One owner login plus one Breche F7 cast in
+  PID 2212 is required for the live owner-action/effect evidence.
+- NEXT EXACT ACTION: select the `Engine-Port S21 [Grow Lancer QA]` window,
+  login, select Breche, press F7 once, then inspect `breche-action-boundary`,
+  `breche-action-step` and `breche-owner-resource-gate` rows.
+- NEXT FILE TO OPEN: `ExMain_RISE_PC/Tests/GrowLancerBuild/RuntimeQA/Client/GrowLancerRuntimeQA.log`.
+- NEXT FUNCTION TO IMPLEMENT: only the exact action/effect correction identified
+  by that fresh trace; do not alter the live class/item client.
+
+### 2026-09-15 — Breche stop-boundary trace rebuilt and staged
+
+- CURRENT PHASE: isolated Breche runtime diagnosis; no acceptance claim yet.
+- CURRENT TASK: identify the first native boundary that changes owner action
+  289 before the caster's first visible frame.
+- COMPLETED THIS RUN: added QA-only `breche-action-boundary` telemetry around
+  `PlayerStopAnimationSetting`, preserving the production action/renderer path.
+  The event records `before`, `after`, `play`, frame, skill and attack time.
+- LAST BUILD RESULT: isolated x86 `Global Release|Win32` build PASS (MSBuild
+  exit 0); RuntimeQA Engine SHA is
+  `8F1F2EC5362D24229C9FDC06C749D8B22D972E50A96A2EC5BFF2E2BDAF615D6A`.
+- LAST STATIC CHECK: runtime-QA staging PASS; private Player/RISE roots and
+  127 source junctions verified. Offline native allowlist remains 33/33 PASS.
+- REVERSE EVIDENCE: the prior log proves action 289 was dispatched but shows
+  action 15 at the first render sample. The new build can distinguish a native
+  animation-stop result from an external action transition on the next light
+  F7 cast; no new cast row exists yet.
+- MISSING CHAIN PARTS: owner first-frame visual result, exact action reset
+  caller, target/contact comparison and pool retirement under repeated casts.
+- BLOCKER: none for code/build; one light isolated QA cast is required to read
+  the new boundary event. The client stays stopped to avoid machine load.
+- NEXT EXACT ACTION: run one F7 Breche cast in the staged
+  `Engine-Port S21 [Grow Lancer QA]` client, then inspect
+  `RuntimeQA\\Client\\GrowLancerRuntimeQA.log` for `breche-action-step` and
+  `breche-action-boundary` rows before changing behavior.
+
+### 2026-09-15 — Post-cast checkpoint; Breche action-boundary trace staged
+
+- CURRENT PHASE: isolated reverse and contract hardening; gameplay/server/class
+  gates remain `IN_PROCESS`.
+- CURRENT TASK: preserve the exact S21 owner/target split while keeping the
+  isolated 5.2 Breche owner path observable and fail-closed.
+- CURRENT SUBTASK: correlate the owner action 289 lifecycle with a light 5.2
+  QA cast; the reported cast was in the separate S21 reference window.
+- COMPLETED THIS RUN: the owner confirmed another direct cast in the separate
+  S21 reference client. The current S21 GFx log still contains only startup,
+  inventory and input rows; no machine-readable cast/effect/frame artifact was
+  produced, so this acknowledgement is not promoted to 5.2 visual parity.
+- COMPLETED THIS RUN: rebuilt x86 `Global Release|Win32` RuntimeQA after adding
+  QA-only Breche owner action-step tracing at the native animation boundary.
+  Build/link
+  exited `0`; no production executable was touched.
+- LAST BUILD RESULT: isolated `Engine-Port S21.exe` SHA-256
+  `8F1F2EC5362D24229C9FDC06C749D8B22D972E50A96A2EC5BFF2E2BDAF615D6A`.
+  Existing cryptlib missing-PDB LNK4099 warnings only.
+- LAST STATIC CHECK: `prepare_runtime_qa_client.ps1`,
+  `verify_runtime_qa_stage.py`, `verify_project_integration.py` and
+  `git diff --check` PASS. Stage contains base RISE 2658 files, private
+  Grow Lancer overlay 87 files, root Data 3 files and 127 source junctions.
+- LAST STATIC CHECK: `python -m compileall -q tools/grow_lancer` and
+  `git diff --check` PASS. The stage verifier accepts the rebuilt executable
+  and private Player/RISE roots.
+- LAST STATIC CHECK: reran the explicit 33-entry native helper allowlist after
+  the telemetry build; every harness exited `0`. No Engine, RiseQA or
+  GameServer process was launched by the harness run.
+- LAST STATIC CHECK: reran the same 33-entry allowlist after staging the
+  action-boundary trace; result remains `33/33 PASS` with no client/server
+  process launched by the harness.
+- LAST STATIC CHECK: added and ran
+  `verify_breche_owner_resource_gate_qa.py`; it PASSes the QA-only skill279
+  scope, pre-allocation resource breadcrumb, post-allocation controller
+  breadcrumb and owner/target separation.
+- LAST STATIC CHECK: `verify_target_skill_render_qa.py` rerun after the
+  telemetry addition; Clash/Breche visibility-to-native-submission records
+  remain bounded and diagnostic-only.
+- REVERSE EVIDENCE: the new QA-only event is
+  `breche-owner-resource-gate ready=<0|1> controllerCreated=<0|1> target=<n>`;
+  it is diagnostic only and does not alter production render behavior. No
+  owner-gate row has been observed from an isolated 5.2 cast yet.
+- REVERSE EVIDENCE: the additional QA-only
+  `breche-action-step action=289 ... keys=<n> speed=<v> play=<0|1>` event is
+  emitted after the native `PlayAnimationStep`; the imported-action stop
+  boundary records the same event with `play=0` immediately before the stock
+  `SetPlayerStop`. It is diagnostic only and does not suppress the stop.
+- CHAIN COVERAGE: S21 Breche owner action/sound, 5FD controller, five receive
+  children, owner timed layers, native resource gate and render routing are
+  statically wired; player pixels, contact timing and pool retirement remain
+  unaccepted.
+- ASSET PROVENANCE: staged Breche BMD/OZJ and sound files remain hash-pinned in
+  the private `Client\Data\RISE\GrowLancer` overlay; no S21 source asset was
+  overwritten.
+- FILES MODIFIED: isolated RuntimeQA telemetry, stage verifier hash, state and
+  acceptance matrix only in this checkpoint; no protected source/client was
+  changed.
+- KNOWN DIFFERENCES: S21 owner pixels and full GameServer authority are still
+  unavailable; the current cast produced no machine-readable effect evidence.
+- MISSING CHAIN PARTS: owner visual parity, target/contact comparison, real
+  effect-pool reuse/cleanup and Grow Lancer class ABI/create-login-persistence.
+- LAST RUNTIME QA: the owner S21 cast was acknowledged but remains
+  reference-only; no isolated 5.2 client was relaunched automatically.
+- BLOCKER: none for static/build/staging; owner visual parity, pool cleanup,
+  Grow Lancer class ABI/create-login-persistence, and authoritative
+  GameServer learning/cast/damage remain open.
+- NEXT EXACT ACTION: when a light QA cast is available, use the exact
+  `Engine-Port S21 [Grow Lancer QA]` window and read the new action-step plus
+  owner-gate breadcrumbs; if `play=0` is observed on the first step, isolate
+  the stock stop path before changing animation behavior.
+- NEXT FILE TO OPEN: `ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerRuntimeQA.cpp`
+  and the staged `GrowLancerRuntimeQA.log`.
+- NEXT FUNCTION TO IMPLEMENT: none until the action-step trace identifies
+  whether the first frame exits through `PlayerStopAnimationSetting` or an
+  external `SetAction` caller.
+
+### 2026-09-15 — Owner cast acknowledged; SS6 class-consumer audit added
+
+- CURRENT PHASE: isolated reverse and contract hardening; gameplay/server/class
+  gates remain `IN_PROCESS`.
+- COMPLETED THIS RUN: the owner confirmed another direct cast in the separate
+  S21 process. The reference client restarted as PID 1372 and was responsive
+  during inspection; it has since exited normally. The current
+  `S21_GFx_Runtime.log` contains only GFx/inventory startup/input rows (no
+  skill/cast/effect event or frame manifest).
+- REVERSE EVIDENCE: no new machine-readable S21 cast evidence is promoted;
+  pinned `breche_owner_recast_20260915_b` remains the reference capture.
+- COMPLETED THIS RUN: added `GrowLancer/CLASS_CONSUMER_CAPACITY_AUDIT.md` and
+  `tools/grow_lancer/verify_class_consumer_capacity.py`. The read-only audit
+  covers client/server `MAX_CLASS` arrays, class encoding, create/login,
+  body/skin, item/skill requirements, and per-class rate matrices.
+- LAST STATIC CHECK: class-consumer audit verifier PASS; Python compile and
+  `git diff --check` PASS. It confirms SS6 remains `MAX_CLASS == 7` with no
+  native `CLASS_GL`/`DB_CLASS_GL` activation token.
+- LAST STATIC CHECK: nine-skill descriptor, client/server catalog split, and
+  project-integration verifiers PASS. These prove descriptor/project wiring
+  only; they do not close runtime visual or server-authority gates.
+- COMPLETED THIS RUN: the explicit offline harness allowlist completed 33/33
+  executables with exit `0` (particle, tick, model, renderer, timing,
+  lifecycle and per-skill helpers). The script excludes Engine, RiseQA and
+  GameServer, so this remains helper evidence rather than ingame acceptance.
+- COMPLETED THIS RUN: the per-skill static verifier set completed 62/62 after
+  rerunning the previously slow `verify_wrath_logical_detour.py` alone; its
+  full 1.4 GB dump/IGC path now returns PASS. The separate
+  `verify_breche_root_contract.py` full-dump hash also returns PASS, proving
+  the 0x5FD root remains lifecycle-only with the five child visual chain.
+- COMPLETED THIS RUN: read-only comparison of the local `MuServer52` skill
+  files found that only legacy `Skill.txt` has numeric rows 271..279; its
+  header has `DW..RF` only, while `Skill_eng.txt`/`Skill_chs.txt` have no
+  271..279 rows and `SkillDamage.txt` is a 131-byte stub. This is documented
+  in `GrowLancer/CLIENT_SERVER_CATALOG_DIFF.md`; no legacy file was copied.
+- LAST STATIC CHECK: `verify_legacy_skill_source_gap.py` PASS; all five pinned
+  legacy files match their SHA-256 hashes and the stated row/header gap.
+- LAST STATIC CHECK: `verify_s21_server_binary_boundary.py` PASS; the protected
+  S21 GameServer hash is unchanged, its only export is `OPENSSL_Applink`, and
+  no named Grow Lancer skill string is present. Numeric refs remain leads only.
+- LAST STATIC CHECK: `verify_server_dispatch_guard.py`,
+  `verify_damage_route_boundary.py` and `verify_missing_learn_sources.py`
+  PASS. All nine skill IDs remain fail-closed before actor mutation/cooldown;
+  no S21 handler or learn source was inferred from numeric coincidences.
+- LAST STATIC CHECK: isolated `GrowLancerMemScriptColumnsTest.exe` passed both
+  `legacy_class_columns.txt` and `legacy_full_skill_rows.txt full-skill`;
+  `GrowLancerServerContractTest.exe` also passed. These validate the real
+  `CMemScript` column/EOF fixtures and exact catalog/formula guards only; they
+  do not enable Grow Lancer class or authoritative runtime dispatch.
+- LAST BUILD RESULT: x86 `Global Release|Win32` RuntimeQA build completed with
+  MSBuild exit 0 into the isolated `Tests\GrowLancerBuild\RuntimeQA\Bin`.
+  New `Engine-Port S21.exe` SHA-256 is
+  `8F1F2EC5362D24229C9FDC06C749D8B22D972E50A96A2EC5BFF2E2BDAF615D6A`.
+  Link emitted only the existing cryptlib missing-PDB LNK4099 warnings.
+- LAST STATIC CHECK: after staging the rebuilt binary,
+  `verify_runtime_qa_stage.py` PASS (base RISE 2658 files, Grow Lancer overlay
+  87 files, root Data 3 files, private Player/RISE roots and merged-player CRC).
+- COMPLETED THIS RUN: added the read-only S21 class-data evidence
+  `GrowLancer/S21_GROW_LANCER_CLASS_DATA.md` and verifier
+  `tools/grow_lancer/verify_s21_grow_lancer_class_data.py`. It hash-pins
+  `CalcCharacter.ini`, `StatSpecialize.xml` and both ClassQuest files; exact
+  GL level/stat points, max attack speed 273, SD split 90, success rate 20000,
+  shield constants 12/30, PvM rate 555, and class-8 strength/agility options
+  all PASS. These are data leads only and do not activate SS6 class 8.
+- LAST RUNTIME QA: no 5.2 client launched and no client/server deployment.
+- BLOCKER: none for static audit; visual parity, class activation, and
+  authoritative GameServer behavior remain open.
+- NEXT EXACT ACTION: continue mapping the nine-skill client/server contracts;
+  only request another light isolated cast when a missing runtime gate needs
+  owner evidence.
+
+### 2026-09-15 — Latest owner S21 cast acknowledged (no new telemetry)
+
+- CURRENT PHASE: isolated reverse and contract hardening; gameplay/server gates
+  remain `IN_PROCESS`.
+- COMPLETED THIS RUN: the owner confirmed another direct cast in the separate
+  `Interface_Engine_S21.exe` reference process (PID 28480). The process stayed
+  alive, but its existing GFx/session logs emit no skill/cast/effect event and
+  no new frame/manifest was written into the isolated artifact tree.
+- REVERSE EVIDENCE: the pinned `breche_owner_recast_20260915_b` capture remains
+  the only machine-readable S21 owner/target separation evidence; the current
+  acknowledgement is not promoted to a 5.2 parity row.
+- LAST STATIC CHECK: Breche dispatch-table, owner-primary-dump, owner-adapter
+  and pinned-reference verifiers PASS. The large dump-root verifier is kept
+  out of the quick pass because it hashes the ~1.4 GB memory image.
+- COMPLETED THIS RUN: reran the remaining 17 Breche-specific dispatch,
+  emitter, particle, renderer, timing, retirement and provenance verifiers;
+  all 17 exit `0`. This closes no gameplay pixel or pool gate.
+- COMPLETED THIS RUN: added `GrowLancer/NEWER_SOURCE_CLASS_REFERENCE.md` and
+  `tools/grow_lancer/verify_newer_class_reference.py`. Eight read-only newer
+  source files are SHA-pinned; the verifier confirms their GL=7/DB112..115
+  leads while proving SS6 still has `MAX_CLASS=7` and no `CLASS_GL` symbol.
+  No newer source was copied into this worktree.
+- COMPLETED THIS RUN: reran the class boundary, native encoding, body-dispatch,
+  body-submit, skin-boundary and table-migration verifiers; each passed while
+  keeping class activation fail-closed.
+- LAST RUNTIME QA: no private 5.2 client was launched; no production or S21
+  client was modified.
+- BLOCKER: none for static reverse; owner pixels, pool cleanup, class
+  activation and authoritative GameServer behavior remain open.
+- NEXT EXACT ACTION: continue static owner/child and class-contract checks;
+  request a light-weight isolated 5.2 cast only when gameplay evidence is
+  needed, rather than relaunching the heavy client automatically.
+
+### 2026-09-15 — Direct S21 GameServer data boundary revalidated
+
+- CURRENT PHASE: isolated reverse and contract hardening; gameplay/server gates
+  remain `IN_PROCESS`.
+- CURRENT TASK: preserve exact S21 skill/catalog evidence while refusing to
+  guess a handler or Grow Lancer class ABI from the protected server binary.
+- COMPLETED THIS RUN: added and ran
+  `tools/grow_lancer/verify_s21_server_tree.py`. It pins twelve files from
+  `D:\GameServer S21\Data`, rechecks rows 271..279, Circle Shield settings
+  `10/30/20`, and the Wind Soul five-barrage master formula; the supplied
+  `GameServer` directory has no source/PDB/MAP/project dump. Its protected
+  `IGC.GameServer2_R.exe` SHA-256 is
+  `134BAEBF654D103B3FD65F8262CB20D2AEC5969B3C09C68E26A87F6547F77D74`.
+- LAST STATIC CHECK: verifier PASS; `verify_server_contracts.py`,
+  `verify_s21_itemlist_scroll_mapping.py`, `verify_catalog_profiles.py`,
+  `verify_nine_skill_descriptor_contract.py`, `verify_class_source_profiles.py`,
+  `verify_s21_class_damage_rates.py` and `verify_project_integration.py` PASS.
+- FILES MODIFIED: `tools/grow_lancer/verify_s21_server_tree.py`,
+  `GrowLancer/SERVER_RULES_REVERSE.md`, `GrowLancer/ACCEPTANCE_GATE_MATRIX.md`
+  `GrowLancer/grow_lancer_skills_descriptor.json` and this state file only;
+  no S21/GameServer binary was written.
+- LAST BUILD RESULT: unchanged isolated RuntimeQA x86 PASS, Engine SHA
+  `5012C22D95757A390C11F9F7675B964577E43EED20A772BAB7E23CBC5E39521F`.
+- LAST RUNTIME QA: current S21 reference process is separate; no new
+  machine-readable cast artifact was produced, and the stopped 5.2 QA PID
+  had no cast row. No visual parity is promoted.
+- BLOCKER: none for data/static work; live server authority, class activation,
+  and owner visual acceptance remain open.
+- NEXT EXACT ACTION: continue dump-backed owner/child tracing and keep the
+  private RuntimeQA client stopped until an explicit light-weight QA cast is
+  needed.
+- NEXT FILE TO OPEN: `GrowLancer/SERVER_RULES_REVERSE.md`, then
+  `ExGameServer/GameServer/SkillManager.cpp` around the fail-closed 271..281
+  dispatch guard.
+- NEXT FUNCTION TO IMPLEMENT: none until a matching S21 GameServer handler or
+  an explicitly approved class/authority contract is available.
+
+### 2026-09-15 — Breche owner/target separation and owner producer pinned
+
+- CURRENT PHASE: isolated S21 reverse / owner-side visual producer trace.
+- CURRENT TASK: Breche (`279`) caster vortex must remain separate from the
+  receive-side target contact columns.
+- CURRENT SUBTASK: preserve the proven owner-side `0x1535478` producer and
+  compare its private `wind_foce`/terrain layers in 5.2; do not replay the
+  target root on the caster.
+- COMPLETED THIS RUN: captured and reviewed
+  `artifacts/runtime_qa/s21_reference/breche_owner_recast_20260915_b`;
+  frame `frame_00042.jpg` visibly separates a large red/orange caster vortex
+  from upright white/orange target columns. Pinned normalized skill `0x117`
+  at `0x1424B34` (`0x14259F9..0x1425A03`) -> `0x142B21D`: owner object,
+  `0x5FD`, subtype `0`, scale `10.0f`, object position and owner pointer.
+  Confirmed this is not the receive branch `0x12CB7F5` -> `0x5FD` subtype `1`
+  with five target children. Corrected the asset lead: `bursta*.bmd`/the
+  `0x5ED` chain is normalized skill `700` Burst, not Breche `279`.
+  Also rebuilt the isolated RuntimeQA client with a QA-only skip for the
+  legacy working-set trim, staged the private client, and reran the project,
+  descriptor and runtime-stage verifiers.
+- REVERSE EVIDENCE: owner `0x5FD` producer and handler `0x1535478` are now
+  authoritative static evidence. The pinned full dump resolves model key
+  `0x5FD` to zero bones/meshes/actions, and constructor subtype `0` sets
+  lifetime only; the owner update emits the proven particle/pin/timed/wind
+  records. Receive subtype `1` remains the target-owned five-child tree in
+  `BRECHE_CHILDREN_REVERSE.md`.
+- CHAIN COVERAGE: local action `190` + sound `1119` PASS; owner control
+  allocation and owner producer/layer calls PASS; target root/children/update/
+  render/pool path wired. Exact owner timing, random placement, asset blend
+  state and matched-frame parity remain OPEN.
+- ASSET PROVENANCE: unchanged for Breche target children and sound. No root
+  BMD, `bursta*.bmd`, `Fire_Blood` or `Damage_ring_2` was guessed or staged
+  for the owner layer.
+- FILES MODIFIED: QA-only `Winmain.cpp`/caption and stage tooling, project QA
+  PDB output, plus this state file; no protected S21/client/production
+  worktree was modified.
+- LAST STATIC CHECK: project integration, nine-skill descriptor and complete
+  runtime-stage verifiers PASS (13 current assets, 2658 base RISE, 87 private
+  overlay, 3 root Data files, 127 junctions).
+- LAST BUILD RESULT: isolated RuntimeQA x86 build PASS with existing
+  third-party cryptlib LNK4099 warnings; current Engine SHA-256 is
+  `5012C22D95757A390C11F9F7675B964577E43EED20A772BAB7E23CBC5E39521F`.
+- LAST RUNTIME QA: S21 reference cast remains 134 frames/20.054 s with owner
+  vortex separated from target columns. Fresh 5.2 PID `6212` reached the
+  message loop and initially responded, then became idle `Responding=False`
+  before any cast record; it was stopped by exact isolated path.
+- KNOWN DIFFERENCES: current 5.2 QA intentionally renders target contact
+  only; caster-side pixel parity is not complete. Build/static PASS is not
+  owner visual acceptance.
+- MISSING CHAIN PARTS: owner ring draw caller/resource/attachment, exact
+  owner lifetime and cleanup parity, S21<->5.2 matched-frame comparison,
+  server-authoritative damage and full regression gate.
+- BLOCKER: none. Static producer trace is closed; continue only with the
+  isolated 5.2 owner visual comparison and cleanup/pool evidence.
+- NEXT EXACT ACTION: when the machine is available, run one light-weight
+  isolated QA Breche cast and capture owner/target/pool rows; do not relaunch
+  the heavy client automatically.
+- NEXT FILE TO OPEN: `GrowLancer/BRECHE_REVERSE.md`, generated disassembly
+  for `0x1424B34`/`0x142B21D`/`0x1574472`, then the owner-render callers.
+- NEXT FUNCTION TO IMPLEMENT: none until the owner draw producer and asset
+  are proven; keep `CreateBrecheHit` target-only.
+
+### 2026-09-14 — Breche player-side render telemetry staged
+
+- CURRENT PHASE: isolated client render diagnosis / owner QA pending.
+- CURRENT TASK: Breche (`279`) has contact children, but the owner reports no
+  visual at the casting player during the cast.
+- CURRENT SUBTASK: observe the real `RenderCharacter` action/body boundary
+  before adding any unproven caster root or duplicating target children.
+- COMPLETED THIS RUN: added QA-only, owner-local telemetry after
+  `Calc_ObjectAnimation` and after the native player body loop. It records
+  action/frame, alpha/visibility, body model type and mesh/bone/action counts;
+  it does not create effects or alter the production renderer. Added a bounded
+  reset per F7 cast and staged the rebuilt RuntimeQA executable.
+- REVERSE EVIDENCE: S21 local Breche dispatch proves action 190 + sound 1119;
+  the base local branch has no standalone `CreateEffect` root. S21 receive
+  creates the 0x5FD/root and five children on the resolved secondary actor.
+  The large player-centered red vortex in the S21 reference is therefore not
+  enough, by itself, to justify attaching those target children to the caster.
+  The old red/clipping path is an item-index body renderer and is explicitly
+  retracted from the Breche attribution until the recipient equipment is
+  proven.
+- CHAIN COVERAGE: action setter and native receive-state mirror PASS;
+  target root/children/render/pool path remains wired; player render boundary
+  telemetry now present. Player-side Breche visual parity remains OPEN.
+- ASSET PROVENANCE: unchanged; no new asset or guessed resource ID added.
+- FILES MODIFIED: `ExMain_RISE_PC/Main5.2_RISE/ZzzCharacter.cpp`,
+  `ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerRuntimeQA.h`,
+  `ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerRuntimeQA.cpp`,
+  `tools/grow_lancer/verify_runtime_qa_stage.py`.
+- LAST STATIC CHECK: `verify_runtime_qa_stage.py` PASS (2658 base RISE,
+  79 private overlay, 13 current assets, 3 root Data files, merged Player
+  hash/CRC and private-directory checks).
+- LAST BUILD RESULT: isolated Global Release/Win32 RuntimeQA build PASS;
+  staged Engine SHA-256
+  `8668B96019A54809595D403420399E37EC5E8A399B7E1DD618E68D9FF0323510`.
+- LAST RUNTIME QA: fresh isolated `Engine-Port S21.exe` launched PID 10376;
+  login and owner F7 cast are not yet verified. The previous open `main`
+  process was the S21 reference client.
+- KNOWN DIFFERENCES: temporary QA actor remains Dark Knight; ordinary DK armor
+  cannot prove Grow Lancer equipment/red-pass parity. Final native Grow Lancer
+  class and server authority are still separate acceptance gates.
+- MISSING CHAIN PARTS: exact player-centered Breche visual producer/recipient
+  equipment, matched action-frame pixel comparison, server-authoritative cast/
+  damage and full cleanup/regression acceptance.
+- BLOCKER: owner must login in PID 10376, select one live target, press F7 once,
+  then report the visible result; telemetry will distinguish action/body gating
+  from a missing skill visual layer.
+- NEXT EXACT ACTION: read the new `breche-caster-render` records, then trace or
+  implement only the proven producer path.
+- NEXT FILE TO OPEN: `ExMain_RISE_PC/Tests/GrowLancerBuild/RuntimeQA/Client/`
+  `GrowLancerRuntimeQA.log`.
+- NEXT FUNCTION TO IMPLEMENT: none until the fresh owner telemetry identifies
+  the failing render boundary.
+
+### 2026-09-14 — Breche caster action lifecycle correction
+
+- CURRENT PHASE: isolated client render correction / owner QA pending.
+- CURRENT TASK: Breche (`279`) cast-side presentation in the QA fixture.
+- CURRENT SUBTASK: make the local F7 path follow the recovered S21 action
+  setter and the native `ReceiveMagic` caster state before comparing pixels.
+- COMPLETED THIS RUN: `CreateBrecheAction` now uses native `SetAction(289,
+  true)`, preserving the outgoing action/frame for the appended S21 clip.
+  The QA-only F7 path now arms `Skill=279`, selected `TargetCharacter`,
+  `SkillSuccess`, `AttackFlag`, target coordinates and `AttackTime=1`, then
+  records `breche-caster-action-armed`.
+- REVERSE EVIDENCE: S21 local dispatch calls the action setter with action 190
+  and sound 1119; S21 receive dispatch creates the 5FD root/five children on
+  the resolved secondary actor and sets source `AttackTime=1`. No standalone
+  caster effect root is proven for base 279, so no guessed duplicate root was
+  added.
+- CHAIN COVERAGE: action setter + native receive state mirrored for local QA;
+  target root/children/render/pool path remains wired. Caster body/equipment
+  pixel parity is still open.
+- ASSET PROVENANCE: unchanged; only existing hash-pinned Breche sound and
+  target child assets are used.
+- FILES MODIFIED: `RISE/GrowLancerEffectRuntime.cpp`,
+  `RISE/GrowLancerRuntimeQA.cpp`, `tools/grow_lancer/verify_runtime_qa_stage.py`.
+- LAST STATIC CHECK: runtime stage, Breche receive/render wiring, staged action
+  clips and native animation baseline all PASS.
+- LAST BUILD RESULT: isolated Global Release/x86 build PASS; new RuntimeQA
+  Engine SHA-256 `034595DDC80DD47251BAC3A80ED5BC0E7F4CE174DA632D4CD22B74138D757234`.
+- LAST RUNTIME QA: new binary is staged; no owner pixel re-test has run yet.
+- KNOWN DIFFERENCES: target effect is intentionally target-owned per S21; the
+  recovered S21 body/equipment visual path is not asserted from a DK substitute.
+- MISSING CHAIN PARTS: caster-side body/equipment pixel parity and S21 matched
+  frame comparison; server-authoritative damage/target behavior remain separate.
+- BLOCKER: owner must relaunch the staged isolated client and press F7 with a
+  selected target to confirm whether the corrected action is now visible.
+- NEXT EXACT ACTION: launch RuntimeQA, select one target, cast Breche once,
+  capture the first action frames and compare against the S21 reference.
+- NEXT FILE TO OPEN: `ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerRuntimeQA.cpp`.
+- NEXT FUNCTION TO IMPLEMENT: only if the owner capture still shows no cast-side
+  presentation, trace the proven player body/equipment render caller; do not
+  add an unproven caster effect root.
+
+### 2026-09-14 — Post-guard verifier sweep
+
+- COMPLETED THIS RUN: reran all 109 `verify_*.py` checks after the
+  Spin Step/Magic Pin guard and stage-hash update. 108 exited 0. The only
+  nonzero result is the pre-existing opt-in body GPU probe
+  (`verify_class_body_gpu_runtime.py`), which expects a separate
+  `event=body-shader enabled=1` capture and is unrelated to these two skills.
+- LAST STATIC CHECK: `verify_spin_renderer_binding.py`,
+  `verify_spin_selected_target_render_qa.py`, all eight Magic Pin verifiers,
+  and `verify_runtime_qa_stage.py` PASS.
+- LAST RUNTIME QA: isolated client PID 20852 remains running; its log has not
+  advanced past the previous capture, so no owner cast has been counted yet.
+- NEXT EXACT ACTION: retain the running client for owner test; after the first
+  cast, re-read the new PID's log and inspect `cast-rejected-action-busy` plus
+  the controller/child stage records.
+
+### 2026-09-14 — Busy-action guard staged for owner QA
+
+- COMPLETED THIS RUN: rebuilt and staged the isolated client with the
+  Spin Step/Magic Pin busy-action guard; `verify_runtime_qa_stage.py` now pins
+  the new executable hash and passes the full base-plus-private overlay check.
+- LAST STATIC CHECK: Spin and Magic Pin verifiers PASS; runtime stage verifier
+  PASS for 2658 base RISE files, 79 private overlay files, 13 current assets,
+  and the merged player CRC.
+- LAST BUILD RESULT: Global Release/x86 RuntimeQA build PASS; Engine SHA-256
+  `F47B15429BB395159A2D247652AAF6F33A0414FC649C8A3B0BAA7260EE69B554`.
+- LAST RUNTIME QA: new isolated `Engine-Port S21.exe` launched at PID 20852;
+  login/cast evidence is pending.
+- NEXT EXACT ACTION: after login, select a target, cast Spin Step once, wait
+  for its action to end, then cast again. Repeat for Magic Pin. A too-early
+  F7 must show the skill-specific wait notice and not reset the active chain.
+
+### 2026-09-14 — Spin Step/Magic Pin busy-action guard
+
+- COMPLETED THIS RUN: extended the QA-only fail-closed guard to Spin Step
+  (`271`) as well as Magic Pin (`274`). Recasting either skill while its
+  action is still running now shows a skill-specific notice and writes
+  `cast-rejected-action-busy`, instead of resetting the animation/controller
+  and losing the S21 frame-gated fanout window.
+- REVERSE EVIDENCE: the current Spin log has casts with only 0 gate samples
+  when F7 was pressed again before action 285 reached 4.7..6.5; Magic Pin
+  has the analogous 287 windows at 5.2/7.0/10.0. Successful casts reach the
+  native controller stages and selected-target render submissions.
+- LAST STATIC CHECK: Magic Pin and Spin renderer/selected-target verifiers
+  PASS; `git diff --check` has no whitespace errors (only Git's existing
+  LF/CRLF warnings on unrelated modified files).
+- LAST BUILD RESULT: isolated RuntimeQA Global Release/x86 build PASS (0
+  errors; pre-existing cryptlib LNK4099 warnings only). New Bin Engine SHA-256
+  is `F47B15429BB395159A2D247652AAF6F33A0414FC649C8A3B0BAA7260EE69B554`.
+- LAST RUNTIME QA: not owner-tested yet; PID 33244 still runs the older
+  staged client and prevents replacement. No production client was touched.
+- BLOCKER: close the old isolated QA client before staging this build.
+- NEXT EXACT ACTION: rerun `prepare_runtime_qa_client.ps1`, verify the new
+  hash, relaunch, then test one Spin Step and one Magic Pin cast per complete
+  action cycle. Confirm that a too-early second F7 shows the corresponding
+  notice and does not create a partial visual chain.
+
+### 2026-09-14 — Breche target guard and Magic Pin recast correction
+
+- COMPLETED THIS RUN: added QA-only fail-closed notices for targetless Breche
+  (`Breche: select a target before F7`) and for Magic Pin recast while action
+  287 is still active (`Magic Pin: wait for the current action to finish`).
+  The latter prevents a new controller from being created after the S21 frame
+  windows have already passed; native `SetAction` behavior is unchanged.
+- REVERSE EVIDENCE: current QA log shows Magic Pin casts with no first gate when
+  F7 was pressed at frames 6..11, while casts starting at frame 0 reached the
+  5.2/7.0/10.0 windows. Breche remains target-owned in S21 and its selected-
+  target capture already recorded all native child submissions.
+- LAST STATIC CHECK: `verify_target_skill_render_qa.py` PASS; `git diff --check`
+  clean for the edited QA source. Existing Magic Pin inspector remains OPEN
+  because its fixed-tick environment was not enabled in the old process.
+- LAST BUILD RESULT: isolated Global Release/x86 build PASS (0 errors; only
+  pre-existing cryptlib LNK4099 warnings). New Bin Engine SHA-256 is
+  `F3C6A483D64DB2B6FCC2B8BE5E5EA1451D673CD0B0357F34B84B0CDF25078496`.
+- LAST RUNTIME QA: old PID 33244 still owns the RuntimeQA client, so the new
+  binary cannot be staged over it (`glew32.dll` is locked). The new guard has
+  not yet been owner-tested.
+- BLOCKER: close the currently open isolated QA client before staging the new
+  binary; no production/client source is touched.
+- NEXT EXACT ACTION: after PID 33244 exits, rerun
+  `prepare_runtime_qa_client.ps1`, verify the new hash, relaunch QA, then test
+  one target-selected Breche and one Magic Pin cast per action cycle.
+
+### 2026-09-14 — QA auto-capture path rebuilt and restaged
+
+- COMPLETED THIS RUN: added an explicit `RISE_GL_AUTO_WRATH_QA=1` opt-in to
+  the isolated RuntimeQA build. After the owner is live it arms F12-equivalent
+  Wrath buff capture, removes it after 1.5 seconds, and writes the delayed F11
+  pool snapshot after 3.5 seconds; manual F12 remains unchanged.
+- LAST STATIC CHECK: `verify_wrath_buff_visual_qa.py`,
+  `verify_project_integration.py` and `git diff --check` pass.
+- LAST BUILD RESULT: Global Release/x86 RuntimeQA solution build passed with
+  only pre-existing cryptlib LNK4099 warnings; staged Engine SHA is
+  `53A72E47ACF05D8F8FBA2A7DBF3096243C9CD9940CDE19BA94C265E4F92C8ECC`.
+- LAST RUNTIME QA: isolated QA client `Engine-Port S21.exe` PID 33244 is in
+  gameplay (`Tien`, level 400). The current log contains Spin render telemetry
+  plus a targetless Spin rejection and a selected-target Breche capture on
+  target 11; no Wrath F12 pair or Clash record is present yet.
+- NEXT EXACT ACTION: use F11 after the Breche lifetime for pool/FPS evidence,
+  then capture Clash with the same selected target and use F12 once for the
+  Wrath owner-tail capture.
+- LAUNCH CONVENIENCE: `tools\grow_lancer\start_runtime_qa_client.ps1
+  -Launch -AutoWrath` scopes that environment flag to the child process and
+  leaves the parent environment unchanged.
+
+### 2026-09-14 — Breche selected-target native render capture
+
+- COMPLETED THIS RUN: the owner selected live target 11 and repeatedly cast
+  Breche in the isolated client. PID 33244 recorded `target-skill-render`
+  summaries at the 256-record bound; every recorded Breche stage returned
+  `result=1`, covering child types `10145..10149` and their native texture
+  submissions.
+- REVERSE/RUNTIME EVIDENCE: `breche-contact-qa-auto` confirms the QA cast used
+  the selected target, while positions and owner identity remain in the
+  native records. This closes the earlier targetless-test ambiguity only; it
+  does not infer screen pixels, S21 frame parity or server damage.
+- LAST STATIC CHECK: `verify_breche_receive_render_wiring.py`,
+  `verify_breche_dispatch_tables.py`, `verify_breche_root_contract.py` and
+  `inspect_target_skill_render_log.py` pass for the captured Breche batch.
+- LAST RUNTIME QA: visual child submissions are present; F11 lifetime/pool,
+  camera/target movement and screenshot comparison remain OPEN.
+- NEXT EXACT ACTION: press F11 after one Breche lifetime, then capture Clash
+  with the same selected target and inspect its bounded render records.
+
+### 2026-09-14 — Full static verifier sweep after descriptor update
+
+- COMPLETED THIS RUN: executed every `tools/grow_lancer/verify_*.py` script in
+  the package; all exited 0 with no assertion failure. This rechecks the nine
+  skill dispatch/resource contracts, server/catalog boundaries, class guards,
+  Wrath post-buff sequence, Breche/Clash render adapters and project/stage
+  integration together.
+- LAST STATIC CHECK: the sweep's `OPEN` messages remain intentional for live
+  pixels, cadence, server authority, class activation and cleanup; exit 0 only
+  means the individual static contracts did not regress.
+- LAST BUILD RESULT: unchanged staged RuntimeQA candidate
+  `53A72E47ACF05D8F8FBA2A7DBF3096243C9CD9940CDE19BA94C265E4F92C8ECC`.
+- NEXT EXACT ACTION: continue closing runtime/server/class gates; do not mark
+  any skill COMPLETE from this sweep alone.
+
+### 2026-09-14 — Runtime owner capture remains external
+
+- COMPLETED THIS RUN: attempted one isolated computer-use inspection and
+  confirmed no Engine/RuntimeQA/GameServer process is currently running. The
+  computer-use kernel could not initialize (`failed to write kernel assets`),
+  so no input or screenshot was fabricated.
+- LAST RUNTIME QA: current log still has no Wrath F12 on/off pair and no
+  bounded Breche/Clash target-render records.
+- BLOCKER: live owner pixels/cadence/blend/cleanup and target visual parity
+  require a real isolated client session; source/static evidence cannot close
+  these gates.
+- NEXT EXACT ACTION: when the isolated client is available, capture Wrath with
+  F12 on -> observe two fire dots then blue lightning -> F12 off -> wait ->
+  F11, then capture selected-target Breche and Clash. Keep `IN_PROCESS` until
+  those records are present.
+
+### 2026-09-14 — Wrath player-following tail revalidated from owner reminder
+
+- COMPLETED THIS RUN: revalidated the exact post-buff visual order requested by
+  the owner: two caster-owned `flare01` fire-dot sprites at bones 29/38,
+  followed by four blue `firehik_mono01..03` particles on those same bones.
+  The preceding `lighting_mega01..03` pair remains a separate null-owner
+  scatter layer and is not counted as the two player dots.
+- LAST STATIC CHECK: `verify_wrath_buff_visual_sequence.py`,
+  `verify_wrath_flare_native_adapter.py`, `verify_wrath_mono_native_adapter.py`
+  and `verify_wrath_buff_visual_qa.py` PASS. Native class algebra, S21
+  Circle/Clash no-scroll evidence, class source profiles, project integration
+  and RuntimeQA staging also PASS.
+- LAST BUILD RESULT: unchanged staged isolated RuntimeQA executable
+  `53A72E47ACF05D8F8FBA2A7DBF3096243C9CD9940CDE19BA94C265E4F92C8ECC`.
+- LAST RUNTIME QA: no current F12 owner sequence or post-removal F11 pair in
+  the log; live pixels, cadence, recurrence/removal and pool cleanup remain
+  OPEN. No visual PASS is inferred from static checks.
+- NEXT EXACT ACTION: continue source-backed closure of the nine-skill package;
+  when direct runtime input is required, use isolated QA F12 on/off and F11
+  capture for Wrath, then selected-target F7/F9 captures for Breche/Clash.
+
+### 2026-09-14 — Full offline regression rerun after Wrath reminder
+
+- COMPLETED THIS RUN: reran the explicit isolated offline allowlist; all 33
+  Grow Lancer harnesses exited 0, including the Wrath emission/particle,
+  mono retirement, Breche, Clash, Spin, Circle, Magic Pin, Obsidian, Shining
+  Peak and Harsh Strike fixtures.
+- LAST STATIC CHECK: no Engine, RuntimeQA client or GameServer was launched;
+  helper/lifecycle contracts remain PASS. This does not promote GPU pixels,
+  cadence, server authority or owner visual parity.
+- LAST BUILD RESULT: unchanged staged RuntimeQA candidate
+  `53A72E47ACF05D8F8FBA2A7DBF3096243C9CD9940CDE19BA94C265E4F92C8ECC`.
+- BLOCKER: current log still lacks the owner F12-on/off sequence and target
+  Breche/Clash render records, so the visual acceptance gate remains OPEN.
+
+### 2026-09-14 — Wrath post-buff tail added to the skill descriptor
+
+- COMPLETED THIS RUN: extended the standalone descriptor for skill 278 with a
+  `persistent_buff_post_tail` layer. It records the recovered two owner-bound
+  `flare01` fire dots (bones 29/38) before the four owner-bound blue mono
+  particles, and explicitly keeps the preceding two `lighting_mega` records
+  as a separate null-owner scatter layer.
+- LAST STATIC CHECK: descriptor JSON parses; the sequence verifier now checks
+  the descriptor order, attachments and exact subtype mapping (`8086`/`8089`
+  => 13/14, `8087` => 14/15) and passes.
+- LAST BUILD RESULT: no C++ change; staged RuntimeQA SHA remains
+  `53A72E47ACF05D8F8FBA2A7DBF3096243C9CD9940CDE19BA94C265E4F92C8ECC`.
+- LAST RUNTIME QA: unchanged; owner pixels/cadence/cleanup still need F12/F11
+  evidence, so this descriptor update does not promote the visual gate.
+
+### 2026-09-14 — Circle/Clash no-scroll evidence pinned
+
+- COMPLETED THIS RUN: added `verify_s21_no_circle_clash_scroll.py`. Against
+  hash-pinned S21 `SkillList.xml`, `ItemList.xml`, `SkillTreeData_3rd.xml` and
+  `BuffEffectManager.xml`, it proves rows 272/275 are GrowLancer-only with
+  `ItemSkill=0`, confirms the seven named skill scrolls, and finds no named
+  Circle Shield/Clash scroll. Circle's two master rows are present; Clash has
+  no third-tree master row.
+- LAST STATIC CHECK: the new verifier PASS; this is absence evidence only and
+  does not invent a class/default/siege learn route or server authority.
+- LAST BUILD RESULT: unchanged; current isolated QA executable remains
+  `53A72E47ACF05D8F8FBA2A7DBF3096243C9CD9940CDE19BA94C265E4F92C8ECC`.
+- LAST RUNTIME QA: no new owner or target-render capture; visual/pool gates
+  remain OPEN.
+- NEXT EXACT ACTION: continue source-backed class/learn audit, then request the
+  minimal owner gameplay capture for Wrath/Breche/Clash when needed.
+
+### 2026-09-14 — S21 Grow Lancer class provenance extended
+
+- COMPLETED THIS RUN: revalidated the pinned S21 `CalcCharacter.lua` and
+  `StatSpecialize.xml` profiles. `CLASS_GROWLANCER=7`, both-hand damage
+  expressions, 12 class branches and specialization class 8 options are
+  source-backed; descriptor provenance now records both hashes and the
+  unresolved `DefaultClassType` delegation.
+- LAST STATIC CHECK: `verify_class_source_profiles.py` and
+  `verify_s21_class_damage_rates.py` pass. The latter preserves decimal PvP
+  rate values; neither executes Lua or claims live server application.
+- LAST BUILD RESULT: unchanged; no client/server source was modified this
+  run, so the staged executable hash remains valid.
+- LAST RUNTIME QA: no new gameplay capture; class activation, persistence and
+  target-render gates remain OPEN.
+- NEXT EXACT ACTION: continue only with evidence-backed class/default or
+  protocol mapping; do not activate class 7 from the newer candidate defaults.
+
+### 2026-09-14 — Wrath owner-pool inspector added
+
+- COMPLETED THIS RUN: added `tools/grow_lancer/inspect_wrath_buff_pool_log.py`
+  and documented the F12-on/F12-off plus delayed F11 capture order. The
+  inspector requires the 19-record owner sequence, before/after removal pool
+  snapshots, and a same-process post-lifetime snapshot with zero Grow Lancer
+  effect/particle pools; it is fail-closed and does not infer GPU parity.
+- LAST STATIC CHECK: `inspect_wrath_buff_pool_log.py` executes successfully and
+  reports `OPEN: F12 on/off pair is missing` against the current log, as
+  expected because no owner capture has been recorded yet.
+- LAST BUILD RESULT: unchanged; the already staged QA client remains the
+  `53A72E47ACF05D8F8FBA2A7DBF3096243C9CD9940CDE19BA94C265E4F92C8ECC`
+  candidate.
+- LAST RUNTIME QA: no new gameplay capture; owner pixels, cadence, blend,
+  recurrence/removal and pool cleanup remain OPEN.
+- NEXT EXACT ACTION: use the isolated client, press F12 once to enable Wrath,
+  observe the two fire dots followed by blue lightning, press F12 again to
+  remove it, wait through lifetime, press F11, then rerun both Wrath
+  inspectors.
+
+### 2026-09-14 — Breche/Clash render static regression rerun
+
+- COMPLETED THIS RUN: reran the full Breche and Clash render-contract
+  verifiers. Dispatch, native model/texture route, particle/billboard route,
+  scoped blend, whole-tick scheduling and pool-retirement boundaries all
+  passed; `git diff --check` reports only existing line-ending normalization
+  warnings.
+- LAST RUNTIME QA: latest log still has no bounded Breche/Clash target-render
+  record, so owner/target pixels, movement/facing, pool reuse and cleanup stay
+  OPEN. Static PASS is not promoted to ingame visual PASS.
+- NEXT EXACT ACTION: obtain one isolated selected-target cast for Breche and
+  Clash (F7/F9 with a live target) and inspect the native render records; ask
+  the owner to operate the client only if that target fixture cannot be
+  reached programmatically.
+
+### 2026-09-14 — Full isolated offline harness rerun
+
+- COMPLETED THIS RUN: `run_offline_harnesses.ps1` finished with 33 explicit
+  Grow Lancer harnesses at exit 0, including Spin, Circle, Magic Pin, Clash,
+  Breche, Obsidian, Shining Peak, Harsh Strike and Wrath. The script confirms
+  that no Engine, RuntimeQA client or GameServer was launched.
+- LAST STATIC CHECK: all 33 harnesses PASS; this validates helper math,
+  lifecycle and adapter contracts only, not GPU pixels or server authority.
+- LAST RUNTIME QA: unchanged; no current owner Wrath capture or selected
+  Breche/Clash target-render record exists.
+- NEXT EXACT ACTION: preserve `IN_PROCESS` and obtain the missing isolated
+  gameplay records before promoting any skill to visual acceptance.
+
+### 2026-09-14 — F12-only Wrath owner capture path corrected
+
+- COMPLETED THIS RUN: changed the isolated QA fixture so F12 arms the bounded
+  Wrath owner-visual sequence when buff 424 is enabled and flushes it before
+  unregistering the buff. A separate F7 Wrath cast is no longer required to
+  collect the remembered post-buff tail; no production path, packet or server
+  authority was changed.
+- LAST STATIC CHECK: `verify_wrath_buff_visual_qa.py` and
+  `verify_runtime_qa_stage.py` PASS (2658 base files, 79 overlay files, 3
+  root Data files, merged Player CRC and private roots).
+- LAST BUILD RESULT: isolated Global Release/Win32 rebuild and restage PASS;
+  current `Engine-Port S21.exe` SHA-256 is
+  `53A72E47ACF05D8F8FBA2A7DBF3096243C9CD9940CDE19BA94C265E4F92C8ECC`.
+- LAST RUNTIME QA: hidden isolated startup stayed alive for six 500-ms samples
+  (PID9436) and stopped cleanly. No owner cast has been captured yet, so live
+  pixels, cadence, blend, recurrence/removal and pool cleanup remain OPEN.
+- NEXT EXACT ACTION: request one F12-on/F12-off owner capture using the new
+  direct fixture path, then parse the flushed 32-entry sequence and compare
+  pool snapshots before/after removal.
+
+### 2026-09-14 — Wrath owner-tail QA fixture rebuilt and isolated startup verified
+
+- COMPLETED THIS RUN: added the QA-only F12 toggle for native base Wrath buff
+  424. It exercises the existing owner-bound visual chain without packet,
+  learning, persistence or server-authority changes. Rebuilt the private
+  RuntimeQA client, restaged the complete base-plus-overlay tree, and verified
+  the staged hashes and non-reparse Player/RISE roots.
+- REVERSE EVIDENCE: the post-buff tail is explicitly two caster-owned
+  `flare01.jpg` sprites at bones 29/38 followed by four owner-bound blue
+  `firehik_mono` particles; the preceding two scatter particles remain
+  null-owner. Static sequence, flare adapter, mono adapter and QA-fixture
+  verifiers all PASS.
+- LAST BUILD RESULT: isolated Global Release/Win32 rebuild PASS. Current
+  `Engine-Port S21.exe` SHA-256 is
+  `811EE3F1E54A932634395EF019544549BC70636C8F00352CD7EBA40347ECF366`.
+  Only pre-existing cryptlib LNK4099 warnings remain.
+- LAST STATIC CHECK: RuntimeQA stage verifier PASS (2658 base RISE files,
+  79 overlay files, 3 root Data files, merged Player CRC), project integration,
+  Wrath visual/flare/mono/QA verifiers and `git diff --check` PASS.
+- LAST RUNTIME QA: isolated startup smoke stayed alive for six 500-ms samples
+  and stopped cleanly. No gameplay cast was performed; owner pixels, cadence,
+  blend, recurrence/removal and pool cleanup remain OPEN.
+- NEXT EXACT ACTION: when you can test, open the isolated client, press F12 to
+  toggle Wrath buff 424, then F7 to cast/select the local QA skill as needed;
+  capture the owner sequence before/after removal. Keep status IN_PROCESS until
+  those live pixels and cleanup are observed.
+
+### 2026-09-14 — Wrath fire-dot blend route pinned
+
+- COMPLETED THIS RUN: added and passed
+  `verify_wrath_flare_native_adapter.py`. It pins the two remembered
+  post-buff fire dots to private `flare01.jpg` resources, caster bones 29/38,
+  native `CreateSprite`/`RenderSprites` subtype-0 additive blending and the
+  scoped visibility envelope. This is isolated source evidence; no production
+  client or server was touched.
+- REVERSE EVIDENCE: the fire-dot pair remains distinct from the null-owner
+  `lighting_mega01..03` scatter and precedes the four owner-bound blue mono
+  particles.
+- LAST STATIC CHECK: flare adapter verifier PASS; previous Wrath sequence,
+  mono adapter, stage verifier and offline harnesses remain PASS.
+- LAST RUNTIME QA: owner buff pixels, cadence, removal and pool reuse remain
+  `OPEN`; current log still has no owner Wrath summary.
+- NEXT EXACT ACTION: continue the remaining source-proven render/lifetime
+  closure for Breche/Clash; request a compact owner buff cast only when pixel
+  evidence is the blocking gate.
+
+### 2026-09-14 — RuntimeQA rebuilt with complete Wrath tail telemetry
+
+- COMPLETED THIS RUN: rebuilt the isolated QA client after increasing the
+  owner-sequence telemetry bound from 9 to 32, then restaged only the private
+  RuntimeQA client. No production client or server was touched.
+- LAST BUILD RESULT: MSBuild 18.9.1 Global Release/Win32 rebuild passed; staged
+  `Engine-Port S21.exe` SHA-256 is
+  `DB03C4C96BFDDE0999E8EE8B9B87A6053921F181652F72D5DAD433DEA8C1D04A`.
+  Only pre-existing cryptlib LNK4099 warnings remain.
+- LAST STATIC CHECK: `verify_runtime_qa_stage.py`, Wrath sequence/QA/mono
+  adapter verifiers and offline harnesses pass.
+- LAST RUNTIME QA: isolated startup smoke PID26492 stayed alive for six
+  500-ms samples and was stopped cleanly; no login/cast was performed. The new
+  build is ready for a compact owner cast if direct post-buff telemetry/pixels
+  become necessary.
+- OWNER LOG INSPECTOR: `inspect_wrath_buff_visual_log.py` currently reports
+  `OPEN` because no owner Wrath summary exists yet; it will validate the first
+  19 records after a buff-active cast.
+- NEXT EXACT ACTION: continue source-proven nine-skill closure; use the new
+  32-entry log only when a Wrath owner cast is available.
+
+### 2026-09-14 — Wrath owner-tail color/order guard and offline regression rerun
+
+- COMPLETED THIS RUN: strengthened `verify_wrath_buff_visual_sequence.py` to
+  require the blue mono light `(0.4,0.6,1.0)` and native owner scale `0.75`,
+  then reran the verifier and the full isolated offline harness allowlist;
+  every listed fixture exited 0. Added and passed
+  `verify_wrath_mono_native_adapter.py`, covering all three mono allocation,
+  owner-bone update, native render and retirement routes.
+- REVERSE EVIDENCE: the player-following tail remains two `flare01` sprites at
+  bones 29/38 followed by four owner-bound blue `firehik_mono` particles; the
+  preceding scatter remains null-owner and separate.
+- LAST STATIC CHECK: Wrath sequence verifier, project integration and
+  `git diff --check` pass (only existing line-ending normalization warnings).
+- LAST RUNTIME QA: no gameplay process launched; current owner-pixel cadence,
+  blend, removal and pool cleanup remain open.
+- NEXT EXACT ACTION: continue source-proven render/lifetime closure for
+  Breche/Clash and request a compact owner cast only at the pixel-evidence
+  boundary.
+
+### 2026-09-14 — Nine-skill offline regression sweep after class probes
+
+- COMPLETED THIS RUN: selected project/icon/catalog, all nine renderer,
+  Wrath owner-sequence, Breche particle/render, server catalog, class-boundary
+  and class-body GPU-runtime verifiers exit0. The isolated offline harness
+  allowlist also exits0 for particle, tick, ground, joint, mesh, Spin, Magic,
+  Obsidian, Harsh, Shining, Clash and Wrath fixtures.
+- LAST BUILD RESULT: no C++ source change after the staged RuntimeQA build;
+  private candidate remains SHA
+  `A382F6C58F1F0DB57AAD7679D7F9181175062D972782E2838A057D6F7355D9EB`.
+- LAST RUNTIME QA: class-body GPU/failure fixtures are current; no gameplay
+  client was left running. Nine-skill owner pixels, server authority and
+  class activation remain `IN_PROCESS`.
+- NEXT EXACT ACTION: continue the remaining dump-proven render/lifetime work;
+  request owner casting only when a selected-target or buff-active pixel gate
+  cannot be established offline.
+
+### 2026-09-14 — Class-body failure/retry fixtures passed
+
+- COMPLETED THIS RUN: isolated sampler-conflict and missing-second-material
+  rollback probes were run in separate fresh processes. PID15760 exited0 with
+  conflicting native sampler rejection, model reset, reference preservation,
+  retry and stable counters. PID31380 exited0 with the missing-material
+  rollback, model reset, reference restoration and subsequent retry path.
+- LAST STATIC CHECK: `verify_class_body_gpu_runtime.py` now requires the
+  complete passing tuples for both fixtures and the latest shader/draw probe;
+  it exits0.
+- LAST RUNTIME QA: no production process or client was touched. These are
+  private OpenGL/BMD ownership fixtures only.
+- KNOWN DIFFERENCES: this does not prove broader allocator failure injection,
+  class activation, evolution/equipment selection, server persistence or
+  S21 body pose/pixel parity.
+- NEXT EXACT ACTION: preserve the fail-closed class boundary and continue the
+  remaining nine-skill render/lifetime evidence.
+
+### 2026-09-14 — Native class-body shader/draw probe passed
+
+- CURRENT PHASE: native Grow Lancer class resource plumbing, still isolated.
+- COMPLETED THIS RUN: ran the private RuntimeQA OpenGL probe with shader,
+  adapter, draw and owner guards enabled. PID35908 exited0. Three body texture
+  uploads have expected dimensions and CPU/GPU-equal readback; all five body
+  parts load/cache with stable counters; VAO/VBO/IBO sizes, caller bindings,
+  native draw samples and owner submit guard cases pass; GPU and bitmap
+  baselines restore on teardown.
+- REVERSE EVIDENCE: `EnsureClassBodyGpu` uses native BMD mesh upload and
+  `SubmitClassBaseBody` uses native body draw plumbing; the extended model IDs
+  stay behind the private bounded adapter and no legacy `ConvertOldMeshToVaoMesh`
+  range is widened.
+- LAST STATIC CHECK: `verify_class_body_gpu_runtime.py` and all eight
+  `verify_class*.py` boundary checks exit0.
+- LAST BUILD RESULT: unchanged staged isolated RuntimeQA SHA
+  `A382F6C58F1F0DB57AAD7679D7F9181175062D972782E2838A057D6F7355D9EB`.
+- LAST RUNTIME QA: native probe exit0; this is not gameplay class activation,
+  S21 pose/evolution parity or final screen-pixel acceptance.
+- MISSING CHAIN PARTS: class selector/evolution/equipment caller, server
+  create/login/persistence authority and all-nine owner visual gates.
+- NEXT EXACT ACTION: continue the source-proven render/lifetime closure; do
+  not activate class7 from the probe alone.
+
+### 2026-09-14 — Owner visual recall confirms Wrath post-buff tail
+
+- REVERSE EVIDENCE: owner confirms the remembered player-following sequence is
+  two small fire marks followed by blue lightning after the buff is applied.
+  The pinned S21/native adapter matches this as two `flare01.jpg` sprites on
+  bones 29/38, then four `firehik_mono` particle submissions on the same
+  attachments. The ground/lightmark layers are separate and are not being
+  substituted for this owner tail.
+- STATIC CHECK: `verify_wrath_buff_visual_sequence.py` and
+  `verify_wrath_buff_visual_qa.py` PASS; the verifier now also guards the
+  null-owner `8081..8083` scatter pair versus caster-owned `flare01`/blue-mono
+  attachments, while the native emission order and bounded owner-only
+  telemetry remain unchanged.
+- LAST RUNTIME QA: no new owner-pixel capture in this checkpoint. Buff-active
+  cadence, blend, recurrence/removal and pool cleanup remain QA OPEN.
+- NEXT EXACT ACTION: keep this sequence locked and only change it after a
+  current owner cast demonstrates a mismatch; otherwise continue the remaining
+  Breche/Clash render and class/server evidence work.
+
+### 2026-09-14 — Breche/Clash render contract audit rerun
+
+- CURRENT PHASE: focused visual-chain closure for Breche + Clash.
+- COMPLETED THIS RUN: reran every available Breche render/lifecycle verifier
+  and the target-render telemetry verifier. Dispatch, receive target lookup,
+  five-child producer boundary, particle constructor/tick/render contracts,
+  scoped terrain blend, flare envelope, stationary child pose and split native
+  pool-retirement paths all PASS; Clash visible-child renderer still records
+  the native `EnsureModel -> Calc_RenderObject -> RenderMesh` contract.
+- LAST STATIC CHECK: all selected Breche/Clash scripts exited 0. The stage log
+  inspector still reports no bounded Breche or Clash record in the latest cast,
+  so no runtime visual claim is promoted.
+- LAST RUNTIME QA: no new live cast was made; the existing QA log remains
+  historical/partial and has no current target-render sample for either skill.
+- KNOWN DIFFERENCES: Breche sprite visibility/pass frequency, terrain
+  eligibility, target contact and pool stress remain owner/runtime questions;
+  Clash moving-target/facing/push presentation and cleanup remain open.
+- BLOCKER: none for static/offline work; owner pixels are the next evidence
+  boundary, not a reason to alter render code without a failed sample.
+- NEXT EXACT ACTION: keep the current staged candidate and prepare one compact
+  owner QA pass for Breche then Clash when the client is next opened; inspect
+  the target-render summary before any code change.
+- NEXT FILE TO OPEN: `GrowLancer/RUNTIME_QA.md` and
+  `tools/grow_lancer/inspect_target_skill_render_log.py`.
+
+### 2026-09-14 — Damage/reaction and server-source boundary revalidated
+
+- COMPLETED THIS RUN: re-ran the S21 client damage/reaction boundary and
+  packet-effect lead checks. Native opcode-11 damage/shock behavior remains
+  distinct from the S21 opcode-11 return-only tail; the S21 opcode-23 route
+  reaches the conditional reaction helper, and the client-side native shock
+  guards are present. The contact lead still proves Circle Shield buff 216,
+  not Clash skill 275.
+- SERVER EVIDENCE: the supplied `D:\GameServer S21` tree still contains only
+  `IGC.GameServer2_R.exe` and configuration/data files—no matching source,
+  PDB, map or dump. `verify_server_contracts.py` and the scoped missing-learn
+  scan PASS, but automatic learn/equipment/class/siege conversion and
+  authoritative damage/push remain unproven.
+- LAST STATIC CHECK: `verify_damage_route_boundary.py`,
+  `verify_packet_effect_lead.py`, `verify_server_contracts.py` and
+  `verify_missing_learn_sources.py` exited 0. These do not authorize guessed
+  server logic or packet transplantation.
+- NEXT EXACT ACTION: preserve the fail-closed server boundary and return to
+  current-client target-render evidence for Breche/Clash; no server handler
+  will be invented from the protected executable.
+
+### 2026-09-14 — Nine-skill static integration sweep revalidated
+
+- COMPLETED THIS RUN: reran project/filter integration, exact icon/catalog
+  profiles, Spin/Circle/Obsidian/Magic/Clash/Harsh/Shining renderer guards,
+  Wrath post-buff sequence/telemetry, Breche particle/render contracts and
+  server catalog/master/scroll contracts. Every selected script exited 0.
+- SCOPE: this is a clean source/dump/static regression checkpoint only; it does
+  not change any skill to visual `PASS`, does not activate the new class and
+  does not connect unverified server packets.
+- NEXT EXACT ACTION: keep the build staged and obtain one compact owner cast
+  batch for Breche then Clash when live pixels are available; inspect the
+  bounded target-render records and cleanup separately.
+
+### 2026-09-14 — Current RuntimeQA render candidate rebuilt and staged
+
+- CURRENT PHASE: focused visual-chain closure for Breche + Clash, with Wrath's
+  post-buff owner layers kept explicit.
+- COMPLETED THIS RUN: rebuilt the isolated Win32 RuntimeQA client after the
+  Spin QA-only submission telemetry; staged the exact binary into the private
+  RuntimeQA client and refreshed the stage verifier's pinned Engine hash.
+- REVERSE EVIDENCE: Wrath's recovered post-buff order remains two owner-bound
+  `flare01.jpg` sprites at bones 29/38, then the selected four blue mono
+  lightning particles at the same bone pair. This is already pinned by the
+  S21 tail decode and `verify_wrath_buff_visual_sequence.py`.
+- FILES MODIFIED: `tools/grow_lancer/verify_runtime_qa_stage.py` (Engine SHA
+  contract only); no production render path or global SS6 behavior changed.
+- LAST STATIC CHECK: stage verifier, Spin selected-target verifier, Wrath
+  sequence/QA/persistent-tail verifiers, and `git diff --check` PASS. The only
+  reported diff output is existing line-ending normalization warnings.
+- REGRESSION CHECK: the isolated offline harness allowlist completed with exit
+  0 for the current particle, tick, ground, joint, mesh, Spin, Magic Pin,
+  Obsidian, Harsh Wind, Shining and Wrath cases. No Engine/RiseQA/GameServer
+  process was launched by this check.
+- LAST BUILD RESULT: isolated Global Release Win32 RuntimeQA rebuild PASS;
+  Engine SHA-256
+  `A382F6C58F1F0DB57AAD7679D7F9181175062D972782E2838A057D6F7355D9EB`.
+- LAST RUNTIME QA: staged client stayed responsive for six 500-ms samples
+  (PID 36060) and was stopped cleanly. No live buff cast or owner pixel capture
+  was performed.
+- KNOWN DIFFERENCES: the two-fire-dot/blue-lightning sequence is source and
+  native-submission verified, not yet owner-pixel accepted; buff delivery,
+  cadence, blend, recurrence/removal and pool cleanup remain open.
+- BLOCKER: none for offline progress. Direct owner cast is needed only for the
+  final Wrath pixel/cadence gate.
+- NEXT EXACT ACTION: continue the isolated Breche/Clash render closure and
+  inspect their latest target-render telemetry; request one Wrath cast only if
+  the owner wants to close the remaining post-buff visual gate.
+- NEXT FILE TO OPEN: `GrowLancer/RUNTIME_QA.md` and the latest
+  `GrowLancerRuntimeQA.log` target-render section.
+- NEXT FUNCTION TO IMPLEMENT: none for Wrath's remembered sequence until a
+  current owner-pixel mismatch or fresh runtime telemetry justifies a change.
+
+### 2026-09-14 — Spin selected-target native submission evidence pinned
+
+- CURRENT PHASE: focused visual-chain closure; Spin Step now has a bounded
+  selected-target submission proof while Breche/Clash and Wrath remain open.
+- COMPLETED THIS RUN: added `verify_spin_selected_target_render_qa.py`,
+  extended `inspect_spin_controller_log.py`, and added a QA-only
+  `weapon-blur-submit` record at each valid bone-33 sample. The retained
+  earlier staged log
+  contains a target-resolved Spin cast with `cross-visible`, `cross-ensure`,
+  `cross-calc`, `cross-submit`, and `ground-submit`, all `result=1`.
+- REVERSE EVIDENCE: source still resolves `effect.m_sTargetIndex`, emits the
+  three target crosses plus target ground carrier, and keeps the native
+  `EnsureModel -> Calc_RenderObject -> RenderMesh` path.
+- LAST STATIC CHECK: `verify_spin_selected_target_render_qa.py` PASS; the
+  updated read-only inspector reports successful records; prior 33 offline
+  harnesses and nine-skill static sweep remain PASS.
+- LAST BUILD RESULT: unchanged from the staged RuntimeQA build
+  `A17C6F35622D6C2D597FAF40BA596FDADFCEB7C89BAFB200245C1D3F0395E316`;
+  no source-render semantic change was made this run.
+- LAST RUNTIME QA: selected-target native submission evidence is present in
+  the retained earlier staged log; the log predates the newest rebuild, so a
+  current-candidate cast is still required. GPU pixels, matching S21 frames,
+  blur/trail/contact presentation, movement and cleanup remain OPEN.
+- KNOWN DIFFERENCES: the historical owner report of only a ground ring still
+  applies to the earlier visual capture; this log cannot replace owner pixels.
+- MISSING CHAIN PARTS: current-candidate owner retest and full pool/lifetime
+  acceptance for Spin; selected-target Breche/Clash and Wrath post-buff owner
+  sequence remain open.
+- BLOCKER: none for offline progress.
+- NEXT EXACT ACTION: retain this evidence and continue with a safe offline
+  closure for the next open skill; request one owner cast only when pixels or
+  target contact cannot be established without live interaction.
+- NEXT FILE TO OPEN: `GrowLancer/ACCEPTANCE_GATE_MATRIX.md` and the target
+  render log after any owner retest.
+- NEXT FUNCTION TO IMPLEMENT: no Spin renderer change without a failed current
+  candidate stage or owner-pixel mismatch.
+
+### 2026-09-14 — Wrath post-buff owner telemetry staged
+
+- CURRENT PHASE: focused Breche + Clash render closure; Wrath buff remains a
+  protected visual chain with a new QA-only observation hook.
+- COMPLETED THIS RUN: added bounded owner-only telemetry for the first native
+  Wrath buff sequence. When buff 424/425 is already active, the QA log records
+  at most nine entries: lightmarks, two scatter marks, two flare bones, then
+  four mono particles with variant/attachment/bone/action/frame data. It never
+  creates or enables a buff and is compiled only under `RISE_GROW_LANCER_RUNTIME_QA`.
+- LAST STATIC CHECK: `verify_wrath_buff_visual_qa.py` PASS; Breche render and
+  particle harnesses remain PASS; `git diff --check` has no whitespace errors
+  (only existing line-ending warnings).
+- LAST BUILD RESULT: isolated Global Release Win32 RuntimeQA rebuild PASS;
+  staged `Engine-Port S21.exe` SHA-256
+  `A17C6F35622D6C2D597FAF40BA596FDADFCEB7C89BAFB200245C1D3F0395E316`.
+  Runtime-QA stage verification PASS and the rebuilt executable was copied
+  only into the private RuntimeQA client.
+- LAST RUNTIME QA: the rebuilt isolated client stayed responsive for six
+  500-ms samples (PID 20808) and was stopped cleanly. No live cast this run;
+  buff delivery, owner pixels, cadence, blend and cleanup remain OPEN.
+  Telemetry will be flushed with F11 or on the next QA skill cast.
+- REGRESSION CHECK: the explicit offline allowlist ran 33 harnesses with exit 0,
+  including Breche ground/particle, Clash, Wrath particle/ground, and the
+  shared Spin/Magic/Obsidian/Shining/Harsh helpers. No Engine/RiseQA/GameServer
+  process was launched by this check.
+- NINE-SKILL STATIC SWEEP: project integration, icon/catalog profiles, Spin,
+  Circle Shield, Obsidian, Magic Pin, Clash, Harsh Strike, Shining Peak,
+  Wrath, Breche and server-contract verifiers all PASS in this worktree.
+  These results remain source/dump/build evidence, not owner visual acceptance.
+- NEXT EXACT ACTION: use one isolated Wrath cast after the 424/425 buff is
+  visible, then inspect `wrath-buff-visual-summary` and compare its nine-entry
+  order with the pinned S21 sequence before changing render code.
+
+### 2026-09-14 — Breche render contract sweep completed
+
+- CURRENT PHASE: focused Breche + Clash render closure; Wrath player-buff
+  accents remain protected as a separate chain.
+- COMPLETED THIS RUN: reran the dump/source guards for Breche dispatch,
+  lifecycle-only root, five-child producer, emitter owner/bone sampling,
+  8084/806E/8085 particle constructors and tick schedule, flare and terrain
+  render branches, scoped sampler/blend state, and separate model/particle
+  retirement. All selected static checks PASS.
+- REVERSE EVIDENCE: S21 `0x5FD` root has no geometry/actions; its five visual
+  children remain the only root chain. `0x806E/sub15` samples two owner bones
+  and emits one `7EF7` flare plus one of the three fire particle variants per
+  iteration. The native adapter keeps these in the existing effect/sprite/
+  particle pools without copying S21 layouts or addresses.
+- WRATH NOTE: the remembered player-buff order is unchanged: two fire-like
+  scatter marks, two bone flares, then four blue mono particles.
+- LAST STATIC CHECK: Breche particle/render/dispatch/emitter/retirement/tick
+  and Wrath visual-sequence verifiers PASS. The compiled
+  `GrowLancerParticleTickTest.exe` and actual Wrath retirement-body fixture
+  also PASS; no semantic source change or rebuild was required for this
+  sweep.
+- LAST RUNTIME QA: OPEN. The latest QA log has no selected-target Breche or
+  Clash render records, so owner pixels, target contact, GPU visibility,
+  cadence and pool reuse are not promoted.
+- NEXT EXACT ACTION: retain this static baseline and obtain one isolated
+  selected-target Breche contact plus one selected-target Clash cast; only
+  then inspect the bounded render telemetry and pixel/cleanup evidence.
+
+### 2026-09-14 — Wrath player-buff accents reconfirmed
+
+- CURRENT PHASE: focused Breche + Clash render closure; preserve the Wrath
+  post-buff player layer as a separate protected chain.
+- REVERSE EVIDENCE: once native buff 424 or 425 is present on the player, the
+  recovered S21 tail emits two `lighting_mega01..03` fire-like scatter marks,
+  then exactly two `flare01` bone sprites at bones 29/38, then four blue
+  `firehik_mono01..03` particles (two per bone).  The RISE adapter keeps that
+  order and uses native particle/sprite pools.
+- LAST STATIC CHECK: `tools\\grow_lancer\\verify_wrath_buff_visual_sequence.py`
+  PASS; no semantic source change or rebuild was needed for this reminder.
+- LAST RUNTIME QA: owner pixels, cadence and removal cleanup remain OPEN; this
+  note is not a visual-parity claim.
+- NEXT EXACT ACTION: keep this post-buff order intact while closing the
+  selected-target Breche/Clash render gate.
+
+### 2026-09-14 — Clash/Breche render telemetry wired and QA rebuilt
+
+- CURRENT PHASE: focused Breche + Clash render closure; Wrath player-buff
+  visual chain remains protected separately.
+- CURRENT TASK: capture bounded native submission evidence for the two active
+  render gates without reading framebuffer pixels or changing ordinary SS6
+  renderer behavior.
+- COMPLETED THIS RUN: added `RecordTargetSkillRenderQA` under the existing
+  RuntimeQA flag. Clash now records visible/culled, `EnsureModel`,
+  `Calc_RenderObject`, and native `RenderMesh` stages; Breche records its
+  visible/culled terrain nodes and terrain submission. The recorder is capped
+  at 256 records per cast and includes owner/target/lifetime/alpha/position and
+  model/texture metadata. The remembered Wrath order remains verified as two
+  fire-like scatter marks, then bone flares, then four blue mono particles.
+- REVERSE EVIDENCE: no new S21 address or object layout was copied. Existing
+  Clash Open2/mesh0/UV contract, Breche private particle route and S21 Wrath
+  sequence verifier all remain PASS.
+- FILES MODIFIED: `ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerRuntimeQA.h`,
+  `ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerRuntimeQA.cpp`,
+  `ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerEffectRuntime.cpp`,
+  `ExMain_RISE_PC/Main5.2_RISE/ZzzEffect.cpp`,
+  `GrowLancer/BRECHE_REVERSE.md`,
+  `tools/grow_lancer/verify_target_skill_render_qa.py`,
+  `tools/grow_lancer/inspect_target_skill_render_log.py`,
+  `tools/grow_lancer/verify_breche_receive_render_wiring.py`,
+  `tools/grow_lancer/verify_runtime_qa_stage.py`.
+- LAST STATIC CHECK: target-skill render QA verifier, RuntimeQA stage
+  verifier, Wrath visual sequence verifier, Breche pool-retirement verifier,
+  Breche receive/render wiring verifier, Clash renderer/model-pipeline
+  verifiers and `git diff --check` PASS (only
+  existing LF/CRLF normalization warnings). The read-only log inspector
+  correctly reports OPEN because no selected-target Breche/Clash records exist
+  yet.
+- LAST BUILD RESULT: isolated Global Release Win32 RuntimeQA build PASS;
+  staged `Engine-Port S21.exe` SHA-256
+  `29DAFC6E6CFB1511EF32C52195F7202257AAF5E0E47EBE94394C032B7488D38D`.
+  A separate non-QA isolated Global Release/Win32 build also PASSed with
+  `Engine-Port S21.exe` SHA-256
+  `D8B099B3F17A62D03CEEA8A735F367C506404C8733DA46E488ADA1B4F5EF5B38`.
+- LAST RUNTIME QA: no client launched this run. Telemetry is ready for one
+  selected-target Breche contact and one selected-target Clash cast; owner
+  pixels, placement, GPU state and cleanup are still OPEN.
+- KNOWN DIFFERENCES: submission telemetry cannot prove final screen pixels,
+  visual parity, push presentation or pool reuse.
+- MISSING CHAIN PARTS: selected-target Breche/Clash runtime evidence and
+  allocator/GPU cleanup remain; Wrath player-buff cadence/removal remains a
+  separate open gate.
+- BLOCKER: none for offline progress.
+- NEXT EXACT ACTION: use the staged isolated QA client only when needed; cast
+  Breche through its selected target/contact path, then Clash on a stationary
+  selected target so the new stages are captured.
+- NEXT FILE TO OPEN: `ExMain_RISE_PC/Tests/GrowLancerBuild/RuntimeQA/Client/GrowLancerRuntimeQA.log`
+  after those casts, using `tools/grow_lancer/inspect_target_skill_render_log.py`,
+  then the matching render branch if a stage fails.
+- NEXT FUNCTION TO IMPLEMENT: only a dump-proven Breche/Clash render/cache
+  correction discovered by telemetry; do not alter generic SS6 timing.
+
+### 2026-09-14 — Wrath post-buff visual order pinned
+
+- CURRENT PHASE: focused Breche + Clash render closure; Wrath buff visual
+  feedback recorded and protected as a separate chain.
+- CURRENT TASK: preserve the S21 player-buff order: two fire-like scatter
+  marks, then bone flares and blue lightning particles.
+- COMPLETED THIS RUN: added
+  `tools\grow_lancer\verify_wrath_buff_visual_sequence.py`; it passes against
+  the native adapter, 424/425 membership gate, private scatter/mono assets,
+  and attachment 29/38 callbacks.
+- REVERSE EVIDENCE: S21 producer order is exactly two scatter submissions,
+  then the two flare submissions, then four mono particle submissions.  The
+  native adapter maps the first pair to `lighting_mega01..03` and the blue
+  branch to `firehik_mono01..03` without copying S21 addresses or layouts.
+- LAST STATIC CHECK: `verify_wrath_buff_visual_sequence.py` PASS.
+- LAST BUILD RESULT: unchanged isolated Win32 client build PASS; no source
+  semantic change this run, so no rebuild required.
+- LAST RUNTIME QA: owner buff-active pixels/cadence/cleanup remain OPEN; no
+  live client launched by this run.
+- KNOWN DIFFERENCES: static evidence does not establish whether the owner sees
+  the same frame cadence, blend, or bone placement as S21.
+- MISSING CHAIN PARTS: Breche/Clash GPU/cache lifecycle and selected-target
+  pixels remain the active render gate; Wrath buff removal cleanup remains
+  separate.
+- BLOCKER: none for offline progress.
+- NEXT EXACT ACTION: request one selected-target Breche and one selected-target
+  Clash cast in the isolated QA client; static/cache checks cannot narrow the
+  remaining pixel, placement and push-presentation gap.
+- NEXT FILE TO OPEN: `tools\grow_lancer\verify_breche_retirement_contract.py`
+  and `ExMain_RISE_PC\Main5.2_RISE\ZzzEffectParticle.cpp`.
+- NEXT FUNCTION TO IMPLEMENT: only a dump-proven Breche/Clash render or pool
+  correction; do not alter generic SS6 particle timing.
+
+### 2026-09-14 — Breche S21 pool-retirement boundary pinned
+
+- CURRENT PHASE: focused Breche + Clash render closure; Wrath buff order is
+  protected separately.
+- CURRENT TASK: close the model-effect versus particle retirement boundary
+  without changing generic SS6 pool behavior.
+- COMPLETED THIS RUN: added
+  `tools\grow_lancer\verify_breche_pool_retirement_dump.py`.  It hash-pins
+  the S21 destructor/common-tail windows and verifies default reset for
+  `0x806E`/`0x5FD`, life-exhaustion destructor entry, and the separate native
+  Breche PARTICLE path.
+- REVERSE EVIDENCE: S21 `0x14B6820` routes unlisted model types to
+  `0x1315E97`; `0x15945E5` calls that destructor at lifetime exhaustion and
+  special-decrements only `0x413`/`0x7EF7`.
+- LAST STATIC CHECK: `verify_breche_pool_retirement_dump.py` PASS.
+- LAST BUILD RESULT: unchanged isolated Win32 client build PASS; verifier/docs
+  only, no rebuild required.
+- LAST RUNTIME QA: no Engine/RiseQA/GameServer launch; selected-target pixels,
+  allocator reuse and GPU state remain OPEN.
+- KNOWN DIFFERENCES: dump proves dispatch/reset boundaries, not pool pressure,
+  blend restoration or owner visual parity.
+- MISSING CHAIN PARTS: Breche/Clash GPU/cache lifecycle and owner-target pixel
+  evidence remain the render gate.
+- BLOCKER: none for offline progress.
+- NEXT EXACT ACTION: inspect native `RenderParticles`/`RenderSprites` state
+  restoration and patch only a dump-proven mismatch.
+- NEXT FILE TO OPEN: `ExMain_RISE_PC\Main5.2_RISE\ZzzEffectParticle.cpp`
+  and `ExMain_RISE_PC\Main5.2_RISE\ZzzEffect.cpp`.
+- NEXT FUNCTION TO IMPLEMENT: only a proven blend/cache/retirement correction;
+  preserve ordinary SS6 effect behavior.
+
+### 2026-09-14 — Breche private particle render path corrected
+
+- CURRENT PHASE: focused Breche + Clash render closure; GameServer work paused.
+- CURRENT TASK: keep S21-private visual layers on native RISE render/pool paths.
+- COMPLETED THIS RUN: changed `RenderParticles` so a marked Breche particle
+  renders once through `RenderBrecheFireSprite`, then reaches the shared
+  post-render lifetime clamp; the legacy SS6 type switch is isolated in the
+  non-Breche `else` branch and cannot double-render the slot.
+- REVERSE EVIDENCE: S21 8084/806E/8085 are billboard particle wrappers; the
+  private marker is only a routing tag and must not bypass the common render
+  tail. No S21 address or object layout was copied into the source.
+- FILES MODIFIED: `ExMain_RISE_PC/Main5.2_RISE/ZzzEffectParticle.cpp`,
+  `tools/grow_lancer/verify_breche_particle_render_contract.py`,
+  `tools/grow_lancer/verify_clash_model_pipeline.py`,
+  `GrowLancer/BRECHE_CHILDREN_REVERSE.md`, `GrowLancer/CLASH_REVERSE.md`,
+  and `GrowLancer/WRATH_REVERSE.md` (owner visual note only).
+- LAST STATIC CHECK: focused Breche particle-render, Clash renderer/emission,
+  and Clash model-pipeline verifiers PASS; `git diff --check` reports no
+  whitespace errors (only the existing LF/CRLF normalization warnings).
+- LAST BUILD RESULT: isolated Win32 client build PASS; `Engine-Port S21.exe`
+  was linked to `Tests\GrowLancerBuild\RuntimeQA\Bin`, then staged by
+  `prepare_runtime_qa_client.ps1` with hash
+  `452C98189567C128209C2260A2E4883367DD8751E5F46C5E679CB59C2813C6D5`.
+- LAST RUNTIME QA: owner Breche/Clash visual acceptance remains OPEN; prior
+  casts were targetless (`target=-1`).
+- KNOWN DIFFERENCES: GPU pixels, blend-state restoration, allocator reuse and
+  owner-target parity are not claimed from static evidence.
+- MISSING CHAIN PARTS: generic 806E reset/pool retirement and root 5FD/sub1
+  render path remain open for Breche; Clash GPU/cache lifecycle remains open.
+- BLOCKER: none for silent static progress.
+- NEXT EXACT ACTION: keep GPU/owner-target pixels as the remaining render gate;
+  request a direct selected-target cast only when static/cache checks cannot
+  narrow the missing evidence.
+- NEXT FILE TO OPEN: `tools/grow_lancer/verify_clash_renderer.py` and
+  `ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerResources.cpp`.
+- NEXT FUNCTION TO IMPLEMENT: only a dump-proven render/cache correction for
+  Breche or Clash; leave generic SS6 particle behavior unchanged.
+
+### 2026-09-14 — S21 806E/sub15 Breche emitter producer pinned
+
+- CURRENT PHASE: source-first client-chain closure; owner gameplay remains
+  separate from static evidence.
+- COMPLETED THIS RUN: added
+  `tools\\grow_lancer\\verify_breche_emitter_dump_contract.py`.  Against the
+  preserved S21 image hash it pins subtype15, null-owner retirement, the
+  exactly-two owner-bone sampling loop, flare `0x7EF7` allocation and the
+  `8084/0`, `806E/4`, `8085/0` native particle wrapper triplet.  It also checks
+  that the RISE emitter remains lifecycle-only and delegates those children to
+  native pools.
+- REVERSE EVIDENCE: the emitter has no fourth direct model/terrain render
+  layer; the visible work is the flare plus the three particle families.
+- LAST STATIC CHECK: `verify_breche_emitter_dump_contract.py` PASS; no source
+  binary or client/server process was launched.
+- LAST BUILD RESULT: unchanged private QA Engine; verifier/docs-only change,
+  no rebuild required.
+- LAST RUNTIME QA: owner Breche/Clash visual acceptance remains OPEN because
+  the latest logs are targetless (`target=-1`).
+- NEXT EXACT ACTION: trace generic `806E/sub15` reset/pool-retirement boundary
+  and then root `5FD/sub1` render path; do not add a direct emitter layer.
+- NEXT FILE TO OPEN: `GrowLancer\\BRECHE_CHILDREN_REVERSE.md` and
+  `ExMain_RISE_PC\\Main5.2_RISE\\ZzzEffect.cpp`.
+- NEXT FUNCTION TO IMPLEMENT: only a dump-proven pool/reset adapter boundary;
+  leave generic SS6 particle timing unchanged.
+
+### 2026-09-14 — S21 Breche flare-render branch pinned
+
+- CURRENT PHASE: source-first client-chain closure; owner gameplay remains
+  separate from static evidence.
+- COMPLETED THIS RUN: added
+  `tools\grow_lancer\verify_breche_flare_render_contract.py` and
+  `tools\grow_lancer\verify_breche_particle_render_contract.py`. They validate
+  the preserved S21 image dump hash, renderer `1727079` visibility envelope,
+  texture-size scaling, the separate `0x7FEA` UV-table boundary, the `0x7EF7`
+  default full-UV flare route, and the `8084/806E/8085` particle billboard
+  branches. Updated `GrowLancer\BRECHE_CHILDREN_REVERSE.md` with the exact
+  branch conclusions.
+- REVERSE EVIDENCE: `0x7EF7` is the proven Breche `flare01.jpg`; the dump's
+  `0x7FEA` branch is `FormationMark.tga`, so Breche does not use that
+  animation-table path. The emitter's 1x1 seed reaches the default full-UV
+  call and keeps its stored axis mask.
+- LAST STATIC CHECK: new flare-render verifier PASS; existing focused Breche,
+  Clash and full RuntimeQA-stage verifiers remain PASS. The explicit offline
+  allowlist also passed all 33 short-lived harnesses; it launched no
+  Engine/RiseQA/GameServer binary.
+- LAST BUILD RESULT: unchanged private QA Engine; docs/verifier-only change,
+  no rebuild required.
+- LAST RUNTIME QA: no owner cast; target/contact pixels, GPU visibility,
+  pool reuse/exhaustion, and Breche/Clash visual parity remain OPEN.
+- BLOCKER: none for silent offline progress. Direct owner notice remains
+  suppressed until source/dump/isolated telemetry can no longer narrow the
+  remaining branch.
+- NEXT EXACT ACTION: continue the next dump-proven 806E particle render/update
+  or effect-pool retirement boundary; rebuild only after a semantic source
+  correction.
+- NEXT FILE TO OPEN: `GrowLancer\BRECHE_CHILDREN_REVERSE.md` and
+  `ExMain_RISE_PC\Main5.2_RISE\ZzzEffectParticle.cpp`.
+- NEXT FUNCTION TO IMPLEMENT: only the next dump-proven 806E/5FD lifecycle
+  boundary; do not change generic SS6 particle timing.
+
+### 2026-09-14 — Breche/particle path rechecked after server-dialog incident
+
+- COMPLETED THIS RUN: revalidated the source-bound Breche producer, native
+  constructor/tick/render and per-slot remainder-reset contract; all six
+  Breche verifiers passed. The offline allowlist also ran all 33 short-lived
+  harnesses with exit 0.
+- LAST STATIC/RUNTIME CHECK: no Engine, RiseQA or GameServer was launched by
+  the runner; current staged QA executable remains hash-pinned and the full
+  RuntimeQA stage verifier passes.
+- LIMIT: this is still not owner visual acceptance. Breche and Clash remain
+  open until a selected live target produces target/contact/pixel evidence.
+- NEXT EXACT ACTION: continue source-proven open chain work; do not launch a
+  server binary just to validate client visual effects.
+
+### 2026-09-14 — runtime QA launch preflight rechecked
+
+- COMPLETED THIS RUN: dry-run of `start_runtime_qa_client.ps1` passed with the
+  isolated client as working directory; no client/server process was launched.
+- LAST STATIC CHECK: runtime-QA stage verifier passed (13 Grow Lancer assets,
+  2658 base files, 79 overlay files, root login keys, and merged player CRC).
+- INCIDENT CLARIFICATION: `CashShopPackage.txt` is not a client QA dependency;
+  the error identifies a mistakenly launched GameServer working-directory/data
+  path. The QA README now documents the correct client-only launch path.
+- BLOCKER: none. NEXT EXACT ACTION: continue source-proven open skill chains;
+  keep selected-target visual evidence open for Spin/Breche/Clash.
+
+### 2026-09-14 — offline harness runner isolated from runtime binaries
+
+- COMPLETED THIS RUN: added `tools\grow_lancer\run_offline_harnesses.ps1`
+  with an explicit allowlist of short-lived helper tests. It refuses the
+  recursive “run every exe” pattern that previously opened `RiseQA.exe`,
+  `GameServer.exe` and Engine binaries.
+- LAST STATIC/RUNTIME CHECK: 33 allowlisted harnesses exited `0`, including
+  Breche ground, Clash, Spin, Magic Pin, Wrath, Obsidian, Shining Peak and
+  Harsh Strike tests. No Engine, RiseQA or GameServer process was launched by
+  this runner.
+- INCIDENT NOTE: the earlier `CashShopPackage.txt` dialog came from the
+  accidental GameServer launch in `Server\bin`; it is a working-directory/data
+  mismatch, not a skill or client regression. No production files were touched.
+- BLOCKER: none. NEXT EXACT ACTION: continue source-proven visual/lifecycle
+  work and preserve Breche/Clash ingame QA as OPEN until selected-target
+  evidence exists.
+
+### 2026-09-14 — owner-cast log audit for Breche/Clash
+
+- REVERSE/RUNTIME EVIDENCE: the latest private QA log records Breche `279`
+  dispatching to action `289` but explicitly tags
+  `action-dispatched-visual-chain-unverified ... target=-1`. Clash `275` has
+  only targetless `before-dispatch` entries and no accepted after-dispatch
+  chain. This confirms the prior owner run did not provide a selected-target
+  visual capture for either skill.
+- LAST RUNTIME QA: Breche and Clash remain `QA OPEN`; no ingame PASS inferred.
+  Focused native harnesses still exit 0, but they do not replace owner target
+  presentation/pixel evidence.
+- NEXT EXACT ACTION: keep self-testing offline; request one direct owner cast
+  only when a selected live target is available (Breche F7+F9, Clash selected
+  target) and show a notice at that point.
+
+### 2026-09-14 — candidate-only native Grow Lancer class adapter
+
+- COMPLETED THIS RUN: added
+  `GrowLancer\compat\GrowLancerClassAdapter.h` with the source-class-7 and
+  DB112..115 candidate contract, native DS/GS wire algebra, and an explicit
+  all-contract activation gate. It is fail-closed by design and does not widen
+  `MAX_CLASS`, change packets, or activate learning/casting.
+- REVERSE EVIDENCE: `verify_class_adapter_contract.py` confirms DB112/113/114/115
+  map to algebraic wire 224/240/255/271 under the existing conversion. The
+  adapter accepts only BYTE-safe 112/113/114; DB115 (wire271) is rejected until
+  a verified wider packet contract exists. The current client and server still
+  expose `MAX_CLASS=7`, so no class slot was guessed.
+- LAST STATIC CHECK: candidate adapter verifier PASS; existing class-boundary
+  verifier PASS; `git diff --check` PASS for the new files.
+- PACKAGE/DESCRIPTOR: `grow_lancer_skills_descriptor.json` now records the
+  source class byte, DB candidates, BYTE-safe subset, algebraic wire values and
+  the fail-closed activation gate; JSON parse PASS.
+- LAST BUILD RESULT: no rebuild required for header/verifier-only change; the
+  private QA Engine remains `3B6802D1C8AF002E19EEAA87D3B7A305C0BB4A1059E6AF33AF1590D8B53AA013`.
+- LAST RUNTIME QA: no client launched; no class activation or ingame verdict
+  inferred.
+- BLOCKER: none. NEXT EXACT ACTION: continue visual/lifecycle evidence on the
+  nine skill chains; class activation remains gated on native slot, defaults,
+  create/login, packet, persistence and class-consumer proof.
+
+### 2026-09-14 — focused Breche/Clash harness rerun
+
+- COMPLETED THIS RUN: reran the available isolated native harnesses after the
+  private Engine icon split. `GrowLancerParticleTickTest.exe`,
+  `ParticleTickTest\\breche-ground.exe`, `GrowLancerFlareParticleTest.exe`,
+  `GrowLancerTickTest.exe` and `ParticleTickTest\\Clash.exe` all exited 0.
+- REVERSE EVIDENCE: Breche constructor/update ordering, ground-layer math and
+  particle slot policy remain covered by their documented helper scopes;
+  Clash now has 12 scalar/frame cases plus 6 pose cases passing in the same
+  isolated tree.
+- LAST STATIC CHECK: PASS for the selected harness set. These tests do not
+  exercise a real GL context, native pool exhaustion, target-facing/push
+  presentation or owner pixel parity.
+- LAST BUILD RESULT: unchanged private QA Engine SHA-256
+  `3B6802D1C8AF002E19EEAA87D3B7A305C0BB4A1059E6AF33AF1590D8B53AA013`.
+- LAST RUNTIME QA: no client launched; no ingame/owner visual verdict was
+  inferred from the harnesses.
+- BLOCKER: none. NEXT EXACT ACTION: continue source-proven correction on the
+  next open visual/lifecycle gate; keep Breche and Clash at `QA OPEN` until a
+  selected-target runtime capture exists.
+
 ## CURRENT PHASE
 
 Native-reference-driven RISE 5.2 visual correction plus fail-closed GameServer catalog integration after static client-chain recovery and isolated asset staging.
@@ -16,6 +3246,660 @@ changing production DK learning/damage rules or treating DK equipment as Breche
 parity. Final class creation, equipment, packets and persistence are now in scope;
 numeric class IDs/DB encoding remain evidence-gated.
 
+### 2026-09-14 — isolated QA Engine icon separated from other tasks
+
+- COMPLETED THIS RUN: switched the QA executable resource icon to the private
+  `Addon\\GrowLancerQA.ico`; both `IDI_ICON1` and `IDI_ICON2` now resolve to
+  that file. Shared SS6/Pegasus icons and production executables were not
+  touched.
+- ASSET PROVENANCE: `GrowLancerQA.ico` SHA-256 is
+  `694111CB4159064E4195EAC1481946C98118E4B2807D5FFF3F47F7D6D2085781`.
+  RT_ICON payload IDs 1 and 2 were verified after linking.
+- LAST STATIC CHECK: `verify_client_icon_contract.py` PASS. The staged
+  `Engine-Port S21.exe` is the private QA executable and hashes to
+  `3B6802D1C8AF002E19EEAA87D3B7A305C0BB4A1059E6AF33AF1590D8B53AA013`.
+- LAST RUNTIME QA: no QA process is running; no gameplay/visual verdict is
+  implied by this resource-only change.
+- BLOCKER: none. NEXT EXACT ACTION: continue the offline Breche/Spin/Wrath
+  chain corrections and rebuild/restage only after a semantic source change.
+
+### 2026-09-14 — Breche/Clash static recheck after icon split
+
+- COMPLETED THIS RUN: reran the focused Breche dispatch, root, model,
+  particle, retirement, ground, sprite-envelope, stationary-offset and tick
+  verifiers, plus Clash emission-gate and renderer verifiers. All passed within
+  their documented static scopes.
+- LAST STATIC CHECK: no new runtime or owner-visual acceptance was inferred;
+  Breche target/contact/pixels and Clash facing/push/cache lifecycle remain
+  open in the acceptance matrix.
+- LAST BUILD RESULT: unchanged private QA Engine
+  `3B6802D1C8AF002E19EEAA87D3B7A305C0BB4A1059E6AF33AF1590D8B53AA013`.
+- LAST RUNTIME QA: no client launched and no QA process is running.
+- BLOCKER: none. NEXT EXACT ACTION: continue the next dump-proven particle
+  initialization/update correction before another isolated build.
+
+### 2026-09-14 — Breche emitter owner-bone boundary pinned
+
+- COMPLETED THIS RUN: added
+  `tools\\grow_lancer\\verify_breche_emitter_contract.py`. It verifies the
+  private emitter's owner/live/model/bone guards, native
+  `BMD::TransformByObjectBone` sampling, the recovered sprite/fire child
+  producers, and controller/emitter render suppression.
+- REVERSE EVIDENCE: the adapter samples the current target owner model only
+  when its native bone count is valid; the lifecycle-only emitter itself is not
+  submitted as an extra terrain/mesh layer. No S21 object layout or fixed bone
+  index was copied.
+- LAST STATIC CHECK: emitter verifier PASS, focused Breche/Clash verifier
+  set remains PASS. This is not target-skeleton or pixel acceptance.
+- FILES MODIFIED: `tools\\grow_lancer\\verify_breche_emitter_contract.py`,
+  `GrowLancer\\ACCEPTANCE_GATE_MATRIX.md` and this state file.
+- LAST BUILD RESULT: unchanged private QA Engine
+  `3B6802D1C8AF002E19EEAA87D3B7A305C0BB4A1059E6AF33AF1590D8B53AA013`;
+  no rebuild needed for verifier/docs-only changes.
+- LAST RUNTIME QA: no client launched and no QA process is running.
+- BLOCKER: none. NEXT EXACT ACTION: continue the next dump-proven particle
+  field/update correction before rebuilding or requesting owner visual QA.
+
+### 2026-09-14 — private icon build startup smoke
+
+- COMPLETED THIS RUN: launched only the staged private
+  `Engine-Port S21.exe` with its QA client directory as the working directory,
+  kept the window hidden and sampled the process for six 500 ms intervals.
+  It stayed alive for the full sample window and was then stopped cleanly.
+- LAST RUNTIME QA: startup smoke PASS for the icon-bearing QA candidate;
+  no login, cast, visual or server acceptance was inferred and no production
+  process was started.
+- LAST BUILD RESULT: unchanged staged SHA-256
+  `3B6802D1C8AF002E19EEAA87D3B7A305C0BB4A1059E6AF33AF1590D8B53AA013`.
+- BLOCKER: none. NEXT EXACT ACTION: continue source-based Spin/Breche/Wrath
+  work; request owner cast only after offline evidence no longer narrows the
+  remaining visual mismatch.
+
+### 2026-09-14 — local SQL DBClass112 cross-check (reference only)
+
+- COMPLETED THIS RUN: queried local SQL read-only. `MuOnline52.dbo.DefaultClassType`
+  contains DBClass `112` with `30/30/25/24`, Life/MaxLife `110/110`,
+  Mana/MaxMana `40/109`, map `0`, position `182,128`, DbVersion `3`;
+  this matches the separate MuServer52 row-7 candidate. No row `114`/`115`
+  was present, so no Grow Lancer evolution defaults were inferred.
+- REVERSE EVIDENCE: local `MuOnline` and `RISE5.2` have no `Class >= 100`
+  rows. `D:\GameServer S21\Data\CalcCharacter.ini` points to
+  `MuOnline.dbo.DefaultClassType`, but the supplied S21 folder has no DB
+  backup/connection proof tying it to local `MuOnline52`.
+- FILES MODIFIED: `GrowLancer/LOCAL_DB_CLASS_PROFILE_REVERSE.md` and this
+  state file. No SQL data or source tree was modified.
+- LAST STATIC CHECK: local DB result agrees with the pinned newer-source
+  candidate; class activation remains fail-closed because provenance is not
+  established.
+- LAST BUILD RESULT: not rerun; report/state only.
+- LAST RUNTIME QA: unchanged; private icon Engine remains staged, no client
+  launched.
+- BLOCKER: none. NEXT EXACT ACTION: obtain a verifiable S21 DB export or
+  connection mapping, then map DBClass112 through DS/GS/client consumers before
+  choosing any class/persistence edit.
+
+### 2026-09-14 — default-stat candidate isolated, not activated
+
+- COMPLETED THIS RUN: added
+  `tools/grow_lancer/verify_grow_lancer_default_candidate.py`. It pins the
+  S21 GL level-up/attack-speed settings and records the exact newer
+  `MuServer52` row-7 candidate (`30 30 25 24 0 110 109 2.0 1.0 2.0 1.0`)
+  without feeding it into the 5.2 runtime.
+- REVERSE EVIDENCE: S21 `CalcCharacter.ini` explicitly delegates four
+  life/mana defaults to `MuOnline.dbo.DefaultClassType`; no verified S21 row
+  is present in `D:\GameServer S21`. The newer file is pinned separately and
+  remains a planning lead only.
+- LAST STATIC CHECK: S21 delegation/settings PASS; newer candidate row7 PASS;
+  activation remains fail-closed and no class/default values were changed.
+  Follow-up descriptor JSON parse and `verify_runtime_qa_stage.py` also PASS
+  (13 private assets, 2,658 base RISE files, 79 overlay files, 3 root Data
+  files; Engine/player hashes and merged-player CRC verified).
+- FILES MODIFIED: `tools/grow_lancer/verify_grow_lancer_default_candidate.py`,
+  `GrowLancer/CLASS_INTEGRATION_CONTRACT.md` and this state file.
+- LAST BUILD RESULT: not rerun; verifier/docs-only change.
+- LAST RUNTIME QA: unchanged gameplay-wise; private icon Engine remains staged,
+  no client launched for this offline candidate check.
+- BLOCKER: none. NEXT EXACT ACTION: verify whether the S21 SQL/default-class
+  source or an authoritative DB export is available before implementing row7.
+
+### 2026-09-14 — SS6 class activation boundary audited
+
+- COMPLETED THIS RUN: added
+  `tools/grow_lancer/verify_grow_lancer_class_boundary.py`. It checks the
+  current server/client seven-class capacities, the GS create whitelist, the
+  DS/GS `DBClass -> Class/ChangeUp` load/persist path and the cross-cutting
+  `MAX_CLASS` arrays without changing any of them.
+- REVERSE EVIDENCE: current SS6 remains `MAX_CLASS=7` with DW..RF only;
+  `DefaultClassInfo` rejects out-of-range classes, character create accepts
+  only classic DB classes, and `CharacterInfoSet` rejects an unlisted DBClass.
+  The read-only newer source exposes `CLASS_GL=7` and `DB_CLASS_GL=112`..
+  `DB_CLASS_GL_4=115` as an implementation lead, not copied behavior.
+- LAST STATIC CHECK: class-boundary verifier PASS; activation remains
+  fail-closed because S21 defaults, equipment/skeleton, packets, persistence
+  and every class consumer are not yet proven in this 5.2 branch.
+- FILES MODIFIED: `tools/grow_lancer/verify_grow_lancer_class_boundary.py`
+  and this state file. No production tree, Pegasus tree or S21 source was
+  modified.
+- LAST BUILD RESULT: not rerun; verifier/docs-only change.
+- LAST RUNTIME QA: unchanged; isolated Engine remains staged with the private
+  Grow Lancer icon and no client was launched for this audit.
+- BLOCKER: none. NEXT EXACT ACTION: inventory the exact S21/newer class
+  defaults and equipment/packet contracts against each SS6 consumer, then
+  implement only the smallest isolated adapter justified by evidence.
+
+### 2026-09-14 — S21 scroll mapping corroborated by server ItemList
+
+- COMPLETED THIS RUN: added
+  `tools/grow_lancer/verify_s21_itemlist_scroll_mapping.py`. It pins
+  `D:\GameServer S21\Data\Items\ItemList.xml` and `SkillList.xml`, scopes
+  parsing to Section 12, and corroborates seven exact skill-to-scroll rows:
+  group 12/index 271..277 map to skills 271, 273, 274, 276, 277, 278 and
+  279 by exact name. GrowLancer class gates, stat requirements, drop levels,
+  prices and `SkillScroll.bmd` model identity are checked.
+- REVERSE EVIDENCE: ItemList SHA-256 is
+  `61711D9E6B0E6F14028191AA739AAD4A3B0C5911CDB3468A3BC61B988B12AF78`;
+  SkillList remains pinned to `3E238C786ECAB3445A0DB4756FE3D2A3923FBC0594506BB9C3FF206020A7E0A0`.
+  The result agrees with decoded S21 item.bmd records 2891..2897.
+- LAST STATIC CHECK: 7/9 scroll mappings PASS; exact Circle Shield Scroll and
+  Clash Scroll names are absent from Section 12, so no adjacent-index guess was
+  added. This is provenance evidence only, not native class activation.
+- FILES MODIFIED: `tools/grow_lancer/verify_s21_itemlist_scroll_mapping.py`,
+  `GrowLancer/SERVER_RULES_REVERSE.md`,
+  `GrowLancer/grow_lancer_skills_descriptor.json`,
+  `GrowLancer/ACCEPTANCE_GATE_MATRIX.md` and this state file.
+- LAST BUILD RESULT: not rerun; this change adds read-only verification/docs
+  only and does not alter client/server code.
+- LAST RUNTIME QA: unchanged; isolated Engine identity icon remains staged and
+  no client was launched for this table-only check.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: Circle Shield 272 and Clash 275
+  still lack an authoritative learn path; class defaults, DB/persistence,
+  server handlers and owner visual parity remain open.
+- BLOCKER: none. NEXT EXACT ACTION: trace the remaining class-dependent DS/GS
+  learn/ownership path without assigning a scroll to 272/275.
+
+### 2026-09-14 — S21 Grow Lancer class profile cross-check
+
+- REVERSE EVIDENCE: `tools/grow_lancer/verify_class_source_profiles.py` PASS.
+  The supplied S21 `CalcCharacter.lua` uses zero-based `CLASS_GROWLANCER=7`
+  and pins the Grow Lancer damage/attack/defense/AG expressions. The same
+  S21 `StatSpecialize.xml` uses one-based `<Class ID="8">` with options
+  `(StatType=1,Index=1)` and `(StatType=2,Index=4)`; this is a table namespace,
+  not permission to change the native class enum or DB encoding.
+- CURRENT TASK / BLOCKER: `CalcCharacter.ini` delegates LevelLife, LevelMana,
+  VitalityToLife and EnergyToMana to `MuOnline.dbo.DefaultClassType`; the
+  supplied dump/worktree has no verified row or stored-procedure values for
+  those defaults. Class activation therefore remains fail-closed, with no
+  MAX_CLASS/global enum or production server change.
+- LAST STATIC CHECK: 12 class branches / 14 expressions, two weapon-bonus
+  bodies and integer-division counterexample PASS; Lua execution, rounding,
+  live dispatch and stat application remain OPEN.
+- NEXT EXACT ACTION: trace the existing DS/GS create/load DBClass path and
+  inventory each class-dependent consumer against this two-namespace profile;
+  only activate after defaults, equipment, unlock and persistence evidence is
+  complete.
+
+### 2026-09-14 — isolated QA Engine identity icon
+
+- COMPLETED THIS RUN: replaced the shared `256.ico`/`48.ico` resource references
+  only for the Grow Lancer isolated QA build with `Addon/GrowLancerQA.ico`.
+  The temporary icon is a distinct dark blue/purple GL/lightning mark so this
+  Engine can be identified beside other running task clients.
+- ASSET PROVENANCE: `Addon/GrowLancerQA.ico`, SHA-256
+  `694111CB4159064E4195EAC1481946C98118E4B2807D5FFF3F47F7D6D2085781`.
+  The linked PE RT_ICON payload is present in both icon resource entries;
+  payload SHA-256 `CA0B05E1047B0005A306C4AA9EA6D266A2E60A1A89A1A2156B6949C59D2C4624`.
+- LAST BUILD RESULT: isolated Global Release Win32 build PASS (MSBuild 18.9.1;
+  only the pre-existing cryptlib LNK4099 warnings). QA Engine SHA-256 is
+  `3B6802D1C8AF002E19EEAA87D3B7A305C0BB4A1059E6AF33AF1590D8B53AA013`.
+- LAST RUNTIME QA: RuntimeQA client restaged with the new Engine; no process
+  was launched in this identity-only change. Gameplay/visual acceptance is
+  unchanged and remains open for Breche/Clash.
+- FILES MODIFIED: `Addon/GrowLancerQA.ico`, `ExMain_RISE_PC/Main5.2_RISE/resource.rc`,
+  `ExMain_RISE_PC/Main.vcxproj`, `ExMain_RISE_PC/Main.vcxproj.filters`,
+  `tools/grow_lancer/verify_runtime_qa_stage.py`, and this state file.
+- NEXT EXACT ACTION: use the newly staged `Engine-Port S21.exe` when an isolated
+  owner cast is requested; do not launch production or S21 executables.
+
+### 2026-09-14 — silent Breche retirement boundary and Clash/Breche self-check
+
+- COMPLETED THIS RUN: added `tools/grow_lancer/verify_breche_retirement_contract.py`.
+  It guards the split between Breche model-effect retirement through the shared
+  native `EffectDestructor` and 8084/806E/8085 fire-particle retirement through
+  the private PARTICLE Live/pool path. The guard also pins slot-marker/remainder
+  reset and rejects owner-recursive child deletion.
+- LAST STATIC CHECK: Breche dispatch, ground, model-config, particle, sprite,
+  stationary-offset, root, tick-schedule and retirement verifiers PASS; Clash
+  emission-gate and renderer verifiers PASS. Breche ground math, Clash tick/pose,
+  generic particle and model-tick native harnesses PASS. The isolated
+  `GrowLancerServerContractTest.exe` also PASS. Native class-encoding and
+  private class-body loader/submit/GPU boundary verifiers PASS; class activation
+  remains fail-closed because S21 defaults/persistence are not proven.
+- LAST RUNTIME QA: private stage verifier PASS; hidden isolated
+  `Engine-Port S21.exe` PID `28984` stayed alive for six 500 ms samples and
+  was stopped cleanly. Breche ground, Clash tick/pose, generic particle and
+  model-tick harnesses also PASS. No owner cast requested; no production or
+  S21 executable was launched.
+- FILES MODIFIED: `tools/grow_lancer/verify_breche_retirement_contract.py`
+  and this state file. No runtime source, production tree or S21 client was
+  modified in this self-test cycle.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: Breche and Clash still have no
+  accepted owner visual/pixel parity run; target/contact presentation, pool
+  exhaustion, final Grow Lancer class/DB/persistence, authoritative server
+  semantics and SS6 regression gates remain open.
+- BLOCKER: none. Direct owner notice remains suppressed while the remaining
+  boundaries can still be narrowed by source, dump, focused harness or private
+  startup telemetry.
+- NEXT EXACT ACTION: continue the next evidence-backed Breche terrain-eligibility
+  or child-pool boundary; rebuild only if a semantic source correction is proven.
+
+### 2026-09-14 — Breche empty-root render boundary pinned
+
+- COMPLETED THIS RUN: added `tools/grow_lancer/verify_breche_root_contract.py`.
+  It pins the full-dump hash and the captured runtime-id1533 model counts
+  (0 bones/0 meshes/0 actions), then checks that RISE keeps the 0x5FD root as
+  lifecycle-only, emits the five proven children, and does not invent a root
+  mesh/render path. This closes the root-geometry question without treating a
+  missing root mesh as missing child visuals.
+- Also added `tools/grow_lancer/verify_breche_tick_schedule.py` to keep the
+  Breche root/children on the native whole-tick, update-before-expiry path;
+  this prevents the emitter's random child births and alpha steps from being
+  silently driven once per fractional render frame.
+- LAST STATIC CHECK: Breche root-contract and tick-schedule verifiers PASS;
+  prior focused Breche
+  dispatch, ground-render, particle, stationary-offset, model-config,
+  sprite-envelope and RuntimeQA-stage verifiers remain PASS.
+- FILES MODIFIED: `tools/grow_lancer/verify_breche_root_contract.py` and this
+  state file. No production tree was touched.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: child pixels/contact, terrain
+  eligibility, 806E/5FD live render cadence, pool reuse/exhaustion, final
+  Grow Lancer class/DB/persistence, authoritative server semantics and
+  owner visual comparison remain open.
+- BLOCKER: none. No direct owner notice is needed; the root render boundary is
+  now resolvable from dump/source evidence.
+- NEXT EXACT ACTION: audit the shared effect-destruction/lifetime boundary for
+  the five Breche children, then rebuild only if a semantic source correction
+  is justified.
+
+### 2026-09-14 — Breche stationary-offset evidence pinned
+
+- COMPLETED THIS RUN: added `tools/grow_lancer/verify_breche_stationary_offset.py`
+  and updated `GrowLancer/BRECHE_CHILDREN_REVERSE.md`. The guard pins the
+  generic S21 constructor's three zero stores to `OBJECT+0xF8`, the audited
+  809F/809E producer calls, the 806E/sub15 zeroing branch and the 81EC/sub0
+  no-write branch, then checks native 5.2 `CreateEffect` zero-initialization.
+- LAST STATIC CHECK: stationary-offset verifier PASS; focused Breche dispatch,
+  ground-render, particle, model-config, sprite-envelope and RuntimeQA stage
+  verifiers remain PASS. This is source/dump evidence, not visual acceptance.
+- FILES MODIFIED: `GrowLancer/BRECHE_CHILDREN_REVERSE.md`,
+  `tools/grow_lancer/verify_breche_stationary_offset.py` and this state file.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: target/contact pixels, owner
+  presentation, terrain culling, 806E/5FD remaining render/lifetime edges,
+  final Grow Lancer class/DB/persistence, authoritative server semantics,
+  pool stress and SS6 regression remain open.
+- BLOCKER: none. No direct owner notice is needed; the stationary movement
+  question is now resolved by pinned source/dump evidence.
+- NEXT EXACT ACTION: continue the next unresolved Breche 806E/5FD render or
+  lifetime boundary, then rebuild only when the next semantic source change is
+  justified.
+
+### 2026-09-14 — silent Breche ground-blend correction and QA rebuild
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: continue source-first S21
+  mapping with owner interaction suppressed unless offline evidence cannot
+  distinguish a remaining branch.
+- COMPLETED THIS RUN: scoped `EnableAlphaBlend()`/`DisableAlphaBlend()` around
+  the three Breche terrain layers in `RenderEffect`. S21 reverse branches
+  select ONE/ONE for these layers; the native 5.2 terrain helper only submits
+  geometry/color, so this correction is private to Breche and does not change
+  global SS6 terrain state. Updated the staging hash guard for the rebuilt QA
+  executable. Recorded that the audited Breche child constructors leave the
+  movement vector zeroed by the generic constructor, so common movement keeps
+  the copied target position; no guessed motion was added.
+- REVERSE EVIDENCE: S21 dump hash remains pinned to
+  `6422cb4eba9432130eb247b47723ea6fc0014f5100ea0c6e63db8350f9275637`; the
+  Breche child constructor/update/render branches are documented in
+  `GrowLancer/BRECHE_CHILDREN_REVERSE.md`.
+- CHAIN COVERAGE: Breche ground render contract, child particle producer,
+  dispatch tables and stationary-offset conclusion are statically guarded.
+  Real GL pixels, target contact, owner presentation and pool-exhaustion
+  stress remain open.
+- FILES MODIFIED: `ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerEffectRuntime.cpp`,
+  `GrowLancer/BRECHE_CHILDREN_REVERSE.md`,
+  `tools/grow_lancer/verify_breche_ground_render.py`,
+  `tools/grow_lancer/verify_breche_particle_contract.py`,
+  `tools/grow_lancer/verify_runtime_qa_stage.py` and this state file.
+- LAST STATIC CHECK: focused Breche dispatch, ground-render, particle,
+  model-config, sprite-envelope and runtime-stage verifiers PASS; prior
+  verifier sweep remains unchanged. No production tree was touched.
+- LAST BUILD RESULT: isolated PC x86 RuntimeQA rebuild PASS; Engine-Port S21
+  SHA-256 `62E0165C496D800A8CFA2093C0CADAB223CB56A3D6A24192FBC186524FCA6C72`.
+  Link emitted only existing missing-PDB warnings from `cryptlib.lib`.
+- LAST RUNTIME QA: private stage verifier PASS (2,658 base RISE files, 79
+  overlay files, 3 root Data files, Player/RISE physical copies). Hidden
+  startup smoke PID `10944` stayed alive for eight 500 ms samples and was
+  stopped cleanly; no new crash log was created.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: source/static and startup PASS are
+  not visual parity. Owner pixel acceptance, exact target/contact behavior,
+  final native Grow Lancer class/DB/persistence, authoritative server rules,
+  pool exhaustion/stress and SS6 regression gates remain open.
+- BLOCKER: none for silent offline progress. No direct owner notice is needed
+  yet; the remaining open items are still addressable by source, dump and
+  isolated telemetry before requesting a cast.
+- NEXT EXACT ACTION: continue the next evidence-backed Breche child
+  ownership/retirement boundary, then rebuild only after another semantic
+  source change.
+- NEXT FILE TO OPEN: `GrowLancer/BRECHE_CHILDREN_REVERSE.md` and
+  `ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerEffectRuntime.cpp`.
+- NEXT FUNCTION TO IMPLEMENT: first unresolved Breche 806E/5FD update/render
+  contract proven by the pinned S21 dump; do not invent a replacement effect.
+
+### 2026-09-14 — silent isolated self-test cycle
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: continue code-first S21-to-5.2
+  correction with no owner interaction unless source/static/isolated evidence
+  cannot distinguish the remaining behavior.
+- COMPLETED THIS RUN: corrected `verify_circle_pool_boundary.py` to account for
+  the verified Wrath-retire call before Circle subtype-3 `DeleteJoint`; reran all
+  `tools/grow_lancer/verify_*.py` successfully. No production files changed.
+- LAST STATIC CHECK: all Grow Lancer verifier scripts PASS; focused native client
+  tests and `ExGameServer/Tests/GrowLancerServerContractTest.exe` PASS.
+- LAST BUILD RESULT: current isolated RuntimeQA Engine SHA-256 remains
+  `33A5CE7560FCF695C78503C5F2E887380262B8118C093AFDB3F375C490F9D63A`;
+  no semantic source change required for this verifier-only correction.
+- LAST RUNTIME QA: private overlay restage PASS (2,658 base RISE files, 79
+  overlay files, 3 root Data files, Player hash/CRC, 127 source junctions).
+  Hidden startup smoke launched `Engine-Port S21` PID 11252, stayed responsive
+  for 3 seconds and was stopped cleanly. No owner cast requested.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: unchanged — owner pixel/pass
+  parity, native Grow Lancer class, authoritative server semantics and full
+  pool/target regression remain open.
+- BLOCKER: none for silent code/static/smoke progress. Direct owner notice will
+  be raised only if an unresolved visual/runtime branch cannot be proven by
+  source, focused harnesses or isolated telemetry.
+- NEXT EXACT ACTION: continue the next pinned Breche particle/pool boundary,
+  then rebuild only when semantic code changes.
+
+### 2026-09-14 — Breche fire-particle contract verifier
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: continue code-first S21-to-5.2
+  correction while keeping owner interaction silent unless source and isolated
+  evidence cannot distinguish the remaining behavior.
+- COMPLETED THIS RUN: added `tools/grow_lancer/verify_breche_particle_contract.py`.
+  It pins the audited 8084/0, 806E/4 and 8085/0 native producer mapping,
+  constructor lifetime/scale/gravity/alpha fields, private tick ordering,
+  native sprite render envelope and per-slot pool-mode/remainder reset.
+- REVERSE EVIDENCE: `GrowLancer/BRECHE_CHILDREN_REVERSE.md` remains the source
+  of the three IDs and formulas; no filename, action, owner or target fallback
+  was inferred by this verifier.
+- CHAIN COVERAGE: Breche particle source boundary is now independently
+  guarded; owner-to-target presentation, raster/pass parity and exhaustion
+  stress remain open.
+- FILES MODIFIED: `tools/grow_lancer/verify_breche_particle_contract.py` and
+  this state file only; no client/server semantic source changed.
+- LAST STATIC CHECK: the new verifier PASS; prior focused native client/server
+  tests and corrected Circle pool-boundary verifier remain PASS.
+- LAST BUILD RESULT: unchanged isolated Engine hash
+  `33A5CE7560FCF695C78503C5F2E887380262B8118C093AFDB3F375C490F9D63A`;
+  verifier-only change does not require a rebuild.
+- LAST RUNTIME QA: unchanged private-overlay stage and hidden startup smoke
+  PASS; no owner cast requested.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: no visual PASS claim; target/contact
+  runtime, final Grow Lancer class/DB contract, authoritative server behavior,
+  pool stress and all-nine regression gates remain open.
+- BLOCKER: none for silent source/static progress. Direct owner notice remains
+  reserved for a visual/runtime branch that cannot be proven offline.
+- NEXT EXACT ACTION: rerun the isolated stage/startup smoke after this new
+  verifier, then continue the next pinned Breche ownership/retirement edge.
+
+### 2026-09-14 — isolated stage/startup and parser smoke revalidated
+
+- COMPLETED THIS RUN: restaged the private RuntimeQA client and reran the full
+  stage verifier. Hidden `Engine-Port S21.exe` startup PID `26908` stayed alive
+  for six 500 ms samples and was stopped cleanly. No production executable was
+  launched or modified.
+- LAST STATIC CHECK: Breche particle verifier PASS. The 13 focused client/
+  server executables are green when the MemScript test is invoked with its two
+  read-only fixtures; the standalone no-argument invocation correctly returns
+  usage code 2 and is not a test failure.
+- LAST BUILD RESULT: unchanged isolated Engine SHA-256
+  `33A5CE7560FCF695C78503C5F2E887380262B8118C093AFDB3F375C490F9D63A`.
+- LAST RUNTIME QA: stage PASS — 2,658 private base RISE files, 79 Grow Lancer
+  overlay files, 3 root Data files and 127 source junctions; Player/RISE stay
+  physical private copies. Hidden startup smoke PASS; no owner cast requested.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: unchanged — visual pixel parity,
+  selected-target contact, final class/DB activation, authoritative server
+  semantics, pool exhaustion and nine-skill regression remain open.
+- NEXT EXACT ACTION: continue code-first audit of the next pinned Breche
+  ownership/retirement edge; keep owner notice suppressed unless offline proof
+  cannot resolve it.
+
+### 2026-09-14 — verifier sweep corrected and green
+
+- COMPLETED THIS RUN: corrected two stale source guards without touching runtime
+  behavior: `verify_shining_qa_sampling.py` now scopes only the Shining callback
+  (not the later body probe), and `verify_staged_action_clips.py` accepts the
+  existing native `PlayAnimationStep` factoring while still pinning the
+  production wrapper and step expression.
+- LAST STATIC CHECK: all 85 `tools/grow_lancer/verify_*.py` scripts PASS in
+  bounded batches. Breche particle verifier, Circle pool verifier, and the
+  stage/hash guards are green. MemScript parser tests PASS with both required
+  read-only fixtures.
+- LAST BUILD RESULT: unchanged isolated Engine SHA-256
+  `33A5CE7560FCF695C78503C5F2E887380262B8118C093AFDB3F375C490F9D63A`;
+  no semantic rebuild was needed for verifier-only changes.
+- LAST RUNTIME QA: private RuntimeQA stage PASS and hidden startup PID `26908`
+  stayed alive for six samples before clean termination. No owner cast was
+  requested and no production client/server was started.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: unchanged — source/static green is
+  not visual parity. Target/contact pixels, Spin/Breche owner acceptance,
+  final Grow Lancer class/DB/persistence, authoritative server semantics,
+  pool stress and SS6 regression gates remain open.
+- BLOCKER: none for silent offline progress. Direct-owner notice remains
+  reserved for unresolved visual/runtime behavior after source and isolated
+  telemetry are exhausted.
+- NEXT EXACT ACTION: continue the next evidence-backed Breche ownership/pool
+  boundary; rebuild only after a semantic source change.
+
+### 2026-09-14 — code-first S21-to-5.2 self-check
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: continue the native 5.2
+  adapter from pinned S21 code/dump evidence; S21 Siege entry is not required.
+- COMPLETED THIS RUN: added the selected-icon pulse plus `Target:selected/none`
+  indicator; registered all 33 Grow Lancer headers in the PC project and filters;
+  rebuilt and staged the isolated QA client; rebuilt the isolated Ex603 server.
+- REVERSE EVIDENCE: Breche base cast is action 190 (mapped to 289) and the
+  receive/contact chain is a separate normalized-279 root; Spin's retained target
+  and frame-gated fan-out remain fail-closed without a live target. No guessed
+  S21 address/layout or Siege-only behavior was copied.
+- CHAIN COVERAGE: nine client descriptors/resources and native update/render
+  adapters remain implemented/static; owner pixel parity, final Grow Lancer
+  class, authoritative server hit/target semantics and regression acceptance stay
+  open. F9 remains the explicit local receive/contact fixture for Breche.
+- ASSET PROVENANCE: private `Data\\RISE\\GrowLancer` overlay only; stage verifier
+  PASS (2,658 base files, 79 overlay files, 3 root Data files, Player hash/CRC).
+- FILES MODIFIED: `Main.vcxproj/.filters`, `NewUIMainFrameWindow.cpp`,
+  `GrowLancerRuntimeQA.h/.cpp`, state and runtime-QA documentation.
+- LAST STATIC CHECK: project integration, catalog/icon/renderer/Breche dispatch,
+  server contracts/guard and all available focused client test executables PASS;
+  `git diff --check` reports only normal line-ending warnings.
+- LAST BUILD RESULT: PC x86 RuntimeQA Engine SHA-256
+  `A2008252A53C0DA773E7F3370890E8F3DB7D23E7AE5FB36904B635334DF8C922`; isolated
+  Ex603 GameServer SHA-256
+  `1D0B5F7F118EE02C19383B70D21C54A51670938AAAB9006C1523455E8D693772`.
+- LAST RUNTIME QA: isolated QA startup smoke test launched and exited cleanly;
+  no S21 client or production executable was launched.
+- KNOWN DIFFERENCES: compile/static PASS is not visual parity. Spin cross pixels
+  and Breche owner-to-target presentation still need an accepted 5.2 frame run.
+- MISSING CHAIN PARTS: native Grow Lancer class/DB encoding, authoritative
+  learning/cast/damage/target rules, remaining visual/pool/regression gates.
+- BLOCKER: no immediate code blocker; S21 Siege is not needed. Server semantics
+  remain evidence-gated until matching protected handler evidence or an approved
+  documented native contract exists.
+- NEXT EXACT ACTION: continue the next pinned primitive/ownership mismatch in
+  the adapter, then rebuild/stage; request owner QA only when code evidence cannot
+  distinguish the remaining render/pixel branch.
+- NEXT FILE TO OPEN: `GrowLancer\\BRECHE_CHILDREN_REVERSE.md` and
+  `ExMain_RISE_PC\\Main5.2_RISE\\RISE\\GrowLancerEffectRuntime.cpp`.
+- NEXT FUNCTION TO IMPLEMENT: first unresolved Breche child particle/render
+  boundary proven by the S21 dump; do not invent a replacement effect.
+
+### 2026-09-14 — Breche 7EF7 sprite envelope isolated
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: close the verified S21
+  1726C50/1727079 flare-sprite visibility contract without changing ordinary
+  SS6 sprites.
+- COMPLETED THIS RUN: added a private per-slot Breche sprite marker and a
+  `CreateBrecheSprite` wrapper. The emitter now marks only its 7EF7-to-native
+  `BITMAP_LIGHT` allocations; allocation/reuse and render-pass retirement clear
+  the marker. The marked path applies S21's visible `+0.1` / non-visible
+  `-0.1` envelope with floors/caps `[0.2, 1.0]` and leaves `SubType=0` for
+  native additive blending.
+- REVERSE EVIDENCE: `BRECHE_CHILDREN_REVERSE.md` records 7EF7 as a native
+  `BITMAP_LIGHT`-identical flare, allocator subtype 0, and the exact 1727079
+  visibility envelope. No S21 address or object layout was copied.
+- CHAIN COVERAGE: emitter sprite provenance/visibility is now a scoped native
+  adapter; full raster/pool/owner acceptance remains open.
+- FILES MODIFIED: `zzzeffectsprite.cpp`, `RISE/GrowLancerSpriteAdapter.h`,
+  `RISE/GrowLancerEffectRuntime.cpp`, `tools/grow_lancer/verify_runtime_qa_stage.py`,
+  `tools/grow_lancer/verify_breche_sprite_envelope.py`, and this state.
+- LAST STATIC CHECK: Breche sprite verifier PASS; project integration PASS;
+  `git diff --check` only reports normal line-ending warnings.
+- LAST BUILD RESULT: isolated PC x86 RuntimeQA build PASS; staged Engine SHA-256
+  `33A5CE7560FCF695C78503C5F2E887380262B8118C093AFDB3F375C490F9D63A`.
+- LAST RUNTIME QA: stage preparation/full private-overlay verifier PASS
+  (2,658 base RISE, 79 private overlay, 3 root Data files, Player hash/CRC);
+  focused client and server contract tests PASS. Isolated QA startup smoke
+  stayed responsive as PID 33412 and was stopped cleanly; no owner test
+  requested.
+- KNOWN DIFFERENCES: sprite raster visibility, pass frequency, and target-side
+  frame comparison still cannot be proven from source-only tests.
+- MISSING CHAIN PARTS: target/contact visual acceptance, pool exhaustion/reuse,
+  final Grow Lancer class/server/persistence and all-nine regression gates.
+- BLOCKER: none for code-first progress; owner QA is only needed if pixel/pass
+  behavior remains unresolved after isolated runtime telemetry.
+- NEXT EXACT ACTION: restage and run the complete client/server/static suite,
+  then continue the next pinned Breche particle constructor/update boundary.
+- NEXT FILE TO OPEN: `GrowLancer\\BRECHE_CHILDREN_REVERSE.md` around the
+  8084/806E/8085 particle contracts.
+- NEXT FUNCTION TO IMPLEMENT: the first remaining 8084/0 or 806E/4 update/render
+  contract supported by the dump; do not extend sprite lifetime heuristically.
+
+### 2026-09-14 — QA skill selection highlight and contact hint staged
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; make F6/F7 QA
+  selection unambiguous and preserve evidence for the reported missing Spin/Breche
+  visuals.
+- COMPLETED THIS RUN: added a pulsing gold outline around the selected top-row
+  icon. The panel label now includes `Target:selected/none` and `F9=hit/contact`;
+  this is required for target-contact-only chains such as Breche and does not
+  alter production UI. Rebuilt and staged the isolated client; the verifier
+  passes 2,658 base RISE, 79 private Grow Lancer overlay and 3 root Data files.
+- REVERSE EVIDENCE: current QA panel screenshot showed `QA: Breche [279]`;
+  `CreateBrecheAction` starts action 289/sound, while `CreateBrecheHit` is the
+  separate target contact constructor. Spin requires a selected live target;
+  the current log previously showed target=2 plus cross-visible/cross-submit=1.
+- CHAIN COVERAGE: no visual PASS claimed. The owner report that F7 alone shows no
+  Breche effect is consistent with the separate F9 contact gate; Spin pixel
+  presentation remains open despite native render submission telemetry.
+- ASSET PROVENANCE: unchanged and hash-pinned; no S21 or production files changed.
+- FILES MODIFIED: NewUIMainFrameWindow.cpp, GrowLancerRuntimeQA.h/.cpp,
+  verify_runtime_qa_stage.py, this state.
+- LAST STATIC CHECK: project integration PASS (3 GrowLancer `.cpp`, 33 `.h`,
+  10 GameServer entries); stage verifier PASS; client/server contract and
+  dispatch-guard verifiers PASS; focused Grow Lancer test executables PASS.
+  Build emitted only pre-existing third-party missing-PDB warnings.
+- LAST BUILD RESULT: isolated Win32 Global Release RuntimeQA PASS; staged Engine
+  SHA-256 `A2008252A53C0DA773E7F3370890E8F3DB7D23E7AE5FB36904B635334DF8C922`.
+  Isolated Ex603 GameServer rebuild also PASS; SHA-256
+  `1D0B5F7F118EE02C19383B70D21C54A51670938AAAB9006C1523455E8D693772`.
+- LAST RUNTIME QA: latest isolated 5.2 QA client launched PID 26116 after
+  staging and remained responsive; no owner cast is claimed. No claim of
+  Breche/Spin visual parity.
+- KNOWN DIFFERENCES: F7 is cast/action; F9 explicitly emits the verified contact
+  node. The native stage has not yet proven owner pixels or full server semantics.
+- MISSING CHAIN PARTS: Spin cross pixel cause, Breche owner-to-target runtime
+  acceptance, final class/server/persistence and all-nine regression gates.
+- BLOCKER: none; requires a target-selected owner retest with F10 panel visible.
+- NEXT EXACT ACTION: continue code-first port from the pinned S21 dump; the
+  owner does not need to enter Siege. If a manual check is useful later, press
+  F10, verify the gold outline and label, select a live target, press F7 for
+  Spin or Breche, then press F9 for contact; inspect the dispatch/render log
+  before changing native code.
+- NEXT FILE TO OPEN: ExMain_RISE_PC/Tests/GrowLancerBuild/RuntimeQA/Client/
+  GrowLancerRuntimeQA.log.
+- NEXT FUNCTION TO IMPLEMENT: first proven failing Spin/Breche runtime boundary;
+  do not guess an asset, action or target fallback.
+
+### 2026-09-14 — Spin render-gate telemetry staged for owner retest
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; Spin Step visual
+  failure isolation after owner reports the attack is still not visible.
+- COMPLETED THIS RUN: added bounded QA-only records for Spin cross culling,
+  EnsureModel, Calc_RenderObject and RenderMesh submission, plus ground terrain
+  submission. Telemetry records effect type/subtype, live/visible, target,
+  lifetime/alpha/scale/position and model mesh/bone/action/texture handles; it
+  does not alter the native render path. The earlier owner log already proves
+  target=16 resolved and three cross plus ground objects initialized at frame
+  4.7066, so this run targets the remaining render-stage gap.
+- REVERSE EVIDENCE: RenderEffects computes TestFrustrum before private
+  RenderEffect; spin_cross.bmd is the verified 1-mesh/1-bone/1-action asset;
+  native callback contract remains stored Light*Alpha, mesh0, flags0x42/objectUV.
+- CHAIN COVERAGE: dispatch/action/retained target/controller/fanout/cross
+  initialization are evidenced; cull/model/transform/submission and owner pixel
+  visibility remain open. Ground-only owner observation remains visual FAIL.
+- ASSET PROVENANCE: unchanged; isolated overlay verifier passes 2658 base files,
+  79 Grow Lancer files and 3 root Data files. No S21 source or production writes.
+- FILES MODIFIED: GrowLancerRuntimeQA.h/.cpp, GrowLancerEffectRuntime.h/.cpp,
+  GrowLancerEffectRuntime.cpp, ZzzEffect.cpp, verify_runtime_qa_stage.py, state.
+- LAST STATIC CHECK: Spin renderer-binding verifier PASS; existing project
+  integration verifier still reports pre-existing missing project entries for
+  GrowLancerBuffCountdown.h and related newer headers.
+- LAST BUILD RESULT: isolated Global Release Win32 RuntimeQA rebuild PASS; staged
+  Engine-Port S21 SHA-256 52F143258F449CD1DB1B4FF70237A78015BA258D899E88FEB64DE6101C2650E7.
+- LAST RUNTIME QA: isolated client launched PID 14400 after stage verification;
+  no new cast telemetry yet. Owner must cast selected-target Spin once.
+- KNOWN DIFFERENCES: render telemetry proves native calls/handles, not pixels;
+  no visual PASS claimed. Body sampler fixture remains separately failing because
+  its conflict retry leaves a cached part loaded before the rollback case.
+- MISSING CHAIN PARTS: actual cause of missing cross attack pixels, final native
+  class/gameplay/server/persistence, all-nine owner visual acceptance and full
+  regression gate.
+- BLOCKER: waiting for one selected-target owner Spin cast in the newly staged QA
+  client to capture render-stage evidence; no external blocker.
+- NEXT EXACT ACTION: after the cast, inspect spin-render rows; if cross-visible
+  reaches cross-submit, compare camera/pixel path; if cross-culled, fix only the
+  proven position/culling contract; if ensure/calc fails, repair that gate.
+- NEXT FILE TO OPEN: ExMain_RISE_PC/Tests/GrowLancerBuild/RuntimeQA/Client/GrowLancerRuntimeQA.log.
+- NEXT FUNCTION TO IMPLEMENT: first failing Spin render-stage boundary from the
+  new telemetry, with no guessed asset or animation replacement.
+
+### 2026-09-14 — QA panel now labels the selected skill
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; prevent QA
+  selection ambiguity while waiting for a selected-target Spin render trace.
+- COMPLETED THIS RUN: the F10 QA panel now renders `QA: <skill name> [ID]`
+  together with the F6/F7 instructions. Added read-only selected-skill accessors;
+  F6 selection logging already carries the same name/ID. This is QA-only UI and
+  does not change production skill-bar behavior or dispatch mapping.
+- REVERSE EVIDENCE: the nine-skill QA order remains 271..279; `SkillName()` is
+  the same table used by cast logs, so the on-screen label and log cannot diverge.
+- CHAIN COVERAGE: unchanged; Spin dispatch/fanout evidence exists, render-stage
+  cause and owner visual parity remain open.
+- FILES MODIFIED: GrowLancerRuntimeQA.h/.cpp, NewUIMainFrameWindow.cpp,
+  verify_runtime_qa_stage.py, this state.
+- LAST STATIC CHECK: stage verifier and Spin renderer-binding verifier PASS.
+- LAST BUILD RESULT: isolated Global Release Win32 RuntimeQA build PASS; staged
+  Engine-Port S21 SHA-256 `87D01617430FC4608BA51D961AFE00EEA5B61C57224B114AA9173E90FBE23F8C`.
+- LAST RUNTIME QA: new isolated client launched PID 24220; no new owner cast
+  after this labelled build yet.
+- KNOWN DIFFERENCES: label confirms selection only; it is not visual acceptance.
+- MISSING CHAIN PARTS: Spin render-stage failure, all-nine owner visual parity,
+  final class/gameplay/server/persistence and regression gate.
+- BLOCKER: requires one target-selected F7 cast after the labelled build.
+- NEXT EXACT ACTION: owner presses F6 until panel says `Spin Step [271]`, selects
+  a target and presses F7; inspect `spin-render` records and fix first failing
+  native boundary.
+
 ## CURRENT SUBTASK
 
 Compare each isolated 5.2 visual chain with its captured native S21 sequence,
@@ -23,6 +3907,3728 @@ closing primitive ownership and render arguments directly from the pinned dump
 before owner gameplay QA, while retaining fail-closed class/packet boundaries.
 
 ## COMPLETED THIS RUN
+
+### 2026-09-14 — Actual cached sampler mismatch rejection/retry passed
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; private material cache contract.
+- COMPLETED THIS RUN: native filename cache ignores requested sampler on hit; added
+  private material identity/components/live-GL/sampler validation on cached and fresh
+  body paths. Mismatch rejects without changing shared GL parameters; fresh mismatch
+  releases acquired references via native rollback. Texture binding restored after query.
+- REVERSE EVIDENCE: GlobalBitmap.cpp359 cache hit increments Ref and returns existing
+  index; actual PID25908 exit0 at05:46:40Z,5 mismatch/retry tests PASS.
+- CHAIN COVERAGE: cached nearest/filter and clamp/wrap mismatch rejects; original
+  linear/repeat retry succeeds. All20 owner cases, GPU cleanup and bitmap baseline PASS.
+- ASSET PROVENANCE: unchanged; pre/post isolated staging verifier PASS; F0B935 backup retained.
+- FILES MODIFIED: Resources.cpp, RuntimeQA.cpp, staging/default hashes, class contract/state.
+- LAST STATIC CHECK: loader/GPU/submit verifiers rerun; actual5 sampler +20 owner PASS.
+- LAST BUILD RESULT: full isolated Win32 PASS; Bin/Client SHA256
+  954E1111085888E7AF9DB96DB78098571FBADD947A6186A24AAE587E5FF71DAE.
+- LAST RUNTIME QA: PID25908 exit0, mismatch retry5/5, owner20/20, no GL errors in draw
+  cases; final GPU objects deleted and bitmap counters restored.
+- KNOWN DIFFERENCES: GL sampler readback adds validation cost; no ingame timing measured.
+  Fresh-load shared-texture mismatch rollback is source-implemented, not injected yet.
+- MISSING CHAIN PARTS: final class/gameplay caller and server/persistence, lighting/shadow/
+  selection, original all9 skill visual acceptance; no new visual PASS claimed.
+- BLOCKER: none for fresh shared-texture fixture or class integration audit.
+- NEXT EXACT ACTION: inject a preloaded private skin with incompatible sampler before
+  a fresh body load, verify ref preserved on failure and retry after fixture cleanup;
+  then review actual native class activation/appearance integration gates.
+- NEXT FILE TO OPEN: RuntimeQA.cpp before body-part loop and GlobalBitmap.cpp unload path.
+- NEXT FUNCTION TO IMPLEMENT: fresh shared-material sampler conflict regression.
+
+### 2026-09-14 — Actual owner submission/hide/alpha/bone guards passed
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; native owner fixture QA.
+- COMPLETED THIS RUN: opt-in RISE_GL_BODY_OWNER_QA exercises actual OBJECT and
+  SubmitClassBaseBody for all5 parts; visible, HideSkin, alpha=.01 and short50-bone cases.
+  Confirmed native OBJECT::Destroy does not free borrowed bones; explicitly cleared pointer.
+- REVERSE EVIDENCE: actual PID14728 exit0 at05:14:06Z;20 owner cases all pass1.
+- CHAIN COVERAGE: native Transform/RenderBody wrapper actually invoked; hidden/alpha
+  suppressed and short-bone rejected with zero samples. Visible sample counts match
+  diagnostic native baseline280/478/492/156/352; not visual acceptance.
+- ASSET PROVENANCE: unchanged; full pre/post-stage verifier PASS;445133 rollback retained.
+- FILES MODIFIED: RuntimeQA.cpp, staging/default hashes, class contract/state,
+  isolated executable and rollback copy.
+- LAST STATIC CHECK: submit source verifier PASS,20 matching log records/no failures.
+- LAST BUILD RESULT: isolated Win32 PASS; Bin/Client SHA256
+  F0B93565675A3240BCB301D7C18E1661590005895104D682D0557F7B8ADDE967.
+- LAST RUNTIME QA:20 cases pass, BoneScale1.75 restored each, bitmap counters stable,
+  GL errors0; existing upload/cache/cleanup and final bitmap baseline PASS.
+- KNOWN DIFFERENCES: resources were already loaded; counters prove no net ref growth,
+  not allocation instrumentation. translate=false fixture only; no visual comparison.
+- MISSING CHAIN PARTS: cached sampler handling, class/gameplay caller, shadows/selection,
+  lighting, GS/persistence and original all9 skill visual acceptance remain open.
+- BLOCKER: none for local cache contract and integration audit.
+- NEXT EXACT ACTION: inspect native bitmap sampler cache key/refcount behavior;
+  make private body Ensure reject incompatible cached sampler requests without mutating
+  shared textures; test repeated valid/invalid requests in actual offline adapter.
+- NEXT FILE TO OPEN: GlobalBitmap.cpp::LoadImageFile and GrowLancerResources.cpp cache branch.
+- NEXT FUNCTION TO IMPLEMENT: private body cached-material sampler validation.
+
+### 2026-09-14 — Scoped native base-body submission adapter compiled
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; native owner/body adapter.
+- COMPLETED THIS RUN: SubmitClassBaseBody validates source class/part/owner/bone count;
+  suppresses private skin/hair pass before loading for HideSkin or alpha<=.01.
+  Copies native owner scale/position/light flags, consumes caller-prepared light,
+  calls actual BMD::Transform/RenderBody; saves/restores native BoneScale.
+- REVERSE EVIDENCE: RenderPartObject owner-field mapping, generic base RenderBody
+  default and synchronous native shader flush inspected. BodyLight includes terrain
+  sampling; adapter does not guess terrain light, requires caller-provided pass light.
+- CHAIN COVERAGE: ordinary texture pass implementation only; no gameplay caller.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: Resources.h/.cpp, verify_class_body_submit.py, class contract/state.
+- LAST STATIC CHECK: focused submit wiring verifier added; existing loader verifier PASS.
+- LAST BUILD RESULT: initial missing extern BoneScale compile error fixed with declaration
+  of existing native global; full isolated Win32 PASS, Bin SHA256
+  AA570C171707E15FD72E856CF056F245844991B22E0862DECAAC871D9B7526FA.
+- LAST RUNTIME QA: no new run; Client still44513388. New adapter not staged/exercised.
+- KNOWN DIFFERENCES: ordinary base pass only, excludes shadow/selection/buff/cloth/item
+  processing; final caller must provide correct light, source identity and bone count.
+  Submitted means native pass invoked, not proof of pixels/visual acceptance.
+- MISSING CHAIN PARTS: owner wrapper runtime/hide/alpha regression, class integration,
+  GS/persistence and all9 original visual acceptance; cache sampler validation.
+- BLOCKER: none for isolated owner fixture.
+- NEXT EXACT ACTION: add offline OBJECT fixture with borrowed single-key pose;
+  test SubmitClassBaseBody visible/hidden/low-alpha/short-bone cases, bone-scale restoration
+  and no allocation on suppressed pass, preserving actual native object destructor ownership.
+- NEXT FILE TO OPEN: w_ObjectInfo.cpp constructor/destructor, RuntimeQA.cpp body draw fixture.
+- NEXT FUNCTION TO IMPLEMENT: actual owner-submission and hide regression probe.
+
+### 2026-09-14 — High-level native body caller side effects audited
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; safe private caller mapping.
+- COMPLETED THIS RUN: inspected RenderPartObject tail, RenderPartObjectEffect,
+  RenderPartObjectBody default, Monk interception and custom-wing lookup; source verifier added.
+- REVERSE EVIDENCE: RenderPartObject always invokes RageFighterEffect first; that helper
+  branches on actions alone, not class. DARKSIDE_READY mutates owner Angle[2]=45 and
+  reads PLAYER action table; ATT_UP/HP_UP_OURFORCES emits additional body passes.
+  PART_t cloth state may be deleted by caller; item pipeline reads global option/custom systems.
+- CHAIN COVERAGE: direct RenderPartObject reuse is not yet safe/closed for private body.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: verify_class_body_dispatch_boundary.py, class contract/state.
+- LAST STATIC CHECK: new source boundary verifier records exact known side effects.
+- LAST BUILD RESULT: no client rebuild; staged44513388 unchanged.
+- LAST RUNTIME QA: unchanged native primitive draw smoke test PID7984; no gameplay acceptance.
+- KNOWN DIFFERENCES: generic RenderPartObjectBody default omits explicit HiddenMesh;
+  native low-level RenderBody supports it. Need explicit decision derived from actual base path.
+- MISSING CHAIN PARTS: scoped owner transform/body submission wrapper and hide regression;
+  final class/GS/persistence and original9 skill visual acceptance remain open.
+- BLOCKER: no global blocker; unsafe high-level wrapper deliberately not wired.
+- NEXT EXACT ACTION: map ordinary base-body owner fields and exact render flags into
+  native BMD::Transform/RenderBody adapter, retaining native primitives and scoped hiding;
+  exclude high-level item/Monk side effects unless explicitly required by verified action.
+- NEXT FILE TO OPEN: ZzzBMD.cpp::RenderBody and ZzzObject.cpp::BodyLight/RenderPartObject.
+- NEXT FUNCTION TO IMPLEMENT: scoped native base-body transform/submission adapter.
+
+### 2026-09-14 — Scoped base-body appearance selection contract tested
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; private appearance policy.
+- COMPLETED THIS RUN: source-audited empty equipment slots, render-equipment-off
+  fallback and RenderPartObject HideSkin/owner transform; added pure scoped policy.
+  KeepEquipment wins when equipped and equipment rendering enabled; otherwise
+  private base is hidden for HideSkin or selected. Unsupported class/part rejected.
+- REVERSE EVIDENCE: ZzzCharacter.cpp empty-slot assignments12218..12254,
+  ordinary-player equipment-off branch9560..9564; ZzzObject.cpp RenderPartObject11220;
+  verified base meshes contain only skin/hair, native sentinel paths hide both.
+- CHAIN COVERAGE: selection contract only; not gameplay wiring or appearance acceptance.
+- ASSET PROVENANCE: existing verified descriptors unchanged; no asset writes.
+- FILES MODIFIED: ClassBodyAppearance.h, GrowLancerClassBodyAppearanceTest.cpp,
+  class contract/state and isolated test object.
+- LAST STATIC CHECK: actual x86 C++14 /W4 /WX static_assert PASS,28672 input combinations
+  (512 source-class values,7 part values,8 equipment/hide combinations).
+- LAST BUILD RESULT: focused test PASS; no client rebuild/stage this run;
+  Client remains44513388 from previous native draw probe.
+- LAST RUNTIME QA: unchanged PID7984; no new class appearance/gameplay test.
+- KNOWN DIFFERENCES: policy accepts source encoding7 only, not native class/DB ID;
+  special NPC/transformation/Chaos Castle/equipment dispatch must remain caller-owned.
+- MISSING CHAIN PARTS: actual scoped native body caller/hide QA, final class encoding,
+  GS/persistence and all9 skill visual acceptance, cache sampler validation.
+- BLOCKER: no blocker for native wrapper implementation; no final class activation allowed yet.
+- NEXT EXACT ACTION: inspect remaining RenderPartObject generic body dispatch for
+  private extended model IDs, then add a narrowly scoped wrapper invoking native
+  RenderPartObject with source-gated selection; test hidden vs visible without globally
+  changing sentinel material behavior or selecting unverified equipment.
+- NEXT FILE TO OPEN: ZzzObject.cpp::RenderPartObject tail and RenderPartObjectBody default.
+- NEXT FUNCTION TO IMPLEMENT: scoped private base-body native caller and hidden draw QA.
+
+### 2026-09-14 — Actual native posed-body draw smoke test passed
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; native draw plumbing QA.
+- COMPLETED THIS RUN: opt-in RISE_GL_BODY_DRAW_QA uses actual body single-key
+  Animation, AddBoneTransform/AddMeshCommand and EndScope flush. Pose arrays survive
+  consumption; borrowed pointer cleared afterwards. Hidden surface enlarged to256.
+- REVERSE EVIDENCE: native queue flush captures fixed-function camera matrices,
+  native renderer/bone uniforms/glDrawElements executed with diagnostic pose/camera.
+- CHAIN COVERAGE: five native body draws with samples, not visual parity acceptance.
+- ASSET PROVENANCE: unchanged; full pre/post-stage verifier PASS; earlier EXEs retained.
+- FILES MODIFIED: RuntimeQA.cpp, staging/default hashes, class contract/state;
+  isolated build/client EXE and rollback copies.
+- LAST STATIC CHECK: queue/bone lifetime and native matrix setup source inspected.
+- LAST BUILD RESULT: isolated Win32 PASS; Bin/Client SHA256
+  44513388DE3424759507F01085AEF784DFD502572D4595E3A8AD8839DE15F8B4.
+- LAST RUNTIME QA: initial16x16 PID3272 exit1 (head/gloves zero samples, other parts2);
+  256x256 PID7984 exit0 at03:05:00Z, head/armor/pants/gloves/boots samples280/478/492/156/352,
+  all accepted1/glError0, cleanup/baseline restored. Initial failure retained in log.
+- KNOWN DIFFERENCES: diagnostic single-key pose/camera is not S21 skill animation;
+  sample counts prove rasterization only, NOT appearance, alpha, skeleton or visual PASS.
+- MISSING CHAIN PARTS: scoped hide/equipment policy, posed image/reference comparison,
+  class/GS/persistence and original all9 skill visual acceptance; cache sampler policy.
+- BLOCKER: none for source-based hide policy integration; owner visual gates remain open.
+- NEXT EXACT ACTION: map native character body hide/equipment selection to private
+  body adapter, define explicit scoped rendering contract before adding gameplay caller;
+  preserve legacy skin sentinel behavior for all other classes.
+- NEXT FILE TO OPEN: ZzzCharacter.cpp::RenderPartObject and body selection callers.
+- NEXT FUNCTION TO IMPLEMENT: private base-body appearance/draw adapter with hide policy.
+
+### 2026-09-14 — Nonzero caller GPU bindings preserved; draw contract gap identified
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; native body draw prerequisites.
+- COMPLETED THIS RUN: actual per-part nonzero VAO/array/element-buffer fixture checks
+  both fresh and cached adapter calls; scoped fixture restores/deletes its own handles.
+  Inspected native AddBoneTransform/AddMeshCommand/CGMShaderBMD::Render/SendIndexBone.
+- REVERSE EVIDENCE: PID10084 exit0 at02:31:08Z; all5 callerBindingsRestored1 plus
+  previous sizes/cache/deletion/rollback PASS. Native command requires matching model
+  and non-null borrowed bone pointer; GL skin upload maps mesh-local bones from that pointer.
+- CHAIN COVERAGE: actual upload-state regression, native draw source inspection only.
+- ASSET PROVENANCE: no assets changed, full isolated pre/post-stage verifier PASS.
+- FILES MODIFIED: RuntimeQA.cpp, staging/default hashes, class contract/state;
+  isolated EXE and preserved before-body-bindings-CD89D7 backup.
+- LAST STATIC CHECK: inspected source material branches and borrowed bone lifetime.
+- LAST BUILD RESULT: full isolated Win32 PASS; Bin/Client SHA256
+  0DC3CBBFC092C4A54AD39C210CA2C18F9FECF46BFF582ABB9A79FA1E15DE5457.
+- LAST RUNTIME QA: PID10084 hidden offline shader probe PASS; no gameplay/draw.
+- KNOWN DIFFERENCES: private concrete texture IDs bypass native BITMAP_SKIN/HAIR
+  HideSkin checks. Do not claim hide/equipment parity; scoped body draw must handle it.
+  Bone matrices are borrowed, so storage must survive queued render consumption.
+- MISSING CHAIN PARTS: posed native draw fixture, hide/skin policy, cache sampler,
+  class creation/persistence/server and all9 skill visual acceptance.
+- BLOCKER: none for native draw fixture; unknown final appearance contract stays open.
+- NEXT EXACT ACTION: inspect mesh queue flush/enabling and matrix uniform setup,
+  implement opt-in posed body draw using actual BMD/mesh queue on hidden test surface;
+  preserve body matrix lifetime through flush and label fixture pose as non-S21-parity.
+- NEXT FILE TO OPEN: New_ModelBMD.cpp::CGMMeshShader queue/flush and matrix uniforms.
+- NEXT FUNCTION TO IMPLEMENT: isolated native posed-body draw probe.
+
+### 2026-09-14 — Actual shader-enabled body upload/cache/deletion passed
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; native GPU lifecycle QA.
+- COMPLETED THIS RUN: added opt-in RISE_GL_BODY_GPU_QA inside offline texture probe;
+  actual glewInit/OGL330::Init with scoped shader teardown after native model destruction.
+  Tested all5 body uploads, GPU buffer sizes, cache handle identity and deletion.
+- REVERSE EVIDENCE: native APIs plus PID26296 shader enabled1, exit0 at01:58:36Z.
+- CHAIN COVERAGE: real6 VAOs/12 buffers allocated and deleted; all5 sizesMatch1,
+  cacheHandlesStable1; missing-second-material rollback still PASS with shader enabled.
+- ASSET PROVENANCE: existing assets unchanged; full pre/post stage verifier PASS.
+- FILES MODIFIED: RuntimeQA.cpp, staging/default hashes, class contract/state;
+  isolated executable and retained before-body-gpu-3E2E1C rollback copy.
+- LAST STATIC CHECK: private GPU and body loader source contract verifiers PASS.
+- LAST BUILD RESULT: full isolated Win32 PASS; compiled/staged SHA256
+  CD89D71DC31A737ACD10111939D604F3E8550D15F47B5D2F0BDB11803C1115D7.
+- LAST RUNTIME QA: PID26296 exit0; sizes/cache/deletion PASS; final native bitmap
+  counters baselineRestored1; texture CPU/GPU bytes match. No gameplay/login/draw.
+- KNOWN DIFFERENCES: buffer sizes do not prove vertex contents/pose/render parity;
+  no nonzero caller binding fixture, shader draw or injected GPU allocation failure.
+- MISSING CHAIN PARTS: native body draw/skin/material contract, sampler cache policy,
+  class creation/server/persistence and original full9 skill visual acceptance.
+- BLOCKER: none for native draw-path inspection; owner visual failures remain open.
+- NEXT EXACT ACTION: trace native New_RenderBMD body material and bone upload path,
+  establish a scoped posed-body draw probe without replacing native renderer;
+  include nonzero VAO/buffer caller-state regression before drawing.
+- NEXT FILE TO OPEN: ExMain_RISE_PC/Main5.2_RISE/New_RenderBMD.cpp and BMDShader330.cpp.
+- NEXT FUNCTION TO IMPLEMENT: private-body native draw and binding-state QA fixture.
+
+### 2026-09-14 — Scoped native body GPU adapter compiled
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; private body shader boundary.
+- COMPLETED THIS RUN: added private-five-slot EnsureClassBodyGpu, using existing
+  BMD::LoadMeshToVAO/UploadAllToGPU, preserving caller VAO/array/element bindings.
+  Fresh and cached body loads now check GPU readiness when native shaders are enabled;
+  failed GPU records are released for retry without reacquiring model/material refs.
+- REVERSE EVIDENCE: native BMDShader330.cpp conversion/upload/release inspected;
+  native MU_OpenGL.cpp shader enable requires GLEW3.3 and successful shader init.
+- CHAIN COVERAGE: native API mapping and compiled wiring; no new GPU runtime evidence.
+- ASSET PROVENANCE: no asset changes.
+- FILES MODIFIED: GrowLancerResources.cpp, verify_class_body_gpu.py, class contract/state.
+- LAST STATIC CHECK: loader verifier PASS; private GPU source contract verifier added.
+- LAST BUILD RESULT: isolated Win32 PASS; Bin SHA256
+  CCE52A3F2553E23615A157CFD7ADF6681F727BC5F2EA199F4A68C475C4A5BCE8.
+- LAST RUNTIME QA: unchanged PID17552 rollback PASS using staged3E2E1C; new Bin NOT staged.
+- KNOWN DIFFERENCES: no shader-enabled upload/draw test; cached sampler change remains open.
+  IsShader=false intentionally takes legacy path. Existing global MAX_MODELS guard unchanged.
+- MISSING CHAIN PARTS: upload/readback/deletion QA, class wiring, GS and full9 visual gates.
+- BLOCKER: none for opt-in isolated shader probe implementation.
+- NEXT EXACT ACTION: extend hidden offline probe with opt-in glewInit/OGL330::Init,
+  test actual5 body uploads and cache reuse, verify GL buffer sizes and released handles;
+  tear models down before shader/context release, then evaluate native draw contract.
+- NEXT FILE TO OPEN: GrowLancerRuntimeQA.cpp::RunBodyTextureProbeQA and MU_OpenGL.cpp.
+- NEXT FUNCTION TO IMPLEMENT: isolated shader-enabled body GPU lifecycle test.
+
+### 2026-09-14 — Actual missing-second-material rollback and retry passed
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; native body failure recovery.
+- COMPLETED THIS RUN: created separate two-file fixture (helm + hair only), added
+  opt-in offline rollback probe, built/staged with retained 77520D rollback executable.
+- REVERSE EVIDENCE: actual native EnsureClassBodyModel/Open2/bitmap/Release execution;
+  source acquisition order plus independently loadable first material, absent second.
+- CHAIN COVERAGE: failed material load resets same model slot and releases acquired refs;
+  subsequent part0 load retries that slot from complete runtime directory successfully.
+- ASSET PROVENANCE: two fixture files SHA-pinned; original and runtime assets unchanged.
+- FILES MODIFIED: RuntimeQA.cpp, stage_body_rollback_fixture.ps1, candidate staging hashes,
+  class contract/state, isolated fixture/build/QA executable and rollback backup.
+- LAST STATIC CHECK: verify_class_body_loader.py PASS; full QA pre/post-stage assets PASS.
+- LAST BUILD RESULT: full isolated Win32 PASS; compiled/staged SHA256
+  3E2E1C062D8701CFA5CDD0CBA76B2FEC9E52F136476E4AF6E812653758900F10.
+- LAST RUNTIME QA: PID17552 exit0 at 2026-09-14T00:53:29Z; rollback firstPresent1,
+  secondAbsent1, rejected1, reset1, refsRestored1; all5 loaded/cached/countersStable1;
+  final bitmap baselineRestored1. Offline hidden WGL only, no login or gameplay.
+- KNOWN DIFFERENCES: not an exhaustive allocation failure/leak test, no shader draw;
+  first acquisition inside failed wrapper inferred from source order, not per-call telemetry.
+- MISSING CHAIN PARTS: private VAO upload, cache sampler policy, class/GS/full9 visual gates.
+- BLOCKER: none for scoped shader source work; original owner visual failures remain open.
+- NEXT EXACT ACTION: inspect native private-body LoadMeshToVAO/UploadAllToGPU and shader
+  initialization requirements; avoid MAX_MODELS-only wrapper silently skipping body slots.
+- NEXT FILE TO OPEN: ExMain_RISE_PC/Main5.2_RISE/New_ModelBMD.cpp.
+- NEXT FUNCTION TO IMPLEMENT: scoped private-body native shader upload adapter/test.
+
+### 2026-09-14 — Actual combined body adapter test passed
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; native adapter regression.
+- COMPLETED THIS RUN: added opt-in offline native model table test, exercised
+  real5 body loads/cache repeats and invalid class/part; destructor before GL teardown.
+- REVERSE EVIDENCE: actual PID20404 exit0 and native source shader wrapper audit.
+- CHAIN COVERAGE: combined Open2/material/cache lifecycle; no actual class rendering.
+- ASSET PROVENANCE: same7 private runtime files; pre/post EXE preflight PASS.
+- FILES MODIFIED: RuntimeQA.cpp, staging/default hashes, acceptance/class docs/state;
+  isolated EXE and016DAF rollback backup.
+- LAST STATIC CHECK: native shader wrapper rejects modelId>=MAX_MODELS; body path not VAO-ready.
+- LAST BUILD RESULT: full isolated Win32 PASS; compiled/staged
+  77520D15A113E15991164FBF96028680B4C69AA6CB03C1C576AE8CE377F5D35C.
+- LAST RUNTIME QA:20404 exit0;5 loaded1/cached1/countersStable1;
+  final bitmap counters restored. Partial second-material failure not tested yet.
+- KNOWN DIFFERENCES: no shader draw, cached sampler change validation or full leak proof.
+- MISSING CHAIN PARTS: rollback/retry, private shader upload, class/GS/full9 visual gates.
+- BLOCKER: no global blocker; shader range issue is actionable local work.
+- NEXT EXACT ACTION: exercise missing-second-material rollback/retry in separate fixture,
+  then map private body VAO upload without changing legacy effect selection.
+- NEXT FILE TO OPEN: native Release/adapter and New_ModelBMD.cpp range guard.
+- NEXT FUNCTION TO IMPLEMENT: actual rollback fixture and scoped body shader upload.
+
+### 2026-09-14 — Seven private runtime base-body assets staged
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; adapter runtime prerequisites.
+- COMPLETED THIS RUN: dry-run/apply/repeat-apply hash-guarded5 base BMD+2 textures
+  to adapter's actual isolated relative directory; no live QA target before write.
+- REVERSE EVIDENCE: no new reverse; actual source/output hash and path verification.
+- CHAIN COVERAGE: runtime asset delivery only; combined adapter test still required.
+- ASSET PROVENANCE:7 pinned converted/original bytes; no overwrite of different files;
+  repeat apply preserves identical files and all original sources untouched.
+- FILES MODIFIED: stage_gl_body_runtime.ps1, class contract/state;7 added isolated Client assets.
+- LAST STATIC CHECK: new7-file verifier PASS; existing full base/overlay QA preflight PASS.
+- LAST BUILD RESULT: no rebuild; Bin0A5612D5 remains newer than Client016DAFA5.
+- LAST RUNTIME QA: no launch; no combined wrapper/cache/rollback acceptance.
+- KNOWN DIFFERENCES: existing13-file QA verifier does not include new7 files;
+  separate new hash guard covers them. Native adapter not yet deployed/called.
+- MISSING CHAIN PARTS: actual wrapper failure/retry/cache, class/GS/full9 visual gates.
+- BLOCKER: no global blocker.
+- NEXT EXACT ACTION: add actual adapter test to offline GL probe with native
+  model table and isolated missing-second-material fixture; preserve original sources.
+- NEXT FILE TO OPEN: RunBodyTextureProbeQA and EnsureClassBodyModel.
+- NEXT FUNCTION TO IMPLEMENT: combined adapter runtime regression harness.
+
+### 2026-09-14 — EnsureClassBodyModel implemented and built
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; native body resource adapter.
+- COMPLETED THIS RUN: descriptor-driven native Open2/material acquisition into
+  private32..36 range; exact base gate/context/sampler validation; initialize
+  unowned texture slots before acquisition and reset native allocation on rollback.
+- REVERSE EVIDENCE: existing verified descriptors and native loader/refcount lifecycle.
+- CHAIN COVERAGE: compiled adapter, not invoked gameplay or failure-injection proof.
+- ASSET PROVENANCE: reads intended private relative directory; Client assets not staged yet.
+- FILES MODIFIED: Resources.h/.cpp, verify_class_body_loader.py, staging candidate
+  hash, acceptance/class docs/state; isolated build outputs.
+- LAST STATIC CHECK: adapter guard/sentinel/acquisition ordering/effect range verifier PASS.
+- LAST BUILD RESULT: full isolated Win32 PASS; Bin SHA
+  0A5612D590B04089B73F8457945E28AD772B42C6A11B0FD300A837B04F398597.
+- LAST RUNTIME QA: no new run; staged Client still016DAFA5.
+- KNOWN DIFFERENCES: no gameplay caller; cached sampler contract and partial
+  failure rollback require real tests. Prior primitive probes do not prove wrapper.
+- MISSING CHAIN PARTS: adapter invocation/cache/rollback, class/evolution/GS/full9 visual gates.
+- BLOCKER: no global blocker.
+- NEXT EXACT ACTION: stage hash-pinned base bodies/materials into isolated Client,
+  exercise actual adapter with valid GL context and deliberately missing second material;
+  verify refs/slots/reset/retry without changing source assets.
+- NEXT FILE TO OPEN: offline QA texture harness and candidate staging guards.
+- NEXT FUNCTION TO IMPLEMENT: actual class-body adapter runtime test with rollback coverage.
+
+### 2026-09-14 — Private body model range reserved and compiled
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; native class resource capacity.
+- COMPLETED THIS RUN: appended5 private body slots32..36, preserved skill0..30
+  and spare31; audited allocation/initialization/release consumers of capacity.
+- REVERSE EVIDENCE: native OpenPlayers and Winmain runtime-limit consumers.
+- CHAIN COVERAGE: allocation/bounds contract, not activated body loading/rendering.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: RuntimeCapacity.h, ClassBodyCapacityTest.cpp, staging pins,
+  acceptance/class docs/state; isolated build outputs.
+- LAST STATIC CHECK: focused x86 W4/WX PASS after correcting fixture signed comparison;
+  invalid parts rejected; body range remains outside skill kLastModel30.
+- LAST BUILD RESULT: full isolated QA PASS; Bin C6E97739A10EBB438F43BE6A7DFBE8958A4C09025BB2E9D07D1B1B74D09EE767.
+- LAST RUNTIME QA: no new run; staged Client remains016DAFA5 (not updated).
+- KNOWN DIFFERENCES: private tail now37, no legacy model IDs/MAX_CLASS changed;
+  registry loading/render consumers still need integration.
+- MISSING CHAIN PARTS: EnsureClassBodyModel, class/evolutions/GS and full9 visual gates.
+- BLOCKER: no global blocker.
+- NEXT EXACT ACTION: implement descriptor-backed body loader with native Open2,
+  validated material references and balanced cleanup; test failure rollback.
+- NEXT FILE TO OPEN: GrowLancerResources.cpp EnsureModel and class descriptor.
+- NEXT FUNCTION TO IMPLEMENT: EnsureClassBodyModel.
+
+### 2026-09-14 — Base GL body/material descriptor implemented
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; private class package.
+- COMPLETED THIS RUN: added independent five-body/six-mesh material descriptor
+  from verified source IDs and actual load counts; exact source07 gate rejects
+  unsupported class/evolution inputs without guessing. Audited runtime tail capacity.
+- REVERSE EVIDENCE: existing model registration, decoded mesh ordering and selector chain.
+- CHAIN COVERAGE: typed package contract, not gameplay registry integration.
+- ASSET PROVENANCE: references existing verified candidate files; sources unchanged.
+- FILES MODIFIED: ClassBodyDescriptor.h, GrowLancerClassBodyDescriptorTest.cpp,
+  class contract/state; compiled test object under isolated GrowLancerBuild.
+- LAST STATIC CHECK: x86 C++14 W4/WX PASS;512 class inputs, valid/invalid material indices.
+- LAST BUILD RESULT: focused descriptor object PASS; runtime016DAFA5 unchanged.
+- LAST RUNTIME QA: no new run; prior native body/texture evidence retained.
+- KNOWN DIFFERENCES: tail32 has31 skill entries; five bodies need explicit new
+  range/bounds migration. No native model IDs or MAX_CLASS changed this run.
+- MISSING CHAIN PARTS: private registry wiring, higher evolutions, GL/GS/full9 visual gates.
+- BLOCKER: no global blocker; capacity integration is next safe implementation.
+- NEXT EXACT ACTION: extend bounded private model tail for body descriptors,
+  audit allocation/iteration limits, keep effect predicates excluding body entries.
+- NEXT FILE TO OPEN: GrowLancerRuntimeCapacity.h and all RuntimeModelLimit consumers.
+- NEXT FUNCTION TO IMPLEMENT: EnsureClassBodyModel with native Open2 and scoped material ownership.
+
+### 2026-09-14 — Actual GL material selector writer decoded
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; class material mapping.
+- COMPLETED THIS RUN: followed class byte12 through source stage/selector helpers
+  to modelA4 writer. Base7 selector7+16*highest-high-nibble-rank established.
+- REVERSE EVIDENCE:13E2DBA..13E2DD3; complete1418FBA..1418FF1 and141848E..14184E4.
+- CHAIN COVERAGE: actual writer, not just numeric xref. Source byte7 selects
+  registered772C skin/777D hair; valid evolution/persistence paths still open.
+- ASSET PROVENANCE: no new assets/changes; existing Class108 files match base chain.
+- FILES MODIFIED: texture dispatcher verifier, class contract, state.
+- LAST STATIC CHECK: writer/helpers pin PASS;16 high-nibble algebra cases, not live class QA.
+- LAST BUILD RESULT: unchanged016DAFA5.
+- LAST RUNTIME QA: no new run.
+- KNOWN DIFFERENCES: S21 class+16*tier versus SS6 base*2+change-up; do not replace globally.
+- MISSING CHAIN PARTS: valid GL evolution encoding, higher materials/body selector,
+  native class integration, GS and nine-skill visual gates.
+- BLOCKER: no global blocker.
+- NEXT EXACT ACTION: implement scoped unevolved GL body/material descriptor using
+  verified base-chain IDs/assets; keep evolution activation gated until verified.
+- NEXT FILE TO OPEN: GrowLancerResources.h/cpp and runtime model capacity.
+- NEXT FUNCTION TO IMPLEMENT: private GL body registration, preserving all legacy model indices.
+
+### 2026-09-14 — Renderer skin/hair substitution verified
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; final GL material selection.
+- COMPLETED THIS RUN: fully decoded two selected renderer branches; token+signed
+  model selector and hide gate established. Verified6 concrete file registrations.
+- REVERSE EVIDENCE:133146D..133155F,1331854..1331946; six18C68/6A/6B/70/74/78 blocks.
+- CHAIN COVERAGE: texture substitution, not actual GL selector writer/evolution.
+- ASSET PROVENANCE: same skin/hair files identified at multiple registered IDs;
+  no new files staged, no ID pattern guesses.
+- FILES MODIFIED: texture dispatcher verifier, class contract, state.
+- LAST STATIC CHECK: pinned full branches and6 registration blocks PASS.
+- LAST BUILD RESULT: unchanged016DAFA5 candidate.
+- LAST RUNTIME QA: no new run; prior upload/readback results retained.
+- KNOWN DIFFERENCES: source signed byteA4 selector; sourceA5 hide gate;
+  registration availability does not prove selection for a specific class state.
+- MISSING CHAIN PARTS: GL selector writer/material mapping, class/GS/full9 visual gates.
+- BLOCKER: no global blocker.
+- NEXT EXACT ACTION: trace character/body draw assignments to source modelA4,
+  verify class7/evolution paths, then map to native Skin/private textures.
+- NEXT FILE TO OPEN: S21 character render and model selector setter xrefs.
+- NEXT FUNCTION TO IMPLEMENT: evidence-backed native class material adapter.
+
+### 2026-09-14 — S21 skin/hair token mapping recovered
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; actual body material selection.
+- COMPLETED THIS RUN: traced helper14191B7 xrefs to texture tier loop;
+  complete texture-dispatch helper decode proves lowercase ski/hair return
+  shared tokens rather than directly loading the mesh filename.
+- REVERSE EVIDENCE: pinned18BBA1A..18BBD33; caller18C79D8..18C7A70.
+- CHAIN COVERAGE: source token contract; final renderer selection remains open.
+- ASSET PROVENANCE: unchanged. Prior3 texture upload tests remain compatibility
+  proof only, not complete S21 material assignment.
+- FILES MODIFIED: verify_s21_body_texture_dispatch.py, class contract, state.
+- LAST STATIC CHECK: full helper decode and five caller sequences PASS.
+- LAST BUILD RESULT: runtime unchanged016DAFA5 candidate retained.
+- LAST RUNTIME QA: none this run; prior readback evidence retained at its proper scope.
+- KNOWN DIFFERENCES: lowercase ski/hair tokens7725/7776; uppercase Skin_Class308
+  does not match lowercase byte test. No case normalization assumed.
+- MISSING CHAIN PARTS: final token/skin resolver, class mapping, GS/full9 visual gates.
+- BLOCKER: no global blocker; renderer token xrefs provide next concrete action.
+- NEXT EXACT ACTION: trace7725/7776 renderer substitution and selected GL texture
+  table before registering native private body slots.
+- NEXT FILE TO OPEN: S21 mesh renderer token comparisons and class texture tables.
+- NEXT FUNCTION TO IMPLEMENT: descriptor-backed material mapping after selected-ID evidence.
+
+### 2026-09-14 — Native texture pixel/alpha readback passed
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; texture transfer fidelity.
+- COMPLETED THIS RUN: compared3 GPU readbacks byte-for-byte with native decoded
+  buffers, recorded GL driver, checked hair alpha and missing-file cleanup.
+- REVERSE EVIDENCE: native bitmap+GL runtime PID12168 exit0, not static inference.
+- CHAIN COVERAGE: actual pixel transfer, not rendered-body/skill visual parity.
+- ASSET PROVENANCE: unchanged isolated candidates; no source conversion this run.
+- FILES MODIFIED: RuntimeQA.cpp, staging/default hash, acceptance/class docs, state;
+  isolated EXE and53A439 rollback backup.
+- LAST STATIC CHECK: bounded readback uses validated dimensions/components.
+- LAST BUILD RESULT: isolated Win32 QA PASS; compiled/staged SHA
+  016DAFA5BFF5D46E369552D5CECA478F93CDC3EB34061414E2AD2E2283F85D46.
+- LAST RUNTIME QA:12168 exit0;3 cpuGpuEqual1/glError0; hair alpha0..255;
+  missing rejected1; bitmap count/bytes baselineRestored1; NVIDIA GTX1060 driver582.66.
+- KNOWN DIFFERENCES: RGB alpha sentinels ignored (hasAlpha0); no comprehensive failure/leak QA.
+- MISSING CHAIN PARTS: actual class selection/equipment, GS and full9 visual gates.
+- BLOCKER: no current global blocker.
+- NEXT EXACT ACTION: return to source live class/body selector mapping and reserve
+  private model slots without changing legacy model numbering.
+- NEXT FILE TO OPEN: S21 class selector xrefs and GrowLancerResources.h bounds.
+- NEXT FUNCTION TO IMPLEMENT: native private class-body resource mapping.
+
+### 2026-09-14 — Actual three-texture native GL upload verified
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; body texture QA.
+- COMPLETED THIS RUN: QA-only hidden WGL context adapter using native pixel
+  format contract; actual LoadImageFile decoding/upload, GPU dimension queries
+  and reference-balanced nonforced unloading. No game connection/UI input.
+- REVERSE EVIDENCE: actual native decoder/GL execution, PID24084 exit0.
+- CHAIN COVERAGE:3 texture uploads and bitmap counter restoration; no rendered class yet.
+- ASSET PROVENANCE: fixed isolated texture candidates, original sources untouched.
+- FILES MODIFIED: RuntimeQA.cpp/.h, Winmain.cpp, stage/default hashes,
+  acceptance matrix, class contract, state; isolated EXE and rollback.
+- LAST STATIC CHECK: geometry probe wiring regression PASS.
+- LAST BUILD RESULT: missing ZzzTexture include corrected; full Win32 QA PASS;
+  compiled/staged SHA53A43945D8BB1DC9D72E98D005D18EB223D7C3C998B47584BFC85E56BA2F7810.
+- LAST RUNTIME QA: PID24084 exit0; hair64x64/skins256x256 GPU dimensions,
+  allglError0; native bitmap count/bytes baseline restored. Log SHA
+  1F547171CD1163273C34F23D20A6F358BE239B2D7E131DE00F7C0BAE103E6B6C.
+- KNOWN DIFFERENCES: no pixel parity/driver identity, game-context or general leak proof.
+- MISSING CHAIN PARTS: class mapping/equipment/evolutions, GS authority and all9 visual gates.
+- BLOCKER: no current global blocker.
+- NEXT EXACT ACTION: validate texture pixel readback/alpha and probe failure cleanup,
+  then implement private native body registration without renumbering legacy slots.
+- NEXT FILE TO OPEN: body source registration evidence and native resource allocation bounds.
+- NEXT FUNCTION TO IMPLEMENT: isolated class-body resource adapter after selector mapping.
+
+### 2026-09-14 — Three body textures staged and native resolver audited
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; body texture compatibility.
+- COMPLETED THIS RUN: traced native extension/header/pixel loading; staged3
+  hash-pinned unchanged textures beside candidate BMDs with no overwrite/reparse guards.
+- REVERSE EVIDENCE: GlobalBitmap LoadImageFile/OpenJpeg/OpenTga/UnLoadImageFile.
+- CHAIN COVERAGE: filename/layout/refcount contract; not actual GL upload.
+- ASSET PROVENANCE: hair64x64 RGBA alpha0..255; skins256x256 RGB; pinned bytes
+  retained. Original S21 and runtime Client untouched.
+- FILES MODIFIED: stage_gl_body_candidates.py, class contract, state;3 candidate textures.
+- LAST STATIC CHECK: dry run and two apply passes PASS; Pillow JPEG decode/header span checks.
+- LAST BUILD RESULT: unchanged26D1E6D candidate.
+- LAST RUNTIME QA: no new native test; prior10 geometry load/release result retained.
+- KNOWN DIFFERENCES: geometry offline path lacks GL context; no texture PASS implied.
+- MISSING CHAIN PARTS: actual GL upload/ownership QA, class integration, GS/full9 visual gates.
+- BLOCKER: no global blocker; valid isolated GL context needed for next probe.
+- NEXT EXACT ACTION: wire QA-only valid GL context using existing native setup;
+  load3 textures, inspect dimensions/GL errors and release only acquired refs.
+- NEXT FILE TO OPEN: native OpenGL initialization and bitmap reference lifecycle.
+- NEXT FUNCTION TO IMPLEMENT: isolated native texture upload probe with context cleanup.
+
+### 2026-09-14 — Actual native Open2 load/release for ten bodies
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; native body geometry QA.
+- COMPLETED THIS RUN: made probe explicit offline QA startup, built/staged it;
+  launched hidden child with process-local env and no UI/game connection.
+- REVERSE EVIDENCE: real native Open2/Init/Release execution, not parser mocks.
+- CHAIN COVERAGE:10 geometry loads and10 destructor returns; no textures/render.
+- ASSET PROVENANCE: candidates unchanged, full staged preflight PASS.
+- FILES MODIFIED: RuntimeQA.cpp/.h, Winmain.cpp, probe verifier, staging/default
+  pins, acceptance matrix/class contract/state; isolated EXE plus rollback.
+- LAST STATIC CHECK: opt-in and early-return wiring PASS.
+- LAST BUILD RESULT: full isolated Win32 PASS; compiled/staged SHA
+  26D1E6D26F52D1279A60B8FFDB6832B8E46CEBB0BFFED6DA58FFB76A599A9D3E.
+- LAST RUNTIME QA: Bin attempt PID7508 exited0xC0000135 before log; complete
+  isolated Client attempt PID964 exited0 with10 successful loads/10 releases.
+  Log SHA EFF5A25E54B14F3741423E346B4816CB90E479B8E8F3653D82D23B0F1FD8AE70.
+- KNOWN DIFFERENCES: geometry-only; no game startup/visual/leak acceptance implied.
+- MISSING CHAIN PARTS: texture decode/load, class mapping, GS and all9 gameplay QA.
+- BLOCKER: Bin missing dependency avoided by complete isolated Client; no current blocker.
+- NEXT EXACT ACTION: verify3 body textures through actual native decode/GL path
+  with isolated ownership before registering private class bodies.
+- NEXT FILE TO OPEN: Bitmaps.LoadImageFile and texture dependency decoder.
+- NEXT FUNCTION TO IMPLEMENT: scoped native texture QA without shared bitmap deletion.
+
+### 2026-09-14 — New QA candidate staged after old process exited
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; safe runtime QA preparation.
+- COMPLETED THIS RUN: exact-path Win32 process query returned no running target;
+  staged4D8B9CEF with full before/after preflight and verified EF1595 rollback backup.
+  Revalidated10 body candidates; original sources and production untouched.
+- REVERSE EVIDENCE: no new reverse; actual staging/process/asset evidence.
+- CHAIN COVERAGE: delivery to isolated client only, not launch/cast/visual evidence.
+- ASSET PROVENANCE: full2658 base/79 overlay/13 private/3 root Data checks PASS;
+  Player hash/CRC unchanged; converted body candidates compare byte-exact.
+- FILES MODIFIED: isolated RuntimeQA/Client EXE; backup under RuntimeQA/Bin;
+  verifier default hash, acceptance matrix, state.
+- LAST STATIC CHECK: staging pre/post integrity PASS; no conflicting process at replacement.
+- LAST BUILD RESULT: existing4D8B9CEF build retained.
+- LAST RUNTIME QA: no launch yet; old3712 no longer holds target.
+- KNOWN DIFFERENCES: modes remain OFF; body probe has no actual load logs yet.
+- MISSING CHAIN PARTS: native probe, texture/class/GS and all9 gameplay/visual QA.
+- BLOCKER: no live-process staging blocker now. UI skill inspected only, no UI input issued.
+- NEXT EXACT ACTION: launch isolated candidate with body-load opt-in in controlled
+  test environment, preserving process-local settings; inspect native logs.
+- NEXT FILE TO OPEN: QA launch workflow and GrowLancerRuntimeQA log.
+- NEXT FUNCTION TO IMPLEMENT: texture probe after geometry runtime proof.
+
+### 2026-09-14 — Opt-in native body load probe compiled
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; native body load QA.
+- COMPLETED THIS RUN: added QA-only exact env opt-in, once-per-process native
+  Open2 probe for10 fixed candidates; logs load counts and destructor return.
+- REVERSE EVIDENCE: Open2 leaves texture indices uninitialized; Release deletes
+  bitmap ownership except BITMAP_SKIN. Probe assigns sentinel, loads no textures.
+- CHAIN COVERAGE: native probe wired, not yet executed; no duplicate loader.
+- ASSET PROVENANCE: candidates unchanged, require hash staging preflight before launch.
+- FILES MODIFIED: GrowLancerRuntimeQA.cpp, verify_body_probe_wiring.py,
+  stage_magic_timing_candidate.ps1 hash, class contract, state.
+- LAST STATIC CHECK: opt-in/RAII/no-texture ownership wiring PASS.
+- LAST BUILD RESULT: full isolated QA Win32 PASS; Bin SHA256
+  4D8B9CEFB5640D57F80D5CFF130C80A80403996EA5F2CC090E3553B799C08A45.
+- LAST RUNTIME QA: none this run; no staging/launch/cast performed.
+- KNOWN DIFFERENCES: geometry-only, no texture or render proof; log return not leak proof.
+- MISSING CHAIN PARTS: actual probe execution, textures, class mapping, GS and nine-skill QA.
+- BLOCKER: no global blocker; current process status not revalidated this run.
+- NEXT EXACT ACTION: revalidate isolated QA process and hash-guarded staging,
+  then launch candidate with body-load opt-in only when safe and inspect real logs.
+- NEXT FILE TO OPEN: stage_magic_timing_candidate.ps1 and runtime QA log.
+- NEXT FUNCTION TO IMPLEMENT: native texture probe after geometry load evidence.
+
+### 2026-09-13 — Ten isolated body conversion candidates created
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; native body load preparation.
+- COMPLETED THIS RUN: inspected real Open2 and confirmed original encrypted0F
+  unsupported; converted10 hash-pinned files using existing converter into
+  BodyCandidates only; repeat apply verified identical outputs without rewrite.
+- REVERSE EVIDENCE: Open2 decrypt branches0C/0E; source body hash/parse contracts.
+- CHAIN COVERAGE: native-compatible encryption container, not native loader execution.
+- ASSET PROVENANCE: preserved originals and exact plaintext including unknown tails;
+  candidate hashes emitted; textures not staged yet.
+- FILES MODIFIED: stage_gl_body_candidates.py, class contract, state;10 generated
+  BMDs under GrowLancerBuild/BodyCandidates/Data/RISE/GrowLancer/ClassBody.
+- LAST STATIC CHECK: dry run/apply/repeat apply PASS; full byte roundtrip checked.
+- LAST BUILD RESULT: no runtime code change/build.
+- LAST RUNTIME QA: none; actual client untouched.
+- KNOWN DIFFERENCES: no class IDs/registrations enabled; converted files not loaded yet.
+- MISSING CHAIN PARTS: actual Open2/texture load, class mapping, GS and nine-skill acceptance.
+- BLOCKER: no new global blocker; native probe wiring remains available work.
+- NEXT EXACT ACTION: add isolated opt-in probe reusing native Open2 with safe BMD lifetime;
+  verify load/cleanup and texture path separately before activation.
+- NEXT FILE TO OPEN: BMD constructor/Release and GrowLancerRuntimeQA startup hooks.
+- NEXT FUNCTION TO IMPLEMENT: QA-only native body load probe, not duplicate loader.
+
+### 2026-09-13 — Serialized mesh ABI compiler check
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; native BMD compatibility.
+- COMPLETED THIS RUN: extracted actual native mesh typedefs and compiled x86
+  size assertions; confirmed inspector strides16/20/8/64.
+- REVERSE EVIDENCE: ZzzBMD.h and _types.h actual declarations.
+- CHAIN COVERAGE: offline parser ABI assumption, not native loader execution.
+- ASSET PROVENANCE: unchanged; no originals touched.
+- FILES MODIFIED: test_body_serialized_abi.py, class contract, state; generated
+  fixture/object only under isolated GrowLancerBuild.
+- LAST STATIC CHECK: x86 C++14 W4/WX PASS. Initial test expected Triangle34;
+  compiler rejected it; corrected to36, serialized Triangle_t2 remains64.
+- LAST BUILD RESULT: focused object compilation only, no full client rebuild.
+- LAST RUNTIME QA: none.
+- KNOWN DIFFERENCES: full project packing/include context and real loader remain unchecked.
+- MISSING CHAIN PARTS: native BMD load, textures, class mapping, GS and nine-skill QA.
+- BLOCKER: no new global blocker.
+- NEXT EXACT ACTION: locate/reuse native BMD loader harness for isolated assets;
+  avoid treating parser or extracted-typedef checks as native load PASS.
+- NEXT FILE TO OPEN: existing asset QA hooks and BMD::Open dependencies.
+- NEXT FUNCTION TO IMPLEMENT: scoped native load verification entry if absent.
+
+### 2026-09-13 — Body bone prefix and native transform path verified
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; class mesh binding.
+- COMPLETED THIS RUN: all10 GL body skeletons match first51 pinned QA Player
+  bone headers; all vertex/normal node references valid/non-dummy. Followed
+  native body draw through RenderPartObject to OBJECT BoneTransform indexing.
+- REVERSE EVIDENCE: hash-pinned assets; ZzzObject11273..11280 and BMD Transform.
+- CHAIN COVERAGE: indexed binding contract, not geometry/pose visual acceptance.
+- ASSET PROVENANCE: unchanged read-only originals; QA Player hash enforced.
+- FILES MODIFIED: body inspector/tests, class contract, state.
+- LAST STATIC CHECK:10 body comparisons PASS; node validation fixtures added.
+- LAST BUILD RESULT: no runtime change/build this run.
+- LAST RUNTIME QA: no new cast/capture.
+- KNOWN DIFFERENCES: body has51 versus Player60 bones but matching prefix;
+  no global skeleton replacement warranted. Nonzero tails still unclassified.
+- MISSING CHAIN PARTS: real loader/textures/class mapping and all9/GS runtime gates.
+- BLOCKER: no global blocker; native asset loader validation can advance.
+- NEXT EXACT ACTION: verify serialized struct ABI and native isolated BMD load;
+  then confirm texture decode before private class body staging.
+- NEXT FILE TO OPEN: ZzzBMD.h/Open and existing native asset QA harness.
+- NEXT FUNCTION TO IMPLEMENT: scoped body resource registration after load proof.
+
+### 2026-09-13 — Body mesh texture dependencies decoded read-only
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; native GL body compatibility.
+- COMPLETED THIS RUN: hash-guarded10 BMD decrypt/mesh inspections;3 shared
+  texture candidates identified from fields, hashes recorded; skeleton records
+  inspected with bounded reads, unknown nonzero tails retained explicitly.
+- REVERSE EVIDENCE: native Open mesh/action/bone serialization and original asset bytes.
+- CHAIN COVERAGE: asset structure only; live bone selection/binding still open.
+- ASSET PROVENANCE: original sources untouched; no conversion/staging this run.
+- FILES MODIFIED: inspect_gl_body_dependencies.py, test_gl_body_dependencies.py,
+  CLASS_INTEGRATION_CONTRACT.md, state.
+- LAST STATIC CHECK:10 inspections complete;3 parser tests PASS; unknown tails not discarded.
+- LAST BUILD RESULT: runtime unchanged, no build claimed.
+- LAST RUNTIME QA: no new capture.
+- KNOWN DIFFERENCES: body51 bones versus Player60; not sufficient to claim incompatibility;
+  nonzero remainder semantics and texture resolver require follow-through.
+- MISSING CHAIN PARTS: bone binding, texture decode/load, new class, GS and all9 visual QA.
+- BLOCKER: no global blocker; source checks remain available.
+- NEXT EXACT ACTION: compare actual body bone names/indices with pinned Player skeleton;
+  trace native body rendering transform lookup before mapping.
+- NEXT FILE TO OPEN: Player skeleton evidence and ZzzCharacter body render path.
+- NEXT FUNCTION TO IMPLEMENT: evidence-backed class body mapping, not global skeleton replacement.
+
+### 2026-09-13 — S21 GL body registrations and exclusion recovered
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; class body source contract.
+- COMPLETED THIS RUN: recovered loop-derived body registrations omitted by fixed
+  registry; proved base7 skips Class2; recorded10 source BMD hashes and IDs.
+- REVERSE EVIDENCE: pinned18CCBEC..18CCDF7, helper14191B7..1419201,
+  low-nibble helper960FB1 and shared filename formatting18BBEE0.
+- CHAIN COVERAGE: registration and filename derivation, not live body selection.
+- ASSET PROVENANCE:10 original Data/Player files read only; header0x0F;
+  hashes recorded in CLASS_INTEGRATION_CONTRACT.md; no copying/conversion.
+- FILES MODIFIED: verify_s21_body_registration.py, class contract, state.
+- LAST STATIC CHECK:15 call contracts and conditional helper PASS.
+- LAST BUILD RESULT: runtime unchanged; no new build claimed.
+- LAST RUNTIME QA: none this run.
+- KNOWN DIFFERENCES: native second-tier registration excludes3/4/6 but not7;
+  S21 excludes7 too. Source higher tiers and native mapping remain open.
+- MISSING CHAIN PARTS: body selector, textures, conversion/load, class/GS/full9 QA.
+- BLOCKER: no global blocker; source follow-through remains possible.
+- NEXT EXACT ACTION: trace body selector to these registered IDs and inspect BMD dependencies.
+- NEXT FILE TO OPEN: S21 class/body selection functions and BMD parser tooling.
+- NEXT FUNCTION TO IMPLEMENT: verified coordinated native class-body mapping.
+
+### 2026-09-13 — Native body-model class-capacity boundary verified
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; new GL class resource mapping.
+- COMPLETED THIS RUN: added executable source/algebra verifier covering selector,
+  all15 body registrations and texture indexing; identified base7 second-bit
+  selector/registration policy mismatch without assuming valid GL evolution.
+- REVERSE EVIDENCE: CharacterManager::GetSkinModelIndex; ZzzOpenData model and
+  texture tier loops; MODEL_BODY_NUM24 versus MAX_CLASS7.
+- CHAIN COVERAGE: native class appearance resource boundary, not skill visual parity.
+- ASSET PROVENANCE: unchanged; new class body assets still need mapping/provenance.
+- FILES MODIFIED: verify_class_skin_boundary.py, CLASS_INTEGRATION_CONTRACT.md, state.
+- LAST STATIC CHECK: verifier PASS;11/21 algebra cases renumber on capacity8;
+  registration shifts too, so renumbering alone is not a proven visual defect.
+- LAST BUILD RESULT: runtime unchanged; no new build required or claimed.
+- LAST RUNTIME QA: no new launch/capture; prior process status not revalidated here.
+- KNOWN DIFFERENCES: selector-only patch rejected on encoding before any write;
+  follow-through proved all three consumers must migrate together.
+- MISSING CHAIN PARTS: verified class evolutions/body assets, all9 gameplay QA, GS authority.
+- BLOCKER: no global blocker; coordinated source mapping work remains available.
+- NEXT EXACT ACTION: verify GL body asset/evolution mapping before changing model registry.
+- NEXT FILE TO OPEN: source S21 model registry and native body texture consumers.
+- NEXT FUNCTION TO IMPLEMENT: coordinated class body adapter only after verified asset mapping.
+
+### 2026-09-13 — Acceptance audit corrected stale Shining/startup coverage
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; full nine-skill gate audit.
+- COMPLETED THIS RUN: cross-checked acceptance against detailed Obsidian/Shining
+  evidence; matrix incorrectly left Shining common-prefix/seed reverse pending.
+  That work already exists. Corrected remaining gap to mixed-pool runtime and
+  indirect field consumers. Distinguished historical startup from current QA.
+- REVERSE EVIDENCE: re-read15C65D6..15C6D98, then found existing complete pins
+  and seed-history/texture analysis in verify_pin_joint_contract.py and detailed
+  Shining document. No new reverse/implementation credit claimed for those reads.
+- CHAIN COVERAGE: avoids duplicate reverse; Obsidian auxiliary-state mapping,
+  visual QA, class/server remain genuine incomplete gates.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: ACCEPTANCE_GATE_MATRIX.md, state.
+- LAST STATIC CHECK: matrix reconciled with authoritative detailed evidence;
+  runtime candidate F06B928F versus stagedEF1595 explicitly separated.
+- LAST BUILD RESULT: no runtime edit; existing candidate retained.
+- LAST RUNTIME QA: none; current startup no longer misleadingly labeled blanket PASS.
+- KNOWN DIFFERENCES: documentation correction does not satisfy any visual gate.
+- MISSING CHAIN PARTS: fresh owner QA, native auxiliary action mapping, GL class,
+  authoritative server handler/protocol and full regression acceptance.
+- BLOCKER: QA closure and protected GS evidence are external limitations, but
+  targeted source audits remain possible; full objective remains IN_PROCESS.
+- NEXT EXACT ACTION: select only genuinely uncovered work from detailed evidence,
+  beginning native new-class ABI/packet mapping audit rather than repeating joint prefix.
+- NEXT FILE TO OPEN: GrowLancer/CLASS_MAPPING_REVERSE.md if present; locate actual class notes first.
+- NEXT FUNCTION TO IMPLEMENT: evidence-backed native class adapter boundary after ABI audit.
+
+### 2026-09-13 — Actual Wrath readback sampler bounded test passed
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; Wrath render diagnostics.
+- COMPLETED THIS RUN: extracted actual RecordWrathGroundQA and record type into
+  a C++14 constexpr fixture; controlled GL returns verify exact field recording,
+  wrong blend-state preservation,32 sample cap and zero reads for excluded calls.
+- REVERSE EVIDENCE: reran pinned source ground additive verifier; no new parity claim.
+- CHAIN COVERAGE: diagnostic correctness, not actual driver state or raster output.
+- ASSET PROVENANCE: current full QA preflight still PASS (2658 base,79 overlay,
+  13 current private assets,3 root Data files and Player/EXE integrity).
+- FILES MODIFIED: test_wrath_ground_sampler.py, Wrath_REVERSE.md, state;
+  generated fixture/object confined to isolated GrowLancerBuild.
+- LAST STATIC CHECK: actual sampler C++14 W4/WX compile PASS, at most128 GL reads
+  across32 samples, no reads for non-Wrath/non-ground calls; source blend audit PASS.
+- LAST BUILD RESULT: runtime unchanged; prior full F06B928F candidate retained.
+- LAST RUNTIME QA: staging dry-run confirms3712 still live, oldEF1595 target;
+  no overwrite/launch/cast. Wrong GL states in test are synthetic, not observed.
+- KNOWN DIFFERENCES: no real OpenGL context, timing or rendered image test yet.
+- MISSING CHAIN PARTS: current Wrath/Magic runtime and all9/class/GS acceptance gates.
+- BLOCKER: live isolated client still prevents safe executable replacement;
+  other acceptance/source audits remain available, goal not globally blocked.
+- NEXT EXACT ACTION: review remaining class/server/skill acceptance gaps while
+  waiting for QA closure; prioritize evidence-backed implementation over more
+  diagnostic-only work when current source provides enough evidence.
+- NEXT FILE TO OPEN: GrowLancer/ACCEPTANCE_GATE_MATRIX.md.
+- NEXT FUNCTION TO IMPLEMENT: next unblocked acceptance gap selected from matrix.
+
+### 2026-09-13 — Wrath ground actual-state diagnostics added
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; owner black-square report.
+- COMPLETED THIS RUN: rechecked source/native Wrath ground blend; current code already
+  selects additive ONE/ONE. Added QA-only32-sample readback after terrain draw call:
+  GL_BLEND enabled,src/dst,bound texture,scale/life/RGB. Arms only on Wrath F7 and
+  flushes outside render via existing controller flush. No texture/blend guess applied.
+- REVERSE EVIDENCE: rerun pinned15A0B63->18E7137 and15A0C0A->1765DF1;
+  native EnableAlphaBlend has cached additive state, so live readback is needed.
+- CHAIN COVERAGE: diagnostic can expose state mismatch; not proof of raster result.
+- ASSET PROVENANCE: unchanged; no image modification.
+- FILES MODIFIED: GrowLancerRuntimeQA.h/.cpp, GrowLancerEffectRuntime.cpp,
+  verify_wrath_ground_blend.py, stage_magic_timing_candidate.ps1,
+  Wrath_REVERSE.md, state.
+- LAST STATIC CHECK: source blend/call-order and bounded QA read-only sampler audit;
+  existing actual controller sampler tests PASS. No actual GL context test this run.
+- LAST BUILD RESULT: isolated Win32 PASS; candidate SHA256
+  F06B928FE7C4FE2F2312DB2522CF00056EE7488E185E95C963ED1E745438F61B.
+- LAST RUNTIME QA: no new Wrath draw capture; old QA client unchanged.
+- KNOWN DIFFERENCES: readback limited to first32 reached ground draws, may stall
+  only that diagnostic window; does not identify other Wrath layers or prove pixels.
+- MISSING CHAIN PARTS: live Wrath black-square diagnosis and Magic timing QA;
+  all nine-skill/class/server acceptance still open.
+- BLOCKER: QA closure needed to stage candidate; source work remains available.
+- NEXT EXACT ACTION: exercise bounded Wrath sampler with controlled GL fixture;
+  after client closure, stage new pinned candidate and capture one Wrath cast.
+- NEXT FILE TO OPEN: ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerRuntimeQA.cpp.
+- NEXT FUNCTION TO IMPLEMENT: Wrath readback sampler regression fixture.
+
+### 2026-09-13 — Opt-in particle option regression corrected
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; native option compatibility.
+- COMPLETED THIS RUN: found new particle phase bypassed native MoveParticles'
+  RenderAllEffects/RenderSkillEffects early return. Added identical guard before
+  private ordered traversal; off-state records/lifetimes no longer advance there.
+- REVERSE EVIDENCE: current native MoveParticles and creation/render guards, not
+  a newly inferred S21 rule. Model/actor phases remain as before.
+- CHAIN COVERAGE: opt-in option behavior aligned with existing SS6 particle path.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: ZzzEffectParticle.cpp, verify_magic_frame_ownership.py,
+  test_magic_particle_options.py, stage_magic_timing_candidate.ps1,
+  MAGIC_PIN_REVERSE.md, state.
+- LAST STATIC CHECK: actual driver extracted unchanged and executed against four
+  option combinations, real ordered-step helper, fixture kernels: PASS; no disabled
+  lifetime/update mutation. Frame-ownership audit retains matching native guard.
+- LAST BUILD RESULT: isolated Win32 PASS; candidate SHA256
+  A6725815B6CDCCBCEECB0872786FD199E022AAF633A4CC3651D9FA97E5F87AFB.
+- LAST RUNTIME QA: no new cast/deployment; current staged client remainsEF1595.
+- KNOWN DIFFERENCES: tests validate option/control-flow, not live effect kernels/GPU.
+- MISSING CHAIN PARTS: staged opt-in capture and full9-skill/class/server acceptance.
+- BLOCKER: old QA client closure remains needed for executable replacement.
+- NEXT EXACT ACTION: rerun candidate staging dry-run; audit source/runtime option
+  transitions and current client closure before any opt-in launch.
+- NEXT FILE TO OPEN: tools/grow_lancer/stage_magic_timing_candidate.ps1.
+- NEXT FUNCTION TO IMPLEMENT: runtime capture QA once candidate can be staged.
+
+### 2026-09-13 — Capture accounting validator distinguishes missing evidence
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; runtime capture validation.
+- COMPLETED THIS RUN: parser validates per-PID summaries, sequence/count/drop status,
+  finite frames and pendingBefore=pendingAfter+40*completed on owned rows.
+  Missing capture, mode off, zero executed quanta, reset review and incomplete logs
+  are distinct from accounting-consistent. None constitutes visual acceptance.
+- REVERSE EVIDENCE: no new semantic claim; verifier checks implemented clock accounting.
+- CHAIN COVERAGE: log integrity/accounting diagnostics, not phase/GPU proof.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: inspect_magic_frame_log.py, test_magic_frame_log.py,
+  MAGIC_PIN_REVERSE.md, state.
+- LAST STATIC CHECK: parser fixtures cover missing/truncated/dropped/orphan/duplicate,
+  invalid arithmetic/nonfinite, reset/mode-off and zero-tick capture.
+- LAST BUILD RESULT: no runtime edit; A3AB2493 client candidate retained.
+- LAST RUNTIME QA: current log SHA c973c8767bf8fdf0b13a3f49ef4af8097a3c9b07ecd4faa854b4ba741158b9de
+  reports NO_CAPTURE,0 frame rows. Confirmed QA3712 still live; no staging performed.
+- KNOWN DIFFERENCES: arithmetic-consistent captures cannot prove correct visual
+  timing, no duplicate model updates, movement/pose parity or full skill coverage.
+- MISSING CHAIN PARTS: current candidate capture and visual QA, full9/class/server gates.
+- BLOCKER: live old QA executable still needs closure for replacement; further
+  source/acceptance audits remain possible.
+- NEXT EXACT ACTION: inspect opt-in error paths/options and readiness across other
+  skill failures while preserving staged client; apply candidate after confirmed exit.
+- NEXT FILE TO OPEN: ExMain_RISE_PC/Main5.2_RISE/ZzzEffectParticle.cpp at MoveParticles.
+- NEXT FUNCTION TO IMPLEMENT: align opt-in particle phase option guards if needed.
+
+### 2026-09-13 — Candidate-specific staging dry-run passed
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; isolated runtime deployment.
+- COMPLETED THIS RUN: added default-read-only staging script pinned fromEF1595 to
+  A3AB2493, full asset preflight, private non-reparse ancestor guards, exact-process
+  check, immutable rollback hash and immediate pre-copy target/candidate rechecks.
+  Apply is explicit; script never launches a client or sets timing opt-in.
+- REVERSE EVIDENCE: no new reverse claim; verified actual current QA/candidate hashes.
+- CHAIN COVERAGE: deployment provenance prepared, not executed.
+- ASSET PROVENANCE: full preflight PASS:2658 base files,79 overlay,13 current assets,
+  3 root Data files, merged Player CRC/hash, existing Mix.bmd and login-key files.
+- FILES MODIFIED: stage_magic_timing_candidate.ps1, verify_runtime_qa_stage.py,
+  MAGIC_PIN_REVERSE.md, state. Verifier supports explicit expected EXE hash while
+  retaining its prior default; stage pins exact permitted old/new hashes.
+- LAST STATIC CHECK: staging dry-run and complete QA preflight PASS; no writes.
+- LAST BUILD RESULT: prior A3AB2493 full client candidate retained unchanged.
+- LAST RUNTIME QA: current process3712 confirmed at exact isolated QA EXE path;
+  target stillEF1595. No overwrite/backup creation/launch or live cast this run.
+- KNOWN DIFFERENCES: dry-run proves inputs, not deployment or gameplay success.
+- MISSING CHAIN PARTS: actual staging after closure, opt-in runtime capture and
+  all visual/new-class/GS acceptance gates for9 skills.
+- BLOCKER: QA3712 holds executable; user closure needed before replacing that file.
+  Source/runtime-audit work remains available independently.
+- NEXT EXACT ACTION: audit opt-in edge cases while waiting for QA closure; after
+  confirmed exit run stage_magic_timing_candidate.ps1 -Apply and verify output.
+- NEXT FILE TO OPEN: tools/grow_lancer/stage_magic_timing_candidate.ps1.
+- NEXT FUNCTION TO IMPLEMENT: runtime log validation of captured magic-frame invariants.
+
+### 2026-09-13 — Actual frame/reset transition harness executed
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; ownership transition QA.
+- COMPLETED THIS RUN: extracted actual Begin/Run/End, ownership predicates and
+  ResetAllEffectAnimationSamples into an executable fixture using the real clock
+  and actor-identity helper. Ran separate enabled/default-disabled opt-in processes.
+- REVERSE EVIDENCE: no new S21 interpretation; tests current native adapter control flow.
+- CHAIN COVERAGE: zero/multiple ticks, duplicate Run, cast exit with residual effects,
+  partial batch remainder, dead actor, map mismatch, identity reset and mid-batch reset.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: test_magic_frame_transitions.py, MAGIC_PIN_REVERSE.md, state;
+  generated harness/executable remain in isolated GrowLancerBuild only.
+- LAST STATIC CHECK: actual extracted frame/reset code C++14 W4/WX compile and both
+  executable runs PASS. Initial fixture-only shadow names corrected without changing
+  extracted runtime code or suppressing warnings.
+- LAST BUILD RESULT: focused harness PASS; no runtime edit, prior full client
+  A3AB2493 candidate retained.
+- LAST RUNTIME QA: fixture execution only, not Engine gameplay; no new cast/staging.
+- KNOWN DIFFERENCES: clock API and quantum callback are controlled fixtures; no
+  BMD/native pool/GPU execution. Reset during real effect work still needs live QA.
+- MISSING CHAIN PARTS: candidate staging/opt-in capture, movement/pose/visual comparison,
+  full nine-skill/class/server-authoritative acceptance.
+- BLOCKER: previous live QA process must exit before replacing its executable;
+  no source/test blocker currently.
+- NEXT EXACT ACTION: recheck exact QA process and hashes; prepare candidate-specific
+  reversible staging and opt-in launch instructions, without overwriting a live EXE.
+- NEXT FILE TO OPEN: tools/grow_lancer/stage_spin_outcome_candidate.ps1 (reference only).
+- NEXT FUNCTION TO IMPLEMENT: hash-pinned Magic timing candidate staging/preflight.
+
+### 2026-09-13 — Bounded Magic frame-clock QA telemetry added
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; runtime observability.
+- COMPLETED THIS RUN: records owned/ran, pending before/after, completed quanta and
+  final actor action/frame at EndMagicPinFrame into512 bounded samples for skill274.
+  Flush uses existing outside-update controller-log path; drops saturate. Legacy
+  mode records owned=false, allowing opt-in failures to be distinguished from ticks.
+- REVERSE EVIDENCE: no new S21 semantic claim; exposes the integrated clock's behavior.
+- CHAIN COVERAGE: frame-clock samples plus existing before-controller action samples.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: GrowLancerRuntimeQA.h/.cpp, GrowLancerEffectRuntime.cpp,
+  verify_magic_frame_ownership.py, test_magic_frame_sampler.py, MAGIC_PIN_REVERSE.md, state.
+- LAST STATIC CHECK: actual extracted frame sampler C++14 W4/WX fixture PASS:
+  stored values,512 bound,saturating overflow,non-Magic/null exclusions. Existing
+  actual controller sampler/native SetAction tests and frame-ownership audit PASS.
+- LAST BUILD RESULT: isolated Win32 PASS; Bin SHA256
+  A3AB2493EE8244E69A63D5F7D690F32B94F4F4B897CC0ADEDFEFB51E944E8D75.
+- LAST RUNTIME QA: no current frame samples yet; candidate not staged or launched.
+- KNOWN DIFFERENCES: bounded logs are diagnostics, not proof of phase correctness
+  or GPU parity. Mid-frame lifecycle transition tests and live captures still needed.
+- MISSING CHAIN PARTS: reset/death/exit runtime, opt-in test stage, visual comparison,
+  nine-skill/new-class/server-authoritative acceptance.
+- BLOCKER: prior live QA process prevents replacement; source test work continues.
+- NEXT EXACT ACTION: inspect/test ownership transitions through reset and cast exit;
+  prepare hash-pinned staging of this candidate only after rechecking process exit.
+- NEXT FILE TO OPEN: tools/grow_lancer/verify_magic_frame_ownership.py.
+- NEXT FUNCTION TO IMPLEMENT: actual frame-ownership transition fixture.
+
+### 2026-09-13 — Explicit QA frame ownership wired into gameplay
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; opt-in runtime integration.
+- COMPLETED THIS RUN: MoveMainScene begins private ownership before characters,
+  runs coherent quanta before model effects, ends after particles. Owned Magic
+  actor/model/tagged particle legacy updates skip; other types remain native.
+  Explicit process environment RISE_GL_MAGIC_FIXED_TICK_QA=1 is required AND
+  RISE_GROW_LANCER_RUNTIME_QA build. Default and non-QA remain inactive.
+- REVERSE EVIDENCE:40ms clock, phase order, native ownership and actor identity
+  checkpoints reused. Added per-frame duplicate-run guard and completed-time consume.
+- CHAIN COVERAGE: previously separate clock and quantum drivers now connected.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: GrowLancerEffectRuntime.h/.cpp, ZzzScene.cpp, ZzzCharacter.cpp,
+  ZzzEffect.cpp, ZzzEffectParticle.cpp, verify_magic_frame_ownership.py,
+  verify_animation_observation_hook.py, MAGIC_PIN_REVERSE.md, state.
+- LAST STATIC CHECK: frame begin/run/end, QA opt-in, reset and skip audits PASS;
+  observation verifier updated for exclusive legacy/quantum branches PASS;
+  baseline character, source phase, particle provenance/lifecycle audits PASS.
+- LAST BUILD RESULT: isolated Win32 PASS; Bin SHA256
+  5C9ABF0C813E201972C4E31376701BBCA7FE82948E1A923E974B48220CA87B8B.
+- LAST RUNTIME QA: confirmed3712 still live at isolated client path; no overwrite,
+  launch, environment opt-in or new cast performed. New mode not runtime-verified.
+- KNOWN DIFFERENCES: local QA actor only; Magic model/particle domain is shared,
+  simultaneous other-caster scope, idle handoff, movement/pose order and first tick
+  need live validation. No claim this fixes every stage miss, especially cap273.
+- MISSING CHAIN PARTS: runtime zero/multi-tick, no-duplicate evidence, phase exit,
+  current visual/pool QA, all nine-skill/class/GS acceptance.
+- BLOCKER: running QA client prevents safe replacement; source tests remain possible.
+- NEXT EXACT ACTION: add focused frame-ownership transition tests and QA mode
+  telemetry before staging opt-in candidate after old client exits.
+- NEXT FILE TO OPEN: ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerRuntimeQA.cpp.
+- NEXT FUNCTION TO IMPLEMENT: clock/ownership QA sample and lifecycle transition tests.
+
+### 2026-09-13 — Private40ms clock and partial-batch accounting tested
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; clock/legacy handoff.
+- COMPLETED THIS RUN: added MagicQuantumClock with explicit start/reset, unsigned
+  millisecond rollover,64-bit pending time,40ms due count, consume-completed-only.
+  No sleep, FPS factor mutation,100ms clamp or invented initial tick credit.
+- REVERSE EVIDENCE: reran pinned source clock verifier:18EEAAF subtract40,
+  scene repeats, GetTickCount import and source minimum-frame wait confirmed.
+- CHAIN COVERAGE: elapsed accounting helper available, not connected to gameplay.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: MagicQuantumClock.h, GrowLancerMagicQuantumClockTest.cpp,
+  MAGIC_PIN_REVERSE.md, state.
+- LAST STATIC CHECK: C++14 W4/WX constexpr tests PASS:39/40ms, repeated timestamp,
+  211ms stall, overspend rejection, remainder,32-bit rollover/reset, actual sequence
+  partial batch consuming2 of5 and retaining135ms. Source clock verifier PASS.
+- LAST BUILD RESULT: focused x86 test compilation PASS; runtime files unchanged,
+  prior full client07D6DC31 candidate retained. No new full client build needed.
+- LAST RUNTIME QA: no deployment or current cast capture.
+- KNOWN DIFFERENCES: adapter accepts caller timestamps; source whole-scene sleep is
+  not reproduced. First-cast phase, idle handoff and actual clock sampling site
+  remain to wire. Samples must be less than one complete32-bit wrap apart.
+- MISSING CHAIN PARTS: frame ownership/exclusion gates, source timing runtime and
+  all nine-skill/new-class/server acceptance requirements.
+- BLOCKER: no source blocker; QA closure remains separate staging prerequisite.
+- NEXT EXACT ACTION: implement frame ownership around MoveCharactersClient and
+  model/particle passes, binding clock to validated actor/scene with explicit reset.
+- NEXT FILE TO OPEN: ExMain_RISE_PC/Main5.2_RISE/ZzzScene.cpp at MoveMainScene.
+- NEXT FUNCTION TO IMPLEMENT: private Magic BeginFrame/RunFrame/EndFrame and skips.
+
+### 2026-09-13 — Magic quantum sequence connected
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; private cadence integration.
+- COMPLETED THIS RUN: RunMagicPinQuanta connects actor, primary models, ordered
+  particles inside EACH quantum. QA/local actor identity/scene checked per quantum;
+  actor action exit does not truncate remaining effect cleanup. Returns completed
+  count, allowing caller to retain unconsumed time if identity becomes invalid.
+- REVERSE EVIDENCE: previous pinned character/model/particle phase sequence and
+  native single-phase adapters. No source gate thresholds altered.
+- CHAIN COVERAGE: composed phase sequence now compiled, but no gameplay caller.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: MagicQuantumSequence.h, GrowLancerMagicQuantumSequenceTest.cpp,
+  GrowLancerEffectRuntime.h/.cpp, MAGIC_PIN_REVERSE.md, state.
+- LAST STATIC CHECK: C++14 W4/WX constexpr zero/two-tick order, cast-exit effect
+  continuation and invalid-identity stop fixture PASS; actor/provenance audits PASS;
+  scoped diff check PASS. Callback fixture does not prove actual BMD/pool rendering.
+- LAST BUILD RESULT: isolated Win32 PASS; Bin SHA256
+  07D6DC31A36B6DB4455318DB07E2E85C15CC4560D22A3285A96262EB5B3CB2E1.
+- LAST RUNTIME QA: no new deployment or cast.
+- KNOWN DIFFERENCES: elapsed-time source, legacy exclusions, idle-action handoff and
+  multi-actor scope not wired. Synchronization alone does not prove all three Magic
+  gates at source speed273; prior conditional third-gate miss remains documented.
+- MISSING CHAIN PARTS: safe gameplay clock/handoff, current QA and full9/class/GS gates.
+- BLOCKER: none for source work; QA closure remains deployment prerequisite.
+- NEXT EXACT ACTION: add clock/legacy-path ownership together; verify per-frame
+  zero/multiple quanta, actor exit, death/map reset and residual particle ownership
+  before any gameplay activation. Do not run new and old update paths together.
+- NEXT FILE TO OPEN: ExMain_RISE_PC/Main5.2_RISE/ZzzScene.cpp at MoveMainScene.
+- NEXT FUNCTION TO IMPLEMENT: Begin/End private Magic frame and legacy skip predicates.
+
+### 2026-09-13 — Native Magic actor quantum prepared
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; coherent cast cadence.
+- COMPLETED THIS RUN: added QA-local StepMagicPinActor; validates Hero identity,
+  Live/model/scene/action287/actions, synchronizes shared BMD origin/scale/action
+  before native AnimationCharacterStep(1), then publishes actual action/frame.
+- REVERSE EVIDENCE: native CharacterAnimationStep reads speed from BMD CurrentAction;
+  MoveCharacter only initializes that shared state once before ordinary animation.
+  Repeated quantum entry must synchronize it, not reuse another actor/stale action.
+- CHAIN COVERAGE: actor, model and particle quantum entry points compiled separately.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: ZzzCharacter.cpp, GrowLancerEffectRuntime.h,
+  verify_magic_actor_quantum.py, MAGIC_PIN_REVERSE.md, state.
+- LAST STATIC CHECK: new actor gate/setup source audit PASS; existing baseline
+  character speed/stun/sleep/action-end equivalence verifier PASS. Not live QA.
+- LAST BUILD RESULT: isolated Win32 PASS; Bin SHA256
+  6027E75B404186D3EA3E0B38373D40FE5A7BF86E85EAE18982AFC3194E83CF58.
+- LAST RUNTIME QA: no new deployment or capture; no fix acceptance claimed.
+- KNOWN DIFFERENCES: new function not called by gameplay; QA-local and false outside
+  QA build. It returns false after leaving action287; idle timing/handoff must be
+  accounted for by coordinator. No global movement/clock change.
+- MISSING CHAIN PARTS: clock/coordinator plus duplicate-update exclusion, source
+  movement/pose timing comparison, current QA and nine-skill/class/server gates.
+- BLOCKER: none for source work; QA process closure is separate deployment issue.
+- NEXT EXACT ACTION: connect the three quantum entries behind one QA scheduling
+  gate, preserving actor identity, cast exit and residual effect cleanup; test
+  zero/multiple ticks before enabling any gameplay path.
+- NEXT FILE TO OPEN: ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerEffectRuntime.cpp.
+- NEXT FUNCTION TO IMPLEMENT: private Magic quantum coordinator with legacy handoff.
+
+### 2026-09-13 — Magic primary model quantum compiled
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; actor/model/particle cadence.
+- COMPLETED THIS RUN: extracted StepModelTick with update-before-life0-destruction;
+  old accumulator delegates preserving its break/remainder behavior. Added forward
+  primary-slot phase and StepMagicPinModels filtering the five private model IDs,
+  forwarding UpdateEffect and native EffectDestructor. No gameplay caller yet.
+- REVERSE EVIDENCE: prior1595834 primary forward-slot traversal and verified5E5..5E9
+  primary routing;1594624 update precedes15946E3 expiry decision.
+- CHAIN COVERAGE: model and particle single-phase drivers available; clock not wired.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: GrowLancerTick.h, GrowLancerEffectRuntime.h/.cpp,
+  GrowLancerPrimaryModelPhaseTest.cpp, MAGIC_PIN_REVERSE.md, state.
+- LAST STATIC CHECK: C++14 W4/WX primary-phase test PASS (later/earlier newborn slots,
+  life0 update/destruction, private filter). Rebuilt/executed tick, Magic, Harsh,
+  Wrath and Shining regression helpers PASS; not real-pool/GPU acceptance.
+- LAST BUILD RESULT: initial missing helper include fixed; isolated Win32 rebuild
+  PASS, SHA2566026DB6A9C20D28AC6B2008F2F22C3CBBBF861FACC8AB37FE091606420E685B3.
+- LAST RUNTIME QA: no deployment or new gameplay capture.
+- KNOWN DIFFERENCES: both phase drivers remain uncalled; legacy accumulated ticks
+  still active. Source whole-scene cadence vs private actor clock requires integration.
+- MISSING CHAIN PARTS: coherent actor clock and duplicate-update exclusion, current
+  QA; nine-skill/new-class/server acceptance remains incomplete.
+- BLOCKER: no source blocker; prior QA closure prerequisite remains separate.
+- NEXT EXACT ACTION: inspect native MoveCharacter/MoveMainScene boundaries and
+  coordinate private actor animation with model then particle phases, without
+  changing global SS6 elapsed factors or replaying interpolated owner frames.
+- NEXT FILE TO OPEN: ExMain_RISE_PC/Main5.2_RISE/ZzzCharacter.cpp at AnimationCharacterStep.
+- NEXT FUNCTION TO IMPLEMENT: private Magic quantum coordinator and legacy skip gate.
+
+### 2026-09-13 — Ordered single-quantum Magic particle phase compiled
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; coordinated tick preparation.
+- COMPLETED THIS RUN: StepMagicPinParticles delegates native records to existing
+  smoke/shockwave/thunder kernels in birth order. Generic ordered phase retires
+  dead/life0 records before dispatch and reads next after update for newborns.
+- REVERSE EVIDENCE: prior pinned S21 active-list iterator, append and lifetime order.
+- CHAIN COVERAGE: native particle single-phase driver ready, NOT invoked by gameplay.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: GrowLancerTick.h, GrowLancerMagicPinTick.h, ZzzEffectParticle.cpp,
+  GrowLancerOrderedParticlePhaseTest.cpp, MAGIC_PIN_REVERSE.md, state.
+- LAST STATIC CHECK: C++14 W4/WX actual generic phase constexpr tests PASS for
+  dead/life0 unlink, live life1 dispatch, tail birth visiting and next-tick retirement;
+  source provenance and pinned iterator verifiers PASS; scoped diff check PASS.
+- LAST BUILD RESULT: isolated Win32 PASS; Bin SHA256
+  BAC34D7CC017FBD9E4D1B03CB5B68A379A588F34887BF265BECE254C2B01D214.
+- LAST RUNTIME QA: no deployment/cast; no timing or visual acceptance claimed.
+- KNOWN DIFFERENCES: driver has declaration/definition only; old per-record ticks
+  still run. Update callbacks must not recycle/unlink current slot; selected three
+  Magic kernels do neither. Shared SS6/global scheduling remains unchanged.
+- MISSING CHAIN PARTS: model single-quantum phase and actor clock integration,
+  avoiding duplicate legacy updates; current QA, new class and authoritative GS.
+- BLOCKER: no source blocker; QA client closure remains staging prerequisite.
+- NEXT EXACT ACTION: provide Magic model primary-slot single-phase driver with
+  native EffectDestructor semantics, then coordinate actor/model/particle phase calls.
+- NEXT FILE TO OPEN: ExMain_RISE_PC/Main5.2_RISE/ZzzEffect.cpp at MoveEffect.
+- NEXT FUNCTION TO IMPLEMENT: StepMagicPinModels with source primary-slot ordering.
+
+### 2026-09-13 — Native Magic particle birth order tracked
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; source-order particle traversal.
+- COMPLETED THIS RUN: replaced producer boolean with bounded index-list sidecar;
+  successful Magic allocation appends at tail, every native allocation unlinks old
+  slot membership. Native allocator, particle objects and current updates unchanged.
+- REVERSE EVIDENCE: prior S21 append-before-sentinel and post-update next traversal;
+  native ring allocator returns slots in a different order after wrap/reuse.
+- CHAIN COVERAGE: producer and birth order retained; single-tick entry already present.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: ParticleBirthOrder.h, GrowLancerParticleBirthOrderTest.cpp,
+  ZzzEffectParticle.cpp, verify_magic_particle_provenance.py, MAGIC_PIN_REVERSE.md, state.
+- LAST STATIC CHECK: C++14 W4/WX constexpr birth/reuse/append-during-traversal tests
+  PASS; source provenance/reset audit PASS. Does not exercise the real native pool.
+- LAST BUILD RESULT: isolated Win32 PASS; Bin SHA256
+  445FFA488898E38AA66BDF1F3EA9CA22F8CF668420E63E735B5CBA0FF81ECEC8.
+- LAST RUNTIME QA: no deployment, no new casts or visual acceptance.
+- KNOWN DIFFERENCES: dead sidecar entries remain bounded/inert until reuse or future
+  ordered retirement; no update loop switched yet. No cast generation encoded.
+- MISSING CHAIN PARTS: coherent actor/model/particle tick scheduling and current QA;
+  all nine-skill/new-class/server acceptance requirements remain in scope.
+- BLOCKER: no source blocker; last QA process check still requires closure to stage.
+- NEXT EXACT ACTION: implement ordered single-particle-phase driver using these
+  native records and existing kernels, with pre-dispatch dead retirement.
+- NEXT FILE TO OPEN: ExMain_RISE_PC/Main5.2_RISE/ZzzEffectParticle.cpp.
+- NEXT FUNCTION TO IMPLEMENT: StepMagicPinParticles for one coordinated quantum.
+
+### 2026-09-13 — Magic particle producer provenance isolated
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; private particle membership.
+- COMPLETED THIS RUN: three actual Magic emission sites now use a wrapper around
+  CreateParticleInternal; successful slots get a sidecar producer flag. Every native
+  allocation clears the flag first; membership query rejects dead/out-of-range slots.
+- REVERSE EVIDENCE: current native emitters: six smoke/two shockwave hit children,
+  Magic03 subtype9/10 thunder. Shining also creates smoke19, proving texture/subtype
+  alone cannot identify which skill produced the native particle.
+- CHAIN COVERAGE: explicit producer membership without changing Target/owner, RNG,
+  native allocation policy, PARTICLE layout or existing update/render dispatch.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: GrowLancerMagicPinTick.h, GrowLancerEffectRuntime.cpp,
+  ZzzEffectParticle.cpp, verify_magic_particle_provenance.py, MAGIC_PIN_REVERSE.md, state.
+- LAST STATIC CHECK: source wiring/guards/reallocation reset audit PASS; scoped diff
+  --check PASS (line-ending warning only). Not a native allocator runtime test.
+- LAST BUILD RESULT: isolated Win32 PASS; Bin SHA256
+  84E5B6C0CDF6252E6B69884BEF787E54A6001138CB88A5197F86541C86E551B7.
+- LAST RUNTIME QA: no new staging/cast; previous check confirmed QA3712 live.
+- KNOWN DIFFERENCES: flag identifies producer only, not cast generation, birth tick
+  or insertion order. Dead flags are inert and reset at next allocation. No scheduler
+  activated; this does not resolve owner frame timing yet.
+- MISSING CHAIN PARTS: insertion-order tracking and coherent private phase execution,
+  owner QA and full nine-skill/new-class/server acceptance.
+- BLOCKER: no source blocker; QA closure still required for deployment.
+- NEXT EXACT ACTION: add allocation-order tracking with slot reuse invalidation,
+  retaining successful creation order rather than native ring cursor order.
+- NEXT FILE TO OPEN: ExMain_RISE_PC/Main5.2_RISE/ZzzEffectParticle.cpp.
+- NEXT FUNCTION TO IMPLEMENT: private Magic live-particle traversal by birth order.
+
+### 2026-09-13 — Single particle quantum extracted for phase scheduling
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; private tick-major runtime.
+- COMPLETED THIS RUN: extracted StepParticleTick with source pre-update retirement
+  and post-update lifetime decrement; existing accumulator delegates without changing
+  fractional remainder or Live-clear behavior. No coordinated scheduler activated yet.
+- REVERSE EVIDENCE: prior particle iterator/append verifier and16AA648/172343C contract.
+- CHAIN COVERAGE: reusable single-quantum entry now exists; actor/model/particle
+  coordination and per-cast primitive ownership still required.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: GrowLancerTick.h, GrowLancerParticleSingleTickTest.cpp, state.
+- LAST STATIC CHECK: C++14 W4/WX single-step constexpr test; executed existing
+  particle lifecycle, Magic44, Spin16, flare4, Wrath24 and Obsidian12 tests PASS;
+  scoped diff --check PASS. These are helper tests, not runtime pool/visual QA.
+- LAST BUILD RESULT: isolated Win32 Global Release PASS; Bin SHA256
+  34D9558DB549035BA22518AE3E3497E21F164325BE81041E1CEC8CBAA9D1CFF9.
+- LAST RUNTIME QA: process3712 revalidated live at exact isolated QA path;
+  no EXE overwritten, no restart or visual result claimed.
+- KNOWN DIFFERENCES: per-record accumulated ticking remains active; extracted
+  function alone does not fix Magic animation stage misses or newborn catch-up.
+- MISSING CHAIN PARTS: coherent scheduling, current owner QA, new class and GS rules.
+- BLOCKER: QA client still running; source work can continue independently.
+- NEXT EXACT ACTION: establish private Magic particle membership/allocation ordering
+  sidecar before wiring StepParticleTick into coordinated actor/model/particle ticks.
+- NEXT FILE TO OPEN: ExMain_RISE_PC/Main5.2_RISE/ZzzEffectParticle.cpp.
+- NEXT FUNCTION TO IMPLEMENT: private Magic particle allocation/retirement tracking.
+
+### 2026-09-13 — Particle append and traversal order recovered
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; Magic primitive timing.
+- COMPLETED THIS RUN: traced active-list begin/end, next, constructor append and
+  normal/dead iteration paths; successful newborn append remains visible this tick.
+- REVERSE EVIDENCE:1725658/574D,1724EBE/4F63,16AA608/694,172343C,
+  16A9524 ->1725950 ->1724501 ->1725571; pinned main SHA unchanged.
+- CHAIN COVERAGE: particle active-list append differs from primary model slot scan.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: verify_particle_iteration_order.py, MAGIC_PIN_REVERSE.md, state.
+- LAST STATIC CHECK: pinned decode and conditional newborn traversal fixture PASS.
+- LAST BUILD RESULT: prior17C358B8 retained; no production code edit this checkpoint.
+- LAST RUNTIME QA: no new cast or deployment; previous owner failures remain open.
+- KNOWN DIFFERENCES: conditional traversal fixture is not a concrete child emission
+  or visual acceptance; allocation failure/refcounts not fully covered.
+- MISSING CHAIN PARTS: private primitive membership/tick-major integration, QA,
+  new class and server-authoritative nine-skill acceptance.
+- BLOCKER: none for source work; QA process closure must be rechecked before staging.
+- NEXT EXACT ACTION: inspect Magic private particle membership and current update
+  entry points against the recovered model-slot versus particle-list ordering.
+- NEXT FILE TO OPEN: ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerEffectRuntime.cpp.
+- NEXT FUNCTION TO IMPLEMENT: coordinated private primitive tick dispatch.
+
+### 2026-09-13 — Source/native model-joint-particle phase order pinned
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; private multi-primitive tick ordering.
+- COMPLETED THIS RUN: selected S21 scene invokes characters/effects/joints/particles;
+  complete joint traversal and particle wrapper pinned; native gameplay order matches.
+- REVERSE EVIDENCE:18F4140..417A,1618EF4..1618F44,1620972..1620984;
+  reused earlier Breche shared phase evidence, not address-adjacency naming alone.
+- CHAIN COVERAGE: phase order and joint primary500/secondary traversal; particle container open.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: verify_magic_primitive_phase_order.py, MAGIC_PIN_REVERSE.md, this state.
+- LAST STATIC CHECK: pinned phase/joint/wrapper and native scene order verifier PASS.
+- LAST BUILD RESULT: prior17C358B8 candidate retained; no runtime scheduling changes.
+- LAST RUNTIME QA: no new cast/deployment.
+- KNOWN DIFFERENCES: phase ordering is not particle insertion/lifetime or sprite parity;
+  do not batch all model ticks ahead of all particle ticks.
+- MISSING CHAIN PARTS: primitive membership/iteration, private tick-major integration,
+  current QA and9-skill/class/server acceptance.
+- BLOCKER: none for source work; QA closure remains deployment prerequisite.
+- NEXT EXACT ACTION: inspect particle manager16AA2ED container iteration and creation
+  semantics, then bind private primitive filters before scheduling.
+- NEXT FILE TO OPEN: tools/grow_lancer/disasm_s21_window.py at16AA48D.
+- NEXT FUNCTION TO IMPLEMENT: private particle iteration/tick adapter with correct birth order.
+
+### 2026-09-13 — Magic model records primary-pool routing verified
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; pool membership for coherent ticking.
+- COMPLETED THIS RUN: evaluated both complete S21 selector bodies for5E5..5E9;
+  all return zero, retaining primary pointer in allocation prefix.
+- REVERSE EVIDENCE:10EF919/10EFBA1 paths, zero-return epilogues and143E674/688
+  branch decisions pinned; second selector result independent of map predicate for these types.
+- CHAIN COVERAGE: five Magic model types route primary; primitive pools remain separate.
+- ASSET PROVENANCE: unchanged; no resource IDs substituted.
+- FILES MODIFIED: verify_magic_pool_routing.py, MAGIC_PIN_REVERSE.md, this state.
+- LAST STATIC CHECK: pinned selector/allocator-branch verifier PASS; reached paths ignore subtype/owner.
+- LAST BUILD RESULT: prior17C358B8 candidate retained; no runtime scheduling change.
+- LAST RUNTIME QA: no new cast/deployment.
+- KNOWN DIFFERENCES: model routing does not cover particle/joint/sprite allocation or full scheduler.
+- MISSING CHAIN PARTS: primitive update order, coherent private tick scheduler,
+  current QA and9-skill/class/server acceptance.
+- BLOCKER: no source-work blocker; QA closure still required for staging.
+- NEXT EXACT ACTION: establish effect->joint->particle order for Magic primitive children
+  and map to private native tick scheduling, keeping main pool scan order intact.
+- NEXT FILE TO OPEN: tools/grow_lancer/verify_source_animation_step.py.
+- NEXT FUNCTION TO IMPLEMENT: private tick-major model/primitive scheduler.
+
+### 2026-09-13 — Child birth-order counterexample and source pool scan pinned
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; coherent root/child scheduling.
+- COMPLETED THIS RUN: pinned increasing source live-slot traversal and conditional
+  secondary allocation prefix; tested later/earlier child birth under two-tick catch-up.
+- REVERSE EVIDENCE:1595834 full traversal;143E5F0..143E6B0 allocation prefix.
+- CHAIN COVERAGE: later-slot newborn can update same tick; earlier slot waits;
+  Magic child routing through selectors still OPEN.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: verify_effect_pool_tick_order.py, GrowLancerChildTickOrderTest.cpp,
+  MAGIC_PIN_REVERSE.md, this state.
+- LAST STATIC CHECK: pinned traversal verifier and x86 C++14 W4/WX ordering fixture PASS.
+- LAST BUILD RESULT: prior17C358B8 candidate retained; no runtime scheduling changes.
+- LAST RUNTIME QA: no new capture/deployment.
+- KNOWN DIFFERENCES: per-record catch-up can over-age a later child born on tick2;
+  fixture is not real allocator execution or a claim of exact Magic slot placement.
+- MISSING CHAIN PARTS: Magic selector routing, private tick-major actor/effect/primitive
+  scheduling, current QA and9-skill/class/server acceptance.
+- BLOCKER: none for reverse/implementation; old QA closure still needed for deployment.
+- NEXT EXACT ACTION: resolve primary/secondary routing of Magic root/children, then
+  schedule private ticks in actor->forward-pool order including primitive children.
+- NEXT FILE TO OPEN: tools/grow_lancer/verify_wrath_cleanup.py for selector decoding method.
+- NEXT FUNCTION TO IMPLEMENT: private tick-major scheduler after pool membership is pinned.
+
+### 2026-09-13 — Explicit factor propagated through native character animation
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; native step interface integration.
+- COMPLETED THIS RUN: CharacterAnimationStep and AnimationCharacterStep propagate
+  supplied factor through modifiers/BMD while original wrappers retain global-factor behavior.
+- REVERSE EVIDENCE: both character algorithm bodies compare with baseline except
+  explicit factor/call substitution; stun/sleep/action-end handling retained.
+- CHAIN COVERAGE: explicit native step path available; no private tick caller activated yet.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: ZzzCharacter.h/.cpp, verify_character_animation_step.py,
+  verify_native_animation_cadence.py, MAGIC_PIN_REVERSE.md, this state.
+- LAST STATIC CHECK: exact character-body comparison and ordinary native clock/call checks PASS.
+- LAST BUILD RESULT: isolated Global Release Win32 exit0; Bin SHA256
+  17C358B80F840103AD566E828635640D356F4F2427978BA40C15B299F5639A1A.
+- LAST RUNTIME QA: not staged, no new cast.
+- KNOWN DIFFERENCES: factor interface alone is not coherent effect scheduling;
+  newborn children must not receive ticks from before their creation.
+- MISSING CHAIN PARTS: private tick caller/child birth interleaving, current QA,
+ 9-skill/class/server acceptance.
+- BLOCKER: no code-work blocker; old QA closure remains deployment prerequisite.
+- NEXT EXACT ACTION: audit Magic child creation/update order within catch-up; design
+  private tick scheduling so children age only after allocation, without global pool changes.
+- NEXT FILE TO OPEN: ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerEffectRuntime.cpp.
+- NEXT FUNCTION TO IMPLEMENT: private coherent actor/root/child tick scheduling.
+
+### 2026-09-13 — Encoding-safe formatting and explicit native animation step
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; native per-call step interface.
+- COMPLETED THIS RUN: formatted10 invalid bytes inside comments only, backed up original;
+  added PlayAnimationStep with explicit factor, legacy signature delegates using existing FPS factor.
+- REVERSE EVIDENCE: method body matches pinned pre-refactor backup except factor operand
+  and normalized line endings; no OBJECT/BMD data-layout or renderer change.
+- CHAIN COVERAGE: native explicit-step primitive available; Magic timing not connected yet.
+- ASSET PROVENANCE: unchanged; source backupSHA831a4c0bd79cad2720c2b3ca5c54efeb9325d115dbf243903af3288028be7d4a.
+- FILES MODIFIED: format_bmd_legacy_comments.py, ZzzBMD.h/.cpp,
+  test_native_animation_baseline.py, verify_native_animation_cadence.py,
+  MAGIC_PIN_REVERSE.md, this state; isolated source-byte backup created.
+- LAST STATIC CHECK: exact native-body comparison and legacy/explicit frame regressions PASS;
+  native clock/call-path verifier PASS. CRLF-only comparison issue corrected.
+- LAST BUILD RESULT: full isolated Global Release Win32 exit0; Bin SHA256
+  671682A79E414BA6A131CED9E4792D93A38AD94048591348D995D17E0A7DB50D.
+- LAST RUNTIME QA: candidate not staged; no new cast.
+- KNOWN DIFFERENCES: compatibility tests are not visual parity; new API not yet used by Magic.
+- MISSING CHAIN PARTS: private coherent step scheduling/consumer emission, current QA,
+ 9-skill/class/server acceptance.
+- BLOCKER: encoding edit blocker resolved; old QA closure remains deployment prerequisite.
+- NEXT EXACT ACTION: integrate explicit-step call within private Magic animation scheduling
+  and publish every actual step, preserving ordinary SS6 calls and source action-end semantics.
+- NEXT FILE TO OPEN: ExMain_RISE_PC/Main5.2_RISE/ZzzCharacter.cpp.
+- NEXT FUNCTION TO IMPLEMENT: private fixed-step Magic animation producer.
+
+### 2026-09-13 — Native animation baseline tested; explicit API edit not applied
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; native explicit-step API preparation.
+- COMPLETED THIS RUN: actual BMD body extracted into isolated compile fixture;
+  fractional step/prior/wrap/held-end/locked-position/guards assertions PASS.
+- REVERSE EVIDENCE: current native BMD implementation; no source timing change inferred.
+- CHAIN COVERAGE: baseline regression only, explicit-step API NOT added.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: test_native_animation_baseline.py, MAGIC_PIN_REVERSE.md, this state.
+- LAST STATIC CHECK: x86 C++20 test-only W4/WX constexpr fixture PASS.
+- LAST BUILD RESULT: prior D8DF01E9 runtime retained; no production C++ changes this checkpoint.
+- LAST RUNTIME QA: no new capture/deployment.
+- KNOWN DIFFERENCES: apply_patch rejected legacy ZzzBMD.cpp invalid UTF-8 at byte62492;
+  confirmed PlayAnimationStep absent from header/source, no partial API edit applied.
+- MISSING CHAIN PARTS: explicit native factor interface, coherent tick producer/emission,
+  current QA and9-skill/class/server acceptance.
+- BLOCKER: this file needs supported encoding-preserving editing before refactor;
+  no global FPS mutation or unverified encoding conversion used.
+- NEXT EXACT ACTION: establish original source encoding/build charset and a supported
+  lossless editing path; retain baseline test before any BMD refactor.
+- NEXT FILE TO OPEN: ExMain_RISE_PC/Main.vcxproj and ZzzBMD.cpp encoding metadata.
+- NEXT FUNCTION TO IMPLEMENT: native explicit-factor animation entrypoint, once safe editing is resolved.
+
+### 2026-09-13 — Observation producer/consumer connected through QA logging
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; timing comparison capture.
+- COMPLETED THIS RUN: validated actual-pool cursor consumer reads private actor
+  observations into QA fields; repeated batch binds do not rewind consumption.
+- REVERSE EVIDENCE: current native producer placement/lifecycle; no additional virtual
+  tick or emission inferred from observed frame.
+- CHAIN COVERAGE: observational handoff now connected end-to-end to bounded QA logger.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: GrowLancerEffectRuntime.h/.cpp, GrowLancerRuntimeQA.cpp,
+  test_controller_qa_sampler.py, verify_animation_observation_hook.py,
+  MAGIC_PIN_REVERSE.md, this state.
+- LAST STATIC CHECK: sampler wiring (explicit consumer stub), real batch/cursor prior
+  tests, source observation and lifecycle checks PASS.
+- LAST BUILD RESULT: isolated Global Release Win32 exit0; Bin SHA256
+  D8DF01E9F90AD15AB322A3CB5B707AD0397BE5659068DDE55D16EFE598ED2D92.
+- LAST RUNTIME QA: not staged; no new observation rows or casts collected.
+- KNOWN DIFFERENCES: latest fractional observation is not a source tick; absent/consumed
+  sample does not establish an emission or dropped frame. Emission gates unchanged.
+- MISSING CHAIN PARTS: actual coherent tick production/emission, current QA,
+ 9-skill/class/server acceptance.
+- BLOCKER: deployment pending old QA closure; independent timing implementation remains.
+- NEXT EXACT ACTION: run current-candidate timing comparison when QA can restart;
+  meanwhile audit native per-call animation factor interface for explicit private quantum.
+- NEXT FILE TO OPEN: ExMain_RISE_PC/Main5.2_RISE/ZzzBMD.h.
+- NEXT FUNCTION TO IMPLEMENT: private per-step native animation adapter without global factor mutation.
+
+### 2026-09-13 — Native post-animation observation producer connected
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; actual frame observation handoff.
+- COMPLETED THIS RUN: post-AnimationCharacter hook publishes actual frame/action for
+  armed private local actor; captures first exit then disarms; lifecycle/serial guards retained.
+- REVERSE EVIDENCE: native call-site placement verified; observations are fractional
+  native calls, explicitly not reconstructed source40ms ticks.
+- CHAIN COVERAGE: real producer hook now connected; no consumer/emission timing change.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: GrowLancerEffectRuntime.h/.cpp, ZzzCharacter.cpp,
+  verify_animation_observation_hook.py, MAGIC_PIN_REVERSE.md, this state.
+- LAST STATIC CHECK: post-animation exact sample and no-advance/no-emission/no-loop verifier PASS.
+- LAST BUILD RESULT: isolated Global Release Win32 exit0; Bin SHA256
+  765DC2DC3953D11F0B8BCE69E9F3CB817F86F0A233063F6F5FCE47E6916E1498.
+- LAST RUNTIME QA: not staged; no new cast.
+- KNOWN DIFFERENCES: observations alone cannot feed source tick catch-up; actor can
+  change again later in MoveCharacter, so this is specifically post-animation state.
+- MISSING CHAIN PARTS: observation consumer, actual coherent tick production/emission,
+  current QA and9-skill/class/server acceptance.
+- BLOCKER: none for implementation; old QA closure still required for deployment.
+- NEXT EXACT ACTION: expose observation consumption for diagnostic comparison without
+  treating fractional samples as virtual ticks; settle private native tick advancement contract.
+- NEXT FILE TO OPEN: ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerEffectRuntime.cpp.
+- NEXT FUNCTION TO IMPLEMENT: generation-bound observation consumer and timing comparison.
+
+### 2026-09-13 — Private actor generation lifecycle integrated
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; actor identity for timing handoff.
+- COMPLETED THIS RUN: monotonic generation identity binds approved local Magic actor;
+  both deletion overloads, reconstruction and map reset invalidate matching state.
+- REVERSE EVIDENCE: current native character lifecycle sites; no S21 pointers/layout copied.
+- CHAIN COVERAGE: identity/reset infrastructure; actual animation sampling still absent.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: AnimationActorIdentity.h, GrowLancerAnimationActorIdentityTest.cpp,
+  GrowLancerEffectRuntime.h/.cpp, ZzzCharacter.cpp, lifecycle verifier,
+  MAGIC_PIN_REVERSE.md, this state.
+- LAST STATIC CHECK: x86 W4/WX same-address reuse, actor change, null and exhaustion tests;
+  native deletion/reconstruction/reset hook checks PASS.
+- LAST BUILD RESULT: isolated Global Release Win32 exit0; Bin SHA256
+  BB0029457ADA810E48567FEE80BA8686BC54FD530458E262860DE142EEBD7543.
+- LAST RUNTIME QA: not staged, no new cast.
+- KNOWN DIFFERENCES: binding has no timing effect yet; producer must reject exhausted
+  identity before emitting samples. No existing skill cast disabled by infrastructure.
+- MISSING CHAIN PARTS: actual coherent producer/cursor consumer, current QA,
+ 9-skill/class/server acceptance.
+- BLOCKER: none for code work; QA closure remains deployment prerequisite.
+- NEXT EXACT ACTION: connect explicitly gated private animation sample production
+  using the new identity and per-step action state; validate native frame/expiry behavior.
+- NEXT FILE TO OPEN: ExMain_RISE_PC/Main5.2_RISE/ZzzCharacter.cpp.
+- NEXT FUNCTION TO IMPLEMENT: private animation sample producer, no global BMD timing change.
+
+### 2026-09-13 — Native private cursor lifecycle hooks integrated
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; sample sidecar lifecycle.
+- COMPLETED THIS RUN: actual primary/secondary pool slot lookup; cursor reset before
+  allocation Live writes, in destructor and map DeleteObjects. OBJECT layout unchanged.
+- REVERSE EVIDENCE: previously audited lifecycle sites; checked hook ordering and
+  address/stride bounds. No pointer copied from S21 or ordinary SS6 state changed.
+- CHAIN COVERAGE: reset-only cursor lifecycle integrated; producer/consumer still absent.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: AnimationSampleSlot.h, GrowLancerAnimationSampleSlotTest.cpp,
+  GrowLancerEffectRuntime.h/.cpp, ZzzEffect.cpp, MapManager.cpp,
+  verify_animation_sample_lifecycle_sites.py, MAGIC_PIN_REVERSE.md, this state.
+- LAST STATIC CHECK: slot bounds/alignment/empty/near-address-limit x86 W4/WX test,
+  native allocation/destruction/map hook verifier PASS.
+- LAST BUILD RESULT: isolated Global Release Win32 exit0; Bin SHA256
+  EA4DB0FAD1DCF25FF06A849F655C168E45F13DEBE8575639E5BE8BCF401465A2.
+- LAST RUNTIME QA: candidate not staged; no new cast.
+- KNOWN DIFFERENCES: reset-only infrastructure does not yet synchronize animation/effects.
+- MISSING CHAIN PARTS: actor generation and producer/consumer handoff, current runtime,
+ 9-skill/class/server acceptance.
+- BLOCKER: no source-work blocker; QA closure still needed before staging.
+- NEXT EXACT ACTION: bind actor identity to real hero recreation/scene lifecycle,
+  then connect coherent private animation-step production and cursor consumption.
+- NEXT FILE TO OPEN: ExMain_RISE_PC/Main5.2_RISE/ZzzCharacter.cpp.
+- NEXT FUNCTION TO IMPLEMENT: actor-generation invalidation and private sample producer.
+
+### 2026-09-13 — Sample lifecycle reset sites audited
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; native slot lifecycle integration.
+- COMPLETED THIS RUN: identified actual selected allocation pointer, resource failure
+  before imported initializer, destructor and direct map-clear bypass.
+- REVERSE EVIDENCE: ZzzEffect::CreateEffect/EffectDestructor and
+  CMapManager::DeleteObjects current native source; lifecycle-site verifier PASS.
+- CHAIN COVERAGE: required hook boundaries; no hooks or sidecar array integrated yet.
+- ASSET PROVENANCE: unchanged; resource failure path inspected only.
+- FILES MODIFIED: verify_animation_sample_lifecycle_sites.py, MAGIC_PIN_REVERSE.md, this state.
+- LAST STATIC CHECK: allocation/initializer order and map destructor-bypass assertions PASS.
+- LAST BUILD RESULT: prior38692699 candidate retained; no runtime source change.
+- LAST RUNTIME QA: no new cast/deployment.
+- KNOWN DIFFERENCES: primary loop index can differ from actual secondary allocation;
+  reset only in imported initialization/destruction would miss lifecycle paths.
+- MISSING CHAIN PARTS: actual slot-bound sidecar hooks, actor generation, producer/consumer,
+  current QA and9-skill/class/server acceptance.
+- BLOCKER: no source blocker; QA executable closure needed separately for staging.
+- NEXT EXACT ACTION: bind sidecar to validated actual pool slots and reset on allocation,
+  destruction/map clear; preserve SS6 slot behavior and fail on unknown objects.
+- NEXT FILE TO OPEN: ExMain_RISE_PC/Main5.2_RISE/SkillEffectMgr.h.
+- NEXT FUNCTION TO IMPLEMENT: actual-pool slot lookup and private cursor lifecycle hooks.
+
+### 2026-09-13 — Sample publication and per-controller cursors tested
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; coherent handoff lifecycle.
+- COMPLETED THIS RUN: explicit immutable publication, per-controller next index,
+  same/backward serial rejection, overflow invalidation and reset tests.
+- REVERSE EVIDENCE: no new source inference; native-compatible single-threaded
+  storage infrastructure only, no virtual ticks fabricated.
+- CHAIN COVERAGE: prevents partial/double consumption in helper; native hooks not connected.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: AnimationSampleBatch.h, GrowLancerAnimationSampleBatchTest.cpp,
+  MAGIC_PIN_REVERSE.md, this state.
+- LAST STATIC CHECK: x86 C++14 W4/WX actual-helper assertions PASS.
+- LAST BUILD RESULT: prior runtime38692699 retained; helper still outside gameplay.
+- LAST RUNTIME QA: no new cast/deployment.
+- KNOWN DIFFERENCES: not thread-safe publication or owner-lifetime proof; caller must
+  provide real generations and reset cursors on allocation/destruction.
+- MISSING CHAIN PARTS: native generation/producer/cursor placement, per-step
+  animation/effect ordering, current QA and9-skill/class/server acceptance.
+- BLOCKER: none for native lifecycle inspection; QA closure still pending for staging.
+- NEXT EXACT ACTION: inspect effect allocation/destruction and hero recreation hooks
+  to bind/reset private cursor state without altering OBJECT layout or shared SS6 behavior.
+- NEXT FILE TO OPEN: ExMain_RISE_PC/Main5.2_RISE/ZzzEffect.cpp.
+- NEXT FUNCTION TO IMPLEMENT: private sample lifecycle hooks before producer/consumer integration.
+
+### 2026-09-13 — Per-step action exit preserved in sample handoff
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; intermediate action state.
+- COMPLETED THIS RUN: sample batch retains each frame's action; mixed-action fixture
+  executes actual Magic gate helper before a later action-exit sample.
+- REVERSE EVIDENCE: native/S21 animation-before-effect ordering guides handoff; fixture
+  frames are explicit test inputs, not a captured cast or inferred speed.
+- CHAIN COVERAGE: avoids substituting final owner action for earlier ticks in storage contract.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: AnimationSampleBatch.h, GrowLancerAnimationSampleBatchTest.cpp,
+  MAGIC_PIN_REVERSE.md, this state.
+- LAST STATIC CHECK: x86 C++14 W4/WX tests PASS; two stages before exit, broadcast,
+  stale identity and action-filter rejection after exit.
+- LAST BUILD RESULT: prior runtime38692699 retained; helper not integrated.
+- LAST RUNTIME QA: no new cast/deployment or verified process closure.
+- KNOWN DIFFERENCES: storage and ordering tests do not advance actual animation or effects.
+- MISSING CHAIN PARTS: producer timing, publish/consume cursor, actor/pool generation,
+  current QA and all9-skill/class/server acceptance.
+- BLOCKER: no source-work blocker; pending QA closure applies to deployment only.
+- NEXT EXACT ACTION: implement publication and per-controller cursor so batches cannot
+  be consumed partially or repeated; then connect a private native producer.
+- NEXT FILE TO OPEN: GrowLancer/compat/AnimationSampleBatch.h.
+- NEXT FUNCTION TO IMPLEMENT: sample publication and generation-bound controller cursor.
+
+### 2026-09-13 — Experimental animation sample handoff added
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; private coherent-sample infrastructure.
+- COMPLETED THIS RUN: added bounded non-consuming frame batch keyed by generation,
+  serial/action; rejects stale reads and invalidates overflow rather than dropping ticks.
+- REVERSE EVIDENCE: design preserves actual supplied samples only; no new S21 behavior inferred.
+- CHAIN COVERAGE: storage contract only; not called by native animation/effect code yet.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: compat/AnimationSampleBatch.h, GrowLancerAnimationSampleBatchTest.cpp,
+  MAGIC_PIN_REVERSE.md, this state.
+- LAST STATIC CHECK: C++14 x86 W4/WX compile-time broadcast/stale/wrap/overflow/reset tests PASS.
+- LAST BUILD RESULT: prior38692699 runtime retained; helper not integrated, no client rebuild needed.
+- LAST RUNTIME QA: no new cast or deployment.
+- KNOWN DIFFERENCES: sample storage is not source scheduling; capacity3 is test-only.
+- MISSING CHAIN PARTS: actual producer hook, epoch lifetime/rollover/publication,
+  controller cursors, action exit between ticks,9-skill runtime/class/server acceptance.
+- BLOCKER: no source-work blocker; old QA closure still required before staging.
+- NEXT EXACT ACTION: resolve per-tick action-exit semantics and generation/cursor ownership
+  before connecting storage to animation/effect producers and consumers.
+- NEXT FILE TO OPEN: GrowLancer/compat/AnimationSampleBatch.h.
+- NEXT FUNCTION TO IMPLEMENT: private producer/consumer handoff with per-step action state.
+
+### 2026-09-13 — Actual action setter and QA sampler tested together
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; sample transition contract.
+- COMPLETED THIS RUN: extended extracted-source fixture with actual native SetAction;
+  transition, same-action recast, action exit and upper-bound rejection assertions PASS.
+- REVERSE EVIDENCE: native PriorAnimationFrame is blending state (integer old frame
+  on boundary crossing or outgoing clip frame), not previous simulation sample.
+- CHAIN COVERAGE: transition/sampler composition; no coherent tick adapter implemented yet.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: test_controller_qa_sampler.py, MAGIC_PIN_REVERSE.md, this state.
+- LAST STATIC CHECK: actual sampler/setter C++17 x86 W4/WX fixture PASS.
+- LAST BUILD RESULT: prior38692699 candidate retained; no new engine code change.
+- LAST RUNTIME QA: requested user close old QA client; no new cast or claimed exit.
+- KNOWN DIFFERENCES: must retain explicit sample/action identity; cannot use PriorAnimationFrame
+  as an interpolation endpoint. No BMD stepping or pool reuse test claim.
+- MISSING CHAIN PARTS: native coherent clock/sample adapter, wrap/reuse, current runtime
+  and full9-skill/class/server gates.
+- BLOCKER: awaiting old QA client closure for staging only; source work available.
+- NEXT EXACT ACTION: design explicit previous-sample/action identity for private Magic
+  ticks, independent from native blending fields; cover wrap and controller reuse.
+- NEXT FILE TO OPEN: ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerTick.h.
+- NEXT FUNCTION TO IMPLEMENT: coherent private sample state and tick handoff.
+
+### 2026-09-13 — Native gameplay character/effect ordering verified
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; native cadence insertion point.
+- COMPLETED THIS RUN: audited MainScene -> MoveMainScene -> character animation
+  traversal before live effect traversal; added source-path regression checks.
+- REVERSE EVIDENCE: native ZzzScene/Character/Effect call sites agree with S21
+  character-before-effect ordering. No global traversal swap justified.
+- CHAIN COVERAGE: selected ordinary gameplay path; auxiliary callbacks/runtime counts open.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: verify_native_animation_cadence.py, MAGIC_PIN_REVERSE.md, this state.
+- LAST STATIC CHECK: native cadence expressions, six numerical cases and call-path checks PASS.
+- LAST BUILD RESULT: prior38692699 candidate retained; no runtime code change.
+- LAST RUNTIME QA: no new cast; no current process-state inference.
+- KNOWN DIFFERENCES: whole-effect catch-up samples an already advanced fractional owner;
+  correct traversal order alone does not recreate source intermediate samples.
+- MISSING CHAIN PARTS: coherent private animation/controller sampling, wrap/recast/reuse
+  behavior, current QA and9-skill/server/class acceptance.
+- BLOCKER: none for adapter design/tests; runtime deployment remains separate.
+- NEXT EXACT ACTION: design bounded private sample state shared by animation and Magic
+  controller ticks, validate action transition/wrap/reuse before native integration.
+- NEXT FILE TO OPEN: ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerTick.h.
+- NEXT FUNCTION TO IMPLEMENT: private Magic coherent animation-sample adapter.
+
+### 2026-09-13 — Native clock units and cached Magic speed cross-checked
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; animation cadence boundary.
+- COMPLETED THIS RUN: verified native25Hz reference/40ms units,2.5 factor clamp,
+  six numerical intervals. Reused existing receive/snapshot evidence instead of duplicating reverse.
+- REVERSE EVIDENCE: cached source188 speed .705999970; source82/04 stat writer
+  exists and refreshes display. Native CalcFPS and BMD/MoveEffect consumers checked.
+- CHAIN COVERAGE: no25/30 conversion justified; fractional sampling and overload behavior open.
+- ASSET PROVENANCE: unchanged; existing hash-pinned offline snapshot only.
+- FILES MODIFIED: verify_native_animation_cadence.py, MAGIC_PIN_REVERSE.md, this state.
+- LAST STATIC CHECK: native clock verifier, receive verifier and snapshot reader PASS.
+- LAST BUILD RESULT: prior candidate38692699 retained; no runtime code change this checkpoint.
+- LAST RUNTIME QA: no new capture or process-state claim this checkpoint.
+- KNOWN DIFFERENCES: elapsed>100ms is capped in native factor; no global cap change authorized here.
+- MISSING CHAIN PARTS: native scene call ordering/multiplicity, private synchronized
+  controller sampling, current QA capture and9-skill/class/server acceptance.
+- BLOCKER: source work remains available; current candidate not yet runtime tested.
+- NEXT EXACT ACTION: trace native scene character/effect calls and per-cast tick phase;
+  avoid repeating already verified stat/bonus/snapshot reverse.
+- NEXT FILE TO OPEN: ExMain_RISE_PC/Main5.2_RISE/ZzzScene.cpp.
+- NEXT FUNCTION TO IMPLEMENT: private synchronized Magic sampling after call-order audit.
+
+### 2026-09-13 — Registered animation speed added to bounded QA samples
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; capture readiness for timing diagnosis.
+- COMPLETED THIS RUN: before-update Spin/Magic/Harsh rows now retain priorFrame and
+  registered actionSpeed with bounded model/action guards and unavailable=-1.
+- REVERSE EVIDENCE: no new source claim; instrumentation will distinguish registered
+  speed/transition state from controller lifetime sampling in future captures.
+- CHAIN COVERAGE: telemetry only; no post-modifier/GPU timing inference.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: GrowLancerRuntimeQA.cpp, test_controller_qa_sampler.py,
+  MAGIC_PIN_REVERSE.md, this state.
+- LAST STATIC CHECK: actual sampler-body compile tests PASS including bounds/null/wrong-type cases.
+- LAST BUILD RESULT: isolated Global Release Win32 exit0; Bin EXE SHA256
+  38692699D7FE6A7E863A76AAE64072F4D71CED94947CB7B08FD44E96A2488AD8.
+- LAST RUNTIME QA: Win32_Process confirms existing isolated client PID3712 live;
+  new build NOT staged, no fresh cast. No other client touched.
+- KNOWN DIFFERENCES: actionSpeed is registered speed, not final animation step.
+- MISSING CHAIN PARTS: current-candidate cast samples, effective speed provenance,
+  cadence correction and full9-skill/client/server/class acceptance.
+- BLOCKER: current live QA executable must exit before safe candidate deployment;
+  independent source work remains available.
+- NEXT EXACT ACTION: continue source speed provenance; when QA exits, hash-guard
+  backup/stage the new isolated candidate and collect timing rows.
+- NEXT FILE TO OPEN: tools/grow_lancer/verify_cast_speed_registration.py.
+- NEXT FUNCTION TO IMPLEMENT: evidence-backed Magic timing adapter.
+
+### 2026-09-13 — Magic received setter and speed input pinned
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; received action and speed provenance.
+- COMPLETED THIS RUN: received remote branch uses188/-1 matching local; local echo
+  skips that branch. Updated speed verifier for native SetAction and pinned stat-input order.
+- REVERSE EVIDENCE:12CB397..12CB3C4;1408580 local-8 from unsignedWORD+1B6
+  feeds argument8/.002 term after adjustments; local-4 is separate+1C2 input.
+- CHAIN COVERAGE: selected received setter parity; full remote transport/bonus semantics open.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: verify_magic_action_reset.py, verify_cast_speed_registration.py,
+  MAGIC_PIN_REVERSE.md, this state.
+- LAST STATIC CHECK: both pinned verifiers PASS after correcting new pins' lookup scope.
+- LAST BUILD RESULT: prior isolated Win32 build retained; no new runtime code change.
+- LAST RUNTIME QA: no new capture/deployment.
+- KNOWN DIFFERENCES: source stat offset is not proof of native field equivalence.
+- MISSING CHAIN PARTS: effective stat writers/bonus values, synchronized sampling,9-skill QA/class/server.
+- BLOCKER: none for source tracing.
+- NEXT EXACT ACTION: identify stat+1B6 producer and optional bonus producer semantics,
+  then validate per-cast speed against animation/controller samples.
+- NEXT FILE TO OPEN: tools/grow_lancer/verify_cast_speed_registration.py.
+- NEXT FUNCTION TO IMPLEMENT: evidence-backed native Magic cadence adapter.
+
+### 2026-09-13 — Magic native action transition corrected
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; Magic initial/repeated action phase.
+- COMPLETED THIS RUN: replaced forced action/frame resets with native SetAction(...,true), Magic only.
+- REVERSE EVIDENCE: local10E4170 ->1327DE8 ->1327D72 complete setter decode;
+  identical action preserves frame, transition saves prior action/frame and resets current frame.
+- CHAIN COVERAGE: local action setter mapped; received path and effective speed remain open.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: GrowLancerEffectRuntime.cpp, verify_magic_action_reset.py,
+  MAGIC_PIN_REVERSE.md, this state.
+- LAST STATIC CHECK: pinned source/native integration verifier PASS.
+- LAST BUILD RESULT: isolated Global Release Win32 QA build exit0.
+- LAST RUNTIME QA: not staged, no new cast; no visual PASS claimed.
+- KNOWN DIFFERENCES: shared tick/gate sampling is not fixed by this transition correction.
+- MISSING CHAIN PARTS: received action parity, speed provenance, live cadence and9-skill acceptance.
+- BLOCKER: none for source tracing; server/class contracts remain unresolved.
+- NEXT EXACT ACTION: audit received Magic274 setter arguments then effective speed registration
+  and current owner frame sampling before any cadence change.
+- NEXT FILE TO OPEN: tools/grow_lancer/verify_cast_speed_registration.py.
+- NEXT FUNCTION TO IMPLEMENT: Magic native synchronized sampling once evidence resolves phase/speed.
+
+### 2026-09-13 — Magic synchronized sampling counterexample
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; Magic animation/controller timing.
+- COMPLETED THIS RUN: verified source40ms scheduling and added conditional synchronized
+  frame replay using actual speed/gate helpers. Inputs0/100 reach3 stages;273 reaches2.
+- REVERSE EVIDENCE: verify_source_animation_step.py pinned-dump PASS; constant-step
+  counterexample shows cadence alone does not guarantee the third gate.
+- CHAIN COVERAGE: shared traversal order verified; actual cast phase/speed still open.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: GrowLancerMagicRecordedGateTest.cpp, MAGIC_PIN_REVERSE.md, this state.
+- LAST STATIC CHECK: x86 C++14 W4/WX compile PASS for recorded and synchronized cases.
+- LAST BUILD RESULT: no production-code change/build this checkpoint; prior isolated build retained.
+- LAST RUNTIME QA: no new capture; no claim about current QA process state.
+- KNOWN DIFFERENCES: conditional model is not an observed source cast; no timing fix claimed.
+- MISSING CHAIN PARTS: effective cast speed/reset phase, native cadence, live9-skill acceptance.
+- BLOCKER: none for further read-only source tracing; server/class gates remain unresolved.
+- NEXT EXACT ACTION: trace Magic action188 frame initialization and stage writes with
+  effective speed provenance, before changing scheduling or any emission gate.
+- NEXT FILE TO OPEN: GrowLancer/MAGIC_PIN_REVERSE.md.
+- NEXT FUNCTION TO IMPLEMENT: native Magic cadence adapter after phase/speed evidence.
+
+### 2026-09-13 — Magic recorded missed-gate regression reproduced
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; animation/controller cadence.
+- COMPLETED THIS RUN: replayed16 recorded Magic frames against actual stage helper;
+  stage0 remains blocked despite later-stage windows. No gate widening or catch-up added.
+- REVERSE EVIDENCE: native BMD::PlayAnimation fractional owner advancement versus
+  MoveEffect/AdvanceWholeTicks sampling; PID16052 historical log gap.
+- CHAIN COVERAGE: reproducible gate failure; synchronized producer/consumer correction open.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: GrowLancerMagicPinTick.h constexpr qualifier, recorded-gate test,
+  MAGIC_PIN_REVERSE.md, this state.
+- LAST STATIC CHECK: x86 W4/WX recorded-gate static assertions PASS.
+- LAST BUILD RESULT: isolated QA Global Release Win32 exit0.
+- LAST RUNTIME QA: no new cast; old QA modal still awaiting dismissal.
+- KNOWN DIFFERENCES: regression deliberately proves failure, not visual success.
+- MISSING CHAIN PARTS: S21 shared tick ordering/current-build runtime, server/class and9-skill gate.
+- BLOCKER: live QA waiting on error dialog; source cadence reverse remains available.
+- NEXT EXACT ACTION: trace S21 animation and effect update scheduling within same
+  scene tick to select a native adapter preserving both frame sampling and child lifetime.
+- NEXT FILE TO OPEN: source scene-tick reverse evidence and verify_source_animation_step.py.
+- NEXT FUNCTION TO IMPLEMENT: source-backed synchronized controller sampling, once proven.
+
+### 2026-09-13 — delayed-skill log separates missed gate from late visual
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; Magic/Harsh timing audit.
+- COMPLETED THIS RUN: added read-only per-cast analyzer; Magic historical samples
+  skip5.2..5.8 and never advance stage, while Harsh reaches gate312..329ms.
+- REVERSE EVIDENCE: actual PID16052 log, hash pinned in RUNTIME_QA.md;
+  Magic sample5.001 at266ms ->5.883 at312ms; no invented visual-onset inference.
+- CHAIN COVERAGE: historical controller sampling failure identified for Magic;
+  source gate correctness retained. Harsh GPU onset remains unmeasured.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: inspect_delayed_controller_log.py, RUNTIME_QA.md, this state.
+- LAST STATIC CHECK: analyzer ran successfully over10 Magic/5 Harsh sample groups.
+- LAST BUILD RESULT: previous cwd-fixed QA build PASS; no native edits this run.
+- LAST RUNTIME QA: PID3712 Error process still live; no overwrite or relaunch.
+- KNOWN DIFFERENCES: logs predate current candidate, sampled before update;
+  cannot claim latest-source bug or visual fix without retest.
+- MISSING CHAIN PARTS: corrected startup/staging and new cast evidence, plus full nine-skill gate.
+- BLOCKER: current QA modal still needs closing for restaging; independent timing audit possible.
+- NEXT EXACT ACTION: compare current controller tick scheduling to historical sampler
+  cadence and S21 animation-update order; do not widen frame gates as a workaround.
+- NEXT FILE TO OPEN: ZzzEffect.cpp imported controller tick scheduling and ZzzCharacter.cpp animation updates.
+- NEXT FUNCTION TO IMPLEMENT: evidence-backed producer/consumer timing correction if confirmed.
+
+### 2026-09-13 — direct-launch cwd failure reproduced; QA-only fix compiled
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; isolated startup correction.
+- COMPLETED THIS RUN: launched staged QA through computer-use; accessibility read
+  Error: Data\\RISE\\Config\\Mix.bmd - File not exist. Added QA-only executable-directory
+  cwd setup at WinMain entry before WinHook. Production compile branch unchanged.
+- REVERSE EVIDENCE: full stage preflight had verified Mix.bmd; launch inherited cwd
+  differs from client data directory. Runtime failure is startup, not skill behavior.
+- CHAIN COVERAGE: startup correction compiled; new binary not staged or runtime-tested.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: Winmain.cpp and this state.
+- LAST STATIC CHECK: scoped diff --check PASS.
+- LAST BUILD RESULT: isolated QA Global Release Win32 exit0.
+- LAST RUNTIME QA: old staged process PID3712 reached Error dialog, not gameplay.
+- KNOWN DIFFERENCES: computer-use screenshot failed SetIsBorderRequired E_NOINTERFACE;
+  accessibility succeeded, but click geometry and Return activation failed. No confirmed close.
+- MISSING CHAIN PARTS: stage/start corrected candidate then valid-target Spin cast;
+  full nine-skill/server/class acceptance still open.
+- BLOCKER: UI automation cannot dismiss current error reliably; do not overwrite running EXE.
+- NEXT EXACT ACTION: recheck PID3712; once exited, back up EF1595 candidate and stage
+  cwd-fixed build with new hash/preflight, then launch directly again.
+- NEXT FILE TO OPEN: QA process status and RuntimeQA/Bin/Engine-Port S21.exe.
+- NEXT FUNCTION TO IMPLEMENT: determined by corrected startup evidence.
+
+### 2026-09-13 — Spin outcome candidate staged with rollback
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; isolated QA preparation.
+- COMPLETED THIS RUN: no Grow Lancer process running; staged new EXE with verified
+  previous-EXE backup; added11 missing hash-verified Wrath assets. Pegasus untouched.
+- REVERSE EVIDENCE: existing telemetry/cast gate changes; no new gameplay evidence.
+- CHAIN COVERAGE: candidate ready to collect target/child outcomes, not visual acceptance.
+- ASSET PROVENANCE: source mono asset hashes and atlas conversion verifier PASS.
+- FILES MODIFIED: isolated QA EXE/assets, stage_spin_outcome_candidate.ps1,
+  verify_runtime_qa_stage.py, RUNTIME_QA.md, this state.
+- LAST STATIC CHECK: complete stage verifier PASS (2658 base,79 original overlay,
+  13 current source overlay,3 root Data files plus EXE/player hashes).
+- LAST BUILD RESULT: prior isolated QA PASS; staged SHA EF1595C1C8A3CF3638C4B3C37043D8B6854BDE041F97256A2C50999152E5FB0D.
+- LAST RUNTIME QA: not launched; rollback6F879C preserved in RuntimeQA/Bin.
+- KNOWN DIFFERENCES: Wrath status transport remains disabled; no new visual result.
+- MISSING CHAIN PARTS: targeted cast outcome and nine-skill runtime/server/class acceptance.
+- BLOCKER: none for isolated client startup.
+- NEXT EXACT ACTION: launch only staged Engine-Port S21 with QA Client as cwd,
+  verify process identity/startup, then collect one valid-target Spin cast and F11.
+- NEXT FILE TO OPEN: RuntimeQA/Client/GrowLancerRuntimeQA.log and stage verifier.
+- NEXT FUNCTION TO IMPLEMENT: determined by new runtime outcome, not assumed.
+
+### 2026-09-13 — Spin fanout outcome telemetry compiled
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; valid-target Spin diagnosis.
+- COMPLETED THIS RUN: QA-only64-entry outcome buffer records target resolution
+  and native initialization entry for controller/cross/ground; flush outside update.
+- REVERSE EVIDENCE: native ResolveTarget return and InitializeEffect path, preserving source gate.
+- CHAIN COVERAGE: next isolated cast can separate target failure from child initialization.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: GrowLancerRuntimeQA.cpp/.h, GrowLancerEffectRuntime.cpp,
+  SPIN_STEP_REVERSE.md, this state.
+- LAST STATIC CHECK: bounded buffer/drop counter; no hook disk writes or production instrumentation.
+- LAST BUILD RESULT: isolated QA Global Release Win32 exit0.
+- LAST RUNTIME QA: no deployment/cast; no new outcome records or visual PASS.
+- KNOWN DIFFERENCES: initialization-entry evidence is not allocation/render completeness;
+  simultaneous Spin effects could contaminate one armed sample window.
+- MISSING CHAIN PARTS: current isolated cast outcome, render visibility, other skills,
+  server handler evidence, class and full QA.
+- BLOCKER: none for isolated staging preflight.
+- NEXT EXACT ACTION: inspect current QA process/executable and staging verifier;
+  prepare only isolated candidate without overwriting a running executable.
+- NEXT FILE TO OPEN: tools/grow_lancer QA stage scripts and RUNTIME_QA.md.
+- NEXT FUNCTION TO IMPLEMENT: follow runtime outcome evidence; no speculative timing change.
+
+### 2026-09-13 — Spin recorded target/frame evidence and QA guard
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; Spin missing visual.
+- COMPLETED THIS RUN: read actual QA samples; added per-cast analyzer and F7
+  missing-target rejection before sampler arming/dispatch.
+- REVERSE EVIDENCE:396 samples,69 inside source frame gate; targets-1 and3.
+  Negative target explains some absent fanout, NOT valid-target failures.
+- CHAIN COVERAGE: action/frame gate observed; target validity/allocation/render still open.
+- ASSET PROVENANCE: unchanged; log hash recorded in SPIN_STEP_REVERSE.md.
+- FILES MODIFIED: GrowLancerRuntimeQA.cpp, inspect_spin_controller_log.py,
+  SPIN_STEP_REVERSE.md, this state.
+- LAST STATIC CHECK: analyzer executed; scoped diff --check PASS.
+- LAST BUILD RESULT: isolated QA Win32 exit0.
+- LAST RUNTIME QA: historical samples inspected; no new cast/deploy or visual PASS.
+- KNOWN DIFFERENCES: stage1 means consumed gate, not successful child creation.
+- MISSING CHAIN PARTS: Spin valid-target child evidence, other visual failures,
+  server handler evidence, class and nine-skill QA.
+- BLOCKER: none for valid-target fanout diagnostics.
+- NEXT EXACT ACTION: add bounded target-resolve/child-allocation result telemetry
+  to distinguish target3 resolution failure from invisible constructed children.
+- NEXT FILE TO OPEN: GrowLancerEffectRuntime.cpp ResolveTarget/EmitSpinCastFanout.
+- NEXT FUNCTION TO IMPLEMENT: Spin fanout outcome QA telemetry.
+
+### 2026-09-13 — server Wrath identity/formula boundary revalidated
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; authoritative server evidence.
+- COMPLETED THIS RUN: extended hash-pinned verifier separates424/425 from legacy
+  Wrath218/223/224 despite shared EffectType123; no old50%/30% formulas imported.
+- REVERSE EVIDENCE: current FormulaData, SkillList and BuffEffectManager rows;
+  GS tree recheck found no matching PDB/map/dmp. Handler/duration remains unproven.
+- CHAIN COVERAGE: stronger server data provenance, not executable handler coverage.
+- ASSET PROVENANCE: BuffEffectManager hash recorded in SERVER_RULES_REVERSE.md.
+- FILES MODIFIED: verify_wrath_server_formula.py, SERVER_RULES_REVERSE.md, this state.
+- LAST STATIC CHECK: selected-record verifier run; whole XML parser rejected unrelated line414.
+- LAST BUILD RESULT: unchanged previous client PASS; no native code changed.
+- LAST RUNTIME QA: no server execution/attach/deploy; no live QA.
+- KNOWN DIFFERENCES: formula call arguments, rounding, duration and save semantics unresolved.
+- MISSING CHAIN PARTS: matching server runtime evidence plus remaining client/class/QA work.
+- BLOCKER: server activation needs matching handler evidence; independent client work remains possible.
+- NEXT EXACT ACTION: return to owner-reported Spin Step missing visual and compare
+  current native cast timing against captured S21 reference; keep server readiness false.
+- NEXT FILE TO OPEN: GrowLancer/SPIN_STEP_REVERSE.md and native Spin controller update.
+- NEXT FUNCTION TO IMPLEMENT: evidence-backed Spin visual timing correction if mismatch confirmed.
+
+### 2026-09-13 — Wrath icon row and receipt tooltip connected
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; buff UI integration.
+- COMPLETED THIS RUN: bypassed legacy timer-row gate only for424/425; private tooltip
+  uses verified metadata and full-width receipt countdown with native time formatting.
+- REVERSE EVIDENCE: native RenderBuff loop skipped missing UserBuff row before icon;
+  GetStringTime uses DWORD day/hour/minute arithmetic rather than gmtime year wrapping.
+- CHAIN COVERAGE: high-ID membership can reach icon and tooltip without legacy timer row.
+- ASSET PROVENANCE: existing hash-pinned Wrath atlas unchanged.
+- FILES MODIFIED: NewUIBuffWindow.cpp, BUFF_DELIVERY_CONTRACT.md, this state.
+- LAST STATIC CHECK: guarded legacy array indexing audited; scoped diff --check PASS.
+- LAST BUILD RESULT: isolated Global Release Win32 exit0.
+- LAST RUNTIME QA: none; no QA deployment and transport remains disabled.
+- KNOWN DIFFERENCES: native less-than-minute text, no legacy green timer bar,
+  tooltip layout/UTF8 acceptance and S21 time-string parity not verified.
+- MISSING CHAIN PARTS: server activation/snapshot, new class and nine-skill runtime QA.
+- BLOCKER: none for GS authoritative Wrath data audit.
+- NEXT EXACT ACTION: inspect pinned GS Wrath buff formulas/duration and current
+  isolated server implementation before enabling any handshake or status generation.
+- NEXT FILE TO OPEN: GrowLancer server evidence and ExGameServer/GameServer/RISE.
+- NEXT FUNCTION TO IMPLEMENT: evidence-backed authoritative Wrath status generation.
+
+### 2026-09-13 — owner/reset bookkeeping regression integrated
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; reset regression.
+- COMPLETED THIS RUN: extracted WrathPendingReset and integrated it into CWsctlc;
+  owner change without reset and binding over pending cleanup now reject before mutation.
+- REVERSE EVIDENCE: existing native reset/apply order; this helper is RISE lifecycle policy.
+- CHAIN COVERAGE: repeated reset, exact mask, identity retention, one-shot take and rebind tested.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: GrowLancerWrathReset.h/test, wsctlc.h, WSclient.cpp,
+  BUFF_DELIVERY_CONTRACT.md, this state.
+- LAST STATIC CHECK: x86 constexpr W4/WX PASS; scoped diff check PASS.
+- LAST BUILD RESULT: initial and final isolated Win32 builds PASS (exit0).
+- LAST RUNTIME QA: none; transport stays disabled.
+- KNOWN DIFFERENCES: no test claim about same-key generation or concurrent socket threads.
+- MISSING CHAIN PARTS: UI countdown and GS activation, GL class, nine-skill live QA.
+- BLOCKER: none for UI countdown integration.
+- NEXT EXACT ACTION: inspect native buff tooltip time formatting and route exact424/425
+  to full-width receipt countdown without activating a native expiry timer.
+- NEXT FILE TO OPEN: NewUIBuffWindow.cpp and w_BuffTimeControl.cpp.
+- NEXT FUNCTION TO IMPLEMENT: Wrath local receipt countdown display.
+
+### 2026-09-13 — deferred owner reset reconciliation connected
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; surviving-owner cleanup.
+- COMPLETED THIS RUN: reset captures received-ID mask and owner identity; protocol
+  thread consumes pending removal with Hero/index/key/Live checks before packet apply.
+- REVERSE EVIDENCE: native Winmain message/scene loop calls ProtocolCompiler each
+  iteration; close paths reset session even when reconnect teardown is skipped.
+- CHAIN COVERAGE: no-packet reconciliation and same-drain join-map handling added.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: wsctlc.h, WSclient.cpp, BUFF_DELIVERY_CONTRACT.md, this state.
+- LAST STATIC CHECK: scoped diff --check PASS; reset mutation limited to tracked424/425.
+- LAST BUILD RESULT: isolated full Win32 build PASS; final incremental recheck executed.
+- LAST RUNTIME QA: none; transport disabled. No claim of reconnect stress acceptance.
+- KNOWN DIFFERENCES: RISE deferred reconciliation policy; same-key generation and
+  concurrency stress still unverified. Stale mismatched owner work is discarded.
+- MISSING CHAIN PARTS: focused reset regressions, server activation, UI countdown,
+  GL class and complete nine-skill runtime QA.
+- BLOCKER: none for focused reset regression coverage.
+- NEXT EXACT ACTION: isolate pending-owner reset bookkeeping into a testable helper
+  and test repeat reset, mismatched/reused owner and same-drain new receipt.
+- NEXT FILE TO OPEN: wsctlc.h owner/reset fields and GrowLancerWrathReceiptTest.cpp.
+- NEXT FUNCTION TO IMPLEMENT: tested pending owner reset state helper.
+
+### 2026-09-13 — explicit Wrath reconnect teardown compiled
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; membership reset audit.
+- COMPLETED THIS RUN: ReconnectViewportDestroy explicitly removes present424/425
+  before legacy map-index deletion loop, preventing skipped Wrath physical removal.
+- REVERSE EVIDENCE: native Buff::GetBuff indexes current map; UnRegisterBuff erases;
+  reconnect-enabled close calls viewport destroy. CreateCharacterPointer clears all buffs.
+- CHAIN COVERAGE: reconnect-enabled teardown and new owner initialization audited.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: RISE/Reconnect.cpp, BUFF_DELIVERY_CONTRACT.md, this state.
+- LAST STATIC CHECK: scoped diff --check PASS; removal targets exact424/425 only.
+- LAST BUILD RESULT: isolated Global Release Win32 exit0.
+- LAST RUNTIME QA: no live disconnect/reconnect test; high-ID transport remains disabled.
+- KNOWN DIFFERENCES: legacy indexed erase behavior for other buffs unchanged.
+- MISSING CHAIN PARTS: reconnect-disabled reset path, intermediate render safety,
+  server activation, class and nine-skill visual acceptance.
+- BLOCKER: none for remaining disconnect path audit.
+- NEXT EXACT ACTION: inspect reconnect-disabled socket close and scene transition;
+  decide render-thread-safe local membership reconciliation for surviving owner.
+- NEXT FILE TO OPEN: CWsctlc::Close and Winmain.cpp game/disconnect transitions.
+- NEXT FUNCTION TO IMPLEMENT: surviving-owner Wrath reconciliation after session reset.
+
+### 2026-09-13 — guarded native Wrath status callback compiled
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; local status application.
+- COMPLETED THIS RUN: FC callback validates connection, scene, HeroIndex/pointer/key,
+  Live/model and exact buff IDs; applies receipt then native add/remove, checking membership.
+- REVERSE EVIDENCE: inspected native classification/exception/logical helpers;
+  high424/425 take no logical timer/stat cases. Duration preserved outside signed-int API.
+- CHAIN COVERAGE: callback wired behind disabled readiness; scale/membership path connected.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: WSclient.cpp, BUFF_DELIVERY_CONTRACT.md, this state.
+- LAST STATIC CHECK: focused handshake x86 compile and scoped whitespace check executed.
+- LAST BUILD RESULT: isolated Global Release Win32 exit0.
+- LAST RUNTIME QA: none; featureReady remains false, no packet/visual acceptance.
+- KNOWN DIFFERENCES: receipt countdown not yet displayed; source cleanup and
+  reset-to-membership reconciliation remain incomplete. Callback is local-owner only.
+- MISSING CHAIN PARTS: server generation, lifecycle reconciliation, UI countdown,
+  new GL class and complete nine-skill runtime QA.
+- BLOCKER: none for reset membership reconciliation.
+- NEXT EXACT ACTION: audit disconnect/join-map buff clearing and provide guarded
+  reconciliation before enabling handshake or requesting owner buff testing.
+- NEXT FILE TO OPEN: ZzzCharacter.cpp character initialization and Reconnect.cpp buff clear paths.
+- NEXT FUNCTION TO IMPLEMENT: Wrath local-owner reconciliation on session/owner reset.
+
+### 2026-09-13 — receipt cache attached to connection/reset domain
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; connection and owner resets.
+- COMPLETED THIS RUN: CWsctlc owns receipt cache; central reset clears handshake
+  and receipts. Join-map resets before new Hero slot allocation; disabled FC resets both.
+- REVERSE EVIDENCE: inspected native socket reset methods, character-list reset,
+  ReceiveJoinMapServer random HeroIndex allocation and Hero reassignment.
+- CHAIN COVERAGE: receipt storage/reset attachment; native apply remains disabled.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: wsctlc.h, WSclient.cpp, BUFF_DELIVERY_CONTRACT.md, this state.
+- LAST STATIC CHECK: reset references audited; no new wire layout or legacy2D mutation.
+- LAST BUILD RESULT: full isolated Win32 header rebuild PASS; join-map incremental PASS.
+- LAST RUNTIME QA: no launch/deploy; no live handshake or receipt.
+- KNOWN DIFFERENCES: clearing receipts does not erase character membership;
+  handshake restart after join-map must precede future status delivery.
+- MISSING CHAIN PARTS: native apply/reconciliation, server activation, class and nine-skill QA.
+- BLOCKER: none for native apply audit.
+- NEXT EXACT ACTION: inspect CheckExceptionBuff and Insert/ClearBuffLogicalEffect
+  for424/425, then implement callback without narrowing duration or discarding auxiliary.
+- NEXT FILE TO OPEN: WSclient.cpp buff helpers and GrowLancerWrathReceipt.h.
+- NEXT FUNCTION TO IMPLEMENT: validated local-owner Wrath status application.
+
+### 2026-09-13 — full-width Wrath receipt metadata adapter tested
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; receiver lifecycle.
+- COMPLETED THIS RUN: added two-ID receipt cache preserving unsigned32 duration,
+  last auxiliary and original membership auxiliary separately; remove/reset isolation.
+- REVERSE EVIDENCE: source countdown refresh vs membership insert-if-absent;
+  native RegisterBuff takes signed int and native Buff map stores count only.
+- CHAIN COVERAGE: receipt data adapter complete; native callback still disabled.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: GrowLancerWrathReceipt.h, GrowLancerWrathReceiptTest.cpp,
+  BUFF_DELIVERY_CONTRACT.md, this state.
+- LAST STATIC CHECK: focused x86 constexpr W4/WX PASS, including full-width
+  duration, repeated receipt, missing-cache reconciliation rejection and reset.
+- LAST BUILD RESULT: focused object PASS; previous client isolated build unchanged.
+- LAST RUNTIME QA: no launch, deployment or live receipt.
+- KNOWN DIFFERENCES: unmatched existing membership fails closed pending reconciliation.
+- MISSING CHAIN PARTS: socket/owner cache attachment, callback application,
+  authoritative server activation, new class and full nine-skill QA.
+- BLOCKER: none for connection attachment.
+- NEXT EXACT ACTION: attach receipt metadata to game connection and audit reset
+  hooks with membership reconciliation before enabling the native apply callback.
+- NEXT FILE TO OPEN: wsctlc.h/WSctlc.cpp and WSclient.cpp receive/reset paths.
+- NEXT FUNCTION TO IMPLEMENT: connection-owned Wrath receipt reset/application.
+
+### 2026-09-13 — native Wrath persistent render caller connected
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; native player render integration.
+- COMPLETED THIS RUN: MODEL_PLAYER branch now invokes persistent submission
+  for424 OR425 with explicit timeGetTime float, outside the earlier !Bind block.
+- REVERSE EVIDENCE:13E7CA2/13E7DF2/13E7DFC source player-model switch pinned;
+  existing membership/teleport-alpha checks retained.
+- CHAIN COVERAGE: previously uncalled persistent path now connected to native
+  RenderCharacter; no additional RNG or asset load for actors without Wrath.
+- ASSET PROVENANCE: unchanged; no external staging.
+- FILES MODIFIED: ZzzCharacter.cpp, verify_wrath_persistent_sprites.py,
+  WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: source verifier and scoped diff --check PASS.
+- LAST BUILD RESULT: isolated Global Release Win32 MSBuild exit0.
+- LAST RUNTIME QA: no QA deployment/restart; high-ID transport still disabled.
+- KNOWN DIFFERENCES: shared source clock vs per-character sample, concurrent
+  buff ordering, render frequency, quality throttle and bone parity not verified.
+- MISSING CHAIN PARTS: authoritative GS buff activation/duration and receiver,
+  new GL class, nine-skill runtime QA including owner-reported Spin/Harsh/Magic issues.
+- BLOCKER: none for transport receiver lifecycle implementation.
+- NEXT EXACT ACTION: inspect BUFF_DELIVERY_CONTRACT.md and native receive callback;
+  implement verified status-to-membership application without enabling transport.
+- NEXT FILE TO OPEN: GrowLancer/BUFF_DELIVERY_CONTRACT.md; WSclient.cpp protocol receive.
+- NEXT FUNCTION TO IMPLEMENT: native Wrath status apply callback with owner validation.
+
+### 2026-09-13 — Wrath teleport visibility mapped and compiled
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; renderer eligibility.
+- COMPLETED THIS RUN: mapped source+3A to native Teleport from matching alpha-fade
+  writer; private submit skips TELEPORT with Alpha strictly below1e-6.
+- REVERSE EVIDENCE: continuous173EF78..17439E2 writer decode; renderer13DBA07;
+  native ZzzInterface.cpp teleport transition and _define.h states1/2.
+- CHAIN COVERAGE: inner membership and outer teleport-alpha gate implemented.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: GrowLancerEffectRuntime.cpp, verify_wrath_persistent_sprites.py,
+  WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: extended source verifier PASS; exact threshold float pinned.
+- LAST BUILD RESULT: isolated Global Release Win32 exit0.
+- LAST RUNTIME QA: unchanged; no deployment and no submit caller yet.
+- KNOWN DIFFERENCES: native global character renderer intentionally unchanged.
+- MISSING CHAIN PARTS: surrounding render branch/cadence, GS activation,
+  GL class and complete nine-skill visual QA.
+- BLOCKER: none for remaining surrounding branch audit.
+- NEXT EXACT ACTION: inspect conditional branches enclosing13EB9DA and compare
+  native RenderCharacter !Bind buff section before inserting the submit call.
+- NEXT FILE TO OPEN: source13DB9D7..13EB9DA and ZzzCharacter.cpp near RenderCharacterBackItem.
+- NEXT FUNCTION TO IMPLEMENT: native render-stage caller of SubmitWrathPersistentVisuals.
+
+### 2026-09-13 — persistent Wrath membership guard compiled
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; persistent render eligibility.
+- COMPLETED THIS RUN: SubmitWrathPersistentVisuals checks native424 OR425 before
+  resource loads/RNG/allocation; absence emits nothing; both do not double emit.
+- REVERSE EVIDENCE: extended verifier pins13EB9DA..13EBA12 and skip13ECB52.
+- CHAIN COVERAGE: inner membership gate integrated; outer render-stage call still open.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: GrowLancerEffectRuntime.cpp/.h, verify_wrath_persistent_sprites.py,
+  WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: extended source verifier PASS.
+- LAST BUILD RESULT: isolated Global Release Win32 MSBuild exit0.
+- LAST RUNTIME QA: no launch or deployment; function remains uncalled.
+- KNOWN DIFFERENCES: native outer visibility predicate not yet mapped; no new timers.
+- MISSING CHAIN PARTS: render insertion/cadence, GS activation, new class and nine-skill QA.
+- BLOCKER: none for static outer predicate mapping.
+- NEXT EXACT ACTION: establish semantic identity of source OBJECT+3A==2 and
+  Alpha threshold at13DBA07..13DBA27, then choose matching native render insertion.
+- NEXT FILE TO OPEN: pinned source13DB9D7; native ZzzCharacter.cpp::RenderCharacter.
+- NEXT FUNCTION TO IMPLEMENT: render-stage caller of SubmitWrathPersistentVisuals.
+
+### 2026-09-13 — Wrath cleanup pool selection pinned
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; Wrath cleanup contract.
+- COMPLETED THIS RUN: executable offline verifier resolves selector424/425 to
+  fallback pool and pins exact type/subtype/owner matching in both pools.
+- REVERSE EVIDENCE: pinned main dump;10EF919,14B65D8,14B66DB,10EFF55,14B6820.
+- CHAIN COVERAGE: secondary pool visited only when primary has no match;
+  owner-wide child retirement is not supported by this source path.
+- ASSET PROVENANCE: unchanged; originals untouched.
+- FILES MODIFIED: tools/grow_lancer/verify_wrath_cleanup.py, WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: cleanup verifier PASS; scoped diff whitespace check below.
+- LAST BUILD RESULT: unchanged previous isolated Win32 PASS; no runtime code changed.
+- LAST RUNTIME QA: not launched/deployed; no new visual acceptance.
+- KNOWN DIFFERENCES: no native equivalent invented for source cleanup type424/425.
+- MISSING CHAIN PARTS: actual allocation of those types, full reset body,
+  persistent membership render integration, GS activation and nine-skill QA.
+- BLOCKER: none for persistent render gate investigation.
+- NEXT EXACT ACTION: trace membership gate into SubmitWrathPersistentVisuals
+  equivalent, preserving source buff-state checks and native pool ownership.
+- NEXT FILE TO OPEN: GrowLancer/WRATH_REVERSE.md persistent render evidence;
+  ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerEffectRuntime.cpp.
+- NEXT FUNCTION TO IMPLEMENT: verified caller of SubmitWrathPersistentVisuals.
+
+### 2026-09-13 — gameplay Wrath membership scale refresh compiled
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; scale refresh lifecycle.
+- COMPLETED THIS RUN: SetCharacterScale reapplies1.1 for424/425 only in native
+  MAIN_SCENE outside ChaosCastle; retains Change early return and selection scales.
+- REVERSE EVIDENCE: source world-predicate early exit and state5 early exit
+  pinned in full decode; numeric S21 state5 is NOT equated with native MAIN_SCENE5.
+- CHAIN COVERAGE: gameplay physical add/remove plus membership refresh; other
+  scene/world mappings, effect cleanup and authoritative activation still incomplete.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: GrowLancerWrathScale.h/test, ZzzCharacter.cpp, scale verifier,
+  WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: focused x86 refresh tests PASS; no-buff/excluded-stage preserve baseline.
+- LAST BUILD RESULT: isolated Global Release Win32 exit0 after fixing macro
+  argument precedence with a local OBJECT pointer; global macro unchanged.
+- LAST RUNTIME QA: no deployment/restart; transport readiness remains false.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: source scene symbolic mapping/world97,
+  cleanup14B65D8, persistent render, server rules and nine-skill QA still OPEN.
+- BLOCKER: none for effect cleanup mapping.
+- NEXT EXACT ACTION: inspect source cleanup registry10EF919/10EFF55 and identify
+  actual Wrath-owned effect type before mapping to private native deletion.
+- NEXT FILE TO OPEN: source14B65D8 and effect runtime ownership adapters.
+- NEXT FUNCTION TO IMPLEMENT: verified Wrath effect cleanup after type/owner mapping.
+
+### 2026-09-13 — native physical Wrath scale events implemented
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; physical buff lifecycle.
+- COMPLETED THIS RUN: native add/remove hooks for exact424/425; absolute1.1 add
+  with native ChaosCastle exception, absolute0.9 remove; no cumulative scaling.
+- REVERSE EVIDENCE: pinned scale verifier PASS; source cleanup fallback additionally
+  decoded as live/type/subtype/owner match, not safe to transplant numeric effect IDs.
+- CHAIN COVERAGE: physical scale hooked; class-refresh override/cleanup remain OPEN.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: GrowLancerWrathScale.h, WrathScaleTest.cpp, WSclient.cpp,
+  WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: focused x86 event tests and scoped diff --check PASS.
+- LAST BUILD RESULT: isolated Global Release Win32 MSBuild exit0.
+- LAST RUNTIME QA: no deploy/restart or buff activation; featureReady remainsfalse.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: source world97 unmapped; native class
+  refresh may overwrite scale until membership override is mapped; cleanup14B65D8,
+  persistent effects/server/status application and nine-skill QA remain incomplete.
+- BLOCKER: none for source cleanup and refresh evidence work.
+- NEXT EXACT ACTION: resolve source class-refresh early exits against native
+  SetCharacterScale, then map owner/type cleanup to registered private effects.
+- NEXT FILE TO OPEN: ZzzCharacter.cpp SetCharacterScale and source141043E.
+- NEXT FUNCTION TO IMPLEMENT: membership-aware Wrath scale refresh at mapped stage.
+
+### 2026-09-13 — Wrath description recovered and native display metadata compiled
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; display metadata.
+- COMPLETED THIS RUN: verified description container stride24 and extracted exact
+  UTF8 text for424/425; GetBuffinfo now returns private names/description/effect123.
+- REVERSE EVIDENCE: record+34 destructor chain9605E2->94B987->94FF34 and24-byte
+  loop946212; bounded full-snapshot string iteration and expected description check.
+- CHAIN COVERAGE: names/descriptions/classification/icon mapping represented;
+  source clear-policy, native scale/effect lifecycle and GS remain incomplete.
+- ASSET PROVENANCE: unchanged; snapshot hash rechecked offline.
+- FILES MODIFIED: snapshot inspector, WrathBuffMetadata.h/test, w_BuffScriptLoader.cpp,
+  WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: UTF8 buffer bounds/invalid skill ID focused x86 tests PASS.
+- LAST BUILD RESULT: isolated Global Release Win32 build exit0.
+- LAST RUNTIME QA: no deployment/restart; featureReady staysfalse.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: source column7=1 not mapped to native
+  s_ClearType(default0); no semantics guessed. Remaining lifecycle/server/9-skill QA.
+- BLOCKER: none for evidence-backed buff lifecycle work.
+- NEXT EXACT ACTION: inspect source clear-policy consumers and native buff status
+  application, then wire verified scale/ownership without enabling premature packets.
+- NEXT FILE TO OPEN: WSclient.cpp RegisterBuff/UnRegisterBuff and S21 metadata consumers.
+- NEXT FUNCTION TO IMPLEMENT: guarded Wrath status-to-native-lifecycle bridge.
+
+### 2026-09-13 — native Wrath atlas loader and UI renderer compiled
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; native buff UI integration.
+- COMPLETED THIS RUN: hash-pinned DDS->OZT conversion; private bitmap32980,
+  guarded native loader, exact UV RenderBuffIcon branch and matching unload.
+- REVERSE EVIDENCE: verified OpenTga dimensions/depth/pixel offsets and bottom-up
+  BGRA conversion; full inverse RGBA byte equality, exact recovered source rects.
+- CHAIN COVERAGE: source atlas through native UI rendering connected; actual buff
+  receipt/metadata/lifecycle still disabled and visual acceptance unproven.
+- ASSET PROVENANCE: Client/Data/RISE/GrowLancer/Wrath/WrathBuffAtlas.OZT SHA256
+  B4CDD279EB66D2178C570C88149B3529E0E596998B7FB00F16A1839F27B44E9B;
+  original S21 untouched, staged only inside this worktree.
+- FILES MODIFIED: stage_wrath_buff_atlas.py, GrowLancerResources.h/.cpp,
+  NewUIBuffWindow.cpp, isolated OZT, WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: conversion byte roundtrip PASS; scoped diff --check PASS;
+  source32980 inventory only contains newly added private atlas references.
+- LAST BUILD RESULT: isolated Global Release Win32 MSBuild exit0 (session31143).
+- LAST RUNTIME QA: no deploy/restart; transport featureReady remains false.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: native compact slot dimensions instead
+  of source26x36; source sampler parity unverified; metadata/scale/lifecycle/GS/9-skill QA.
+- BLOCKER: none for next metadata/lifecycle implementation.
+- NEXT EXACT ACTION: finish Wrath display metadata and connect actual status
+  application to native ownership/scale/render lifecycle before enabling handshake.
+- NEXT FILE TO OPEN: w_BuffScriptLoader.cpp GetBuffinfo and WRATH_REVERSE.md.
+- NEXT FUNCTION TO IMPLEMENT: guarded Wrath buff metadata/status application.
+
+### 2026-09-13 — exact Wrath atlas mapping added and compiled
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; native icon mapping.
+- COMPLETED THIS RUN: verified custom GFx tag schema; export73/72 link image0
+  to I7 atlas1024x256; native rect accessor424=(220,120,20,28),425=(242,120,20,28).
+- REVERSE EVIDENCE: hash-pinned GFx export/subimage/external-image assertions;
+  schema reference and provenance recorded in WRATH_REVERSE.md.
+- CHAIN COVERAGE: exact source pixel rectangles and image identified; native load/
+  render plus movie provider linkage/runtime parity remain to verify.
+- ASSET PROVENANCE: isolated I7 conversion SHA256 D00E868B...; DDS parsed/loaded
+  RGBA1024x256, matching GFx target size. Original unchanged; no QA staging.
+- FILES MODIFIED: GFx inspector, WrathBuffMetadata header/test, isolated I7 DDS,
+  WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: exact crop/invalid alias constexpr tests PASS; GFx mapping PASS.
+- LAST BUILD RESULT: isolated Global Release Win32 build exit0.
+- LAST RUNTIME QA: no launch/deployment; parsed pixels do not prove visual acceptance.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: native atlas registration/render,
+  display metadata, lifecycle/scale/effects, GS activation and nine-skill QA.
+- BLOCKER: none for isolated native texture staging.
+- NEXT EXACT ACTION: inspect native bitmap loader format/alpha requirements;
+  stage hash-pinned atlas using supported format and reserve private resource ID.
+- NEXT FILE TO OPEN: GrowLancerResources.cpp and native bitmap loading functions.
+- NEXT FUNCTION TO IMPLEMENT: Wrath buff atlas registration and exact-UV renderer.
+
+### 2026-09-13 — ImageData exports resolve missing Wrath symbol search
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; buff image provider.
+- COMPLETED THIS RUN: decoded isolated ImageData/base; found icon_425 export72
+  and icon_424 export73, both backed by custom tag1008 records.
+- REVERSE EVIDENCE: ImageData getBitmap calls BitmapData.loadBitmap(exportName)
+  directly; base.getBitmap adds image prefix and is not an interchangeable helper.
+- CHAIN COVERAGE: exact exported symbols and matching provider candidate found;
+  verify parent movie linkage/custom tag layout before declaring final asset mapping.
+- ASSET PROVENANCE: source/tool/output hashes in WRATH_REVERSE.md; all conversion
+  outputs under isolated buff_gfx_decode_20260913, no original writes.
+- FILES MODIFIED: GFx/AVM1 inspectors, isolated base/ImageData outputs, reverse/state.
+- LAST STATIC CHECK: --base and --image bounded GFx parse and selected AVM1 decode PASS.
+- LAST BUILD RESULT: unchanged prior client PASS; no C++ edits.
+- LAST RUNTIME QA: unchanged; no deployment/restart or visual acceptance.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: custom tag schema/atlas crop, provider
+  linkage, buff lifecycle and server rules; all nine-skill acceptance remains OPEN.
+- BLOCKER: loose-file search gap resolved by exported symbols; no user action needed.
+- NEXT EXACT ACTION: verify DefineSubImage/ExternalImage custom tag schema, inspect
+  and decode ImageData_I7.ozd, resolve exact424/425 atlas regions with provenance.
+- NEXT FILE TO OPEN: ImageData custom tags1008/1009 and ImageData_I7.ozd.
+- NEXT FUNCTION TO IMPLEMENT: private native Wrath atlas mapping after field proof.
+
+### 2026-09-13 — Wrath AVM1 caller-to-bitmap key chain recovered
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; exact buff icon lookup.
+- COMPLETED THIS RUN: bounded typed AVM1 decoder; sprite76 passes numeric BuffType
+  to sprite117 DrawIcon_Buff, which requests getBitmap("icon_" + ID).
+- REVERSE EVIDENCE: body2CC3F..2CC6A and callerEAFD onward; requested keys424/425
+  remain unchanged in script. Caller dimensions26x36; visible follows AttachImg success.
+- CHAIN COVERAGE: script key and attach behavior; provider/asset mapping still OPEN.
+- ASSET PROVENANCE: same pinned GFx; expected loose icon_424/425.ozd not found.
+- FILES MODIFIED: inspect_wrath_buff_avm1.py, WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: complete sprite76/117 payload decoding PASS after adding
+  Push double support and console Unicode escaping; no guessed unknown opcode semantics.
+- LAST BUILD RESULT: unchanged prior isolated client PASS; no native edits.
+- LAST RUNTIME QA: no launch/deployment; no icon or nine-skill acceptance claimed.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: getBitmap provider/packed asset resolution,
+  description, native scale/render lifecycle, GS activation and all remaining QA.
+- BLOCKER: none for investigating inherited getBitmap provider.
+- NEXT EXACT ACTION: locate getBitmap implementation/registration and resolve
+  icon_424/425 to actual assets or verified missing-resource behavior in S21.
+- NEXT FILE TO OPEN: decoded GFx ImageLoader inheritance and bitmap provider sources.
+- NEXT FUNCTION TO IMPLEMENT: private Wrath icon loader only after asset proof.
+
+### 2026-09-13 — isolated BuffList decryption and bounded GFx tag parser PASS
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; source buff icon chain.
+- COMPLETED THIS RUN: decoded copied BuffList.ozg and two .ozd with existing
+  hash-pinned converter; parsed CFX/tag hierarchy and found DrawIcon_Buff actions.
+- REVERSE EVIDENCE: sprite76 payloadE66D/2056 and sprite117 payload2C797/3090;
+  string leads now have bounded AVM1 containers, mapping still unproven.
+- CHAIN COVERAGE: icon script located; need actual action/dataflow decoding.
+- ASSET PROVENANCE: source/tool/output hashes recorded in WRATH_REVERSE.md;
+  all output in artifacts/grow_lancer/buff_gfx_decode_20260913, no original writes.
+- FILES MODIFIED: inspect_wrath_buff_gfx.py, isolated decoded artifacts, reverse/state.
+- LAST STATIC CHECK: CFX zlib length193713 and bounded nested tag parser PASS.
+- LAST BUILD RESULT: unchanged, no C++ change in this run.
+- LAST RUNTIME QA: not launched/deployed; no visual parity inferred from parsing.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: actual icon mapping, buff description,
+  native lifecycle, authoritative GS and nine-skill acceptance remain OPEN.
+- BLOCKER: none for offline AVM1 analysis.
+- NEXT EXACT ACTION: decode sprite117 DoInitAction DrawIcon_Buff body and trace
+  incoming BuffType through symbol/image selection; then examine sprite76 caller.
+- NEXT FILE TO OPEN: isolated Decrypted/BuffList.gfx payload2C797.
+- NEXT FUNCTION TO IMPLEMENT: native buff icon mapping after source dataflow proof.
+
+### 2026-09-13 — Wrath localized names and concrete icon incompatibility recovered
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; display metadata.
+- COMPLETED THIS RUN: bounded offline string extraction confirms Thịnh Nộ424
+  and Tăng Cường Thịnh Nộ425; found native ID-based atlas incompatibility.
+- REVERSE EVIDENCE: string accessor8E7C00 cross-snapshot match and capacity/
+  null/UTF8 checks; native icon width20,height28 yields row26,v2.84375 for424/425.
+- CHAIN COVERAGE: names verified; source icon/description mapping remains OPEN.
+- ASSET PROVENANCE: original GFx BuffList.ozg/I12.ozd/I14.ozd enumerated read-only;
+  not yet proven Wrath assets, no staging or original modifications.
+- FILES MODIFIED: inspector, WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: offline bounded-name inspector PASS before expected-name pin;
+  exact source atlas formula inspected. No runtime/icon parity claimed.
+- LAST BUILD RESULT: unchanged prior isolated client PASS; no C++ edits this run.
+- LAST RUNTIME QA: no launch/deployment; activation remains disabled.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: buff icon mapping/description,
+  scale/render lifecycle, authoritative GS and nine-skill QA.
+- BLOCKER: none for offline GFx resource investigation.
+- NEXT EXACT ACTION: inspect BuffList GFx container using existing asset tooling,
+  trace source buff ID to symbol/image before adding a private native icon mapping.
+- NEXT FILE TO OPEN: S21 Data/Interface/GFx/BuffList.ozg (read-only).
+- NEXT FUNCTION TO IMPLEMENT: native Wrath buff icon adapter after mapping proof.
+
+### 2026-09-13 — native Wrath classification mapped without raising legacy count
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; native metadata bridge.
+- COMPLETED THIS RUN: proved S21 classifier1=isDebuff,2=isCashBuff via named
+  consumer; cross-checked Attack0/Freeze1/Wrath0 rows. Native IsBuffClass now
+  recognizes exact424/425 as eBuffClass_Buff via isolated helper.
+- REVERSE EVIDENCE: C888AB..C88999 full decode and named string pins in inspector;
+  full dump and older main code agree. No generic cast of S21 class2 to native2.
+- CHAIN COVERAGE: classification integrated; display metadata/lifecycle not ready.
+- ASSET PROVENANCE: no changes.
+- FILES MODIFIED: w_BuffScriptLoader.cpp, GrowLancerWrathBuffMetadata.h,
+  GrowLancerWrathBuffMetadataTest.cpp, inspector, WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: exhaustive -1..65535 and wide signed alias classification
+  tests compiled PASS; unchanged legacy count/disk layout/packet widths.
+- LAST BUILD RESULT: isolated Global Release Win32 MSBuild exit0.
+- LAST RUNTIME QA: no deployment or restart; featureReady remains false.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: GetBuffinfo display/icon metadata,
+  lifecycle/scale/render hooks, server-authoritative activation and nine-skill QA.
+- BLOCKER: none for next metadata and lifecycle integration step.
+- NEXT EXACT ACTION: recover bounded buff names/description from snapshot and
+  map native display metadata; inspect icon indexing before enabling membership.
+- NEXT FILE TO OPEN: w_BuffScriptLoader.cpp GetBuffinfo and NewUIBuffWindow.cpp.
+- NEXT FUNCTION TO IMPLEMENT: isolated Wrath display metadata adapter.
+
+### 2026-09-13 — actual Wrath client metadata recovered from full dump
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; resolve metadata gate.
+- COMPLETED THIS RUN: located both424/425 rows in existing isolated full-memory
+  snapshot; prior missing heap applied only to older module dumps.
+- REVERSE EVIDENCE: snapshot374d1ecb...; map head1058E540/count439; records
+  1636373C/1636332C; both [ID,123,255,255], classifier0, column6=0,column7=1.
+  Cross-snapshot code equality checked before using tree/record addresses.
+- CHAIN COVERAGE: actual client classifier values now known; consumer semantics
+  and native metadata registration still to implement, readiness stays disabled.
+- ASSET PROVENANCE: no assets changed; existing offline snapshot hash checked.
+- FILES MODIFIED: inspect_wrath_buff_snapshot.py, WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: offline inspector exit0; both rows found without fallback.
+- LAST BUILD RESULT: unchanged; prior isolated client Win32 PASS.
+- LAST RUNTIME QA: no live main.exe found; no launch, attach or deployment.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: native classifier rejects IDs>=210;
+  native short metadata IDs already fit424/425. Enum semantics, lifecycle,
+  authoritative GS rules and nine-skill visual QA remain incomplete.
+- BLOCKER: missing-heap metadata blocker resolved using full snapshot.
+- NEXT EXACT ACTION: trace S21 classifier/notice/clear consumers and map verified
+  metadata into separate native Wrath registration without changing disk layout.
+- NEXT FILE TO OPEN: w_BuffScriptLoader.cpp and S21 classifier consumers.
+- NEXT FUNCTION TO IMPLEMENT: high-ID Wrath metadata registration after enum proof.
+
+### 2026-09-13 — client bounded envelope receiver compiled; Wrath scale confirmed
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; client receive gate.
+- COMPLETED THIS RUN: socket queue exposes actual packet size; ProtocolCompiler
+  intercepts reserved plaintext C1/FC on the game socket; shared receiver validates
+  Accept/Status against session state before any status callback.
+- REVERSE EVIDENCE: Wrath 424/425 assigns absolute scale 1.1 on activation
+  (world exception applies), and 0.9 on removal; not cumulative multiplication.
+  See WRATH_REVERSE.md for pinned binary addresses and class-scale refresh path.
+- CHAIN COVERAGE: receive plumbing only; native featureReady=false and callback
+  performs no buff mutation. Scale and persistent visual activation remain unwired.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: Shared/GrowLancerBuffHandshake.h, wsctlc.h, WSctlc.cpp,
+  WSclient.cpp, GrowLancerBuffHandshakeTest.cpp, BUFF_DELIVERY_CONTRACT.md, this state.
+- LAST STATIC CHECK: focused x86 constexpr client frame tests PASS: unsolicited
+  Accept, pre-Accept Status, truncation, valid delivery and disabled/reset rejection.
+- LAST BUILD RESULT: isolated Global Release Win32 MSBuild exit 0 (session 80133).
+- LAST RUNTIME QA: no deployment/restart; current QA does not prove these changes.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: metadata 424/425, buff lifecycle and
+  scale/render hooks, fresh tag sender, authoritative GS rules and runtime QA.
+- BLOCKER: no blocker for continuing evidence-backed metadata/lifecycle work.
+- NEXT EXACT ACTION: resolve native high-ID buff metadata and eligibility mapping
+  before enabling handshake or wiring Wrath scale/persistent render submission.
+- NEXT FILE TO OPEN: GrowLancer/WRATH_REVERSE.md and native buff classifier.
+- NEXT FUNCTION TO IMPLEMENT: guarded Wrath status application after metadata proof.
+
+### 2026-09-13 — GS Hello dispatcher and queue-result gating implemented
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; handshake receive path.
+- COMPLETED THIS RUN: FC dispatch intercept, bounded Hello decoder, native online
+  user/socket/context validation; Accept queue success commits readiness, failure resets.
+- REVERSE EVIDENCE: native DataSend copies stack packet into main/side buffer;
+  returntrue means queued/pending, not remote acknowledgement.
+- CHAIN COVERAGE: GS handshake path compiled, featureReady=false until actual
+  authoritative Wrath generation and client metadata/lifecycle support are ready.
+- ASSET PROVENANCE: unchanged; isolated build only.
+- FILES MODIFIED: GrowLancerBuffHandshake.h, GS GrowLancerBuffDelivery.h,
+  Protocol.cpp, handshake test, BUFF_DELIVERY_CONTRACT.md, this state.
+- LAST STATIC CHECK: constexpr malformed/disabled/success/failure rollback tests PASS.
+- LAST BUILD RESULT: isolated Ex603 Win32 MSBuild exit0, focused x86 test PASS.
+- LAST RUNTIME QA: not launched/deployed; readinessfalse means no Accept/Status sent.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: client dispatcher, fresh tag generation,
+  authoritative feature readiness, high-ID metadata, GS cast/buff rules and QA.
+- BLOCKER: none for client bounded receive implementation.
+- NEXT EXACT ACTION: inspect client decoded packet size and socket context at
+  TranslateProtocol; add Accept/Status gate without enabling premature activation.
+- NEXT FILE TO OPEN: WSclient.cpp TranslateProtocol and ProtocolCompiler.
+- NEXT FUNCTION TO IMPLEMENT: client FC envelope receiver with socket-bound handshake.
+
+### 2026-09-13 — GS transient session ownership and reset hooks installed
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; server connection lifecycle.
+- COMPLETED THIS RUN: appended session state to OBJECTSTRUCT; reset in
+  gObjCharZeroSet, gObjDel and CharacterGameClose before relevant early returns.
+- REVERSE EVIDENCE: inspected allocation/zeroing, add calls and close/delete paths.
+- CHAIN COVERAGE: GS session storage/reset; actual protocol handshake not enabled.
+- ASSET PROVENANCE: unchanged; build and source only in isolated worktree.
+- FILES MODIFIED: User.h/User.cpp, ObjectManager.cpp, BUFF_DELIVERY_CONTRACT.md,
+  this state. Existing reward struct unchanged after correcting initial placement.
+- LAST STATIC CHECK: reset callsites and final member placement inspected.
+- LAST BUILD RESULT: Ex603 Win32 MSBuild exit0; output/objects under isolated
+  GrowLancerBuild/Server; pre/post build disabled. Initial missing-member compile
+  failure fixed by moving declaration to OBJECTSTRUCT, then successful rebuild.
+- LAST RUNTIME QA: unchanged; no server/client launch or network activation.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: dispatch, fresh tags, send-queue
+  result handling, feature metadata readiness, lifecycle concurrency and runtime QA.
+- BLOCKER: none for guarded handshake receive/send implementation.
+- NEXT EXACT ACTION: inspect native DataSend result semantics and protocol size
+  availability; add bounded FC handshake handling gated by implemented readiness.
+- NEXT FILE TO OPEN: GameServer Protocol.cpp and SocketManager DataSend implementation.
+- NEXT FUNCTION TO IMPLEMENT: GS Hello receiver and queued Accept response.
+
+### 2026-09-13 — client socket session ownership and reset hooks installed
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; runtime connection ownership.
+- COMPLETED THIS RUN: CWsctlc per-instance session storage; resets in Create,
+  Connect, Close, Cleanup, matching-socket ShutdownConnection/Close overload;
+  ReceiveCharacterList resets game socket session.
+- REVERSE EVIDENCE: inspected native reconnect/Winmain close callers and central
+  socket paths. No S21 layout or address transplanted.
+- CHAIN COVERAGE: client socket lifecycle hooks; server/reset completeness still open.
+- ASSET PROVENANCE: unchanged; isolated code only.
+- FILES MODIFIED: wsctlc.h (tracked lowercase), WSctlc.cpp, WSclient.cpp,
+  BUFF_DELIVERY_CONTRACT.md, this state. WSctlc.cpp encoding normalized CP949
+  toUTF8 BOM with byte-exact legacy roundtrip checked before normalization.
+- LAST STATIC CHECK: reset callsite inspection; per-session state tests previously PASS.
+- LAST BUILD RESULT: full isolated Global Release Win32 MSBuild exit0.
+- LAST RUNTIME QA: no deployment, handshake or status packets enabled.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: other character transitions, server
+  object lifecycle, tag generation, dispatcher integration, metadata/runtime QA.
+- BLOCKER: none for GS ownership investigation.
+- NEXT EXACT ACTION: inspect GS gObjSet/gObjDel/character-close initialization
+  and bind session state without persisting or copying it between characters.
+- NEXT FILE TO OPEN: ExGameServer/GameServer/User.cpp and User.h.
+- NEXT FUNCTION TO IMPLEMENT: GS connection session storage/reset/handshake receiver.
+
+### 2026-09-13 — connection-scoped buff readiness state implemented
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; handshake gating.
+- COMPLETED THIS RUN: added client/server session helpers, feature-ready gates,
+  matching Hello/Accept tags, send-after-ack-queued gate and explicit Reset.
+  Rejects status before negotiation, stale tags and reversed packet direction.
+- REVERSE EVIDENCE: extension is RISE-designed; source Wrath identities unchanged.
+- CHAIN COVERAGE: pure session state only; real connection hooks not installed yet.
+- ASSET PROVENANCE: unchanged; no production/network changes.
+- FILES MODIFIED: Shared/GrowLancerBuffSession.h, session test,
+  BUFF_DELIVERY_CONTRACT.md, this state.
+- LAST STATIC CHECK: constexpr readiness/direction/reconnect/malformed-ID tests PASS.
+- LAST BUILD RESULT: focused x86 compile PASS; full client/server unchanged.
+- LAST RUNTIME QA: unchanged; no actual handshake or status emitted.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: fresh tag generation, trusted socket
+  binding and reset hooks, feature readiness metadata, actual GS/client wiring.
+- BLOCKER: none for connection lifecycle implementation.
+- NEXT EXACT ACTION: identify central socket close/character-change reset paths
+  and GS object reset ownership before attaching per-connection session storage.
+- NEXT FILE TO OPEN: WSclient.cpp socket lifecycle and GS user connection reset.
+- NEXT FUNCTION TO IMPLEMENT: live connection-bound session reset and dispatch wrapper.
+
+### 2026-09-13 — isolated GL envelope reservation and bounds tests
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; protocol envelope.
+- COMPLETED THIS RUN / REVERSE EVIDENCE: native GS rootFC is no-op; client no
+  matching case. Protocol macros notFC. Added shared C1/FC/GL/version1 envelope
+  with Hello/Accept/Status and nonzero session tag; RISE design, not S21 opcode.
+- CHAIN COVERAGE: serialization/bounds only; both dispatchers still unchanged.
+- ASSET PROVENANCE: unchanged; no production or original client writes.
+- FILES MODIFIED: Shared/GrowLancerBuffEnvelope.h, envelope test,
+  BUFF_DELIVERY_CONTRACT.md, this state.
+- LAST STATIC CHECK: roundtrip and malformed header/length/signature/tag rejection PASS.
+- LAST BUILD RESULT: focused x86 compile PASS; full client/server unchanged.
+- LAST RUNTIME QA: unchanged; no packets sent/received.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: handshake readiness/reset, actual
+  transport integration, metadata and authoritative GS state generation/QA.
+- BLOCKER: none for per-connection handshake contract.
+- NEXT EXACT ACTION: implement/test connection-scoped Hello/Accept readiness
+  and reset, rejecting unsolicited/stale status before runtime mutation.
+- NEXT FILE TO OPEN: Shared/GrowLancerBuffEnvelope.h and native connection lifecycle.
+- NEXT FUNCTION TO IMPLEMENT: capability-gated connection state/reset handlers.
+
+### 2026-09-13 — separate versioned buff payload codec implemented
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; native delivery boundary.
+- COMPLETED THIS RUN / REVERSE EVIDENCE: confirmed native2D has both legacy
+  membership and icon BYTE-ID readers. Added shared RISE-designed payload codec
+  for local424/425; no S21 wire-layout claim or assigned opcode.
+- CHAIN COVERAGE: bounded encode/decode only; no live dispatch or GS sender yet.
+- ASSET PROVENANCE: unchanged; no production packet/asset modifications.
+- FILES MODIFIED: Shared/GrowLancerBuffStatusCodec.h, codec test,
+  GrowLancer/BUFF_DELIVERY_CONTRACT.md, this state.
+- LAST STATIC CHECK: constexpr tests PASS for IDs/operations/width/endian and
+  malformed rejection without output mutation.
+- LAST BUILD RESULT: focused x86 compile PASS; full client/server unchanged.
+- LAST RUNTIME QA: unchanged, codec not wired/deployed.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: transport capability/envelope,
+  metadata, authoritative GS generator, remote/snapshot lifecycle and visual QA.
+- BLOCKER: none for envelope inventory and native metadata integration planning.
+- NEXT EXACT ACTION: inventory existing custom client/server protocol envelopes
+  and capabilities; reserve isolated delivery only with both endpoints agreeing.
+- NEXT FILE TO OPEN: Shared protocol contracts and GS/client custom dispatchers.
+- NEXT FUNCTION TO IMPLEMENT: capability-gated high-ID status receiver/sender.
+
+### 2026-09-13 — countdown repeat-receipt contract implemented
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; buff refresh.
+- COMPLETED THIS RUN / REVERSE EVIDENCE: existing-key manager path removes old
+  record before fresh timestamp/insertion; pair copies all four DWORDs. Added
+  caller-owned countdown Receive/Remaining with replacement tests, no new map.
+- CHAIN COVERAGE: countdown refresh distinguished from insert-only membership.
+- ASSET PROVENANCE: unchanged, source dump read-only.
+- FILES MODIFIED: GrowLancerBuffCountdown.h, GrowLancerBuffCountdownTest.cpp,
+  verify_wrath_status_dispatch.py, WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: selected manager/record-copy pins and repeated receipt tests PASS.
+- LAST BUILD RESULT: focused x86 compile PASS; full client unchanged.
+- LAST RUNTIME QA: unchanged; helper not wired/deployed.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: no direct getter xrefs found, indirect
+  UI use unresolved; metadata, packet framing, server duration rule and lifecycle wiring.
+- BLOCKER: none for bounded native protocol adapter investigation.
+- NEXT EXACT ACTION: compare native ReceiveBuff packet definition/handler with
+  verified S21 fields; design separate versioned delivery without altering legacy2D.
+- NEXT FILE TO OPEN: native WSclient.cpp case2D and associated protocol struct.
+- NEXT FUNCTION TO IMPLEMENT: validated isolated high-ID buff receive adapter.
+
+### 2026-09-13 — duration unit and countdown helper implemented
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; buff countdown.
+- COMPLETED THIS RUN / REVERSE EVIDENCE: manager stores timeGetTime/1000;
+  getter subtracts elapsed seconds from status DWORD+0Ch, saturates0 unsigned.
+  Added exact native arithmetic helper, not connected to buff activation yet.
+- CHAIN COVERAGE: selected duration calculation and clock import; countdown
+  expiry does not itself clear membership in getter.
+- ASSET PROVENANCE: unchanged, pinned source read-only.
+- FILES MODIFIED: GrowLancerBuffCountdown.h, GrowLancerBuffCountdownTest.cpp,
+  verify_wrath_status_dispatch.py, WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: pinned manager/getter/import PASS; constexpr timing edge
+  cases PASS. Initial bare cl lacked cstdint; explicit MSVC/UCRT includes fixed it.
+- LAST BUILD RESULT: focused Win32 compile PASS; full client build unchanged.
+- LAST RUNTIME QA: unchanged, no deployment or activation.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: map refresh semantics/UI consumers,
+  authoritative membership removal, metadata, packet framing and server duration rule.
+- BLOCKER: none for refresh/map helper reverse.
+- NEXT EXACT ACTION: verify manager erase/insert helpers and duration UI consumer;
+  map repeat receipt refresh separately from insert-only character membership.
+- NEXT FILE TO OPEN: A0EEDF/A0EEB6/A0DFE4 and xrefsA0D5EA.
+- NEXT FUNCTION TO IMPLEMENT: native buff countdown refresh contract.
+
+### 2026-09-13 — status2D dispatch and pre-membership manager
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; status receive chain.
+- COMPLETED THIS RUN / REVERSE EVIDENCE: opcode2D pinned to1293B12 through
+  primary table; full handler decode identifies managerA0D270/A0D3E7 calls
+  before character add/remove. WORD ID accepts424/425 without truncation.
+- CHAIN COVERAGE: primary receive entry and pre-membership lifecycle lead.
+- ASSET PROVENANCE: unchanged; dump read-only.
+- FILES MODIFIED: verify_wrath_status_dispatch.py, WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: opcode/table/handler selected pins PASS.
+- LAST BUILD RESULT / LAST RUNTIME QA: unchanged; no deployment.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: manager semantics, packet framing
+  and length validation, metadata and server rules; observed36-byte read extent
+  is not a verified wire size.
+- BLOCKER: none for manager reverse.
+- NEXT EXACT ACTION: decode A0D270 andA0D3E7, map fields and timing behavior.
+- NEXT FILE TO OPEN: pinned managerA0D270/A0D3E7.
+- NEXT FUNCTION TO IMPLEMENT: authoritative native buff lifecycle after manager mapping.
+
+### 2026-09-13 — logical removal timer cleanup boundary verified
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; Wrath logical lifecycle.
+- COMPLETED THIS RUN / REVERSE EVIDENCE: revalidated activation detour epilogue;
+  full logical removal routes local424/425 to shared timer cleanup. Verified
+  user32 KillTimer import, conditional lookup and metadata-derived key+1005.
+- CHAIN COVERAGE: selected local-owner logical removal tail and timer cleanup.
+- ASSET PROVENANCE: unchanged; pinned dumps read-only.
+- FILES MODIFIED: verify_wrath_logical_detour.py, WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: activation/removal/timer selected pins and import identity PASS.
+- LAST BUILD RESULT / LAST RUNTIME QA: unchanged; no deployment or activation.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: actual timer entry not proven;
+  metadata424/425 records, packet handling and server duration remain open.
+- BLOCKER: none for receive-dispatch investigation.
+- NEXT EXACT ACTION: find primary dispatcher call to1293B12 and trace packet
+  opcode/length validation for authoritative Wrath add/remove delivery.
+- NEXT FILE TO OPEN: xrefs1293B12 and anchored receive dispatcher.
+- NEXT FUNCTION TO IMPLEMENT: scoped native buff delivery adapter after protocol evidence.
+
+### 2026-09-13 — generic payload comparison is not a demonstrated Wrath dependency
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; relevance audit.
+- COMPLETED THIS RUN / REVERSE EVIDENCE: complete selector and list initializer
+  expose only1/400/346,2/401/347,142/402/348/427. Default list cleared, no
+  insertion in initializer;424/425 absent. Do not block Wrath on this subsystem.
+- CHAIN COVERAGE: narrowed generic payload consumer scope; no invented timer.
+- ASSET PROVENANCE: unchanged; pinned dump read-only.
+- FILES MODIFIED: verify_wrath_membership.py, WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: initialized list/selector/clear selected pins PASS.
+- LAST BUILD RESULT / LAST RUNTIME QA: unchanged; no deployment.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: actual Wrath buff metadata/delivery,
+  logical timer registration, server rules and owner visual acceptance.
+- BLOCKER: none for actual Wrath logical path reverse.
+- NEXT EXACT ACTION: inspect128932B onward through default logical buff tail;
+  trace any timer registration reached by424/425 rather than unrelated value queries.
+- NEXT FILE TO OPEN: pinned logical handler12892D3 with known IGC detour continuation.
+- NEXT FUNCTION TO IMPLEMENT: native Wrath authoritative buff lifecycle adapter.
+
+### 2026-09-13 — payload request-state consumer identified
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; metadata consumers.
+- COMPLETED THIS RUN / REVERSE EVIDENCE: four payload accessors decoded;
+  reply1293A5C writes value/+8=1 only to existing membership. ConsumerA0B4F4
+  requests on-1, waits on0, then compares received value. Not a proven timer.
+- CHAIN COVERAGE: payload get/set and selected request/reply behavior.
+- ASSET PROVENANCE: unchanged, source dump read-only.
+- FILES MODIFIED: verify_wrath_membership.py, WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: accessor/reply/consumer full decode and selected pins PASS.
+- LAST BUILD RESULT / LAST RUNTIME QA: unchanged; no deployment or activation.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: consumer selection of424/425,
+  comparison units, full packet serialization/routing and actual buff duration.
+- BLOCKER: none for packet/consumer reverse.
+- NEXT EXACT ACTION: trace A0B614 list selection and A0ACB8 comparison source;
+  determine relevance to Wrath before treating generic metadata as a prerequisite.
+- NEXT FILE TO OPEN: pinned A0B614 and A0ACB8 functions.
+- NEXT FUNCTION TO IMPLEMENT: native status adapter after relevant field mapping.
+
+### 2026-09-13 — membership insertion/removal and payload argument split
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; Wrath membership.
+- COMPLETED THIS RUN / REVERSE EVIDENCE: full insertion/removal/equality helper
+  decodes show insert-if-absent and delete/erase-if-found; repeat insert does not
+  refresh payload here. Activation forwards distinct arguments to membership
+  payload and logical effects. Compared native w_Buff.cpp presence semantics.
+- CHAIN COVERAGE: membership presence/repeat/missing removal selected paths.
+- ASSET PROVENANCE: unchanged, pinned dump read-only.
+- FILES MODIFIED: verify_wrath_membership.py, WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: selected membership/activation argument pins PASS.
+- LAST BUILD RESULT / LAST RUNTIME QA: unchanged; no client deployment this turn.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: source12-byte payload versus native
+  DWORD value; payload consumers/units, metadata, server duration and packet path.
+- BLOCKER: none for payload consumer reverse.
+- NEXT EXACT ACTION: decode membership accessors after130C8A5 to identify reads
+  of payload+4/+8; distinguish counter/metadata from timer before adapter design.
+- NEXT FILE TO OPEN: pinned S21 membership accessor region130C8A5 onward.
+- NEXT FUNCTION TO IMPLEMENT: native buff metadata adapter after consumer mapping.
+
+### 2026-09-13 — Wrath exception gate closed, classifier boundary retained
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; buff lifecycle.
+- COMPLETED THIS RUN / REVERSE EVIDENCE: complete1284D00..1285279 decode;
+  Wrath424/425 both return true in add/remove exception dispatcher defaults,
+  without special-case calls. S21 invalid classifier value-1 differs from
+  native eBuffClass_Count=2. Older server Wrath218/223..225 are not424/425.
+- CHAIN COVERAGE: selected CheckExceptionBuff add/remove paths closed.
+- ASSET PROVENANCE: unchanged; server/config and dump read-only.
+- FILES MODIFIED: verify_wrath_buff_exception.py, WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: new full-function decode/selected dispatch verifier PASS.
+- LAST BUILD RESULT: unchanged isolated Win32 PASS from orchestration checkpoint.
+- LAST RUNTIME QA: unchanged, emitter not activated/deployed.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: metadata classifier record contents,
+  source duration/stat rules, authoritative packet delivery and membership lifecycle.
+- BLOCKER: none for membership handler investigation.
+- NEXT EXACT ACTION: decode130C63E and130C769 storage/refresh/removal to determine
+  whether repeated buff insertion refreshes or replaces an existing membership.
+- NEXT FILE TO OPEN: pinned S21 membership helpers130C63E/130C769.
+- NEXT FUNCTION TO IMPLEMENT: verified native Wrath status refresh/removal adapter.
+
+### 2026-09-13 — persistent Wrath orchestration implemented, invocation pending
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; native persistent emission.
+- COMPLETED THIS RUN: added SubmitWrathPersistentVisuals: 11 lightmarks, four
+  terrain layers, two scatter particles, two bone flares, four selected mono
+  particles. Uses existing native helpers/pools and restores model BodyScale.
+- REVERSE EVIDENCE / CHAIN COVERAGE: selected emitter source order preserved;
+  second scatter random draws follow first allocation, shared scatter scale,
+  mono random branch sampled after flare group. No bulk pre-sampling.
+- ASSET PROVENANCE: unchanged; validates existing private resource helpers.
+- FILES MODIFIED: GrowLancerEffectRuntime.h/.cpp, new GrowLancerWrathEmission.h,
+  new GrowLancerWrathEmissionTest.cpp, WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: new constexpr test PASS for all three branch residues,
+  simulated constructor RNG interleaving, shared scale and bone attachment order;
+  persistent tail and sprite pinned-dump verifiers PASS for their selected scopes.
+- LAST BUILD RESULT: isolated Global Release Win32 MSBuild exit0.
+- LAST RUNTIME QA: not deployed or invoked; no new visual acceptance.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: quality-wrapper allocation policy,
+  bone/skeleton parity, authoritative buff eligibility/removal and render cadence.
+  No fabricated buff state, clock epoch or lifetime. All nine-skill gates remain.
+- BLOCKER: none for further source investigation.
+- NEXT EXACT ACTION: trace native buff ingestion/classifier boundary and S21
+  buff metadata provider to establish authoritative activation/removal contract.
+- NEXT FILE TO OPEN: native WSclient.cpp buff ingestion and S21 classifier113B5F8.
+- NEXT FUNCTION TO IMPLEMENT: authoritative Wrath buff adapter before caller wiring.
+
+### 2026-09-13 — scene pass order / sprite visibility producer
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; emitter cadence.
+- COMPLETED THIS RUN / REVERSE EVIDENCE:18F60EF render sequence includes character
+  call once before check-sprites and pass0 sprite/particle draw; optional later draw
+  has no second character call. Compared native main-scene/water sequence.
+  Full1726FCF visibility producer marks live sprites visible, matching CheckSprites.
+- CHAIN COVERAGE: main render-stage placement supported, not all scene entry contexts.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: verifier, WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: full selected render-region decode/order and visibility pins PASS.
+- LAST BUILD RESULT / LAST RUNTIME QA: unchanged; emitter not enabled/deployed.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: primary character early gates and
+  buff membership/refresh/removal remain; alternate caller contexts and nine-skill gates.
+- BLOCKER: none for remaining orchestration.
+- NEXT EXACT ACTION: assemble particle/lightmark/ground/flare sequence using
+  verified source order, leave invocation gated by explicit authoritative Wrath buff state.
+- NEXT FILE TO OPEN: persistent emitter source13EBA4D..13ECB52 and native helpers.
+- NEXT FUNCTION TO IMPLEMENT: SubmitWrathPersistentVisuals.
+
+### 2026-09-13 — anchored character render loop / model provenance
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; emitter scheduling.
+- COMPLETED THIS RUN / REVERSE EVIDENCE: full13F3BA4..13F3EF7 caller decoded,
+  400-slot iteration, character/object derivation, live/visible and selection0/1.
+  Compared native RenderCharactersClient.13DB9D7 model lookup-97C traced to owner type.
+- CHAIN COVERAGE: character-render stage correspondence established, not pass rate.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: tail verifier, WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: full caller decode and selected gate/model pins PASS.
+- LAST BUILD RESULT / LAST RUNTIME QA: unchanged; emitter not enabled/deployed.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: outer render-pass invocation and
+  primary early exits/buff27 semantics, bone parity, authoritative buff lifecycle,
+  remaining nine-skill acceptance gates.
+- BLOCKER: none for render-pass context investigation.
+- NEXT EXACT ACTION: decode callers18F4F4E/18F682C within anchored render function;
+  compare native main-scene reflection/main render sequencing before emitter wiring.
+- NEXT FILE TO OPEN: S21 render loop around18F4F4E and native ZzzScene.cpp.
+- NEXT FUNCTION TO IMPLEMENT: verified character-render-stage persistent Wrath dispatch.
+
+### 2026-09-13 — private Wrath sprite visibility envelope / cadence leads
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; sprite lifecycle/cadence.
+- COMPLETED THIS RUN / REVERSE EVIDENCE: re-read1727082 visibility envelope;
+  private Wrath lightmarks/flare01 now use source render-step+.1/-.1 with.2..1 bounds.
+  Native pass0/2clear/pass1retain compared to existing pinned S21 pool evidence.
+- CHAIN COVERAGE: five enclosing emitter direct-call leads found;13F3E64 branch
+  checks object live/visible before dispatch, full scheduling still open.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: zzzeffectsprite.cpp, WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: source envelope and manager ordering inspected.
+- LAST BUILD RESULT: full isolated Win32 RuntimeQA build PASS, exit0.
+- LAST RUNTIME QA: unchanged; persistent emitter not activated.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: visibility producer, full caller
+  cadence and owner lifetime; buff membership/scale plus remaining9skill gates.
+- BLOCKER: none for scheduling reverse.
+- NEXT EXACT ACTION: anchor enclosing caller13F3E9C/13F3EAE from function start,
+  map its arguments/iteration to native character render stage.
+- NEXT FILE TO OPEN: pinned S21 caller function and native character render loop.
+- NEXT FUNCTION TO IMPLEMENT: persistent buff render-stage dispatch after cadence proof.
+
+### 2026-09-13 — persistent Wrath sprite groups and native helper
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; remaining sprite layer.
+- COMPLETED THIS RUN: eleven lightmarks and two flare submission contracts added;
+  shared rand()%15/37+.4 jitter, exact bone sequence/base scales and final worldZ+20.
+  Native helper delegates bone transform and CreateSprite, preserving owner/rotation0.
+- REVERSE EVIDENCE: rechecked13EBA4D..13EBAE6 additive scale formula; previous
+  pinned bone/color/call sequence. Two groups separated for intervening source layers.
+- CHAIN COVERAGE: sprite helper compiled but not invoked by buff yet.
+- ASSET PROVENANCE: uses private lightmarks/flare01 registrations and pinned copies.
+- FILES MODIFIED: GrowLancerWrathSprites.h, matching Test.cpp,
+  effect runtime header/cpp, this state.
+- LAST STATIC CHECK: x86 /W4 /WX13sprite fixture PASS, including shared RNG count.
+- LAST BUILD RESULT: full isolated Win32 RuntimeQA build PASS.
+- LAST RUNTIME QA: unchanged; QA Client not deployed, no sprite visual PASS.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: missing native BoneTransform rejected
+  (no global fallback); source skeleton equivalence, sprite pool visibility/lifetime
+  and emitter cadence still open. Boolean helper return is not allocation success.
+  Buff activation/scale/server and remaining nine-skill gates unchanged.
+- BLOCKER: none for full emitter assembly/reverse.
+- NEXT EXACT ACTION: audit native sprite-pool render/clear order against S21
+  and trace persistent buff branch caller cadence before activation.
+- NEXT FILE TO OPEN: zzzeffectsprite.cpp; S21 caller xrefs13DB9D7.
+- NEXT FUNCTION TO IMPLEMENT: persistent Wrath emitter orchestration at verified render stage.
+
+### 2026-09-13 — four-layer persistent Wrath ground draw
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; native render integration.
+- COMPLETED THIS RUN: SubmitWrathGroundLayers generates ordered4layers using
+  verified scales/RGB/opposite rotations/pulses. RenderWrathPersistentGround
+  delegates to native terrain adapter with alpha1,height5,flipfalse and additive state.
+  Explicit sampled clock parameter; no WorldTime/global timing changes.
+- REVERSE EVIDENCE: earlier13EBFDE..13EC3F6 parameters and18F930D pulse contract.
+- CHAIN COVERAGE: native ground helper compiled, no buff/render-stage caller yet.
+- ASSET PROVENANCE: uses4private hash-pinned ground/sprite resources.
+- FILES MODIFIED: pulse header/test, effect runtime header/cpp, this state.
+- LAST STATIC CHECK: x86 /W4 /WX layer capture assertions PASS for all4layers,
+  RGB/size/order/opposite rotations and pulse mapping (constant-cosine fixture).
+- LAST BUILD RESULT: full isolated Win32 RuntimeQA build PASS.
+- LAST RUNTIME QA: unchanged; helper not called, QA Client not updated.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: native std::cos not numerically
+  compared against S21 CRT runtime; terrain eligibility, render-stage cadence,
+  remaining sprite emitter and buff lifetime/scale plus nine-skill gates open.
+- BLOCKER: none for remaining integration.
+- NEXT EXACT ACTION: implement13sprite submissions with verified bone transform
+  and sizes; trace persistent branch caller cadence before activating any emitter.
+- NEXT FILE TO OPEN: WRATH_REVERSE.md and native CreateSprite path.
+- NEXT FUNCTION TO IMPLEMENT: SubmitWrathPersistentSprites.
+
+### 2026-09-13 — persistent ground/sprite private resources
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; full persistent resource set.
+- COMPLETED THIS RUN: EnsureWrathGroundSpriteBitmaps registers private32976..32979
+  for lightmarks/flare01/flareBlue/Shockwave2 with path/dimensions/component guards.
+- REVERSE EVIDENCE:18BD68C/18BD1CC/18BE4F8/18D21D3 call arguments pinned:
+  LINEAR2601/CLAMP2900. Registry filter/wrap labels were not used as ABI evidence.
+- CHAIN COVERAGE: persistent particle plus ground/sprite asset registration present;
+  ground/sprite draw and actual buff emitter not yet wired.
+- ASSET PROVENANCE:4source OZJ offset24 JPEGs fully decoded128/64/64/256 RGB;
+  hash-pinned isolated copies,67484 bytes. All10persistent copies validated.
+- FILES MODIFIED: resources header/cpp, stage script, tail verifier,4assets, state.
+- LAST STATIC CHECK: staging source/destination SHA256 PASS.
+- LAST BUILD RESULT: full isolated Win32 RuntimeQA build PASS, session56353 exit0.
+- LAST RUNTIME QA: unchanged; QA Client not deployed or restarted.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: ground draw/pulse cosine test,
+  emitter cadence/buff lifecycle, model skeleton parity and all nine-skill gates.
+- BLOCKER: none for remaining draw integration.
+- NEXT EXACT ACTION: implement four-layer ground draw using explicit sampled clock,
+  native terrain API and additive state; test cosine over source period.
+- NEXT FILE TO OPEN: GrowLancerEffectRuntime.cpp, GrowLancerWrathGroundPulse.h.
+- NEXT FUNCTION TO IMPLEMENT: RenderWrathPersistentGround.
+
+### 2026-09-13 — clock epoch / long-uptime pulse conversion
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; ground timing fidelity.
+- COMPLETED THIS RUN / REVERSE EVIDENCE: re-read13268D4..13268FB timeGetTime
+  unsignedDWORD->double->float writer; native WorldTime uses timer-relative ms.
+  Added defined CVTTSS2SI-style conversion for overflow/NaN in pulse adapter.
+- CHAIN COVERAGE: clock source/representation established; sampling placement open.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: pulse header/test, WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: x86 /W4 /WX pulse fixtures PASS including2^31/2^32 bounds.
+- LAST BUILD RESULT: focused compilation only; no new engine deployment.
+- LAST RUNTIME QA: unchanged, persistent emitter still not enabled.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: actual cosine comparison, explicit
+  native sampled-clock placement, persistent sprites/ground and nine-skill gates.
+- BLOCKER: none for remaining layers.
+- NEXT EXACT ACTION: finish persistent sprite/terrain asset registration and
+  cosine numerical test, then assemble private emitter without changing WorldTime.
+- NEXT FILE TO OPEN: sprite adapter and original Effect/lightmarks/flare assets.
+- NEXT FUNCTION TO IMPLEMENT: persistent Wrath render layers with explicit sampled clock.
+
+### 2026-09-13 — exact Wrath-only pulse arithmetic adapter
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; persistent terrain pulse.
+- COMPLETED THIS RUN / REVERSE EVIDENCE: re-read full18F930D..18F93DE;
+  implemented phase0-specific speeds-8/4 with signed remainder and float ordering.
+- CHAIN COVERAGE: pulse math adapter only, not yet terrain-wired.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: GrowLancerWrathGroundPulse.h, matching Test.cpp,
+  WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: cl x86 /std:c++14 /W4 /WX constexpr tests PASS for
+  periods785/1570, truncation, negative clock and pi sign branch.
+- LAST BUILD RESULT: focused test compilation PASS; full engine unchanged.
+- LAST RUNTIME QA: unchanged; no deployment or emitter activation.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: tests use injected constant cosine,
+  not libm parity; source/native clock mapping, sprite/ground resources and
+  buff lifecycle plus all nine-skill acceptance gates remain open.
+- BLOCKER: none for clock/provenance investigation.
+- NEXT EXACT ACTION: trace source70B53D8 writer and native WorldTime update,
+  validate clock units; hash/register persistent lightmarks and flare assets.
+- NEXT FILE TO OPEN: S21 clock writer xrefs and native WorldTime assignment.
+- NEXT FUNCTION TO IMPLEMENT: persistent Wrath ground draw with mapped source clock.
+
+### 2026-09-13 — scatter resources and native particle path
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; remaining layer integration.
+- COMPLETED THIS RUN: private scatter IDs32973..32975; separate registration gate
+  checks128x128 RGB and path identity; LINEAR/REPEAT matches source18BD74C/76C/78C.
+  CreateWrathScatterParticle uses native pool, null owner, subtype0; constructor,
+  whole-tick update and storedRGB renderer wired. Emitter still disabled.
+- REVERSE EVIDENCE: pinned sampler calls and preceding lifecycle/renderer evidence.
+- ASSET PROVENANCE: lighting_mega01/02/03 source OZJ decoded at offset24,
+  SHA256 pinned in stage_wrath_mono_assets.ps1; isolated copies checked,63992 bytes.
+- FILES MODIFIED: GrowLancerResources.h/.cpp, persistent tick header,
+  ZzzEffectParticle.cpp, staging script, tail verifier, retirement test, three assets, state.
+- LAST STATIC CHECK: dump/sampler verifier and actual-body retirement test PASS.
+  Test extraction initially captured the new adjacent helper; bounded to function
+  closing brace and reran successfully (not an engine compile failure).
+- LAST BUILD RESULT: full isolated Win32 RuntimeQA build PASS, session1460 exited0.
+- LAST RUNTIME QA: unchanged; no QA Client deployment or new visual acceptance.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: emitter cadence, remaining persistent
+  sprites/ground resources and buff activation/scale; nine-skill acceptance remains open.
+- BLOCKER: none for remaining layer integration.
+- NEXT EXACT ACTION: finish private lightmarks/flare sprite registration and terrain
+  pulse adapter, then assemble persistent emitter under verified buff lifecycle.
+- NEXT FILE TO OPEN: WRATH_REVERSE.md, GrowLancerResources.cpp, sprite adapter.
+- NEXT FUNCTION TO IMPLEMENT: Wrath persistent terrain/sprite emitter.
+
+### 2026-09-13 — Wrath scatter lifecycle and scalar adapter
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; remaining persistent layer.
+- COMPLETED THIS RUN / REVERSE EVIDENCE: subtype0 table entries select16663FC
+  constructor and16D8F22 update; five-tick lifetime, alpha-.15, no local motion;
+  storedRGB billboard16313DF. Added scalar adapter with compile-time regression.
+- CHAIN COVERAGE: scatter selected constructor/update/render; not yet native-created.
+- ASSET PROVENANCE: lighting_mega01..03 still needs hash/registration confirmation.
+- FILES MODIFIED: persistent tick header/test, tail verifier, WRATH_REVERSE.md, state.
+- LAST STATIC CHECK: dump pins and cl x86 /W4 /WX fixture compilation PASS.
+- LAST BUILD RESULT: focused test PASS; full client unchanged since prior build.
+- LAST RUNTIME QA: unchanged; emitter not enabled.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: scatter resources, persistent emitter
+  cadence/buff lifetime and nine-skill acceptance gates remain open.
+- BLOCKER: none for resource staging.
+- NEXT EXACT ACTION: hash/decode lighting_mega01..03 and verify registration
+  sampler; add private scatter resource creation/update/render integration.
+- NEXT FILE TO OPEN: original Effect assets, resource registry, GrowLancerResources.h.
+- NEXT FUNCTION TO IMPLEMENT: CreateWrathScatterParticle.
+
+### 2026-09-13 — actual retirement regression / delete hooks
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; scoped ownership cleanup.
+- COMPLETED THIS RUN: both DeleteCharacter overloads retire private Wrath particles
+  before bone unregistration. Test extracts actual retirement function from source.
+- REVERSE EVIDENCE / CHAIN COVERAGE: native borrowed-owner lifecycle scoped to
+  three private types; matching live/dead slots cleared, unrelated owner/types retained.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: ZzzCharacter.cpp, test_wrath_particle_retirement.py, this state.
+- LAST STATIC CHECK: extracted actual body /W4 /WX compile-time tests PASS,
+  including null owner, first/last slot, dead-slot borrowed pointer and remainder reset.
+- LAST BUILD RESULT: full isolated Global Release Win32 RuntimeQA build PASS.
+- LAST RUNTIME QA: unchanged; not deployed, emitter not enabled.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: other direct-Live mutation/reuse paths
+  still need audit; tests do not prove ingame generation safety or visual parity.
+  Full persistent emitter/resources and nine-skill gates remain IN_PROCESS.
+- BLOCKER: none for remaining layers.
+- NEXT EXACT ACTION: finish scattered lighting_mega particles8081..8083 lifecycle
+  and hash-pin remaining persistent sprite/terrain resources before emitter wiring.
+- NEXT FILE TO OPEN: pinned constructor16663CE, WRATH_REVERSE.md.
+- NEXT FUNCTION TO IMPLEMENT: persistent Wrath scatter particle adapter.
+
+### 2026-09-13 — private particle update/render and dead-character retirement
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; native lifecycle wiring.
+- COMPLETED THIS RUN: private mono particle update uses existing whole-tick adapter
+  before legacy lifetime path, current native bone transform and per-slot offset;
+  three RenderSprite cases use storedRGB/rotation. Added dead-character-slot
+  retirement before CreateCharacterPointer reactivation, clearing borrowed targets.
+- REVERSE EVIDENCE: audited source bone29/38, update-before-counter-decrement,
+  storedRGB billboard path; native TransformByObjectBone scale/position reviewed.
+- CHAIN COVERAGE: create/update/render compiled, emitter still NOT enabled.
+- ASSET PROVENANCE: unchanged3mono assets.
+- FILES MODIFIED: ZzzEffectParticle.cpp, ZzzCharacter.cpp,
+  GrowLancerWrathPersistentTick.h, this state.
+- LAST STATIC CHECK / LAST BUILD RESULT: full isolated Win32 RuntimeQA build PASS.
+- LAST RUNTIME QA: unchanged; not deployed to QA Client or production.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: scoped adapter rejects missing owner
+  BoneTransform instead of S21 global fallback; validates live owner for all3types.
+  Uses source numeric bone indices with native current model; skeleton parity still
+  needs runtime proof. Other object-destruction paths/generation reuse remain open.
+  No S21 effect emission frequency, buff duration or scale activation guessed.
+- BLOCKER: none for further lifecycle/emitter work.
+- NEXT EXACT ACTION: test dead-slot retirement/reallocation, audit owner destruction
+  paths; complete remaining persistent sprite/terrain/scatter resources before emitter.
+- NEXT FILE TO OPEN: particle lifecycle tests, GrowLancerEffectRuntime.cpp.
+- NEXT FUNCTION TO IMPLEMENT: persistent Wrath buff emitter with verified cadence/ownership.
+
+### 2026-09-13 — native Wrath persistent particle constructor
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; native pool construction.
+- COMPLETED THIS RUN: CreateWrathPersistentParticle validates variant/attachment,
+  pointers/live owner and bitmap gate; uses existing native pool allocator.
+  Added three constructor cases with audited random order and subtype mapping.
+- REVERSE EVIDENCE: previously pinned16685F0/164CAFA/166D4FA constructors.
+- CHAIN COVERAGE: constructor only; update/render dispatch and emitter still
+  not wired. No caller emits these particles yet; do not enable before full wiring.
+- ASSET PROVENANCE: unchanged3private hash-pinned mono textures.
+- FILES MODIFIED: ZzzEffectParticle.cpp, GrowLancerWrathPersistentTick.h, state.
+- LAST STATIC CHECK: compile-time persistent tick tests /W4 /WX PASS.
+- LAST BUILD RESULT: full isolated Win32 RuntimeQA build PASS, exit0.
+- LAST RUNTIME QA: unchanged, QA Client executable not deployed/restarted.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: Mono02 unused native Alpha/savedRGB
+  explicitly initialized for safe reuse; update/render/ownership generation and
+  emitter integration still required, plus all remaining9skill acceptance gates.
+- BLOCKER: none for next integration step.
+- NEXT EXACT ACTION: add private update branch before legacy decrement and
+  renderer cases; validate native owner model/bone bounds and stale slot handling.
+- NEXT FILE TO OPEN: ZzzEffectParticle.cpp, w_ObjectInfo.h, model array bounds.
+- NEXT FUNCTION TO IMPLEMENT: persistent Wrath update/render native dispatch.
+
+### 2026-09-13 — private Wrath mono resource registration / isolated build
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; native resource integration.
+- COMPLETED THIS RUN: EnsureWrathPersistentBitmaps added using private32970..32972,
+  native loader LINEAR/CLAMP, existing-path collision rejection,64x64/component3 checks.
+- REVERSE EVIDENCE: previous successful S21 JPEG metadata/sampler contract;
+  native map-backed bitmap store and effect range32001..33000 inspected.
+- CHAIN COVERAGE: registration helper compiled, NOT called by emitter yet.
+- ASSET PROVENANCE:3hash-pinned unchanged OZJ copies staged ONLY under
+  worktree Client/Data/RISE/GrowLancer/Wrath,49549 bytes total.
+- FILES MODIFIED: GrowLancerResources.h/.cpp, stage_wrath_mono_assets.ps1,
+  three isolated asset copies, this state.
+- LAST STATIC CHECK: all source/destination SHA256 checks PASS.
+- LAST BUILD RESULT: full Global Release/Win32 isolated RuntimeQA build PASS,
+  MSBuild session85378 exited0. No production post-build deployment.
+  Bin SHA256 B29EAB2678574D46DB6EA1BCBE7E33102CB767804A393565C7DC9EF95D920956.
+- LAST RUNTIME QA: unchanged; QA Client executable not replaced or restarted.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: creation/pool metadata/emitter wiring,
+  runtime collision/sampler test, remaining persistent layers and nine-skill gates.
+- BLOCKER: none for next integration stage.
+- NEXT EXACT ACTION: add native particle create dispatch using private IDs and
+  per-slot offset/owner lifecycle; preserve pool reuse initialization before emissions.
+- NEXT FILE TO OPEN: ZzzEffectParticle.cpp and GrowLancerWrathPersistentTick.h.
+- NEXT FUNCTION TO IMPLEMENT: CreateWrathPersistentParticle.
+
+### 2026-09-13 — Wrath mono successful-loader blend contract
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; native registration prerequisites.
+- COMPLETED THIS RUN / REVERSE EVIDENCE: mono literal paths and LINEAR/CLAMP
+  arguments pinned at18BD7EC/18BD80C/18BD84C; JPEG loader writes component3,
+  renderer selects additive. Missing-lookup error fallback distinguished.
+- CHAIN COVERAGE: successful-load blend contract established, not live metadata.
+- ASSET PROVENANCE: previously pinned3mono hashes/decode unchanged.
+- FILES MODIFIED: tail verifier, WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: registration/loader/render selected pins PASS.
+- LAST BUILD RESULT / LAST RUNTIME QA: unchanged; no engine deployment.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: native private ID capacity/registration,
+  pool ownership, emitter integration and all nine-skill acceptance gates.
+- BLOCKER: none for private resource integration.
+- NEXT EXACT ACTION: audit free native bitmap IDs/capacity; add separate Wrath
+  mono bitmap registration with LINEAR/CLAMP and hash-guarded isolated staging.
+- NEXT FILE TO OPEN: GrowLancerResources.h/.cpp, bitmap capacity definitions.
+- NEXT FUNCTION TO IMPLEMENT: EnsureWrathPersistentBitmaps.
+
+### 2026-09-13 — persistent Wrath renderer / mono asset hashes
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; render contract/provenance.
+- COMPLETED THIS RUN / REVERSE EVIDENCE: selected8086/8087/8089 renderer routes
+  and billboard calls established; storedRGB used without extra alpha multiplication.
+- CHAIN COVERAGE: UV0,0,1,1/axis4/rotation/dimensions*scale; actual bitmap blend metadata open.
+- ASSET PROVENANCE: three mono OZJ SHA256 pinned and offset24 JPEG fully decoded,
+  all64x64 RGB. No source change, no staging or native load claim.
+- FILES MODIFIED: tail verifier, verify_wrath_mono_assets.py, WRATH_REVERSE.md, state.
+- LAST STATIC CHECK: renderer pins and all3asset hash/decode checks PASS.
+- LAST BUILD RESULT / LAST RUNTIME QA: unchanged; no new engine build.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: loaded S21 bitmap metadata, pool
+  ownership erase, native resource integration and all remaining nine-skill acceptance.
+- BLOCKER: none for continued integration research.
+- NEXT EXACT ACTION: trace bitmap lookup producing renderer local-414 and obtain
+  resource8086/8087/8089 channel metadata; add private resources only after proof.
+- NEXT FILE TO OPEN: renderer1620984 preamble and GrowLancerResources.cpp.
+- NEXT FUNCTION TO IMPLEMENT: native persistent Wrath particle registration/create path.
+
+### 2026-09-13 — persistent Wrath tick adapter and compile-time regression
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; native behavior mapping.
+- COMPLETED THIS RUN / REVERSE EVIDENCE: common tail172343C does not consume
+  scalar-6864; it decrements lifetime after update. Predispatch removes dead/expired.
+- CHAIN COVERAGE: added three isolated update-body adapters using native-style
+  named fields, explicit current bone and accumulated offset; not yet engine-wired.
+- ASSET PROVENANCE: unchanged; no new staging.
+- FILES MODIFIED: GrowLancerWrathPersistentTick.h, matching Test.cpp,
+  WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: cl x86 /std:c++14 /W4 /WX compile-time fixtures PASS.
+- LAST BUILD RESULT: focused test compilation PASS, not full client/server rebuild.
+- LAST RUNTIME QA: unchanged; staged engine does not include these adapters.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: native caller ownership integration,
+  renderer, particle resources/registration, exact pool erase and nine-skill gates.
+- BLOCKER: none for further reverse/integration.
+- NEXT EXACT ACTION: verify renderer1620984 dispatch for8086/8087/8089 and
+  selected subtype billboard/blend arguments; then isolated resource integration.
+- NEXT FILE TO OPEN: pinned main dump, GrowLancerWrathPersistentTick.h.
+- NEXT FUNCTION TO IMPLEMENT: native persistent particle creation/render dispatch after renderer audit.
+
+### 2026-09-13 — Wrath remaining two particle updates
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; particle update contracts.
+- COMPLETED THIS RUN / REVERSE EVIDENCE: full selected8087 block16BB079..16BB2E7
+  and8089 block16E18F7..16E1B91 decoded; exact scalar constants pinned.
+- CHAIN COVERAGE:8087 bone-follow plus parameter*10 upward offset and random
+  scale shrink;8089 direct bone-follow, scale-.05, alpha-.066666603.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: persistent tail verifier, WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: selected constructor/update verifier PASS.
+- LAST BUILD RESULT / LAST RUNTIME QA: unchanged; no engine edit.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS:8087 stack scalar-6864 shared-tail use;
+  outer owner validation, selected renderer, decrement/cleanup, nine-skill gates.
+- BLOCKER: none for further reverse.
+- NEXT EXACT ACTION: decode172343C common update tail and16E37C5 jump;
+  trace-6864 without assuming it is stored to Alpha; then particle renderer1620984.
+- NEXT FILE TO OPEN: pinned main dump and WRATH_REVERSE.md.
+- NEXT FUNCTION TO IMPLEMENT: isolated persistent Wrath lifecycle adapter after shared-tail audit.
+
+### 2026-09-13 — remaining Wrath fire constructors / bone-follow update
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; persistent child behavior.
+- COMPLETED THIS RUN / REVERSE EVIDENCE:8087 subtype14/15 constructor164CAFA;
+  8089 subtype13/14 constructor166D4FA; full8086 selected update16DC17E..16DC6D0.
+- CHAIN COVERAGE:8087 overrides scale.2..49, counter8..19;8089 keeps supplied
+  scale, counter15;8086 follows current bone29/38 plus accumulated upward offset.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: persistent tail verifier, WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: extended constructor/update pins PASS.
+- LAST BUILD RESULT / LAST RUNTIME QA: unchanged; no native runtime edit.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS:8087/8089 update and all selected
+  render/shared cleanup; model lookup, native buff activation and remaining9skill gates.
+- BLOCKER: none for continued reverse.
+- NEXT EXACT ACTION: follow16B8BDD subtype14/15 and16DF6D7 subtype13/14 updates.
+- NEXT FILE TO OPEN: pinned main dump; WRATH_REVERSE.md.
+- NEXT FUNCTION TO IMPLEMENT: native Wrath persistent particle lifecycle after renderer audit.
+
+### 2026-09-13 — Wrath8086 constructor differs from Breche
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; child constructor mapping.
+- COMPLETED THIS RUN / REVERSE EVIDENCE: six resource dispatch entries pinned;
+  8086 subtype13/14 share16685F0; decoded full block to16687F4.
+- CHAIN COVERAGE: lifetime counter27..31, scale multiplier.52..1.23,
+  rotation0..359, parameter2..3.3, light/vector initialization documented.
+- ASSET PROVENANCE: unchanged; registry leads are not asset load proof.
+- FILES MODIFIED: persistent tail verifier, WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: extended constructor verifier PASS.
+- LAST BUILD RESULT / LAST RUNTIME QA: unchanged; no native edit or visual PASS.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS:8087/8089 subtype constructors,
+  selected particle updates/render/cleanup and all outstanding nine-skill gates.
+- BLOCKER: none for continued reverse.
+- NEXT EXACT ACTION: follow8087 subtype14/15 compare chain from164B3FF and
+  8089 subtype13/14 compare chain from166C453; then update1620984.
+- NEXT FILE TO OPEN: pinned main dump, WRATH_REVERSE.md.
+- NEXT FUNCTION TO IMPLEMENT: native persistent particle constructor after all cases mapped.
+
+### 2026-09-13 — Wrath persistent particle tail branch closure
+
+- CURRENT PHASE / CURRENT TASK / CURRENT SUBTASK: IN_PROCESS; persistent Wrath emissions.
+- COMPLETED THIS RUN: documented scatter particles, two bone flare sprites and
+  mutually exclusive four-particle branches through13ECB52.
+- REVERSE EVIDENCE: pinned main continuous decode13DB9D7..13ECB52;
+  selected rand()%3 branch targets and12 call argument sequences checked.
+- CHAIN COVERAGE: local submissions13sprites/4terrain/6particles per reached
+  visit; no assertion about outer cadence or complete child lifecycle.
+- ASSET PROVENANCE: texture registry leads recorded, not staged or load-proven.
+- FILES MODIFIED: verify_wrath_persistent_tail.py, WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: persistent tail verifier PASS; scale verifier PASS.
+- LAST BUILD RESULT: unchanged; no native code edit in this checkpoint.
+- LAST RUNTIME QA: unchanged; no new owner acceptance.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: persistent particle lifetime/update/
+  renderer, outer cadence, bone mapping, native buff protocol and nine-skill gates.
+- BLOCKER: none for further child lifecycle reverse.
+- NEXT EXACT ACTION: trace1724176 particle wrapper and8086/8087/8089 subtype13..15
+  constructors, then map against existing GrowLancerFireParticle adapter.
+- NEXT FILE TO OPEN: pinned main dump and GrowLancerFireParticle.h.
+- NEXT FUNCTION TO IMPLEMENT: native persistent Wrath particle adapter after mapping.
+
+### 2026-09-13 — Wrath fourth terrain pulse formula
+
+- CURRENT PHASE / TASK / SUBTASK: IN_PROCESS; recover pulse arithmetic.
+- COMPLETED THIS RUN / REVERSE EVIDENCE:18F930D signed integer remainder,
+  phase/speed float math and cosine wrapperA01178 ->1A29A90 ->FCOS fallback.
+  Fourth ground RGB uses pulse(-8,0)*(.25,.65,.85), size pulse(4,0)*2+.9.
+- CHAIN COVERAGE: local pulse formula documented; native clock/numeric tests
+  and remaining particle tail still open. Existing Render22 differs and was not changed.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: persistent verifier, WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: extended pulse verifier PASS.
+- LAST BUILD RESULT / LAST RUNTIME QA: unchanged staged6F879C6E; no new native edit.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: numerical adapter/clock and remaining
+  persistent particles, metadata and all nine-skill acceptance gaps.
+- BLOCKER: none for visual reverse.
+- NEXT EXACT ACTION: decode particle tail13EC3F8..13ECB52 and collect parameters.
+- NEXT FILE TO OPEN: pinned S21 dump; WRATH_REVERSE.md.
+- NEXT FUNCTION TO IMPLEMENT: isolated exact pulse adapter with numerical tests.
+
+### 2026-09-13 — Wrath terrain layers / native bone-transform match
+
+- CURRENT PHASE / TASK / SUBTASK: IN_PROCESS; persistent terrain and positioning.
+- COMPLETED THIS RUN / REVERSE EVIDENCE: decoded four terrain calls8078,
+  7FDD,7FDD,8147; first3 scales8/2.8/4.5 with rotations0/+global*.05/-global*.05.
+  Inspected132EC63 translation*modelScale+objectPosition, corresponding to
+  native BMD::TransformByObjectBone. Details and caveats in WRATH_REVERSE.
+- CHAIN COVERAGE: first3 terrain arguments established; fourth pulse helper,
+  particle tail, model selection and matrix-getter semantics still open.
+- ASSET PROVENANCE: registry leads flareBlue.jpg/Shockwave2.jpg; no staging.
+- FILES MODIFIED: persistent sprite verifier, WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: extended terrain resource/scalar verifier PASS.
+- LAST BUILD RESULT / LAST RUNTIME QA: unchanged; no visual PASS or engine edit.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: persistent chain and existing9skill gates.
+- BLOCKER: none for continued reverse.
+- NEXT EXACT ACTION: finish18F930D pulse helper and remaining particle calls.
+- NEXT FILE TO OPEN: pinned dump and WRATH_REVERSE.md.
+- NEXT FUNCTION TO IMPLEMENT: native persistent Wrath adapter after full mapping.
+
+### 2026-09-13 — persistent Wrath first11 sprite batch
+
+- CURRENT PHASE / TASK / SUBTASK: IN_PROCESS; recover persistent visual layers.
+- COMPLETED THIS RUN / REVERSE EVIDENCE: contiguous decode13DB9D7..13EBFDE;
+  buff-gated first11 sprites8078 use bone helper arguments4,11,34,25,35,26,
+  10,4,17,18,20. RGB(.23,.2,1), shared jitter%15/37+.4; base sizes.2/.5/.8;
+  last returned position adds worldZ20. Details in WRATH_REVERSE.md.
+- CHAIN COVERAGE: first batch only; subsequent terrain/particle/sprite calls
+  exist through13ECB52 and remain to map. Not complete buff renderer coverage.
+- ASSET PROVENANCE: unchanged; original lightmarks hash already pinned.
+- FILES MODIFIED: verify_wrath_persistent_sprites.py, WRATH_REVERSE.md, state.
+- LAST STATIC CHECK: new first11 branch verifier PASS.
+- LAST BUILD RESULT / LAST RUNTIME QA: unchanged; no new native implementation
+  or visual acceptance. All nine skills IN_PROCESS.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: bone helper mapping, cadence,
+  remaining persistent layers, metadata and existing client/server/class gates.
+- BLOCKER: none for continued visual reverse.
+- NEXT EXACT ACTION: decode terrain arguments13EBFDE onward and132EC63 helper;
+  do not substitute one billboard for the full persistent chain.
+- NEXT FILE TO OPEN: pinned S21 dump; WRATH_REVERSE.md.
+- NEXT FUNCTION TO IMPLEMENT: native persistent Wrath render adapter after mapping.
+
+### 2026-09-13 — BuffEffect virtual registration and protected provider
+
+- CURRENT PHASE / TASK / SUBTASK: IN_PROCESS; identify metadata provider.
+- COMPLETED THIS RUN: found row-loader virtual slot1B92A44, installed by
+  constructor11CFB8D; minimum columns10. Named BuffEffect setup at11C1792
+  passes owner+850 to shared provider11331CA; followed actual jump toC014583
+  thenE12FF78, avoiding nonexecuted bytes after11331FE.
+- REVERSE EVIDENCE: constructor11CFBC2/11CFBE5, name1B8DF80,
+  setup11C17A3 and provider11331FE jump.
+- CHAIN COVERAGE: registration/provider connection established; protected
+  provider and actual424/425 metadata not decoded. Do not invent file path.
+- ASSET PROVENANCE: no copies or originals changed.
+- FILES MODIFIED: WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: selected disassembly inspected; no new native tests/build.
+- LAST BUILD RESULT / LAST RUNTIME QA: staged6F879C6E unchanged; no new QA PASS.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: missing runtime metadata heap and
+  provider semantics; persistent8078 sprite chain plus all acceptance gaps.
+- BLOCKER: metadata-specific missing heap/protected provider; other in-scope
+  reverse work is available, not a task-wide blocker.
+- NEXT EXACT ACTION: progress persistent sprite branch13EB9DA while preserving
+  metadata boundary; identify enclosing function and all bone/emission calls.
+- NEXT FILE TO OPEN: pinned dump at13EB9DA and WRATH_REVERSE.md.
+- NEXT FUNCTION TO IMPLEMENT: verified persistent Wrath sprite adapter.
+
+### 2026-09-13 — classifier metadata row loader identified
+
+- CURRENT PHASE / TASK / SUBTASK: IN_PROCESS; resolve424/425 classification.
+- COMPLETED THIS RUN: identified actual map head10432178/count439; heap node
+  not covered by enumerated module dumps. Found alternate row loader113B27E
+  through BuffEffect.txt error-string reference, decoded parsing/insertion path.
+- REVERSE EVIDENCE: column5 parsed113B384..113B3A1 -> record+28; classifier
+  113B5F8 reads+28 after lookup; insertion113B486 targets owner map+38.
+- CHAIN COVERAGE: metadata origin identified, actual424/425 values still OPEN.
+- ASSET PROVENANCE: no copies or source asset edits.
+- FILES MODIFIED: WRATH_REVERSE.md and this state.
+- LAST STATIC CHECK: decoded exact row-loader entry through insertion; no
+  claim of loaded row values or native registration PASS.
+- LAST BUILD RESULT / LAST RUNTIME QA: unchanged staged6F879C6E; no new cast.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: S21 script provider/package lookup,
+  metadata values and persistent sprite chain; all nine-skill gates remain open.
+- BLOCKER: missing heap region prevents direct row read, but loader/provider
+  tracing remains available; not a task-wide impasse.
+- NEXT EXACT ACTION: locate callers/vtable registration113B27E and packed
+  script provider for BuffEffect; preserve original client read-only.
+- NEXT FILE TO OPEN: pinned main dump around113B27E registrations.
+- NEXT FUNCTION TO IMPLEMENT: native scoped buff metadata registration once proven.
+
+### 2026-09-13 — actual IGC logical-buff detour resolved
+
+- CURRENT PHASE / TASK / SUBTASK: IN_PROCESS; resolve logical424/425 path.
+- COMPLETED THIS RUN: followed1289322 jump out of main into same-process
+  IGC dump, then resolved runtime return pointer and both switch-table keys.
+- REVERSE EVIDENCE: IGC108866D0 rejects424/425 outside113..204, returns0;
+  trampoline returns128932B; byte table maps both to27/epilogue1289B9C.
+- CHAIN COVERAGE: selected logical callback is no-op for Wrath, even with
+  installed detour. Physical/buff sprite/server paths remain separate.
+- ASSET PROVENANCE: no changes; auxiliary binary hash pinned in WRATH_REVERSE.
+- FILES MODIFIED: verify_wrath_logical_detour.py, WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: both-dump hash/instruction/switch verification PASS.
+- LAST BUILD RESULT: no source change; staged6F879C6E previous PASS unchanged.
+- LAST RUNTIME QA: not performed; do not infer visual acceptance from callback.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: classifier metadata record+28,
+  persistent8078 chain, wire integration and all outstanding nine-skill gates.
+- BLOCKER: none; IGC target was present in existing read-only process dump.
+- NEXT EXACT ACTION: identify113B50E map records/loader for424/425, complete
+  persistent sprite bone/emission chain. Never copy IGC hook into5.2.
+- NEXT FILE TO OPEN: pinned dump, WRATH_REVERSE.md and resource metadata files.
+- NEXT FUNCTION TO IMPLEMENT: scoped native buff adapter after metadata mapping.
+
+### 2026-09-13 — Wrath activation physical branch / world exception
+
+- CURRENT PHASE / TASK / SUBTASK: IN_PROCESS; map actual buff activation.
+- COMPLETED THIS RUN: full12FD717..12FD881 activation and1289DD1..128D07E
+  physical dispatcher decoded/pinned;424/425 branch sets1.1 unless world
+  predicate9DFB65 is true, then calls deletion14B65D8(buffID,object,-1).
+- REVERSE EVIDENCE:128A2B4/2C4 ->128C0B5; store128C0D3; deletion128C0E3;
+  activation physical12FD7BB before exception12FD7CB/map12FD7ED/logical12FD86D.
+- CHAIN COVERAGE: no cast-root creation in selected activation branch. World
+  guard covers18..23,53,97; native InChaosCastle covers18..23,53 only. Removal
+  physical0.9 has no corresponding local world guard. Do not invent symmetry.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: verify_wrath_character_scale.py, WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: extended activation/removal/scale/world verifier PASS.
+- LAST BUILD RESULT: staged6F879C6E previous PASS, no new native source edit.
+- LAST RUNTIME QA: log still ends at priorPID23372; no new controller capture
+  or visual evidence available from newly launched16052 at check time.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: classifier/packet mapping, logical
+  buff path and8078 complete sprite chain; owner defects and full nine-skill
+  server/class gates remain open.
+- BLOCKER: none for reverse; no owner QA PASS inferred.
+- NEXT EXACT ACTION: trace12892D3 selected424/425 logical branch and source
+  buff metadata classifier113B5F8; continue8078 bone/emission chain.
+- NEXT FILE TO OPEN: pinned dump and GrowLancer/WRATH_REVERSE.md.
+- NEXT FUNCTION TO IMPLEMENT: native scoped Wrath buff adapter after mapping.
+
+### 2026-09-13 — updated preview launched / WORD buff input lead
+
+- CURRENT PHASE / TASK / SUBTASK: IN_PROCESS; deliver actual QA correction
+  and continue verified buff integration chain.
+- COMPLETED THIS RUN: confirmed old QA absent, hash-guarded and backed up
+  E6FED7 staged EXE, copied new6F879C6E build, updated verifier pin, passed
+  full stage checks and launched PID16052. No production file changed.
+- REVERSE EVIDENCE: anchored1293B12 reads WORD ID+10 in1..460; byte+8
+  selects add12FD717 vs remove1305838 for local hero.424/425 fit; opcode,
+  wire-length validation and viewport semantics unproven.
+- CHAIN COVERAGE: local-owner input lead, activation classifier113B5F8
+  verified at12FD748; continue12FD7B2. No fabricated packet extension.
+- ASSET PROVENANCE: unchanged;2658base/79overlay/3rootData stage PASS.
+- FILES MODIFIED: stage verifier, QA staged EXE/private backup,
+  WRATH_REVERSE.md, RUNTIME_QA.md and this state.
+- LAST STATIC CHECK: stage hash/player CRC/private-directory verifier PASS.
+- LAST BUILD RESULT: prior isolated build PASS, now actually staged.
+- LAST RUNTIME QA: launch PID16052 only; login/cast/visual not verified.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: new preview includes Wrath blend
+  and controller timing telemetry, not new buff scale/lightmarks chain;
+  nine-skill owner failures and server/class gates remain IN_PROCESS.
+- BLOCKER: none for source reverse; runtime requires owner cast evidence.
+- NEXT EXACT ACTION: collect oneF7 thenF11 per271/274/276 when ingame;
+  meanwhile trace12FD7B2 activation continuation.
+- NEXT FILE TO OPEN: GrowLancerRuntimeQA.log and pinned S21 dump.
+- NEXT FUNCTION TO IMPLEMENT: verified buff activation adapter.
+
+### 2026-09-13 — Wrath removal scale and native integration boundary
+
+- CURRENT PHASE / TASK / SUBTASK: IN_PROCESS; finish scale removal contract.
+- COMPLETED THIS RUN: traced generic removal1305838 and physical dispatcher
+  1285A3A from prologues;424/425 cleanup assigns OBJECT.Scale0.9f, before
+  exception check/map erase/logical cleanup. No inverse multiply or saved scale.
+- REVERSE EVIDENCE:1285D99/DA6 ->12861EE;12861F9 store, scalar1B4EDA4;
+  1305885 physical before13058AF membership erase. Full-block verifier PASS.
+- CHAIN COVERAGE: local remove contract now proven; network ingress/dispatch,
+  later class-scale recomputation, effect deletion mapping and buff sprite open.
+  Pruned129D684(key26) and1284D00 direct erases(keys21/14) as non-Wrath.
+- ASSET PROVENANCE: unchanged, no staging.
+- FILES MODIFIED: verify_wrath_character_scale.py, WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: extended scale/removal pinned verifier PASS.
+- LAST BUILD RESULT: prior isolated PASS unchanged; no native source edit.
+- LAST RUNTIME QA: new build not staged; all owner failure reports retained.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: native UnRegisterBuff has matching
+  physical/exception/map/logical order, but unknown buff classification and BYTE
+  packet width block424/425; must implement verified scoped extension, not alias.
+- BLOCKER: none for reverse/integration design; full acceptance remains open.
+- NEXT EXACT ACTION: trace callers1305838 for status ingress and activation
+  companion; finish persistent8078 sprite chain before buff adapter activation.
+- NEXT FILE TO OPEN: WSclient.cpp buff classification and pinned dump.
+- NEXT FUNCTION TO IMPLEMENT: scoped verified Wrath buff integration.
+
+### 2026-09-13 — Wrath persistent sprite identity / scale callers
+
+- CURRENT PHASE / TASK / SUBTASK: IN_PROCESS; complete buff-owned visual chain.
+- COMPLETED THIS RUN: identified8078 lightmarks.jpg independently in registry,
+  binary string and registration; hashed original17877-byte lightmarks.OZJ.
+  Decoded two full scale callers and added repeatable verifier assertions.
+- REVERSE EVIDENCE:18BD69A/69F/6A4 registration;172760A..172767B wrapper
+  forwards to1726C50/A4C1130 after manager gates. Scale callers1410412 and
+  1410C08 pinned from respective enclosing prologues.
+- CHAIN COVERAGE: sprite allocator path identified, not complete caller/bones/
+  manager semantics. Equipment/body-scale refresh not buff-remove proof.
+- ASSET PROVENANCE: lightmarks.OZJ SHA256
+  DC4E83DDB76554298ED9619FEFB02DE7E0D3A210DB8424B97CB1244E62B4305F;
+  original read-only, not staged. Different from Breche lightmarks_red.
+- FILES MODIFIED: verify_wrath_character_scale.py, WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: extended pinned scale/caller verifier PASS.
+- LAST BUILD RESULT: unchanged previous isolated PASS; no engine changes here.
+- LAST RUNTIME QA: no new capture/staging; owner failures remain open.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: Wrath persistent sprites and scale
+  lifecycle, server/class integration and nine-skill owner gates still open.
+- BLOCKER: none for reverse.
+- NEXT EXACT ACTION: decode1294E5A caller role; trace buff removal references
+  1284D6E/12850F0/128520B/1285265 and129D684 as leads, not proof.
+- NEXT FILE TO OPEN: pinned dump and GrowLancer/WRATH_REVERSE.md.
+- NEXT FUNCTION TO IMPLEMENT: native buff-owned scale/sprite adapter once mapped.
+
+### 2026-09-13 — Wrath character-scale branch found; sampler regression
+
+- CURRENT PHASE / TASK / SUBTASK: IN_PROCESS; verify owner enlargement report.
+- COMPLETED THIS RUN: verified buff424/425 assigns character scale1.1f in
+  pinned S21; compiled actual QA sampler body in constexpr fixtures.
+- REVERSE EVIDENCE: full linear function141043E..14108C1; membership calls
+  1410887/14108A1 reach assignment14108B8 to32F4=OBJECT3254+A0.
+  Float1B58D70 is1.1f. Absolute assignment, not multiplicative10% increase.
+- CHAIN COVERAGE: early Change-like/world/scene branches bypass override;
+  caller activation/removal/restoration still open. Additional424/425 branch
+  13EB9DA emits8078 via172760A: new buff-owned visual chain to trace.
+- ASSET PROVENANCE: unchanged;8078 registration/complete fanout not yet pinned.
+- FILES MODIFIED: test_controller_qa_sampler.py,
+  verify_wrath_character_scale.py, GrowLancer/WRATH_REVERSE.md, this state.
+- LAST STATIC CHECK: pinned scale verifier PASS; actual sampler C++17/x86
+  /W4/WX compile PASS: three skills, fields, capacity512, saturated overflow,
+  owner/subtype/skill/inactive filters. Not gameplay evidence.
+- LAST BUILD RESULT: previous isolated client build PASS; no engine edit here.
+- LAST RUNTIME QA: PID23372 still live; sampler/blend EXE not staged.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: confirmed missing Wrath scale
+  override; buff lifecycle and new buff visual branch OPEN, along with
+  existing owner-reported faults and nine-skill/server/class acceptance.
+- BLOCKER: none for reverse; do not auto-close owner's running QA client.
+- NEXT EXACT ACTION: anchor caller1410412/1410C08 to determine scale refresh,
+  trace13EB9DA branch and8078 registration; no guessed permanent QA buff.
+- NEXT FILE TO OPEN: GrowLancer/WRATH_REVERSE.md and pinned S21 dump.
+- NEXT FUNCTION TO IMPLEMENT: native Wrath scale adapter after lifecycle mapping.
+
+### 2026-09-13 — bounded controller timing telemetry
+
+- CURRENT PHASE / TASK / SUBTASK: IN_PROCESS; instrument owner-reported
+  Spin/Harsh/Magic missing or late effects without changing native timing.
+- COMPLETED THIS RUN: QA-only sampler at UpdateEffect entry records up to512
+  samples, then saturating dropped count. Records controller slot identity,
+  elapsed milliseconds, owner action/frame, stage, life, factor and target.
+  F7 arms selected271/274/276; next cast or F11 flushes outside effect updates.
+- REVERSE EVIDENCE / CHAIN COVERAGE: instrumentation only; before-update
+  snapshots distinguish interrupted owner action and gated stage progression.
+  Samples include any still-live same-type caster controllers; slot field
+  distinguishes overlaps, not allocation generations. No renderer/hit proof.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: GrowLancerRuntimeQA.h/.cpp, GrowLancerEffectRuntime.cpp,
+  this state. Production builds exclude sampler declaration/call/body by QA macro.
+- LAST STATIC CHECK: reviewed bounded append, saturating overflow, owner/type/
+  subtype filters and no log I/O in update callback.
+- LAST BUILD RESULT: isolated RuntimeQA Global Release Win32 Build exit0.
+- LAST RUNTIME QA: new sampler and Wrath blend fix NOT staged; owner defects
+  remain FAIL. No claim of recorded controller samples yet.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: all outstanding nine-skill gates,
+  Wrath character scale and matching-frame acceptance remain open.
+- BLOCKER: none for further source work; new runtime capture requires new EXE.
+- NEXT EXACT ACTION: safely stage after QA process exits, verify pinned EXE,
+  reopen isolated client and collect one F7 cast then F11 for271/274/276.
+- NEXT FILE TO OPEN: tools/grow_lancer/verify_runtime_qa_stage.py.
+- NEXT FUNCTION TO IMPLEMENT: evidence-backed cause correction after capture.
+
+### 2026-09-13 — live QA restart evidence (PID23372)
+
+- CURRENT PHASE / TASK / SUBTASK: IN_PROCESS; owner timing failures;
+  inspect actual cast-input log against native controller emission gates.
+- COMPLETED THIS RUN / REVERSE EVIDENCE: read-only audit script identifies
+  same-action restarts before first gated emission. Current log snapshot has41
+  such observations across sessions; count is not a skill pass/fail metric.
+  PID23372 MagicPin at10:26:22.207Z and10:26:23.490Z resets action287
+  from frame3.235354/3.235766 to0, before its5.2 first child gate.
+- CHAIN COVERAGE: confirms an input restart scenario, NOT proof of controller
+  scheduling or complete cause. Harsh wind first gate5.2..5.8; its blur earlier
+  at2..4 must be checked independently. Spin PID23372 root logs target5;
+  cannot attribute all absent Spin visuals to missing target.
+- ASSET PROVENANCE: unchanged.
+- FILES MODIFIED: tools/grow_lancer/audit_qa_cast_restarts.py; this state.
+- LAST STATIC CHECK: audit executed successfully on real QA log.
+- LAST BUILD RESULT: previous Wrath blend correction Win32 PASS; unchanged.
+- LAST RUNTIME QA: owner failures remain; restart snapshots do not establish
+  frame-matched S21 visual parity. No staged replacement in this run.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: need per-controller frame/stage
+  telemetry for isolated casts; Wrath character enlargement still unverified;
+  existing nine-skill/server/class gates remain open.
+- BLOCKER: none for instrumentation/source work.
+- NEXT EXACT ACTION / NEXT FILE TO OPEN: extend bounded QA sampling in
+  ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerRuntimeQA.cpp to capture Spin,
+  Harsh and Magic controller action/frame/stage before each update; preserve
+  native timing and do not suppress repeated cast input as a guessed fix.
+- NEXT FUNCTION TO IMPLEMENT: scoped controller QA sampler.
+
+### 2026-09-13 — owner visual failures / Wrath ground blend correction
+
+- CURRENT PHASE: IN_PROCESS, native visual correction.
+- CURRENT TASK / SUBTASK: investigate owner black-square report on Wrath.
+- COMPLETED THIS RUN: restored the missing native EnableAlphaBlend call before
+  the private Wrath brocken ground draw. No global renderer change.
+- REVERSE EVIDENCE: pinned S21 15A0B63 calls18E7137 before81E3 terrain
+  draw15A0C0A; helper18E7158/18E715A selects ONE/ONE. Native terrain
+  function sets color/texture/geometry, not blend state.
+- CHAIN COVERAGE: one ground-layer render-state omission corrected; not full parity.
+- ASSET PROVENANCE: unchanged; no new asset staging.
+- FILES MODIFIED: GrowLancerEffectRuntime.cpp, verify_wrath_ground_blend.py,
+  this state. Owner failures separately recorded in GrowLancer/RUNTIME_QA.md.
+- LAST STATIC CHECK: new pinned-binary/native-order verifier PASS.
+- LAST BUILD RESULT: isolated RuntimeQA Global Release Win32 Build PASS;
+  existing cryptlib LNK4099 warnings only.
+- LAST RUNTIME QA: owner Spin Step no attack/effect; Wrath large black square;
+  Harsh Strike/Magic Pin delayed effect. All unresolved visually. Newly built
+  fix NOT staged into the currently opened QA client.
+- KNOWN DIFFERENCES / MISSING CHAIN PARTS: owner failures, all nine visual
+  acceptance and existing server/class gates remain open.
+- BLOCKER: none for further source investigation; visual retest pending.
+- NEXT EXACT ACTION: trace Harsh Strike/Magic Pin owner frame gates and QA
+  action start; prepare corrected QA staging only when client is not running.
+- NEXT FILE TO OPEN: ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerRuntimeQA.cpp.
+- NEXT FUNCTION TO IMPLEMENT: only evidence-backed timing correction, if found.
+
+- 2026-09-13 nine auxiliary payload caller sites grouped by character object.
+  CURRENT TASK/SUBTASK: rule out inappropriate sprite-container attribution.
+  REVERSE EVIDENCE:13F93C1 decode reaches all9 callers with local-1754+3254;
+  first producer13F8ED7 scans400character records, stores pointer1400ADD.
+  COMPLETED: verifier checks27caller instructions+4producer facts in addition
+  to prior57pins/3scalars PASS. Not a complete per-branch CFG/payload audit.
+  CHAIN COVERAGE:10of15 direct callers structurally classified;5 remain.
+  ASSET PROVENANCE:unchanged. FILES MODIFIED:verifier,Circle doc,state.
+  LAST STATIC CHECK:expanded verifier PASS. LAST BUILD RESULT:2936BEB4
+  unchanged,previewE6FED7D0. LAST RUNTIME QA:none;no deployment.
+  KNOWN DIFFERENCES/MISSING CHAIN: indirect/shared-object population and
+  fivecaller attribution,full9/class/server/visual acceptance OPEN.
+  BLOCKER:none offline. NEXT EXACT ACTION: anchor DD24A0 family and11A3C88
+  and trace their receiving object; do not use a raw window as completed CFG.
+  NEXT FILE TO OPEN:pinned dump containingDD24A0 and11A3C88.
+  NEXT FUNCTION TO IMPLEMENT:only proven Circle-specific missing behavior.
+
+- 2026-09-13 auxiliary-list insertion caller18CC8C2 classified structurally.
+  CURRENT TASK/SUBTASK: separate scene object traversal from Circle sprites.
+  REVERSE EVIDENCE: anchored18CC6A9..18CC90B loops16x16 cellsBE9D2B8,
+  follows object+354,clear/populate/render list; sprite manager1726E56 instead
+  scans1000 records atA4C1130 stride3D8. No S21 pointers/layout transplanted.
+  COMPLETED: excluded this caller as direct Circle-sprite evidence; verifier
+  expanded57instructions+3scalars PASS. Other14 insertion call leads OPEN.
+  CHAIN COVERAGE: caller/pool distinction, not proof sprite container empty.
+  ASSET PROVENANCE: unchanged. FILES MODIFIED: verifier,Circle reverse,state.
+  LAST STATIC CHECK:57instruction verifier PASS. LAST BUILD RESULT:unchanged
+  2936BEB4;previewE6FED7D0. LAST RUNTIME QA:none,no stage/deploy.
+  KNOWN DIFFERENCES/MISSING CHAIN: other callers and external population,
+  full owner/visual/server/class acceptance. BLOCKER:none for offline work.
+  NEXT EXACT ACTION: anchor remaining insertion callers beginning1400C87
+  and determine whether any operates on the sprite manager array; record
+  non-sprite exclusions without claiming absence from numeric xrefs alone.
+  NEXT FILE TO OPEN:pinned dump containing1400C87 and object/character paths.
+  NEXT FUNCTION TO IMPLEMENT:only a proven Circle-specific missing primitive.
+
+- 2026-09-13 sprite auxiliary-list atomic decrement/writer audit.
+  CURRENT TASK/SUBTASK: distinguish shared cleanup from Circle requirements.
+  REVERSE EVIDENCE:962905 negative operand,9631E0 LOCK XADD returning prior
+  value;1316DE7 prepares24byte timed payload and calls13189BD on member3D0.
+  13169F0 expiration path subtracts time and calls131892E for removal.
+  COMPLETED:46 pinned instructions+3scalars verifier PASS;15 direct insertion
+  caller leads located, NOT yet assigned to Circle or accepted as full chain.
+  CHAIN COVERAGE: concrete arithmetic and insertion/update skeleton.
+  ASSET PROVENANCE: unchanged. FILES MODIFIED: verifier,Circle reverse,state.
+  LAST STATIC CHECK:46instruction verifier PASS. LAST BUILD RESULT: unchanged
+  2936BEB4; previewE6FED7D0. LAST RUNTIME QA:none, no deployment.
+  KNOWN DIFFERENCES/MISSING CHAIN: payload concrete type/virtual targets,
+  caller attribution,full sprite lifecycle,all9/class/server acceptance OPEN.
+  BLOCKER:none offline. NEXT EXACT ACTION: anchor18CC8C2 insertion caller
+  and adjacent18CC8DD list-render call; determine object type and arguments.
+  NEXT FILE TO OPEN:pinned dump containing function around18CC8C2.
+  NEXT FUNCTION TO IMPLEMENT:only proven Circle-required compatibility code.
+
+- 2026-09-13 sprite member+3D0 node/payload destructor chain decoded.
+  CURRENT TASK/SUBTASK: determine cleanup beyond Live=false.
+  REVERSE EVIDENCE:9B3343 traverses next pointers;966734 destroys payload+8;
+  968A5C->9679DC->967954->960742 reaches nullable payload+4 control pointer.
+  963437/9635C2 use control+4/+8 and virtual slots+4/+8 on return==1;
+  exact arithmetic96320D and concrete virtual targets not yet decoded.
+  COMPLETED: expanded pinned verifier33instructions+3scalars PASS; recorded
+  node32byte release route and header-link/count reset. No speculative code.
+  CHAIN COVERAGE: destructor skeleton, not payload semantics/Circle usage.
+  ASSET PROVENANCE: unchanged. FILES MODIFIED: sprite verifier,Circle doc,state.
+  LAST STATIC CHECK:33instruction verifier PASS. LAST BUILD RESULT: unchanged
+  2936BEB4; previewE6FED7D0. LAST RUNTIME QA: none; no launch/stage/deploy.
+  KNOWN DIFFERENCES/MISSING CHAIN: container ownership cannot be reduced to
+  a bare Live flag; payload producers and full9/server/class gates OPEN.
+  BLOCKER: none offline. NEXT EXACT ACTION: decode96320D; find member+3D0
+  insertion/accessor writers and anchor callers before attributing to Circle.
+  NEXT FILE TO OPEN: dump96320D,object constructor/accessors near9B3D94.
+  NEXT FUNCTION TO IMPLEMENT: proven sprite cleanup compatibility only.
+
+- 2026-09-13 Circle sprite visibility producer and cleanup-tail audit.
+  CURRENT TASK/SUBTASK: S21 sprite visibility versus native CheckSprites.
+  REVERSE EVIDENCE:1726FCF live scan writes+B;1727079 reads+B; native scene
+  calls CheckSprites after effect/blur render. Separate owner cleanup1727015
+  matches+34C; Live setter13167BB calls9B3D94->9B436B on+3D0.
+  COMPLETED: added verify_circle_sprite_visibility.py,15instructions and
+  three scalars pinned to SHA6422cb4e dump; native source guards PASS.
+  CHAIN COVERAGE: selected visibility field mapped, full cleanup still OPEN.
+  ASSET PROVENANCE: unchanged. FILES MODIFIED: verifier,Circle reverse,state.
+  LAST STATIC CHECK: new verifier PASS. LAST BUILD RESULT: unchanged2936BEB4,
+  preview remainsE6FED7D0; no staging or runtime code changes in this chặng.
+  LAST RUNTIME QA: none. KNOWN DIFFERENCES: native Live=false has no proven
+  equivalent for S21 member+3D0 container cleanup; no guessed adapter added.
+  MISSING CHAIN: container payload/writers,scene ordering,owner removal and
+  real sprite/pool/gameplay parity. BLOCKER: none for further dump work.
+  NEXT EXACT ACTION: decode9B4068/9694F8/9B3343 and identify member+3D0
+  writers to decide whether Circle sprites actually populate that container.
+  NEXT FILE TO OPEN: pinned dump helper9B4068,then sprite constructors/writers.
+  NEXT FUNCTION TO IMPLEMENT: only a proven native cleanup compatibility path.
+
+- 2026-09-13 Circle controller-owner retirement before dead-slot reuse.
+  CURRENT TASK/SUBTASK: controller Owner and detached child lifetime audit.
+  REVERSE EVIDENCE: native controller reads character Owner bone/action/type;
+  DeleteEffect filters live type/owner/subtype, EffectDestructor clears owner.
+  COMPLETED: RetireCircleCharacterEffects delegates only Circle controller
+  cleanup to native DeleteEffect before character Live=true; live refresh
+  remains unchanged. Existing child lifetime preserved, no global pool edits.
+  CHAIN COVERAGE: native compatibility correction, not full S21 cleanup proof.
+  ASSET PROVENANCE: unchanged. FILES MODIFIED: Runtime.cpp/.h,ZzzCharacter.cpp,
+  pool-boundary verifier,Circle reverse,state.
+  LAST STATIC CHECK: pool source guards and extracted native joint test PASS.
+  LAST BUILD RESULT: isolated QA Win32 exit0,known cryptlib LNK4099 only;
+  SHA2936BEB411D2FB10D858DD5F37BF46066F59DB15294DBF99FC02EAC51F92BA64.
+  NOT STAGED: previewE6FED7D0 unchanged; no server/production mutation.
+  LAST RUNTIME QA: no new gameplay; controller reuse not tested in engine.
+  KNOWN DIFFERENCES: safety retirement on native dead-slot reactivation only.
+  MISSING CHAIN: sprite owner/visibility producer, real pool reuse, class/GS
+  authoritative proc and all9 acceptance. BLOCKER: none for offline audit.
+  NEXT EXACT ACTION: trace native sprite owner visibility writes and compare
+  Circle Shiny lifetime/render-pass ownership before staging the candidate.
+  NEXT FILE TO OPEN: zzzeffectsprite.cpp RenderSprites and visibility callers.
+  NEXT FUNCTION TO IMPLEMENT: only a proven Circle-local sprite correction.
+
+- 2026-09-13 Circle contact dead-target slot reuse correction.
+  CURRENT TASK/SUBTASK: prevent old contact homing onto a new character in
+  the same native slot. REVERSE EVIDENCE: DeleteCharacter/ClearCharacters
+  mark !Live; CreateCharacterPointer reactivates before MoveJoints may run.
+  COMPLETED: call native DeleteJoint(FORCEPILLAR,o,3) on dead-slot init only.
+  Same-live-key refresh and unrelated joint types/subtypes/owners unchanged.
+  CHAIN COVERAGE: compatibility safety for contact3, not S21 generation proof.
+  ASSET PROVENANCE: unchanged. FILES MODIFIED: ZzzCharacter.cpp,pool verifier,
+  test_circle_target_reuse.py,Circle reverse,state; generated isolated fixture.
+  LAST STATIC CHECK: source guard PASS; exact native DeleteJoint extraction
+  with six mock categories and dead/live-refresh constexpr cases /W4 /WX PASS.
+  Fixture initially missed NULL macro; fixed and compiled successfully.
+  LAST BUILD RESULT: isolated QA Win32 build/link exit0; known LNK4099 only.
+  Bin SHA355F282A6445E54A329AAB73175C077BE40401E2979F12A755B1A9EBC591CBFE.
+  NOT STAGED: preview remainsE6FED7D0; server unchanged. No production writes.
+  LAST RUNTIME QA: no new session/cast; real slot reuse regression OPEN.
+  KNOWN DIFFERENCES/MISSING CHAIN: safety guard is native compatibility;
+  controller Owner, child-slot reuse and full9/server/class acceptance OPEN.
+  BLOCKER: none for offline ownership audit.
+  NEXT EXACT ACTION: trace Circle controller/effect owner reuse and native
+  EffectDestructor/DeleteEffect ordering; avoid broadening joint-only proof.
+  NEXT FILE TO OPEN: GrowLancerEffectRuntime.cpp controller update and
+  ZzzEffect.cpp allocator/destructor, including g_SkillEffects pool paths.
+  NEXT FUNCTION TO IMPLEMENT: evidence-backed Circle owner cleanup adapter.
+
+- 2026-09-13 heartbeat: Circle native JOINT pool-boundary audit.
+  CURRENT TASK/SUBTASK: inspect allocation, ownership and cleanup before
+  connecting the paired-target contact receiver. REVERSE EVIDENCE:
+  native CreateJoint/DeleteJoint/MoveJoints and pinned31-instruction verifier.
+  COMPLETED: added verify_circle_pool_boundary.py; source guards PASS for
+  slot remainder reset, target assignment/filter, live guard and early return.
+  CHAIN COVERAGE: source ownership boundary only. Raw target pointer has no
+  generation check; live slot reuse/removal ordering remain unproven.
+  ASSET PROVENANCE: unchanged. FILES MODIFIED: new verifier,Circle reverse,state.
+  LAST STATIC CHECK: pool guard PASS; pinned Circle renderer31instructions PASS.
+  LAST BUILD RESULT: unchanged; no runtime source edits or rebuild required.
+  LAST RUNTIME QA: no active Engine-Port process; no new launch/cast/acceptance.
+  KNOWN DIFFERENCES/MISSING CHAIN: raw target identity, live pool stress,
+  server proc/AG and authoritative two-actor trigger, class and owner parity.
+  BLOCKER: none for offline lifecycle audit; full acceptance remains OPEN.
+  NEXT EXACT ACTION: trace character removal/reuse ordering and joint target
+  cleanup callers before deciding whether a Circle-local identity guard is
+  required. Do not change global SS6 pool semantics on a hypothetical hazard.
+  NEXT FILE TO OPEN: ZzzCharacter.cpp character removal and DeleteJoint callers.
+  NEXT FUNCTION TO IMPLEMENT: only a proven Circle-local lifecycle correction.
 
 - Circle F9 paired-target QA fixture added and staged:
   REVERSE EVIDENCE: native EffectManager07 has state/one index/BYTE effect;
@@ -4708,3 +12314,509 @@ Correct the next dump-proven primitive/ownership/render mismatch in
 `GrowLancerEffectRuntime.cpp`; actual packet registration/gameplay handlers
 remain disabled until the S21 server handlers and an approved recipient-class
 contract supply the missing target/hit/class semantics.
+
+---
+
+## CURRENT CHECKPOINT — 2026-09-15 — Breche owner-side cast separation
+
+**CURRENT PHASE:** S21 Breche owner/target split implemented and compiled in
+the isolated Grow Lancer adapter; static/staging checks PASS, 5.2 visual QA
+pending.
+
+**CURRENT TASK:** Port the complete Grow Lancer Breche visual chain to RISE
+Main 5.2 without replaying target-contact effects on the caster.
+
+**CURRENT SUBTASK:** Validate the fresh native S21 cast against the recovered
+owner producer (`0x142B21D -> 0x5FD/sub0 -> 0x1535478`) and stage every
+owner-only model/bitmap dependency under the private Wind Soul/Grow Lancer
+tree.
+
+**COMPLETED THIS RUN:**
+
+- Recorded fresh S21 reference capture
+  `artifacts/runtime_qa/s21_reference/breche_owner_recast_20260915_b`;
+  `frame_00042.jpg` visibly separates the caster red/orange circular sweep
+  from the independent white/orange target fire columns.
+- Kept the existing target-only `CreateBrecheHit(*target)` path and added a
+  separate owner controller in `CreateBrecheAction`; the target root is not
+  replayed on the player.
+- Implemented owner tick emission: three particle-wrapper families, ten
+  pin-light joints, timed ring/lightmark/fire-ring/twilight layers and one
+  wind model record per primary tick, all behind private markers and native
+  RISE pools.
+- Added owner BMD/bitmap registration, isolated hash-pinned staging and BMD
+  v0F-to-v0C conversion with round-trip plaintext verification.
+- Corrected provenance so the owner wind model uses the symbolic expression
+  `MAX_MODELS + 34` instead of an invented numeric runtime ID; added explicit
+  owner lightmark and twilight provenance rows.
+- Appended the authoritative owner producer/update evidence to
+  `GrowLancer/BRECHE_REVERSE.md` and `GrowLancer/BRECHE_CHILDREN_REVERSE.md`.
+
+**REVERSE EVIDENCE:** S21 primary dispatcher `0x10E35BC`, action 190 at
+`0x10E43CB`, receive allocation `0x12CB7F5` for subtype 1, character owner
+producer `0x142B21D`, controller dispatch `0x153542A`, owner updater
+`0x1535478`, owner timed call sites and subtype updates
+`0x14FB821`, `0x14FC2EA`, `0x14FC3CA`; fresh capture listed above.
+
+**CHAIN COVERAGE:** dispatch -> action/sound -> owner controller -> owner
+particles/joints/timed layers/wind -> native render/pool lifecycle is now
+implemented in the isolated client.  The separate receive root and its five
+children remain intact.  Exact S21 random local distribution, all native
+blend/UV flags and accepted 5.2 owner pixels are still open.
+
+**ASSET PROVENANCE:** `tools/grow_lancer/stage_breche_owner_assets.ps1`
+passes for seven OZJ dependencies and converted `wind_foce.bmd`; source and
+staged SHA-256 values are recorded in `GrowLancer/asset_provenance.json`.
+All output remains under `ExMain_RISE_PC/Tests/GrowLancerBuild/Client`.
+
+**FILES MODIFIED:** `GrowLancerEffectRuntime.cpp`, `GrowLancerResources.h`,
+`GrowLancerResources.cpp`, `GrowLancer/grow_lancer_skills_descriptor.json`,
+`GrowLancer/asset_provenance.json`, `GrowLancer/BRECHE_REVERSE.md`,
+`GrowLancer/BRECHE_CHILDREN_REVERSE.md`,
+`tools/grow_lancer/convert_s21_bmd_v0f_to_rise_v0c.py`,
+`tools/grow_lancer/stage_breche_owner_assets.ps1`,
+`tools/grow_lancer/verify_breche_owner_adapter.py`,
+`tools/grow_lancer/verify_breche_root_contract.py`,
+`tools/grow_lancer/verify_breche_ground_render.py`,
+`tools/grow_lancer/verify_breche_emitter_contract.py`,
+`tools/grow_lancer/verify_runtime_qa_stage.py`.
+
+**LAST STATIC CHECK:** Descriptor/provenance JSON PASS; all 17 focused Breche
+dispatch/producer/update/render/pool/owner-separation verifiers PASS; isolated runtime-QA tree
+verifier PASS (2,658 base RISE files, 87 private overlay files, 13 current
+Grow Lancer assets).  `git diff --check` PASS with only existing line-ending
+warnings.  No production checkout or S21 source was modified.
+
+**LAST BUILD RESULT:** Isolated PC x86 `Global Release` compile/link PASS for
+the owner-side changes in both normal and `GrowLancerRuntimeQA` configurations.
+Runtime-QA executable SHA-256 is
+`E40126DC85D6CD1A0B28498A0CDB805529993DCC6855F91D12D993351B76DDFC`; only
+pre-existing third-party `LNK4099` missing-PDB warnings remain.
+
+**LAST RUNTIME QA:** S21 native owner capture PASS for role separation only.
+RISE 5.2 owner visual acceptance is still pending a rebuilt isolated client.
+
+**KNOWN DIFFERENCES:** Owner-local random placement, exact bitmap sampler/
+blend/UV state, model animation frame and target reaction have not yet been
+accepted in 5.2.  Server-authoritative class, learn, target, damage and
+cooldown contracts remain open.
+
+**MISSING CHAIN PARTS:** 5.2 GPU owner pixels and pool stress; exact owner
+transform/bone attachment parity; authoritative GameServer Grow Lancer class
+and Breche hit/damage rules; full nine-skill runtime/regression matrix.
+
+**BLOCKER:** None for offline reverse, staging or implementation.  Runtime
+acceptance requires a rebuilt isolated client; server completion remains
+evidence-gated because the protected S21 server handler dump is unavailable.
+
+**NEXT EXACT ACTION:** Launch the freshly staged isolated QA client only when
+the machine is available, inspect owner-vs-target QA records and pixels after a
+single Breche cast, then run lifetime/pool stress.  Request another user cast
+only if the rebuilt client reaches the owner visual gate; S21 evidence does not
+need to be recaptured now.
+
+**NEXT FILE TO OPEN:** `ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerEffectRuntime.cpp`
+around `UpdateBrecheOwnerTick`, then the isolated build script/project.
+
+**NEXT FUNCTION TO IMPLEMENT:** No new owner producer is authorized until the
+static/build pass.  Next code change, if the verifier exposes one, must be the
+smallest dump-proven owner render/lifetime correction and remain private to
+ the Grow Lancer package.
+
+---
+
+## CURRENT CHECKPOINT — 2026-09-15 — Breche owner random semantics corrected
+
+**CURRENT PHASE:** Fresh S21 cast evidence is closed for owner/target role
+separation; isolated 5.2 RuntimeQA is rebuilt and restaged.
+
+**COMPLETED THIS RUN:**
+
+- Corrected owner fire-particle light from the previous generic `(1,1,1)`
+  value to the S21 handler's `(0.4,0.4,0.4)` vector.
+- Removed unsupported caller-side XYZ offsets from owner fire particles;
+  S21 passes the controller Position directly and randomizes only the
+  8084/806E/8085 variant plus helper scale `1..2`.
+- Corrected pin-light local X angle to the full S21 random range `[-30,30]`
+  (the prior expression was biased to `[-30,0]`); Z remains `[70,90]` and
+  is added to the controller angle.
+- Extended `verify_breche_owner_adapter.py` so these S21 light/range/direct-
+  position contracts fail closed if a later edit regresses them.
+- Timed owner layers and the wind carrier now copy the live caster angle
+  through a local native vector, matching the S21 owner-pointer argument
+  without violating the 5.2 non-const API.
+- Rebuilt and restaged the isolated RuntimeQA executable.
+
+**LAST STATIC CHECK:** All 17 focused Breche verifiers PASS; runtime tree
+verifier PASS after restaging.
+
+**LAST BUILD RESULT:** PC x86 `Global Release` with
+`GrowLancerRuntimeQA=true` PASS.  RuntimeQA Engine SHA-256:
+`E40126DC85D6CD1A0B28498A0CDB805529993DCC6855F91D12D993351B76DDFC`.
+Only pre-existing third-party `LNK4099` missing-PDB warnings remain.
+
+**LAST RUNTIME QA:** Fresh S21 native capture remains the role-separation
+reference.  The rebuilt 5.2 client has not yet been owner-cast in-game, so
+visual acceptance stays `IN_PROCESS`.
+
+**NEXT EXACT ACTION:** When the machine is available, launch only the private
+RuntimeQA client, cast Breche once, compare owner-vs-target records/pixels,
+then run multi-cast lifetime/pool stress.  Do not recapture S21 unless the
+5.2 output exposes a specific unresolved branch.
+
+---
+
+## CURRENT CHECKPOINT — 2026-09-15 — Breche owner position rewrite decoded
+
+**CURRENT PHASE:** S21 owner transform and timed-layer position split are
+static-verified; isolated 5.2 source is updated and ready for rebuild.
+
+**COMPLETED THIS RUN:**
+
+- Decoded `D3189D` argument order from the S21 helper body: local
+  `(0,-200,0)` is rotated by the controller angle and written into the
+  controller position, then the generic owner snapshot is added.
+- Added the private native equivalent
+  `owner.Position + VectorRotate((0,-200,0), effect.Angle)` before owner
+  pin/timed emissions.  The initial three particle wrappers remain before
+  this rewrite, matching S21 order.
+- Corrected timed owner positions: ring/marks consume the rewritten
+  controller position; life-7 fire ring and life-15 twilight records consume
+  the live owner snapshot, matching their distinct S21 call-site pointers.
+- Reversed the S21 `0x81EB/sub0` renderer: additive terrain bitmap path,
+  effect position XY, scale, angle Z, `Light*Alpha`, height 5.  No direct
+  snapshot read occurs in this renderer.
+- Marked the S21 wind stack-local position as unresolved outside the life-7
+  initialization block; no unproven coordinate was copied into the adapter.
+- Extended owner adapter verifier and reverse notes with all of the above.
+
+**REVERSE EVIDENCE:** S21 `0x15354EA..0x1535561`, helper `0xD3189D`
+`(input, matrix, output)`, generic snapshot copy `0x143E85B..0x143E8BB`,
+life-7 child call `0x1535DB1`, life-15 calls `0x15360DB/0x15361DA/0x1536237`,
+and renderer `0x15AEAED..0x15AEF62`.
+
+**CHAIN COVERAGE:** owner controller dispatch -> initial particle order ->
+controller offset -> pin/ring/marks -> snapshot fire/twilight -> native
+terrain/BMD render remains statically mapped.  Target receive chain remains
+separate and unchanged.
+
+**ASSET PROVENANCE:** unchanged; seven private OZJ dependencies and converted
+`wind_foce.bmd` remain SHA-pinned under the isolated Grow Lancer staging tree.
+
+**FILES MODIFIED:** `GrowLancerEffectRuntime.cpp`,
+`verify_breche_owner_adapter.py`, `GrowLancer/BRECHE_REVERSE.md`,
+`GrowLancer/BRECHE_CHILDREN_REVERSE.md`, `GROW_LANCER_STATE.md`.
+
+**LAST STATIC CHECK:** owner adapter and primary dump verifiers PASS after the
+position rewrite.  Full 17-script suite should be rerun after rebuild.
+
+**LAST BUILD RESULT:** prior isolated RuntimeQA x86 build PASS at
+`E40126DC85D6CD1A0B28498A0CDB805529993DCC6855F91D12D993351B76DDFC`; this
+position rewrite still needs a fresh compile/link and restage.
+
+**LAST RUNTIME QA:** S21 native capture `breche_owner_recast_20260915_b` is
+the role-separation reference.  5.2 owner pixels and pool stress remain
+untested; no production client was launched.
+
+**KNOWN DIFFERENCES:** S21 wind's non-life-7 stack-local coordinate is not a
+safe contract; exact random spatial distribution, blend/UV state and model
+frame remain open until 5.2 runtime records/pixels are captured.
+
+**MISSING CHAIN PARTS:** isolated 5.2 visual acceptance, pool reuse/stress,
+full server-authoritative class/learn/cast/damage evidence and nine-skill
+runtime/regression matrix.
+
+**BLOCKER:** none for offline reverse or isolated source; runtime acceptance
+requires a private client run when the machine is available.
+
+**NEXT EXACT ACTION:** run the complete 17-script Breche static suite, rebuild
+`GrowLancerRuntimeQA=true`, restage with hash verification, then launch only
+the private RuntimeQA client for one Breche cast and pool/lifetime stress.
+
+**NEXT FILE TO OPEN:** `ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerEffectRuntime.cpp`
+around `UpdateBrecheOwnerControllerPosition` and `CreateBrecheOwnerTimedLayers`.
+
+**NEXT FUNCTION TO IMPLEMENT:** no further owner geometry change until the
+fresh rebuild and runtime record/pixel comparison; keep the wind coordinate
+fail-closed.
+
+---
+
+## CURRENT CHECKPOINT — 2026-09-15 — Breche owner transform build/stage refreshed
+
+**CURRENT PHASE:** Fresh S21 cast evidence is retained as the owner/target
+reference; the private 5.2 RuntimeQA executable has been rebuilt and staged.
+
+**COMPLETED THIS RUN:**
+
+- Rebuilt the isolated PC x86 `Global Release` target with
+  `GrowLancerRuntimeQA=true` after the owner controller-position rewrite.
+- Build/link completed successfully; only the pre-existing third-party
+  `cryptlib` `LNK4099` missing-PDB warnings were emitted.
+- Restaged the private RuntimeQA client and updated the pinned executable hash.
+- Updated `verify_runtime_qa_stage.py` to the new executable hash and reran
+  the complete Breche verifier set; all 18 Breche scripts pass.
+
+**LAST STATIC CHECK:** `ALL_BRECHE_VERIFIERS_PASS`; runtime tree verifier PASS
+(2,658 private base RISE files, 87 private Grow Lancer overlay files, 13
+current overlay assets, root login files and merged-player CRC).
+
+**LAST BUILD RESULT:** PC x86 isolated build PASS. RuntimeQA Engine SHA-256:
+`A138D49940A36FE816B84F228F52080098F1ADC6CF1AE75FC4581300BA818D02`.
+
+**LAST RUNTIME QA:** S21 native capture
+`artifacts/runtime_qa/s21_reference/breche_owner_recast_20260915_b` remains
+the role-separation reference. The rebuilt 5.2 client has not been owner-cast
+yet; no visual parity or pool-stress PASS is claimed.
+
+**KNOWN DIFFERENCES:** Exact 5.2 owner pixels, random spatial distribution,
+bitmap sampler/blend state, model frame, wind stack-local coordinate and
+target reaction remain evidence-gated. Server-authoritative Grow Lancer
+learn/cast/damage/cooldown evidence and the full nine-skill runtime matrix are
+still open.
+
+**BLOCKER:** None for offline reverse, build or staging. Runtime acceptance
+requires the machine to run the private client; do not use the production
+Engine.exe.
+
+**NEXT EXACT ACTION:** Launch only the isolated RuntimeQA client when the
+machine is available, cast Breche once, compare owner-vs-target records and
+pixels against the saved S21 capture, then run multi-cast lifetime/pool stress.
+Request another user cast only if that rebuilt client reaches the owner visual
+gate.
+
+**NEXT FILE TO OPEN:** `ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerEffectRuntime.cpp`
+around `UpdateBrecheOwnerControllerPosition` and the owner timed-layer calls.
+
+**NEXT FUNCTION TO IMPLEMENT:** No additional geometry change until the fresh
+5.2 runtime comparison exposes a dump-backed mismatch; keep unresolved wind
+coordinates fail-closed.
+
+---
+
+## CURRENT CHECKPOINT — 2026-09-15 — Full verifier and body GPU probe refreshed
+
+**CURRENT PHASE:** Offline reverse/build evidence is clean for the current
+ Grow Lancer package; gameplay visual parity and server-authoritative gates
+ remain `IN_PROCESS`.
+
+**COMPLETED THIS RUN:**
+
+- Corrected two stale verifier expectations to match the implemented native
+  owner-model range and the `SetAction` transition used by Magic Pin/Breche.
+- Ran the complete 111-script `tools/grow_lancer/verify_*.py` sweep: all pass.
+- Ran the freshly staged hidden native body-texture/GPU probe on the isolated
+  RuntimeQA executable (PID 25532); shader, upload/readback, adapter cache,
+  native draw, owner-submit, release and separate rollback/sampler fixtures
+  pass.
+- Accepted the user's fresh S21 Breche cast as the saved owner/target reference
+  at `artifacts/runtime_qa/s21_reference/breche_owner_recast_20260915_b`.
+
+**REVERSE EVIDENCE:** S21 owner ring/vortex and independent target fire-column
+ layers are captured; 5.2 owner/target separation is still not visually
+ accepted.
+
+**CHAIN COVERAGE:** Dispatch, action contracts, resource registration,
+ ownership and native cleanup have static evidence; exact 5.2 runtime
+ movement/contact/reaction and pool stress remain open.
+
+**ASSET PROVENANCE:** Isolated Grow Lancer overlay remains hash-pinned and
+ separate from production Data; no source Season 21 asset was modified.
+
+**FILES MODIFIED:** `tools/grow_lancer/verify_class_body_loader.py`,
+ `tools/grow_lancer/verify_cast_speed_registration.py`,
+ `tools/grow_lancer/verify_runtime_qa_stage.py`,
+ `GrowLancer/S21_NATIVE_REFERENCE.md`, `GrowLancer/ACCEPTANCE_GATE_MATRIX.md`,
+ `GrowLancer/RUNTIME_QA.md`,
+ `GROW_LANCER_STATE.md`.
+
+**LAST STATIC CHECK:** `TOTAL=112 FAILED=0` / `ALL_GROW_LANCER_VERIFIERS_PASS`;
+ runtime stage verifier PASS.
+
+**LAST BUILD RESULT:** PC x86 isolated build PASS; Engine SHA-256 remains
+ `A138D49940A36FE816B84F228F52080098F1ADC6CF1AE75FC4581300BA818D02`.
+
+**LAST RUNTIME QA:** Hidden body GPU probe PASS for PID 25532. Fresh 5.2
+ Breche owner cast, nine-skill gameplay matrix and multi-cast pool stress are
+ not yet run.
+
+**KNOWN DIFFERENCES:** Exact owner pixels, wind coordinate distribution,
+ frame/blend/UV state, target reaction and server-authoritative behavior are
+ evidence-gated.
+
+**MISSING CHAIN PARTS:** 5.2 owner-vs-target visual parity, all nine gameplay
+ casts/regression, class activation/persistence and authoritative GS learn/cast
+ damage/target evidence.
+
+**BLOCKER:** None for offline work. Runtime acceptance needs the private client
+ and must not use production `Engine.exe`.
+
+**NEXT EXACT ACTION:** Launch the isolated RuntimeQA client, inspect the
+ selected-skill panel, cast Breche once, then record owner/target/pool results;
+ continue through the remaining eight skills without changing the protected
+ checkouts.
+
+**NEXT FILE TO OPEN:**
+ `ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerEffectRuntime.cpp` around Breche
+ owner/timed-layer update and cleanup paths.
+
+**NEXT FUNCTION TO IMPLEMENT:** No speculative geometry change; use the new
+5.2 cast record/pixels to decide the next dump-backed adapter correction.
+
+**ADDITIONAL CHECKPOINT — 2026-09-15:** Ran the explicit offline allowlist
+ of 33 Grow Lancer helper harnesses (particle, terrain, joint, action/tick,
+ Magic Pin, Obsidian, Clash, Breche, Shining, Wrath and shared effect paths).
+ All exited `0`; no Engine, RiseQA or GameServer process was launched. This
+ strengthens static/helper regression evidence only and does not promote any
+ gameplay visual gate.
+
+The staged action verifier also rechecked all ten S21 action clips `185..194`
+ mapped byte-for-byte to isolated RISE actions `284..293`, while preserving
+ all 284 legacy action payloads. The Shining Peak frame-window traversal risk
+ remains documented and unchanged; no timing gate was widened.
+
+The isolated `GrowLancerServerContractTest.exe` also exits `0` for identity,
+proven scroll/master rows, disabled packet mapping, stat gates and supplied
+formulas. This is contract evidence only; the live S21 GameServer handler and
+authoritative runtime damage/target path remain intentionally fail-closed.
+
+**S21 SERVER TREE CHECKPOINT — 2026-09-15:** Read-only revalidation of the
+user-supplied `D:\GameServer S21` tree confirms the pinned S21 contracts: base
+skill rows 271..279, seven group-12 scroll rows (item indices 271..277),
+Circle Shield settings, the active Grow-Lancer third-master tree and the
+Wind Soul 5th-master formula. `SkillRequire.xml` contains no base learn row
+for 271..279. The `GameServer` directory contains only
+`IGC.GameServer2_R.exe` plus configuration/data; no source/PDB/MAP/project or
+named handler was found in a bounded read-only search. No binary was modified
+and no server handler was guessed. Live authoritative class/learn/cast/damage
+evidence therefore remains `OPEN`.
+
+The new `verify_breche_s21_recast_reference.py` pins the owner-authorized S21
+recast (134 frames, manifest SHA and `frame_00042.jpg` SHA). The complete
+verifier sweep now reports `TOTAL=112 FAILED=0`; this still leaves the isolated
+5.2 gameplay visual and server gates `IN_PROCESS`.
+
+**RUNTIME CHECKPOINT — 2026-09-15:** Started the current staged isolated QA
+ client at PID 36536 after a fresh stage verification. Its window was created
+ but remained `Responding=False` for a bounded 15-second check, with no new
+ RuntimeQA log rows or dump. The exact isolated PID was then stopped; no
+ production executable was touched and no gameplay cast was accepted.
+
+**DIAGNOSTIC CHECKPOINT — 2026-09-15:** A QA-only breadcrumb experiment around
+ `WinMain` initialization was attempted to localize the unresponsive window,
+ but the compiler remained blocked in `cl.exe` waiting on the shared PDB service
+ while another isolated build was active. The build was cancelled safely and
+ the breadcrumb-only source change was reverted; the staged executable and its
+ pinned SHA therefore remain unchanged.
+
+**OWNER CAST ACKNOWLEDGEMENT — 2026-09-15:** The owner reported the requested
+ S21 Breche cast. No new machine-readable frame/manifest artifact appeared in
+ the isolated worktree during this report, so this acknowledgement is not
+ promoted to 5.2 visual-parity evidence. The pinned S21 reference remains the
+ 134-frame `breche_owner_recast_20260915_b` capture; the isolated 5.2 owner,
+ target/contact and cleanup gates remain `OPEN` until a corresponding 5.2 QA
+ capture is available.
+
+**STATIC CHECKPOINT — 2026-09-15:** Added and ran
+ `tools/grow_lancer/verify_nine_skill_descriptor_contract.py`; it confirms the
+ nine descriptor rows (IDs 271..279), S21/Rise action mapping, costs, scrolls,
+ sounds, reverse-evidence fields and visual-layer contracts. Full verifier sweep
+ now reports `TOTAL=113 FAILED=0`; `git diff --check` reports only expected
+ LF-to-CRLF normalization warnings and no whitespace errors.
+
+**RUNTIME DIAGNOSTIC CHECKPOINT — 2026-09-15:** Added QA-only breadcrumbs
+ around `pMain->WinHook`, `OpenMainExe` and `OpenInitFile` to localize the
+ earlier startup observation. The isolated `Global Release/Win32` build passed
+ with only existing third-party `cryptlib` LNK4099 warnings; the private stage
+ verifier passes with executable SHA
+ `C6E99AC4597227E71A9D3D275C6ECC7FCBABF323A1BE4CE2597EA9B68048023A`.
+The freshly launched isolated QA process PID `30836` is `Responding=True` and
+emitted all three post-start breadcrumbs. No gameplay cast has been recorded
+yet; owner interaction is required for the next visual evidence sample.
+
+**RUNTIME INPUT CHECKPOINT — 2026-09-15:** The owner reported a cast after the
+isolated client launch. Process/log correlation shows the input was received by
+the separate `Interface_Engine_S21.exe` reference process (PID `24160`); the
+isolated `Engine-Port S21.exe` PID `30836` has no new `cast-input`, `select`,
+`root-dispatched` or `pool` record. This report is therefore not promoted to
+5.2 gameplay evidence. Both processes remain untouched; the next exact input
+must be F7 in the window titled `Engine-Port S21`.
+
+**QA IDENTIFICATION/STAGING CHECKPOINT — 2026-09-15:** Changed only the
+QA-build window caption to `Engine-Port S21 [Grow Lancer QA]` so it cannot be
+confused with the S21 reference client. Rebuilt the isolated x86 client
+successfully; executable SHA-256 is
+`5012C22D95757A390C11F9F7675B964577E43EED20A772BAB7E23CBC5E39521F`.
+The staging script now preserves an existing isolated `RiseQA.map` when the
+separate Vulkan QA runner holds that optional linker artifact open; no runtime
+file is omitted. The previous isolated PID was stopped by exact path only;
+fresh stage verification is the next check before relaunch.
+
+**RUNTIME STARTUP CHECKPOINT — 2026-09-15:** Relaunched the rebuilt isolated
+client directly as PID `34576` after the stage script verified the new hash.
+The QA breadcrumb sequence now reaches `after StartWindow`,
+`after CreateOpenglWindow`, `after NewUISystem Create`, `after character
+globals` and `before message loop`; no crash dump was created. The process is
+still alive with title `Engine-Port S21 [Grow Lancer QA]`, but Windows reports
+`Responding=False` and no `cast-input`/`root-dispatched` record has appeared.
+Login and owner cast remain unverified; no visual gate is promoted.
+
+**RUNTIME RECOVERY CHECKPOINT — 2026-09-15:** QA-only `StartAddress` working-set
+ trimming is now skipped under `RISE_GROW_LANCER_RUNTIME_QA`; production paths
+ are unchanged. The isolated x86 build passed with existing third-party
+ `cryptlib` LNK4099 warnings. The rebuilt executable SHA-256 is
+ `5012C22D95757A390C11F9F7675B964577E43EED20A772BAB7E23CBC5E39521F`.
+ The private stage script and full runtime-stage verifier both pass (current
+ assets 13, base RISE 2658, private overlay 87, root Data 3, 127 junctions).
+Fresh direct launch PID `6212` is `Responding=True`, title
+`Engine-Port S21 [Grow Lancer QA]`, private memory about 187 MB, and its
+breadcrumb reaches `before message loop` after the QA trim skip. No cast row
+has been recorded for this PID yet; the owner must cast in this exact window.
+
+**POST-LAUNCH CHECKPOINT — 2026-09-15:** The same PID `6212` later transitioned
+ to `Responding=False` while idle, before any `cast-input` row; private memory
+ was about 274 MB and the main thread remained in `Executive` wait with no dump.
+ This is a startup/idle responsiveness issue, not a skill-render result. The
+ owner's preceding S21 reference cast remains acknowledged but produced no new
+ machine-readable artifact in this worktree. Project-inclusion, nine-skill
+ descriptor and full runtime-stage verifiers all pass after the rebuild.
+
+The pinned S21 Breche recast verifier also passes (134 frames, manifest and
+`frame_00042` hash); this remains reference-only and does not promote the
+unrecorded 5.2 owner cast.
+
+**OFFLINE REGRESSION CHECKPOINT — 2026-09-15:** Re-ran the explicit allowlist
+of 33 native helper harnesses covering the nine-skill effect/controller,
+particle, joint, sprite, animation and cleanup paths. Every harness exited
+`0`; no Engine, RiseQA or GameServer process was launched. This is helper
+regression evidence only and leaves gameplay visual/server gates open.
+
+**SERVER DATA PROVENANCE CHECKPOINT — 2026-09-15:** Added
+`tools/grow_lancer/verify_s21_server_tree.py` and ran it successfully. The
+verifier pins twelve files from `D:\GameServer S21\Data`, rechecks exact rows
+271..279, Circle Shield `10/30/20`, and Wind Soul's five full-damage
+5th-master barrages. It also confirms the supplied `GameServer` folder has no
+source/PDB/MAP/project dump. This is a durable data-contract check only; the
+protected `IGC.GameServer2_R.exe` was not modified and no handler/class ABI was
+invented. Live server authority remains `OPEN`.
+
+**SERVER BUILD CHECKPOINT — 2026-09-15:** Rebuilt the isolated Ex603CS Win32
+GameServer target after the mapping comment, overriding both `OutDir` and
+`IntDir` into `ExGameServer\Tests\GrowLancerBuild`. Build/link passed and
+produced `GameServerCS.exe` SHA-256
+`149D0BA4D7F2029CB3E6B32CD1121C5136A4EA083D0E5DF694E62E1FF463317C`.
+No server was launched or deployed; this remains compilation evidence only.
+
+**SOURCE PATH CORRECTION — 2026-09-15:** The older historical note that
+described `C:\Users\DELL\Desktop\Skills` as the S21 source is retained for
+audit only. The user identified those attached files as sent in error; current
+verifiers, descriptor paths and reverse docs now use the read-only
+`D:\GameServer S21\Data` tree, whose hashes match the accepted contracts.
+
+**CLASS CONTRACT CHECKPOINT — 2026-09-15:** Re-ran the direct S21 class
+profile verifiers. `CalcCharacter.lua` confirms base class constant 7 and the
+Grow Lancer attack/defense/AG branches; `StatSpecialize.xml` confirms class
+row 8 options `(1,1)` and `(2,4)`; `CalcCharacter.ini` confirms the DB-backed
+life/mana delegation and directed GL PvP rates. These are source/config
+contracts only. The RISE class slot, defaults, login/packet/persistence and
+live stat application remain fail-closed.

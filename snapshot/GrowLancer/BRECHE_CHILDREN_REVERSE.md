@@ -543,6 +543,38 @@ audit is not a live exhaustion/reallocation regression test.
 
 ### Final sprite submission follow-up
 
+The RISE adapter now keeps the 7EF7 flare on a private per-slot marker because
+the pinned S21 `Effect/flare01.OZJ` is byte-identical to native SS6
+`BITMAP_LIGHT`. `CreateBrecheSprite` captures the free slot before calling the
+shared allocator, marks only an unambiguous successful allocation, and leaves
+native subtype0/additive blending intact. Allocation reuse, render-pass
+retirement and the low-Z pass clear the marker. `RenderSprite` applies the
+recovered S21 1727079 envelope (`Visible ? +.1 : -.1`, clamped to `.2..1`)
+only for that marker; ordinary SS6 sprites still use their existing path.
+
+`RenderBrecheFireSprite` flushes the native sprite queue before changing the
+bound texture's wrap mode, uses the verified S21 `GL_LINEAR/GL_CLAMP` contract,
+submits the normal full-UV native billboard, then flushes and restores the
+previous sampler state. This closes the scoped sampler/state boundary without
+mutating the shared `BITMAP_LIGHT` registration. The adapter is source/build
+verified; pass frequency, GPU visibility and owner pixel parity remain runtime
+acceptance gates.
+
+### S21 flare-render function boundary pinned
+
+The preserved image dump now has a byte-pinned verifier for renderer
+`1727079`. It reads the sprite visibility byte at `+0x0B`, advances the
+visibility envelope by `+0.1` when visible and `-0.1` otherwise, and clamps it
+to `[0.2, 1.0]` using the dump's `.1`, `.2` and `1.0` constants. The resulting
+envelope is multiplied by the stored sprite scale before the texture's native
+width/height fields are read. The renderer has a separate `0x7FEA`
+FormationMark UV jump table; Breche's proven `0x7EF7` `flare01.jpg` does not
+enter that branch. Its A13A00 `1x1` seed therefore follows the default full-UV
+path and reaches the native `18E8B0C` billboard primitive with the stored axis
+mask. This closes the dump-side flare branch and keeps the RISE adapter on the
+native full-UV route; it does not promote owner pixels, GPU visibility or pool
+retirement to PASS.
+
 ### S21 loader metadata and sampler follow-up
 
 Registration18BD7AC/18BD7CC/18BD50C passes respectively8084/8085/806E,
@@ -602,8 +634,9 @@ No second multiplication by particle Alpha occurs, matching selected S21
 render branches. Native RenderSprite transforms Position by CameraMatrix,
 halves dimensions and rotates around camera Z; component3 uses glColor3fv.
 Its optional shader path queues the same geometry/RGB with alpha1.
-S21 axis-mask4 full geometry/UV and loaded component metadata still require
-verification before calling this primitive render contract fully equivalent.
+S21 axis-mask4 full geometry/UV and loaded component metadata are now pinned
+by the selected-branch verifier below; exact GPU state and pixel equivalence
+remain runtime questions.
 Further anchored18E8D4B..18E9006: nonzero rotation creates corners with
 local Z=0; mask tests1/2/4 at18E8E9F/18E8EBD/18E8EDB assign rotation
 to angle X/Y/Z respectively. Mask4 selects Z only, then D30B1A matrix,
@@ -616,6 +649,16 @@ only submit mask4. This narrows the compatibility requirement to this path.
 Native render tail clamps negative LifeTime to0; S21 selected common tail
 1640E76 releases handle and advances. For private integer ticks, life cannot
 become negative from the current selected updates, so this clamp is inactive.
+
+The byte-pinned `verify_breche_particle_render_contract.py` now closes the
+selected static renderer boundary: S21 `1620984` gates Live and the two
+terrain-height passes, derives dimensions from the loaded texture and Scale,
+and dispatches `8084/0`, `806E/4` and `8085/0` to the same native billboard
+primitive `18E8B0C`. RISE's private Breche marker reaches
+`RenderBrecheFireSprite` after the same width/height computation, while the
+ordinary SS6 switch remains untouched. This is static branch equivalence only;
+GPU texture visibility, render-pass retirement, pool reuse and matching owner
+pixels remain runtime gates.
 
 Read actual native PARTICLE in Main5.2_RISE/_struct.h: named fields map
 S21 savedRGB+7C ->TurningForce, upward increment+6C ->Gravity (despite
@@ -1095,10 +1138,14 @@ Angle, builds a matrix through0xD30B1A, transforms vector+0xF8 through
 0xD3189D and adds its result to Position. True-path0x1595A2C..0x1595B66
 then returns via0x1595C43..0x1595C4F (security cookie check only).
 Reset0x1315E97 calls0xD2E65E for vector+0xF8 at0x131615C..0x1316165;
-that helper explicitly zeros all three float components. Later constructor
-writes to this vector must still be checked before claiming stationary
-world positions. Do not skip common movement just because the primary
-branch contains no Position write.
+that helper explicitly zeros all three float components. The generic
+constructor at0x143EB14..0x143EB56 also zeroes all three components after
+the record is selected. Auditing the selected Breche entries shows no later
+write to this vector: 0x809F/sub0, 0x809E/sub14 (both records), 0x81EC/sub0
+and 0x806E/sub15 only write their type-specific life/scale/alpha/angle
+fields. Therefore their common secondary movement receives a zero vector,
+so they remain at the copied target position; no caster/target movement is
+being invented in the 5.2 adapter.
 
 After common movement, these types skip the413/7EF7 special decrement and
 recursion cases.0x1594624 tests life<=0 and calls destructor0x14B6820 at
@@ -1114,11 +1161,116 @@ This supports native effect-pool reset ownership, not deleting the actor
 owner or recursively destroying arbitrary effects with the same owner.
 Full root/grandchild behavior remains unclosed.
 
-Next exact actions: remaining constructor writes to vector+F8;809E/809F
-render branches;806E/sub15 update/render and generic max-life reset;
-root5FD/sub1 primary/model-animation/render paths. The former secondary
+### 0x806E subtype15 emitter producer boundary pinned (2026-09-14)
+
+The hash-pinned verifier `tools/grow_lancer/verify_breche_emitter_dump_contract.py`
+now checks the exact primary producer at `0x14C1859..0x14C1B0D`.  The selected
+subtype is15; a null `+0x34C` owner clears Live and exits.  With a live owner,
+the bounded loop runs exactly twice, obtains the owner model by `owner.Type`,
+samples a random valid bone through `0x132EC63`, and submits the `0x7EF7`
+flare through `0x172760A`.  Its random choice submits only the native particle
+wrapper triplet `8084/0`, `806E/4`, or `8085/0` through `0x1724176`.
+
+This proves that the emitter has no fourth direct model/terrain layer.  The
+RISE adapter keeps `kBrecheEmitterModel` lifecycle-only and delegates the same
+flare/particle families to the native sprite/particle pools; it does not copy
+S21 addresses or object layouts.  The verifier passed against the preserved
+S21 dump and the current source.  Generic max-life reset, allocator pressure,
+owner-bone runtime pixels and cleanup stress remain open.
+
+Next exact actions: 809E/809F render branches; generic `806E/sub15` reset and
+pool-retirement boundary; root5FD/sub1 primary/model-animation/render paths.
+The former secondary
 handler lead0x157F0A5 is EXCLUDED: its apparent table entry was outside
 the dispatch bounds. Actual5FD secondary dispatch selects generic movement
 0x15945E5; see BRECHE_REVERSE.md correction and focused table verifier.
 Keep private RISE resources and native APIs; S21 addresses/layouts are
 reverse evidence only, never runtime port constants.
+
+### Breche private particle render retirement correction (2026-09-14)
+
+The RISE `RenderParticles` branch for the three S21 Breche particle families
+now renders the marked slot exactly once and then falls through to the common
+post-render lifetime clamp.  The former `continue` skipped that shared tail
+and made the private route structurally different from ordinary SS6 particle
+records.  The ordinary type switch remains inside the `else` branch, so a
+Breche slot is not rendered a second time by the legacy switch.  This is a
+source/static correction only; allocator reuse, GPU pixels and owner-target
+visual parity still require isolated runtime evidence.
+
+`verify_breche_particle_render_contract.py` passes against the pinned S21 dump
+and current source.  It explicitly rejects a private-route `continue`, checks
+the native full-UV sprite adapter, and confirms the SS6 switch is kept in the
+non-Breche branch.
+
+### S21 pool-retirement boundary — 2026-09-14
+
+`tools/grow_lancer/verify_breche_pool_retirement_dump.py` now pins the shared
+S21 effect destructor and common tail.  Unlisted model records, including the
+Breche controller `0x5FD` and emitter `0x806E`, take the default reset call
+`0x1315E97`; only the explicitly listed legacy types receive type-specific
+cleanup.  The common tail moves first, calls the destructor when lifetime is
+exhausted, and special-decrements only `0x413`/`0x7EF7`.  RISE therefore keeps
+Breche model-effect reset separate from its fire `PARTICLE` pool and does not
+send particle records through `EffectDestructor`.  Allocator reuse/exhaustion,
+GPU state restoration and owner-target pixels remain runtime-open.
+
+### Owner controller subtype 0 and owner-only children (2026-09-15)
+
+The fresh S21 cast and the per-character branch prove that `0x5FD/subtype0`
+is an owner-side controller.  It is allocated at `0x142B21D` from the
+character update branch for skill `0x117`; the target receive path is the
+separate `0x5FD/subtype1` allocation at `0x12CB7F5`.  The owner controller has
+`Life/MaxLife=20` and does not preallocate the five receive children.
+
+Its primary updater is `0x1535478` (selected by `0x153542A`).  Each primary
+tick, with a valid owner, it submits the following native families through the
+ordinary pools: three random owner particle-wrapper records (`0x8084/sub0`,
+`0x806E/sub4`, `0x8085/sub0`), ten `0x8073` pin-light joints using the extended
+CreateJoint call (subtype 5, target null, scale 6.0, color `1,0.7,0.15`), and
+one `0xAD9/sub6` wind model record with scale 3.0 and skill metadata 279.
+Owner-local random positions are copied from the controller transform; no
+target position is used by this path.  If the owner is null, the controller
+clears Live and exits.
+
+The exact timed child submissions are:
+
+| remaining life | S21 type/subtype | port role | exact scalar/light evidence |
+|---|---|---|---|
+| 17 | `0x80BC/sub1` | owner ring-of-gradation | scale 5.5, red light `1,0.1,0.1` |
+| 17 | `0x81EC/sub0` | owner lightmarks | scale 6.0, red light `1,0.1,0.1` |
+| 7 | `0x81EB/sub0` | owner fire ring | scale 6.5, white light |
+| 15 | `0x809F/sub2` | owner twilight-02 | scale 3.0, skill metadata 279 |
+| 15 | `0x809E/sub13` (twice) | owner twilight-01 | creation scale 0, skill metadata 279 |
+
+The owner-specific update branches are distinct from the target branches:
+`0x809F/sub2` subtracts `0.1` from scale and adds 15 degrees to `Angle.z`
+per tick (`0x14FB821..0x14FB87A`); `0x809E/sub13` adds 15 degrees and, when
+skill metadata is 279, adds `0.5` to scale (`0x14FC2EA..0x14FC3C5`) while
+applying the same life-dependent alpha envelope.  The target `0x809E/sub14`
+branch remains a separate +0.1-scale path.  The common movement vector for
+these records is zero, so the copied owner-local/ground position is not
+silently advanced toward a target.
+
+The isolated adapter mirrors these roles with private owner markers and native
+RISE particle/joint/effect pools.  GPU owner pixels, exact random distribution,
+blend/UV flags and pool-reuse stress are still runtime-open; no target root is
+replayed on the caster.
+
+### Owner position rewrite and timed-layer split (2026-09-15)
+
+The owner updater's initial vector/matrix sequence is now decoded without
+guessing object offsets: `D3189D(input=(0,-200,0), matrix=D30B1A(owner
+controller Angle), output=controller Position)` followed by component-wise
+addition of the allocator's owner snapshot `+0x1D0`.  The 5.2 adapter maps this
+to `owner.Position + VectorRotate((0,-200,0), effect.Angle)` in the private
+controller path.  Particle wrappers run first, before the rewrite; pin lights,
+ring-of-gradation and lightmarks consume the rewritten controller position.
+
+The life-7 `81EB/sub0` and life-15 `809F/sub2` plus both `809E/sub13` calls
+pass `+0x1D0` rather than `+0x158`, so their 5.2 positions are taken from the
+live owner snapshot.  This distinction is now guarded by
+`verify_breche_owner_adapter.py`; it prevents the target-contact position or
+the owner-local offset from being accidentally reused for the timed layers.
+The S21 wind call's stack-local position is initialized only on the life-7
+branch, therefore no non-life-7 coordinate is promoted to a claimed contract.

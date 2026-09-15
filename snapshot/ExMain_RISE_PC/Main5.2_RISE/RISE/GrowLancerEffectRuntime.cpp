@@ -1,5 +1,8 @@
 #include "stdafx.h"
 #include "GrowLancerEffectRuntime.h"
+#include "GrowLancerTick.h"
+#include "../../../GrowLancer/compat/MagicQuantumSequence.h"
+#include "../../../GrowLancer/compat/MagicQuantumClock.h"
 #include "GrowLancerRuntimeQA.h"
 #include "GrowLancerResources.h"
 #include "ZzzBMD.h"
@@ -10,6 +13,7 @@
 #include "ZzzEffect.h"
 #include "ZzzLodTerrain.h"
 #include "GrowLancerTerrainAdapter.h"
+#include "GrowLancerSpriteAdapter.h"
 #include "GrowLancerFireParticle.h"
 #include "GrowLancerBrecheGround.h"
 #include "GrowLancerSpinCross.h"
@@ -20,14 +24,35 @@
 #include "GrowLancerHarshWind.h"
 #include "GrowLancerMagicPinTick.h"
 #include "GrowLancerWrathParticle.h"
+#include "GrowLancerWrathGroundPulse.h"
+#include "GrowLancerWrathSprites.h"
+#include "GrowLancerWrathPersistentTick.h"
+#include "GrowLancerCirclePersistent.h"
+#include "GrowLancerWrathEmission.h"
 #include "GrowLancerObsidianTick.h"
 #include "GrowLancerClashTick.h"
 #include "../../../GrowLancer/compat/S21CastAnimationSpeed.h"
 #include "ZzzObject.h"
 #include "ZzzOpenglUtil.h"
+#include "SkillEffectMgr.h"
+#include <cstdint>
+#include "../../../GrowLancer/compat/AnimationSampleBatch.h"
+#include "../../../GrowLancer/compat/AnimationSampleSlot.h"
+#include "../../../GrowLancer/compat/AnimationActorIdentity.h"
 
 namespace rise { namespace growlancer {
 namespace {
+AnimationSampleCursor gPrimaryAnimationCursors[MAX_EFFECTS];
+AnimationSampleCursor gSecondaryAnimationCursors[MAX_SKILL_EFFECTS];
+AnimationActorIdentity<uintptr_t> gAnimationActorIdentity;
+AnimationSampleBatch<1> gAnimationObservation;
+unsigned gAnimationObservationSerial = 0;
+bool gAnimationObservationArmed = false;
+MagicQuantumClock gMagicClock;
+bool gMagicClockStarted = false;
+bool gMagicFrameOwned = false;
+bool gMagicFrameRan = false;
+unsigned long long gMagicPendingBefore = 0, gMagicCompleted = 0;
 
 class ScopedMeshTriangles
 {
@@ -223,6 +248,8 @@ void EmitSpinStepWeaponBlur(OBJECT& effect, float animationFactor)
     if (!owner || !Models || owner->Type < 0 ||
         owner->Type >= RuntimeModelLimit(MAX_MODELS))
         return;
+    if (!EnsureSpinMotionBlurBitmap())
+        return;
 
     BMD& ownerModel = Models[owner->Type];
     const unsigned short action = owner->CurrentAction;
@@ -270,6 +297,12 @@ void EmitSpinStepWeaponBlur(OBJECT& effect, float animationFactor)
             VectorAdd(start, rotatedOffset, start);
             VectorAdd(end, rotatedOffset, end);
             CreateObjectBlur(&effect, start, end, light, 1, false, 0, -1, 1);
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+            // Diagnostic only: prove that the S21 style-1 weapon ribbon
+            // reaches the native blur allocator for this sampled frame.
+            RecordSpinRenderQA(effect, "weapon-blur-submit", 1, 0, 33, 0,
+                1);
+#endif
         }
         sampleFrame += sampleStep;
     }
@@ -352,12 +385,12 @@ void EmitMagicHitTick(OBJECT& effect)
     Vector(0.6f, 0.7f, 1.0f, light);
     for (int i = 0; i < 6; ++i)
     {
-        CreateParticle(BITMAP_CLUD64, position, effect.Angle, light, 19,
+        CreateMagicPinParticle(BITMAP_CLUD64, position, effect.Angle, light, 19,
             (rand() % 2) ? 2.5f : 3.5f, 0);
     }
     Vector(0.3f, 0.3f, 0.5f, light);
     for (int i = 0; i < 2; ++i)
-        CreateParticle(kShockwave2Bitmap, effect.Position, effect.Angle, light,
+        CreateMagicPinParticle(kShockwave2Bitmap, effect.Position, effect.Angle, light,
             1, 0.69f, &effect);
 }
 
@@ -430,6 +463,95 @@ void UpdateClashChildFromStoredDirection(OBJECT& effect, float height)
 
 }
 
+static AnimationSampleCursor* FindAnimationSampleCursor(const OBJECT* effect)
+{
+    if (!effect) return nullptr;
+    unsigned index = 0;
+    const uintptr_t address = reinterpret_cast<uintptr_t>(effect);
+    if (AnimationSampleSlot(address, reinterpret_cast<uintptr_t>(&Effects[0]),
+        static_cast<uintptr_t>(sizeof(OBJECT)), MAX_EFFECTS, index))
+    {
+        return &gPrimaryAnimationCursors[index];
+    }
+    if (AnimationSampleSlot(address, reinterpret_cast<uintptr_t>(g_SkillEffects.GetEffect(0)),
+        static_cast<uintptr_t>(sizeof(OBJECT)), MAX_SKILL_EFFECTS, index))
+    {
+        return &gSecondaryAnimationCursors[index];
+    }
+    return nullptr;
+}
+
+bool ResetEffectAnimationSamples(OBJECT* effect)
+{
+    AnimationSampleCursor* cursor = FindAnimationSampleCursor(effect);
+    if (!cursor) return false;
+    cursor->Reset();
+    return true;
+}
+
+void ResetAllEffectAnimationSamples()
+{
+    gMagicClock.Reset();
+    gMagicClockStarted = false;
+    gMagicFrameOwned = false;
+    gMagicFrameRan = false;
+    gAnimationActorIdentity.Invalidate();
+    gAnimationObservation.Invalidate();
+    gAnimationObservationSerial = 0;
+    gAnimationObservationArmed = false;
+    for (auto& cursor : gPrimaryAnimationCursors) cursor.Reset();
+    for (auto& cursor : gSecondaryAnimationCursors) cursor.Reset();
+}
+
+void RetireCharacterAnimationSamples(const OBJECT* actor)
+{
+    if (gAnimationActorIdentity.Matches(reinterpret_cast<uintptr_t>(actor)))
+        ResetAllEffectAnimationSamples();
+}
+
+void PublishCharacterAnimationObservation(const OBJECT& actor)
+{
+    const uintptr_t token = reinterpret_cast<uintptr_t>(&actor);
+    if (!gAnimationObservationArmed || !gAnimationActorIdentity.Matches(token)) return;
+    if (!actor.Live || !Hero || &actor != &Hero->Object ||
+        actor.Type != MODEL_PLAYER || SceneFlag != MAIN_SCENE ||
+        gAnimationObservationSerial == 0xffffffffu)
+    {
+        ResetAllEffectAnimationSamples();
+        return;
+    }
+    const unsigned generation = gAnimationActorIdentity.Bind(token);
+    // One ACTUAL native animation call, possibly fractional. Do not replay
+    // this sample as multiple source40ms ticks or fabricate skipped frames.
+    if (!generation || !gAnimationObservation.Begin(generation,
+        ++gAnimationObservationSerial, actor.CurrentAction) ||
+        !gAnimationObservation.AppendStep(actor.CurrentAction, actor.AnimationFrame) ||
+        !gAnimationObservation.Publish())
+    {
+        ResetAllEffectAnimationSamples();
+        return;
+    }
+    // Preserve the first observed exit step, then stop collecting idle frames.
+    if (actor.CurrentAction != 287) gAnimationObservationArmed = false;
+}
+
+bool ReadCharacterAnimationObservation(const OBJECT& controller,
+    unsigned short& action, float& frame)
+{
+    if (!controller.Live || controller.Type != kMagicPinControllerModel ||
+        controller.SubType != 0 || !Hero || controller.Owner != &Hero->Object ||
+        !Hero->Object.Live || SceneFlag != MAIN_SCENE || !gAnimationObservationSerial)
+        return false;
+    const uintptr_t token = reinterpret_cast<uintptr_t>(controller.Owner);
+    if (!gAnimationActorIdentity.Matches(token)) return false;
+    AnimationSampleCursor* cursor = FindAnimationSampleCursor(&controller);
+    if (!cursor) return false;
+    const unsigned generation = gAnimationActorIdentity.Bind(token);
+    // Bind rejects duplicate batches without rewinding its existing cursor.
+    cursor->Bind(generation, gAnimationObservationSerial);
+    return cursor->Next(gAnimationObservation, action, frame);
+}
+
 bool IsEffectType(int type)
 {
     return (type >= kFirstModel && type <= kLastModel) ||
@@ -455,11 +577,16 @@ bool IsCircleShinyEffect(const OBJECT& effect)
 
 bool IsBrecheEffectType(int type)
 {
-    return type >= kBrecheControllerModel && type <= kBrecheEmitterModel;
+    return type >= kBrecheControllerModel && type <= kBrecheOwnerTwilight01Model;
 }
 
 void InitializeEffect(OBJECT& effect)
 {
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+    if (effect.Type == kSpinControllerModel || effect.Type == kSpinCrossModel ||
+        (effect.Type == kSpriteCarrierModel && effect.SubType == kCarrierSpinGround))
+        RecordSpinOutcomeQA(effect, 2, effect.m_sTargetIndex);
+#endif
     effect.BlendMesh = -2;
     effect.BlendMeshLight = 1.0f;
     switch (effect.Type)
@@ -468,7 +595,21 @@ void InitializeEffect(OBJECT& effect)
     {
         effect.Timer = 0.f;
         effect.LifeTime = 20.f;
-        if (effect.SubType != 1 || !effect.Owner)
+        if (!effect.Owner)
+        {
+            effect.LifeTime = 0.f;
+            break;
+        }
+        if (effect.SubType == 0)
+        {
+            // S21 5FD/subtype0 is the caster-side control record.  It does
+            // not create the five receive children below; its primary
+            // update producer owns the pin/ring/wind layers separately.
+            effect.Alpha = 1.f;
+            effect.AttackPoint[0] = 0;
+            break;
+        }
+        if (effect.SubType != 1)
         {
             effect.LifeTime = 0.f;
             break;
@@ -489,6 +630,30 @@ void InitializeEffect(OBJECT& effect)
             effect.Light, 15, effect.Owner, -1, 0, 0, 0, 0.f);
         break;
     }
+    case kBrecheOwnerRingModel:
+    case kBrecheOwnerLightMarksModel:
+    case kBrecheOwnerFireRingModel:
+    case kBrecheOwnerWindModel:
+    case kBrecheOwnerTwilight02Model:
+    case kBrecheOwnerTwilight01Model:
+        // These are emitted by the S21 5FD/subtype0 primary handler, not by
+        // the target receive root.  Their exact S21 records are separate
+        // pool entries; keep the ownership explicit in the RISE carrier.
+        effect.Timer = 0.f;
+        effect.LifeTime = effect.Type == kBrecheOwnerFireRingModel ? 12.f : 20.f;
+        effect.Alpha = effect.Type == kBrecheOwnerWindModel ? .9f :
+            (effect.Type == kBrecheOwnerLightMarksModel ? 0.f :
+            ((effect.Type == kBrecheOwnerTwilight01Model ||
+              effect.Type == kBrecheOwnerTwilight02Model) ? .1f :
+             (effect.Type == kBrecheOwnerFireRingModel ? 0.f : 1.f)));
+        // S21's common object reset initializes +0x74 (BlendMesh) to zero.
+        // wind_foce has exactly one mesh whose texture slot is also zero, so
+        // RenderBody flag 2 enters the native blend-mesh branch.  Preserve
+        // that selected material contract explicitly; the generic private
+        // carrier default of -2 is broader than the S21 object state.
+        if (effect.Type == kBrecheOwnerWindModel)
+            effect.BlendMesh = 0;
+        break;
     case kBrecheLightMarksModel:
     case kBrecheTwilight02Model:
     case kBrecheTwilight01Model:
@@ -593,7 +758,7 @@ void InitializeEffect(OBJECT& effect)
         vec3_t light;
         TransformFromObject(effect, 0.0f, -330.0f, 95.0f, position);
         Vector(0.48f, 0.73f, 1.0f, light);
-        CreateParticle(BITMAP_ENERGY, position, effect.Angle, light,
+        CreateMagicPinParticle(BITMAP_ENERGY, position, effect.Angle, light,
             effect.SubType == 0 ? 9 : 10, 1.0f, NULL);
         TransformFromObject(effect, 0.0f, 0.0f, -30.0f, position);
         CreateEffect(kMagicPinAuxModel, position, effect.Angle, light,
@@ -812,11 +977,296 @@ void InitializeEffect(OBJECT& effect)
     }
 }
 
+void BeginMagicPinFrame()
+{
+    gMagicPendingBefore = gMagicCompleted = 0;
+    gMagicFrameOwned = false;
+    gMagicFrameRan = false;
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+    // Explicit isolated-process opt-in; never enabled in a normal client build.
+    static const bool enabled = []()
+    {
+        char value[2] = {};
+        return GetEnvironmentVariableA("RISE_GL_MAGIC_FIXED_TICK_QA", value, 2) == 1 &&
+            value[0] == '1';
+    }();
+    if (!enabled) return;
+    // The opt-in clock belongs to an active Magic cast or its live model
+    // records. Do not replay an unrelated SS6 action after Magic has cleaned
+    // up; target-owned internal 281 can still keep its own controller alive.
+    const auto hasLiveMagicModel = []()
+    {
+        if (!Effects) return false;
+        for (int i = 0; i < MAX_EFFECTS; ++i)
+        {
+            const OBJECT& effect = Effects[i];
+            if (effect.Live && (effect.Type == kMagicPinControllerModel ||
+                effect.Type == kMagicPin01Model ||
+                effect.Type == kMagicPin03Model ||
+                effect.Type == kMagicPinRootModel ||
+                effect.Type == kMagicPinAuxModel)) return true;
+        }
+        return false;
+    };
+    if (!Hero || !Hero->Object.Live || Hero->Object.Type != MODEL_PLAYER ||
+        SceneFlag != MAIN_SCENE ||
+        !gAnimationActorIdentity.Matches(reinterpret_cast<uintptr_t>(&Hero->Object)) ||
+        (Hero->Object.CurrentAction != 287 && !hasLiveMagicModel()))
+    {
+        gMagicClock.Reset();
+        gMagicClockStarted = false;
+        return;
+    }
+    const unsigned now = GetTickCount();
+    if (!gMagicClockStarted)
+    {
+        gMagicClock.Start(now);
+        gMagicClockStarted = true;
+    }
+    if (gMagicClock.Observe(now))
+    {
+        gMagicFrameOwned = true;
+        gMagicPendingBefore = gMagicClock.PendingMilliseconds();
+    }
+#endif
+}
+
+bool MagicPinFrameOwnsActor(const OBJECT& actor)
+{
+    return gMagicFrameOwned && Hero && &actor == &Hero->Object &&
+        actor.CurrentAction == 287;
+}
+
+bool MagicPinFrameOwnsParticles() { return gMagicFrameOwned; }
+
+bool MagicPinFrameOwnsModel(const OBJECT& effect)
+{
+    return gMagicFrameOwned && (effect.Type == kMagicPinControllerModel ||
+        effect.Type == kMagicPin01Model || effect.Type == kMagicPin03Model ||
+        effect.Type == kMagicPinRootModel || effect.Type == kMagicPinAuxModel);
+}
+
+void RunMagicPinFrame()
+{
+    if (!gMagicFrameOwned || gMagicFrameRan || !Hero) return;
+    gMagicFrameRan = true;
+    // Consume only completed batches; no conversion through the capped FPS factor.
+    while (gMagicClock.Due())
+    {
+        const unsigned ticks = gMagicClock.Due() > 0xffffffffull ?
+            0xffffffffu : static_cast<unsigned>(gMagicClock.Due());
+        const unsigned completed = RunMagicPinQuanta(Hero->Object, ticks);
+        gMagicCompleted += completed;
+        if (!gMagicClock.Consume(completed) || completed != ticks) break;
+    }
+}
+
+void EndMagicPinFrame()
+{
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+    RecordMagicFrameQA(gMagicFrameOwned, gMagicFrameRan, gMagicPendingBefore,
+        gMagicClock.PendingMilliseconds(), gMagicCompleted);
+#endif
+    gMagicFrameOwned = false;
+}
+
+unsigned RunMagicPinQuanta(OBJECT& actor, unsigned ticks)
+{
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+    auto valid = [&actor]()
+    {
+        return Hero && &actor == &Hero->Object && actor.Live &&
+            actor.Type == MODEL_PLAYER && SceneFlag == MAIN_SCENE &&
+            gAnimationActorIdentity.Matches(reinterpret_cast<uintptr_t>(&actor));
+    };
+    auto animation = [&actor]() { StepMagicPinActor(actor); };
+    auto models = []() { StepMagicPinModels(); };
+    auto particles = []() { StepMagicPinParticles(); };
+    return RunMagicQuantumSequence(ticks, valid, animation, models, particles);
+#else
+    (void)actor;
+    (void)ticks;
+    return 0;
+#endif
+}
+
+void StepMagicPinModels()
+{
+    auto select = [](const OBJECT& effect)
+    {
+        return effect.Type == kMagicPinControllerModel ||
+            effect.Type == kMagicPin01Model || effect.Type == kMagicPin03Model ||
+            effect.Type == kMagicPinRootModel || effect.Type == kMagicPinAuxModel;
+    };
+    auto update = [](OBJECT& effect, float factor) { UpdateEffect(effect, factor); };
+    auto destroy = [](OBJECT* effect) { EffectDestructor(effect); };
+    StepPrimaryModelPhase(Effects, MAX_EFFECTS, select, update, destroy);
+}
+
+namespace
+{
+void UpdateBrecheOwnerControllerPosition(OBJECT& effect)
+{
+    if (!effect.Owner || !effect.Owner->Live)
+        return;
+
+    // S21 0x15354EA..0x1535561 rotates the controller-local vector
+    // (0,-200,0) by the controller Angle and writes the result directly to
+    // the controller Position (D3189D's third argument).  It then adds the
+    // owner snapshot that the generic allocator keeps at +0x1D0.  In native
+    // RISE terms that is owner world position plus the rotated local offset;
+    // do not add the owner position twice or copy the S21 offset literally.
+    vec3_t localOffset, rotatedOffset;
+    float matrix[3][4];
+    Vector(0.f, -200.f, 0.f, localOffset);
+    AngleMatrix(effect.Angle, matrix);
+    VectorRotate(localOffset, matrix, rotatedOffset);
+    VectorAdd(effect.Owner->Position, rotatedOffset, effect.Position);
+}
+
+void SpawnBrecheOwnerPinLights(const OBJECT& effect)
+{
+    // S21 0x1535950..0x1535BDB runs ten iterations.  The call at 0x1535BC9
+    // is the extended CreateJoint family with type 0x8073, subtype 5,
+    // target NULL and scale 6.0.  RISE's native CreateJoint has the same
+    // semantic fields; its S21-only trailing argument is intentionally not
+    // copied.
+    vec3_t color;
+    Vector(1.f, .7f, .15f, color);
+    for (int i = 0; i < 10; ++i)
+    {
+        vec3_t position;
+        VectorCopy(effect.Position, position);
+        position[0] += static_cast<float>(rand() % 101 - 50);
+        position[1] += static_cast<float>(rand() % 101 - 50);
+        vec3_t angle;
+        VectorCopy(effect.Angle, angle);
+        // S21 calls 0x1267C3C with [-30, 30] for local X, then adds the
+        // controller angle.  Keep the full signed range; the previous
+        // rand()%31 expression only produced [-30, 0] and biased the joint.
+        angle[0] += static_cast<float>(rand() % 61 - 30);
+        angle[2] += static_cast<float>(rand() % 21 + 70);
+        CreateJoint(BITMAP_PIN_LIGHT, position, position, angle, 5, NULL,
+            6.f, -1, 0, 0, -1, color, -1);
+    }
+}
+
+void SpawnBrecheOwnerParticles(const OBJECT& effect)
+{
+    // The three source branches are the same 8084/0, 806E/4 and 8085/0
+    // family used by the receive emitter.  They have no owner pointer in
+    // S21.  The caller passes the controller Position directly (there is no
+    // caller-side random XYZ offset); the only random scalar is the helper's
+    // integer 1..2 result (0x1267C3C, divisor 1).  Keep the native particle
+    // pool and its private Breche tick mode.
+    vec3_t light;
+    Vector(.4f, .4f, .4f, light);
+    for (int i = 0; i < 3; ++i)
+    {
+        vec3_t position;
+        VectorCopy(effect.Position, position);
+        const float scale = static_cast<float>(rand() % 2 + 1);
+        CreateBrecheFireParticle(rand() % 3, position,
+            const_cast<float*>(effect.Angle), light, scale);
+    }
+}
+
+void CreateBrecheOwnerTimedLayers(OBJECT& effect)
+{
+    if (!effect.Owner || !effect.Owner->Live)
+        return;
+
+    // The S21 timed calls read both Angle and Position from the owner pointer
+    // (0x34C + 0x164 / +0x158), except the fire/twilight calls whose equivalent
+    // position is the controller's allocator snapshot at +0x1D0.  Both sources
+    // are the live caster position here; none of these visible ground layers
+    // uses the controller's forward -200 carrier offset.
+    const OBJECT& owner = *effect.Owner;
+    vec3_t ownerAngle;
+    vec3_t ownerPosition;
+    VectorCopy(owner.Angle, ownerAngle);
+    VectorCopy(owner.Position, ownerPosition);
+    vec3_t red;
+    Vector(1.f, .1f, .1f, red);
+    if (effect.LifeTime == 17.f)
+    {
+        // S21 0x1535C80 (0x80BC/sub1, scale 5.5) followed by
+        // 0x1535CEA (0x81EC/sub0, scale 6.0).
+        CreateEffect(kBrecheOwnerRingModel, ownerPosition, ownerAngle,
+            red, 1, effect.Owner, -1, 0, kBrecheSkill, 0, 5.5f);
+        CreateEffect(kBrecheOwnerLightMarksModel, ownerPosition, ownerAngle,
+            red, 0, effect.Owner, -1, 0, kBrecheSkill, 0, 6.f);
+    }
+    if (effect.LifeTime == 7.f)
+    {
+        vec3_t white;
+        Vector(1.f, 1.f, 1.f, white);
+        // S21 0x1535DB1: 0x81EB/sub0, scale 6.5.
+        // S21 passes the generic owner snapshot (+0x1D0) here, not the
+        // controller Position after its -200 local offset was applied.
+        CreateEffect(kBrecheOwnerFireRingModel, ownerPosition, ownerAngle,
+            white, 0, effect.Owner, -1, 0, kBrecheSkill, 0, 6.5f);
+    }
+    if (effect.LifeTime == 15.f)
+    {
+        // S21 0x15360DB: 0x809F/sub2, scale 3.0, and two 0x809E/sub13
+        // records with supplied scale 0 (native constructor default 0.9).
+        // The two twilight records likewise read +0x1D0 (owner world
+        // position); the ring/marks above intentionally use effect.Position.
+        CreateEffect(kBrecheOwnerTwilight02Model, ownerPosition, ownerAngle,
+            red, 2, effect.Owner, -1, kBrecheSkill, 0, 0, 3.f);
+        CreateEffect(kBrecheOwnerTwilight01Model, ownerPosition, ownerAngle,
+            red, 13, effect.Owner, -1, kBrecheSkill, 0, 0, 0.f);
+        CreateEffect(kBrecheOwnerTwilight01Model, ownerPosition, ownerAngle,
+            red, 13, effect.Owner, -1, kBrecheSkill, 0, 0, 0.f);
+    }
+    if (effect.LifeTime == 7.f)
+    {
+        // S21 0x1535DCB..0x1535FC7 copies the allocator owner snapshot,
+        // subtracts exactly 5.0 from local Y, and creates AD9/subtype6 once
+        // inside the same remaining-life-7 gate.  Creating it every tick at
+        // the -200 controller position produced the oversized, displaced
+        // white arc observed in the 5.2 QA client.
+        vec3_t windPosition;
+        vec3_t windLight;
+        VectorCopy(ownerPosition, windPosition);
+        windPosition[1] -= 5.f;
+        // S21 0x1535E57..0x1535F18 builds (1,.2,.2), then multiplies
+        // every component by the exact 3.0 constant before the AD9 call.
+        Vector(3.f, .6f, .6f, windLight);
+        CreateEffect(kBrecheOwnerWindModel, windPosition, ownerAngle,
+            windLight, 6, effect.Owner, -1, kBrecheSkill, 0, 0, 3.f);
+    }
+}
+
+void UpdateBrecheOwnerTick(OBJECT& effect)
+{
+    if (!effect.Owner || !effect.Owner->Live)
+    {
+        effect.LifeTime = 0.f;
+        return;
+    }
+
+    // 0x15356B2..0x15357D4: three random particle branches per update.
+    SpawnBrecheOwnerParticles(effect);
+    // The first particle loop runs before this S21 controller-position
+    // rewrite; all pin/timed layers below consume the rewritten position.
+    UpdateBrecheOwnerControllerPosition(effect);
+    SpawnBrecheOwnerPinLights(effect);
+    CreateBrecheOwnerTimedLayers(effect);
+}
+}
+
 void UpdateEffect(OBJECT& effect, float animationFactor)
 {
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+    RecordControllerQASample(effect, animationFactor);
+#endif
     switch (effect.Type)
     {
     case kBrecheControllerModel:
+        if (effect.SubType == 0)
+            UpdateBrecheOwnerTick(effect);
         // Empty cached S21 model: no mesh/action; native tick owns expiry.
         break;
     case kBrecheLightMarksModel:
@@ -847,7 +1297,7 @@ void UpdateEffect(OBJECT& effect, float animationFactor)
             vec3_t position, light;
             model.TransformByObjectBone(position, &owner, rand() % model.NumBones);
             Vector(1.f, .2f, 0.f, light);
-            CreateSprite(BITMAP_LIGHT, position, 4.f, light, &owner, 0.f);
+            CreateBrecheSprite(BITMAP_LIGHT, position, 4.f, light, &owner, 0.f);
             Vector(1.f, 1.f, 1.f, light);
             const float scale = (rand() % 5 + 13) * .1f;
             const int variant = rand() % 3;
@@ -855,6 +1305,50 @@ void UpdateEffect(OBJECT& effect, float animationFactor)
         }
         break;
     }
+    case kBrecheOwnerRingModel:
+        // Exact S21 0x80BC/subtype1 branch (0x1518760..0x1518819):
+        // retain the ground position, but contract both the quad and its RGB
+        // by 1.1 every native tick.  Omitting this made the imported ring look
+        // like one frozen frame even though the carrier was still alive.
+        effect.Scale /= 1.1f;
+        effect.Light[0] /= 1.1f;
+        effect.Light[1] /= 1.1f;
+        effect.Light[2] /= 1.1f;
+        break;
+    case kBrecheOwnerFireRingModel:
+        // Exact S21 0x81EB/subtype0 branch (0x15385D2..0x153868B):
+        // constructor fixes life/max-life to 12 and alpha to zero. Rotate
+        // 15 degrees and apply +/- 1/(12*0.5), i.e. one sixth per tick.
+        effect.Angle[2] += 15.f;
+        effect.Alpha += effect.LifeTime > 6.f ? (1.f / 6.f) : -(1.f / 6.f);
+        break;
+    case kBrecheOwnerLightMarksModel:
+        UpdateBrecheGroundTick(effect, kBrecheMarks);
+        break;
+    case kBrecheOwnerTwilight02Model:
+        // Exact S21 809F/sub2 branch: scale -0.1 and Angle.z +15.
+        effect.Scale -= .1f;
+        effect.Angle[2] += 15.f;
+        break;
+    case kBrecheOwnerTwilight01Model:
+        // Exact S21 809E/sub13 branch for skill 0x117: scale +0.5,
+        // Angle.z +15 and the shared +/-0.1 alpha envelope.
+        effect.Scale += .5f;
+        effect.Angle[2] += 15.f;
+        effect.Alpha += effect.LifeTime >= 11.f ? .1f :
+            (effect.LifeTime <= 10.f ? -.1f : 0.f);
+        break;
+    case kBrecheOwnerWindModel:
+        // Exact S21 0xAD9/subtype6 branch (0x151D307..0x151D459): the
+        // owner-side wind rotates rapidly, fades by 0.01 and compounds the
+        // stored RGB by the current alpha.  This remains owner-local and has
+        // no target pointer to follow.
+        effect.Angle[2] -= 50.f;
+        effect.Alpha -= .01f;
+        effect.Light[0] *= effect.Alpha;
+        effect.Light[1] *= effect.Alpha;
+        effect.Light[2] *= effect.Alpha;
+        break;
     case kWrathBrokenBitmap:
         // Exact SS21 0x1579AB4..0x1579BBD. The source mutates the stored
         // light rather than applying alpha only at render time. MoveEffect
@@ -898,7 +1392,11 @@ void UpdateEffect(OBJECT& effect, float animationFactor)
             {
                 effect.AttackPoint[0] = 1;
                 OBJECT* target = 0;
-                if (!ResolveTarget(effect.m_sTargetIndex, target))
+                const bool targetResolved = ResolveTarget(effect.m_sTargetIndex, target);
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+                RecordSpinOutcomeQA(effect, targetResolved ? 1 : 0, effect.m_sTargetIndex);
+#endif
+                if (!targetResolved)
                     break;
                 CreateEffect(kSpinControllerModel, target->Position,
                     target->Angle, target->Light, 1, target,
@@ -1365,29 +1863,241 @@ void UpdateEffect(OBJECT& effect, float animationFactor)
     }
 }
 
+bool SubmitCirclePersistentVisuals(OBJECT& caster)
+{
+    // S21 13ECB52..13ECFBC executes in the character-render traversal for
+    // status216/221/222.  The caller owns the native buff gate.
+    if (!caster.Live || !Models || caster.Type < 0 ||
+        caster.Type >= MAX_MODELS || !caster.BoneTransform ||
+        !EnsureCirclePersistentBitmap()) {
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+        RecordCirclePersistentEmissionQA(caster, false, -1, 0);
+#endif
+        return false;
+    }
+    BMD& model = Models[caster.Type];
+    if (model.NumBones <= 35) {
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+        RecordCirclePersistentEmissionQA(caster, false, model.NumBones, 0);
+#endif
+        return false;
+    }
+
+    const float pulse = CircleFlarePulse(rand());
+    vec3_t flareLight = {.5f * pulse, 0.f, pulse};
+    vec3_t monoLight = {.3f, .38f, 1.f};
+    const float savedScale = model.BodyScale;
+    model.BodyScale = caster.Scale;
+    const auto bonePosition = [&](int bone, vec3_t& position) {
+        model.TransformByObjectBone(position, &caster, bone);
+    };
+    vec3_t position;
+    int monoCreated = 0;
+    bonePosition(kCircleFlareBones[0], position); // Head20
+    CreateSprite(BITMAP_LIGHT, position, 2.f, flareLight, &caster, 0.f, 0);
+    bonePosition(kCircleFlareBones[1], position); // R UpperArm26
+    CreateSprite(BITMAP_LIGHT, position, 2.f, flareLight, &caster, 0.f, 0);
+    for (int i = 0; i < 2; ++i)
+        monoCreated += CreateCircleUpperArmParticle(position, caster.Angle,
+            monoLight, .6f) >= 0 ? 1 : 0;
+    bonePosition(kCircleFlareBones[2], position); // L UpperArm35
+    CreateSprite(BITMAP_LIGHT, position, 2.f, flareLight, &caster, 0.f, 0);
+    for (int i = 0; i < 2; ++i)
+        monoCreated += CreateCircleUpperArmParticle(position, caster.Angle,
+            monoLight, .6f) >= 0 ? 1 : 0;
+    bonePosition(kCircleFlareBones[3], position); // R Clavicle25
+    CreateSprite(BITMAP_LIGHT, position, 2.f, flareLight, &caster, 0.f, 0);
+    bonePosition(kCircleFlareBones[4], position); // L Clavicle34
+    CreateSprite(BITMAP_LIGHT, position, 2.f, flareLight, &caster, 0.f, 0);
+    model.BodyScale = savedScale;
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+    RecordCirclePersistentEmissionQA(caster, true, model.NumBones,
+        monoCreated);
+#endif
+    return true;
+}
+
+bool SubmitWrathPersistentSprites(OBJECT& caster, bool boneFlareGroup)
+{
+    if (!caster.Live || !Models || caster.Type < 0 || caster.Type >= MAX_MODELS ||
+        !caster.BoneTransform || !EnsureWrathGroundSpriteBitmaps()) return false;
+    BMD& model = Models[caster.Type];
+    if (model.NumBones <= (boneFlareGroup ? 38 : 35)) return false;
+    const int texture = boneFlareGroup ? kWrathFlare01Bitmap : kWrathLightmarksBitmap;
+    const float savedScale = model.BodyScale;
+    model.BodyScale = caster.Scale;
+    const auto emit = [&](int bone,float z,float scale,float r,float g,float b) {
+        vec3_t position,light={r,g,b};
+        model.TransformByObjectBone(position,&caster,bone);
+        position[2] += z;
+        CreateSprite(texture,position,scale,light,&caster,0.f,0);
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+        if (boneFlareGroup)
+            RecordWrathBuffVisualQA(caster, "flare", -1, bone == 29 ? 0 : 1,
+                bone);
+#endif
+    };
+    if (boneFlareGroup)
+        SubmitWrathBoneFlares(emit);
+    else
+    {
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+        RecordWrathBuffVisualQA(caster, "lightmarks", -1, -1, -1);
+#endif
+        SubmitWrathLightmarks([](){return rand();},emit);
+    }
+    model.BodyScale = savedScale;
+    return true;
+}
+
+bool RenderWrathPersistentGround(const OBJECT& caster, float sampledSourceClock)
+{
+    if (!caster.Live || !EnsureWrathGroundSpriteBitmaps()) return false;
+    const int textures[] = {kWrathLightmarksBitmap,kWrathFlareBlueBitmap,
+        kWrathFlareBlueBitmap,kWrathShockwaveBitmap};
+    EnableAlphaBlend();
+    SubmitWrathGroundLayers(sampledSourceClock,
+        [](double angle) { return std::cos(angle); },
+        [&](int layer,float size,float red,float green,float blue,float rotation) {
+            vec3_t light = {red,green,blue};
+            RenderGrowLancerTerrainBitmap(textures[layer],caster.Position[0],
+                caster.Position[1],size,size,light,rotation,1.f,5.f,false);
+        });
+    DisableAlphaBlend();
+    return true;
+}
+
+bool SubmitWrathPersistentVisuals(OBJECT& caster, float sampledSourceClock)
+{
+    // S21 entry 13DBA07..13DBA27. The state is Teleport, verified against
+    // its alpha-fade writer and native ZzzInterface teleport transition.
+    // Strict comparison preserves the source equal/unordered fall-through.
+    if (caster.Teleport == TELEPORT && caster.Alpha < 1.e-6f) return false;
+    // S21 13EB9DA..13EBA12: membership OR, not one emission per buff.
+    // Keep this check before asset loads and RNG/pool submissions. Removal
+    // stops new emissions; already allocated children retain native lifetime.
+    OBJECT* buffOwner = &caster;
+    if (!g_isCharacterBuff(buffOwner, static_cast<eBuffState>(424)) &&
+        !g_isCharacterBuff(buffOwner, static_cast<eBuffState>(425))) return false;
+    if (!caster.Live || !Models || caster.Type < 0 || caster.Type >= MAX_MODELS ||
+        !caster.BoneTransform || Models[caster.Type].NumBones <= 38 ||
+        !EnsureWrathGroundSpriteBitmaps() || !EnsureWrathScatterBitmaps() ||
+        !EnsureWrathPersistentBitmaps()) return false;
+    SubmitWrathPersistentSprites(caster,false);
+    RenderWrathPersistentGround(caster,sampledSourceClock);
+    BMD& model = Models[caster.Type];
+    const float savedScale = model.BodyScale;
+    model.BodyScale = caster.Scale;
+    SubmitWrathParticleSequence([](){return rand();},
+        [&](int variant,int x,int y,float scale) {
+            vec3_t position = {caster.Position[0]+x,caster.Position[1]+y,caster.Position[2]};
+            vec3_t light = {.6f,.75f,1.f};
+            CreateWrathScatterParticle(variant,position,caster.Angle,light,scale);
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+            RecordWrathBuffVisualQA(caster, "scatter", variant, -1, -1);
+#endif
+        },
+        [&](){SubmitWrathPersistentSprites(caster,true);},
+        [&](int variant,int attachment) {
+            vec3_t position,light = {.4f,.6f,1.f};
+            model.TransformByObjectBone(position,&caster,attachment == 0 ? 29 : 38);
+            CreateWrathPersistentParticle(variant,attachment,position,caster.Angle,
+                light,.75f,&caster);
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+            RecordWrathBuffVisualQA(caster, "mono", variant, attachment,
+                attachment == 0 ? 29 : 38);
+#endif
+        });
+    model.BodyScale = savedScale;
+    return true;
+}
+
 bool RenderEffect(OBJECT& effect)
 {
     if (IsBrecheEffectType(effect.Type))
     {
+        if (effect.Type == kBrecheOwnerWindModel)
+        {
+            if (!EnsureModel(effect.Type) ||
+                !Calc_RenderObject(&effect, false, 0, 0))
+                return false;
+            // S21 dispatch 0x15A136D -> 0x15AD77D sends AD9 through the
+            // generic object renderer (0x176D621 -> 0x1887B8B).  Its default
+            // branch supplies texture flag 2 and the complete carrier tuple.
+            // Common reset leaves BlendMesh=0; wind_foce mesh zero references
+            // texture slot zero, selecting the additive blend-mesh branch in
+            // both renderers without inventing a RENDER_BRIGHT flag.
+            BMD& model = Models[effect.Type];
+            model.RenderBody(RENDER_TEXTURE, effect.Alpha, effect.BlendMesh,
+                effect.BlendMeshLight, effect.BlendMeshTexCoordU,
+                effect.BlendMeshTexCoordV, effect.HiddenMesh, -1);
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+            RecordTargetSkillRenderQA(effect, kBrecheSkill,
+                "breche-owner-wind-submit", 1, model.NumMeshs,
+                model.NumBones, model.NumActions,
+                model.NumMeshs > 0 ? static_cast<int>(model.IndexTexture[0]) : 0);
+#endif
+            return true;
+        }
         if (effect.Type == kBrecheControllerModel || effect.Type == kBrecheEmitterModel)
             return true;
         vec3_t light;
         VectorScale(effect.Light, effect.Alpha, light);
-        const bool marks = effect.Type == kBrecheLightMarksModel;
-        const int bitmap = marks ? kBrecheLightMarksBitmap :
-            (effect.Type == kBrecheTwilight02Model ? kBrecheTwilight02Bitmap : kBrecheTwilight01Bitmap);
+        const bool owner = effect.Type == kBrecheOwnerRingModel ||
+            effect.Type == kBrecheOwnerLightMarksModel ||
+            effect.Type == kBrecheOwnerFireRingModel ||
+            effect.Type == kBrecheOwnerTwilight02Model ||
+            effect.Type == kBrecheOwnerTwilight01Model;
+        const bool marks = effect.Type == kBrecheLightMarksModel ||
+            effect.Type == kBrecheOwnerLightMarksModel;
+        const int bitmap = effect.Type == kBrecheOwnerRingModel ?
+            kBrecheOwnerRingBitmap :
+            (effect.Type == kBrecheOwnerFireRingModel ? kBrecheOwnerFireRingBitmap :
+             (marks ? kBrecheLightMarksBitmap :
+              (effect.Type == kBrecheTwilight02Model ||
+               effect.Type == kBrecheOwnerTwilight02Model ?
+                  kBrecheTwilight02Bitmap : kBrecheTwilight01Bitmap)));
+#ifndef RISE_GROW_LANCER_RUNTIME_QA
+        (void)owner;
+#endif
+        // S21 15AEC85/159D64C/159E00F select ONE/ONE for every Breche
+        // terrain layer and restore the normal state after the draw.  The
+        // native terrain helper only submits geometry/color; it does not
+        // establish this blend mode itself. Keep the state change private to
+        // Breche so ordinary SS6 terrain/effects are untouched.
+        EnableAlphaBlend();
         RenderGrowLancerTerrainBitmap(bitmap, effect.Position[0], effect.Position[1],
             effect.Scale, effect.Scale, light, effect.Angle[2],
             marks ? 1.f : effect.Alpha, 5.f, !marks);
+        DisableAlphaBlend();
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+        RecordTargetSkillRenderQA(effect, kBrecheSkill,
+            owner ? "breche-owner-submit" : "breche-submit", 1,
+            0, 0, 0, bitmap);
+#endif
         return true;
     }
     if (effect.Type == kWrathBrokenBitmap)
     {
         // SS21 0x15A0B63..0x15A0C0F delegates the effect object to its
         // terrain-alpha bitmap renderer with rotation 0, alpha 1, height 5.
+        // S21 0x15A0B63 explicitly selects ONE/ONE before this JPG ground
+        // layer. RenderTerrainAlphaBitmap does not establish blend state.
+        EnableAlphaBlend();
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+        const unsigned wrathPixelToken = BeginWrathGroundPixelsQA(effect);
+#endif
         RenderTerrainAlphaBitmap(effect.Type, effect.Position[0],
             effect.Position[1], effect.Scale, effect.Scale, effect.Light,
             0.0f, 1.0f, 5.0f);
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+        EndWrathGroundPixelsQA(wrathPixelToken);
+        RecordWrathGroundQA(effect);
+#endif
+        // The native effect loop has no pass-level blend reset. Restore its
+        // state after this S21 ONE/ONE terrain draw so subsequent SS6 effects
+        // and the next Grow Lancer child do not inherit additive blending.
+        DisableAlphaBlend();
         return true;
     }
     if (effect.Type == kSpriteCarrierModel)
@@ -1403,6 +2113,10 @@ bool RenderEffect(OBJECT& effect)
             RenderGrowLancerTerrainBitmap(effect.Skill, effect.Position[0],
                 effect.Position[1], size, size, effect.Light, 0.f, 1.f, 5.f, false);
             DisableAlphaBlend();
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+            RecordSpinRenderQA(effect, "ground-submit", 1, 0, 0, 0,
+                effect.Skill);
+#endif
             return true;
         }
         vec3_t light;
@@ -1439,8 +2153,71 @@ bool RenderEffect(OBJECT& effect)
         effect.Type == kMagicPinRootModel ||
         effect.Type == kMagicPinAuxModel)
     {
-        if (!EnsureModel(effect.Type) ||
-            !Calc_RenderObject(&effect, false, 0, 0))
+        const bool modelReady = EnsureModel(effect.Type);
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+        if (effect.Type == kMagicPin01Model ||
+            effect.Type == kMagicPin03Model ||
+            effect.Type == kMagicPinRootModel ||
+            effect.Type == kMagicPinAuxModel)
+        {
+            const BMD& diagnosticModel = Models[effect.Type];
+            RecordTargetSkillRenderQA(effect, kMagicPinSkill, "magic-ensure",
+                modelReady ? 1 : 0, diagnosticModel.NumMeshs,
+                diagnosticModel.NumBones, diagnosticModel.NumActions,
+                diagnosticModel.NumMeshs > 0 ?
+                    static_cast<int>(diagnosticModel.IndexTexture[0]) : 0);
+        }
+        if (effect.Type == kSpinCrossModel)
+        {
+            const BMD& diagnosticModel = Models[effect.Type];
+            RecordSpinRenderQA(effect, "cross-ensure", modelReady ? 1 : 0,
+                diagnosticModel.NumMeshs, diagnosticModel.NumBones,
+                diagnosticModel.NumActions,
+                diagnosticModel.NumMeshs > 0 ?
+                    static_cast<int>(diagnosticModel.IndexTexture[0]) : 0);
+        }
+#endif
+        if (!modelReady)
+            return false;
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+        if ((effect.Type == kMagicPin01Model ||
+             effect.Type == kMagicPin03Model ||
+             effect.Type == kMagicPinRootModel ||
+             effect.Type == kMagicPinAuxModel) &&
+            Models[effect.Type].NumMeshs > 0 &&
+            Models[effect.Type].Textures && Models[effect.Type].IndexTexture)
+        {
+            const BMD& diagnosticModel = Models[effect.Type];
+            RecordMagicMaterialQA(effect.Type,
+                diagnosticModel.IndexTexture[0],
+                diagnosticModel.Textures[0].FileName);
+        }
+#endif
+        const bool transformReady = Calc_RenderObject(&effect, false, 0, 0);
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+        if (effect.Type == kMagicPin01Model ||
+            effect.Type == kMagicPin03Model ||
+            effect.Type == kMagicPinRootModel ||
+            effect.Type == kMagicPinAuxModel)
+        {
+            const BMD& diagnosticModel = Models[effect.Type];
+            RecordTargetSkillRenderQA(effect, kMagicPinSkill, "magic-calc",
+                transformReady ? 1 : 0, diagnosticModel.NumMeshs,
+                diagnosticModel.NumBones, diagnosticModel.NumActions,
+                diagnosticModel.NumMeshs > 0 ?
+                    static_cast<int>(diagnosticModel.IndexTexture[0]) : 0);
+        }
+        if (effect.Type == kSpinCrossModel)
+        {
+            const BMD& diagnosticModel = Models[effect.Type];
+            RecordSpinRenderQA(effect, "cross-calc", transformReady ? 1 : 0,
+                diagnosticModel.NumMeshs, diagnosticModel.NumBones,
+                diagnosticModel.NumActions,
+                diagnosticModel.NumMeshs > 0 ?
+                    static_cast<int>(diagnosticModel.IndexTexture[0]) : 0);
+        }
+#endif
+        if (!transformReady)
             return false;
         BMD& model = Models[effect.Type];
         if (effect.Type == kSpinCrossModel)
@@ -1461,10 +2238,34 @@ bool RenderEffect(OBJECT& effect)
         const bool zeroMagicUv = effect.Type == kMagicPin01Model ||
             effect.Type == kMagicPinRootModel;
         // A48FEF is literal1 for MagicPin01, not the object's Alpha.
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+        const unsigned magicRasterQuery =
+            (effect.Type == kMagicPin01Model ||
+             effect.Type == kMagicPinRootModel) ?
+            BeginMagicPinFootSamplesQA(effect) : 0;
+        const unsigned spinCrossRasterQuery = effect.Type == kSpinCrossModel ?
+            BeginSpinCrossSamplesQA(effect) : 0;
+#endif
         model.RenderMesh(0, RENDER_TEXTURE | RENDER_BRIGHT, effect.Alpha,
             0, effect.Type == kMagicPin01Model ? 1.0f : effect.Alpha,
             zeroMagicUv ? 0.0f : effect.BlendMeshTexCoordU,
             zeroMagicUv ? 0.0f : effect.BlendMeshTexCoordV, -1);
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+        EndMagicPinFootSamplesQA(effect, magicRasterQuery);
+        EndSpinCrossSamplesQA(effect, spinCrossRasterQuery);
+        if (effect.Type == kMagicPin01Model ||
+            effect.Type == kMagicPin03Model ||
+            effect.Type == kMagicPinRootModel ||
+            effect.Type == kMagicPinAuxModel)
+            RecordTargetSkillRenderQA(effect, kMagicPinSkill, "magic-submit",
+                1, model.NumMeshs, model.NumBones, model.NumActions,
+                model.NumMeshs > 0 ?
+                    static_cast<int>(model.IndexTexture[0]) : 0);
+        if (effect.Type == kSpinCrossModel)
+            RecordSpinRenderQA(effect, "cross-submit", 1, model.NumMeshs,
+                model.NumBones, model.NumActions,
+                model.NumMeshs > 0 ? static_cast<int>(model.IndexTexture[0]) : 0);
+#endif
         return true;
     }
     if (effect.Type == kHarshWind01Model ||
@@ -1621,7 +2422,31 @@ bool RenderEffect(OBJECT& effect)
     }
     if (effect.Type != kClashFrontModel && effect.Type != kClashRearModel)
         return true;
-    if (!EnsureModel(effect.Type) || !Calc_RenderObject(&effect, false, 0, 0))
+    const bool modelReady = EnsureModel(effect.Type);
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+    {
+        const BMD& diagnosticModel = Models[effect.Type];
+        RecordTargetSkillRenderQA(effect, kClashSkill, "clash-ensure",
+            modelReady ? 1 : 0, diagnosticModel.NumMeshs,
+            diagnosticModel.NumBones, diagnosticModel.NumActions,
+            diagnosticModel.NumMeshs > 0 ?
+                static_cast<int>(diagnosticModel.IndexTexture[0]) : 0);
+    }
+#endif
+    if (!modelReady)
+        return false;
+    const bool transformReady = Calc_RenderObject(&effect, false, 0, 0);
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+    {
+        const BMD& diagnosticModel = Models[effect.Type];
+        RecordTargetSkillRenderQA(effect, kClashSkill, "clash-calc",
+            transformReady ? 1 : 0, diagnosticModel.NumMeshs,
+            diagnosticModel.NumBones, diagnosticModel.NumActions,
+            diagnosticModel.NumMeshs > 0 ?
+                static_cast<int>(diagnosticModel.IndexTexture[0]) : 0);
+    }
+#endif
+    if (!transformReady)
         return false;
     if (effect.Type == kClashFrontModel)
     {
@@ -1636,6 +2461,11 @@ bool RenderEffect(OBJECT& effect)
     model.RenderMesh(0, RENDER_TEXTURE | RENDER_BRIGHT, effect.Alpha, 0,
         effect.Alpha, effect.BlendMeshTexCoordU, effect.BlendMeshTexCoordV,
         -1);
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+    RecordTargetSkillRenderQA(effect, kClashSkill, "clash-submit", 1,
+        model.NumMeshs, model.NumBones, model.NumActions,
+        model.NumMeshs > 0 ? static_cast<int>(model.IndexTexture[0]) : 0);
+#endif
     return true;
 }
 
@@ -1714,16 +2544,18 @@ void CreateObsidianRoots(OBJECT& caster)
     PlayBuffer(kObsidianSound, &caster);
 }
 
-void CreateSpinStepRoot(OBJECT& caster, short targetIndex)
+bool CreateSpinStepRoot(OBJECT& caster, short targetIndex)
 {
     if (!PrepareLocalQADynamicAction(caster, 285))
-        return;
-    caster.CurrentAction = 285;
-    caster.AnimationFrame = 0.0f;
-    caster.PriorAnimationFrame = 0.0f;
+        return false;
+    // S21 local action186 calls 1327DE8; the decoded transition preserves
+    // prior action/frame and does not restart an identical action. Native
+    // SetAction(...,true) is the proven SS6 equivalent (already used for Pin).
+    SetAction(&caster, 285, true);
     CreateEffect(kSpinControllerModel, caster.Position, caster.Angle,
         caster.Light, 0, &caster, -1, 0, kSpinStepSkill, 0, caster.Scale, targetIndex);
     PlayBuffer(kSpinStepCastSound, &caster);
+    return true;
 }
 
 void CreateSpinStepHit(OBJECT& target)
@@ -1733,18 +2565,28 @@ void CreateSpinStepHit(OBJECT& target)
     PlayBuffer(kSpinStepHitSound, &target);
 }
 
-void CreateMagicPinRoots(OBJECT& caster)
+bool CreateMagicPinRoots(OBJECT& caster)
 {
     if (!PrepareLocalQADynamicAction(caster, 287))
-        return;
-    caster.CurrentAction = 287;
-    caster.AnimationFrame = 0.0f;
-    caster.PriorAnimationFrame = 0.0f;
+        return false;
+    // Bind only the approved private local cast. No remote actor borrowing.
+    // This establishes lifecycle identity, not animation samples or tick timing.
+    if (!gAnimationActorIdentity.Matches(reinterpret_cast<uintptr_t>(&caster)))
+    {
+        ResetAllEffectAnimationSamples();
+        gAnimationActorIdentity.Bind(reinterpret_cast<uintptr_t>(&caster));
+    }
+    gAnimationObservationArmed =
+        gAnimationActorIdentity.Matches(reinterpret_cast<uintptr_t>(&caster));
+    // S21 1327D72 preserves the previous frame/action on transition and
+    // does not restart an identical action. Use the native equivalent.
+    SetAction(&caster, 287, true);
     CreateEffect(kMagicPinControllerModel, caster.Position, caster.Angle,
         caster.Light, 0, &caster, -1, 0, kMagicPinSkill);
     CreateEffect(kMagicPinRootModel, caster.Position, caster.Angle,
         caster.Light, 0, &caster, -1, 0, kMagicPinSkill);
     PlayBuffer(kMagicPinCastSound, &caster);
+    return true;
 }
 
 void CreateMagicPinHit(OBJECT& target)
@@ -1835,6 +2677,15 @@ void CreateCircleShieldContact(OBJECT& firstActor, OBJECT& secondActor)
         3, &secondActor, 40.f, -1, 0, 0, -1, 0, -1);
 }
 
+void RetireCircleCharacterEffects(OBJECT& retiredCharacter)
+{
+    if (retiredCharacter.Live)
+        return;
+    // Controller borrows character bones/action. Do not let a reused character
+    // slot satisfy its Live guard. Detached children retain their own lifetime.
+    DeleteEffect(kCircleShieldControllerModel, &retiredCharacter, -1);
+}
+
 void CreateCircleShieldRoot(OBJECT& caster)
 {
     if (!PrepareFixedPlayerAction(caster, 286))
@@ -1855,10 +2706,31 @@ void CreateBrecheAction(OBJECT& caster)
     // CreateBrecheHit takes the target, never the local caster as fallback.
     if (!PrepareLocalQADynamicAction(caster, 289))
         return;
-    caster.CurrentAction = 289;
-    caster.AnimationFrame = 0.0f;
-    caster.PriorAnimationFrame = 0.0f;
+    // The recovered S21 local branch reaches the native action setter
+    // (1327DE8), not a raw OBJECT field overwrite. Keep the outgoing clip
+    // and frame so the player renderer can blend into the appended S21 clip
+    // exactly like ReceiveMagic does for remote actors.
+    SetAction(&caster, 289, true);
     PlayBuffer(kBrecheSound, &caster);
+
+    // S21 per-character producer 0x142B21D creates a separate 5FD/subtype0
+    // control record on the casting character.  It is intentionally not the
+    // target receive root created by CreateBrecheHit.
+    const bool ownerResourcesReady = EnsureBrecheBitmaps();
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+    // Keep the owner-side resource gate observable.  A missing private OZJ
+    // asset must never be mistaken for a missing action or target contact.
+    RecordBrecheOwnerResourceGateQA(ownerResourcesReady,
+        RuntimeQASelectedTargetIndex(), false);
+#endif
+    if (ownerResourcesReady)
+    {
+        CreateEffect(kBrecheControllerModel, caster.Position, caster.Angle,
+            caster.Light, 0, &caster, -1, kBrecheSkill, 0, 0, 10.f);
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+        RecordBrecheOwnerResourceGateQA(true, RuntimeQASelectedTargetIndex(), true);
+#endif
+    }
 }
 
 void CreateBrecheHit(OBJECT& target)

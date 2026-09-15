@@ -1,11 +1,209 @@
 # Spin Step (skill 271) reverse evidence
 
+## QA acceptance sequence is two messages — 2026-09-15
+
+Pinned S21 native frame41 SHA-256 `3FFD5023...` visibly has a blue target-
+side column/contact. Client receive dispatches base271 to
+`CreateSpinStepRoot` and internal280 to **separate** `CreateSpinStepHit` on
+the target. QA F7 calls only 271; QA F9 invokes only the internal contact
+fixture. `verify_spin_two_message_visual_contract.py` pins receive/QA branches
+and the unchanged S21 frame. The next like-for-like isolated visual test must
+pair one target-bound F7 with one F9 on the same target and capture caster and
+target phases independently. F7-only cannot close the two-message chain.
+This does not excuse the owner's separate report that caster action/ribbon
+itself is absent; that root phase remains FAIL. F9 is neither server damage
+authority nor a substitute for the real GameServer 280 handler.
+
+## Current opt-in gameplay cross draw query — 2026-09-15
+
+The selected-target older PID28160 proves native cross submits, but not
+per-mesh shader-batch GPU samples. QA-only `RISE_GL_SPIN_CROSS_RASTER_QA=1`
+now wraps only `spin_cross` `BMD::RenderMesh(0, RENDER_TEXTURE|RENDER_BRIGHT)`
+in a bounded 12-draw non-nested `GL_SAMPLES_PASSED` query during armed Spin
+F7. It flushes the native shader queue before the query and the cross draw
+inside it; it records target-owner/effect world position, alpha, scale, life,
+VAO/index, program/depth/cull and samples. The opt-in launcher switch
+`-SpinCrossRasterProbe` restores parent environment, defaults OFF and requires
+`-LocalServer`/owned loopback stack for interactive QA.
+
+Current private staged QA Engine SHA-256 `95736241063643B58F8ECE167A2B9CFBADB6EAB1FCDBE59CBF06F2CBEDC14643`
+has exact `73602038...` rollback; full Data verifier and isolated QA/nonQA
+x86 builds PASS. Source-scope verifier PASS. Hidden staged Spin fixture PID1776
+and Magic regression PID19448 pass independently. **No gameplay F7 cross
+query has run**; samples are not owner-visible pixels or S21 parity. If
+diagnostic shader flush changes appearance, compare with probe OFF first.
+
+## Native visible-cross fixture pixel evidence — 2026-09-15
+
+Hash-pinned read-only S21 `spin_cross.bmd` SHA-256 `B0097042...` and
+isolated v0C `6E0B4051...` decrypt to identical plaintext. The exact source
+mesh has 12 vertices, 8 triangles in four intersecting planes, one bone/action
+and embedded `line_fire.jpg`; bounds X/Z ±8.3502, Y -0.0051..28.8716.
+`inspect_spin_cross_model_geometry.py` validates the hashes, conversion,
+native-compatible full layout, triangle/UV indices and animation, without
+altering either client Data tree.
+
+QA-only `RISE_GL_SPIN_CROSS_DRAW_QA=1` exercises the real private BMD Open2,
+GPU upload, native `BMD::Animation`/bright mesh render and release at the S21
+constructor angle Z=120, first-tick scale8.5, light `(0.2,0.6,1.0)`.
+Only camera/pose/orthographic view are fixtures. Current hash-staged private
+Engine `73602038...`, hidden PID19452 exit0, native GPU samples
+12250/11844/2548/11844 and non-black framebuffer pixels
+4761/4716/1152/4813 for four fixture camera sweeps; GL error0 and stable
+release1. PID-bound `verify_spin_cross_native_fixture_draw.py` PASS. Independent
+Magic fixture regression PID5644 still PASS. This disproves an intrinsically
+undrawable child mesh/texture on those native fixture views; it does **not**
+prove current gameplay target coordinates, ribbon visibility, hit or S21 frame
+parity. Owner's ring-only Spin report remains visual FAIL pending a fresh one-
+cast local F7/F11 target-bound camera QA.
+
+## S21 ribbon sampler mapped to isolated native 5.2 bitmap — 2026-09-15
+
+Pinned S21 `main.exe` registration `0x18BDDB8..0x18BDDD5` loads exact
+`Effect\motion_blur.jpg` at S21 runtime resource `0x7F08` with
+`GL_NEAREST` (`0x2600`) and `GL_CLAMP` (`0x2900`). The read-only S21
+`Data\Effect\motion_blur.OZJ` SHA-256 is
+`934716E4C09EBCA25B43E62BC1F6B69B26663FA54306F5054FA12A354B6DC5AF`
+and is byte-identical to the frozen Grow Lancer copy. Stock 5.2 registers
+the same image in shared `BITMAP_BLUR+1` with `GL_NEAREST` and
+`GL_CLAMP_TO_EDGE`: image parity alone did not establish sampler parity.
+
+The isolated adapter stages the pinned copy under
+`Data\RISE\GrowLancer\SpinStep`, registers it through the existing native
+bitmap loader at private 5.2 slot `32986`, and selects that slot only for
+Spin controller owner/type1/style1 weapon ribbon. `32986` is a private 5.2
+allocation, **not** an inferred S21 resource ID. Stock SS6 blur modes and
+shared bitmap sampler remain untouched. `verify_spin_private_sampler_contract.py`
+PASS covers registration bytes, asset hash, scoped source adapter and stage.
+Isolated QA/nonQA Win32 builds/link PASS; current private QA Engine SHA-256
+`E3EC7999EE3D9D361A6F41724D0E9077FE4042AD92ABCC97E2DD3C9BE0A7F2D3`.
+
+Hidden offline WGL QA PID16616 exited 0 before socket/login: native stock
+and private bitmap decode to identical 32x64 pixels; private GPU readback
+matches CPU; stock wrap stayed `33071` (`GL_CLAMP_TO_EDGE`) before/after
+private load, private wrap is `10496` (`GL_CLAMP`), both filter `9728`
+(`GL_NEAREST`), GL error0; release restored bitmap count/bytes. This proves
+native image/sampler isolation on that GPU, **not** actual gameplay ribbon
+pixels. Owner's last visible Spin result remains ground-ring-only FAIL.
+Fresh local-only one-cast F7/F11, ribbon vertex/texture telemetry and fixed/
+360-degree owner pixels against S21 frames are still required.
+The draw-log inspector now accepts optional `--expected-texture 32986` for
+that fresh candidate without rewriting historical evidence: PID28160 still
+passes the old draw/retirement check, while the private-slot assertion
+correctly fails on that older shared-bitmap cast. This is a verifier fixture,
+not evidence of a new gameplay cast.
+
+Blend was checked as a possible missing-ribbon cause, not assumed: the
+decoded S21 object-blur renderer enters `0x15C04B6`, calls
+`0x18E7137` at `0x15C0544`, then binds the selected texture at
+`0x15C0566`. That helper selects blend state 3 with `glBlendFunc(1,1)`
+(`GL_ONE/GL_ONE`). Native 5.2 `EnableAlphaBlend` selects the same blend
+state/GL factors. The retained PID28160 records contain texture32019 but
+**not** world-space head/tail coordinates; the new QA vertex hook was built
+after that cast. Neither a blend mismatch nor off-camera geometry is proven
+by the old draw count. Do not change blend or ribbon position without a
+fresh texture32986/vertex/pixel result.
+
+## Owner attribution correction — 2026-09-15
+
+The owner's purple-shoulder S21 crop (SHA-256
+`6F0692ACB12765BD1E27EB3F3635268CD4FAACE64715FAFFB46254A5B2500F40`)
+was explicitly corrected by the owner: its two purple fire-like shoulder
+lights belong to **Circle Shield**, not Spin Step. Do not add them to the
+Spin descriptor or stage a purple asset under Spin based on that crop. The
+decoded base-271 local branch sets action 186 and leaves without a shoulder
+spawn; the proved `0x5F8` fanout remains weapon blur plus target effects.
+Spin's ribbon/target parity is still OPEN for independent reasons below.
+
+## Isolated selected-target render evidence (2026-09-14)
+
+### Verified native draw and map cleanup, still owner visual FAIL
+
+The retained QA log now includes selected-target PID28160 cast
+`2026-09-15T05:37:13.058Z`: `inspect_spin_blur_draw_log.py` finds 20 actual
+native style-1 blur triangle-fan draw records with registered bitmap,
+19 Spin cross model submits, and two map style-1 records whose
+`map-after-delete` count is zero. This is bounded native draw-path and
+pool-retirement PASS, not proof the user's missing ribbon/cross appeared
+on screen. The last owner observation was only a ground ring; pixel
+visibility, caster/target position, frame comparison and hit contact
+still require fresh isolated gameplay QA. Do not describe Spin Step as
+visual PASS from allocator, submit or triangle-fan telemetry.
+
+The subsequent QA-only `RecordSpinBlurDrawQA` now records the actual native
+head/tail ribbon vertices `p1/p2` from the same `RenderObjectBlurs`
+triangle-fan pool record, after the draw. Four world-space edge positions
+allow a fresh cast to distinguish far/off-camera/zero-width geometry from
+a correctly located but invisible blend/depth/texture layer. This changes
+no production/SS6 renderer math and is bounded to the armed Spin F7 cast
+(128 rows maximum). Isolated QA Win32 link and hash-pinned stage PASS,
+SHA-256 `587A2976EC82F05C36EC44AF40A46E1330F08575DA2DD25E896F572396544DC3`;
+the pre-geometry skills-only QA SHA `B7049F50...` is retained as rollback.
+No new geometry log or owner pixel verdict exists yet.
+
+The retained RuntimeQA log contains an earlier selected-target cast with a resolved
+target outcome and successful native submission records for the target fanout:
+`cross-visible`, `cross-ensure`, `cross-calc`, `cross-submit`, and
+`ground-submit` all return `result=1`. `verify_spin_selected_target_render_qa.py`
+pins the source fanout and this bounded log evidence. This proves the isolated
+5.2 path reached the existing model/terrain renderer in that staged revision;
+it does not prove the current executable's screen
+pixels, S21 matching-frame parity, weapon blur/trail visibility, contact
+placement, movement, or pool cleanup. The old owner report of a caster-only
+ground ring therefore remains a historical visual failure until the current
+candidate is retested in-game.
+
+The QA build now also records `weapon-blur-submit` at the three native
+bone-33 samples when the sampled action frame is in `[0.0,4.5]`. This remains
+bounded diagnostic telemetry: a record means the existing blur allocator was
+called, not that a ribbon was visible on screen or matched the S21 camera.
+
+### Ribbon texture/draw lifecycle follow-up — 2026-09-15
+
+The S21 resource registry registers `Effect\motion_blur.jpg` at runtime ID
+`0x7F08` from registration VA `0x18BDDB8`. Its read-only source OZJ SHA-256 is
+`934716E4C09EBCA25B43E62BC1F6B69B26663FA54306F5054FA12A354B6DC5AF`;
+the frozen Grow Lancer QA source copy is byte-identical (8,734 bytes). RISE
+5.2's existing bitmap registration loads `Effect\motion_blur.jpg` at native
+`BITMAP_BLUR+1`, exactly the texture selected by object-blur Type 1. No S21
+numeric resource ID is copied into the 5.2 enum.
+
+QA PID 23952 logged root dispatch with target 12 and 273 native blur allocator
+calls, but allocation calls do not establish actual triangle-fan draws. The
+new isolated QA binary logs `spin-blur-draw` only after the native
+`RenderObjectBlurs` fan(s) with Number>=2 and records bitmap registration.
+The private Spin controller now calls native `RemoveObjectBlurs` at normal
+EffectDestructor and immediately before map teardown clears its native effect
+slot; a QA-only map style-1 blur count reports before/after records. Stock
+SS6 blur modes and effect cleanup paths are unchanged. Source/build checks
+PASS; no new ribbon pixels or post-map retirement log has been captured yet.
+
 Status: `IN_PROCESS` — identity, local/receive dispatch, action, root controller,
 controller constructor, sound registration and one child-model identity are
 static evidence. The full root update fan-out, hit reaction and cleanup chain
 remain open.
 
 ## Identity and dispatcher
+
+2026-09-13 outcome telemetry: QA-only64-record buffer now records target resolve
+outcome0/1 at the one-shot gate, and outcome2 when native InitializeEffect is
+entered for Spin controller/cross/ground carrier. It captures type/subtype,
+target index, Hero frame and elapsed clock; overflow is counted. F11/next cast
+flushes with existing controller samples. No disk writes occur in these hooks.
+This distinguishes invalid target from reaching child initialization, not full
+constructor completion, rendering or visual acceptance. Other simultaneous Spin
+effects may appear while the sampler is armed, so use one isolated cast.
+Isolated QA build PASS; not staged and no new outcome log exists yet.
+
+2026-09-13 recorded QA recheck: RuntimeQA/Client/GrowLancerRuntimeQA.log SHA256
+c973c8767bf8fdf0b13a3f49ef4af8097a3c9b07ecd4faa854b4ba741158b9de contains396
+Spin controller samples and69 samples in(4.7,6.5], with target indices-1 and3.
+The targetless group enters the gate and advances stage0->1 but cannot resolve
+a target. Other groups retain3, so missing target is NOT a complete diagnosis
+of the owner-reported missing visual. inspect_spin_controller_log.py reports
+per-cast groups without claiming allocation or render success. QA F7 now rejects
+Spin without SelectedTarget before arming samples or dispatch; native skill logic
+is unchanged. Isolated build PASS; no QA staging or new runtime acceptance.
 
 Implementation correction (2026-09-13): anchored constructor1481C51 has
 MOVSS constant1B4E93C into Angle.Z at1481CED..1481CF5, not an addition.

@@ -1,6 +1,15 @@
 #pragma once
 #include <cmath>
+class OBJECT;
 namespace rise { namespace growlancer {
+// Explicit producer provenance, not inferred from a shared bitmap/subtype.
+// Return native slot on success, -1 on failure (slot zero is valid).
+int CreateMagicPinParticle(int type, float* position, float* angle,
+    float* light, int subtype, float scale, OBJECT* owner);
+bool IsMagicPinParticleSlot(int index);
+// One source quantum; coordinated scheduler only, never alongside legacy ticks.
+void StepMagicPinParticles();
+
 template<class Particle> void UpdateMagicSmokeTick(Particle& particle) {
     for(int axis=0;axis<3;++axis)particle.Light[axis]*=.86f;
     particle.Scale+=.03f;
@@ -22,7 +31,7 @@ template<class Particle> void UpdateMagicShockwaveTick(Particle& particle) {
 }
 inline bool MagicPinHitDue(float life) { return life < 5.f; }
 // S21 controller samples inclusive windows; it does not catch up skipped ones.
-inline bool MagicPinStageDue(int stage, float frame) {
+constexpr bool MagicPinStageDue(int stage, float frame) {
     if(stage==0)return frame>=5.2f && frame<=5.8f;
     if(stage==1)return frame>=7.f && frame<=7.5f;
     if(stage==2)return frame>=10.f && frame<=10.5f;

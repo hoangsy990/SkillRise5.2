@@ -1,5 +1,32 @@
 # Shining Peak (skill 277) reverse evidence
 
+## Pin joint +A44 direct-consumer sweep — 2026-09-15
+
+The hash-guarded read-only dump scanner
+`scan_s21_joint_a44_operands.py` found 65 canonical direct 32-bit
+displacement operands across the S21 joint code band after removing
+overlapping decodes of `0x66` word stores. Exact writes at `15C670E`
+(shared stack-word input) and `15DE586` (selected pin2/3/4 overwrite to20)
+remain confirmed. The fully decoded selected subtype dispatch
+`1612773..1612CB8` jumps subtypes2/3/4 to `1612963` and from its
+end directly to the shared lifecycle tail `1618ADA`: no direct `+A44`
+read occurs in that selected body, the complete joint renderer
+`1618F44..161AEB9`, or the called tail-shift band `15E2756..15E37EF`.
+The selected update region has 18 direct calls and no indirect call; the
+called tail-shift band has 98 direct calls and no indirect call. The complete
+joint renderer has 48 indirect calls, all through six mapped PE IAT slots;
+`map_s21_joint_renderer_imports.py` resolves those slots to
+`opengl32.dll` `glBegin`, `glEnd`, `glColor3f`, `glColor3fv`,
+`glTexCoord2f` and `glVertex3fv`. None is a joint-record vtable.
+One nearby real reader at `1613AD7` belongs to a different branch
+`16139CC..1613B2E`, guarded by owner model type `0xAE4` at `16139F2`;
+its numeric proximity is not reachability evidence for Shining Peak.
+
+Thus no native mapping for this S21 struct offset is justified by the
+reviewed local chain, including its IAT-call identities. This does **not**
+exclude readers in external global pool/registration callbacks, and cannot
+prove GPU/pool parity; those and owner visual QA remain OPEN.
+
 ## Animation caller and frame cadence audit
 
 Clock identities now verified from the mapped PE import-name thunks:

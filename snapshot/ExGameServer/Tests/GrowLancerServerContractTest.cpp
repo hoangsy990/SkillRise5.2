@@ -53,11 +53,16 @@ int main()
     Require(gl::IsGrowLancerInternalSkill(281), "Magic Pin explosion classification");
     Require(!gl::HasProvenServerRuntimeHandler(271), "base dispatch remains fail closed");
     Require(!gl::HasProvenServerRuntimeHandler(281), "internal dispatch remains fail closed");
+    Require(!gl::HasProvenServerRuntimeHandler(895), "active Wrath master remains fail closed");
+    Require(!gl::HasProvenServerRuntimeHandler(708), "legacy Wrath chain remains fail closed");
+    Require(!gl::HasProvenServerRuntimeHandler(710), "legacy Wrath tail remains fail closed");
     Require(gl::HasProvenServerRuntimeHandler(270), "unrelated SS6 skill is untouched");
     for (int skillId = 0; skillId < 2048; ++skillId)
         Require(gl::HasProvenServerRuntimeHandler(skillId) ==
-            !(skillId >= 271 && skillId <= 281),
-            "runtime gate rejects precisely base/internal GL IDs, no unrelated IDs");
+            !(gl::IsGrowLancerSkill(skillId) ||
+              gl::IsActiveGrowLancerMasterSkill(skillId) ||
+              gl::IsLegacyGrowLancerMasterSkill(skillId)),
+            "runtime gate rejects base/internal/active/legacy GL IDs only");
     Require(gl::FindSkillForScroll(12, 271) == 271, "Spin Step scroll");
     Require(gl::FindSkillForScroll(12, 272) == 273, "Obsidian scroll is non-identity mapping");
     Require(gl::FindSkillForScroll(12, 277) == 279, "Breche scroll");

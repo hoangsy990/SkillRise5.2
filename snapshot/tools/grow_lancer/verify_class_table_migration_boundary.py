@@ -3,7 +3,7 @@ from pathlib import Path
 import re
 root = Path(__file__).resolve().parents[2]/'ExGameServer/GameServer'
 defaults = (root/'DefaultClassInfo.h').read_text()
-assert re.search(r'#define\s+MAX_CLASS\s+7\b', defaults)
+assert re.search(r'#define\s+MAX_CLASS\s+8\b', defaults)
 skills = (root/'SkillManager.cpp').read_text()
 prefix = skills.split('info.Damage = lpMemScript->GetAsNumber();', 1)[1].split('ReadLegacySkillClassColumns', 1)[0]
 fields = ['Damage'] + re.findall(r'info\.(\w+) = lpMemScript->GetAsNumber\(\);', prefix)
@@ -44,7 +44,7 @@ assert pairs == {(a,b) for a in range(7) for b in range(7)}, pairs
 loader = (root/'DefaultClassInfo.cpp').read_text()
 assert 'memset(this->m_DefaultClassInfo,0,sizeof(this->m_DefaultClassInfo));' in loader
 assert 'if(CHECK_RANGE(info.Class,MAX_CLASS) == 0)' in loader
-print('PASS legacy skill reader decoupled from capacity: seven tokens only, extra columns zero;49 explicit damage cells;default rows zero initialized')
+print('PASS reserved GS class capacity8; legacy skill reader still consumes seven tokens and zeros extra columns;49 explicit damage cells;default rows zero initialized')
 print('PASS thirteen metadata fields in full skill fixture match actual loader order')
 print('PASS item reader preserves section14 exclusion and preceding section-specific token step')
 print('PASS eight quest/master/bag reader placements preserve preceding fields and next-row boundary; bag section4 only')

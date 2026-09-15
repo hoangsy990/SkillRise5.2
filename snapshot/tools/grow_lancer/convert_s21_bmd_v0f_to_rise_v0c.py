@@ -179,8 +179,15 @@ def main() -> int:
     parser.add_argument("input", type=Path)
     parser.add_argument("output", type=Path)
     parser.add_argument("--expected-sha256", required=True)
-    parser.add_argument("--expected-name", required=True)
+    parser.add_argument("--expected-name")
+    parser.add_argument(
+        "--expected-name-hex",
+        help="Expected fixed-header model name bytes, useful on non-UTF8 shells",
+    )
     args = parser.parse_args()
+
+    if bool(args.expected_name) == bool(args.expected_name_hex):
+        parser.error("provide exactly one of --expected-name or --expected-name-hex")
 
     verify_reference_vector()
     source = args.input.resolve().read_bytes()
@@ -192,9 +199,12 @@ def main() -> int:
 
     plaintext = decrypt_s21_payload(parse_s21_container(source))
     identity = inspect_plaintext(plaintext)
-    if identity["name"].casefold() != args.expected_name.casefold():
+    expected_name = args.expected_name
+    if args.expected_name_hex:
+        expected_name = bytes.fromhex(args.expected_name_hex).split(b"\0", 1)[0].decode("cp949")
+    if identity["name"].casefold() != expected_name.casefold():
         raise ValueError(
-            f"model identity mismatch: expected={args.expected_name!r}, actual={identity['name']!r}"
+            f"model identity mismatch: expected={expected_name!r}, actual={identity['name']!r}"
         )
 
     output = require_isolated_output(args.output)
@@ -212,7 +222,11 @@ def main() -> int:
     print(f"OutputSha256={sha256(container)}")
     print(f"RoundTripSha256={sha256(decrypt_rise_v0c(container))}")
     for key, value in identity.items():
-        print(f"{key}={value}")
+        # Keep the verifier usable from legacy cp1252 PowerShell hosts when
+        # a S21 model header contains a Korean exporter path.
+        rendered = value.encode("ascii", "backslashreplace").decode("ascii") \
+            if isinstance(value, str) else value
+        print(f"{key}={rendered}")
     return 0
 
 

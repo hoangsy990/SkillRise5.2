@@ -12,6 +12,12 @@ Character do not occur in raw bytes. These observations support a protected
 on-disk image, not a recoverable ordinary source-function listing. They do not
 prove every code path is impossible to recover or identify the protector version.
 
+The read-only `verify_s21_server_binary_boundary.py` check additionally pins
+the PE export table to the single `OPENSSL_Applink` export and confirms that
+none of the nine Grow Lancer skill names or `Wind Soul` occur as ASCII strings.
+Numeric byte references to 271..279 are plentiful in executable sections and
+are intentionally not treated as handler evidence.
+
 No server was executed, attached, dumped, patched or unpacked in this audit.
 An available client main dump is not a dump of this AMD64 GameServer and cannot
 prove authoritative Wrath duration, formula units, save policy or damage scheduling.
