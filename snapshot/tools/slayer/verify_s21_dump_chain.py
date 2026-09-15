@@ -398,6 +398,22 @@ def main() -> int:
     if at(0x151F0D3, 4) != bytes.fromhex("83786007"):
         raise AssertionError("S21 0x80BA subtype-7 updater selector drifted")
     print("PASS: S21 Pierce three 0x80BA subtype7 fixed-180 flare lanes and per-frame updater selector pinned")
+    if at(0x145CBE0, 4) != bytes.fromhex("83786011"):
+        raise AssertionError("S21 nested 0x8012 subtype-17 initializer drifted")
+    if at(0x14FD81E, 4) != bytes.fromhex("83786011"):
+        raise AssertionError("S21 nested 0x8012 subtype-17 updater drifted")
+    for va, expected in ((0x1B4E8B0, 4.0), (0x1B4DF14, 0.5),
+                         (0x1B52524, 0.28), (0x1B4FB08, 0.95)):
+        if abs(struct.unpack("<f", at(va, 4))[0] - expected) > 0.0001:
+            raise AssertionError(f"S21 0x8012 subtype-17 scale/light drifted at {va:#x}")
+    if at(0x159D2D1, 7) != bytes.fromhex("833ddc85dd0118") or \
+       at(0x159D2E3, 7) != bytes.fromhex("833ddc85dd0124"):
+        raise AssertionError("S21 0x8012 Kalima map 24..29/36 gate drifted")
+    call = at(0x159D3E7, 5)
+    target = 0x159D3E7 + 5 + int.from_bytes(call[1:], "little", signed=True)
+    if call[0] != 0xE8 or target != 0xE2BD4D:
+        raise AssertionError("S21 0x8012 water-terrain renderer call drifted")
+    print("PASS: S21 nested 0x8012 subtype17 scale4 ShockWave and Kalima-only water draw pinned")
 
     if at(0x10EEB92, 7) != bytes.fromhex("6a5768c1000000"):
         raise AssertionError("S21 shared C1:57 skill packet constructor drifted")

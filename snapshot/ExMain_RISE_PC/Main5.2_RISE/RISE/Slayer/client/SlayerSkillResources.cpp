@@ -10,6 +10,8 @@
 #include "../../../ZzzInfomation.h"
 #include "../../../ZzzObject.h"
 #include "../../../ZzzTexture.h"
+#include "../../../GMHellas.h"
+#include "../../../MapManager.h"
 #include "../../../wsclientinline.h"
 #include "../shared/SlayerSkillContractData.h"
 #include "../shared/SlayerPierceFanoutWire.h"
@@ -88,7 +90,7 @@ bool IsBitmapEffect(int type)
 {
     return (type >= kFlare01RedEffect && type <= kFlareEffect) ||
         type == kPierce81CEEffect || type == kPierce80BAEffect ||
-        type == kPierce8149Effect;
+        type == kPierce8149Effect || type == kPierceShockWaveEffect;
 }
 
 float InitialLife(const OBJECT& effect)
@@ -136,6 +138,7 @@ float InitialLife(const OBJECT& effect)
     case kPierce81CEEffect: return effect.SubType == 4 ? 20.f : 30.f;
     case kPierce80BAEffect: return 50.f;
     case kPierce8149Effect: return 50.f;
+    case kPierceShockWaveEffect: return 15.f;
     case kFlareBlueEffect:
     case kFlareEffect: return 30.f;
     default: return 20.f;
@@ -712,6 +715,18 @@ void InitializeEffect(OBJECT& effect, float incomingScale)
         effect.Scale = incomingScale;
         effect.Alpha = 0.9f;
         break;
+    case kPierceShockWaveEffect:
+        // S21 0x145CBEA: the nested 0x8012 subtype-17 child has no
+        // owner, life 15, alpha 1 and an authored scale 4, regardless of
+        // the zero incoming scale passed by 0x81CF subtype 2.
+        if (effect.SubType != 17)
+        {
+            effect.LifeTime = 0.f;
+            break;
+        }
+        effect.Scale = 4.f;
+        effect.Alpha = 1.f;
+        break;
     case kPierceMarksCylinderModel:
         // S21 0x147ED07: subtype 1 shares the thirty-tick model setup
         // with subtype 0, but only subtype 0 has a six-second refresh
@@ -975,6 +990,10 @@ void InitializeEffect(OBJECT& effect, float incomingScale)
             effect.Scale = 1.f;
             effect.Alpha = 1.f;
             effect.Timer = WorldTime;
+            vec3_t shockLight;
+            Vector(1.f, 0.28f, 0.95f, shockLight);
+            SpawnBitmapChild(kPierceShockWaveEffect, effect, 0,
+                shockLight, 17, 0.f);
         }
         // 0x147EA2A/0x147EA83: buff-ring subtypes 4/5 copy raw scale zero
         // back over the allocator fallback, then expand by .3/1 per tick.
@@ -1007,6 +1026,13 @@ void UpdateEffect(OBJECT& effect, float animationFactor)
         // triangle; 0x81CF's two buff rings expand and fade independently.
         switch (effect.Type)
         {
+        case kPierceShockWaveEffect:
+            // S21 0x14FD824: subtype 17 expands .5 per tick and
+            // derives object alpha from remainingLife/15. No clock
+            // refresh or owner-follow rule is present in that branch.
+            effect.Scale += 0.5f * animationFactor;
+            effect.Alpha = effect.LifeTime / 15.f;
+            break;
         case kPierce8149Effect:
             // 0x152BA06: unlike 0x81CE, life refreshes only near zero.
             // Its S21 clock still cuts the sprite object off at 6000 ms.
@@ -1831,6 +1857,25 @@ void UpdateEffect(OBJECT& effect, float animationFactor)
 bool RenderEffect(OBJECT& effect)
 {
 #ifdef RISE_SLAYER_PORT
+    if (effect.Type == kPierceShockWaveEffect)
+    {
+        // S21 0x159D2BE gates 0x8012 water submission to Kalima
+        // 24..29 and Lost Kalima 36; all other maps have no draw.
+        if (!gMapManager.InHellas() && !gMapManager.InHiddenHellas())
+            return true;
+        if (!Bitmaps.FindTexture(kShockWaveBitmap))
+            return false;
+        // Its nine-argument 0xE2BD4D path matches the existing 5.2
+        // Kalima ShockWave water-terrain adapter. Native render uses the
+        // incoming light directly; the subtype's computed Alpha is not
+        // multiplied into that light here.
+        DisableDepthMask();
+        RenderWaterTerrain(kShockWaveBitmap, effect.Position[0],
+            effect.Position[1], effect.Scale, effect.Scale, effect.Light,
+            -effect.Angle[2], 1.f, 0.f);
+        EnableDepthMask();
+        return true;
+    }
     if (effect.Type == kPierce8149Effect)
     {
         // Native 0x15B145C calls sprite allocator 0x172760A for subtype 2.
@@ -2070,6 +2115,8 @@ void LoadSounds()
         "Data\\RISE\\Slayer\\Effect\\marks_m03.jpg", GL_LINEAR, GL_CLAMP);
     RegisterSlayerBitmap(kFlare01Bitmap,
         "Data\\RISE\\Slayer\\Effect\\flare01.jpg", GL_LINEAR, GL_CLAMP);
+    RegisterSlayerBitmap(kShockWaveBitmap,
+        "Data\\RISE\\Slayer\\Effect\\ShockWave.jpg", GL_LINEAR, GL_CLAMP);
     RegisterSlayerBitmap(kBetGrilsShot2RedBitmap,
         "Data\\RISE\\Slayer\\Effect\\bet_grilsshot2red.jpg", GL_LINEAR, GL_CLAMP);
     RegisterSlayerBitmap(kImpack03Bitmap,

@@ -173,12 +173,12 @@ def main() -> int:
         raise AssertionError("Detection/Demolish action IDs were aliased")
     bitmap_block = header.split("enum BitmapId", 1)[1].split("};", 1)[0]
     bitmap_ids = [int(value) for value in re.findall(r"^\s*k\w+Bitmap\s*=\s*(\d+)", bitmap_block, re.M)]
-    if len(bitmap_ids) != 32 or len(set(bitmap_ids)) != len(bitmap_ids):
+    if len(bitmap_ids) != 33 or len(set(bitmap_ids)) != len(bitmap_ids):
         raise AssertionError("Slayer bitmap IDs are incomplete or duplicated")
-    if min(bitmap_ids) != 32983 or max(bitmap_ids) != 33014:
+    if min(bitmap_ids) != 32983 or max(bitmap_ids) != 33015:
         raise AssertionError("Slayer bitmap IDs overlap Grow Lancer or exceed the reserved tail")
     global_bitmap = read("ExMain_RISE_PC/Main5.2_RISE/GlobalBitmap.cpp")
-    require(global_bitmap, "kSlayerLastReservedBitmap = 33014",
+    require(global_bitmap, "kSlayerLastReservedBitmap = 33015",
             "unnamed allocator private range boundary")
     require(global_bitmap, "m_uiTextureIndexStream = kSlayerLastReservedBitmap",
             "unnamed allocator skips Slayer fixed slots")
@@ -194,6 +194,8 @@ def main() -> int:
             "S21 Pierce 0x81CD marks_m03 private bitmap registration")
     require(resources, "RegisterSlayerBitmap(kFlare01Bitmap,",
             "S21 0x80BA subtype-6 flare01 private bitmap registration")
+    require(resources, "RegisterSlayerBitmap(kShockWaveBitmap,",
+            "S21 0x8012 subtype-17 ShockWave private bitmap registration")
     require(header, "kPierceMarksCylinderModel = MAX_MODELS + 41,",
             "native Pierce 0x5D8 child model allocated to private unused slot")
     require(resources, '{kPierceMarksCylinderModel, "marks_cylinder.bmd"}',
@@ -208,7 +210,7 @@ def main() -> int:
         "bitmap = effect.SubType == 3 ? kMarksM04Bitmap :",
     ):
         require(resources, token, f"first native Pierce 0x81CD/0x81CE graph leg {token}")
-    print("PASS: Slayer bitmap IDs 32983..33014 do not overlap Grow Lancer or unnamed allocation")
+    print("PASS: Slayer bitmap IDs 32983..33015 do not overlap Grow Lancer or unnamed allocation")
     require(header, "kPierce8149Effect = MAX_MODELS + 79",
             "native Pierce 0x8149 subtype-2 sprite object private slot")
     require(resources, "CreateSprite(kGroundStarBitmap, effect.Position, effect.Scale,",
@@ -217,6 +219,14 @@ def main() -> int:
             "native Pierce 0x8149 near-zero lifetime refresh")
     require(resources, "SpawnBitmapChild(kMagicGround12Effect, effect, effect.Owner,",
             "native Pierce 0x81CF subtype-2 ring parent creation")
+    require(header, "kPierceShockWaveEffect = MAX_MODELS + 80",
+            "native Pierce nested 0x8012 subtype-17 effect private slot")
+    require(resources, "SpawnBitmapChild(kPierceShockWaveEffect, effect, 0,",
+            "native 0x81CF nested 0x8012 has no owner")
+    require(resources, "gMapManager.InHellas() && !gMapManager.InHiddenHellas()",
+            "native 0x8012 draw is Kalima-only")
+    require(resources, "RenderWaterTerrain(kShockWaveBitmap, effect.Position[0],",
+            "native 0x8012 water-terrain pass adapter")
     require(resources, "case kMagicGround12Effect: return effect.SubType == 2 ? 15.f : 30.f;",
             "native Pierce 0x81CF subtype-2 15-tick envelope")
     require(resources, "effect.Scale += 0.15f * animationFactor;",
@@ -310,7 +320,7 @@ def main() -> int:
             "0x81CF independent ring expansion")
     if "fadeIn" in bitmap_update or "effect.Owner->Position" in bitmap_update:
         raise AssertionError("dump-unproven bitmap quarter-fade or owner-follow rule")
-    print("PASS: nine S21 bitmap effect-object nodes use the 5.2 effect pool, not particle pool")
+    print("PASS: ten S21 bitmap effect-object nodes use the 5.2 effect pool, not particle pool")
 
     for texture in ("kGhostMark02Bitmap", "kGhostMark02RedBitmap"):
         require(resources, f"CreateJoint({texture}",

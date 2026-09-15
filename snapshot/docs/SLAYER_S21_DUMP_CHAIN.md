@@ -348,9 +348,9 @@ now hash-pins/copies `marks_m04.OZJ`, reserves bitmap ID `33012`, and
 registers that exact sprite. This was an asset prerequisite; the first
 three `0x81CE` children, `0x80BA` subtype 6, `0x8149` subtype 2 and the
 `0x81CF` subtype-2 parent, `0x5D8` subtype 1 and three `0x80BA`
-subtype-7 flare objects are now spawned. All ten direct calls are present,
-but the subtype-7 per-frame particle fanout and the `0x81CF` nested child
-remain unported; visual parity is
+subtype-7 flare objects are now spawned. All ten direct calls and the
+`0x81CF` nested `0x8012` subtype-17 object are present, but subtype-7's
+per-frame particle fanout remains unported; visual parity is
 still unproven.
 Further render decode shows `0x81CE` subtype 3 submits bitmap `0x81CE`
 at `0x15AE502`, but subtypes 4 and 5 submit bitmap `0x81CD` at
@@ -408,7 +408,7 @@ creates a sprite through `0x172760A`, not a terrain tile. The private
 one-frame `kGroundStarBitmap` sprite during RenderEffects, which is then
 consumed by RenderSprites. Sprite material/blend parity still requires
 ingame validation after the whole graph is ported. The remaining
-`0x80BA` subtype-7 fanout and `0x81CF` nested child
+`0x80BA` subtype-7 particle fanout
 and owner/class-9 ingame parity remain open.
 The three direct `0x80BA` subtype-7 calls at `0x147DB3D/0x147DCFE/0x147DEBA`
 each supply light `(0.38, 0.2, 1)`, scale 2 and actor ownership. Their
@@ -429,14 +429,21 @@ until its 6000-ms cutoff. Render `0x15AE82A` submits `0x81CF` through the
 terrain-alpha path with light multiplied by object alpha, using the
 hash-pinned `magic_ground12` texture already in the private overlay.
 That initializer also creates `0x8012` subtype 17 with light
-`(1, 0.28, 0.95)` and incoming scale zero; the nested child is still
-unported. S21 loader `0x18BD19A` names `Effect\\ShockWave.jpg` for
-bitmap `0x8012`. The subtype-17 initializer `0x145CBEA` sets life 15,
-alpha 1 and its own scale; updater `0x14FD824` grows scale and derives
-alpha from remainingLife/15. Its effect-object draw branch at
-`0x159D2BE` has a map-dependent gate and calls `0xE2BD4D`; this must be
-decoded before assigning a 5.2 blend/material pass. Porting the visible
-`0x81CF` ring alone is not a complete child graph or visual PASS.
+`(1, 0.28, 0.95)`, incoming scale zero and no owner. S21 loader
+`0x18BD19A` names `Effect\\ShockWave.jpg` for bitmap `0x8012`;
+its OZJ SHA-256 is
+`F8152B6F1A247578AABA09B2FD55B98AB098AADCFD7048616E685E90B1246B7F`.
+The subtype-17 initializer `0x145CBEA` overrides scale to 4, sets life 15
+and alpha 1; updater `0x14FD824` grows scale by 0.5 per tick and derives
+alpha from remainingLife/15, with no refresh clock or owner-follow.
+Its effect-object draw branch at `0x159D2BE` submits only on Kalima maps
+24..29 and Lost Kalima 36 through nine-argument `0xE2BD4D`.
+The existing 5.2 `BITMAP_SHOCK_WAVE` Kalima path also uses
+`RenderWaterTerrain` with that argument shape; the private adapter now
+registers S21 ShockWave as bitmap `33015`, creates the subtype-17 object
+from `0x81CF` and routes only those maps through the scoped 5.2 water
+terrain pass. This pass equivalence is an inference from call signature
+and map gate, not byte-for-byte recovery or ingame visual PASS.
 
 The native character render/update paths at `0x133F0EA` and `0x13F2546`
 compare current action to `0xE4` and assign `OBJECT+0xDC = 0.3`; the
