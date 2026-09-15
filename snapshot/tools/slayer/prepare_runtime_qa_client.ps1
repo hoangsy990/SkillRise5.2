@@ -1,5 +1,5 @@
 param(
-    [string]$SourceClient = 'D:\RISE-CrossPlatform\Client',
+    [string]$SourceClient = 'D:\RISE-CrossPlatform\Source_PC_Slayer\Client',
     [string]$PrivateClient = 'D:\RISE-CrossPlatform\Source_PC_Slayer\ExMain_RISE_PC\Tests\SlayerBuild\Client',
     [string]$TargetClient = 'D:\RISE-CrossPlatform\Source_PC_Slayer\ExMain_RISE_PC\Tests\SlayerBuild\RuntimeQA\Client',
     [string]$BuiltEngine = 'D:\RISE-CrossPlatform\Source_PC_Slayer\ExMain_RISE_PC\Tests\SlayerBuild\RuntimeQA\Bin\Engine-Slayer S21.exe'

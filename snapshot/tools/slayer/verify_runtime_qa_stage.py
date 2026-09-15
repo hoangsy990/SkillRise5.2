@@ -9,7 +9,7 @@ from pathlib import Path
 
 
 ROOT = Path(r"D:\RISE-CrossPlatform\Source_PC_Slayer")
-SOURCE_CLIENT = Path(r"D:\RISE-CrossPlatform\Client")
+SOURCE_CLIENT = ROOT / "Client"
 PRIVATE_CLIENT = ROOT / "ExMain_RISE_PC" / "Tests" / "SlayerBuild" / "Client"
 TARGET = ROOT / "ExMain_RISE_PC" / "Tests" / "SlayerBuild" / "RuntimeQA" / "Client"
 
