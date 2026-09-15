@@ -512,6 +512,7 @@ void LogModelRender(const OBJECT& effect, const BMD& model, int renderFlags)
         effect.Owner && effect.Owner->Live ? 1 : 0, model.NumMeshs,
         model.NumBones, model.NumActions,
         (renderFlags & RENDER_BRIGHT) ? "additive" :
+            (renderFlags & RENDER_DARK) ? "subtractive" :
             (effect.Alpha < 0.99f ? "textured-alpha" : "textured-opaque"));
     rise::slayerqa::AppendRuntimeQALog(line);
 }
@@ -598,7 +599,7 @@ bool EnsureSlayerBlackFieldMaterial(int modelId, BMD& model, int mesh)
         return false;
     // A model may already be resident when the private Slayer graph reaches
     // it. Do not treat an RGB black-field JPEG as render-ready in that path.
-    // The registered S21 0x688/0x691/0x694 handlers use bright RGB passes,
+    // The registered S21 0x688/0x691/0x694 handlers use dark RGB passes,
     // so they must not inherit the earlier experimental RGBA key. Only the
     // Pierce cylinder still uses this bounded 5.2 compatibility adapter.
     if (bitmap->Components == 4)
@@ -2081,18 +2082,19 @@ bool RenderEffect(OBJECT& effect)
     if (model.NumMeshs == 0)
         return true;
     // Registered native handlers 0xA52E26/0xA52FEC/0xA53114 multiply each
-    // model-light component by OBJECT+0xDC Alpha and draw flag 0x82. The 5.2
-    // texture-bright branch uses GL_ONE/GL_ONE, so its color must be attenuated
-    // explicitly; the draw Alpha alone cannot fade these RGB meshes.
-    const bool nativeBright = effect.Type == kBatFlockTrailModel ||
+    // model-light component by OBJECT+0xDC Alpha and draw flag 0x82. Native
+    // bit 0x80 selects GL_ZERO/GL_ONE_MINUS_SRC_COLOR, not bright blending;
+    // the draw Alpha alone cannot fade these RGB meshes.
+    const bool nativeDark = effect.Type == kBatFlockTrailModel ||
         effect.Type == kDetectionMarkModel ||
         effect.Type == kDetectionImpactModel;
-    if (nativeBright)
+    if (nativeDark)
         VectorScale(effect.Light, effect.Alpha, model.BodyLight);
     // The 0x678 subtype-specific registered handler needs separate decoding;
     // keep its previous private pass until those mesh/subtype gates are ported.
-    const int renderFlags = effect.Type == kPierceMarksCylinderModel ?
-        RENDER_TEXTURE : (RENDER_TEXTURE | RENDER_BRIGHT);
+    const int renderFlags = nativeDark ? (RENDER_TEXTURE | RENDER_DARK) :
+        effect.Type == kPierceMarksCylinderModel ? RENDER_TEXTURE :
+        (RENDER_TEXTURE | RENDER_BRIGHT);
     model.RenderBody(renderFlags, effect.Alpha,
         effect.BlendMesh, effect.BlendMeshLight,
         effect.BlendMeshTexCoordU, effect.BlendMeshTexCoordV,

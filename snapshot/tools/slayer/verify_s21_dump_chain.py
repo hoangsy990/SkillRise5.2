@@ -269,7 +269,7 @@ def main() -> int:
     print("PASS: S21 ReceiveMagic Brand canonicalizer 0xBCFF9F resolves Bat 782->781->293")
 
     # Registered S21 custom handlers draw the Bat trail and both buff models
-    # with flag 0x82 (texture|bright) after scaling their model RGB light by
+    # with flag 0x82 (texture|dark) after scaling their model RGB light by
     # OBJECT+0xDC Alpha. The earlier flag-2 body is only the fallback.
     for va, expected in (
         (0xA1B103, bytes.fromhex("681486a40068d8050000e8d42b00005959")),
@@ -284,10 +284,15 @@ def main() -> int:
         (0xA53102, bytes.fromhex("68820000008b4d08e8495bf1ff")),
         (0xA53234, bytes.fromhex("68820000008b4d08e8175af1ff")),
         (0xA53343, bytes.fromhex("68820000008b4d08e80859f1ff")),
+        # Native renderer bit 0x40 is bright; bit 0x80 is dark and selects
+        # GL_ZERO / GL_ONE_MINUS_SRC_COLOR, matching 5.2 RENDER_DARK.
+        (0x1331F5D, bytes.fromhex("8b450c83e0407408e8cd515b0090eb18")),
+        (0x1331F6D, bytes.fromhex("8b450c25800000007408e847525b0090")),
+        (0x18E71E4, bytes.fromhex("68010300006a00ff154cc7b401")),
     ):
         if at(va, len(expected)) != expected:
             raise AssertionError(f"S21 registered Bat/buff draw drifted at {va:#x}")
-    print("PASS: S21 0x5D8 registry callback returns false; registered 0x688/0x691/0x694 draw flag=0x82 texture|bright and model RGB light*=OBJECT alpha")
+    print("PASS: S21 0x5D8 registry callback returns false; registered 0x688/0x691/0x694 draw flag=0x82 texture|dark, GL_ZERO/GL_ONE_MINUS_SRC_COLOR, model RGB light*=OBJECT alpha")
     # Two manager gates still precede the fallback. This table shows the
     # second-manager handlers, not proof that the first never intercepts.
     # The E4 action-init has a bounded actor-Z writer.

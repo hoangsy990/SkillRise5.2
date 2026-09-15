@@ -382,7 +382,7 @@ def main() -> int:
             "native Pierce 0x5D8 subtype-1 model child creation")
     require(resources, "case kPierceMarksCylinderModel: return 30.f;",
             "native Pierce 0x5D8 subtype-1 30-tick life")
-    require(resources, "effect.Type == kPierceMarksCylinderModel ?\n        RENDER_TEXTURE :",
+    require(resources, "effect.Type == kPierceMarksCylinderModel ? RENDER_TEXTURE :",
             "native Pierce 0x5D8 ordinary textured model adapter")
     require(resources, "Vector(180.f, 0.f, 0.f, turn);",
             "native Pierce three 0x80BA subtype-7 lanes use fixed 180-degree transform")
@@ -812,13 +812,15 @@ def main() -> int:
     require(resources, "Calc_RenderObject(&effect, false, 0, 0)",
             "native generic model Calc wrapper")
     require(resources, "effect.Type == kBatFlockTrailModel ||",
-            "S21 0x688 registered bright draw light attenuation")
+            "S21 0x688 registered dark draw light attenuation")
     require(resources, "effect.Type == kDetectionMarkModel ||",
-            "S21 0x691 registered bright draw light attenuation")
+            "S21 0x691 registered dark draw light attenuation")
     require(resources, "effect.Type == kDetectionImpactModel;",
-            "S21 0x694 registered bright draw light attenuation")
+            "S21 0x694 registered dark draw light attenuation")
     require(resources, "VectorScale(effect.Light, effect.Alpha, model.BodyLight);",
             "native 0x688/0x691/0x694 multiply model RGB light by object alpha")
+    require(resources, "nativeDark ? (RENDER_TEXTURE | RENDER_DARK) :",
+            "native 0x82 is textured subtractive dark, not textured bright")
     require(resources, "(RENDER_TEXTURE | RENDER_BRIGHT);",
             "Slayer shaped bat model retains isolated additive body pass")
     require(resources, "model.RenderBody(renderFlags, effect.Alpha,",
@@ -832,7 +834,7 @@ def main() -> int:
     require(resources, "(modelId == kBatFlockTrailModel && model.NumMeshs != 3)",
             "S21 Bat trail resident three-mesh shape checked before draw")
     require(resources, "if (modelId != kPierceMarksCylinderModel)\n        return true;",
-            "registered bright RGB models bypass speculative alpha key")
+            "registered dark RGB models bypass speculative alpha key")
     require(resources, "if (bitmap->Components == 4)\n        return true;",
             "already-keyed Slayer material remains ready")
     require(resources, "return bitmap->Components == 3 &&\n        Bitmaps.ApplySlayerBlackKeyAlpha(model.IndexTexture[mesh],",

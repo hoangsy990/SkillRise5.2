@@ -845,7 +845,9 @@ The second registry does register `0x688` at `0xA1B9B6` with handler
 `0xA52E26`, `0x691` at `0xA1B9E9` with `0xA52FEC`, and `0x694` at
 `0xA1B9FA` with `0xA53114`. All three handlers multiply each model-light
 RGB component by `OBJECT+0xDC` alpha and submit flag `0x82`
-(`RENDER_TEXTURE|RENDER_BRIGHT`), returning handled. The `0x694` handler
+(`RENDER_TEXTURE|RENDER_DARK`), returning handled. Native `0x1331F5D`
+tests bit `0x40` for bright and bit `0x80` for dark; the latter calls
+`0x18E71C3`, which sets `GL_ZERO/GL_ONE_MINUS_SRC_COLOR`. The `0x694` handler
 does this in both subtypes. The first manager may still intercept a given
 instance; these registered paths nevertheless disprove the prior inference
 that these models use the ordinary flag-2 pass. The native alpha
@@ -857,7 +859,7 @@ Bat/buff draw contract. Missing default BlendMesh state is therefore
 not an evidence-backed explanation for the black funnel. The native alpha
 helper `0x18E709C` enables `GL_BLEND` with `GL_SRC_ALPHA` /
 `GL_ONE_MINUS_SRC_ALPHA`; `0x18E7137` is the separate `GL_ONE`/`GL_ONE`
-bright helper. For registered `0x688/0x691/0x694`, the authored bright pass
+bright helper. For registered `0x688/0x691/0x694`, the authored dark pass
 uses RGB light times alpha to fade, not a texture-alpha mask. A read-only
 structural parse of the pinned S21
 BMDs, checked against the staged v0C imports, finds `0x694`
@@ -888,7 +890,7 @@ the white block implicates the old port's `0x691` color/fade path, not a
 legacy 5.2 graph. In 5.2 `RENDER_BRIGHT` uses `GL_ONE/GL_ONE`, so merely
 passing the authored Alpha to `RenderBody` did not fade repeated `0x691`
 children. The isolated renderer now sets the model RGB light to
-`effect.Light * effect.Alpha` before the bright draw, as the registered S21
+`effect.Light * effect.Alpha` before the subtractive dark draw, as the registered S21
 handlers do. The experimental RGBA key and textured-alpha pass for
 `0x691/0x694` have been removed. The shaped `0x678` bat still needs its
 subtype-specific registered handler port.
@@ -897,7 +899,7 @@ The `0x688` Bat trail is a separate three-mesh ring (`marks_m03.jpg`,
 plaintext is byte-identical to the hash-pinned S21 BMD, and all three meshes
 map a full `0..1` UV square. Native `0x688` starts at `Alpha=0` and has a
 fade-in/out curve; the old 5.2 additive `GL_ONE/GL_ONE` pass discarded that
-alpha. The port now applies the registered bright RGB pass with light
+alpha. The port now applies the registered dark RGB pass with light
 attenuation, not the brief textured-alpha compatibility experiment.
 Hash-pinned RGB audit finds `marks_m03` has 48,703/65,536 texels at peak
 `<=16`, while `macardkmono` has only 222/32,768 there; these field counts
@@ -1157,7 +1159,7 @@ one `RenderBody` call after the generic Calc path. The later decoded S21
 draw registry, however, submits `0x688/0x691/0x694` with flag `0x82`
 after multiplying their model RGB light by OBJECT alpha; the previously
 assumed flag-2 ordinary body is only fallback. The 5.2 port now mirrors
-that registered bright RGB path for those three models and no longer
+that registered dark RGB path for those three models and no longer
 color-keys their textures. The S21 OZJ loader at `0xCC53AC/0xCC562D/
 0xCC58E5` removes the 24-byte wrapper, decodes three components and
 uploads `GL_RGB`. The prior cutoff-48 `ark` and cutoff-16

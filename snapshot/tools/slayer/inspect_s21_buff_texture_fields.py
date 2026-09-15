@@ -46,7 +46,7 @@ def main() -> None:
         keyed = sum(value <= current_cutoff for value in peaks)
         residual = sum(current_cutoff < value <= 48 for value in peaks)
         # Only lines2 currently receives this 5.2 RGBA adapter. For the
-        # registered S21 0x688/0x691/0x694 bright RGB materials, these are
+        # registered S21 0x688/0x691/0x694 dark RGB materials, these are
         # hypothetical cutoff statistics, not their active render path.
         alpha_test_floor = current_cutoff + int((255 - current_cutoff) * 0.25)
         hidden = sum(value <= alpha_test_floor for value in peaks)
