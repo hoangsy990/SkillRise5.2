@@ -269,8 +269,9 @@ def main() -> int:
     print("PASS: S21 ReceiveMagic Brand canonicalizer 0xBCFF9F resolves Bat 782->781->293")
 
     # Both buff models 0x691/0x694 reach the generic object Calc/Draw
-    # wrapper. Its ordinary body pass is flag 2 (texture), not an invented
-    # additive pass; the E4 action-init has a bounded actor-Z writer.
+    # wrapper. Its flag-2 body pass is only the fallback: two manager gates
+    # can draw and bypass it. This does not prove per-instance fallback use.
+    # The E4 action-init has a bounded actor-Z writer.
     native_model_bytes = {
         0x15B2A24: bytes.fromhex("6aff6aff6a006a006a00ffb52cf6ffffe8e8ab1b0083c418"),
         0x15B2BCA: bytes.fromhex("6aff6aff6a006a006a00ffb52cf6ffffe842aa1b0083c418"),
@@ -281,6 +282,10 @@ def main() -> int:
         0x143E775: bytes.fromhex("f30f1180a8000000"),
         0x143E786: bytes.fromhex("f30f1180ac000000"),
         0x143E797: bytes.fromhex("f30f1180b0000000"),
+        # First special-model manager, then the custom-draw registry: either
+        # can bypass the ordinary flag-2 body in this native wrapper.
+        0x1887DDB: bytes.fromhex("e8da99000083c41c8845fe0fb645fe85c0"),
+        0x1887E1C: bytes.fromhex("e8d8a001000fb6c085c0742e"),
         # Native RenderBody argument order reads exactly those fields,
         # OBJECT+0xDC alpha, and ordinary material flag 2.
         0x1887E5E: bytes.fromhex(
@@ -305,7 +310,7 @@ def main() -> int:
     ):
         if at(va, len(expected)) != expected:
             raise AssertionError(f"S21 model alpha/bright GL blend bytes drifted at {va:#x}")
-    print("PASS: S21 0x691/0x694 ordinary body flag=2, native alpha GL_SRC_ALPHA/GL_ONE_MINUS_SRC_ALPHA; E4 action-init actor Position Z +=5 (not XY rush proof)")
+    print("PASS: S21 0x691/0x694 wrapper has two special-draw gates before fallback body flag=2; native alpha GL_SRC_ALPHA/GL_ONE_MINUS_SRC_ALPHA; E4 actor Position Z +=5 (not XY rush proof)")
     print("PASS: S21 model draw forwards allocator HiddenMesh=-1/BlendMesh=-1/light=1/UV=0 and OBJECT alpha; 5.2 must preserve these material inputs")
     # The native OZJ path strips the 24-byte wrapper, decodes JPEG into
     # three components, and uploads GL_RGB (0x1907) with internal count 3.

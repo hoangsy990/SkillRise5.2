@@ -832,8 +832,13 @@ an extra model draw. The isolated 5.2 renderer keeps `Calc_RenderObject`
 for animation, light and origin, then calls `RenderBody` exactly once,
 which brackets the authored meshes under `BeginRender/EndRender` and the
 shader scope. The earlier direct `RenderMesh` loop skipped that scope.
-Full basic-block decoding of `0x1887EB0` shows the ordinary native body
-flag is `2` for both buff models `0x691` and `0x694`. The native alpha
+Full basic-block decoding of `0x1887EB0` shows the **fallback** native body
+flag is `2`. This is conditional: `0x1887DDB` first calls special-model
+manager `0x18917BA` and skips the fallback if it returns true; `0x1887E1C`
+then tests a second custom-draw registry through `0x18A1EF9` and may skip
+the fallback after its dynamic draw. The dump alone does not prove every
+instance of `0x678/0x688/0x691/0x694` actually takes the flag-2 branch.
+The native alpha
 allocator at `0x143E759..0x143E797` sets HiddenMesh/BlendMesh to `-1`,
 blend-light to `1`, and both blend-UV offsets to `0`. The ordinary draw
 call at `0x1887E5E..0x1887EBA` forwards those fields plus `OBJECT+0xDC`
@@ -842,8 +847,9 @@ matches these material inputs. Missing default BlendMesh state is therefore
 not an evidence-backed explanation for the black funnel. The native alpha
 helper `0x18E709C` enables `GL_BLEND` with `GL_SRC_ALPHA` /
 `GL_ONE_MINUS_SRC_ALPHA`; `0x18E7137` is the separate `GL_ONE`/`GL_ONE`
-bright helper. Hence replacing these model passes with additive blending
-would diverge from S21. A read-only structural parse of the pinned S21
+bright helper. An unconditional additive replacement would diverge from the
+decoded fallback pass; whether a custom manager draws a given instance still
+needs proof. A read-only structural parse of the pinned S21
 BMDs, checked against the staged v0C imports, finds `0x694`
 `Van_object04_skill` has two authored **flat** meshes (all vertex Z=0),
 26 animation keys, and seven bones whose X/Y rotation channels remain zero
@@ -878,8 +884,20 @@ For `0x691`, the isolated loader converts the original RGB texels of
 become transparent and the authored silver mark remains. It updates the GPU
 texture and CPU bitmap allocation together without rewriting the S21 BMD/OZJ
 or changing other 5.2 materials. Both `0x691` and `0x694` now use the
-generic textured alpha body path; the luminous bat/trail models remain
-additive. In the private MainRF fixture, fresh Detection/Demolish captures
+generic textured alpha body path; the shaped `0x678` bat stays additive.
+The `0x688` Bat trail is a separate three-mesh ring (`marks_m03.jpg`,
+`empact01.jpg`, `macardkmono.jpg`), not the shaped bat. The imported v0C
+plaintext is byte-identical to the hash-pinned S21 BMD, and all three meshes
+map a full `0..1` UV square. Native `0x688` starts at `Alpha=0` and has a
+fade-in/out curve; the old 5.2 additive `GL_ONE/GL_ONE` pass discarded that
+alpha. The isolated port now gives only `0x688` a textured-alpha pass and
+keys only those three authored dark-field materials in memory. Hash-pinned
+RGB audit finds `marks_m03` has 48,703/65,536 texels at peak `<=16`, while
+`macardkmono` has only 222/32,768 there. At 5.2's effective alpha-test
+threshold, 16,527/32,768 `macardkmono` texels would be hidden, so this
+compatibility mask still needs real visual validation; it is **not** a
+recovered native S21 black-key algorithm or framebuffer proof.
+In the private MainRF fixture, fresh Detection/Demolish captures
 show the silver vortex over an intact terrain tile instead of an opaque
 black/white block; this is **renderer QA only, not Slayer class-9 acceptance**.
 The older extracted `Media1_20260914/frame_019.jpg` shows red attack

@@ -30,6 +30,10 @@ MODELS = {
         "F91EA00CFC10DC3E36935FE80AD6CA391EAED64142E7D572E5AB2939A7689BE3",
         1, 72, 214.58230590820312,
     ),
+    "van_object02_skill.bmd": (
+        "EC45FCBADBC129D1056D64EBFB70EA32D3AD3C0A29F47AF7D341A5A762DF5A5B",
+        3, 64, 8.272600173950195,
+    ),
 }
 
 
@@ -134,6 +138,8 @@ def main() -> None:
             if name == "van_object03_skill.bmd" else
             ("lines2.jpg",)
             if name == "marks_cylinder.bmd" else
+            ("marks_m03.jpg", "empact01.jpg", "macardkmono.jpg")
+            if name == "van_object02_skill.bmd" else
             ("ark.jpg", "empact01.jpg")
         )
         if tuple(mesh[4].lower() for mesh in meshes) != \
@@ -152,6 +158,9 @@ def main() -> None:
                  (name == "Van_object04_skill.bmd" and
                   (abs(v_min) > 0.0001 or abs(v_max - 1) > 0.0001)):
                 raise AssertionError(f"S21 buff model UV field drifted: {name}/mesh{mesh[0]}")
+            if name == "van_object02_skill.bmd" and \
+               (abs(v_min) > 0.0001 or abs(v_max - 1) > 0.0001):
+                raise AssertionError(f"S21 Bat trail UV field drifted: {name}/mesh{mesh[0]}")
         mesh_summary = [(mesh[0], mesh[3], mesh[4], mesh[6]) for mesh in meshes]
         print(f"PASS: {name} S21 mesh={len(meshes)} largest={expected_vertices} vertices maxZ={max_z:.3f} actions={actions} bones={len(bones)} materials/UV={mesh_summary} plaintext={module.sha256(plain)} imported={'identical' if imported_path.exists() else 'not staged'}")
 
