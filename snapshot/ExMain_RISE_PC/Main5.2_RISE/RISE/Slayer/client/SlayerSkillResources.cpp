@@ -632,8 +632,7 @@ void InitializeEffect(OBJECT& effect, float incomingScale)
     // Native CreateEffect first normalizes non-positive incoming scale to
     // 0.9, but some subtype initializers then overwrite OBJECT+0xA0 with
     // the original argument. Keep both values separate for those branches.
-    if (effect.Type == kBatFlockTrailModel ||
-        effect.Type == kDetectionMarkModel)
+    if (effect.Type == kBatFlockTrailModel)
         effect.Alpha = 0.f;
 
     // Root creation is kept on the controller initializer. Every child below
@@ -937,18 +936,21 @@ void InitializeEffect(OBJECT& effect, float incomingScale)
         break;
     }
     case kDetectionMarkModel:
-        // 0x1492234: subtype 0 overwrites the allocator's 0.9 fallback
-        // with the raw incoming scale. Subtype 1 exits at 0x1492277.
-        // Sword's scale-zero mark thus starts at zero and grows in update,
-        // rather than appearing immediately as an opaque full-size disc.
+        // 0x1492259/0x149226F: subtype 0 copies raw incoming scale to both
+        // +0xA0 (scale) and +0xDC (alpha); subtype 1 exits at 0x1492277.
+        // Sword's scale-zero mark stays invisible at birth, while the
+        // buff's per-frame scale-0.2 mark starts at alpha 0.2.
         if (effect.SubType == 0)
+        {
             effect.Scale = incomingScale;
+            effect.Alpha = incomingScale;
+        }
         break;
     case kDetectionImpactModel:
         // Native 0x14926E2/0x14927AD copy the incoming scale to +0xDC
         // (alpha) for both subtypes: Detection/Demolish mode 0 starts at
-        // 1.0, while Demolish mode 1 starts at 0.5. Do not use the zero
-        // initial alpha of the separate 0x691 mark model here.
+        // 1.0, while Demolish mode 1 starts at 0.5. The paired 0x691
+        // mark initializer likewise copies its own incoming scale.
         effect.Alpha = incomingScale;
         effect.Position[2] += 50.f;
         Vector(0.f, 0.f, 0.f, effect.Angle);

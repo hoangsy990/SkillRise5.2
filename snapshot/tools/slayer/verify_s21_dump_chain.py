@@ -263,15 +263,15 @@ def main() -> int:
         if at(va, len(expected)) != expected:
             raise AssertionError(f"S21 0x694/E4 action-init bytes drifted at {va:#x}")
     print("PASS: S21 0x694 ordinary body flag=2; E4 action-init actor Position Z +=5 (not XY rush proof)")
-    # Both 0x694 initializer modes write incoming scale into model scale
-    # (+0xA0) and alpha (+0xDC), unlike the separate zero-alpha 0x691.
+    # 0x691 mode 0 and both 0x694 modes write incoming scale into model
+    # scale (+0xA0) and alpha (+0xDC).
     alpha_init = bytes.fromhex(
         "f30f104520f30f1180a00000008b85c8ceffff0f57c0f30f1180dc000000"
     )
-    for va in (0x14926CC, 0x1492797):
+    for va in (0x1492259, 0x14926CC, 0x1492797):
         if at(va, len(alpha_init)) != alpha_init:
-            raise AssertionError(f"S21 0x694 scale/alpha initializer drifted at {va:#x}")
-    print("PASS: S21 0x694 both modes initialize alpha from incoming scale")
+            raise AssertionError(f"S21 0x691/0x694 scale/alpha initializer drifted at {va:#x}")
+    print("PASS: S21 0x691 mode 0 and 0x694 both modes initialize alpha from incoming scale")
     # Both buff roots choose smoke/line family before calling the same
     # inclusive Random(-30,30,1) helper twice for independent XY offsets.
     if abs(struct.unpack("<f", at(0x1B4E4D8, 4))[0] - 30.0) > 0.0001:

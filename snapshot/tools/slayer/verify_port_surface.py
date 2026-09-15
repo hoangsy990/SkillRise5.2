@@ -478,8 +478,8 @@ def main() -> int:
             "Slayer effects retain S21/5.2 non-positive scale fallback")
     require(effect_allocator, "rise::slayer::InitializeEffect(*o, Scale);",
             "Slayer initializer receives raw CreateEffect scale")
-    require(resources, "if (effect.SubType == 0)\n            effect.Scale = incomingScale;",
-            "0x691 subtype0 restores raw scale after allocator fallback")
+    if not re.search(r"case kDetectionMarkModel:\s*// 0x1492259[^\n]*\n(?:\s*//[^\n]*\n)*\s*if \(effect.SubType == 0\)\s*\{\s*effect.Scale = incomingScale;\s*effect.Alpha = incomingScale;", resources):
+        raise AssertionError("0x691 subtype-0 must restore raw scale/alpha after allocator fallback")
     require(resources, "if (effect.SubType == 4 || effect.SubType == 5)\n            effect.Scale = incomingScale;",
             "0x81CF buff rings start at raw zero scale")
     require(resources, "if (pierceList && effect.SubType == 2)",

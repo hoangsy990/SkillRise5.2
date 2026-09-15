@@ -567,10 +567,13 @@ The paired native `0x694` initializer modes at `0x14926CC` and
 `0x1492797` both write the incoming scale to model scale `+0xA0` and
 alpha `+0xDC`. Mode 0 is created at scale/alpha `1.0`; Demolish's
 second mode is created at scale/alpha `0.5`. The first 5.2 port
-overrode both alphas to zero by incorrectly sharing `0x691`'s
-zero-alpha setup. The isolated model initializer now keeps the native
-incoming value; the renderer black-field artifact remains a separate
-ingame parity question.
+overrode both alphas to zero. Rereading the native `0x691` subtype-0
+initializer at `0x1492259..0x1492277` shows the same pair of writes:
+its Sword scale-zero mark starts at alpha zero, but buff wave scale
+`.2` starts at alpha `.2`. The first 5.2 port incorrectly forced all
+`0x691` alphas to zero as well. Both isolated model initializers now
+keep their native incoming values; the renderer black-field artifact
+remains a separate ingame parity question.
 
 Detection's minimap reveal is separate from the `0x692` cast graph. The
 Webzen Slayer guide states that nearby life forms are marked on the minimap
