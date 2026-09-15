@@ -126,7 +126,7 @@ public:
 	GLuint LoadImageFile(const std::string& filename, GLuint uiFilter = GL_NEAREST, GLuint uiWrapMode = GL_CLAMP_TO_EDGE);
 	bool LoadImageFile(GLuint uiBitmapIndex, const std::string& filename, GLuint uiFilter = GL_NEAREST, GLuint uiWrapMode = GL_CLAMP_TO_EDGE);
 #ifdef RISE_SLAYER_PORT
-	bool ApplySlayerBlackKeyAlpha(GLuint uiBitmapIndex);
+	bool ApplySlayerBlackKeyAlpha(GLuint uiBitmapIndex, BYTE blackFloor = 16);
 #endif
 	void UnLoadImageFile(GLuint uiBitmapIndex, bool bForce = false);
 	void UnloadAllImages();

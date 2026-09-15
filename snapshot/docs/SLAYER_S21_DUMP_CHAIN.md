@@ -417,9 +417,8 @@ creates a sprite through `0x172760A`, not a terrain tile. The private
 5.2 adapter keeps this as a parent-owned effect object and submits a
 one-frame `kGroundStarBitmap` sprite during RenderEffects, which is then
 consumed by RenderSprites. Sprite material/blend parity still requires
-ingame validation after the whole graph is ported. The remaining
-`0x80BA` subtype-7 particle fanout
-and owner/class-9 ingame parity remain open.
+ ingame validation after the whole graph is ported. The subtype-7 particle
+ fanout is now ported; owner/class-9 ingame parity remains open.
 The three direct `0x80BA` subtype-7 calls at `0x147DB3D/0x147DCFE/0x147DEBA`
 each supply light `(0.38, 0.2, 1)`, scale 2 and actor ownership. Their
 positions are the root position plus vectors `(-126.71, 73.69, 0)`,
@@ -897,8 +896,14 @@ an explicit additive flag at this call site. The 5.2 adapter likewise uses
 `ark.OZJ` and `empact01.OZJ`, are RGB JPEG rings with authored black fields.
 Thus the current hard black funnel cannot be attributed to an old 5.2 skill
 graph. The 5.2 adapter now color-keys only imported `ark` and `empact01`
-instances to RGBA in memory before the ordinary textured-alpha draw; the
-S21 files and unrelated 5.2 materials remain byte-for-byte intact. This
+ instances to RGBA in memory before the ordinary textured-alpha draw. A
+ read-only decode of pinned `ark.OZJ` (after its 24-byte OZJ header) shows
+ 128x128 RGB, with four background corners at gray 38/40/39/40. The previous
+ black-floor cutoff 16 left those corners at nonzero alpha, so layered
+ instances could still form a dark field. The adapter now uses cutoff 48
+ **only** for imported `ark`; `empact01` and the silver-mark material retain
+ cutoff 16. The S21 files and unrelated 5.2 materials remain byte-for-byte
+ intact. This
 is a scoped render adaptation responding to the observed black field, not
 a decoded claim that S21 globally erases every black texel. Model pose/origin,
 per-mesh state and one-shot cast ownership still require ingame comparison.

@@ -204,6 +204,8 @@ def main() -> int:
             "S21 0x694 ark material isolated black key")
     require(resources, '_stricmp(material, "empact01.JPG")',
             "S21 0x694 empact01 material isolated black key")
+    require(resources, "isArk ? 48 : 16",
+            "0x694 ark gray-background cutoff isolated from other S21 materials")
     require(header, "kPierceMarksCylinderModel = MAX_MODELS + 41,",
             "native Pierce 0x5D8 child model allocated to private unused slot")
     require(resources, '{kPierceMarksCylinderModel, "marks_cylinder.bmd"}',
@@ -632,9 +634,9 @@ def main() -> int:
             "0x691 JPEG-black field adapted to RGBA in private model loader")
     bitmap_header = read("ExMain_RISE_PC/Main5.2_RISE/GlobalBitmap.h")
     bitmap_source = read("ExMain_RISE_PC/Main5.2_RISE/GlobalBitmap.cpp")
-    require(bitmap_header, "bool ApplySlayerBlackKeyAlpha(GLuint uiBitmapIndex);",
+    require(bitmap_header, "bool ApplySlayerBlackKeyAlpha(GLuint uiBitmapIndex, BYTE blackFloor = 16);",
             "Slayer-only bitmap alpha API")
-    require(bitmap_source, "bool CGlobalBitmap::ApplySlayerBlackKeyAlpha(GLuint uiBitmapIndex)",
+    require(bitmap_source, "bool CGlobalBitmap::ApplySlayerBlackKeyAlpha(GLuint uiBitmapIndex, BYTE blackFloor)",
             "Slayer-only in-memory JPEG black-key implementation")
     if "model.RenderMesh(mesh, RENDER_TEXTURE, effect.Alpha," in resources:
         raise AssertionError("Slayer model render bypasses BeginRender/EndRender")

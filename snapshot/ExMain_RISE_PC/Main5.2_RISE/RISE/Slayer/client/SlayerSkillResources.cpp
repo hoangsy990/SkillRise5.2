@@ -590,9 +590,11 @@ bool EnsureModel(int modelId)
             // black fields. Key only these imported private textures, so
             // 5.2's ordinary textured-alpha pass can blend the empty field.
             const char* material = model.Textures[mesh].FileName;
-            if ((_stricmp(material, "ark.JPG") != 0 &&
-                    _stricmp(material, "empact01.JPG") != 0) ||
-                !Bitmaps.ApplySlayerBlackKeyAlpha(model.IndexTexture[mesh]))
+            const bool isArk = _stricmp(material, "ark.JPG") == 0;
+            const bool isEmpact = _stricmp(material, "empact01.JPG") == 0;
+            if ((!isArk && !isEmpact) ||
+                !Bitmaps.ApplySlayerBlackKeyAlpha(model.IndexTexture[mesh],
+                    isArk ? 48 : 16))
             {
                 model.Release();
                 return false;

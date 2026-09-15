@@ -451,7 +451,7 @@ bool CGlobalBitmap::LoadImageFile(GLuint uiBitmapIndex, const std::string& filen
 	return false;
 }
 #ifdef RISE_SLAYER_PORT
-bool CGlobalBitmap::ApplySlayerBlackKeyAlpha(GLuint uiBitmapIndex)
+bool CGlobalBitmap::ApplySlayerBlackKeyAlpha(GLuint uiBitmapIndex, BYTE blackFloor)
 {
 	// Private S21 silver-mark/ring materials are RGB JPEGs with black fields
 	// around the visible effect. Keep their source bytes and all 5.2 textures
@@ -459,7 +459,7 @@ bool CGlobalBitmap::ApplySlayerBlackKeyAlpha(GLuint uiBitmapIndex)
 	BITMAP_t* bitmap = FindTexture(uiBitmapIndex);
 	if (!bitmap || bitmap->Components != 3 || !bitmap->Buffer ||
 		bitmap->TextureNumber == 0 || bitmap->Width <= 0.f ||
-		bitmap->Height <= 0.f)
+		bitmap->Height <= 0.f || blackFloor >= 255)
 		return false;
 	const size_t width = static_cast<size_t>(bitmap->Width);
 	const size_t height = static_cast<size_t>(bitmap->Height);
@@ -481,8 +481,8 @@ bool CGlobalBitmap::ApplySlayerBlackKeyAlpha(GLuint uiBitmapIndex)
 			std::max<unsigned>(rgb[1], rgb[2]));
 		// Suppress JPEG black-floor noise while retaining the authored gray
 		// feathered edge; no shape or color is synthesized.
-		target[3] = peak <= 16 ? 0 : static_cast<BYTE>(
-			(peak - 16) * 255 / 239);
+		target[3] = peak <= blackFloor ? 0 : static_cast<BYTE>(
+			(peak - blackFloor) * 255 / (255 - blackFloor));
 	}
 	GLint priorTexture = 0;
 	glGetIntegerv(GL_TEXTURE_BINDING_2D, &priorTexture);
