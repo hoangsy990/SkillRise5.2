@@ -917,8 +917,9 @@ passing the authored Alpha to `RenderBody` did not fade repeated `0x691`
 children. The isolated renderer now sets the model RGB light to
 `effect.Light * effect.Alpha` before the subtractive dark draw, as the registered S21
 handlers do. The experimental RGBA key and textured-alpha pass for
-`0x691/0x694` have been removed. The shaped `0x678` bat still needs its
-subtype-specific registered handler port.
+`0x691/0x694` have been removed. The shaped `0x678` bat's registered
+model passes and bone-7 sprite branch are now ported below; its 5.2 sprite
+API adapter still needs visual acceptance.
 The `0x688` Bat trail is a separate three-mesh ring (`marks_m03.jpg`,
 `empact01.jpg`, `macardkmono.jpg`), not the shaped bat. The imported v0C
 plaintext is byte-identical to the hash-pinned S21 BMD, and all three meshes
@@ -943,7 +944,7 @@ frame set has no retained source-video hash, so it is observation only,
 not authoritative current-video provenance. The remaining `0x5D8` lines2
 color key is a 5.2 adapter, **not a full ingame parity PASS**.
 Body light is multiplied by alpha once for registered `0x688/0x691/0x694`
-bright model draws. Every diagnostic skip
+dark model draws. Every diagnostic skip
 used to establish causality was removed from code and the private QA client.
 
 Sword child `0x68D` has two native branches. The base branch used by the 5.2
