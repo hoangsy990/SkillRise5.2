@@ -221,7 +221,22 @@ static int CreateParticleInternal(int Type, int TextureType, vec3_t Position,
             case rise::slayer::kSmokeLines01Bitmap:
             case rise::slayer::kSmokeLines02Bitmap:
             case rise::slayer::kSmokeLines03Bitmap:
-                if (SubType == 0x0C || SubType == 0x0D)
+                if (SubType == 9)
+                {
+                    // S21 0x1661781: Pierce's 0x80BA/7 flare emits one
+                    // owner-following smokeline with a 25-tick lifetime.
+                    o->LifeTime = 25.f;
+                    o->fRepeatedlyHeight = 25.f;
+                    o->Scale = Scale * (55.f + static_cast<float>(rand() % 50)) * 0.01f;
+                    o->Rotation = static_cast<float>(rand() % 360);
+                    o->Gravity = (35.f + static_cast<float>(rand() % 4)) * 0.15f;
+                    o->Alpha = 0.f;
+                    VectorCopy(Light, o->TurningForce);
+                    Vector(0.f, 0.f, 0.f, o->Light);
+                    if (Owner != NULL)
+                        VectorCopy(Owner->Position, o->StartPosition);
+                }
+                else if (SubType == 0x0C || SubType == 0x0D)
                 {
                     // Same 0x1661B97/0x1661C90 constructor for all three
                     // bitmaps; S21 max lifetime lives in +0x4C.
@@ -4192,7 +4207,24 @@ void MoveParticles()
             case rise::slayer::kSmokeLines01Bitmap:
             case rise::slayer::kSmokeLines02Bitmap:
             case rise::slayer::kSmokeLines03Bitmap:
-                if (o->SubType == 0x0C || o->SubType == 0x0D)
+                if (o->SubType == 9)
+                {
+                    // S21 0x16D5AD6: reveal authored RGB, contract by
+                    // .010..029 per tick, then move with the flare owner.
+                    VectorCopy(o->TurningForce, o->Light);
+                    o->Scale -= (10.f + static_cast<float>(rand() % 20)) *
+                        0.001f * FPS_ANIMATION_FACTOR;
+                    if (o->Scale <= 0.f)
+                        o->Live = false;
+                    o->Position[2] += o->Gravity * FPS_ANIMATION_FACTOR;
+                    if (o->Target != NULL)
+                    {
+                        VectorSubtract(o->Position, o->StartPosition, o->Position);
+                        VectorCopy(o->Target->Position, o->StartPosition);
+                        VectorAdd(o->Position, o->StartPosition, o->Position);
+                    }
+                }
+                else if (o->SubType == 0x0C || o->SubType == 0x0D)
                 {
                     // S21 0x16D4659: fade/reveal followed by RGB from
                     // TurningForce; subtype 0x0D lasts thirty ticks.

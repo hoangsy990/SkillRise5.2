@@ -418,8 +418,16 @@ positions are the root position plus vectors `(-126.71, 73.69, 0)`,
 adapter now creates those three separate positions in call order with the
 S21 `flare01` terrain-alpha draw and six-second timer. Native subtype-7
 updater `0x151F0D0` additionally creates three particles *per object per
-frame* (`0x807E..0x8080`, then two `0x7FFD`); these particle types and
-their exact materials are still to be ported before visual QA.
+frame* (`0x807E..0x8080`, then two `0x7FFD`). The first lane is now ported:
+`0x151F1C8` picks a random smokeline bitmap, subtype 9 and scale 1.3;
+`0x1661781` gives it 25 ticks, scale `(55..104)/100 * incoming`, rotation
+`0..359`, gravity `(35..38)*0.15`, and the flare object as owner;
+`0x16D5AD6` contracts scale `(10..29)*0.001` per tick and follows that owner.
+Both `0x7FFD` subtype-17 Clud64 children remain open. The native loader
+`0x18BDB86` names `Effect\\Clud64.jpg`; its S21 `Clud64.OZJ` source SHA-256
+`64C359CE760E517B1D5201DF10AE3A0EFFCA4F08A3690CAB6FEEF1C34FFE379D`
+is now copied and registered at private bitmap 33016, but registration alone
+does not prove the subtype-17 particle behavior or render parity.
 The next direct parent `0x81CF` subtype 2 is now connected to the root in
 its native call order with light `(0.8, 0.6, 1)` and incoming scale zero.
 Initializer `0x147E7C4` overrides scale to 1, alpha to 1, sets life 15 and

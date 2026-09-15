@@ -184,7 +184,12 @@ def main() -> int:
         if 0 <= args.xref_action_compare <= 0x7f:
             # Most subtype selectors compile as 83 /7 imm8, so they do not
             # contain the four-byte immediate scanned above.
-            for prefix in (b"\x83\x78\x14", b"\x83\xb8\x14\x00\x00\x00"):
+            prefixes = (
+                [bytes((0x83, modrm, 0x14)) for modrm in range(0x78, 0x80)] +
+                [bytes((0x83, modrm, 0x14, 0, 0, 0))
+                 for modrm in range(0xb8, 0xc0)]
+            )
+            for prefix in prefixes:
                 compact = prefix + bytes((args.xref_action_compare,))
                 cursor = data.find(compact, start_offset, end_offset)
                 while cursor >= 0:

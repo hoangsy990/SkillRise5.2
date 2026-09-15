@@ -1046,8 +1046,20 @@ void UpdateEffect(OBJECT& effect, float animationFactor)
             break;
         case kPierce80BAEffect:
             // 0x151F08A / 0x151F2F9 refresh to 30 until six seconds.
-            // Subtype 7's three per-frame particle children remain pending;
-            // only native subtype 6 is currently created by the Pierce root.
+            // Subtype 7's first native child is a random 0x807E..0x8080
+            // smokeline/9. Two separate 0x7FFD Clud64/17 children remain
+            // pending until their per-type particle updater is pinned.
+            if (effect.SubType == 7)
+            {
+                vec3_t smokeLight;
+                if (rand() % 4 == 0)
+                    Vector(0.5f, 1.f, 0.f, smokeLight);
+                else
+                    Vector(0.6f, 0.2f, 1.f, smokeLight);
+                CreateParticle(kSmokeLines01Bitmap + rand() % 3,
+                    effect.Position, effect.Angle, smokeLight, 9, 1.3f,
+                    &effect);
+            }
             effect.LifeTime = 30.f;
             if (WorldTime - effect.Timer > 6000.f)
             {

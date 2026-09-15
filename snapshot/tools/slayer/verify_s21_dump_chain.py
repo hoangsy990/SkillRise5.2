@@ -397,7 +397,12 @@ def main() -> int:
             raise AssertionError(f"S21 Pierce 0x80BA lane offset/light drifted at {va:#x}")
     if at(0x151F0D3, 4) != bytes.fromhex("83786007"):
         raise AssertionError("S21 0x80BA subtype-7 updater selector drifted")
+    if at(0x151F1C8, 6) != bytes.fromhex("81c27e800000") or \
+       at(0x1661781, 4) != bytes.fromhex("83781409") or \
+       at(0x16D5AD6, 4) != bytes.fromhex("83781409"):
+        raise AssertionError("S21 Pierce smokeline subtype-9 create/init/update drifted")
     print("PASS: S21 Pierce three 0x80BA subtype7 fixed-180 flare lanes and per-frame updater selector pinned")
+    print("PASS: S21 Pierce smokelines 0x807E..0x8080 subtype-9 constructor/updater pinned")
     if at(0x145CBE0, 4) != bytes.fromhex("83786011"):
         raise AssertionError("S21 nested 0x8012 subtype-17 initializer drifted")
     if at(0x14FD81E, 4) != bytes.fromhex("83786011"):

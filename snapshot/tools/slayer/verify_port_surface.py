@@ -245,6 +245,13 @@ def main() -> int:
             "native Pierce three 0x80BA subtype-7 lanes use fixed 180-degree transform")
     require(resources, "SpawnBitmapChild(kPierce80BAEffect, flareLane, effect.Owner,",
             "native Pierce three separate subtype-7 flare objects")
+    require(resources, "CreateParticle(kSmokeLines01Bitmap + rand() % 3,",
+            "native Pierce subtype-7 first per-frame smokeline child")
+    particle = read("ExMain_RISE_PC/Main5.2_RISE/ZzzEffectParticle.cpp")
+    require(particle, "if (SubType == 9)",
+            "S21 smokelines subtype-9 constructor")
+    require(particle, "if (o->SubType == 9)",
+            "S21 smokelines subtype-9 updater")
     for token in (
         "kFlare01RedEffect", "kRingOfGradation2Effect",
         "kEnemyRing01Effect", "kMagicGround12Effect",
