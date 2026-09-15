@@ -820,6 +820,9 @@ life exceeds 15, then falls by `1/15`; Angle Z gains 5 degrees each tick),
 and renderer selector `0x15A1559` → subtype-2 `0x15AD0DE` (RGB × alpha,
 terrain-alpha draw at `0x15AD22D`). The previous 5.2 case initialized alpha
 zero but omitted this updater, leaving Detection's blue flare invisible.
+Native LifeTime loses one tick per update; the 5.2 Slayer effect path loses
+`FPS_ANIMATION_FACTOR` per update, so its alpha and 5-degree rotation deltas
+are multiplied by that same factor to keep the phase/lifetime ratio.
 This recovered branch is now ported and dump-byte pinned; it is not evidence
 of full ingame visual parity.
 

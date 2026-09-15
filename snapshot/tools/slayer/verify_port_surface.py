@@ -300,10 +300,15 @@ def main() -> int:
     require(resources, "if (IsBitmapEffect(effect.Type))", "bitmap effect runtime")
     require(resources, "case kFlareBlueEffect: // 0x7FDD subtype 2, update 0x157D57E",
             "S21 Detection high-code flare updater")
+    flare_blue_update = resources.split(
+        "case kFlareBlueEffect: // 0x7FDD subtype 2, update 0x157D57E", 1)[1]
+    flare_blue_update = flare_blue_update.split("case kMagicGround12Effect:", 1)[0]
+    require(flare_blue_update, "half * animationFactor;",
+            "S21 Detection flare alpha follows normalized 5.2 lifetime")
     require(resources, "effect.Angle[2] = 0.f;",
             "S21 Detection 0x7FDD subtype-2 initial zero rotation")
-    require(resources, "effect.Angle[2] += 5.f;",
-            "S21 Detection 0x7FDD five-degree-per-tick rotation")
+    require(flare_blue_update, "effect.Angle[2] += 5.f * animationFactor;",
+            "S21 Detection 0x7FDD five-degree normalized 5.2 rotation")
     bitmap_render = resources.split("bool RenderEffect(OBJECT& effect)", 1)[1]
     bitmap_render = bitmap_render.split("if (IsController(effect.Type))", 1)[0]
     blend_begin = bitmap_render.find("EnableAlphaBlend();")

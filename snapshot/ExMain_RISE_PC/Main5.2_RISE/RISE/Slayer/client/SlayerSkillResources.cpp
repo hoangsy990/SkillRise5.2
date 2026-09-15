@@ -1164,9 +1164,11 @@ void UpdateEffect(OBJECT& effect, float animationFactor)
                     static_cast<int>(initialLife) / 2);
                 if (half > 0.f)
                     effect.Alpha += (effect.LifeTime > half ? 1.f : -1.f) /
-                        half;
-                // 0x157D5F9..0x157D627 adds native 5 degrees per tick.
-                effect.Angle[2] += 5.f;
+                        half * animationFactor;
+                // Native 0x157D5F9..0x157D627 adds 5 degrees per tick.
+                // 5.2 decrements LifeTime by FPS_ANIMATION_FACTOR here, so
+                // apply the same time step to rotation and the alpha ramp.
+                effect.Angle[2] += 5.f * animationFactor;
             }
             break;
         case kMagicGround12Effect:
