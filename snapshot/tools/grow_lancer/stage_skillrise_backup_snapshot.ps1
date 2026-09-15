@@ -26,6 +26,15 @@ try {
 } finally { Pop-Location }
 $files = @($files | Where-Object { $_ -and $_ -notmatch '(^|[\\/])__pycache__([\\/]|$)' } |
     Sort-Object -Unique)
+$excluded = @(
+    'ExMain_RISE_PC\Main5.2_RISE\RISE\GrowLancerItemRequirements.generated.h',
+    'GrowLancer\GL_ITEM_REQUIREMENT_PROVENANCE.md',
+    'tools\grow_lancer\extract_gl_item_requirements.py',
+    'tools\grow_lancer\inspect_gl_lance_item_chain.py',
+    'tools\grow_lancer\normalize_npc_quest_encoding.ps1',
+    'tools\grow_lancer\verify_gl_lance_item_id_collision.py'
+)
+$files = @($files | Where-Object { ($_.Replace('/','\') -notin $excluded) })
 if ($files.Count -lt 300 -or $files.Count -gt 500) {
     throw "Unexpected Grow Lancer snapshot file count: $($files.Count)"
 }
