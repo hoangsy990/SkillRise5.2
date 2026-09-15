@@ -2606,9 +2606,9 @@ void CreateHarshStrikeRoot(OBJECT& caster)
 {
     if (!PrepareLocalQADynamicAction(caster, 284))
         return;
-    caster.CurrentAction = 284;
-    caster.AnimationFrame = 0.0f;
-    caster.PriorAnimationFrame = 0.0f;
+    // S21 local/receive action185 both call the preserving 1327DE8 setter
+    // before controller5E0; native SetAction maps the private action284.
+    SetAction(&caster, 284, true);
     CreateEffect(kHarshStrikeControllerModel, caster.Position, caster.Angle,
         caster.Light, 0, &caster, -1, 0, kHarshStrikeSkill);
     PlayBuffer(kHarshStrikeSound, &caster);
@@ -2618,9 +2618,8 @@ void CreateShiningPeakRoots(OBJECT& caster)
 {
     if (!PrepareLocalQADynamicAction(caster, 288))
         return;
-    caster.CurrentAction = 288;
-    caster.AnimationFrame = 0.0f;
-    caster.PriorAnimationFrame = 0.0f;
+    // S21 local/receive action189 uses 1327DE8 before roots5F6/5F3.
+    SetAction(&caster, 288, true);
     CreateEffect(kShiningPeakControllerModel, caster.Position, caster.Angle,
         caster.Light, 1, &caster, -1, 0, kShiningPeakSkill);
     CreateEffect(kShiningPeakControllerModel, caster.Position, caster.Angle,

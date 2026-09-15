@@ -1,5 +1,17 @@
 # Shining Peak (skill 277) reverse evidence
 
+## Local/receive action transition — 2026-09-15
+
+Both contiguous S21 branches use the preserving common action setter
+`0x1327DE8` with action189 (`0xBD`) before constructing caster-owned
+root `0x5F6`, then `0x5F3`: local `0x10E42B9..0x10E43B2` and received
+`0x12D09E7..0x12D0AC6`. The native private action288 path now calls
+`SetAction(&caster,288,true)` instead of directly overwriting action and
+zeroing current/prior frames. `verify_shining_action_setter.py` pins both
+source blocks and native call order; isolated QA/nonQA x86 links PASS.
+The four-stage joint pixels/owner visual and ordinary class7/GS cast
+authority remain OPEN; compilation is not visual parity.
+
 ## Pin joint +A44 direct-consumer sweep — 2026-09-15
 
 The hash-guarded read-only dump scanner

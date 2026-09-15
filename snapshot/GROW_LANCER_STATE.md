@@ -2,6 +2,26 @@
 
 STATUS: IN_PROCESS
 
+### 2026-09-15 — Harsh Strike local/receive action setter corrected
+
+- CURRENT PHASE: nine S21 Grow Lancer skills native PC5.2 client/server, equipment/quests1–3 excluded; `IN_PROCESS`.
+- CURRENT TASK: reconcile owner-reported Harsh Strike delayed animation/effect with S21 action transition.
+- CURRENT SUBTASK: pin both local and receive action185/controller5E0 order before changing only the Harsh private adapter.
+- COMPLETED THIS RUN: decoded contiguous Harsh dump blocks `10E385B..10E38FA` and `12CB122..12CB1B7`: both call preserving `1327DE8` with action185 before controller5E0. Replaced Harsh direct action284/current/prior-frame reset with native `SetAction(&caster,284,true)`; focused verifier PASS. Then independently pinned Shining local `10E42B9..10E43B2` and receive `12D09E7..12D0AC6` setter189 before roots5F6/5F3, changed only native private288 to `SetAction(true)`; second focused verifier PASS. QA and nonQA isolated Win32 Main links exit0 after both corrections. No owner cast, visible QA, VPS, GS, production or other task touched.
+- REVERSE EVIDENCE: pinned dump SHA6422CB4E...; local/receive callsites and common same-action early return/outgoing action-frame writes in `verify_harsh_action_setter.py`.
+- CHAIN COVERAGE: Harsh/Shining caster action transitions STATIC/BUILD PASS; Harsh owner animation/effect phase/bone8/5 blur and Shining four-stage joint pixels, child timing and pool cleanup still OPEN. Nine-skill and GS full gate OPEN.
+- ASSET PROVENANCE: no visual assets changed or staged; existing Harsh source/converted BMD hashes retained in `HARSH_STRIKE_REVERSE.md`.
+- FILES MODIFIED: isolated `GrowLancerEffectRuntime.cpp`, `verify_harsh_action_setter.py`, `verify_shining_action_setter.py`, `HARSH_STRIKE_REVERSE.md`, `SHINING_PEAK_REVERSE.md`, `ACCEPTANCE_GATE_MATRIX.md`, this state.
+- LAST STATIC CHECK: both focused Harsh/Shining local/receive native-order verifiers exit0; prior action/asset and other-skill verifiers remain separate checkpoints.
+- LAST BUILD RESULT: isolated QA and nonQA Global Release|Win32 `Main.vcxproj` links exit0 after both action fixes; known third-party cryptlib missing-PDB LNK4099 only. No GS code/build this run.
+- LAST RUNTIME QA: none this run by owner's preference for hidden checks; Harsh owner animation/effect acceptance OPEN.
+- KNOWN DIFFERENCES: private QA-only dynamic action preparation and class7 authority remain unproven in ordinary client; correction does not itself change S21 child gates or establish pixels.
+- MISSING CHAIN PARTS: Harsh gameplay phase/pixel confirmation, nine-skill normal activation, original protected GS hit/class default, class7 server authority and owner visual parity.
+- BLOCKER: owner deferred visible cast; S21 protected GS handler/default-class data absent. Independent offline reverse remains possible, so `IN_PROCESS`.
+- NEXT EXACT ACTION: inspect Wrath direct action291 reset against exact S21 local/receive action192/conditional321 selection; do not map unproven auxiliary321 into private clip. Continue hidden QA where relevant.
+- NEXT FILE TO OPEN: `GrowLancer/WRATH_REVERSE.md` and S21 dump windows `10E470E`, `12CB6AC`.
+- NEXT FUNCTION TO IMPLEMENT: next skill-local action setter adapter only after decoded local/receive proof, not blanket action reset replacement.
+
 ### 2026-09-15 — Obsidian primary action setter corrected, alternate317 still open
 
 - CURRENT PHASE: nine S21 Grow Lancer skills native PC5.2 client/server; equipment/quests1–3 excluded; `IN_PROCESS`.

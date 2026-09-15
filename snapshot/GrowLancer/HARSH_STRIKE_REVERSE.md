@@ -222,6 +222,17 @@ QA ClCompile PASS; project3cpp/20headers PASS; not yet linked/staged.
 
 ## Native 5.2 mapping constraints
 
+S21 local branch `0x010E385B..0x010E38FA` pushes `-1,185` and calls
+`0x1327DE8` before constructing invisible controller `0x5E0`; receive
+branch `0x012CB122..0x012CB1B7` does the same for non-local actors.
+The common setter preserves outgoing action/frame on transitions and
+does not restart the same action. Isolated native action `284` now uses
+`SetAction(&caster,284,true)` instead of direct action assignment and
+unconditional current/prior-frame zeroing. `verify_harsh_action_setter.py`
+pins both contiguous dump blocks and native call order; QA and non-QA
+isolated Win32 links PASS. This narrows the delayed-animation mismatch,
+but owner action/effect timing and gameplay pixels remain OPEN.
+
 - Do not allocate or render `0x5E0` as a visible BMD. Implement it as a skill-local controller using the native effect pool.
 - The RISE adapter evaluates merged caster action 284 six times from one action-speed behind the current owner frame, transforms caster bones 8/5 through controller scale/origin, adds the exact rotated `(-30,0,100)` offset and calls native `CreateObjectBlur` type 11/subtype 3 only inside frame `2.0..4.0`.
 - Register converted isolated copies of `h_strike_wind01/02`; raw S21 BMD v0F is not loadable by the current SS6 `BMD::Open2` path.
