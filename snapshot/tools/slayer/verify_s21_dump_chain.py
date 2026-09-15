@@ -263,6 +263,20 @@ def main() -> int:
         if at(va, len(expected)) != expected:
             raise AssertionError(f"S21 0x694/E4 action-init bytes drifted at {va:#x}")
     print("PASS: S21 0x694 ordinary body flag=2; E4 action-init actor Position Z +=5 (not XY rush proof)")
+    # Both buff roots choose smoke/line family before calling the same
+    # inclusive Random(-30,30,1) helper twice for independent XY offsets.
+    if abs(struct.unpack("<f", at(0x1B4E4D8, 4))[0] - 30.0) > 0.0001:
+        raise AssertionError("S21 Detection/Demolish smoke radius constant drifted")
+    for va in (0x15485CD, 0x1548F6A):
+        if at(va, 8) != bytes.fromhex("f30f1005d8e4b401"):
+            raise AssertionError(f"S21 buff Random(-30,30) constant load drifted at {va:#x}")
+    for va, expected in (
+        (0x1548600, bytes.fromhex("e8dce64d00250100008079054883c8fe4085c00f")),
+        (0x1548F9D, bytes.fromhex("e83fdd4d00250100008079054883c8fe4085c00f")),
+    ):
+        if at(va, len(expected)) != expected:
+            raise AssertionError(f"S21 buff smoke-family rand branch drifted at {va:#x}")
+    print("PASS: S21 0x692/0x695 smoke family-first RNG and independent signed 30-unit XY offsets pinned")
     if at(0x13F254D, 5) != bytes.fromhex("3de4000000") or \
        at(0x154676E, 5) != bytes.fromhex("3de4000000"):
         raise AssertionError("S21 E4 alpha/upgrade-list compare sites drifted")

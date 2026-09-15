@@ -1627,12 +1627,13 @@ void UpdateEffect(OBJECT& effect, float animationFactor)
                 vec3_t position, angle, light;
                 VectorCopy(effect.Position, position);
                 VectorCopy(effect.Angle, angle);
-                const float radius = 30.f;
-                const float yaw = static_cast<float>(rand() % 360) *
-                    0.01745329252f;
-                position[0] += cosf(yaw) * radius;
-                position[1] += sinf(yaw) * radius;
-                if ((rand() & 1) == 0)
+                // 0x1548600/0x1548F9D select the particle family first.
+                // Both paired branches then call native Random(-30,30,1)
+                // independently for X and Y, not a circular yaw/radius.
+                const bool smoke01 = (rand() & 1) == 0;
+                position[0] += static_cast<float>((rand() % 61) - 30);
+                position[1] += static_cast<float>((rand() % 61) - 30);
+                if (smoke01)
                 {
                     if (effect.Type == kDetectionController)
                         Vector(0.4f, 0.45f, 1.f, light);

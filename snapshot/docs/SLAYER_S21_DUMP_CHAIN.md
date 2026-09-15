@@ -540,7 +540,13 @@ Demolish to Detection and allowing their lingering roots to react to the
 other buff cast.
 The root smoke windows (`0x15486A4..0x154873F`,
 `0x1549041..0x15490DC`) read the effect's saved `OBJECT+0x1D0` cast
-position rather than the moving owner position. The `0x693/0x696`
+position rather than the moving owner position. The paired root branches
+at `0x15485CD..0x1548619` and `0x1548F6A..0x1548FB6` first choose the
+smoke family with `rand() & 1`, then call `0x1267C3C` independently for X
+and Y using `Random(-30, 30, 1)` (`0x1B4E4D8 = 30.0`). The first port's
+fixed-radius/yaw circle changed the S21 distribution and consumed random
+values in the wrong order; both private branches now use the decoded
+square offsets and family-first order. The `0x693/0x696`
 update windows (`0x1548BAC..0x1548C31`, `0x1549549..0x15495CE`)
 also create their `0x678` children at saved cast position plus 100 Z.
 All four cases delete their effect when the owner handle is invalid.

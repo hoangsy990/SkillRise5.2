@@ -321,6 +321,18 @@ def main() -> int:
         resources.index("void UpdateEffect")):].split("default:", 1)[0]
     require(buff_update, "VectorCopy(effect.StartPosition, effect.Position);",
             "0x692/0x695 root smoke cast-origin anchor")
+    require(buff_update, "const bool smoke01 = (rand() & 1) == 0;",
+            "S21 0x692/0x695 smoke family selected before coordinates")
+    require(buff_update, "position[0] += static_cast<float>((rand() % 61) - 30);",
+            "S21 0x692/0x695 independent signed X offset")
+    require(buff_update, "position[1] += static_cast<float>((rand() % 61) - 30);",
+            "S21 0x692/0x695 independent signed Y offset")
+    if not (buff_update.index("const bool smoke01 = (rand() & 1) == 0;") <
+            buff_update.index("position[0] += static_cast<float>((rand() % 61) - 30);") <
+            buff_update.index("position[1] += static_cast<float>((rand() % 61) - 30);")):
+        raise AssertionError("S21 buff smoke RNG order drifted")
+    if "cosf(yaw)" in buff_update or "sinf(yaw)" in buff_update:
+        raise AssertionError("S21 buff smoke reverted to nonnative circle")
     require(buff_update, "VectorCopy(effect.StartPosition, bat.Position);",
             "0x693/0x696 child 0x678 cast-origin anchor")
     if "VectorCopy(owner->Position, effect.Position);" in buff_update or \
