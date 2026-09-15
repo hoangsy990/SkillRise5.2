@@ -583,6 +583,34 @@ bool RequiresModel(int type)
 #endif
 }
 
+#ifdef RISE_SLAYER_PORT
+bool EnsureSlayerBlackFieldMaterial(int modelId, BMD& model, int mesh)
+{
+    if (modelId != kDetectionMarkModel &&
+        modelId != kDetectionImpactModel)
+        return true;
+    const char* material = model.Textures[mesh].FileName;
+    const bool isMark = modelId == kDetectionMarkModel &&
+        _stricmp(material, "Elite_monster_ground02.JPG") == 0;
+    const bool isArk = modelId == kDetectionImpactModel &&
+        _stricmp(material, "ark.JPG") == 0;
+    const bool isEmpact = modelId == kDetectionImpactModel &&
+        _stricmp(material, "empact01.JPG") == 0;
+    if (!isMark && !isArk && !isEmpact)
+        return false;
+    BITMAP_t* bitmap = Bitmaps.FindTexture(model.IndexTexture[mesh]);
+    if (!bitmap)
+        return false;
+    // A model may already be resident when the private Slayer graph reaches
+    // it. Do not treat an RGB black-field JPEG as render-ready in that path.
+    if (bitmap->Components == 4)
+        return true;
+    return bitmap->Components == 3 &&
+        Bitmaps.ApplySlayerBlackKeyAlpha(model.IndexTexture[mesh],
+            isArk ? 48 : 16);
+}
+#endif
+
 bool EnsureModel(int modelId)
 {
 #ifdef RISE_SLAYER_PORT
@@ -590,7 +618,15 @@ bool EnsureModel(int modelId)
         return false;
     BMD& model = Models[modelId];
     if (model.NumBones > 0 && model.NumActions > 0)
+    {
+        if ((modelId == kDetectionMarkModel && model.NumMeshs != 1) ||
+            (modelId == kDetectionImpactModel && model.NumMeshs != 2))
+            return false;
+        for (int mesh = 0; mesh < model.NumMeshs; ++mesh)
+            if (!EnsureSlayerBlackFieldMaterial(modelId, model, mesh))
+                return false;
         return true;
+    }
     const ModelRow* row = FindModelRow(modelId);
     if (!row)
         return false;
@@ -612,34 +648,10 @@ bool EnsureModel(int modelId)
             model.Release();
             return false;
         }
-        if (modelId == kDetectionMarkModel)
+        if (!EnsureSlayerBlackFieldMaterial(modelId, model, mesh))
         {
-            // Only the S21 0x691 silver-mark JPEG carries the black color
-            // key. Convert its loaded private texture to RGBA in memory;
-            // leave the BMD and OZJ files byte-for-byte intact.
-            if (_stricmp(model.Textures[mesh].FileName,
-                    "Elite_monster_ground02.JPG") != 0 ||
-                !Bitmaps.ApplySlayerBlackKeyAlpha(model.IndexTexture[mesh]))
-            {
-                model.Release();
-                return false;
-            }
-        }
-        else if (modelId == kDetectionImpactModel)
-        {
-            // The S21 0x694 model has two RGB ring materials with authored
-            // black fields. Key only these imported private textures, so
-            // 5.2's ordinary textured-alpha pass can blend the empty field.
-            const char* material = model.Textures[mesh].FileName;
-            const bool isArk = _stricmp(material, "ark.JPG") == 0;
-            const bool isEmpact = _stricmp(material, "empact01.JPG") == 0;
-            if ((!isArk && !isEmpact) ||
-                !Bitmaps.ApplySlayerBlackKeyAlpha(model.IndexTexture[mesh],
-                    isArk ? 48 : 16))
-            {
-                model.Release();
-                return false;
-            }
+            model.Release();
+            return false;
         }
     }
     return model.NumBones > 0 && model.NumActions > 0;

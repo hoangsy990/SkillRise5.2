@@ -819,8 +819,16 @@ def main() -> int:
             "Slayer luminous bat/trail models use isolated additive body pass")
     require(resources, "model.RenderBody(renderFlags, effect.Alpha,",
             "Slayer S21 models retain single complete RenderBody pass")
-    require(resources, "Bitmaps.ApplySlayerBlackKeyAlpha(model.IndexTexture[mesh])",
-            "0x691 JPEG-black field adapted to RGBA in private model loader")
+    require(resources, "bool EnsureSlayerBlackFieldMaterial(int modelId, BMD& model, int mesh)",
+            "0x691/0x694 private material readiness guard")
+    require(resources, "if (bitmap->Components == 4)\n        return true;",
+            "already-keyed Slayer material remains ready")
+    require(resources, "return bitmap->Components == 3 &&\n        Bitmaps.ApplySlayerBlackKeyAlpha(model.IndexTexture[mesh],",
+            "RGB Slayer black field is keyed before model submission")
+    require(resources, "if (!EnsureSlayerBlackFieldMaterial(modelId, model, mesh))",
+            "resident and newly-loaded model paths both check private material")
+    if resources.count("!EnsureSlayerBlackFieldMaterial(modelId, model, mesh)") != 2:
+        raise AssertionError("Slayer material guard missing from resident or fresh model path")
     bitmap_header = read("ExMain_RISE_PC/Main5.2_RISE/GlobalBitmap.h")
     bitmap_source = read("ExMain_RISE_PC/Main5.2_RISE/GlobalBitmap.cpp")
     require(bitmap_header, "bool ApplySlayerBlackKeyAlpha(GLuint uiBitmapIndex, BYTE blackFloor = 16);",

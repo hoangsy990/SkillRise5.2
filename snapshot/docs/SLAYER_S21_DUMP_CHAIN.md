@@ -1125,8 +1125,10 @@ and `0xCC58E5..0xCC5901` passes `GL_RGB` (`0x1907`) and internal count
 RGBA black-key texture. The private 5.2 alpha key below is a compatibility
 experiment, not a recovered S21 material rule. Its cutoff and the resulting
 black-funnel appearance are still unverified ingame.
-Thus the current hard black funnel cannot be attributed to an old 5.2 skill
-graph. The 5.2 adapter now color-keys only imported `ark` and `empact01`
+The imported `0x691/0x694` model geometry and material names match the
+hash-pinned S21 files, but an older hard-black screenshot does not prove
+the current build's material state or identify every black pixel's node.
+The 5.2 adapter now color-keys only imported `ark` and `empact01`
  instances to RGBA in memory before the ordinary textured-alpha draw. A
  read-only decode of pinned `ark.OZJ` (after its 24-byte OZJ header) shows
  128x128 RGB, with four background corners at gray 38/40/39/40. The previous
@@ -1138,6 +1140,12 @@ graph. The 5.2 adapter now color-keys only imported `ark` and `empact01`
 is a scoped render adaptation responding to the observed black field, not
 a decoded claim that S21 globally erases every black texel. Model pose/origin,
 per-mesh state and one-shot cast ownership still require ingame comparison.
+The private model loader now checks these authored material names, mesh
+counts, and RGBA readiness even when a model is already resident; previously
+that early-return path skipped the alpha-key conversion and could submit an
+RGB black-field texture. Fresh and resident paths share the same scoped
+guard. The x86 client rebuild and private stage pass, but no new ingame
+frame has been captured, so this is a loader-invariant fix, not visual PASS.
 The QA log formerly labelled shared `0x694` Demolish submissions as Detection
 and called every textured pass opaque; its diagnostic labels now use the
 effect's skill ID and report textured-alpha while the effect alpha is below
