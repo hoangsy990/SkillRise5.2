@@ -208,6 +208,12 @@ def main() -> int:
             "0x694 ark gray-background cutoff isolated from other S21 materials")
     if not re.search(r"case kBatFlockTrailModel:\s*// Native 0x1490F57[^\n]*\n(?:\s*//[^\n]*\n)*\s*if \(effect.SubType == 0\)\s*\{\s*effect.Scale = incomingScale;\s*effect.Alpha = 0.f;", resources):
         raise AssertionError("S21 0x688 Bat Flock trail must write incoming scale and zero alpha")
+    require(resources, "float NativeRandomUnitStep(int lower, int upper)",
+            "native Bat Flock unit-step integer random adapter")
+    require(resources, "NativeRandomUnitStep(60, 120) * 0.01f",
+            "S21 0x678 inclusive unit-step model scale envelope")
+    require(resources, "NativeRandomUnitStep(-10, 10) *",
+            "S21 0x678 subtype-0 discrete per-frame yaw jitter")
     if not re.search(r"case kDetectionImpactModel:\s*// Native 0x14926CC[^\n]*\n(?:\s*//[^\n]*\n)*\s*effect.Scale = incomingScale;\s*effect.Alpha = 0.f;", resources):
         raise AssertionError("S21 0x694 both modes must write incoming scale and zero alpha")
     require(header, "kPierceMarksCylinderModel = MAX_MODELS + 41,",
@@ -691,8 +697,8 @@ def main() -> int:
             "0x678 subtype 2 terrain-projected flight origin")
     require(resources, "VectorSubtract(target->Position, terrainOrigin",
             "0x678 subtype 2 native target direction")
-    require(resources, "NativeRandomRange(80.f, 100.f) * 0.5f",
-            "0x678 subtype 2 native floating speed range")
+    require(resources, "NativeRandomUnitStep(80, 100) * 0.5f",
+            "0x678 subtype 2 unit-step speed before half-scale")
     if "destination[2] += 35.f;" in resources:
         raise AssertionError("dump-unproven Bat Flock target +35 Z leaked into port")
     require(converter, "4650F6571447C1A4D4CCA81E9387A70B9B489AA4989820AF7D375855895B44D2",

@@ -44,6 +44,14 @@ float NativeRandomRange(float lower, float upper)
         (static_cast<float>(rand()) / static_cast<float>(RAND_MAX));
 }
 
+float NativeRandomUnitStep(int lower, int upper)
+{
+    // S21 0x1267C3C truncates bounds to unit steps and takes one random
+    // integer modulo (upper - lower + 1). The 5.2 private RNG need not
+    // reproduce the protected PRNG seed to retain these discrete ranges.
+    return static_cast<float>(lower + rand() % (upper - lower + 1));
+}
+
 struct ModelRow
 {
     int id;
@@ -818,27 +826,27 @@ void InitializeEffect(OBJECT& effect, float incomingScale)
     {
         // Native 0x678 uses the caller scale multiplied by a random .60..1.20
         // envelope for all five Slayer subtypes.
-        effect.Scale *= NativeRandomRange(60.f, 120.f) * 0.01f;
+        effect.Scale *= NativeRandomUnitStep(60, 120) * 0.01f;
         effect.Alpha = 1.f;
         if (effect.SubType == 1 || effect.SubType == 4)
         {
-            effect.Angle[0] = NativeRandomRange(-90.f, 90.f);
-            effect.Angle[1] = NativeRandomRange(-90.f, 90.f);
-            effect.Angle[2] = NativeRandomRange(0.f, 360.f);
+            effect.Angle[0] = NativeRandomUnitStep(-90, 90);
+            effect.Angle[1] = NativeRandomUnitStep(-90, 90);
+            effect.Angle[2] = NativeRandomUnitStep(0, 360);
         }
         DirectionFromAngle(effect);
         switch (effect.SubType)
         {
-        case 0: effect.Gravity = NativeRandomRange(50.f, 100.f) * 0.05f; break;
-        case 1: effect.Gravity = NativeRandomRange(50.f, 100.f) * 0.025f; break;
-        case 2: effect.Gravity = NativeRandomRange(80.f, 100.f) * 0.5f; break;
+        case 0: effect.Gravity = NativeRandomUnitStep(50, 100) * 0.05f; break;
+        case 1: effect.Gravity = NativeRandomUnitStep(50, 100) * 0.025f; break;
+        case 2: effect.Gravity = NativeRandomUnitStep(80, 100) * 0.5f; break;
         case 3:
             effect.Gravity = 30.f;
             if (effect.Owner)
                 effect.Distance = VectorDistance3(effect.Position,
                     effect.Owner->Position);
             break;
-        case 4: effect.Gravity = NativeRandomRange(50.f, 100.f) * 0.025f; break;
+        case 4: effect.Gravity = NativeRandomUnitStep(50, 100) * 0.025f; break;
         default: break;
         }
         if (effect.SubType == 1)
@@ -1772,7 +1780,7 @@ void UpdateEffect(OBJECT& effect, float animationFactor)
             if (effect.LifeTime < third && third > 0.f)
                 effect.Alpha -= animationFactor / third;
             effect.Scale -= 0.005f * animationFactor;
-            effect.Angle[2] += NativeRandomRange(-10.f, 10.f) *
+            effect.Angle[2] += NativeRandomUnitStep(-10, 10) *
                 animationFactor;
             DirectionFromAngle(effect);
             effect.Position[0] += effect.Direction[0] * effect.Gravity *

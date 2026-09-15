@@ -579,6 +579,15 @@ alpha write sequence. The black-field artifact remains a separate
 ingame parity question; neither static proof nor the correction claims
 visual PASS.
 
+Full disassembly of S21 random helper `0x1267C3C` shows unit-step
+bounds converted with `cvttss2si`, a width increment, then one integer
+modulo. Bat Flock model `0x678` passes step `1` at its scale/motion
+initializers (`0x148E5ED` and paired branches) and subtype-0 yaw
+updater (`0x1540192`). The first 5.2 port sampled those ranges as
+continuous floats. The isolated Bat Flock model now samples inclusive
+integer ticks for the decoded ranges; it still uses the 5.2 private RNG,
+so this is distribution/endpoint fidelity, not protected-PRNG seed parity.
+
 Detection's minimap reveal is separate from the `0x692` cast graph. The
 Webzen Slayer guide states that nearby life forms are marked on the minimap
 for a duration, but `0x12D139B..0x12D143E` only creates the root visual.

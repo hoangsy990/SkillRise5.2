@@ -273,6 +273,18 @@ def main() -> int:
         if at(va, len(alpha_init)) != alpha_init:
             raise AssertionError(f"S21 0x688/0x691/0x694 scale/alpha initializer drifted at {va:#x}")
     print("PASS: S21 0x688/0x691/0x694 write incoming scale and clear initial alpha with xorps")
+    # Native Random(lower,upper,1) truncates both bounds to integer ticks,
+    # then increments the width before one modulo. The 0x678 init/update
+    # callers both pass unit step; a continuous float port changes motion.
+    for va, expected in (
+        (0x1267C66, bytes.fromhex("f30f594508f30f2cc08945f0")),
+        (0x1267CA2, bytes.fromhex("e83af07b008b4de82b4df04199f7f90355f0")),
+        (0x148E5ED, bytes.fromhex("6a01")),
+        (0x1540192, bytes.fromhex("6a01")),
+    ):
+        if at(va, len(expected)) != expected:
+            raise AssertionError(f"S21 Bat Flock unit-step RNG drifted at {va:#x}")
+    print("PASS: S21 0x678 Bat Flock Random uses inclusive integer unit-step bounds")
     # Both buff roots choose smoke/line family before calling the same
     # inclusive Random(-30,30,1) helper twice for independent XY offsets.
     if abs(struct.unpack("<f", at(0x1B4E4D8, 4))[0] - 30.0) > 0.0001:
