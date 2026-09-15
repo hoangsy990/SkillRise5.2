@@ -476,8 +476,19 @@ const char* SkillNameForModel(const OBJECT& effect)
     case kBatFlockTrailModel: return "Bat Flock";
     case kPierceSwordLineModel: return "Pierce Attack";
     case kDetectionMarkModel:
+        // Native 0x691 is shared by Sword/Pierce and both Slayer buffs.
+        // A model name alone cannot identify the casting skill in QA.
+        switch (effect.Skill)
+        {
+        case kSwordInertia: return "Sword Inertia";
+        case kPierceAttack: return "Pierce Attack";
+        case kDetection: return "Detection";
+        case kDemolish: return "Demolish";
+        default: return "unknown";
+        }
     case kDetectionImpactModel:
-        return effect.Skill == kDemolish ? "Demolish" : "Detection";
+        return effect.Skill == kDetection ? "Detection" :
+            effect.Skill == kDemolish ? "Demolish" : "unknown";
     default: return "unknown";
     }
 }

@@ -1134,6 +1134,13 @@ The QA log formerly labelled shared `0x694` Demolish submissions as Detection
 and called every textured pass opaque; its diagnostic labels now use the
 effect's skill ID and report textured-alpha while the effect alpha is below
 `0.99`. These labels are diagnostics, not visual acceptance.
+The same log later still labelled shared `0x691` model submissions from
+`skillId=294` as Detection because its name helper only recognized Demolish.
+The native graph uses `0x691` for Sword, Pierce, Detection and Demolish;
+the helper now branches on those four raw skill IDs. Earlier model-name
+counts cannot be used as per-skill render evidence. The isolated QA client
+rebuilt and restaged after this attribution correction, but it was not
+launched before the full-skill implementation/QA gate.
 The x86 isolated QA build and five-skill source-surface verifier pass. The
 first new QA client reached character select rather than the game map.
 Windows Graphics Capture of that window failed twice with
