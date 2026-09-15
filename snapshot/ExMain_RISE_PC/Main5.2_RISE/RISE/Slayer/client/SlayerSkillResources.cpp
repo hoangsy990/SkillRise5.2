@@ -130,7 +130,7 @@ float InitialLife(const OBJECT& effect)
     case kFlare01RedEffect:
     case kRingOfGradation2Effect: return 30.f;
     case kEnemyRing01Effect: return 40.f;
-    case kMagicGround12Effect: return 30.f;
+    case kMagicGround12Effect: return effect.SubType == 2 ? 15.f : 30.f;
     case kPierce81CDController: return 30.f;
     case kPierce81CEEffect: return effect.SubType == 4 ? 20.f : 30.f;
     case kPierce80BAEffect: return 50.f;
@@ -644,6 +644,10 @@ void InitializeEffect(OBJECT& effect, float incomingScale)
         Vector(0.9f, 0.f, 1.f, star);
         SpawnBitmapChild(kPierce8149Effect, effect, effect.Owner,
             star, 2, 1.7f);
+        vec3_t ground;
+        Vector(0.8f, 0.6f, 1.f, ground);
+        SpawnBitmapChild(kMagicGround12Effect, effect, effect.Owner,
+            ground, 2, 0.f);
         break;
     }
     case kPierce81CEEffect:
@@ -920,9 +924,19 @@ void InitializeEffect(OBJECT& effect, float incomingScale)
         break;
     }
     case kMagicGround12Effect:
+        if (effect.SubType == 2)
+        {
+            // S21 0x147E7D4: subtype 2 overrides the allocator's .9
+            // fallback with scale 1, alpha 1 and a 15-tick envelope.
+            // It additionally creates 0x8012 subtype 17; that nested
+            // effect remains separate until its map/render path is ported.
+            effect.Scale = 1.f;
+            effect.Alpha = 1.f;
+            effect.Timer = WorldTime;
+        }
         // 0x147EA2A/0x147EA83: buff-ring subtypes 4/5 copy raw scale zero
         // back over the allocator fallback, then expand by .3/1 per tick.
-        if (effect.SubType == 4 || effect.SubType == 5)
+        else if (effect.SubType == 4 || effect.SubType == 5)
             effect.Scale = incomingScale;
         break;
     default:
@@ -1009,10 +1023,32 @@ void UpdateEffect(OBJECT& effect, float animationFactor)
                     effect.Angle[2] += animationFactor;
             }
             break;
-        case kMagicGround12Effect: // 0x81CF subtypes 4/5, 0x1534839
-            effect.Alpha -= animationFactor / initialLife;
-            effect.Scale += (effect.SubType == 4 ? 0.3f : 1.f) *
-                animationFactor;
+        case kMagicGround12Effect:
+            if (effect.SubType == 2)
+            {
+                // Native 0x1534735: scale expands .15 per tick and alpha
+                // reads remainingLife/15; at one tick it repeats its ring
+                // until the independent 6000-ms S21 clock expires.
+                effect.Scale += 0.15f * animationFactor;
+                effect.Alpha = effect.LifeTime / 15.f;
+                if (effect.LifeTime <= 1.f)
+                {
+                    effect.LifeTime = 15.f;
+                    effect.Scale = 1.f;
+                }
+                if (WorldTime - effect.Timer > 6000.f)
+                {
+                    effect.LifeTime = 0.f;
+                    effect.Timer = 0.f;
+                }
+            }
+            else
+            {
+                // 0x81CF buff subtypes 4/5, update 0x1534839.
+                effect.Alpha -= animationFactor / initialLife;
+                effect.Scale += (effect.SubType == 4 ? 0.3f : 1.f) *
+                    animationFactor;
+            }
             break;
         default: break;
         }

@@ -346,6 +346,26 @@ def main() -> int:
         if abs(struct.unpack("<f", at(va, 4))[0] - expected) > 0.0001:
             raise AssertionError(f"S21 0x8149 root light/scale drifted at {va:#x}")
     print("PASS: S21 Pierce 0x8149 subtype2 ground_star sprite, 1.7 scale, .9 light and 6000-ms clock pinned")
+    # 0x81CF subtype 2 is the next direct Pierce parent, with a nested
+    # 0x8012 subtype-17 child. The parent ring is ported; the nested
+    # ShockWave effect remains separately open until its map gate is decoded.
+    if at(0x147D8DE, 5) != bytes.fromhex("68cf810000"):
+        raise AssertionError("S21 Pierce 0x81CF parent call drifted")
+    if at(0x147E7CA, 4) != bytes.fromhex("83786002"):
+        raise AssertionError("S21 0x81CF subtype-2 init selector drifted")
+    if at(0x147E7DA, 7) != bytes.fromhex("c7406c0f000000"):
+        raise AssertionError("S21 0x81CF subtype-2 15-tick initializer drifted")
+    if at(0x147E912, 5) != bytes.fromhex("6812800000"):
+        raise AssertionError("S21 0x81CF nested 0x8012 call drifted")
+    if at(0x18BD19A, 5) != bytes.fromhex("6812800000"):
+        raise AssertionError("S21 ShockWave bitmap loader ID drifted")
+    if not at(0x1BB8758, 30).startswith(b"Effect\\ShockWave.jpg\x00"):
+        raise AssertionError("S21 ShockWave bitmap loader filename drifted")
+    for va, expected in ((0x1B4DF18, 0.8), (0x1B4E998, 0.6),
+                         (0x1B4E6D8, 0.15), (0x1B4F6B0, 15.0)):
+        if abs(struct.unpack("<f", at(va, 4))[0] - expected) > 0.0001:
+            raise AssertionError(f"S21 0x81CF light/scale/alpha drifted at {va:#x}")
+    print("PASS: S21 Pierce 0x81CF subtype2 ring parent and nested 0x8012 ShockWave child pinned")
 
     if at(0x10EEB92, 7) != bytes.fromhex("6a5768c1000000"):
         raise AssertionError("S21 shared C1:57 skill packet constructor drifted")

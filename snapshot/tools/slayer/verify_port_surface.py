@@ -215,6 +215,14 @@ def main() -> int:
             "native Pierce 0x8149 renders through sprite queue, not terrain bitmap")
     require(resources, "if (effect.LifeTime <= 2.f)",
             "native Pierce 0x8149 near-zero lifetime refresh")
+    require(resources, "SpawnBitmapChild(kMagicGround12Effect, effect, effect.Owner,",
+            "native Pierce 0x81CF subtype-2 ring parent creation")
+    require(resources, "case kMagicGround12Effect: return effect.SubType == 2 ? 15.f : 30.f;",
+            "native Pierce 0x81CF subtype-2 15-tick envelope")
+    require(resources, "effect.Scale += 0.15f * animationFactor;",
+            "native Pierce 0x81CF subtype-2 scale expansion")
+    require(resources, "effect.Alpha = effect.LifeTime / 15.f;",
+            "native Pierce 0x81CF subtype-2 lifetime opacity")
     for token in (
         "kFlare01RedEffect", "kRingOfGradation2Effect",
         "kEnemyRing01Effect", "kMagicGround12Effect",
@@ -471,12 +479,16 @@ def main() -> int:
             "0x68A randomized model child retains its root owner")
     if "effect.Timer >= 8.f" in resources:
         raise AssertionError("provisional eight-tick Pierce lane timer regressed")
-    # 0x81CE subtype 4 legitimately refreshes its 20-tick envelope at one
-    # remaining tick. Keep the old generic Pierce-lane fallback prohibited;
-    # the only allowed occurrence is inside this decoded child updater.
-    if resources.count("effect.LifeTime <= 1.f") != 1 or not re.search(
+    # 0x81CE subtype 4 and 0x81CF subtype 2 both refresh an exact decoded
+    # one-tick envelope. Keep the generic Pierce-lane fallback prohibited:
+    # only those two bitmap-object update cases may contain the condition.
+    scoped_update = resources[resources.index("void UpdateEffect("):]
+    if resources.count("effect.LifeTime <= 1.f") != 2 or not re.search(
         r"case kPierce81CEEffect:.*?if \(effect\.LifeTime <= 1\.f\).*?case kFlare01RedEffect:",
-        resources, re.S,
+        scoped_update, re.S,
+    ) or not re.search(
+        r"case kMagicGround12Effect:.*?if \(effect\.LifeTime <= 1\.f\).*?default: break;",
+        scoped_update, re.S,
     ):
         raise AssertionError("provisional lifetime Pierce helper fallback regressed")
     require(server, "rise::slayer::PierceFanoutWire fanout = {};",

@@ -346,8 +346,9 @@ The high-code update dispatcher routes `0x81CD` at `0x14B8383` to
 them separately at `0x15A1724/0x15A1734`. The private 5.2 Slayer overlay
 now hash-pins/copies `marks_m04.OZJ`, reserves bitmap ID `33012`, and
 registers that exact sprite. This was an asset prerequisite; the first
-three `0x81CE` children, `0x80BA` subtype 6 and `0x8149` subtype 2 are now
-spawned, while five direct children remain unported and visual parity is
+three `0x81CE` children, `0x80BA` subtype 6, `0x8149` subtype 2 and the
+`0x81CF` subtype-2 parent are now spawned, while four direct children and
+the `0x81CF` nested child remain unported; visual parity is
 still unproven.
 Further render decode shows `0x81CE` subtype 3 submits bitmap `0x81CE`
 at `0x15AE502`, but subtypes 4 and 5 submit bitmap `0x81CD` at
@@ -396,8 +397,25 @@ creates a sprite through `0x172760A`, not a terrain tile. The private
 one-frame `kGroundStarBitmap` sprite during RenderEffects, which is then
 consumed by RenderSprites. Sprite material/blend parity still requires
 ingame validation after the whole graph is ported. The remaining
-`0x80BA` subtype-7 fanout, `0x81CF/0x5D8` branches and owner/class-9
-ingame parity remain open.
+`0x80BA` subtype-7 fanout, `0x81CF` nested child, `0x5D8` parent branch
+and owner/class-9 ingame parity remain open.
+The next direct parent `0x81CF` subtype 2 is now connected to the root in
+its native call order with light `(0.8, 0.6, 1)` and incoming scale zero.
+Initializer `0x147E7C4` overrides scale to 1, alpha to 1, sets life 15 and
+stamps the millisecond clock. Update `0x1534735` expands scale by 0.15 per
+tick, derives alpha from remainingLife/15, refreshes life/scale at one tick
+until its 6000-ms cutoff. Render `0x15AE82A` submits `0x81CF` through the
+terrain-alpha path with light multiplied by object alpha, using the
+hash-pinned `magic_ground12` texture already in the private overlay.
+That initializer also creates `0x8012` subtype 17 with light
+`(1, 0.28, 0.95)` and incoming scale zero; the nested child is still
+unported. S21 loader `0x18BD19A` names `Effect\\ShockWave.jpg` for
+bitmap `0x8012`. The subtype-17 initializer `0x145CBEA` sets life 15,
+alpha 1 and its own scale; updater `0x14FD824` grows scale and derives
+alpha from remainingLife/15. Its effect-object draw branch at
+`0x159D2BE` has a map-dependent gate and calls `0xE2BD4D`; this must be
+decoded before assigning a 5.2 blend/material pass. Porting the visible
+`0x81CF` ring alone is not a complete child graph or visual PASS.
 
 The native character render/update paths at `0x133F0EA` and `0x13F2546`
 compare current action to `0xE4` and assign `OBJECT+0xDC = 0.3`; the
