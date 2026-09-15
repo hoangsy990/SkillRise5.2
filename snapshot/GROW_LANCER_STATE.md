@@ -2,6 +2,26 @@
 
 STATUS: IN_PROCESS
 
+### 2026-09-15 — Spin Step native pose ribbon flat-depth fixture corrected
+
+- CURRENT PHASE: nine S21 Grow Lancer skills native PC5.2 client/server; equipment/quests1–3 excluded; `IN_PROCESS`.
+- CURRENT TASK: resolve owner Spin Step ring-only caster ribbon FAIL without a fresh visible cast.
+- CURRENT SUBTASK: exercise source-mapped action285/bone33/style1 native blur under oblique camera and a depth-writing Z0 fixture plane, preserving texture-state fidelity.
+- COMPLETED THIS RUN: added QA-only `RISE_GL_SPIN_POSE_DEPTH_QA` hidden WGL control. Initial PID3472 showed 103 no-plane/115 plane pixels but was rejected after identifying stale native TextureEnable from direct `glDisable(GL_TEXTURE_2D)`; PID8808 sampled outside plane (depth1), also not accepted. Corrected fixture to native `DisableTexture(false)` before clear/plane and center depth read. Isolated QA x86 MSBuild link exit0; prior staged SHA89C8..., A4FE..., 52B7..., 0E8C... retained as exact private rollback before stage. Current staged SHA3DEAC1EE..., full Data/hash verifier PASS. Hidden PID15520 exit0: exact player pose minWidth181.108, 103 textured pixels with/without plane, groundDepth0.501395, GL0/releaseStable1; PID-bound verifier PASS. Existing depth-off pose regression PID12572 exit0/114 pixels/verifier PASS. No visible client/GS/VPS/other worktree or production deployment.
+- REVERSE EVIDENCE: S21 action186→native285 clip byte-identical, caster bone33/weapon endpoints and style1/texture/blend pinned. The current hidden pose with a depth-writing flat plane does not bury the whole ribbon; it is not a gameplay/world-camera proof.
+- CHAIN COVERAGE: Spin caster native source-bone/blur allocation and synthetic oblique-depth raster PASS; current gameplay ribbon owner FAIL, target internal280 contact/GS hit OPEN. Magic ordinary client activation and class7 authority OPEN.
+- ASSET PROVENANCE: private merged player SHA0CC3D22D..., private motion-blur bitmap unchanged; staged current QA Engine hash3DEAC1EE..., isolated Data verifier13 current/2521 base/91 overlay/3 root/126 frozen junctions PASS.
+- FILES MODIFIED: isolated `ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerRuntimeQA.cpp`, `tools/grow_lancer/verify_spin_native_blur_fixture.py`, `tools/grow_lancer/verify_runtime_qa_stage.py`, `GrowLancer/SPIN_STEP_REVERSE.md`, `GrowLancer/ACCEPTANCE_GATE_MATRIX.md`, this state. QA binary/Data staging and rollback only inside private test directories.
+- LAST STATIC CHECK: PID15520 depth and PID12572 depth-off verifiers exit0; current stage verifier PASS. Earlier source/regular-contract checks remain prior checkpoints.
+- LAST BUILD RESULT: QA Global Release|Win32 Main.vcxproj link exit0 SHA3DEAC1EE... and nonQA isolated x86 link exit0 SHA2D958691..., using actual VS18 Insiders VC target; known third-party cryptlib LNK4099 missing-PDB only. Initial VS18 BuildTools MSBuild lacked VC props (MSB4019); switched to verified Insiders toolchain. No GS code changed or production post-build.
+- LAST RUNTIME QA: two hidden WGL fixtures exit0 on GTX1060 driver582.66; owner Spin ribbon still FAIL; no gameplay cast per owner deferred preference.
+- KNOWN DIFFERENCES: synthetic bone poses/frame0.5/2.5/4.5, scale1, -55° camera, Z0 plane and compatibility GL fixture differ from real caster/world/terrain/S21 frame. Positive fixture pixels cannot close owner visual parity. An EXE launched from private Bin instead of private Client lacked Data and exited1 (PID4780), not a skill failure.
+- MISSING CHAIN PARTS: current private gameplay ribbon pixel/texture/world/depth/360 attribution, target hit280 packet/visual, lifetime/map stress, class7 final animation speed and GS authority.
+- BLOCKER: owner deferred fresh gameplay cast and original protected GS/default-class handler evidence absent; independent source/hidden QA continues, `IN_PROCESS`.
+- NEXT EXACT ACTION: compare Spin source/native renderer depth/camera state and current private blur emitter timing/owner data; only patch measured mismatch. When owner available, local-only paired selected-target F7/F9/F11 fixed/360 comparison, not VPS.
+- NEXT FILE TO OPEN: `GrowLancer/SPIN_STEP_REVERSE.md` and `ExMain_RISE_PC/Main5.2_RISE/ZzzEffectBlurSpark.cpp` native draw state.
+- NEXT FUNCTION TO IMPLEMENT: only source-proven Spin gameplay ribbon mismatch after actual vertex/pixel evidence; otherwise progress another verified skill layer without cosmetic substitute.
+
 ### 2026-09-15 — duplicate S21 Lua skill-source ambiguity narrowed
 
 - CURRENT PHASE: nine Grow Lancer S21 skills native PC5.2 client/server; equipment/quests1–3 excluded; `IN_PROCESS`.

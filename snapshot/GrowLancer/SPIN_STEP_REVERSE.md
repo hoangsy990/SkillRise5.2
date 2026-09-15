@@ -1,5 +1,37 @@
 # Spin Step (skill 271) reverse evidence
 
+## Hidden oblique/flat-depth pose ribbon control — 2026-09-15
+
+The owner still reports a ground ring without the caster weapon ribbon. A
+new QA-only `RISE_GL_SPIN_POSE_DEPTH_QA=1` uses the same exact private merged
+player action285/bone33 sampler and native style-1 `CreateObjectBlur`/
+`RenderObjectBlurs`, now with a -55° oblique fixture camera, real GL depth
+test and a black Z0 flat plane. This is not a S21/native gameplay cast,
+real terrain, caster frame/scale, 360° camera or owner visual acceptance.
+
+The first probe candidate drew 103 no-plane and 115 plane pixels, but it
+directly disabled GL_TEXTURE_2D while native `TextureEnable` stayed cached
+true. The second draw could therefore be **untextured**, and those 115
+pixels were explicitly rejected as evidence. A depth read at screen
+(128,64) also missed the plane (1.0). The fixture was corrected to read
+the plane center (128,128) and use native `DisableTexture(false)` before
+clearing/drawing the plane; native `EnableAlphaBlend` now restores texture
+for the actual blur pass instead of leaving a stale GL/cache mismatch.
+
+Current hash-staged isolated QA Engine SHA-256
+`3DEAC1EE5B654C8A04E445A3A187399DE542CD550436DBBA56FE3DA454FF3609`
+has exact private rollback `0E8C3537...`, stage verifier PASS. Hidden
+PID15520 exit0 reports source-mapped poseReady1/minWidth181.108,
+103 no-plane and **103 textured plane-pass lit pixels**,
+groundDepth0.501395 before ribbon, GL error0/releaseStable1. Its PID-bound
+native blur verifier PASS. The unchanged depth-off pose regression PID12572
+exit0 reports 114 pixels/GL0/releaseStable1, verifier PASS. The private
+shader/whole gameplay terrain path was not invoked by this compatibility
+WGL control; it only shows the entire synthetic bone33 ribbon is not
+occluded by a depth-writing flat Z0 plane at this pose/camera. Owner
+ring-only visual FAIL, actual world vertices/texture query, contact and
+S21 same-frame comparison remain OPEN. No global SS6 renderer changed.
+
 ## Native merged-player action285 pose ribbon fixture — 2026-09-15
 
 Current staged private QA Engine SHA-256 `6DE3A1FECF7A868F428A962851084470FA6F0687527CB575210A5F75740218BF`

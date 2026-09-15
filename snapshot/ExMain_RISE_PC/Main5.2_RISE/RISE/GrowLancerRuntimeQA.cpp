@@ -1256,16 +1256,22 @@ int RunBodyTextureProbeQA()
     const bool spinPoseBlurProbe = GetEnvironmentVariableA(
         "RISE_GL_SPIN_POSE_BLUR_QA", spinPoseBlurEnabled,
         sizeof(spinPoseBlurEnabled)) == 1 && spinPoseBlurEnabled[0] == '1';
+    char spinPoseDepthEnabled[4] = {};
+    const bool spinPoseDepthProbe = GetEnvironmentVariableA(
+        "RISE_GL_SPIN_POSE_DEPTH_QA", spinPoseDepthEnabled,
+        sizeof(spinPoseDepthEnabled)) == 1 && spinPoseDepthEnabled[0] == '1';
     if (!bodyProbe && !circleProbe && !spinProbe && !wrathProbe &&
         !privateModelsProbe && !magicDrawProbe && !magicCalcProbe &&
         !magicTerrainProbe && !spinCrossDrawProbe &&
-        !spinBlurDrawProbe && !spinPoseBlurProbe) return -1;
+        !spinBlurDrawProbe && !spinPoseBlurProbe &&
+        !spinPoseDepthProbe) return -1;
     if (static_cast<int>(bodyProbe) + static_cast<int>(circleProbe) +
         static_cast<int>(spinProbe) + static_cast<int>(wrathProbe) +
         static_cast<int>(privateModelsProbe) + static_cast<int>(magicDrawProbe) +
         static_cast<int>(magicCalcProbe) + static_cast<int>(magicTerrainProbe) +
         static_cast<int>(spinCrossDrawProbe) + static_cast<int>(spinBlurDrawProbe) +
-        static_cast<int>(spinPoseBlurProbe) != 1)
+        static_cast<int>(spinPoseBlurProbe) +
+        static_cast<int>(spinPoseDepthProbe) != 1)
         return 2;
     if (wglGetCurrentContext()) return 2;
     // Hidden test surface only. Native bitmap decoder/uploader remains unchanged.
@@ -1333,7 +1339,7 @@ int RunBodyTextureProbeQA()
     }
     std::vector<GLuint> bodyVaos, bodyBuffers;
 #endif
-    if (spinBlurDrawProbe || spinPoseBlurProbe)
+    if (spinBlurDrawProbe || spinPoseBlurProbe || spinPoseDepthProbe)
     {
         // Hidden orthographic fixture only: real SS6 blur pool, registered
         // private S21 sampler and immediate renderer. Pose mode also uses
@@ -1343,8 +1349,8 @@ int RunBodyTextureProbeQA()
         const size_t countBefore = Bitmaps.GetNumberOfTexture();
         const bool loaded = EnsureSpinMotionBlurBitmap();
         BMD player;
-        bool poseReady = !spinPoseBlurProbe;
-        if (spinPoseBlurProbe)
+        bool poseReady = !spinPoseBlurProbe && !spinPoseDepthProbe;
+        if (spinPoseBlurProbe || spinPoseDepthProbe)
         {
             char playerDir[] = "Data\\Player\\";
             char playerFile[] = "player.bmd";
@@ -1363,17 +1369,26 @@ int RunBodyTextureProbeQA()
         ClearAllObjectBlurs();
         glViewport(0, 0, 256, 256);
         glMatrixMode(GL_PROJECTION); glLoadIdentity();
-        const double extent = spinPoseBlurProbe ? 1000.0 : 100.0;
+        const double extent = (spinPoseBlurProbe || spinPoseDepthProbe) ?
+            1000.0 : 100.0;
         glOrtho(-extent, extent, -extent, extent, -2000.0, 2000.0);
         glMatrixMode(GL_MODELVIEW); glLoadIdentity();
-        glDisable(GL_DEPTH_TEST);
+        if (spinPoseDepthProbe)
+        {
+            // The existing pose remains synthetic; only camera/flat ground
+            // depth changes. Native object-blur raster is unchanged.
+            glRotatef(-55.0f, 1.0f, 0.0f, 0.0f);
+            glEnable(GL_DEPTH_TEST);
+            glDepthFunc(GL_LESS);
+        }
+        else glDisable(GL_DEPTH_TEST);
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         float minimumWidth = 0.0f;
         float maximumCoordinate = 0.0f;
         if (loaded && poseReady)
         {
-            if (spinPoseBlurProbe)
+            if (spinPoseBlurProbe || spinPoseDepthProbe)
             {
                 player.BodyScale = 1.0f; // isolated fixture, not observed owner scale
                 player.CurrentAction = 285;
@@ -1420,6 +1435,31 @@ int RunBodyTextureProbeQA()
         unsigned litPixels = 0;
         for (size_t i = 0; i < pixels.size(); i += 4)
             litPixels += (pixels[i] || pixels[i + 1] || pixels[i + 2]) ? 1u : 0u;
+        const unsigned noPlanePixels = litPixels;
+        float groundDepth = 1.0f;
+        if (spinPoseDepthProbe && loaded && poseReady)
+        {
+            // The native renderer caches TextureEnable/DepthMaskEnable.
+            // Direct glDisable(GL_TEXTURE_2D) would leave that cache stale
+            // and turn the second ribbon into an untextured false positive.
+            DisableTexture(false);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            glColor3f(0.0f, 0.0f, 0.0f);
+            glBegin(GL_QUADS);
+            glVertex3f(-500.0f, -500.0f, 0.0f);
+            glVertex3f(500.0f, -500.0f, 0.0f);
+            glVertex3f(500.0f, 500.0f, 0.0f);
+            glVertex3f(-500.0f, 500.0f, 0.0f);
+            glEnd();
+            glReadPixels(128, 128, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT,
+                &groundDepth);
+            RenderObjectBlurs();
+            glReadPixels(0, 0, 256, 256, GL_RGBA, GL_UNSIGNED_BYTE,
+                pixels.data());
+            litPixels = 0;
+            for (size_t i = 0; i < pixels.size(); i += 4)
+                litPixels += (pixels[i] || pixels[i + 1] || pixels[i + 2]) ? 1u : 0u;
+        }
         const GLenum error = glGetError();
         ClearAllObjectBlurs();
         if (loaded) Bitmaps.UnLoadImageFile(kSpinMotionBlurBitmap, false);
@@ -1427,15 +1467,20 @@ int RunBodyTextureProbeQA()
             countBefore == Bitmaps.GetNumberOfTexture();
         char line[256] = {};
         sprintf_s(line,
-            "event=spin-native-blur-draw mode=%s loaded=%d poseReady=%d minWidth=%.3f maxCoord=%.3f litPixels=%u glError=%u releaseStable=%d",
-            spinPoseBlurProbe ? "native-player-pose" : "synthetic-segments",
+            "event=spin-native-blur-draw mode=%s loaded=%d poseReady=%d minWidth=%.3f maxCoord=%.3f litPixels=%u noPlanePixels=%u groundDepth=%.6f glError=%u releaseStable=%d",
+            spinPoseDepthProbe ? "native-player-pose-depth" :
+                (spinPoseBlurProbe ? "native-player-pose" : "synthetic-segments"),
             loaded ? 1 : 0, poseReady ? 1 : 0,
             minimumWidth, maximumCoordinate, litPixels,
+            noPlanePixels, groundDepth,
             static_cast<unsigned>(error), released ? 1 : 0);
         AppendQALog(line);
         return loaded && poseReady &&
-            (!spinPoseBlurProbe || minimumWidth > 0.0f) &&
-            litPixels > 0 && error == GL_NO_ERROR &&
+            (!(spinPoseBlurProbe || spinPoseDepthProbe) ||
+                minimumWidth > 0.0f) &&
+            litPixels > 0 && noPlanePixels > 0 &&
+            (!spinPoseDepthProbe || groundDepth < 1.0f) &&
+            error == GL_NO_ERROR &&
             released ? 0 : 1;
     }
     if (wrathProbe)
