@@ -22,7 +22,11 @@ enum SkillId
 enum EffectId
 {
     kBatFlockEffect = 221,
-    kDemolishEffect = 222
+    kDemolishEffect = 222,
+    // S21 BuffEffectManager row 316 (Detection) is a one-minute self result.
+    // Keep the runtime slot private to the Slayer overlay; it is not written
+    // into the legacy Effect.txt index space.
+    kDetectionEffect = 223
 };
 
 // S21 class identity.  The legacy server still has MAX_CLASS == 7.  Keep the
@@ -38,26 +42,26 @@ static const unsigned char kSlayerClientClassByte = 0xE0;
 
 inline bool IsSlayerClass(int classId)
 {
-    return classId == kS21ClassSlayer;
+	return classId == kS21ClassSlayer;
 }
 
 inline bool IsSlayerDbClass(int dbClass)
 {
-    return dbClass == kS21SlayerDbClass ||
-        dbClass == kS21RoyalSlayerDbClass ||
-        dbClass == kS21MasterSlayerDbClass;
+	return dbClass == kS21SlayerDbClass ||
+		dbClass == kS21RoyalSlayerDbClass ||
+		dbClass == kS21MasterSlayerDbClass;
 }
 
 inline int LegacyArrayClassForDbClass(int dbClass)
 {
-    return IsSlayerDbClass(dbClass) ? kSlayerLegacyArrayClass : dbClass / 16;
+	return IsSlayerDbClass(dbClass) ? kSlayerLegacyArrayClass : dbClass / 16;
 }
 
 inline unsigned char ClientClassByteForDbClass(int dbClass)
 {
-    return IsSlayerDbClass(dbClass) ? kSlayerClientClassByte :
-        static_cast<unsigned char>((dbClass % 16) * 16 - ((dbClass % 16) * 16 / 32) +
-            (dbClass / 16) * 32);
+	return IsSlayerDbClass(dbClass) ? kSlayerClientClassByte :
+		static_cast<unsigned char>((dbClass % 16) * 16 - ((dbClass % 16) * 16 / 32) +
+			(dbClass / 16) * 32);
 }
 
 inline bool IsSlayerSkill(int id)
@@ -74,6 +78,12 @@ inline bool IsSlayerDamageSkill(int id)
 inline int DemolishDurationSeconds()
 {
     // MasterSkillCalc_3rd.lua: SkillTime=60 for Slayer Demolish.
+    return 60;
+}
+
+inline int DetectionDurationSeconds()
+{
+    // BuffEffectManager row 316: Detection result remains for one minute.
     return 60;
 }
 

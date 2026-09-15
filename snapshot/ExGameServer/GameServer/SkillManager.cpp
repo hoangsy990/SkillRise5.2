@@ -1111,8 +1111,9 @@ void CSkillManager::UseDurationSkillAttack(int aIndex, int bIndex, CSkill* lpSki
 bool CSkillManager::RunningSkill(int aIndex, int bIndex, CSkill* lpSkill, BYTE x, BYTE y, BYTE angle, bool combo)
 {
 	LPOBJ lpObj = &gObj[aIndex];
-	// Keep imported S21 rows fail-closed until the legacy class/persistence
-	// ABI has a real class-9 mapping. A direct packet must not bypass this gate.
+	// Keep the imported S21 rows fail-closed until the legacy class/persistence
+	// ABI has a real class-9 mapping.  This protects the server even if a client
+	// sends a direct skill packet instead of passing through AddSkill checks.
 	if (lpSkill != 0 && rise::slayerserver::IsSlayerSkill(lpSkill->m_skill) &&
 		!rise::slayerserver::IsSlayerClass(lpObj->Class) &&
 		!rise::slayerserver::IsSlayerDbClass(lpObj->DBClass))
@@ -4495,10 +4496,20 @@ void CSkillManager::CGSkillAttackRecv(PMSG_SKILL_ATTACK_RECV* lpMsg, int aIndex)
 	LPOBJ lpObj = &gObj[aIndex];
 	if (gObjIsConnectedGS(aIndex) == 0)
 	{
+	#ifdef RISE_SLAYER_SERVER_QA
+		const int traceDisconnectedSkill = MAKE_NUMBERW(lpMsg->skill[0], lpMsg->skill[1]);
+		if (rise::slayerserver::IsSlayerSkill(traceDisconnectedSkill))
+			LogAdd(LOG_RED, "[SlayerQA] reject source-not-connected skill=%d source=%d", traceDisconnectedSkill, aIndex);
+	#endif
 		return;
 	}
 	if (lpObj->Live == 0)
 	{
+	#ifdef RISE_SLAYER_SERVER_QA
+		const int traceDeadSkill = MAKE_NUMBERW(lpMsg->skill[0], lpMsg->skill[1]);
+		if (rise::slayerserver::IsSlayerSkill(traceDeadSkill))
+			LogAdd(LOG_RED, "[SlayerQA] reject source-not-live skill=%d source=%d type=%d connected=%d", traceDeadSkill, aIndex, lpObj->Type, lpObj->Connected);
+	#endif
 		return;
 	}
 	int bIndex = MAKE_NUMBERW(lpMsg->index[0], lpMsg->index[1]);
@@ -4507,20 +4518,46 @@ void CSkillManager::CGSkillAttackRecv(PMSG_SKILL_ATTACK_RECV* lpMsg, int aIndex)
 		return;
 	}
 	LPOBJ lpTarget = &gObj[bIndex];
+#ifdef RISE_SLAYER_SERVER_QA
+	const int traceSkill = MAKE_NUMBERW(lpMsg->skill[0], lpMsg->skill[1]);
+	if (rise::slayerserver::IsSlayerSkill(traceSkill))
+	{
+		LogAdd(LOG_GREEN, "[SlayerQA] CGSkillAttackRecv source=%d sourceType=%d sourceConnected=%d sourceLive=%d class=%d dbClass=%d target=%d targetType=%d targetConnected=%d targetLive=%d skill=%d",
+			aIndex, lpObj->Type, lpObj->Connected, lpObj->Live, lpObj->Class,
+			lpObj->DBClass, bIndex, lpTarget->Type, lpTarget->Connected,
+			lpTarget->Live, traceSkill);
+	}
+#endif
 	if (gObjIsConnectedGS(bIndex) == 0)
 	{
+#ifdef RISE_SLAYER_SERVER_QA
+		if (rise::slayerserver::IsSlayerSkill(traceSkill))
+			LogAdd(LOG_RED, "[SlayerQA] reject target-not-connected skill=%d target=%d", traceSkill, bIndex);
+#endif
 		return;
 	}
 	if (lpTarget->Live == 0)
 	{
+#ifdef RISE_SLAYER_SERVER_QA
+		if (rise::slayerserver::IsSlayerSkill(traceSkill))
+			LogAdd(LOG_RED, "[SlayerQA] reject target-not-live skill=%d target=%d", traceSkill, bIndex);
+#endif
 		return;
 	}
 	if (gMap[lpObj->Map].CheckAttr(lpObj->X, lpObj->Y, 1) != 0 || gMap[lpTarget->Map].CheckAttr(lpTarget->X, lpTarget->Y, 1) != 0)
 	{
+#ifdef RISE_SLAYER_SERVER_QA
+		if (rise::slayerserver::IsSlayerSkill(traceSkill))
+			LogAdd(LOG_RED, "[SlayerQA] reject safe-zone skill=%d source=%d target=%d", traceSkill, aIndex, bIndex);
+#endif
 		return;
 	}
 	if (gDuel.GetDuelArenaBySpectator(aIndex) != 0 || gDuel.GetDuelArenaBySpectator(bIndex) != 0)
 	{
+#ifdef RISE_SLAYER_SERVER_QA
+		if (rise::slayerserver::IsSlayerSkill(traceSkill))
+			LogAdd(LOG_RED, "[SlayerQA] reject duel-spectator skill=%d source=%d target=%d", traceSkill, aIndex, bIndex);
+#endif
 		return;
 	}
 	int skill = MAKE_NUMBERW(lpMsg->skill[0], lpMsg->skill[1]);
@@ -4530,22 +4567,46 @@ void CSkillManager::CGSkillAttackRecv(PMSG_SKILL_ATTACK_RECV* lpMsg, int aIndex)
 		lpSkill = this->GetSkill(lpObj, skill);
 		if (lpSkill == 0)
 		{
+#ifdef RISE_SLAYER_SERVER_QA
+			if (rise::slayerserver::IsSlayerSkill(skill))
+				LogAdd(LOG_RED, "[SlayerQA] reject skill-not-learned skill=%d source=%d", skill, aIndex);
+#endif
 			return;
 		}
+#ifdef RISE_SLAYER_SERVER_QA
+		if (rise::slayerserver::IsSlayerSkill(skill))
+			LogAdd(LOG_GREEN, "[SlayerQA] resolved skill=%d index=%d mskill=%d level=%d mana=%d bp=%d", skill, lpSkill->m_index, lpSkill->m_skill, lpSkill->m_level, lpObj->Mana, lpObj->BP);
+#endif
 		if (this->CheckSkillDelay(lpObj, lpSkill->m_index) == 0)
 		{
+#ifdef RISE_SLAYER_SERVER_QA
+			if (rise::slayerserver::IsSlayerSkill(skill))
+				LogAdd(LOG_RED, "[SlayerQA] reject skill-delay skill=%d source=%d", skill, aIndex);
+#endif
 			return;
 		}
 		if (this->CheckSkillRequireKillPoint(lpObj, lpSkill->m_index) == 0)
 		{
+#ifdef RISE_SLAYER_SERVER_QA
+			if (rise::slayerserver::IsSlayerSkill(skill))
+				LogAdd(LOG_RED, "[SlayerQA] reject kill-point skill=%d killCount=%d", skill, lpObj->KillCount);
+#endif
 			return;
 		}
 		if (this->CheckSkillRequireGuildStatus(lpObj, lpSkill->m_index) == 0)
 		{
+#ifdef RISE_SLAYER_SERVER_QA
+			if (rise::slayerserver::IsSlayerSkill(skill))
+				LogAdd(LOG_RED, "[SlayerQA] reject guild-status skill=%d guildStatus=%d", skill, lpObj->GuildStatus);
+#endif
 			return;
 		}
 		if (this->CheckSkillRequireClass(lpObj, lpSkill->m_index) == 0)
 		{
+#ifdef RISE_SLAYER_SERVER_QA
+			if (rise::slayerserver::IsSlayerSkill(skill))
+				LogAdd(LOG_RED, "[SlayerQA] reject class-gate skill=%d class=%d dbClass=%d", skill, lpObj->Class, lpObj->DBClass);
+#endif
 			return;
 		}
 	}
@@ -4559,6 +4620,10 @@ void CSkillManager::CGSkillAttackRecv(PMSG_SKILL_ATTACK_RECV* lpMsg, int aIndex)
 	}
 	lpObj->MultiSkillIndex = 0;
 	lpObj->MultiSkillCount = 0;
+#ifdef RISE_SLAYER_SERVER_QA
+	if (rise::slayerserver::IsSlayerSkill(skill))
+		LogAdd(LOG_GREEN, "[SlayerQA] dispatch skill=%d source=%d target=%d", skill, aIndex, bIndex);
+#endif
 	this->UseAttackSkill(aIndex, ((skill == SKILL_NOVA_START || skill == MASTER_SKILL_ADD_NOVA_START_IMPROVED) ? skill : bIndex), lpSkill);
 }
 void CSkillManager::CGDurationSkillAttackRecv(PMSG_DURATION_SKILL_ATTACK_RECV* lpMsg, int aIndex)
@@ -4936,6 +5001,12 @@ bool CSkillManager::SkillSlayerDetection(int aIndex, int bIndex,
 	if (OBJECT_RANGE(aIndex) == 0 || OBJECT_RANGE(bIndex) == 0 ||
 		bIndex != aIndex)
 		return false;
+	// BuffEffectManager row 316: Detection remains active for one minute.
+	// Keep the duration on GameServer so the client cannot extend or recreate
+	// the result from a local timer.
+	gEffectManager.AddEffect(&gObj[aIndex], 0,
+		rise::slayerserver::kDetectionEffect,
+		rise::slayerserver::DetectionDurationSeconds(), 0, 0, 0, 0);
 	this->GCSkillAttackSend(&gObj[aIndex], lpSkill->m_index, aIndex, 1);
 	return true;
 }
@@ -4950,8 +5021,12 @@ bool CSkillManager::SkillSlayerDemolish(int aIndex, int bIndex,
 		return 0;
 	}
 
-	// MasterSkillCalc_3rd.lua SlayerDemolish_MasterLevel1/2_Calc:
-	// ((Strength / 8) + (Dexterity / 28) + 120) * 0.03, duration 60s.
+	// MasterSkillCalc_3rd.lua (SlayerDemolish_MasterLevel1/2_Calc):
+	//   ((Strength / 8) + (Dexterity / 28) + 120) * 0.03
+	//   + SkillTreeValue, duration = 60 seconds.
+	// The legacy 5.2 tree has no Slayer mastery-value slot yet, so the
+	// authoritative imported base uses SkillTreeValue=0 until that ABI is
+	// migrated.  Do not silently borrow a different class' mastery node.
 	const double raw = ((lpObj->Strength + lpObj->AddStrength) / 8.0) +
 		((lpObj->Dexterity + lpObj->AddDexterity) / 28.0) + 120.0;
 	const int value = max(0, static_cast<int>(raw * 0.03));
@@ -4969,12 +5044,19 @@ bool CSkillManager::SkillSlayerDemolish(int aIndex, int bIndex,
 		ApplyTo(lpObj);
 		return 1;
 	}
+	// Party tables are not required to contain the casting slot.  Apply to the
+	// caster explicitly, then fan out to nearby party members without a
+	// duplicate self packet.
+	ApplyTo(lpObj);
 
+	// SkillSettings.ini sets PartySkillRange=9 for Slayer party buffs.
+	// Use that S21 value directly because the legacy catalog has no Radio
+	// entry for the overlay row (CheckSkillRadio would reject Radio=0).
 	PARTY_INFO* lpParty = &gParty.m_PartyInfo[lpObj->PartyNumber];
 	for (int n = 0; n < MAX_PARTY_USER; ++n)
 	{
 		const int index = lpParty->Index[n];
-		if (OBJECT_RANGE(index) == 0 || gObj[index].Live == 0 ||
+		if (OBJECT_RANGE(index) == 0 || index == lpObj->Index || gObj[index].Live == 0 ||
 			gObj[index].State != OBJECT_PLAYING ||
 			gObj[index].Map != lpObj->Map)
 		{

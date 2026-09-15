@@ -175,7 +175,8 @@ bool DispatchNativeReceive(CHARACTER* source, CHARACTER* target, int skillId)
 #endif
 
     if (skillId != kDetection && skillId != kDemolish &&
-        (!target || !target->Object.Live || target->Dead != 0))
+        (!target || target->Object.Kind != KIND_MONSTER ||
+         !target->Object.Live || target->Dead != 0))
         return false;
 
     OBJECT* visualTarget = target ? &target->Object : &source->Object;

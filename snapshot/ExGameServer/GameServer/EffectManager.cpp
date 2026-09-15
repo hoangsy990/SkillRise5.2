@@ -480,7 +480,7 @@ void CEffectManager::Load(char* path)
 		slayerBatFlock.Value[n] = -1;
 	}
 	this->SetInfo(slayerBatFlock);
-	// Demolish is the S21 Slayer ignore-defense party buff. Keep its
+	// Demolish is the S21 Slayer ignore-defense party buff.  Keep its
 	// BuffEffectManager slot private to the isolated overlay and do not alter
 	// the shared Effect.txt table.
 	EFFECT_INFO slayerDemolish = {};
@@ -497,6 +497,23 @@ void CEffectManager::Load(char* path)
 		slayerDemolish.Value[n] = -1;
 	}
 	this->SetInfo(slayerDemolish);
+	// Detection (S21 BuffEffectManager row 316) is a one-minute self marker.
+	// The client owns the visible minimap/skill graph; the server keeps this
+	// private effect so lifetime and re-cast state remain authoritative.
+	EFFECT_INFO slayerDetection = {};
+	slayerDetection.Index = EFFECT_SLAYER_DETECTION;
+	slayerDetection.Group = EFFECT_SLAYER_DETECTION;
+	slayerDetection.ItemIndex = -1;
+	strcpy_s(slayerDetection.Name, "Slayer Detection");
+	slayerDetection.Save = 0;
+	slayerDetection.Type = 0;
+	slayerDetection.Flag = 0;
+	slayerDetection.Count = -1;
+	for (int n = 0; n < 4; ++n)
+	{
+		slayerDetection.Value[n] = -1;
+	}
+	this->SetInfo(slayerDetection);
 	delete lpMemScript;
 }
 void CEffectManager::SetInfo(EFFECT_INFO info)
@@ -1046,6 +1063,10 @@ void CEffectManager::InsertEffect(LPOBJ lpObj, CEffect* lpEffect)
 		break;
 	case EFFECT_SLAYER_DEMOLISH:
 		lpObj->EffectOption.AddIgnoreDefenseRate += lpEffect->m_value[0];
+		break;
+	case EFFECT_SLAYER_DETECTION:
+		// Detection's gameplay result is consumed by the client minimap/marker
+		// path; it does not modify combat attributes.
 		break;
 	case EFFECT_FITNESS:
 		lpObj->EffectOption.AddVitality += lpEffect->m_value[0];
@@ -1597,6 +1618,8 @@ void CEffectManager::RemoveEffect(LPOBJ lpObj, CEffect* lpEffect)
 		break;
 	case EFFECT_SLAYER_DEMOLISH:
 		lpObj->EffectOption.AddIgnoreDefenseRate -= lpEffect->m_value[0];
+		break;
+	case EFFECT_SLAYER_DETECTION:
 		break;
 	case EFFECT_FITNESS:
 		lpObj->EffectOption.AddVitality -= lpEffect->m_value[0];

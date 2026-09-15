@@ -189,6 +189,13 @@ void AddDebugText(const unsigned char* Buffer, int Size)
 BOOL CreateSocket(char* IpAddr, unsigned short Port)
 {
 	g_pReconnect->ReconnectCreateConnection(IpAddr, Port);
+	#ifdef RISE_SLAYER_RUNTIME_QA
+		char slayerSocketLine[160] = {};
+		sprintf_s(slayerSocketLine, sizeof(slayerSocketLine),
+			"socket-create begin ip=%s port=%u", IpAddr ? IpAddr : "(null)",
+			static_cast<unsigned>(Port));
+		rise::slayerqa::AppendRuntimeQALog(slayerSocketLine);
+	#endif
 
 	BOOL bResult = TRUE;
 
@@ -207,9 +214,18 @@ BOOL CreateSocket(char* IpAddr, unsigned short Port)
 	SocketClient.Create(g_hWnd, TRUE);
 	if (SocketClient.Connect(IpAddr, Port, WM_ASYNCSELECTMSG) == FALSE)
 	{
+		#ifdef RISE_SLAYER_RUNTIME_QA
+			rise::slayerqa::AppendRuntimeQALog("socket-create connect=failed");
+		#endif
 		CUIMng::Instance().PopUpMsgWin(MESSAGE_SERVER_LOST);
 		bResult = FALSE;
 	}
+	#ifdef RISE_SLAYER_RUNTIME_QA
+	else
+	{
+		rise::slayerqa::AppendRuntimeQALog("socket-create connect=accepted");
+	}
+	#endif
 	g_byPacketSerialSend = 0;
 	g_byPacketSerialRecv = 0;
 
@@ -3837,6 +3853,16 @@ BOOL ReceiveMagic(BYTE* ReceiveBuffer, int Size, BOOL bEncrypted)
 	case 294: // Pierce Attack
 	case 295: // Detection
 	case 297: // Demolish
+#ifdef RISE_SLAYER_RUNTIME_QA
+		{
+			char qaLine[224];
+			sprintf_s(qaLine, sizeof(qaLine),
+				"authoritative-receive skill=%d source=%d target=%d success=%d",
+				static_cast<int>(MagicNumber), SourceKey, TargetKey,
+				Success ? 1 : 0);
+			rise::slayerqa::AppendRuntimeQALog(qaLine);
+		}
+#endif
 		rise::slayer::DispatchNativeReceive(sc, tc,
 			static_cast<int>(MagicNumber));
 		break;

@@ -1189,6 +1189,13 @@ bool NewRenderCharacterScene(HDC hDC)
 
 void CreateLogInScene()
 {
+	#ifdef RISE_SLAYER_RUNTIME_QA
+		char slayerLoginEndpoint[160] = {};
+		sprintf_s(slayerLoginEndpoint, sizeof(slayerLoginEndpoint),
+			"login-scene endpoint ip=%s port=%u", szServerIpAddress ? szServerIpAddress : "(null)",
+			static_cast<unsigned>(g_ServerPort));
+		rise::slayerqa::AppendRuntimeQALog(slayerLoginEndpoint);
+	#endif
 	EnableMainRender = true;
 #ifdef PJH_NEW_SERVER_SELECT_MAP
 	gMapManager.WorldActive = WD_73NEW_LOGIN_SCENE;
@@ -2778,6 +2785,16 @@ extern GLvoid KillGLWindow(GLvoid);
 void Scene(HDC hDC)
 {
 	g_Luminosity = sinf(WorldTime * 0.004f) * 0.15f + 0.6f;
+#ifdef RISE_SLAYER_RUNTIME_QA
+	static int slayerQaLastScene = -1;
+	if (slayerQaLastScene != SceneFlag)
+	{
+		char slayerSceneLine[96] = {};
+		sprintf_s(slayerSceneLine, sizeof(slayerSceneLine), "scene-flag=%d", SceneFlag);
+		rise::slayerqa::AppendRuntimeQALog(slayerSceneLine);
+		slayerQaLastScene = SceneFlag;
+	}
+#endif
 	switch (SceneFlag)
 	{
 		case WEBZEN_SCENE:

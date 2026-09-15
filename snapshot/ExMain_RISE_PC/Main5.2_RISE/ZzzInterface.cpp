@@ -2833,6 +2833,7 @@ void UseSkillSlayer(CHARACTER* pCha, OBJECT* pObj)
 		iSkill == rise::slayer::kDemolish;
 	const int targetIndex = g_MovementSkill.m_iTarget;
 	if (!selfTarget && (targetIndex < 0 || targetIndex >= MAX_CHARACTERS_CLIENT ||
+		CharactersClient[targetIndex].Object.Kind != KIND_MONSTER ||
 		CharactersClient[targetIndex].Dead != 0 ||
 		!CharactersClient[targetIndex].Object.Live))
 		return;

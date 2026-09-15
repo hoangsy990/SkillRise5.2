@@ -10,6 +10,8 @@
 #include "ZzzEffect.h"
 #include "ZzzInfomation.h"
 #include "NewUICommon.h"
+#include "SkillManager.h"
+#include "wsclientinline.h"
 
 extern int SelectedCharacter;
 
@@ -67,7 +69,7 @@ OBJECT* SelectedTarget()
 	if (SelectedCharacter >= 0 && SelectedCharacter < MAX_CHARACTERS_CLIENT)
 	{
 		OBJECT* target = &CharactersClient[SelectedCharacter].Object;
-		if (target->Live)
+		if (target->Live && target->Kind == KIND_MONSTER)
 			return target;
 	}
 	// Prefer the nearest live non-player actor so projectile travel/contact is
@@ -79,7 +81,8 @@ OBJECT* SelectedTarget()
 		for (int i = 0; i < MAX_CHARACTERS_CLIENT; ++i)
 		{
 			OBJECT* candidate = &CharactersClient[i].Object;
-			if (!candidate->Live || candidate == &Hero->Object)
+			if (!candidate->Live || candidate == &Hero->Object ||
+				candidate->Kind != KIND_MONSTER)
 				continue;
 			const float dx = candidate->Position[0] - Hero->Object.Position[0];
 			const float dy = candidate->Position[1] - Hero->Object.Position[1];
@@ -93,7 +96,7 @@ OBJECT* SelectedTarget()
 		if (nearest)
 			return nearest;
 	}
-	return Hero && Hero->Object.Live ? &Hero->Object : 0;
+	return 0;
 }
 
 CHARACTER* SelectedTargetCharacter()
@@ -104,16 +107,17 @@ CHARACTER* SelectedTargetCharacter()
 	for (int i = 0; i < MAX_CHARACTERS_CLIENT; ++i)
 		if (&CharactersClient[i].Object == object)
 			return &CharactersClient[i];
-	return Hero;
+	return 0;
 }
 
 int SelectedTargetId()
 {
 	if (!SelectedTarget())
 		return -1;
-	if (SelectedCharacter >= 0 && SelectedCharacter < MAX_CHARACTERS_CLIENT)
+	if (SelectedCharacter >= 0 && SelectedCharacter < MAX_CHARACTERS_CLIENT &&
+		CharactersClient[SelectedCharacter].Object.Kind == KIND_MONSTER)
 		return SelectedCharacter;
-	return Hero ? Hero->Key : -1;
+	return -1;
 }
 
 void SetResult(const char* text)
@@ -137,6 +141,46 @@ void CastCurrentSkill()
     AppendQALog(line);
     SetResult(accepted ? "production-dispatch-accepted" :
         "production-dispatch-rejected");
+}
+
+int AuthoritativeTargetKey(int skillId)
+{
+    if (skillId == slayer::kDetection || skillId == slayer::kDemolish)
+        return Hero ? static_cast<int>(Hero->Key) : -1;
+
+    CHARACTER* target = SelectedTargetCharacter();
+    return target ? static_cast<int>(target->Key) : -1;
+}
+
+void SendAuthoritativeCast(int skillId)
+{
+    const int targetKey = AuthoritativeTargetKey(skillId);
+    char line[224];
+    sprintf_s(line, sizeof(line),
+        "authoritative-send skill=%d name=%s targetKey=%d targetIsSelf=%d",
+        skillId, SkillName(skillId), targetKey,
+        (Hero && targetKey == static_cast<int>(Hero->Key)) ? 1 : 0);
+    AppendQALog(line);
+
+    // This is the normal 5.2 client request envelope.  ReceiveMagic must
+    // later produce the native render graph; no local DispatchNativeReceive
+    // is used for this leg of QA.  It is written explicitly here instead of
+    // invoking the legacy macro so QA cannot inherit its unrelated class
+    // throttling branches.
+    if (Hero && targetKey >= 0)
+    {
+        CStreamPacketEngine spe;
+        spe.Init(0xC1, 0x19);
+        const WORD type = static_cast<WORD>(skillId);
+        spe << static_cast<BYTE>(HIBYTE(type))
+            << static_cast<BYTE>(LOBYTE(type))
+            << static_cast<BYTE>((targetKey >> 8) & 0xFF)
+            << static_cast<BYTE>(targetKey & 0xFF);
+        spe.Send(TRUE);
+        AppendQALog("authoritative-send packet=0x19 issued=1");
+    }
+    else
+        AppendQALog("authoritative-send skipped=no-live-target");
 }
 
 void AdvanceDotTick(unsigned deltaMs)
@@ -330,20 +374,12 @@ void RunRuntimeQAAutoSequence()
             gAutoSequenceStep, RuntimeQASelectedSkillId(),
             RuntimeQASelectedSkillName());
         AppendQALog(line);
-        // Exercise the same packet-to-runtime bridge used by ReceiveMagic.
-        // The probe is local and is labeled as such; only a later server
-        // packet can establish authoritative gameplay acceptance.
-        CHARACTER* target = (RuntimeQASelectedSkillId() == slayer::kDetection ||
-            RuntimeQASelectedSkillId() == slayer::kDemolish) ?
-            Hero : SelectedTargetCharacter();
-        const bool nativeAccepted = DispatchSlayerNativeReceive(Hero, target,
-            RuntimeQASelectedSkillId());
-        SetResult(nativeAccepted ? "native-receive-accepted" :
-            "native-receive-rejected");
-        sprintf_s(line, sizeof(line),
-            "auto-sequence native-receive-probe skill=%d accepted=%d",
-            RuntimeQASelectedSkillId(), nativeAccepted ? 1 : 0);
-        AppendQALog(line);
+        // Send the real 5.2 request through the socket.  The authoritative
+        // response is logged in WSclient::ReceiveMagic; a local probe is
+        // intentionally not used here because it could mask a broken server
+        // packet path.
+        SendAuthoritativeCast(RuntimeQASelectedSkillId());
+        SetResult("authoritative-send-issued");
 
         ++gAutoSequenceStep;
         // Let the complete production graph finish before the next skill is

@@ -6,6 +6,16 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
+$expectedExe = [IO.Path]::GetFullPath(
+    'D:\RISE-CrossPlatform\Source_PC_Slayer\ExMain_RISE_PC\Tests\SlayerBuild\RuntimeQA\Client\Engine-Slayer S21.exe')
+$probe = Get-CimInstance Win32_Process -Filter "ProcessId=$ProcessId" -ErrorAction Stop
+if (!$probe -or !$probe.ExecutablePath) {
+    throw "Refusing capture: PID $ProcessId has no resolvable executable path"
+}
+$resolvedExe = [IO.Path]::GetFullPath($probe.ExecutablePath)
+if ($resolvedExe -ne $expectedExe) {
+    throw "Refusing capture outside isolated Slayer client: $resolvedExe"
+}
 $expectedRoot = [IO.Path]::GetFullPath(
     'D:\RISE-CrossPlatform\Source_PC_Slayer\ExMain_RISE_PC\Tests\SlayerBuild\RuntimeQA\Evidence')
 $output = Join-Path $expectedRoot (Get-Date -Format 'yyyyMMdd_HHmmss')
@@ -42,6 +52,9 @@ $frame = 0
 while ($stopwatch.Elapsed.TotalSeconds -lt $DurationSeconds) {
     $process = Get-Process -Id $ProcessId -ErrorAction SilentlyContinue
     if (!$process) { break }
+    if ($process.MainWindowTitle -notlike '*Engine-Slayer S21*') {
+        throw "Refusing capture: unexpected window title '$($process.MainWindowTitle)'"
+    }
     $handle = $process.MainWindowHandle
     if ($handle -eq [IntPtr]::Zero) {
         Start-Sleep -Milliseconds $IntervalMilliseconds

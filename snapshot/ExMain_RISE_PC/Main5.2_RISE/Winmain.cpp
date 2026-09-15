@@ -971,6 +971,22 @@ BOOL OpenInitFile()
 
 	g_ServerPort = gProtect->m_ConnectInfo.IpAddressPort;
 
+#ifdef RISE_SLAYER_RUNTIME_QA
+	// The private Slayer QA stack is local, while ConnectIP.bmd remains the
+	// owner's hash-pinned production file.  Allow the QA process to override
+	// only its in-memory endpoint; Release builds never compile this path.
+	char slayerQaIp[64] = { 0 };
+	char slayerQaPort[16] = { 0 };
+	DWORD slayerQaIpLen = GetEnvironmentVariableA("RISE_SLAYER_LOCAL_SERVER_IP", slayerQaIp, sizeof(slayerQaIp));
+	DWORD slayerQaPortLen = GetEnvironmentVariableA("RISE_SLAYER_LOCAL_SERVER_PORT", slayerQaPort, sizeof(slayerQaPort));
+	if (slayerQaIpLen > 0 && slayerQaIpLen < sizeof(slayerQaIp) && slayerQaPortLen > 0 && slayerQaPortLen < sizeof(slayerQaPort))
+	{
+		strncpy_s(szServerIpAddress, 32, slayerQaIp, _TRUNCATE);
+		g_ServerPort = static_cast<WORD>(strtoul(slayerQaPort, NULL, 10));
+		SLAYER_QA_STEP("winmain local endpoint override applied");
+	}
+#endif
+
 	Version[0] = gProtect->m_MainInfo.ClientVersion[0] + 1;
 	Version[1] = gProtect->m_MainInfo.ClientVersion[2] + 2;
 	Version[2] = gProtect->m_MainInfo.ClientVersion[3] + 3;
@@ -2007,6 +2023,15 @@ int __stdcall APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PST
 			{
 				Scene(g_hDC);
 			}
+#ifdef RISE_SLAYER_RUNTIME_QA
+			else
+			{
+				// The isolated QA runner may not own the foreground window. Keep
+				// advancing the scene so login/socket probes remain headless and
+				// never require a user preview; normal builds do not compile this.
+				Scene(g_hDC);
+			}
+#endif
 		}
 		ProtocolCompiler();
 		g_pChatRoomSocketList->ProtocolCompile();
