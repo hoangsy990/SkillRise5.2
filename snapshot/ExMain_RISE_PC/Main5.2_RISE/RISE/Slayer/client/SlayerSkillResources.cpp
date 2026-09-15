@@ -433,15 +433,16 @@ void EmitBatMainPulse(OBJECT& effect)
 #ifdef RISE_SLAYER_RUNTIME_QA
 unsigned gRenderSamples[8] = {};
 
-const char* SkillNameForModel(int modelId)
+const char* SkillNameForModel(const OBJECT& effect)
 {
-    switch (modelId)
+    switch (effect.Type)
     {
     case kBatFlockModel: return "Bat Flock";
     case kBatFlockTrailModel: return "Bat Flock";
     case kPierceSwordLineModel: return "Pierce Attack";
     case kDetectionMarkModel:
-    case kDetectionImpactModel: return "Detection";
+    case kDetectionImpactModel:
+        return effect.Skill == kDemolish ? "Demolish" : "Detection";
     default: return "unknown";
     }
 }
@@ -458,13 +459,14 @@ void LogModelRender(const OBJECT& effect, const BMD& model, int renderFlags)
         "native-render-submit skill=%s skillId=%d type=%d subtype=%d "
         "model=%s live=%d visible=%d life=%.3f alpha=%.3f scale=%.3f "
         "ownerLive=%d modelReady=1 meshes=%d bones=%d actions=%d pass=%s",
-        SkillNameForModel(effect.Type), static_cast<int>(effect.Skill),
+        SkillNameForModel(effect), static_cast<int>(effect.Skill),
         effect.Type, effect.SubType, model.Name, effect.Live ? 1 : 0,
         effect.Visible ? 1 : 0, static_cast<double>(effect.LifeTime),
         static_cast<double>(effect.Alpha), static_cast<double>(effect.Scale),
         effect.Owner && effect.Owner->Live ? 1 : 0, model.NumMeshs,
         model.NumBones, model.NumActions,
-        (renderFlags & RENDER_BRIGHT) ? "additive" : "textured-opaque");
+        (renderFlags & RENDER_BRIGHT) ? "additive" :
+            (effect.Alpha < 0.99f ? "textured-alpha" : "textured-opaque"));
     rise::slayerqa::AppendRuntimeQALog(line);
 }
 #endif

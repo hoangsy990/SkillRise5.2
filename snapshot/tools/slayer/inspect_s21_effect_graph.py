@@ -15,6 +15,7 @@ import struct
 from pathlib import Path
 
 from capstone import Cs, CS_ARCH_X86, CS_MODE_32
+from capstone.x86_const import X86_OP_IMM
 
 
 DUMP = Path(
@@ -84,6 +85,8 @@ def main() -> int:
                         help="locate raw little-endian 32-bit values")
     parser.add_argument("--callers", type=lambda value: int(value, 0),
                         help="locate direct rel32 calls to an absolute VA")
+    parser.add_argument("--xref-action-compare", type=lambda value: int(value, 0),
+                        help="find decoded native x86 compares against an action id")
     parser.add_argument("--address", type=lambda value: int(value, 0),
                         help="decode an arbitrary virtual address")
     args = parser.parse_args()
@@ -152,6 +155,35 @@ def main() -> int:
             ]
             print(f"{site:#x} prior-actions=" +
                   ",".join(hex(value) for value in action_pushes))
+        return 0
+    if args.xref_action_compare is not None:
+        # Search the mapped client code region, then validate each raw
+        # immediate as the terminal operand of one complete x86 CMP. A raw
+        # four-byte hit alone could be a PUSH, data or instruction tail.
+        start_offset = 0x00D00000 - IMAGE_BASE
+        end_offset = 0x01800000 - IMAGE_BASE
+        needle = struct.pack("<I", args.xref_action_compare)
+        decoder = Cs(CS_ARCH_X86, CS_MODE_32)
+        decoder.detail = True
+        sites = {}
+        cursor = data.find(needle, start_offset, end_offset)
+        while cursor >= 0:
+            for prior in range(max(start_offset, cursor - 10), cursor):
+                instructions = list(decoder.disasm(
+                    data[prior:cursor + 4], prior + IMAGE_BASE, count=1))
+                if not instructions:
+                    continue
+                instruction = instructions[0]
+                if (instruction.mnemonic == "cmp" and
+                    instruction.address + instruction.size == cursor + 4 + IMAGE_BASE and
+                    instruction.operands and
+                    instruction.operands[-1].type == X86_OP_IMM and
+                    instruction.operands[-1].imm == args.xref_action_compare):
+                    sites[instruction.address] = f"{instruction.mnemonic} {instruction.op_str}"
+            cursor = data.find(needle, cursor + 1, end_offset)
+        print(f"action={args.xref_action_compare:#x} decoded-cmp-sites={len(sites)}")
+        for site, instruction in sorted(sites.items()):
+            print(f"{site:#x} {instruction}")
         return 0
     if args.address is not None:
         for instruction in decode(data, args.address, args.address + args.size):

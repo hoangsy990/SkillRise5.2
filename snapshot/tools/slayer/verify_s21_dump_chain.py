@@ -248,6 +248,21 @@ def main() -> int:
         offset = va - 0x400000
         return image[offset:offset + size]
 
+    # The native 0x694 model is dispatched through the generic object draw
+    # wrapper. Its ordinary body pass is flag 2 (texture), not an invented
+    # additive pass; the E4 action-init also has a bounded actor-Z writer.
+    native_model_bytes = {
+        0x15B2BCA: bytes.fromhex("6aff6aff6a006a006a00ffb52cf6ffffe842aa1b0083c418"),
+        0x1887EB0: bytes.fromhex("6a028b4df8e89e0d0e"),
+        0x128A082: bytes.fromhex("81bdd8feffffe40000000f84821d0000"),
+        0x128BE14: bytes.fromhex("6a028b4d0c81c158010000e8aa21aaff"),
+        0x128BE30: bytes.fromhex("f30f1000f30f5805cce4b401"),
+    }
+    for va, expected in native_model_bytes.items():
+        if at(va, len(expected)) != expected:
+            raise AssertionError(f"S21 0x694/E4 action-init bytes drifted at {va:#x}")
+    print("PASS: S21 0x694 ordinary body flag=2; E4 action-init actor Position Z +=5 (not XY rush proof)")
+
     if at(0x10EEB92, 7) != bytes.fromhex("6a5768c1000000"):
         raise AssertionError("S21 shared C1:57 skill packet constructor drifted")
     for call_va in (0x10E68D7, 0x10E6D4F, 0x10E6F5B, 0x10E7029):

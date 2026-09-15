@@ -306,6 +306,18 @@ draw alpha to `.3`, and the other E4 comparison at `0x1A5A5AD` is an
 unrelated upper-bound check. These E4 hits narrow the likely movement
 origin but still do **not** identify a native rush/return implementation.
 
+A wider decoded `0xE4` search found the action-init dispatcher at
+`0x1289DD1` (called only by `0x12FD7BB`). Its Pierce branch at
+`0x128A082 -> 0x128BE14` writes `OBJECT+0x158` component 2 **plus 5.0**,
+clears bit 0 at `OBJECT+0x68`, invokes `0x14B6619`, and creates supplemental
+effect `0x81CD` at that actor's position. The caller passes its `OBJECT*`
+as the second argument at `0x12FD7B5`; this is a real native actor-Z write,
+so the narrower statement above that the earlier `0x173F390` branch has no
+position write remains true, but a blanket "E4 never moves an actor" claim
+would be false. It does **not** disclose the Pierce XY rush/return or whether
+the local 5.2 use/receive callbacks correspond to this one-shot action-init
+call. Do not attach `+5 Z` to both callbacks or invent a teleport yet.
+
 The native character render/update paths at `0x133F0EA` and `0x13F2546`
 compare current action to `0xE4` and assign `OBJECT+0xDC = 0.3`; the
 ordinary branch assigns `1.0`. This constant is read as IEEE-754 float
@@ -724,6 +736,20 @@ The four pinned private effect models (`Bat_van01`,
 `van_object02_skill`, `van_object03_skill`, `Van_object04_skill`) now use a
 single `RenderBody` call after the unchanged generic Calc path, with the
 dark `Van_object04_skill` submitted separately from the luminous models.
+Native S21 `0x694` render dispatch `0x15B2BCA` passes default arguments to
+`0x176D621`; its ordinary draw path `0x1887E5E..0x1887EBA` submits the
+model with material flag `2`, reads `OBJECT+0xDC` alpha, and does not request
+an explicit additive flag at this call site. The 5.2 adapter likewise uses
+`RENDER_TEXTURE` for `0x694`. The two source textures of this model,
+`ark.OZJ` and `empact01.OZJ`, are RGB JPEG rings with authored black fields.
+Thus the current hard black funnel cannot be attributed to an old 5.2 skill
+graph, but neither is there decoded evidence that globally erasing the black
+texels would reproduce S21. The remaining mismatch must be isolated through
+model pose/origin, per-mesh material handling, and one-shot cast ownership.
+The QA log formerly labelled shared `0x694` Demolish submissions as Detection
+and called every textured pass opaque; its diagnostic labels now use the
+effect's skill ID and report textured-alpha while the effect alpha is below
+`0.99`. These labels are diagnostics, not visual acceptance.
 The x86 isolated QA build and five-skill source-surface verifier pass. The
 first new QA client reached character select rather than the game map.
 Windows Graphics Capture of that window failed twice with
