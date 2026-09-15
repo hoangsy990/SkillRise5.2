@@ -206,6 +206,8 @@ def main() -> int:
             "S21 0x694 empact01 material isolated black key")
     require(resources, "isArk ? 48 : 16",
             "0x694 ark gray-background cutoff isolated from other S21 materials")
+    if not re.search(r"case kBatFlockTrailModel:\s*// Native 0x1490F57[^\n]*\n(?:\s*//[^\n]*\n)*\s*if \(effect.SubType == 0\)\s*\{\s*effect.Scale = incomingScale;\s*effect.Alpha = incomingScale;", resources):
+        raise AssertionError("S21 0x688 Bat Flock trail must initialize scale/alpha from incoming 0.85")
     require(resources, "effect.Alpha = incomingScale;",
             "S21 0x694 modes initialize alpha from their respective scale")
     require(header, "kPierceMarksCylinderModel = MAX_MODELS + 41,",

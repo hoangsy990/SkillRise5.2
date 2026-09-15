@@ -632,9 +632,6 @@ void InitializeEffect(OBJECT& effect, float incomingScale)
     // Native CreateEffect first normalizes non-positive incoming scale to
     // 0.9, but some subtype initializers then overwrite OBJECT+0xA0 with
     // the original argument. Keep both values separate for those branches.
-    if (effect.Type == kBatFlockTrailModel)
-        effect.Alpha = 0.f;
-
     // Root creation is kept on the controller initializer. Every child below
     // corresponds to a decoded S21 secondary-pool code or bitmap id.
     switch (effect.Type)
@@ -854,6 +851,16 @@ void InitializeEffect(OBJECT& effect, float incomingScale)
         }
         break;
     }
+    case kBatFlockTrailModel:
+        // Native 0x1490F57/0x1490F6D copies the root's incoming 0.85
+        // into both model scale and alpha. Starting at zero lost the
+        // authored first half of Bat Flock's fading trail envelope.
+        if (effect.SubType == 0)
+        {
+            effect.Scale = incomingScale;
+            effect.Alpha = incomingScale;
+        }
+        break;
     case kSwordInertiaController:
     {
         // Native 0x68A initializer (0x1491051), including both subtypes.

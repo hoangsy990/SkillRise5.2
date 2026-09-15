@@ -575,6 +575,13 @@ its Sword scale-zero mark starts at alpha zero, but buff wave scale
 keep their native incoming values; the renderer black-field artifact
 remains a separate ingame parity question.
 
+The native Bat Flock trail model `0x688` subtype 0 has identical
+scale/alpha writes at `0x1490F57..0x1490F75`. Its `0x682` parent passes
+scale `.85`, so the child must begin at alpha `.85`; the first 5.2
+initializer instead forced zero. The isolated Bat Flock trail now retains
+the native `.85` before its fading updater runs. This corrects timing,
+not an ingame visual-parity claim.
+
 Detection's minimap reveal is separate from the `0x692` cast graph. The
 Webzen Slayer guide states that nearby life forms are marked on the minimap
 for a duration, but `0x12D139B..0x12D143E` only creates the root visual.
