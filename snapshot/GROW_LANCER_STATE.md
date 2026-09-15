@@ -2,6 +2,26 @@
 
 STATUS: IN_PROCESS
 
+### 2026-09-15 — duplicate S21 Lua skill-source ambiguity narrowed
+
+- CURRENT PHASE: nine Grow Lancer S21 skills native PC5.2 client/server; equipment/quests1–3 excluded; `IN_PROCESS`.
+- CURRENT TASK: resolve whether the newer `Data\Scripts\Skills` Lua copy invalidates the accepted `Data\Skills` server formula port before connecting runtime handlers.
+- CURRENT SUBTASK: hash-pin both supplied regular and third-master copies and compare exact Grow Lancer function tokens without assuming which GS path executes.
+- COMPLETED THIS RUN: discovered later `Data\Scripts\Skills\RegularSkillCalc.lua` and `MasterSkillCalc_3rd.lua`, differing in whole-file hash/time/length from accepted `Data\Skills` copies. New verifier confirms all six regular and twelve third-master Grow Lancer function bodies are token-identical across the pinned pairs. Thus existing source math/barrage-bound correction remains valid for either supplied Lua copy; executable load path and protected GS handler are still unproven. Normal-client Magic remains fail-closed; no visible QA/VPS/client/GS or other task touched.
+- REVERSE EVIDENCE: regular source hashes `F735D95E...`/`78A1502C...`; third-master `77106668...`/`904A4105...`; exact function-name/body comparison, not a mere same-name search.
+- CHAIN COVERAGE: six base regular and twelve third-master math bodies SOURCE DUAL-COPY PASS; server hit/target/rounding/buff recipient/authority OPEN, client ordinary Magic activation OPEN.
+- ASSET PROVENANCE: no visual asset changed or staged; existing pinned Magic/Spin source assets unchanged.
+- FILES MODIFIED: isolated `tools/grow_lancer/verify_s21_duplicate_regular_skill_lua.py`, `GrowLancer/SERVER_RULES_REVERSE.md`, this state only.
+- LAST STATIC CHECK: dual-copy (6 regular/12 third-master), existing regular-formula port and nine-base/two-internal server-contract verifiers all exit0; earlier Magic normal-activation/speed verifiers exit0 in prior checkpoint. No new x86 build for source-only work.
+- LAST BUILD RESULT: prior isolated QA/nonQA client and FormulaAudit GS links remain compilation evidence, not skill runtime PASS.
+- LAST RUNTIME QA: none; owner deferred visible Magic cast and QA stack remains stopped.
+- KNOWN DIFFERENCES: whole Lua files differ outside selected GL bodies; which location the protected server loads is unknown. `CalcAttackSpeed` Lua is explicitly labeled anti-hack and cannot alone identify Magic action input.
+- MISSING CHAIN PARTS: protected GS load/handler/default class112 proof, normal class7 actor/cast clock, owner visual parity, nine-skill end-to-end cleanup/regressions.
+- BLOCKER: no protected GS handler/default-class dump or owner gameplay pixels yet; further independent source checks remain possible, `IN_PROCESS`.
+- NEXT EXACT ACTION: inspect supplied GS config/load-path evidence and normal client/GS class7 cast ownership, then implement only proven contract; retain fail-closed where proof absent.
+- NEXT FILE TO OPEN: `GrowLancer/CLASS_INTEGRATION_CONTRACT.md` and `ExGameServer/GameServer/SkillManager.cpp` native learning/cast gates.
+- NEXT FUNCTION TO IMPLEMENT: verified class7-specific learn/cast and Magic actor clock adapter after original handler/default/stat authority, not local-DK/RF substitution.
+
 ### 2026-09-15 — Magic Pin ordinary-client activation gap verified, no QA-only parity claim
 
 - CURRENT PHASE: nine S21 Grow Lancer skills native PC5.2 client/server; equipment/quests1–3 excluded; `IN_PROCESS`.

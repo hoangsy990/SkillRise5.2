@@ -1,5 +1,19 @@
 # Grow Lancer S21 server-contract evidence
 
+2026-09-15 duplicate-Lua provenance check: the supplied S21 server tree
+contains later `Data\Scripts\Skills\RegularSkillCalc.lua` (SHA-256
+`78A1502C187D9EA248E682CCAA62EA8C4510D7119192510D1A966A18E6992E4D`)
+and `MasterSkillCalc_3rd.lua` (SHA-256
+`904A41053E9E4B12D0CC65D316FD661EE751B23ED7E73D1A89002ACDD810FD8C`)
+in addition to the accepted `Data\Skills` copies below. The new
+`verify_s21_duplicate_regular_skill_lua.py` hash-pins all four full files
+and proves the six named Grow Lancer regular bodies and twelve named
+third-master bodies token-identical after removing only layout/comments.
+Their whole-file hashes, lengths and timestamps differ, so the executable
+Lua load path still needs runtime/config proof; this comparison only rules
+out a Grow Lancer formula drift between these two supplied copies. It does
+not reveal protected hit/target/rounding/class handlers or activate skills.
+
 Status: `IN_PROCESS`. This file records only contracts present in the accepted
 S21 server tables under `D:\GameServer S21\Data\Skills` and facts verified in
 the RISE 5.2 server source. It is not evidence that RISE currently implements
