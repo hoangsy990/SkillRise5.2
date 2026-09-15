@@ -146,11 +146,12 @@ client marker, so `SetMasterType` cannot select class bit 512. The isolated
 `verify_s21_master_tree_shape.py` pins all of these facts. Importing only
 two rows or copying the SS21 BMD without a full client/GS class-tree adapter
 would manufacture an unusable Pierce prerequisite; no such shortcut is used.
-The GS `CGMasterSkillRecv` now independently checks persisted Master Slayer
-class/stats and the 781/10 parent before accepting a future 781/782 learning
-packet. This closes a class-authorization bypass when the full tree is later
-mounted; because the config rows and class-512 UI are still absent, it does
-**not** make Pierce normally learnable yet.
+The GS `CGMasterSkillRecv` independently checks persisted Master Slayer
+class/stats and the 781/10 parent. A private 58-node class-512 tree and UI
+are now mounted, and a class-scoped learning adapter derives 781/782
+slot/group/rank/points/parents/replacement from that S21 overlay. The older
+claim that the UI and learning rows were absent is superseded. This remains
+unaccepted ingame, with mastery point-value/DOT-duration curves unresolved.
 The S21 `SkillList.xml` rows 781/782 (SHA-256
 `3E238C786ECAB3445A0DB4756FE3D2A3923FBC0594506BB9C3FF206020A7E0A0`)
 show both Bat mastery nodes as **castable** stage-3 Slayer skills, with
@@ -167,8 +168,8 @@ having separate direct 781/782 effect-switch comparisons. The 5.2 client
 now resolves that pinned high-ID Brand chain for local and remote visuals
 while preserving the raw 781/782 ID in cast packets; GS routes both IDs
 through Bat's target graph and retains their own skill-row resources/damage.
-The per-level mastery damage values and normal 781/782 learning are still
-incomplete, so this is code provenance and build evidence, not ingame PASS.
+The per-level mastery values and normal 781/782 acquisition are still
+unverified ingame, so this is code provenance and build evidence, not PASS.
 Decoded, hash-pinned S21 Master Slayer tooltip records sharpen the remaining
 behavior: 781 says it **increases Bat Flock damage**, while 782 says it
 **increases the time Bat Flock deals damage by `%d` seconds**. The pinned S21
@@ -1163,8 +1164,8 @@ packets. Only SS21 Master Slayer IDs >=650 fill its unused metadata tail;
 low IDs such as 631 remain class-scoped to the Slayer UI and do not overwrite
 5.2 legacy metadata. The isolated Win32 client built and private stage
 verified after this change. The visible category captions are explicitly
-temporary, the S21 icon atlas is not yet imported, and the GS master-tree
-learning path plus high-ID gameplay dispatch are not yet accepted. No ingame
+temporary; the S21 icon atlas is now imported, while GS master-tree values
+and high-ID gameplay dispatch are not yet accepted ingame. No ingame
 preview was launched from this build; static conversion/build/staging does
 not close five-skill behavior or render parity.
 The master icon previously still came from 5.2's
@@ -1190,11 +1191,20 @@ per-point values or class permissions. Legacy `631` and S21 Slayer Rush
 `631` also match numerically after that conversion, so the code explicitly
 holds `631` out of Slayer learning until its class/option provenance is
 mapped; the earlier claim of a raw group mismatch was wrong. The isolated
-Ex603/Win32 GS built into private `Bin22`, but was not launched. This shape
-and class isolation do **not** yet implement all S21 per-point passive
-values or make 781/782 normally learnable: `CGMasterSkillRecv` still calls
-the legacy `GetInfo`, which has no rows for those IDs. The learning adapter
-and per-level mastery values remain open before ingame QA.
+Ex603/Win32 GS first built into private `Bin22`, but was not launched.
+The new class-scoped `GetInfoForActor` now derives 781/782 learning rows
+from pinned S21 shapes: 781 slot58/group1/rank6/1..20 points/Brand293 and
+782 slot62/group1/rank7/10 points/parent781/Brand781. It is used by
+learning, prior-rank checks and learned-node packet sends; other classes
+still use legacy `GetInfo`, and 631 remains held. `RequireClass[DK]` only
+carries the S21 UI slot under the legacy packet layout; persisted DBClass
+is the actual Slayer gate. The structural adapter compiles in isolated GS
+`Bin25` after pinning the native group-1 Bat slots, without launching it.
+Its per-point value array is explicitly
+unknown/zero rather than fabricated: Mastery 781 damage increase, 782 DOT
+seconds, the remaining 17 absent nodes and shared-node passive values are
+still not fidelity-complete. Normal acquisition and Pierce remain ingame
+unverified before the five-skill QA gate.
 A separate pinned-main immediate search for Master Bat IDs 781/782 found
 three 32-bit CMP sites for 781 at `0x13DC8AE/0x13DDBBF/0x14241E7` and none
 for 782. Disassembly shows all three compare the object's **model Type**

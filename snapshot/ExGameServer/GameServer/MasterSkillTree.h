@@ -429,6 +429,7 @@ public:
 	bool LoadSlayerShape(const char* path);
 	bool GetSlayerShape(int skill, SLAYER_MASTER_TREE_SHAPE* out) const;
 	bool GetInfo(int index,MASTER_SKILL_TREE_INFO* lpInfo);
+	bool GetInfoForActor(LPOBJ lpObj,int index,MASTER_SKILL_TREE_INFO* lpInfo);
 	int GetMasterSkillRelated(int index);
 	flt GetMasterSkillValue(int index,int level);
 	int GetMasterSkillValue(LPOBJ lpObj,int index);

@@ -146,6 +146,22 @@ bool CMasterSkillTree::LoadSlayerShape(const char* path)
 			if (parent != 0 && candidate.find(parent) == candidate.end())
 				return false;
 	}
+	const auto batStrengthener = candidate.find(rise::slayerserver::kBatFlockStrengthener);
+	const auto batMastery = candidate.find(rise::slayerserver::kBatFlockMastery);
+	if (batStrengthener == candidate.end() || batMastery == candidate.end())
+		return false;
+	const SLAYER_MASTER_TREE_SHAPE& first = batStrengthener->second;
+	const SLAYER_MASTER_TREE_SHAPE& second = batMastery->second;
+	if (first.Slot != 58 || first.Group != 1 || first.Rank != 6 ||
+		first.RequiredPoints != 1 || first.MaxLevel != 20 ||
+		first.ParentSkill[0] != 0 || first.ParentSkill[1] != 0 ||
+		first.Brand != rise::slayerserver::kBatFlock ||
+		second.Slot != 62 || second.Group != 1 || second.Rank != 7 ||
+		second.RequiredPoints != 10 || second.MaxLevel != 10 ||
+		second.ParentSkill[0] != rise::slayerserver::kBatFlockStrengthener ||
+		second.ParentSkill[1] != 0 ||
+		second.Brand != rise::slayerserver::kBatFlockStrengthener)
+		return false;
 	this->m_SlayerMasterTreeShape.swap(candidate);
 	return true;
 }
@@ -235,6 +251,38 @@ bool CMasterSkillTree::GetInfo(int index, MASTER_SKILL_TREE_INFO* lpInfo)
 		(*lpInfo) = it->second;
 		return 1;
 	}
+}
+bool CMasterSkillTree::GetInfoForActor(LPOBJ lpObj,int index,
+	MASTER_SKILL_TREE_INFO* lpInfo)
+{
+	if (!lpObj || !lpInfo)
+		return false;
+	if (!rise::slayerserver::IsSlayerDbClass(lpObj->DBClass) ||
+		!rise::slayerserver::IsSlayerBatMasterySkill(index))
+		return this->GetInfo(index, lpInfo);
+	if (lpObj->DBClass < rise::slayerserver::kS21MasterSlayerDbClass)
+		return false;
+	SLAYER_MASTER_TREE_SHAPE shape = {};
+	if (!this->GetSlayerShape(index, &shape))
+		return false;
+	MASTER_SKILL_TREE_INFO info = {};
+	info.Index = shape.Skill;
+	info.Group = shape.Group + 1; // S21 0..2 -> 5.2 GS 1..3
+	info.Rank = shape.Rank;
+	info.MinLevel = shape.RequiredPoints;
+	info.MaxLevel = shape.MaxLevel;
+	info.RelatedSkill = shape.Brand;
+	info.ReplaceSkill = shape.Brand;
+	info.RequireSkill[0] = shape.ParentSkill[0];
+	info.RequireSkill[1] = shape.ParentSkill[1];
+	// RequireClass is an old 5.2 UI slot table, not an S21 class gate.
+	// Persisted DBClass is checked above and in the skill/learning handlers.
+	info.RequireClass[rise::slayerserver::kSlayerLegacyArrayClass] = shape.Slot;
+	// Per-point damage/DOT-duration curves are not present in the pinned
+	// S21 tree BMD/XML; zero is an explicit unresolved value, never a
+	// guessed numeric bonus. The active SkillList damage row is separate.
+	*lpInfo = info;
+	return true;
 }
 int CMasterSkillTree::GetMasterSkillRelated(int index)
 {
@@ -713,7 +761,7 @@ bool CMasterSkillTree::CheckMasterRequireGroup(LPOBJ lpObj, int group, int rank)
 		if (lpObj->MasterSkill[n].IsMasterSkill() != 0)
 		{
 			MASTER_SKILL_TREE_INFO MasterSkillTreeInfo;
-			if (this->GetInfo(lpObj->MasterSkill[n].m_index, &MasterSkillTreeInfo) != 0)
+			if (this->GetInfoForActor(lpObj, lpObj->MasterSkill[n].m_index, &MasterSkillTreeInfo) != 0)
 			{
 				if (MasterSkillTreeInfo.Group == group && MasterSkillTreeInfo.Rank == rank && (lpObj->MasterSkill[n].m_level + 1) >= MIN_SKILL_TREE_LEVEL)
 				{
@@ -752,7 +800,7 @@ void CMasterSkillTree::CalcMasterSkillTreeOption(LPOBJ lpObj, bool flag)
 		if (lpObj->MasterSkill[n].IsMasterSkill() != 0)
 		{
 			MASTER_SKILL_TREE_INFO MasterSkillTreeInfo;
-			if (this->GetInfo(lpObj->MasterSkill[n].m_index, &MasterSkillTreeInfo) != 0)
+			if (this->GetInfoForActor(lpObj, lpObj->MasterSkill[n].m_index, &MasterSkillTreeInfo) != 0)
 			{
 				this->InsertOption(lpObj, MasterSkillTreeInfo.Index, (int)GetRoundValue(this->GetMasterSkillValue(MasterSkillTreeInfo.Index, (((lpObj->MasterSkill[n].m_level + 0) >= MasterSkillTreeInfo.MaxLevel) ? (MasterSkillTreeInfo.MaxLevel - 1) : (lpObj->MasterSkill[n].m_level + 0)))), flag);
 			}
@@ -1556,7 +1604,7 @@ void CMasterSkillTree::CGMasterSkillRecv(PMSG_MASTER_SKILL_RECV* lpMsg, int aInd
 			return;
 	}
 	MASTER_SKILL_TREE_INFO MasterSkillTreeInfo;
-	if (this->GetInfo(lpMsg->MasterSkill, &MasterSkillTreeInfo) == 0)
+	if (this->GetInfoForActor(lpObj, lpMsg->MasterSkill, &MasterSkillTreeInfo) == 0)
 	{
 		return;
 	}
@@ -1732,7 +1780,7 @@ void CMasterSkillTree::GCMasterSkillList2Send(int aIndex)
 		if (lpObj->MasterSkill[n].IsMasterSkill() != 0)
 		{
 			MASTER_SKILL_TREE_INFO MasterSkillTreeInfo;
-			if (this->GetInfo(lpObj->MasterSkill[n].m_index, &MasterSkillTreeInfo) != 0)
+			if (this->GetInfoForActor(lpObj, lpObj->MasterSkill[n].m_index, &MasterSkillTreeInfo) != 0)
 			{
 				info2.skill = MasterSkillTreeInfo.Index;
 				info2.RelatedSkill = MasterSkillTreeInfo.RelatedSkill;
@@ -1768,7 +1816,7 @@ void CMasterSkillTree::GCMasterSkillListSend(int aIndex)
 		if (lpObj->MasterSkill[n].IsMasterSkill() != 0)
 		{
 			MASTER_SKILL_TREE_INFO MasterSkillTreeInfo;
-			if (this->GetInfo(lpObj->MasterSkill[n].m_index, &MasterSkillTreeInfo) != 0)
+			if (this->GetInfoForActor(lpObj, lpObj->MasterSkill[n].m_index, &MasterSkillTreeInfo) != 0)
 			{
 				info2.skill = MasterSkillTreeInfo.Index;
 				info2.RelatedSkill = MasterSkillTreeInfo.RelatedSkill;

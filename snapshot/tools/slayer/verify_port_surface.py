@@ -71,6 +71,20 @@ def main() -> int:
     mastery_tree = read("ExGameServer/GameServer/MasterSkillTree.cpp")
     learning = mastery_tree.split("void CMasterSkillTree::CGMasterSkillRecv", 1)[1]
     learning = learning.split("void CMasterSkillTree::GCMasterInfoSend", 1)[0]
+    require(mastery_tree, "first.Slot != 58 || first.Group != 1 || first.Rank != 6",
+            "GS accepts only the pinned S21 Bat 781 tree slot/group/rank")
+    require(mastery_tree, "second.Slot != 62 || second.Group != 1 || second.Rank != 7",
+            "GS accepts only the pinned S21 Bat 782 tree slot/group/rank")
+    require(mastery_tree, "info.ReplaceSkill = shape.Brand;",
+            "Master Slayer active Bat skill replacement follows the S21 Brand chain")
+    require(mastery_tree, "info.RequireClass[rise::slayerserver::kSlayerLegacyArrayClass] = shape.Slot;",
+            "Master Slayer learned-node packet reports its S21 UI slot")
+    require(mastery_tree, "!rise::slayerserver::IsSlayerBatMasterySkill(index))",
+            "new S21 Bat learning info is not exposed to other classes")
+    require(learning, "this->GetInfoForActor(lpObj, lpMsg->MasterSkill, &MasterSkillTreeInfo)",
+            "Slayer learning uses the per-actor S21 info overlay, not only legacy GetInfo")
+    require(mastery_tree, "this->GetInfoForActor(lpObj, lpObj->MasterSkill[n].m_index, &MasterSkillTreeInfo)",
+            "Master Slayer acquired nodes remain visible to rank checks and skill-list sends")
     require(learning, "rise::slayerserver::IsSlayerBatMasterySkill(MasterSkillTreeInfo.Index)",
             "GS mastery learning packet recognizes the two S21 Bat nodes")
     require(learning, "!rise::slayerserver::IsSlayerDbClass(lpObj->DBClass)",
