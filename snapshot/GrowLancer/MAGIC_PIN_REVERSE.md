@@ -1,5 +1,32 @@
 # Magic Pin (skill 274) reverse evidence
 
+## Ordinary-client cadence boundary — 2026-09-15
+
+Static inspection of the current isolated source confirms that receiving
+base skill 274 calls `CreateMagicPinRoots`, but its action-287 preparation is
+`PrepareLocalQADynamicAction`: the ordinary (non-QA) branch returns false
+before `SetAction` or root creation. The 40 ms coordinator in
+`BeginMagicPinFrame` also requires the QA macro and explicit
+`RISE_GL_MAGIC_FIXED_TICK_QA=1`; ordinary `RunMagicPinQuanta` returns zero,
+and ordinary `StepMagicPinActor` returns false. Thus the owner-tested QA
+clock/child fix has **not** been ported into a normal client cast path. The
+new `verify_magic_normal_activation_gap.py` pins this boundary and reports
+an OPEN activation gate; its PASS is a guard against a false parity claim,
+not proof of gameplay.
+
+Do not merely remove the QA guards: the current dynamic-speed preparation
+borrows local Dark Knight stats, while S21's profile is Grow Lancer class7,
+its bonus tail/actor ownership and native new-class create/login contracts
+are not yet established. The source-mapped merged player clips live in the
+private QA Data, not a deployed ordinary client. A final actor-specific
+class7/stat/clip contract and coherent 40 ms producer must be implemented
+and retested without changing SS6 global cadence. Existing source-speed
+counterexample (`GrowLancerMagicRecordedGateTest.cpp`) shows that even a
+coherent constant .706 frame advance may skip the `[10.0,10.5]` third gate;
+PID36328's absent third layer is therefore not, by itself, evidence to widen
+that gate or synthesize a child. Source actual cast speed/frame transitions
+and visual pixels remain required. Status `IN_PROCESS`.
+
 ## Hidden flat-terrain depth control — 2026-09-15
 
 To test the specific "whole foot model is below caster-ground depth" idea,

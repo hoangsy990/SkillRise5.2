@@ -2,6 +2,26 @@
 
 STATUS: IN_PROCESS
 
+### 2026-09-15 — Magic Pin ordinary-client activation gap verified, no QA-only parity claim
+
+- CURRENT PHASE: nine S21 Grow Lancer skills native PC5.2 client/server; equipment/quests1–3 excluded; `IN_PROCESS`.
+- CURRENT TASK: close Magic Pin intermittent caster-foot/child and normal-client timing gates using source and hidden evidence while owner defers visible cast.
+- CURRENT SUBTASK: distinguish QA-only 40 ms fix from ordinary client receive/action/model execution and prevent a false completion claim.
+- COMPLETED THIS RUN: verified normal receive skill274 invokes `CreateMagicPinRoots`, but non-QA `PrepareLocalQADynamicAction` returns false before SetAction/root; fixed40ms Begin and actor/quanta stepping are also QA-only. Added focused source-bound `verify_magic_normal_activation_gap.py` (PASS) and documented the exact ordinary-client gap. Rechecked source conditional counterexample: constant .706 can skip third `[10.0,10.5]` gate even with whole quanta; no guessed gate widening/child emission was made. Read-only S21 server SkillList/Lua/optional area/AOE data still lacks protected hit handler or class112 default authority. No production/VPS/S21/Pegasus/Slayer source touched.
+- REVERSE EVIDENCE: S21 action188 mapped to private287 and source stage gates `[5.2,5.8]`, `[7.0,7.5]`, `[10.0,10.5]`; QA owner PID36328 shows first two child stages but no accepted caster-foot pixels. S21 optional AOE/area absence is not target/hit proof.
+- CHAIN COVERAGE: base274 receive and QA-only local-DK/40ms path STATIC PASS; ordinary class7 caster action/clock/root/children OPEN, internal281 target producer/visual OPEN, owner foot FAIL.
+- ASSET PROVENANCE: existing four hash-pinned Magic BMD/texture records and private merged player action Data unchanged; no production staging.
+- FILES MODIFIED: `tools/grow_lancer/verify_magic_normal_activation_gap.py`, `GrowLancer/MAGIC_PIN_REVERSE.md`, `GrowLancer/ACCEPTANCE_GATE_MATRIX.md`, this isolated state only.
+- LAST STATIC CHECK: focused normal-activation gap and S21 cast-speed registration verifiers exit0; four touched files are currently untracked, so `git diff --check` does not cover them; explicit trailing-whitespace scan found none. Previous regular formula/provenance checks remain prior checkpoints, not rerun here.
+- LAST BUILD RESULT: no new client/GS code build; prior QA/nonQA client and isolated GS FormulaAudit links are compilation evidence only.
+- LAST RUNTIME QA: no new visible cast per owner preference; prior hidden depth/Calc fixture PASS narrower than gameplay and owner Magic foot remains FAIL.
+- KNOWN DIFFERENCES: ordinary build currently cannot play dynamic Magic action287; enabling the local DK QA clock as-is would borrow wrong-class stats and risk SS6 side effects. Third child absence cannot be blamed on clock alone without actual source cast speed.
+- MISSING CHAIN PARTS: verified class7 caster identity/stat/bonus/clip contract, ordinary skill-local 40ms coordinator, target-hit source handler, complete child pixels/lifetime and GS authority.
+- BLOCKER: no owner gameplay pixels now and protected S21 GS/default-class evidence absent; independent offline reverse still possible, so `IN_PROCESS`.
+- NEXT EXACT ACTION: source/native class7 dynamic speed and owner identity audit, then only evidence-backed ordinary Magic timing activation with SS6 regression; retain local-only owner retest later.
+- NEXT FILE TO OPEN: `GrowLancer/PLAYER_ACTIONS_REVERSE.md`, `GrowLancer/compat/S21CastAnimationSpeed.h` and `ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerEffectRuntime.cpp` dynamic preparation.
+- NEXT FUNCTION TO IMPLEMENT: class7-bound `PrepareLocalQADynamicAction` successor and Magic 40ms coordinator only once speed/ownership/new-class prerequisites are proven.
+
 ### 2026-09-15 — scoped SkillRise5.2 recovery snapshot refreshed
 
 - CURRENT PHASE: nine S21 Grow Lancer skills native PC5.2 client/server; equipment/quests1–3 excluded; `IN_PROCESS`.
