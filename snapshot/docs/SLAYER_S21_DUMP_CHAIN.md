@@ -104,6 +104,16 @@ Its Bux-XOR 24-byte records carry 2048 slots; Master Slayer uses class bit
 `512` on **58 nodes** across all three categories. Bat nodes are native
 records 653 (`Index=58`, `Skill=781`, `MaxLevel=20`) and 655 (`Index=62`,
 `Skill=782`, `RequireSkill[0]=781`, `RequiredPoints=10`, `MaxLevel=10`).
+The read-only verifier now matches **all 58** client BMD nodes against the
+hash-pinned server XML by slot/group, minimum/max points, both parents and
+MagicNumber; no two-node imitation is a valid replacement for this tree.
+S21 class 512 alone owns IDs `631` and `779..794`, but the private 5.2
+`MasterSkillTree.txt` (SHA-256
+`28D9C022DA82DB60C94137DA7EFBAFAF9AC9685D1A36E2FE29A00FBBFB878E81`)
+already contains an unrelated `631` row and none of `779..794`.
+Therefore the GS class-learning guard scopes only `779..794` by ID. The
+`631` collision must be separated by class/tree provenance in the full
+adapter; gating it by number would regress the legacy 5.2 row.
 The 5.2 `MasterSkillTreeData.bmd` is SHA-256
 `D67B20890CBB2DCFF9FF9CAB670E30D51A3DD13C97B17D4C641676B43A7DDECC`,
 has exactly 512 occupied records, and its UI field `DefValue` interprets the

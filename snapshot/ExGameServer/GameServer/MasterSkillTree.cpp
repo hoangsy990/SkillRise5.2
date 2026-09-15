@@ -1391,13 +1391,21 @@ void CMasterSkillTree::CGMasterSkillRecv(PMSG_MASTER_SKILL_RECV* lpMsg, int aInd
 	{
 		return;
 	}
+	if (rise::slayerserver::IsS21SlayerExclusiveMasterSkill(
+		MasterSkillTreeInfo.Index))
+	{
+		// Legacy RequireClass has no Slayer column. The 16 new S21 Master
+		// Slayer IDs must use the persisted class instead of a borrowed DK
+		// array slot when their rows are imported. Legacy 631 is untouched.
+		if (lpObj->DBClass < rise::slayerserver::kS21MasterSlayerDbClass ||
+			!rise::slayerserver::IsSlayerDbClass(lpObj->DBClass))
+			return;
+	}
 	if (rise::slayerserver::IsSlayerBatMasterySkill(MasterSkillTreeInfo.Index))
 	{
-		// The legacy tree stores no Slayer class column. Once the 512-bit
-		// client tree and 781/782 rows are imported, this learning packet
-		// must still be checked against the persisted S21 Master Slayer.
+		// S21 Pierce requires the specific 781->782 Bat mastery chain,
+		// not just any Master Slayer slot or an unrelated class' stat path.
 		if (lpObj->DBClass < rise::slayerserver::kS21MasterSlayerDbClass ||
-			!rise::slayerserver::IsSlayerDbClass(lpObj->DBClass) ||
 			lpObj->Level < 160 ||
 			lpObj->Strength + lpObj->AddStrength < 100 ||
 			lpObj->Dexterity + lpObj->AddDexterity < 380)

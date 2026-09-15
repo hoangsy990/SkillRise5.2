@@ -79,6 +79,16 @@ inline bool IsSlayerBatMasterySkill(int id)
     return id == kBatFlockStrengthener || id == kBatFlockMastery;
 }
 
+inline bool IsS21SlayerExclusiveMasterSkill(int id)
+{
+    // Hash-pinned S21 SkillTreeData_3rd.xml class 512 owns 779..794.
+    // S21 Rush 631 is class-512-only there, but the existing 5.2
+    // MasterSkillTree.txt already has an unrelated 631 row. Do not gate
+    // that collision by ID until the full per-class tree is imported.
+    // Other class-512 nodes (e.g. 300/325/347) are shared too.
+    return id >= 779 && id <= 794;
+}
+
 inline bool IsSlayerDamageSkill(int id)
 {
     return id == kSwordInertia || id == kBatFlock || id == kPierceAttack;
