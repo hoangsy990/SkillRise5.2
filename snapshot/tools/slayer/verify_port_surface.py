@@ -138,8 +138,14 @@ def main() -> int:
             "selected exclusive mastery cannot fall through to 5.2 attack")
     require(client_skill_manager, "IsUnportedSlayerExclusiveMasterSkill(SkillType)",
             "client demand rejects tooltip-only exclusive mastery IDs")
-    require(client_skill_manager, "return rise::slayer::MeetsStats(base, level, strength, dexterity);",
+    require(client_skill_manager, "if (!rise::slayer::MeetsStats(base, level, strength, dexterity))",
             "client base Slayer demand uses the same S21 stats as GS")
+    require(client_skill_manager, "tree->GetSkillLevel(782) >= 10",
+            "client Pierce demand reads GS-sent ten-point Bat mastery prerequisite")
+    require(client_skill_manager, "this->FindHeroSkill(static_cast<ActionSkillType>(782))",
+            "client Pierce demand accepts learned Bat mastery lineage")
+    require(client_use, "if (!gSkillManager.DemendConditionCheckSkill(\n\t\tstatic_cast<WORD>(requestedSkill)))",
+            "deferred Slayer movement cast rechecks current requirements before packet/graph")
     require(client_skill_manager, "SkillType == 781 || SkillType == 782",
             "client Bat mastery checks the pinned S21 level/STR/DEX requirements")
     movement_cast = client_use.split("case MOVEMENT_SKILL:", 1)[1].split(

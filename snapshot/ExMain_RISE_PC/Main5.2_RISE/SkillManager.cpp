@@ -11,6 +11,8 @@
 #ifdef RISE_SLAYER_PORT
 #include "RISE/Slayer/client/SlayerSkillResources.h"
 #include "RISE/Slayer/shared/SlayerSkillContractData.h"
+#include "NewUISystem.h"
+#include "NewUIMasterSkillTree.h"
 #endif
 
 CSkillManager gSkillManager;
@@ -425,7 +427,25 @@ bool CSkillManager::DemendConditionCheckSkill(WORD SkillType)
 			if (SkillType == 781 || SkillType == 782)
 				return base == rise::slayer::kBatFlock && level >= 160 &&
 					strength >= 100 && dexterity >= 380;
-			return rise::slayer::MeetsStats(base, level, strength, dexterity);
+			if (!rise::slayer::MeetsStats(base, level, strength, dexterity))
+				return false;
+			if (base == rise::slayer::kPierceAttack)
+			{
+				// S21 SkillRequire.xml row 294: a learned Bat lineage and
+				// ten displayed points in node 782 are both required. GS is
+				// authoritative; this client gate prevents a rejected local
+				// request from painting an accepted Pierce graph in advance.
+				const bool hasBatLineage =
+					this->FindHeroSkill(static_cast<ActionSkillType>(
+						rise::slayer::kBatFlock)) ||
+					this->FindHeroSkill(static_cast<ActionSkillType>(781)) ||
+					this->FindHeroSkill(static_cast<ActionSkillType>(782));
+				SEASON3B::CNewUIMasterSkillTree* tree =
+					g_pMasterSkillTreeInterface;
+				return hasBatLineage && tree &&
+					tree->GetSkillLevel(782) >= 10;
+			}
+			return true;
 		}
 	}
 #endif

@@ -2830,6 +2830,12 @@ void UseSkillSlayer(CHARACTER* pCha, OBJECT* pObj)
 		: g_MovementSkill.m_iSkill;
 	if (!rise::slayer::IsPortedSlayerRawCastSkill(requestedSkill))
 		return;
+	// A movement/pathfinding intent may reach this function after the
+	// original click gate. Recheck the current S21 stats and Pierce mastery
+	// prerequisite before sending a packet or seeding a local effect graph.
+	if (!gSkillManager.DemendConditionCheckSkill(
+		static_cast<WORD>(requestedSkill)))
+		return;
 	const int visualSkill = rise::slayer::CanonicalSlayerVisualSkill(requestedSkill);
 	if (!rise::slayer::IsSlayerSkill(visualSkill))
 		return;

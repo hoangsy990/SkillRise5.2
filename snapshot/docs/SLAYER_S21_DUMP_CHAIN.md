@@ -93,6 +93,14 @@ The native 5.2 mastery path may replace the active base `Skill[]` entry with
 an upgraded index. The Pierce gate accepts an active Bat lineage entry
 `293/781/782` alongside the independently persisted `782/10` node instead
 of rejecting an upgraded Slayer only because `Skill[]` no longer has raw 293.
+The client demand path previously checked Pierce STR/DEX but not that
+mastery prerequisite. Since it seeded local effects before GS acceptance,
+an ineligible Pierce request could still paint a false graph. The isolated
+client now reads the GS-sent displayed level of node `782` from the Master
+Slayer UI (at least 10) and requires an active Bat lineage `293/781/782`.
+`UseSkillSlayer` repeats the gate after pathfinding, immediately before
+sending the request. GS remains authoritative; this is a local rejected-
+cast visual guard, not proof Pierce motion or damage passes ingame.
 The separately hash-pinned S21 `SkillTreeData_3rd.xml` (SHA-256
 `CE19B7482839524A6FC8B76563F60D0D0EAEA89F4F4E534DFC835046366539F0`)
 places Bat Flock Strengthener `781` at slot 58 and Bat Flock Mastery `782`
