@@ -206,10 +206,10 @@ def main() -> int:
             "S21 0x694 empact01 material isolated black key")
     require(resources, "isArk ? 48 : 16",
             "0x694 ark gray-background cutoff isolated from other S21 materials")
-    if not re.search(r"case kBatFlockTrailModel:\s*// Native 0x1490F57[^\n]*\n(?:\s*//[^\n]*\n)*\s*if \(effect.SubType == 0\)\s*\{\s*effect.Scale = incomingScale;\s*effect.Alpha = incomingScale;", resources):
-        raise AssertionError("S21 0x688 Bat Flock trail must initialize scale/alpha from incoming 0.85")
-    require(resources, "effect.Alpha = incomingScale;",
-            "S21 0x694 modes initialize alpha from their respective scale")
+    if not re.search(r"case kBatFlockTrailModel:\s*// Native 0x1490F57[^\n]*\n(?:\s*//[^\n]*\n)*\s*if \(effect.SubType == 0\)\s*\{\s*effect.Scale = incomingScale;\s*effect.Alpha = 0.f;", resources):
+        raise AssertionError("S21 0x688 Bat Flock trail must write incoming scale and zero alpha")
+    if not re.search(r"case kDetectionImpactModel:\s*// Native 0x14926CC[^\n]*\n(?:\s*//[^\n]*\n)*\s*effect.Scale = incomingScale;\s*effect.Alpha = 0.f;", resources):
+        raise AssertionError("S21 0x694 both modes must write incoming scale and zero alpha")
     require(header, "kPierceMarksCylinderModel = MAX_MODELS + 41,",
             "native Pierce 0x5D8 child model allocated to private unused slot")
     require(resources, '{kPierceMarksCylinderModel, "marks_cylinder.bmd"}',
@@ -480,8 +480,8 @@ def main() -> int:
             "Slayer effects retain S21/5.2 non-positive scale fallback")
     require(effect_allocator, "rise::slayer::InitializeEffect(*o, Scale);",
             "Slayer initializer receives raw CreateEffect scale")
-    if not re.search(r"case kDetectionMarkModel:\s*// 0x1492259[^\n]*\n(?:\s*//[^\n]*\n)*\s*if \(effect.SubType == 0\)\s*\{\s*effect.Scale = incomingScale;\s*effect.Alpha = incomingScale;", resources):
-        raise AssertionError("0x691 subtype-0 must restore raw scale/alpha after allocator fallback")
+    if not re.search(r"case kDetectionMarkModel:\s*// 0x1492259[^\n]*\n(?:\s*//[^\n]*\n)*\s*if \(effect.SubType == 0\)\s*\{\s*effect.Scale = incomingScale;\s*effect.Alpha = 0.f;", resources):
+        raise AssertionError("0x691 subtype-0 must restore raw scale and zero alpha after allocator fallback")
     require(resources, "if (effect.SubType == 4 || effect.SubType == 5)\n            effect.Scale = incomingScale;",
             "0x81CF buff rings start at raw zero scale")
     require(resources, "if (pierceList && effect.SubType == 2)",

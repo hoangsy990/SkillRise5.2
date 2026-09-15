@@ -852,13 +852,13 @@ void InitializeEffect(OBJECT& effect, float incomingScale)
         break;
     }
     case kBatFlockTrailModel:
-        // Native 0x1490F57/0x1490F6D copies the root's incoming 0.85
-        // into both model scale and alpha. Starting at zero lost the
-        // authored first half of Bat Flock's fading trail envelope.
+        // Native 0x1490F57 copies incoming 0.85 to +0xA0 scale, then
+        // 0x1490F6A clears xmm0 before writing zero to +0xDC alpha.
+        // The faded trail must emerge from zero in the updater.
         if (effect.SubType == 0)
         {
             effect.Scale = incomingScale;
-            effect.Alpha = incomingScale;
+            effect.Alpha = 0.f;
         }
         break;
     case kSwordInertiaController:
@@ -943,22 +943,22 @@ void InitializeEffect(OBJECT& effect, float incomingScale)
         break;
     }
     case kDetectionMarkModel:
-        // 0x1492259/0x149226F: subtype 0 copies raw incoming scale to both
-        // +0xA0 (scale) and +0xDC (alpha); subtype 1 exits at 0x1492277.
-        // Sword's scale-zero mark stays invisible at birth, while the
-        // buff's per-frame scale-0.2 mark starts at alpha 0.2.
+        // 0x1492259 writes raw incoming scale to +0xA0; 0x149226C
+        // zeroes xmm0 before +0xDC alpha. Subtype 1 exits at 0x1492277.
+        // Both Sword's scale-zero mark and buff's scale-0.2 mark start
+        // invisible and gain alpha through their own updater.
         if (effect.SubType == 0)
         {
             effect.Scale = incomingScale;
-            effect.Alpha = incomingScale;
+            effect.Alpha = 0.f;
         }
         break;
     case kDetectionImpactModel:
-        // Native 0x14926E2/0x14927AD copy the incoming scale to +0xDC
-        // (alpha) for both subtypes: Detection/Demolish mode 0 starts at
-        // 1.0, while Demolish mode 1 starts at 0.5. The paired 0x691
-        // mark initializer likewise copies its own incoming scale.
-        effect.Alpha = incomingScale;
+        // Native 0x14926CC/0x1492797 write raw scale to +0xA0, then
+        // xorps at 0x14926DF/0x14927AA sets +0xDC alpha to zero in
+        // both subtypes. The earlier filtered disassembly hid xorps.
+        effect.Scale = incomingScale;
+        effect.Alpha = 0.f;
         effect.Position[2] += 50.f;
         Vector(0.f, 0.f, 0.f, effect.Angle);
         break;

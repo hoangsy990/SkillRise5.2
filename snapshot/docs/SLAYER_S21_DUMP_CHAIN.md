@@ -563,24 +563,21 @@ Demolish's second mode uses `.5`). The color/scale constants for the
 Detection blue flare and both buff rings were read as IEEE-754 values from
 the pinned mapped image, rather than inferred from screenshots.
 
-The paired native `0x694` initializer modes at `0x14926CC` and
-`0x1492797` both write the incoming scale to model scale `+0xA0` and
-alpha `+0xDC`. Mode 0 is created at scale/alpha `1.0`; Demolish's
-second mode is created at scale/alpha `0.5`. The first 5.2 port
-overrode both alphas to zero. Rereading the native `0x691` subtype-0
-initializer at `0x1492259..0x1492277` shows the same pair of writes:
-its Sword scale-zero mark starts at alpha zero, but buff wave scale
-`.2` starts at alpha `.2`. The first 5.2 port incorrectly forced all
-`0x691` alphas to zero as well. Both isolated model initializers now
-keep their native incoming values; the renderer black-field artifact
-remains a separate ingame parity question.
-
-The native Bat Flock trail model `0x688` subtype 0 has identical
-scale/alpha writes at `0x1490F57..0x1490F75`. Its `0x682` parent passes
-scale `.85`, so the child must begin at alpha `.85`; the first 5.2
-initializer instead forced zero. The isolated Bat Flock trail now retains
-the native `.85` before its fading updater runs. This corrects timing,
-not an ingame visual-parity claim.
+Full basic-block disassembly of native `0x694` initializers at
+`0x14926CC..0x14926EA` and `0x1492797..0x14927B5` shows raw incoming
+scale written to `+0xA0`, then `xorps xmm0,xmm0` before `+0xDC`:
+**initial alpha is zero in both modes**. The same pattern occurs in
+native `0x691` subtype 0 at `0x1492259..0x1492277` and Bat Flock
+trail `0x688` subtype 0 at `0x1490F57..0x1490F75`. Thus Detection/
+Demolish `0x694` scale `1.0`/`.5`, buff-wave `0x691` scale `.2`, and
+Bat-trail `0x688` scale `.85` all start at alpha zero and fade in via
+their separate updaters. A filtered disassembly print omitted the
+intermediate `xorps`, causing three incorrect scale-to-alpha commits
+(`c8d87fb`, `d5256c3`, `a6aaf80`). This corrective implementation
+restores zero alpha, and the dump verifier pins the entire scale/clear/
+alpha write sequence. The black-field artifact remains a separate
+ingame parity question; neither static proof nor the correction claims
+visual PASS.
 
 Detection's minimap reveal is separate from the `0x692` cast graph. The
 Webzen Slayer guide states that nearby life forms are marked on the minimap
