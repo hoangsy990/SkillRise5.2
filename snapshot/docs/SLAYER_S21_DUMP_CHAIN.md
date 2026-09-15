@@ -1110,6 +1110,13 @@ model with material flag `2`, reads `OBJECT+0xDC` alpha, and does not request
 an explicit additive flag at this call site. The 5.2 adapter likewise uses
 `RENDER_TEXTURE` for `0x694`. The two source textures of this model,
 `ark.OZJ` and `empact01.OZJ`, are RGB JPEG rings with authored black fields.
+The S21 main dump pins the native OZJ/JPEG loader itself: `0xCC53AC`
+removes the 24-byte OZJ wrapper, `0xCC562D` stores component count `3`,
+and `0xCC58E5..0xCC5901` passes `GL_RGB` (`0x1907`) and internal count
+`3` to the upload call. Native loading therefore does **not** create an
+RGBA black-key texture. The private 5.2 alpha key below is a compatibility
+experiment, not a recovered S21 material rule. Its cutoff and the resulting
+black-funnel appearance are still unverified ingame.
 Thus the current hard black funnel cannot be attributed to an old 5.2 skill
 graph. The 5.2 adapter now color-keys only imported `ark` and `empact01`
  instances to RGBA in memory before the ordinary textured-alpha draw. A

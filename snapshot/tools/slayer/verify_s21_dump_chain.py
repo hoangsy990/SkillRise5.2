@@ -307,6 +307,19 @@ def main() -> int:
             raise AssertionError(f"S21 model alpha/bright GL blend bytes drifted at {va:#x}")
     print("PASS: S21 0x691/0x694 ordinary body flag=2, native alpha GL_SRC_ALPHA/GL_ONE_MINUS_SRC_ALPHA; E4 action-init actor Position Z +=5 (not XY rush proof)")
     print("PASS: S21 model draw forwards allocator HiddenMesh=-1/BlendMesh=-1/light=1/UV=0 and OBJECT alpha; 5.2 must preserve these material inputs")
+    # The native OZJ path strips the 24-byte wrapper, decodes JPEG into
+    # three components, and uploads GL_RGB (0x1907) with internal count 3.
+    # There is no source-backed RGBA black-key conversion in this loader.
+    for va, expected in (
+        (0xCC53AC, bytes.fromhex("6a18")),
+        (0xCC562D, bytes.fromhex("c6801402000003")),
+        (0xCC58E5, bytes.fromhex(
+            "68071900006a00ffb58cfcffffffb590fcffff6a036a0068e10d0000"
+        )),
+    ):
+        if at(va, len(expected)) != expected:
+            raise AssertionError(f"S21 OZJ/RGB loader bytes drifted at {va:#x}")
+    print("PASS: S21 OZJ strips 24-byte wrapper and uploads JPEG as three-component GL_RGB, not RGBA black-key")
     # 0x688 and 0x691 mode 0, plus both 0x694 modes, write incoming
     # scale into +0xA0. Crucially, xorps clears xmm0 before the +0xDC
     # write: alpha is zero, not the incoming scale. Decode full blocks.
