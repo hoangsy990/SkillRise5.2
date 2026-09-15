@@ -1163,3 +1163,16 @@ loaded at master UI bitmap slot `+16` only for class bit 512. Other classes
 continue to render from legacy slot `+2`; private stage verification pins
 the exact S21 atlas hash. This is asset provenance and code routing, not
 ingame UI/icon acceptance.
+The GS now reads the same pinned 58-node tree/skill metadata packets from a
+private `Data/Skill` sibling overlay. It verifies exact size/EOF/plaintext
+CRC32, class bit 512, unique slots/IDs, the complete 58-node count and all
+parent references, then stores a separate Slayer shape map without touching
+`MasterSkillTree.txt`. When a Slayer requests learning, that map first
+excludes nodes outside its class-512 tree and rejects any legacy row whose
+group/rank/min/max/parents differ; this specifically prevents old 5.2 `631`
+(group 2) from impersonating S21 Slayer Rush `631` (group 1). The isolated
+Ex603/Win32 GS built into private `Bin22`, but was not launched. This shape
+and class isolation do **not** yet implement all S21 per-point passive
+values or make 781/782 normally learnable: `CGMasterSkillRecv` still calls
+the legacy `GetInfo`, which has no rows for those IDs. The learning adapter
+and upgraded cast/effect routing remain open before ingame QA.

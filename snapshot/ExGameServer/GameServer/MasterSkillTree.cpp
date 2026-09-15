@@ -10,10 +10,154 @@
 #include "Log.h"
 #include "RISE/CustomRankUser.h"
 #include "RISE/SlayerServerCatalog.h"
+#include <set>
+
+namespace
+{
+constexpr int kS21SlayerMasterNodeCount = 58;
+#pragma pack(push, 1)
+struct S21SlayerTreeRecord
+{
+	WORD Slot, ClassCode;
+	BYTE Group, RequiredPoints, MaxLevel, ArrowDirection;
+	int ParentSkill[2];
+	int Skill;
+	float DefaultValue;
+};
+struct S21SlayerSkillRecord
+{
+	WORD Skill;
+	char Name[32];
+	WORD Level, Damage, Mana, AbilityGuage;
+	DWORD Distance;
+	int Delay, Energy;
+	WORD Charisma;
+	BYTE SkillUseType;
+	DWORD SkillBrand;
+	BYTE SkillRank;
+	WORD SkillGroup;
+	BYTE TypeSkill;
+	int Strength, Dexterity;
+	BYTE ItemSkill, IsDamage;
+	WORD MagicIcon;
+};
+#pragma pack(pop)
+
+DWORD SlayerOverlayCRC32(const BYTE* data, size_t size)
+{
+	DWORD crc = 0xFFFFFFFF;
+	for (size_t i = 0; i < size; ++i)
+	{
+		crc ^= data[i];
+		for (int bit = 0; bit < 8; ++bit)
+			crc = (crc >> 1) ^ ((crc & 1) ? 0xEDB88320 : 0);
+	}
+	return crc ^ 0xFFFFFFFF;
+}
+
+template <typename T>
+bool ReadSlayerOverlay(const char* path, T (&records)[kS21SlayerMasterNodeCount])
+{
+	FILE* fp = nullptr;
+	if (fopen_s(&fp, path, "rb") != 0 || !fp)
+		return false;
+	BYTE bytes[sizeof(records)];
+	DWORD storedCRC = 0;
+	const bool complete = fread(bytes, 1, sizeof(bytes), fp) == sizeof(bytes) &&
+		fread(&storedCRC, 1, sizeof(storedCRC), fp) == sizeof(storedCRC) &&
+		fgetc(fp) == EOF;
+	fclose(fp);
+	if (!complete)
+		return false;
+	static const BYTE key[3] = {0xFC, 0xCF, 0xAB};
+	for (int record = 0; record < kS21SlayerMasterNodeCount; ++record)
+	{
+		BYTE* row = bytes + record * sizeof(T);
+		for (size_t i = 0; i < sizeof(T); ++i)
+			row[i] ^= key[i % 3];
+		memcpy(&records[record], row, sizeof(T));
+	}
+	return SlayerOverlayCRC32(bytes, sizeof(bytes)) == storedCRC;
+}
+}
 CMasterSkillTree gMasterSkillTree;
 CMasterSkillTree::CMasterSkillTree()
 {
 	this->m_MasterSkillTreeInfo.clear();
+	this->m_SlayerMasterTreeShape.clear();
+}
+bool CMasterSkillTree::LoadSlayerShape(const char* path)
+{
+	static_assert(sizeof(S21SlayerTreeRecord) == 24,
+		"S21 Slayer tree converter requires the 24-byte 5.2 shape");
+	static_assert(sizeof(S21SlayerSkillRecord) == 77,
+		"S21 Slayer metadata converter requires the 77-byte private record");
+	this->m_SlayerMasterTreeShape.clear();
+	if (!path)
+		return false;
+	std::string skillPath(path);
+	const size_t separator = skillPath.find_last_of("\\/");
+	if (separator == std::string::npos)
+		return false;
+	skillPath.replace(separator + 1, std::string::npos, "MasterSlayerSkills.bmd");
+	S21SlayerTreeRecord tree[kS21SlayerMasterNodeCount];
+	S21SlayerSkillRecord metadata[kS21SlayerMasterNodeCount];
+	if (!ReadSlayerOverlay(path, tree) ||
+		!ReadSlayerOverlay(skillPath.c_str(), metadata))
+		return false;
+	std::map<int, SLAYER_MASTER_TREE_SHAPE> candidate;
+	std::map<int, S21SlayerSkillRecord> catalog;
+	std::set<int> slots;
+	for (int i = 0; i < kS21SlayerMasterNodeCount; ++i)
+	{
+		const S21SlayerSkillRecord& skill = metadata[i];
+		if (skill.Skill <= 0 || skill.SkillRank == 0 ||
+			!catalog.insert(std::pair<int, S21SlayerSkillRecord>(skill.Skill, skill)).second)
+			return false;
+	}
+	for (int i = 0; i < kS21SlayerMasterNodeCount; ++i)
+	{
+		const S21SlayerTreeRecord& row = tree[i];
+		const auto skill = catalog.find(row.Skill);
+		if (row.ClassCode != 512 || row.Slot == 0 || row.Group > 2 ||
+			row.RequiredPoints == 0 || row.MaxLevel == 0 ||
+			row.RequiredPoints > row.MaxLevel || skill == catalog.end() ||
+			!slots.insert(row.Slot).second)
+			return false;
+		SLAYER_MASTER_TREE_SHAPE shape = {};
+		shape.Skill = row.Skill;
+		shape.Slot = row.Slot;
+		shape.Group = row.Group;
+		shape.Rank = skill->second.SkillRank;
+		shape.RequiredPoints = row.RequiredPoints;
+		shape.MaxLevel = row.MaxLevel;
+		shape.ParentSkill[0] = row.ParentSkill[0];
+		shape.ParentSkill[1] = row.ParentSkill[1];
+		shape.Brand = skill->second.SkillBrand;
+		shape.SkillType = skill->second.TypeSkill;
+		if (!candidate.insert(std::pair<int, SLAYER_MASTER_TREE_SHAPE>(row.Skill, shape)).second)
+			return false;
+	}
+	if (candidate.size() != kS21SlayerMasterNodeCount)
+		return false;
+	for (const auto& pair : candidate)
+	{
+		for (int parent : pair.second.ParentSkill)
+			if (parent != 0 && candidate.find(parent) == candidate.end())
+				return false;
+	}
+	this->m_SlayerMasterTreeShape.swap(candidate);
+	return true;
+}
+bool CMasterSkillTree::GetSlayerShape(int skill, SLAYER_MASTER_TREE_SHAPE* out) const
+{
+	if (!out)
+		return false;
+	const auto node = this->m_SlayerMasterTreeShape.find(skill);
+	if (node == this->m_SlayerMasterTreeShape.end())
+		return false;
+	*out = node->second;
+	return true;
 }
 void CMasterSkillTree::Load(char* path)
 {
@@ -63,6 +207,21 @@ void CMasterSkillTree::Load(char* path)
 		ErrorMessageBox(lpMemScript->GetLastError());
 	}
 	delete lpMemScript;
+	// The class-512 overlay is separate from legacy MasterSkillTree.txt. The
+	// exact 58-node S21 shape is staged only in the isolated Slayer server;
+	// missing/corrupt private assets leave the legacy tree unchanged.
+	std::string slayerPath(path);
+	const size_t separator = slayerPath.find_last_of("\\/");
+	if (separator != std::string::npos)
+	{
+		slayerPath.replace(separator + 1, std::string::npos,
+			"MasterSlayerTree.bmd");
+		if (!this->LoadSlayerShape(slayerPath.c_str()))
+			LogAdd(LOG_RED, "[MasterSkillTree] S21 Master Slayer 58-node overlay missing/invalid: %s",
+				slayerPath.c_str());
+		else
+			LogAdd(LOG_BLUE, "[MasterSkillTree] S21 Master Slayer shape loaded: 58 nodes");
+	}
 }
 bool CMasterSkillTree::GetInfo(int index, MASTER_SKILL_TREE_INFO* lpInfo)
 {
@@ -1386,10 +1545,34 @@ void CMasterSkillTree::CGMasterSkillRecv(PMSG_MASTER_SKILL_RECV* lpMsg, int aInd
 	{
 		return;
 	}
+	if (rise::slayerserver::IsSlayerDbClass(lpObj->DBClass))
+	{
+		// A borrowed 5.2 RequireClass row cannot identify class 9, and
+		// legacy 631 collides with S21 Rush. Reject any non-S21 slot until
+		// this actor's full class-512 tree is mapped to learning values.
+		SLAYER_MASTER_TREE_SHAPE shape = {};
+		if (lpObj->DBClass < rise::slayerserver::kS21MasterSlayerDbClass ||
+			!this->GetSlayerShape(lpMsg->MasterSkill, &shape))
+			return;
+	}
 	MASTER_SKILL_TREE_INFO MasterSkillTreeInfo;
 	if (this->GetInfo(lpMsg->MasterSkill, &MasterSkillTreeInfo) == 0)
 	{
 		return;
+	}
+	if (rise::slayerserver::IsSlayerDbClass(lpObj->DBClass))
+	{
+		SLAYER_MASTER_TREE_SHAPE native = {};
+		if (!this->GetSlayerShape(lpMsg->MasterSkill, &native) ||
+			MasterSkillTreeInfo.Group != native.Group ||
+			MasterSkillTreeInfo.Rank != native.Rank ||
+			MasterSkillTreeInfo.MinLevel != native.RequiredPoints ||
+			MasterSkillTreeInfo.MaxLevel != native.MaxLevel ||
+			MasterSkillTreeInfo.RequireSkill[0] != native.ParentSkill[0] ||
+			MasterSkillTreeInfo.RequireSkill[1] != native.ParentSkill[1])
+			return;
+		// Shared 5.2 IDs may reuse a compatible row; mismatching legacy
+		// 631 is excluded instead of impersonating S21 Slayer Rush.
 	}
 	if (rise::slayerserver::IsS21SlayerExclusiveMasterSkill(
 		MasterSkillTreeInfo.Index))

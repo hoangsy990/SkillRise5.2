@@ -24,6 +24,10 @@ TARGET = Path(
     r"D:\RISE-CrossPlatform\Source_PC_Slayer\ExMain_RISE_PC\Tests"
     r"\SlayerBuild\Client\Data\RISE\Slayer\Config"
 )
+SERVER_TARGET = Path(
+    r"D:\RISE-CrossPlatform\Source_PC_Slayer\ExGameServer\Tests"
+    r"\SlayerBuild\ServerData\Data\Skill"
+)
 S21_ICON = Path(r"D:\MU FICA Season 21\Data\Interface\new_Master_Icon.OZJ")
 S21_ICON_SHA = "DF3D1F863741E720EFC7B9ECC90117BB1BE9CA49852A86420FA8CA3E396D9F74"
 TREE_RECORD = struct.Struct("<HHBBBBiiif")  # 5.2 _MASTER_SKILLTREE_DATA, 24 bytes
@@ -139,6 +143,16 @@ def main() -> None:
         output = TARGET / name
         if output.exists() and output.read_bytes() != value:
             raise AssertionError(f"refusing to overwrite divergent private asset {output}")
+        if not output.exists():
+            output.write_bytes(value)
+        print(f"PASS: {output} records=58 sha256={digest(value)}")
+    SERVER_TARGET.mkdir(parents=True, exist_ok=True)
+    for name, value, size in (("MasterSlayerTree.bmd", tree, TREE_RECORD.size),
+                              ("MasterSlayerSkills.bmd", skills, RISE_SKILL_RECORD.size)):
+        verify_packet(value, size)
+        output = SERVER_TARGET / name
+        if output.exists() and output.read_bytes() != value:
+            raise AssertionError(f"refusing to overwrite divergent private server asset {output}")
         if not output.exists():
             output.write_bytes(value)
         print(f"PASS: {output} records=58 sha256={digest(value)}")
