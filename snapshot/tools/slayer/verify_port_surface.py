@@ -298,8 +298,11 @@ def main() -> int:
         if f"CreateParticle({bitmap}" in resources:
             raise AssertionError(f"effect object accidentally allocated as particle: {bitmap}")
     require(resources, "if (IsBitmapEffect(effect.Type))", "bitmap effect runtime")
-    require(resources, "effect.Type == kPierce81CEEffect ? 1.f : 0.f;",
-            "S21 Pierce 0x81CE modes 3/5 preserve allocator alpha one")
+    pierce_mark_init = resources.split("void InitializeEffect", 1)[1]
+    pierce_mark_init = pierce_mark_init.split("case kPierce81CEEffect:", 1)[1]
+    pierce_mark_init = pierce_mark_init.split("case kPierce80BAEffect:", 1)[0]
+    require(pierce_mark_init, "effect.Alpha = 1.f;",
+            "S21 Pierce 0x81CE modes 3/4/5 effective initial alpha one")
     require(resources, "case kFlareBlueEffect: // 0x7FDD subtype 2, update 0x157D57E",
             "S21 Detection high-code flare updater")
     flare_blue_update = resources.split(
@@ -375,7 +378,7 @@ def main() -> int:
         raise AssertionError("buff effects incorrectly follow moving owner")
     require(resources, "SpawnChild(kPierceSwordLineModel, swordLine, &effect, 3",
             "0x68B 0x681 immediate-parent owner")
-    require(resources, "effect.Type == kMagicGround12Effect ||",
+    require(resources, "effect.Type == kMagicGround12Effect ? 1.f : 0.f",
             "0x81CF subtype 4/5 starts fully lit")
     bitmap_update = resources[resources.index("if (IsBitmapEffect(effect.Type))",
               resources.index("void UpdateEffect")):]

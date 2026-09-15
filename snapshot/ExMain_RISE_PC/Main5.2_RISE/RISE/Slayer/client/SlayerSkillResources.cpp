@@ -635,15 +635,7 @@ void InitializeEffect(OBJECT& effect, float incomingScale)
     effect.StartPosition[2] = effect.Position[2];
     effect.LifeTime = InitialLife(effect);
     if (IsBitmapEffect(effect.Type))
-    {
-        // Native CreateEffect initializes OBJECT+0xDC to 1 at 0x143E7C0.
-        // Most imported root bitmap initializers replace it with zero, but
-        // Pierce 0x81CE modes 3/5 retain the allocator value (mode 4
-        // explicitly writes 1). Zeroing all bitmap children made those
-        // Pierce marks invisible because render multiplies RGB by alpha.
-        effect.Alpha = effect.Type == kMagicGround12Effect ||
-            effect.Type == kPierce81CEEffect ? 1.f : 0.f;
-    }
+        effect.Alpha = effect.Type == kMagicGround12Effect ? 1.f : 0.f;
     // Native CreateEffect first normalizes non-positive incoming scale to
     // 0.9, but some subtype initializers then overwrite OBJECT+0xA0 with
     // the original argument. Keep both values separate for those branches.
@@ -723,7 +715,9 @@ void InitializeEffect(OBJECT& effect, float incomingScale)
         // Native 0x147E153 subtypes 3/4/5 set 0xB4 to the current S21
         // millisecond clock. Their updater refreshes LifeTime every frame
         // until its elapsed-time cutoff, so an ordinary 30-tick effect dies
-        // far too early in 5.2.
+        // far too early in 5.2. Native modes 3/5 retain CreateEffect's
+        // alpha-one default; mode 4 explicitly writes one. This case was
+        // already restoring alpha one before the later generic bitmap path.
         effect.Timer = WorldTime;
         effect.Scale = effect.SubType == 3 ? 2.86f : 4.55f;
         effect.Alpha = 1.f;
