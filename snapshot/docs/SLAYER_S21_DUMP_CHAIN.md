@@ -719,7 +719,9 @@ generic textured alpha body path; the luminous bat/trail models remain
 additive. In the private MainRF fixture, fresh Detection/Demolish captures
 show the silver vortex over an intact terrain tile instead of an opaque
 black/white block; this is **renderer QA only, not Slayer class-9 acceptance**.
-The user's S21 video frame 19 shows a dark vortex. This per-model choice is a 5.2 adaptation,
+The owner's `Media1.mp4` one-second sample `frame_019.jpg` shows red attack
+fragments, **not** a dark buff vortex. The earlier frame-19 attribution was
+incorrect and is withdrawn. This per-model choice is a 5.2 adaptation,
 **not yet a decoded native S21 material flag or a full ingame parity PASS**.
 Body light is not multiplied by alpha a second time. Every diagnostic skip
 used to establish causality was removed from code and the private QA client.
@@ -998,11 +1000,15 @@ the private Slayer executable. Bat Flock's early trail and the floor are
 visible without the previous black terrain square; Detection/Demolish at
 sample 1 are overbright white under the all-model-additive trial.
 Twenty-four one-second samples from the owner's `Media1.mp4` cast reference
-were extracted read-only to private QA evidence. Frames 12/13 show a black
-floor square and frame 19 shows the dark `0x694`-like vortex over a silver
-ring. The frame-to-skill attribution is visual inference, not native-code
-proof. The next per-model pass above restores that dark vortex without
-reverting the isolated bitmap terrain blend; a fresh QA capture is pending.
+were extracted read-only to private QA evidence. Direct inspection of
+`frame_012.jpg`, `frame_013.jpg` and `frame_019.jpg` does **not** show the
+previously claimed black floor square or dark `0x694`-like vortex: the first
+two show an idle/transition pose, and the latter shows red attack fragments.
+Those visual attributions were wrong and are withdrawn. The native `0x694`
+model/asset chain is pinned independently by the S21 dump and file hashes;
+the black funnel in the 5.2 preview remains a renderer-parity issue and is
+not owner-accepted. A fresh per-model comparison is still pending **after**
+the five-skill code port is complete.
 
 The same preview found 127 stale QA Data junctions targeting the mutable
 shared `D:\RISE-CrossPlatform\Client\Data` instead of the frozen Slayer
