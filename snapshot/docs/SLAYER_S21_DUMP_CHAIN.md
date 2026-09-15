@@ -169,6 +169,14 @@ while preserving the raw 781/782 ID in cast packets; GS routes both IDs
 through Bat's target graph and retains their own skill-row resources/damage.
 The per-level mastery damage values and normal 781/782 learning are still
 incomplete, so this is code provenance and build evidence, not ingame PASS.
+Decoded, hash-pinned S21 Master Slayer tooltip records sharpen the remaining
+behavior: 781 says it **increases Bat Flock damage**, while 782 says it
+**increases the time Bat Flock deals damage by `%d` seconds**. The pinned S21
+`SkillSettings.ini` gives the base DOT time as **5 seconds**. The current
+5.2 Bat handler still applies a fixed five-second DOT for raw 782, so it is
+not mastery-complete; the point-to-seconds formula is not present in the
+client BMD or `SkillTreeData_3rd.xml` and must be recovered before assigning
+a numeric extension. This is why cast routing/build alone is not a QA gate.
 
 The root `CreateEffect` argument windows in the same handlers pass the
 caster's position (`native OBJECT+0x158`) and angle (`+0x164`) without an

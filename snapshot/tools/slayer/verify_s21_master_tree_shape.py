@@ -19,12 +19,14 @@ RISE52 = Path(r"D:\RISE-CrossPlatform\Source_PC_Slayer\Client\Data\RISE\Config\M
 S21_SERVER_TREE = Path(r"D:\GameServer S21\Data\Skills\SkillTreeData_3rd.xml")
 S21_SKILL_LIST = Path(r"D:\GameServer S21\Data\Skills\SkillList.xml")
 S21_TOOLTIP = Path(r"D:\MU FICA Season 21\Data\Local\masterskilltooltip.bmd")
+S21_SKILL_SETTINGS = Path(r"D:\GameServer S21\Data\Skills\SkillSettings.ini")
 RISE52_SERVER_TREE = Path(r"D:\RISE-CrossPlatform\Source_PC_Slayer\ExGameServer\Tests\SlayerBuild\ServerStackSmoke\4.MuServer\Sub-1\Data\Skill\MasterSkillTree.txt")
 S21_SHA = "A0381045194779304C7922685D1DDB9EA1E23DD0354FE02A36A9C91C8305D586"
 RISE52_SHA = "D67B20890CBB2DCFF9FF9CAB670E30D51A3DD13C97B17D4C641676B43A7DDECC"
 S21_SERVER_TREE_SHA = "CE19B7482839524A6FC8B76563F60D0D0EAEA89F4F4E534DFC835046366539F0"
 S21_SKILL_LIST_SHA = "3E238C786ECAB3445A0DB4756FE3D2A3923FBC0594506BB9C3FF206020A7E0A0"
 S21_TOOLTIP_SHA = "76E07F264FCA9C20692EF8C1870B90C63B2C0EB0456E273D9DBBC6628BE73F0A"
+S21_SKILL_SETTINGS_SHA = "7CF1FF432D337EF3420B8037C2D26F95D768E317A0DFC6CA7E46C4EAF2F847C9"
 RISE52_SERVER_TREE_SHA = "28D9C022DA82DB60C94137DA7EFBAFAF9AC9685D1A36E2FE29A00FBBFB878E81"
 RECORD = struct.Struct("<HHBBBBiiiI")
 BUX = (0xFC, 0xCF, 0xAB)
@@ -108,6 +110,13 @@ def main() -> None:
         record, decoded = tooltips[skill]
         if record != expected_record or not decoded[6:70].startswith(b"Rank %d, Skill Level:") or not decoded[326:358].startswith(b"Required Points: %d"):
             raise AssertionError(f"S21 Master Slayer tooltip row drifted for skill {skill}")
+    if b"Increases damage of Bat Flock skill by %d." not in tooltips[781][1] or \
+       b"Increases time a damage is dealt of Bat Flock by %d seconds." not in tooltips[782][1]:
+        raise AssertionError("S21 781 damage / 782 DOT-duration tooltip semantics drifted")
+    settings = S21_SKILL_SETTINGS.read_bytes()
+    if hashlib.sha256(settings).hexdigest().upper() != S21_SKILL_SETTINGS_SHA or \
+       b"BatFlockDotDamageTime = 5" not in settings:
+        raise AssertionError("S21 Bat Flock base DOT 5-second setting drifted")
     owners = {}
     for class_node in xml_root.findall("Class"):
         class_id = int(class_node.attrib["ID"])
@@ -140,6 +149,7 @@ def main() -> None:
     print("PASS: all 58 S21 server XML nodes match client BMD slot/group/points/max/parents/magic")
     print("PASS: all 58 Slayer BMD final integers equal pinned SkillList Damage and have S21 404-byte tooltip records")
     print("PASS: S21 tooltip 781/782 rows=854/856 with native Rank/Required Points strings")
+    print("PASS: S21 781 adds Bat damage, 782 extends DOT time; base DOT=5 seconds")
     print("PASS: S21 class-512-only IDs=631,779..794; legacy 5.2 already uses 631, so only 779..794 are safe ID-only guards")
     print("PASS: S21 781 slot=58 and 782 slot=62 parent=781, records 653/655")
     print("PASS: 5.2 loader has 512 occupied records; S21 uses 2048")
