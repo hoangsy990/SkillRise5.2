@@ -181,6 +181,22 @@ def main() -> int:
                     instruction.operands[-1].imm == args.xref_action_compare):
                     sites[instruction.address] = f"{instruction.mnemonic} {instruction.op_str}"
             cursor = data.find(needle, cursor + 1, end_offset)
+        if 0 <= args.xref_action_compare <= 0x7f:
+            # Most subtype selectors compile as 83 /7 imm8, so they do not
+            # contain the four-byte immediate scanned above.
+            for prefix in (b"\x83\x78\x14", b"\x83\xb8\x14\x00\x00\x00"):
+                compact = prefix + bytes((args.xref_action_compare,))
+                cursor = data.find(compact, start_offset, end_offset)
+                while cursor >= 0:
+                    instructions = list(decoder.disasm(
+                        data[cursor:cursor + len(compact)],
+                        cursor + IMAGE_BASE, count=1))
+                    if (instructions and instructions[0].mnemonic == "cmp" and
+                        instructions[0].operands[-1].type == X86_OP_IMM and
+                        instructions[0].operands[-1].imm == args.xref_action_compare):
+                        sites[instructions[0].address] = (
+                            f"cmp {instructions[0].op_str}")
+                    cursor = data.find(compact, cursor + 1, end_offset)
         print(f"action={args.xref_action_compare:#x} decoded-cmp-sites={len(sites)}")
         for site, instruction in sorted(sites.items()):
             print(f"{site:#x} {instruction}")

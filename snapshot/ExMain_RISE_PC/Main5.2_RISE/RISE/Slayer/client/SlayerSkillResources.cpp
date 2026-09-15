@@ -2117,6 +2117,8 @@ void LoadSounds()
         "Data\\RISE\\Slayer\\Effect\\flare01.jpg", GL_LINEAR, GL_CLAMP);
     RegisterSlayerBitmap(kShockWaveBitmap,
         "Data\\RISE\\Slayer\\Effect\\ShockWave.jpg", GL_LINEAR, GL_CLAMP);
+    RegisterSlayerBitmap(kClud64Bitmap,
+        "Data\\RISE\\Slayer\\Effect\\Clud64.jpg", GL_LINEAR, GL_CLAMP);
     RegisterSlayerBitmap(kBetGrilsShot2RedBitmap,
         "Data\\RISE\\Slayer\\Effect\\bet_grilsshot2red.jpg", GL_LINEAR, GL_CLAMP);
     RegisterSlayerBitmap(kImpack03Bitmap,
