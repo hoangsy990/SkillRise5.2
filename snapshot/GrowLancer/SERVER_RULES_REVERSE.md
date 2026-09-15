@@ -5,6 +5,34 @@ S21 server tables under `D:\GameServer S21\Data\Skills` and facts verified in
 the RISE 5.2 server source. It is not evidence that RISE currently implements
 the Grow Lancer class or these skills.
 
+2026-09-15 regular-formula boundary correction: the accepted
+`RegularSkillCalc.lua` SHA `F735D95E...` exposes Spin strike/explosion,
+Harsh barrage1/2, Magic barrage1/2/3, Breche, Shining Peak and Obsidian
+`Strength/20`/time240 double outputs. Native shared
+`ApplyRegularDamageFormula` already existed and covered positive sampled
+branches, but its old Harsh/Magic `hitIndex` selection repeated the final
+damage branch for out-of-range values (Lua returns zero/default), and Spin
+repeated explosion for every nonzero index despite having exactly two
+outputs. The isolated Shared helper now rejects invalid zero-based indices,
+and `ApplyObsidianRegularFormula` preserves the fractional buff scalar/time
+without choosing SS6 duration units. `verify_regular_skill_lua_formula_port.py`
+pins source body/hash and the native fail-closed gate. Expanded x86 C++14
+W4/WX server contract test PASS including negative/oversized hit indices;
+isolated Ex603 GameServer full link PASS in `FormulaAudit` Bin, SHA-256
+`67391E59BD26EF1F8CC5608B886AA08FB7A29FD135798D7C006129CD7C90FF70`.
+This is a real formula correctness correction, **not** server hit-count,
+target/AOE, rounding, buff recipient or activation proof; 271..281 remain
+fail-closed in `RunningSkill` and catalog class columns still zero.
+
+Read-only coordination with the active separate “Add classes and items to
+Rise” clone found shared GL base7/DB112 class constants and a 16-class
+compatibility scaffold. Its `GetLegacyConfigClass`/ServerInfo presets map GL
+combat/config rates to Rage Fighter while explicitly labeling them interim,
+and relevant files are currently uncommitted there. No code was copied or
+merged into GrowLancer; this scaffold is **not** original S21 class balance
+or native class7 create/login/learn/cast acceptance. The original S21
+`DefaultClassType` row is still absent from the supplied files.
+
 2026-09-15 isolated local transport smoke: the current-user 32-bit ODBC DSN
 connected specifically to `GrowLancer_QA`; the verified private CS/DS/JS/GS
 test stack launched four hidden binaries inside the Grow Lancer worktree and

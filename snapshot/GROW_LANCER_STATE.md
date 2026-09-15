@@ -2,6 +2,146 @@
 
 STATUS: IN_PROCESS
 
+### 2026-09-15 — S21 server Lua formula bounds corrected in existing shared contract
+
+- CURRENT PHASE: nine S21 Grow Lancer skills native PC5.2/SS6 client+GS, equipment/quests1–3 excluded; `IN_PROCESS`.
+- CURRENT TASK: advance verified GameServer skill math without claiming protected handler/class authority.
+- CURRENT SUBTASK: compare accepted S21 `RegularSkillCalc.lua` against the existing shared regular-damage helper, especially invalid barrage indices and Obsidian output.
+- COMPLETED THIS RUN: identified a real mismatch: old shared Harsh/Magic hit-index logic repeated final damage for oversized values; Spin repeated explosion for every nonzero index. Corrected these to source Lua zero/default for invalid zero-based indices, added exact Obsidian Strength/20/time240 double output; removed the duplicate new helper/test just created and extended the existing server contract test. Hash/source-bound verifier PASS, x86 C++14 W4/WX test PASS, isolated Ex603 full GS link PASS. Read-only inspection of separate Add-classes clone only; no copy/merge or other-task interruption.
+- REVERSE EVIDENCE: `D:\GameServer S21\Data\Skills\RegularSkillCalc.lua` SHA `F735D95E32C70E38AC6E65086E4AA21CDE1CD1A1C6E4B6549D124E502F9D3847` exact six function bodies and zero/default Lua branches. S21 SkillList/scroll/master hashes verified; protected GS target/hit-count/rounding remains unobserved. Separate Add-classes clone has GL base7/DB112 scaffold but interim RF-derived config/rates and uncommitted source, not final S21 class authority.
+- CHAIN COVERAGE: source regular Lua numeric outputs and native shared formula bounds STATIC PASS; `RunningSkill` 271..281 and class columns remain fail-closed. New-class login/skill persistence, authoritative damage/target/AOE, buff recipient/duration, packet and runtime QA OPEN. Client visuals remain owner Spin/Magic FAIL, Wrath OPEN and Breche render-only PASS.
+- ASSET PROVENANCE: server Lua/XML pinned SHA unchanged/read-only; current private client QA Engine `89C8B7A3A7E0AA2D4A9F9B180E63DFDB9BF03E86873FE7342E4586F41A6207D2` unchanged. New isolated GS FormulaAudit Engine SHA `67391E59BD26EF1F8CC5608B886AA08FB7A29FD135798D7C006129CD7C90FF70`; no production Data/binary write.
+- FILES MODIFIED: isolated `Shared/GrowLancerSkillContractData.h`, existing `GrowLancerServerContractTest.cpp`, Lua formula verifier, Server Rules/acceptance docs and this state. No GS dispatch activation, class scaffold import, equipment/quest or base/Pegasus/Slayer/S21-original edit. Newly redundant header/test removed before checkpoint.
+- LAST STATIC CHECK: `verify_regular_skill_lua_formula_port.py` PASS, `verify_server_contracts.py` PASS, expanded server contract x86 W4/WX executable exit0, `git diff --check` exit0.
+- LAST BUILD RESULT: isolated Ex603 GameServer `FormulaAudit\Bin\GameServer.exe` full link exit0, SHA67391E59...; this proves compatibility/link, not damage behavior. Prior isolated client QA/nonQA links unchanged.
+- LAST RUNTIME QA: no GS/login/cast/hit or owner client run; prior hidden Magic flat-depth PID3596 PASS only. User deferred visible QA and task-owned stack remains stopped.
+- KNOWN DIFFERENCES: shared formula is a pure numeric bridge; S21 Lua result-to-GS integer damage rounding, hit producer/index count, Obsidian duration units/recipient and new-class rate defaults not proven. Active Add-classes clone's RF-compatible GL preset is interim and not imported.
+- MISSING CHAIN PARTS: protected S21 GS handler or equivalent authoritative evidence, original `DefaultClassType` class112 row, native class7 create/login/skill learn/cast, target/AOE/hit sequencing, server damage/buffs/packets, nine-skill owner visual/regression QA.
+- BLOCKER: supplied protected S21 GS handler/default-class row absent and user deferred new visual cast; safe independent source/client/server checks still available, `IN_PROCESS`.
+- NEXT EXACT ACTION: audit S21 SkillElect/SkillSettings and existing GS attack path for source-proven hit-index/target bounds; avoid activating from Lua math alone. Revisit separate class task only after its actual verified class authority stabilizes.
+- NEXT FILE TO OPEN: `GrowLancer/SERVER_RULES_REVERSE.md` handler gaps and `ExGameServer/GameServer/SkillManager.cpp` skill attack selection.
+- NEXT FUNCTION TO IMPLEMENT: only source-proven skill-local GS hit/recipient adapter or exact class authorization when evidence is sufficient; keep unproven IDs fail-closed.
+
+### 2026-09-15 — Magic native foot versus confirmed flat-depth control
+
+- CURRENT PHASE: nine S21 Grow Lancer skills native PC5.2/SS6 client+GS, equipment/quests1–3 excluded; `IN_PROCESS`.
+- CURRENT TASK: distinguish Magic Pin missing caster-foot triangle due to native terrain occlusion from frame/non-creation and actual gameplay render visibility.
+- CURRENT SUBTASK: compare exact native Magic01/Root shader meshes with and without an isolated depth-writing Z0 plane at source scale.
+- COMPLETED THIS RUN: QA-only `RISE_GL_MAGIC_TERRAIN_DEPTH_QA` hidden WGL fixture now runs real `Calc_RenderObject(false)`/depth test twice per source caster Z angle. Ground-pixel depth readback proves plane writes (1.0→0.554251); PID3596 exit0 logs positive fragments for all sixteen Magic01/Root draws, GL0/stable release. At 90°, angular strip samples drop6982→6283 with plane, proving some overlap/occlusion while not wholly hiding it. Private QA Engine SHA89C8B7A3 staged, exact 0E9A1307 rollback retained; full Data verifier PASS. Hidden Calc Magic PID2436 and Spin pose PID2256 regressions PASS, isolated QA/nonQA x86 links exit0; no visible client/GS launched.
+- REVERSE EVIDENCE: exact hash-pinned S21 Magic models/native BMD registration, `Calc_RenderObject(false)` scale/body-origin transform and source mesh flags retained. Native flat-depth negative diagnostic rules out entire model below a flat fixture plane; does not verify actual terrain/camera/body position. Historical stage0 skipped PID28160 and owner foot-missing PID36328 remain independent evidence.
+- CHAIN COVERAGE: Magic source identity/root/children, exact assets/render native fixture and depth control PARTIAL PASS. Actual caster-foot gameplay pixels/intermittent three-stage contact/internal281 and GS class/learn/cast/damage still OPEN/FAIL. Spin ribbon, Wrath square and other visual gates unchanged.
+- ASSET PROVENANCE: original/decrypted/staged S21 Magic BMD and textures unchanged; isolated QA Engine `89C8B7A3A7E0AA2D4A9F9B180E63DFDB9BF03E86873FE7342E4586F41A6207D2`, exact prior rollback `0E9A1307951E0519D3425FDB58E25C4F9D77CAA0C8BB71FB0ADD137D8CA5A1A3`; isolated normal Engine `6422E26B7E2BC4CB308135ED26D9EF68AAFC6A6017026AC2F6689F6204A31958`. No original/production asset write.
+- FILES MODIFIED: QA-only GrowLancerRuntimeQA.cpp, private stage/flat-depth verifier, Magic reverse, acceptance matrix and this state; no other worktree, equipment, quest or GS code touched.
+- LAST STATIC CHECK: flat-depth PID3596, calc Magic PID2436, Spin pose PID2256, Magic raster query contract and full private Data stage verifiers PASS; `git diff --check` exit0. First terrain PID5092 lacked a depth-readback guard; its occlusion interpretation is superseded.
+- LAST BUILD RESULT: isolated QA/nonQA Global Release|Win32 `Main.vcxproj` links exit0 with known cryptlib LNK4099 only; no production deployment.
+- LAST RUNTIME QA: hidden private WGL only, no local login/F7/F9/camera/movement/map or S21 same-phase visual comparison. User deferred visible QA.
+- KNOWN DIFFERENCES: diagnostic Z0 quad and -55° orthographic fixture are synthetic, not native terrain/gameplay camera. Covered ground pixel(128,64) verifies depth; center pixel(128,128) lies outside quad screen coverage. Positive samples against this plane cannot establish gameplay pixels.
+- MISSING CHAIN PARTS: selected-target current candidate Magic F7/F11 caster root/strip sample and actual terrain Z/depth/cull/camera, third-stage subtype1, internal281 burst and complete nine-skill visual+GS class authority/regressions.
+- BLOCKER: user deferred visible cast; protected S21 GS handler/class defaults not decoded. More independent offline/client-source work remains; keep `IN_PROCESS`.
+- NEXT EXACT ACTION: inspect Magic stage0 native/S21 actor sampling and spatial depth against source, then implement only proven skill-local corrections; preserve owner visual FAIL until local-only gameplay comparison is available.
+- NEXT FILE TO OPEN: `GrowLancer/MAGIC_PIN_REVERSE.md` sampling sections and native `GrowLancerEffectRuntime.cpp` Magic controller/update.
+- NEXT FUNCTION TO IMPLEMENT: only source-proven Magic skill-local scheduler/child-origin or measured renderer-depth fix, no global SS6 behavior change.
+
+### 2026-09-15 — hidden Magic Pin native Calc_RenderObject raster check
+
+- CURRENT PHASE: nine S21 Grow Lancer skills native PC5.2/SS6 client+GS, equipment/quests1–3 excluded; `IN_PROCESS`.
+- CURRENT TASK: resolve Magic Pin caster-foot triangle owner FAIL/intermittent stage0 without asking for current gameplay cast.
+- CURRENT SUBTASK: test exact native gameplay model-transform route rather than a direct BMD pose fixture.
+- COMPLETED THIS RUN: QA-only opt-in `RISE_GL_MAGIC_CALC_RENDER_QA` now exercises real `Calc_RenderObject(&effect,false,0,0)`, native shader path and source mesh flags/light for exact Magic01/Root models on hidden WGL. Isolated QA/nonQA x86 links exit0. Exact prior staged QA Engine6DE3 rollback kept; new private Engine SHA046D6001 staged and full Data verifier PASS. PID10200 exit0: strip3147/8466/3147/8466 samples, root7708 all angles, GL0/release stable1. Direct Magic PID24248 and Spin pose PID14184 hidden regressions exit0/verifiers PASS; no visible client or server launched.
+- REVERSE EVIDENCE: native `Calc_RenderObject(false)` bakes scale/body origin through `BMD::Animation(...,Translate=true)` versus earlier fixture direct `Translate=false`; actual source-model and renderer use retained. Old Magic PID28160 skipped S21 `[5.2,5.8]` stage0 window; owner PID36328 stage reached yet triangle absent. Hidden transform fixture narrows but does not diagnose gameplay frame/depth.
+- CHAIN COVERAGE: exact model upload, direct-pose and native Calc_RenderObject fixed-camera fragment checks PASS. Caster-foot owner pixels, intermittent creation, target281 explosion, ownership/map cleanup and authoritative GS cast/hit remain OPEN/FAIL. Spin old frame audit remains PASS with owner ribbon FAIL; other skills unchanged.
+- ASSET PROVENANCE: pinned Magic BMD/texture, private merged player and Data hashes unchanged; current isolated QA Engine `046D6001E7722A14A063808C67609F566CFBAD3CEF4C5CE56F72A9B4857CBFEF`, exact rollback `6DE3A1FECF7A868F428A962851084470FA6F0687527CB575210A5F75740218BF`; normal x86 Engine `44FF8BF6EC91EFC3513D2F0CCE46ADE24F6B7F1C38C4BB4FE705F8156873F090`. No production/S21 original write.
+- FILES MODIFIED: QA-only GrowLancerRuntimeQA.cpp, stage hash/fixture/raster verifiers, Magic reverse, acceptance matrix and state in isolated GrowLancer worktree. No base/Pegasus/Slayer/WindSoul/GS/equipment/quest edit.
+- LAST STATIC CHECK: PID-bound Magic calc10200/direct24248 and Spin pose14184 verifiers, corrected two-model raster query contract, historical Spin cadence and full `verify_runtime_qa_stage.py` PASS; `git diff --check` exit0. First calc PID3088 exited1 because new hidden flag omitted shader init; corrected candidate PID10200 valid.
+- LAST BUILD RESULT: isolated QA and nonQA Global Release|Win32 `Main.vcxproj` link exit0, cryptlib LNK4099 only; build is not visual parity.
+- LAST RUNTIME QA: hidden WGL only, fixed origin/projection, no local login/F7/F9, movement/map/camera or same-phase S21 comparison. User declined visible QA for now.
+- KNOWN DIFFERENCES: source scale0.7 and caster angle varied only in fixture; origin0, orthographic camera and depth conditions differ from gameplay. Prior direct fixture `sourceScale=1` log label was inaccurate; source configured 0.7. Positive samples do not prove owner triangle.
+- MISSING CHAIN PARTS: current candidate owner foot/root GL samples and world Z/depth/cull/camera pixels, stage0 recurrence, internal281 burst, nine-skill complete visual/regression matrix and verified new-class/GS learn/cast/damage.
+- BLOCKER: fresh owner gameplay cast deferred and protected S21 GS handler/class defaults undecoded; independent source/hidden QA proceeds, `IN_PROCESS`.
+- NEXT EXACT ACTION: inspect stage0 S21/native scheduler/action-frame and actual Magic caster-root spatial/depth contract offline; do not infer a visual fix from fixture fragment counts. If no safe hidden discriminator remains, request one local-only owner cast when available.
+- NEXT FILE TO OPEN: `GrowLancer/MAGIC_PIN_REVERSE.md` stage/window and native `GrowLancerEffectRuntime.cpp` update/render sections.
+- NEXT FUNCTION TO IMPLEMENT: only source-proven skill-local timing/spatial correction or measured gameplay-depth fix; no global SS6 renderer/GS shortcut.
+
+### 2026-09-15 — bounded historical Spin cadence audit, no owner cast
+
+- CURRENT PHASE: nine Grow Lancer S21 skills native PC5.2 client/server, equipment/quests1–3 excluded; `IN_PROCESS`.
+- CURRENT TASK: attribute Spin caster ribbon owner ring-only FAIL without guessing action speed or introducing a cosmetic effect.
+- CURRENT SUBTASK: separate old PID28160 frame-gate and draw evidence from current private-sampler gameplay acceptance.
+- COMPLETED THIS RUN: added `verify_spin_historical_cadence.py` streaming a single old selected-target PID/cast/F11 flush; verifier PASS. The second Spin cast reached frame4.706 stage0 at250ms then frame5.001 stage1 at266ms, before idle action; twenty native style1 stock-texture32019 draws were logged. No visible QA/stack or production edit.
+- REVERSE EVIDENCE: historical owner-target12 action285 speed0.706, exact stage0→1 and type10137 fanout outcome at frame4.706. S21/source bone33, action186→285 clip, transform and two-message 271/280 evidence from prior checkpoint unchanged. Old QA timing is not proof S21 actor speed equivalence.
+- CHAIN COVERAGE: old controller frame gate/native draw path PASS; old owner ribbon still FAIL. Current slot32986 gameplay pixels/world/depth and separate280 hit/contact/GS authority OPEN; Magic/Wrath/other nine-skill gates unchanged.
+- ASSET PROVENANCE: old draw logs use shared bitmap32019; current private slot32986 and pinned S21 motion_blur hashes unchanged. No Data or binary copied.
+- FILES MODIFIED: focused historical verifier, Spin reverse, acceptance matrix, this state; only isolated GrowLancer worktree.
+- LAST STATIC CHECK: `python tools\grow_lancer\verify_spin_historical_cadence.py` PASS with PID/cast/21 samples/20 draws/fanout assertions; `git diff --check` exit0 (line-ending warnings only).
+- LAST BUILD RESULT: no runtime code changed, so no new build; prior isolated QA/nonQA x86 link PASS does not close visual/client+GS gate.
+- LAST RUNTIME QA: historical PID28160 analysis only; no fresh owner F7/F9, movement, camera, hit or S21 comparison. Owner requested continued hidden checks and declined opening QA now.
+- KNOWN DIFFERENCES: old draws used stock texture32019, while current private sampler slot32986 has no owner gameplay evidence. Historical stage1 is a client effect event, not server-authoritative hit.
+- MISSING CHAIN PARTS: current private-sampler owner pixel/world/depth attribution; paired base271/internal280 contact, native GL class/login/cast, GS handler and all nine visual/cleanup/regression comparisons.
+- BLOCKER: user deferred fresh QA cast; protected S21 GS lacks decoded class/skill handler. Independent offline work remains possible, so status stays `IN_PROCESS`.
+- NEXT EXACT ACTION: inspect S21/native renderer state and Spin attachment/pool evidence offline; preserve old cadence result. Request fresh local-only F7/F9/F11 only if hidden evidence cannot decide actual owner pixels.
+- NEXT FILE TO OPEN: `GrowLancer/SPIN_STEP_REVERSE.md` and native `ZzzEffectBlurSpark.cpp` style1 renderer.
+- NEXT FUNCTION TO IMPLEMENT: only measured caster-world/texture/blend/depth correction in Spin adapter; no global SS6 retime or substitute ribbon.
+
+### 2026-09-15 — Spin merged-player native bone33 pose raster pinned
+
+- CURRENT PHASE: nine S21 Grow Lancer skills native PC5.2 client/server, equipment/quests1–3 excluded; `IN_PROCESS`.
+- CURRENT TASK: resolve owner's Spin ring-only visual outcome with actual native actor pose/blur evidence before correcting the caster layer.
+- CURRENT SUBTASK: replace synthetic blur endpoints in a second hidden QA probe with `BMD::Open2` merged player action285/bone33 animation and native position transform.
+- COMPLETED THIS RUN: QA-only `RISE_GL_SPIN_POSE_BLUR_QA` probe now opens the exact private merged `Data\Player\player.bmd`, evaluates source-mapped action285 at fixture frames0.5/2.5/4.5, produces three bone33 endpoint pairs and renders through native style1 object-blur pool. Isolated QA build/stage candidate SHA `6DE3A1FE...` with exact `2E69CECC...` rollback; staged PID17052 exit0 produced minWidth181.108/maxCoord170.424/114 nonblack pixels/GL0/releaseStable1, verifier PASS. Current synthetic blur PID22320, Spin cross PID3532, Magic Pin PID4448 hidden regressions all exit0/verifiers PASS. NonQA x86 link also exit0. No visible client or server launched.
+- REVERSE EVIDENCE: S21/source `player.bmd` action186→native285 byte-identical clip and canonical `knife_gdf` bone33 pinned; source transform helper/caller math PASS. New probe uses native player BMD/pose, but its frame/priorAction/scale/camera are fixtures, not captured S21/5.2 owner samples.
+- CHAIN COVERAGE: source caster bone/action/transform STATIC PASS; native merged-player pose+style1 sampler/renderer fixture GPU pixels PASS. Owner caster ribbon gameplay still FAIL and separate internal280 contact/server authority OPEN. Magic foot/intermittence, Wrath square and remaining skill visuals not promoted.
+- ASSET PROVENANCE: original S21 and isolated merged `player.bmd` hashes unchanged; current private QA Engine `6DE3A1FECF7A868F428A962851084470FA6F0687527CB575210A5F75740218BF`, prior rollback `2E69CECCECC0BDFBF3D71CE7162218C038B00E50A933674BE651BA5A5A9C14E8`; full Data verifier PASS (13 current,2521 base,91 overlay,3 root,126 junctions). No original/client-production asset write.
+- FILES MODIFIED: QA-only `GrowLancerRuntimeQA.cpp`, private stage/fixture verifier, Spin/Wrath/runtime QA/acceptance docs and this state. No GS/equipment/quest/base/other-task edit.
+- LAST STATIC CHECK: pose PID17052 and synthetic PID22320 fixture verifiers, Spin cross PID3532 and Magic PID4448 hidden regressions, source world-transform/bone identity checks, full `verify_runtime_qa_stage.py` PASS. A direct pre-stage Bin launch PID19176 exited1 before logging; exact staged client with its private support files PID17052 then exited0; this is not a skill-render FAIL.
+- LAST BUILD RESULT: isolated QA/nonQA Global Release|Win32 `Main.vcxproj` link exit0; normal Engine SHA `C2038873A26953B8B4179E13B15D769D0EBD45084595516FBA647DB43A0A3181`, known cryptlib LNK4099 only. No deployment.
+- LAST RUNTIME QA: hidden native WGL fixture/graphics regressions only; no local login, F7/F9 gameplay, camera/movement/map or GS damage. Owner declined new interactive cast; no task-owned stack/Engine remains.
+- KNOWN DIFFERENCES: pose fixture uses frame0.5/2.5/4.5, priorAction0, caster scale1, angle0, orthographic±1000/depth OFF. Nonzero width/pixels under those inputs do not establish actual owner frame cadence/world origin/pixel visibility. Old owner Spin ring-only observation remains the acceptance failure.
+- MISSING CHAIN PARTS: fresh local-only selected-target F7 then F9 once same target/F11, owner ribbon vertices/depth/GL samples/pixels and S21 same-phase fixed/360 comparison; repeat/map cleanup, GS class7 and authoritative hit/learn rules, nine-skill regression.
+- BLOCKER: owner deferred current QA cast and protected S21 GS lacks decoded handler/default-class evidence; independent source/isolated work continues, `IN_PROCESS`.
+- NEXT EXACT ACTION: inspect old/current action-speed and blur sample timing versus S21 40ms loop without guessing a gate; when owner is available, obtain selected-target local-only paired F7/F9/F11 PID/world/pixel rows before changing production render.
+- NEXT FILE TO OPEN: `GrowLancer/SPIN_STEP_REVERSE.md` action-speed/blur cadence and staged `GrowLancerRuntimeQA.log` on a fresh gameplay PID.
+- NEXT FUNCTION TO IMPLEMENT: runtime-attributed Spin caster timing/world/depth correction only; do not substitute a cosmetic ribbon or change global SS6 renderer.
+
+### 2026-09-15 — native Spin ribbon fixture raster and source world-transform mapped
+
+- CURRENT PHASE: nine S21 Grow Lancer skills native PC5.2 client/server; equipment/quests1–3 excluded; `IN_PROCESS`.
+- CURRENT TASK: attribute owner's Spin ring-only result to actual caster blur geometry/render/timing, not a guessed bone or texture.
+- CURRENT SUBTASK: exercise real style1 blur renderer on hidden private GL surface and verify S21 translated endpoint math against native BMD API.
+- COMPLETED THIS RUN: added QA-only opt-in native `CreateObjectBlur` three-segment/`RenderObjectBlurs` hidden fixture. Built/staged isolated QA Engine SHA `2E69CECC...` with exact previous staged `95736241...` rollback. PID22740 exit0 produced 6,379 nonblack framebuffer pixels, GL error0 and bitmap/pool fixture release stable1; focused PID verifier PASS. Current hidden Spin cross PID10372 and Magic PID24184 regressions exit0/verifiers PASS. Hash-guarded complete S21 `132F433..132F56F` transform and `157C828..157CA4A` caller verifier PASS: true translation scales both bone33 endpoints/adds body origin then same rotated offset, mapping to native `BMD::TransformPosition`/emission. Owner deferred new interactive Magic QA; no visible client/stack launch.
+- REVERSE EVIDENCE: S21 dump SHA `6422CB4E...`, original/merged player SHA and source bone/action verifier retained; source transform/caller and native code site pinned. Fixture raster demonstrates renderer capacity, not owner/gameplay parity.
+- CHAIN COVERAGE: Spin style1 sampler/native framebuffer fixture STATIC+HIDDEN GPU PASS, caster bone/action/endpoint transform STATIC PASS. Actual caster ribbon owner visual FAIL, separate internal280 contact and server hit OPEN. Magic foot/intermittence and Wrath square remain OPEN/FAIL.
+- ASSET PROVENANCE: S21 `motion_blur.OZJ` and private bitmap hashes unchanged; current QA Engine `2E69CECCECC0BDFBF3D71CE7162218C038B00E50A933674BE651BA5A5A9C14E8`, prior exact rollback `95736241063643B58F8ECE167A2B9CFBADB6EAB1FCDBE59CBF06F2CBEDC14643`; full private Data stage verifier PASS (13 current, 2521 base, 91 overlay, 3 root, 126 junctions).
+- FILES MODIFIED: QA-only `GrowLancerRuntimeQA.cpp`, stage-hash/focused fixture+world-transform verifiers, Spin/Wrath/runtime QA/acceptance docs and this state. No production/base/other-task/GS/equipment/quest edit.
+- LAST STATIC CHECK: `verify_spin_native_blur_fixture.py --pid 22740`, `verify_spin_blur_world_transform.py`, `verify_spin_caster_bone_33.py`, Spin/Magic PID regressions and full `verify_runtime_qa_stage.py` PASS. Initial PowerShell stage wrapper's stale `$LASTEXITCODE` falsely threw after the script printed PASS; independent stage verifier then exit0.
+- LAST BUILD RESULT: isolated QA and nonQA Global Release|Win32 `Main.vcxproj` link exit0; normal Engine SHA `0FA501814311E59DF0565F1546DC0CDDDA7207EB9EAF10D05E7F33022B11C956`; known third-party `cryptlib` LNK4099 only. No deployment.
+- LAST RUNTIME QA: hidden private WGL fixture PIDs22740/10372/24184 exit0, driver GTX1060/NVIDIA582.66; no local login/cast, owner pixels or live movement. No task-owned Engine/stack remains running.
+- KNOWN DIFFERENCES: orthographic fixture's synthetic blur endpoints, depth OFF and three segments are not source owner pose/camera; positive pixels cannot close Spin gameplay visibility. Source transform math maps, but actual action speed, controller sampling and native renderer state during real cast are unverified.
+- MISSING CHAIN PARTS: selected-target Spin F7/F9 once same target and F11 actual world/pixel/depth attribution, camera/repeat/map/SS6 regression; Magic foot/stage, remaining nine-skill visual gates, new-class and S21 GS authority.
+- BLOCKER: owner deferred fresh interactive QA and supplied protected S21 GS lacks handler/default-class proof; safe independent source work continues, `IN_PROCESS`.
+- NEXT EXACT ACTION: read source/native action-speed/animation factor and old PID blur coordinate telemetry where available; on owner availability local-only paired Spin F7+F9/F11, compare renderer pixels with current hidden fixture and S21 frame41. Do not inject a cosmetic substitute.
+- NEXT FILE TO OPEN: `GrowLancer/SPIN_STEP_REVERSE.md` actor-speed/blur sampling section and fresh private PID-scoped gameplay log if obtained.
+- NEXT FUNCTION TO IMPLEMENT: only measured Spin owner-frame/world/depth timing correction or source-proven GS rule; no global SS6 renderer mutation.
+
+### 2026-09-15 — Spin caster ribbon bone/clip identity pinned offline
+
+- CURRENT PHASE: nine S21 Grow Lancer skills native PC5.2 client/server; equipment/quests1–3 excluded; `IN_PROCESS`.
+- CURRENT TASK: resolve Spin root ring-only and Magic Pin missing/intermittent gameplay effects without guessing asset/animation IDs.
+- CURRENT SUBTASK: test whether the temporary 5.2 actor uses a different ribbon bone or wrong imported Spin action clip.
+- COMPLETED THIS RUN: hash-guarded source and isolated merged `player.bmd` inspection shows both have 60 bones; bone33 is non-dummy `knife_gdf` parent28; S21 action186 and native285 each have six keys and identical hashes. Added/ran focused verifier PASS; corrected its initial over-strict raw-header comparison because noncanonical padding differs. Owner declined a fresh Magic QA cast now, so no visible client/stack was launched.
+- REVERSE EVIDENCE: S21/source `player.bmd` SHA `E0F4CB5A...`, private merged native SHA `0CC3D22D...`; native `EmitSpinStepWeaponBlur` still uses bone33 and source endpoint inputs. Bone/clip identity is proven, playback speed/world coordinates are not.
+- CHAIN COVERAGE: Spin caster skeletal and transplanted action identity STATIC PASS; caster ribbon gameplay FAIL and separate target contact OPEN. Magic Pin QA-only fixed-tick path remains unaccepted; its normal path cannot be called fixed-tick parity.
+- ASSET PROVENANCE: original S21 and private merged BMD read-only/hash verified; no asset or production Data edit.
+- FILES MODIFIED: focused `verify_spin_caster_bone_33.py`, Spin reverse, acceptance matrix and this state only. No equipment/quest, class whitelist, client/GS runtime or other-task edit.
+- LAST STATIC CHECK: focused verifier exit0; source/native clip hash and bone name/parent/dummy assertions PASS. No gameplay inference.
+- LAST BUILD RESULT: no code build because runtime source unchanged; prior isolated client/GS links retained, not skill acceptance.
+- LAST RUNTIME QA: none this run; no private stack/client process currently live. Owner Spin ring-only and Magic foot/intermittence reports remain FAIL.
+- KNOWN DIFFERENCES: unused bone-header padding differs across original and merged player files; compare canonical identity only. S21/SS6 action playback modifiers and actual world/blend/depth remain unverified.
+- MISSING CHAIN PARTS: Spin caster blur allocation/world/draw and paired271/280 owner frames; Magic gameplay stage/GPU query and foot triangle; nine-skill visual matrix, new-class authority and GS hit semantics.
+- BLOCKER: fresh owner gameplay pixels/logs were deferred by owner; supplied protected S21 GS lacks handler/default-class proof. Independent offline work remains, so `IN_PROCESS`.
+- NEXT EXACT ACTION: continue source-bound Spin ribbon geometry/renderer analysis offline; when owner is available, local-only selected-target F7 plus F9 once and F11, not VPS, then compare against pinned S21 frames. Magic QA cast remains deferred.
+- NEXT FILE TO OPEN: native `ZzzEffectBlurSpark.cpp` style1 renderer and `GrowLancer/SPIN_STEP_REVERSE.md` blur/world sections.
+- NEXT FUNCTION TO IMPLEMENT: only a measured Spin blur world/renderer correction or verified skill-specific timing adapter; do not retarget bone33 or assume body class causes invisibility.
+
 ### 2026-09-15 — isolated SkillRise5.2 Grow Lancer snapshot pushed, skills still IN_PROCESS
 
 - CURRENT PHASE: nine S21 Grow Lancer skills native PC 5.2 client/server; equipment/quests 1–3 excluded; `IN_PROCESS`.

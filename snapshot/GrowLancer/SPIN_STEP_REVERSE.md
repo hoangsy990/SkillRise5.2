@@ -1,5 +1,65 @@
 # Spin Step (skill 271) reverse evidence
 
+## Native merged-player action285 pose ribbon fixture — 2026-09-15
+
+Current staged private QA Engine SHA-256 `6DE3A1FECF7A868F428A962851084470FA6F0687527CB575210A5F75740218BF`
+has exact `2E69CECC...` rollback and full Data stage verifier PASS. New
+QA-only hidden probe `RISE_GL_SPIN_POSE_BLUR_QA` uses actual merged
+`Data\Player\player.bmd` via native `BMD::Open2`, action285
+`BMD::Animation`, bone33 `TransformPosition(...,true)`, then the unchanged
+private style1 `CreateObjectBlur`/`RenderObjectBlurs` with the pinned S21
+sampler. Fixture frames are 0.5/2.5/4.5, prior action0, owner scale1,
+angle0 and orthographic/depth-off camera; these are explicitly synthetic
+pose inputs, not captured owner frames.
+
+Staged PID17052 exit0 reported poseReady1, minimum endpoint width181.108,
+maximum absolute coordinate170.424, 114 nonblack native framebuffer pixels,
+GL error0 and stable release1. The PID-bound verifier passes. Current
+synthetic-segment PID22320, Spin-cross PID3532 and Magic-pin PID4448 all
+exit0/verify PASS; isolated QA/nonQA x86 links pass. This rules out an
+intrinsically degenerate bone33 strip for the sampled merged-player pose,
+but actual caster scale/frame/action speed, blur pool segment coordinates,
+gameplay camera/depth/blend and owner-visible pixels remain unverified.
+No owner QA was launched after the owner chose continued hidden checking.
+
+## Hidden native style-1 blur raster and world-transform audit — 2026-09-15
+
+The prior private staged QA Engine SHA-256 `2E69CECCECC0BDFBF3D71CE7162218C038B00E50A933674BE651BA5A5A9C14E8`
+has exact prior staged `95736241...` rollback and complete Data verifier PASS.
+An opt-in hidden orthographic fixture calls the real `EnsureSpinMotionBlurBitmap`,
+`CreateObjectBlur` three times with a live Spin controller owner, then native
+`RenderObjectBlurs` and framebuffer readback. PID22740 exit0 recorded 6,379
+nonblack pixels, GL error0, and stable bitmap/pool release; the PID-bound
+`verify_spin_native_blur_fixture.py` passes. Current independent hidden Spin
+cross PID10372 and Magic Pin PID24184 regressions also exit0/verify PASS.
+QA/nonQA isolated x86 links pass. This proves the private style-1 texture
+and renderer can rasterize a bounded fixture, **not** that the owner's caster
+ribbon exists in gameplay or matches S21.
+
+`verify_spin_blur_world_transform.py` decodes the complete S21
+`132F433..132F56F` helper and `157C828..157CA4A` caller: translate=true
+transforms both bone33 endpoints by model scale and body origin, then adds
+the same rotated local offset before allocating the blur. Native
+`BMD::TransformPosition(...,true)` and the private emission code map those
+operations directly. The transform math is source-consistent; live owner
+pose/origin, allocated segment coordinates, gameplay camera/depth and actual
+pixel visibility remain OPEN. Owner deferred the requested fresh cast, so no
+visible QA client or server stack was started in this checkpoint.
+
+## Caster ribbon bone/clip identity — 2026-09-15
+
+Read-only `verify_spin_caster_bone_33.py` pins original S21 `player.bmd`
+SHA-256 `E0F4CB5A...` and the private merged v0C `player.bmd`
+SHA-256 `0CC3D22D...`. Both have 60 bones; bone33 is the non-dummy
+`knife_gdf` child of bone28 in both. S21 action186 and native action285 each
+have six keys and identical action hashes. The native ribbon site still
+samples bone33 with source endpoints `(0,0,0)`/`(0,-180,20)`.
+Raw bone-header padding differs between the clients, so this verifier
+compares name/parent/dummy identity, not unused bytes. This rules out a
+wrong bone index or wrong transplanted clip as the explanation for the
+owner's ring-only cast; it does not prove identical playback speed, live
+world coordinates, blur-pool allocation, rendered pixels or S21 parity.
+
 ## QA acceptance sequence is two messages — 2026-09-15
 
 Pinned S21 native frame41 SHA-256 `3FFD5023...` visibly has a blue target-
@@ -26,8 +86,8 @@ VAO/index, program/depth/cull and samples. The opt-in launcher switch
 `-SpinCrossRasterProbe` restores parent environment, defaults OFF and requires
 `-LocalServer`/owned loopback stack for interactive QA.
 
-Current private staged QA Engine SHA-256 `95736241063643B58F8ECE167A2B9CFBADB6EAB1FCDBE59CBF06F2CBEDC14643`
-has exact `73602038...` rollback; full Data verifier and isolated QA/nonQA
+The prior private staged QA Engine SHA-256 `95736241063643B58F8ECE167A2B9CFBADB6EAB1FCDBE59CBF06F2CBEDC14643`
+had exact `73602038...` rollback; full Data verifier and isolated QA/nonQA
 x86 builds PASS. Source-scope verifier PASS. Hidden staged Spin fixture PID1776
 and Magic regression PID19448 pass independently. **No gameplay F7 cross
 query has run**; samples are not owner-visible pixels or S21 parity. If
@@ -116,6 +176,22 @@ spawn; the proved `0x5F8` fanout remains weapon blur plus target effects.
 Spin's ribbon/target parity is still OPEN for independent reasons below.
 
 ## Isolated selected-target render evidence (2026-09-14)
+
+### Historical frame gate is reached; timing alone is not the observed ring-only cause
+
+`verify_spin_historical_cadence.py` pins exactly the second selected-target
+PID28160 cast at `2026-09-15T05:37:13.058Z`, its F11-flushed 21-sample
+controller record and 20 style-1 native blur draw records. Action285 runs at
+logged speed0.706: sample15 reaches frame4.706 at250ms with stage0, sample16
+reaches frame5.001 at266ms with stage1, and only sample20 exits to action11.
+The stage gate therefore fires before action exit in **that old QA cast**;
+the outcome records also attribute type10137 fanout at frame4.706/250ms.
+These blur draws used the older shared stock texture32019 and owner still saw
+only the ground ring. This eliminates a proposed "never reached fanout frame"
+explanation for that historical cast, but does not prove S21 and SS6 actor
+cadence are equal, nor diagnose current private-sampler pixels/world/depth.
+Stage1 is a client effect outcome, not a confirmed GS hit. Do not retime the
+production skill/global animations solely from this old trace.
 
 ### Verified native draw and map cleanup, still owner visual FAIL
 

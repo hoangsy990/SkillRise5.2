@@ -1236,16 +1236,36 @@ int RunBodyTextureProbeQA()
     const bool magicDrawProbe = GetEnvironmentVariableA("RISE_GL_MAGIC_NATIVE_DRAW_QA",
         magicDrawEnabled, sizeof(magicDrawEnabled)) == 1 &&
         magicDrawEnabled[0] == '1';
+    char magicCalcEnabled[4] = {};
+    const bool magicCalcProbe = GetEnvironmentVariableA("RISE_GL_MAGIC_CALC_RENDER_QA",
+        magicCalcEnabled, sizeof(magicCalcEnabled)) == 1 &&
+        magicCalcEnabled[0] == '1';
+    char magicTerrainEnabled[4] = {};
+    const bool magicTerrainProbe = GetEnvironmentVariableA("RISE_GL_MAGIC_TERRAIN_DEPTH_QA",
+        magicTerrainEnabled, sizeof(magicTerrainEnabled)) == 1 &&
+        magicTerrainEnabled[0] == '1';
     char spinCrossDrawEnabled[4] = {};
     const bool spinCrossDrawProbe = GetEnvironmentVariableA(
         "RISE_GL_SPIN_CROSS_DRAW_QA", spinCrossDrawEnabled,
         sizeof(spinCrossDrawEnabled)) == 1 && spinCrossDrawEnabled[0] == '1';
+    char spinBlurDrawEnabled[4] = {};
+    const bool spinBlurDrawProbe = GetEnvironmentVariableA(
+        "RISE_GL_SPIN_BLUR_DRAW_QA", spinBlurDrawEnabled,
+        sizeof(spinBlurDrawEnabled)) == 1 && spinBlurDrawEnabled[0] == '1';
+    char spinPoseBlurEnabled[4] = {};
+    const bool spinPoseBlurProbe = GetEnvironmentVariableA(
+        "RISE_GL_SPIN_POSE_BLUR_QA", spinPoseBlurEnabled,
+        sizeof(spinPoseBlurEnabled)) == 1 && spinPoseBlurEnabled[0] == '1';
     if (!bodyProbe && !circleProbe && !spinProbe && !wrathProbe &&
-        !privateModelsProbe && !magicDrawProbe && !spinCrossDrawProbe) return -1;
+        !privateModelsProbe && !magicDrawProbe && !magicCalcProbe &&
+        !magicTerrainProbe && !spinCrossDrawProbe &&
+        !spinBlurDrawProbe && !spinPoseBlurProbe) return -1;
     if (static_cast<int>(bodyProbe) + static_cast<int>(circleProbe) +
         static_cast<int>(spinProbe) + static_cast<int>(wrathProbe) +
         static_cast<int>(privateModelsProbe) + static_cast<int>(magicDrawProbe) +
-        static_cast<int>(spinCrossDrawProbe) != 1)
+        static_cast<int>(magicCalcProbe) + static_cast<int>(magicTerrainProbe) +
+        static_cast<int>(spinCrossDrawProbe) + static_cast<int>(spinBlurDrawProbe) +
+        static_cast<int>(spinPoseBlurProbe) != 1)
         return 2;
     if (wglGetCurrentContext()) return 2;
     // Hidden test surface only. Native bitmap decoder/uploader remains unchanged.
@@ -1299,6 +1319,7 @@ int RunBodyTextureProbeQA()
     } shaderLifetime; // released before the hidden WGL context
     char shaderEnabled[4] = {};
     shaderProbe = wrathProbe || privateModelsProbe || magicDrawProbe ||
+        magicCalcProbe || magicTerrainProbe ||
         spinCrossDrawProbe ||
         (GetEnvironmentVariableA("RISE_GL_BODY_GPU_QA",
         shaderEnabled, sizeof(shaderEnabled)) == 1 && shaderEnabled[0] == '1');
@@ -1312,6 +1333,111 @@ int RunBodyTextureProbeQA()
     }
     std::vector<GLuint> bodyVaos, bodyBuffers;
 #endif
+    if (spinBlurDrawProbe || spinPoseBlurProbe)
+    {
+        // Hidden orthographic fixture only: real SS6 blur pool, registered
+        // private S21 sampler and immediate renderer. Pose mode also uses
+        // native Open2/Animation/TransformPosition on the merged player BMD.
+        // Neither mode is a gameplay cast/camera or S21 frame-parity check.
+        const DWORD bytesBefore = Bitmaps.GetUsedTextureMemory();
+        const size_t countBefore = Bitmaps.GetNumberOfTexture();
+        const bool loaded = EnsureSpinMotionBlurBitmap();
+        BMD player;
+        bool poseReady = !spinPoseBlurProbe;
+        if (spinPoseBlurProbe)
+        {
+            char playerDir[] = "Data\\Player\\";
+            char playerFile[] = "player.bmd";
+            poseReady = player.Open2(playerDir, playerFile, true) &&
+                player.NumBones > 33 && player.NumActions > 285;
+        }
+        OBJECT owner = {};
+        owner.Live = true;
+        owner.Type = kSpinControllerModel;
+        owner.SubType = 0;
+        vec3_t light = {1.0f, 1.0f, 1.0f};
+        vec3_t left[3] = {{-60.0f, -18.0f, 0.0f},
+            {0.0f, -18.0f, 0.0f}, {60.0f, -18.0f, 0.0f}};
+        vec3_t right[3] = {{-60.0f, 18.0f, 0.0f},
+            {0.0f, 18.0f, 0.0f}, {60.0f, 18.0f, 0.0f}};
+        ClearAllObjectBlurs();
+        glViewport(0, 0, 256, 256);
+        glMatrixMode(GL_PROJECTION); glLoadIdentity();
+        const double extent = spinPoseBlurProbe ? 1000.0 : 100.0;
+        glOrtho(-extent, extent, -extent, extent, -2000.0, 2000.0);
+        glMatrixMode(GL_MODELVIEW); glLoadIdentity();
+        glDisable(GL_DEPTH_TEST);
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        float minimumWidth = 0.0f;
+        float maximumCoordinate = 0.0f;
+        if (loaded && poseReady)
+        {
+            if (spinPoseBlurProbe)
+            {
+                player.BodyScale = 1.0f; // isolated fixture, not observed owner scale
+                player.CurrentAction = 285;
+                Vector(0.0f, 0.0f, 0.0f, player.BodyOrigin);
+                vec3_t angle = {}, headAngle = {};
+                vec3_t localStart = {}, localEnd = {0.0f, -180.0f, 20.0f};
+                vec3_t localOffset = {0.0f, -10.0f, 0.0f};
+                vec3_t rotatedOffset;
+                float angleMatrix[3][4];
+                AngleMatrix(angle, angleMatrix);
+                VectorRotate(localOffset, angleMatrix, rotatedOffset);
+                float pose[MAX_BONES][3][4] = {};
+                const float frames[] = {0.5f, 2.5f, 4.5f};
+                for (int i = 0; i < 3; ++i)
+                {
+                    player.Animation(pose, frames[i],
+                        static_cast<float>(static_cast<int>(frames[i]) - 1),
+                        0, angle, headAngle, false, false);
+                    player.TransformPosition(pose[33], localStart, left[i], true);
+                    player.TransformPosition(pose[33], localEnd, right[i], true);
+                    VectorAdd(left[i], rotatedOffset, left[i]);
+                    VectorAdd(right[i], rotatedOffset, right[i]);
+                    vec3_t width;
+                    VectorSubtract(right[i], left[i], width);
+                    const float length = VectorLength(width);
+                    if (i == 0 || length < minimumWidth) minimumWidth = length;
+                    for (int axis = 0; axis < 3; ++axis)
+                    {
+                        const float a = fabsf(left[i][axis]);
+                        const float b = fabsf(right[i][axis]);
+                        if (a > maximumCoordinate) maximumCoordinate = a;
+                        if (b > maximumCoordinate) maximumCoordinate = b;
+                    }
+                }
+            }
+            for (int i = 0; i < 3; ++i)
+                CreateObjectBlur(&owner, left[i], right[i], light,
+                    1, false, 0, -1, 1);
+            RenderObjectBlurs();
+        }
+        std::vector<unsigned char> pixels(256u * 256u * 4u);
+        glReadPixels(0, 0, 256, 256, GL_RGBA, GL_UNSIGNED_BYTE,
+            pixels.data());
+        unsigned litPixels = 0;
+        for (size_t i = 0; i < pixels.size(); i += 4)
+            litPixels += (pixels[i] || pixels[i + 1] || pixels[i + 2]) ? 1u : 0u;
+        const GLenum error = glGetError();
+        ClearAllObjectBlurs();
+        if (loaded) Bitmaps.UnLoadImageFile(kSpinMotionBlurBitmap, false);
+        const bool released = bytesBefore == Bitmaps.GetUsedTextureMemory() &&
+            countBefore == Bitmaps.GetNumberOfTexture();
+        char line[256] = {};
+        sprintf_s(line,
+            "event=spin-native-blur-draw mode=%s loaded=%d poseReady=%d minWidth=%.3f maxCoord=%.3f litPixels=%u glError=%u releaseStable=%d",
+            spinPoseBlurProbe ? "native-player-pose" : "synthetic-segments",
+            loaded ? 1 : 0, poseReady ? 1 : 0,
+            minimumWidth, maximumCoordinate, litPixels,
+            static_cast<unsigned>(error), released ? 1 : 0);
+        AppendQALog(line);
+        return loaded && poseReady &&
+            (!spinPoseBlurProbe || minimumWidth > 0.0f) &&
+            litPixels > 0 && error == GL_NO_ERROR &&
+            released ? 0 : 1;
+    }
     if (wrathProbe)
     {
         if (Models) return 2; // never substitute the active gameplay table
@@ -1465,7 +1591,7 @@ int RunBodyTextureProbeQA()
         AppendQALog(line);
         return valid && released ? 0 : 1;
     }
-    if (magicDrawProbe || spinCrossDrawProbe)
+    if (magicDrawProbe || magicCalcProbe || magicTerrainProbe || spinCrossDrawProbe)
     {
         if (Models || !GMMeshShader) return 2;
         const DWORD bytesBefore = Bitmaps.GetUsedTextureMemory();
@@ -1509,14 +1635,42 @@ int RunBodyTextureProbeQA()
                 const int rotations[] = {0, 90, 180, 270};
                 for (int rotation : rotations)
                 {
+                    for (int plane = 0; plane <= (magicTerrainProbe ? 1 : 0); ++plane)
+                    {
                     unsigned samples = 0;
+                    bool calcReady = false;
+                    GLfloat centerDepth = 1.0f;
+                    GLfloat groundDepth = 1.0f;
                     if (meshReady)
                     {
                         angle[2] = spinCrossDrawProbe ? 120.0f :
                             static_cast<float>(rotation);
-                        model.Animation(pose, 0.0f, 0.0f, 0, angle,
-                            headAngle, false, false);
-                        if (spinCrossDrawProbe)
+                        OBJECT nativeEffect = {};
+                        calcReady = true;
+                        if (magicCalcProbe || magicTerrainProbe)
+                        {
+                            nativeEffect.Type = type;
+                            nativeEffect.Live = true;
+                            nativeEffect.Alpha = 1.0f;
+                            nativeEffect.Scale = 0.7f;
+                            nativeEffect.CurrentAction = 0;
+                            VectorCopy(angle, nativeEffect.Angle);
+                            Vector(0.0f, 0.0f, 0.0f, nativeEffect.Position);
+                        }
+                        else
+                            model.Animation(pose, 0.0f, 0.0f, 0, angle,
+                                headAngle, false, false);
+                        if (magicTerrainProbe)
+                        {
+                            // Depth-only synthetic flat terrain at the caster
+                            // origin. Diagnostic occlusion control, never a
+                            // replacement for real 5.2 terrain or camera.
+                            glMatrixMode(GL_MODELVIEW); glLoadIdentity();
+                            glRotatef(-55.0f, 1.0f, 0.0f, 0.0f);
+                            glEnable(GL_DEPTH_TEST);
+                            glDepthFunc(GL_LESS);
+                        }
+                        else if (spinCrossDrawProbe)
                         {
                             glMatrixMode(GL_MODELVIEW); glLoadIdentity();
                             glRotatef(static_cast<float>(rotation), 0.0f,
@@ -1524,17 +1678,49 @@ int RunBodyTextureProbeQA()
                             glRotatef(-90.0f, 1.0f, 0.0f, 0.0f);
                         }
                         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                        if (magicTerrainProbe && plane)
+                        {
+                            glUseProgram(0);
+                            glDepthMask(GL_TRUE);
+                            glDisable(GL_BLEND);
+                            glDisable(GL_TEXTURE_2D);
+                            glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+                            glBegin(GL_QUADS);
+                            glVertex3f(-300.0f, -300.0f, 0.0f);
+                            glVertex3f(300.0f, -300.0f, 0.0f);
+                            glVertex3f(300.0f, 300.0f, 0.0f);
+                            glVertex3f(-300.0f, 300.0f, 0.0f);
+                            glEnd();
+                            glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+                        }
+                        if (magicTerrainProbe)
+                        {
+                            glReadPixels(128, 128, 1, 1, GL_DEPTH_COMPONENT,
+                                GL_FLOAT, &centerDepth);
+                            glReadPixels(128, 64, 1, 1, GL_DEPTH_COMPONENT,
+                                GL_FLOAT, &groundDepth);
+                        }
                         GLuint query = 0;
                         glGenQueries(1, &query);
                         if (query)
                         {
                             glBeginQuery(GL_SAMPLES_PASSED, query);
                             GMMeshShader->BeginScope();
-                            GMMeshShader->AddBoneTransform(&model, pose, false);
+                            if (magicCalcProbe || magicTerrainProbe)
+                            {
+                                calcReady = Calc_RenderObject(&nativeEffect, false, 0, 0);
+                                // The production Magic path overwrites BodyLight
+                                // after Calc_RenderObject; keep that source renderer
+                                // light contract in this isolated native probe.
+                                Vector(0.48f, 0.73f, 1.0f, model.BodyLight);
+                            }
+                            else
+                                GMMeshShader->AddBoneTransform(&model, pose, false);
                             // Exact mesh flags/peak alpha and source model
                             // scale; only owner position/camera are fixtures.
-                            model.RenderMesh(0, RENDER_TEXTURE | RENDER_BRIGHT,
-                                1.0f, 0, 1.0f, 0.0f, 0.0f, -1);
+                            if (calcReady)
+                                model.RenderMesh(0, RENDER_TEXTURE | RENDER_BRIGHT,
+                                    1.0f, 0, 1.0f, 0.0f, 0.0f, -1);
                             GMMeshShader->EndScope();
                             glEndQuery(GL_SAMPLES_PASSED);
                             glGetQueryObjectuiv(query, GL_QUERY_RESULT, &samples);
@@ -1559,15 +1745,32 @@ int RunBodyTextureProbeQA()
                             "event=spin-cross-native-fixture-draw type=%d cameraSweep=%d sourceAngle=120 sourceScale=8.5 opened=%d meshReady=%d samples=%u litPixels=%u glError=%u fixturePose=1 gameplayCamera=0",
                             type, rotation, opened ? 1 : 0, meshReady ? 1 : 0,
                             samples, litPixels, static_cast<unsigned>(error));
+                    else if (magicTerrainProbe)
+                        sprintf_s(line,
+                            "event=magic-terrain-depth-fixture-draw type=%d rotation=%d flatPlane=%d preModelCenterDepth=%.6f preModelGroundDepth=%.6f calcReady=%d opened=%d meshReady=%d samples=%u depth=%d glError=%u fixtureTerrain=1 gameplayTerrain=0",
+                            type, rotation, plane, static_cast<double>(centerDepth),
+                            static_cast<double>(groundDepth),
+                            calcReady ? 1 : 0,
+                            opened ? 1 : 0, meshReady ? 1 : 0, samples,
+                            glIsEnabled(GL_DEPTH_TEST) ? 1 : 0,
+                            static_cast<unsigned>(error));
+                    else if (magicCalcProbe)
+                        sprintf_s(line,
+                            "event=magic-calc-native-fixture-draw type=%d rotation=%d sourceScale=0.7 calcReady=%d opened=%d meshReady=%d samples=%u glError=%u fixturePosition=1 gameplayCamera=0",
+                            type, rotation, calcReady ? 1 : 0, opened ? 1 : 0,
+                            meshReady ? 1 : 0, samples,
+                            static_cast<unsigned>(error));
                     else
                         sprintf_s(line,
                             "event=magic-native-fixture-draw type=%d rotation=%d sourceScale=1 opened=%d meshReady=%d samples=%u glError=%u fixturePose=1 gameplayCamera=0",
                             type, rotation, opened ? 1 : 0, meshReady ? 1 : 0,
                             samples, static_cast<unsigned>(error));
                     AppendQALog(line);
-                    valid = valid && opened && meshReady && samples > 0 &&
+                    valid = valid && opened && meshReady &&
+                        (magicTerrainProbe || samples > 0) &&
                         error == GL_NO_ERROR &&
                         (!spinCrossDrawProbe || litPixels > 0);
+                    }
                 }
             }
         }

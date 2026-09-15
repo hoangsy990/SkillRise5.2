@@ -6,9 +6,11 @@ The ground probe now checks native `PerspectiveX/Y` and camera-space Z before
 calling `ZzzOpenglUtil::TransformPosition`, whose screen-coordinate math
 divides by those values. Source precondition order and bounds verifier PASS;
 the actual Wrath terrain/model blend and renderer remain unchanged. Current
-private staged QA Engine SHA-256 is `95736241063643B58F8ECE167A2B9CFBADB6EAB1FCDBE59CBF06F2CBEDC14643`
-with exact prior `73602038...` rollback and full private Data verifier PASS.
-The `FB4C8E42...` candidate described below is a historical checkpoint.
+private staged QA Engine SHA-256 is `6DE3A1FECF7A868F428A962851084470FA6F0687527CB575210A5F75740218BF`
+with exact prior `2E69CECC...` rollback and full private Data verifier PASS.
+The current candidate adds only a QA-hidden merged-player Spin pose fixture; the Wrath
+probe path is unchanged. The `FB4C8E42...` candidate described below is a
+historical checkpoint.
 There is still **no** new owner Wrath F7 gameplay ground-pixel row; black-square
 attribution and visual acceptance remain OPEN.
 

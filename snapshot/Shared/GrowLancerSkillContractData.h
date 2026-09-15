@@ -209,12 +209,25 @@ inline bool IsGrowLancerInternalSkill(int id)
     return id == kSpinStepExplosion || id == kMagicPinExplosion;
 }
 
+inline bool IsActiveGrowLancerMasterSkill(int id)
+{
+    return FindActiveMasterSkillSeed(id) != 0;
+}
+
+// Catalog-only S21 Wrath chain, absent from the pinned active third tree.
+// Identity is preserved for rejection, not silently activated as a variant.
+inline bool IsLegacyGrowLancerMasterSkill(int id)
+{
+    return id == 708 || id == 709 || id == 710;
+}
+
 // The supplied S21 tables prove catalog values and formulas, but not the
 // hardcoded target selection, barrage scheduling or recipient-class ABI.
 // Runtime dispatch must stay closed until those contracts are recovered.
 inline bool HasProvenServerRuntimeHandler(int id)
 {
-    return !IsGrowLancerSkill(id);
+    return !IsGrowLancerSkill(id) && !IsActiveGrowLancerMasterSkill(id) &&
+        !IsLegacyGrowLancerMasterSkill(id);
 }
 
 inline int FindSkillForScroll(int group, int index)
@@ -233,6 +246,26 @@ inline bool MeetsLearningStats(int id, int strength, int dexterity, int energy)
         dexterity >= seed->requiredDexterity && energy >= seed->requiredEnergy;
 }
 
+struct ObsidianRegularFormulaResult
+{
+    double skillEffect;
+    double skillTime;
+};
+
+// S21 RegularSkillCalc.lua::GrowLancerObsidian returns Strength/20 and 240.
+// Recipient, refresh/stack behavior and native duration units still require
+// authoritative handler evidence; this is only the Lua numeric output.
+constexpr ObsidianRegularFormulaResult ApplyObsidianRegularFormula(double strength)
+{
+    return { strength / 20.0, 240.0 };
+}
+
+// Hash-pinned S21 Data\Skills\RegularSkillCalc.lua SHA-256
+// F735D95E32C70E38AC6E65086E4AA21CDE1CD1A1C6E4B6549D124E502F9D3847.
+// Native hitIndex is zero-based: Spin returns strike/explosion, while Harsh
+// and Magic Lua BarrageCount are 1/2 and 1/2/3. Invalid indices return Lua's
+// zero/default rather than accidentally repeating the final damage branch.
+// This numeric helper does not authorize targets, packet emission or rounding.
 inline double ApplyRegularDamageFormula(int id, int hitIndex, double inDamage,
     int strength, int dexterity, double strengthTreeBonus,
     double dexterityTreeBonus)
@@ -240,13 +273,16 @@ inline double ApplyRegularDamageFormula(int id, int hitIndex, double inDamage,
     switch (id)
     {
     case kSpinStep:
+        if (hitIndex < 0 || hitIndex > 1) return 0.0;
         return (inDamage * (hitIndex == 0 ? 1.1 : 0.7)) *
             (dexterity / 10.0 + 97.0 + dexterityTreeBonus) / 100.0;
     case kHarshStrike:
+        if (hitIndex < 0 || hitIndex > 1) return 0.0;
         return (inDamage * (hitIndex == 0 ? 1.0 : 1.1)) *
             (strength / 10.0 + 97.0 + strengthTreeBonus) / 100.0;
     case kMagicPin:
     {
+        if (hitIndex < 0 || hitIndex > 2) return 0.0;
         const double multiplier = hitIndex <= 0 ? 0.8 :
             (hitIndex == 1 ? 1.0 : 1.1);
         return (inDamage * multiplier) *

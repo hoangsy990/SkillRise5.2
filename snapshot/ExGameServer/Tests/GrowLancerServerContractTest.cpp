@@ -77,6 +77,20 @@ int main()
         "Harsh Strike second formula");
     RequireNear(gl::ApplyRegularDamageFormula(274, 2, 80.0, 0, 200, 0, 0), 102.96,
         "Magic Pin third formula");
+    RequireNear(gl::ApplyRegularDamageFormula(271, -1, 100.0, 0, 150, 0, 0), 0.0,
+        "Spin Step has no negative indexed Lua output");
+    RequireNear(gl::ApplyRegularDamageFormula(271, 2, 100.0, 0, 150, 0, 0), 0.0,
+        "Spin Step Lua returns exactly two damage outputs");
+    RequireNear(gl::ApplyRegularDamageFormula(276, 2, 100.0, 150, 0, 0, 0), 0.0,
+        "Harsh Strike Lua default barrage damage is zero");
+    RequireNear(gl::ApplyRegularDamageFormula(274, -1, 80.0, 0, 200, 0, 0), 0.0,
+        "Magic Pin has no negative barrage damage");
+    RequireNear(gl::ApplyRegularDamageFormula(274, 3, 80.0, 0, 200, 0, 0), 0.0,
+        "Magic Pin Lua default barrage damage is zero");
+    RequireNear(gl::ApplyObsidianRegularFormula(111.0).skillEffect, 5.55,
+        "Obsidian Strength/20 retains Lua fractional result");
+    RequireNear(gl::ApplyObsidianRegularFormula(111.0).skillTime, 240.0,
+        "Obsidian Lua returns fixed 240 before native duration-unit bridge");
     RequireNear(gl::ApplyRegularDamageFormula(279, 0, 230.0, 300, 0, 0, 0), 146.05,
         "Breche formula");
     RequireNear(gl::ApplyRegularDamageFormula(277, 0, 50.0, 600, 0, 0, 0), 33.8666666666667,

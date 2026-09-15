@@ -21,8 +21,9 @@ try {
     $docsAndTools = @(& rg --files 'GrowLancer' 'tools\grow_lancer' @($allowed | ForEach-Object { '-g'; $_ }))
     $clientPackage = @(& rg --files 'ExMain_RISE_PC\Main5.2_RISE\RISE' -g 'GrowLancer*.cpp' -g 'GrowLancer*.h')
     $serverPackage = @(& rg --files 'ExGameServer' -g '*GrowLancer*.cpp' -g '*GrowLancer*.h')
+    $sharedPackage = @(& rg --files 'Shared' -g 'GrowLancer*.h')
     if ($LASTEXITCODE -gt 1) { throw 'Scoped rg file discovery failed' }
-    $files += $docsAndTools + $clientPackage + $serverPackage
+    $files += $docsAndTools + $clientPackage + $serverPackage + $sharedPackage
 } finally { Pop-Location }
 $files = @($files | Where-Object { $_ -and $_ -notmatch '(^|[\\/])__pycache__([\\/]|$)' } |
     Sort-Object -Unique)
@@ -74,4 +75,4 @@ foreach ($relative in $files) {
     }
 }
 Write-Output "PASS: scoped Grow Lancer files=$($files.Count) different=$changed bytes=$bytes applied=$([int][bool]$Apply)"
-Write-Output 'Scope: state, descriptor/docs, GrowLancer-named native code and tests/tools; no Data, EXE, dump, equipment or quest files'
+Write-Output 'Scope: state, descriptor/docs, GrowLancer-named client/server/shared code and tests/tools; no Data, EXE, dump, equipment or quest files'

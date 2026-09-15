@@ -9,7 +9,7 @@ native = (root / 'ExMain_RISE_PC/Main5.2_RISE/ZzzBMD.cpp').read_text()
 begin = qa.split('unsigned BeginMagicPinFootSamplesQA(', 1)[1].split(
     'void EndMagicPinFootSamplesQA(', 1)[0]
 end = qa.split('void EndMagicPinFootSamplesQA(', 1)[1].split(
-    'void ResetBrecheCasterRenderQA(', 1)[0]
+    'unsigned BeginSpinCrossSamplesQA(', 1)[0]
 assert begin.index('RISE_GL_MAGIC_RASTER_QA') < begin.index('glGenQueries')
 assert begin.index('GMMeshShader->FlushAllMesh();') < begin.index('glBeginQuery(')
 assert end.index('GMMeshShader->FlushAllMesh();') < end.index('glEndQuery(')

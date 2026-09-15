@@ -1,5 +1,66 @@
 # Magic Pin (skill 274) reverse evidence
 
+## Hidden flat-terrain depth control — 2026-09-15
+
+To test the specific "whole foot model is below caster-ground depth" idea,
+QA-only `RISE_GL_MAGIC_TERRAIN_DEPTH_QA=1` now runs both source Magic01 and
+Root through real `Calc_RenderObject(false)`, BMD shader mesh and GL depth
+test at source scale0.7 on a private hidden WGL surface. At each Z angle
+0/90/180/270 it compares no-plane versus a **synthetic flat depth-only**
+Z=0 quad. A pre-model read at pixel(128,64) verifies the control actually
+writes ground depth: no-plane depth1.0; plane depth0.554251. Pixel(128,128)
+is above the flat-plane screen coverage and remains depth1.0, so it is not
+used as an occlusion guard. Candidate Engine SHA
+`89C8B7A3A7E0AA2D4A9F9B180E63DFDB9BF03E86873FE7342E4586F41A6207D2`
+has an exact prior staged `0E9A1307...` rollback, and the previous
+`D36870D5...` and `046D6001...` private rollbacks also remain. PID3596
+exit0 reports 16 opened/VAO-ready draws, GL0, stable release and positive
+Magic01/Root fragments with and without the plane; the Magic01 plane does
+reduce samples at 90° (6982→6283), showing an actual depth interaction.
+`verify_magic_terrain_depth_fixture.py --pid 3596` and stage verifier PASS.
+Hidden Calc Magic PID2436 and Spin pose PID2256 regressions exit0/PASS;
+nonQA x86 link exit0. Initial no-readback PID5092 had ambiguous sample
+ratios, so its plane-occlusion interpretation is superseded by the
+depth-readback guard.
+
+The entire Magic foot geometry is **not** hidden by a flat plane at its
+fixture origin/oblique camera. This is a bounded negative diagnostic,
+not proof against real 5.2 terrain unevenness, gameplay BodyOrigin,
+camera/depth state or owner pixels. Historical PID28160 still skipped
+the exact stage0 creation window; controlled PID36328 reached it yet
+owner saw no triangle. No production timing, model Z, global renderer or
+SS6 terrain behavior was changed from this fixture. Owner visual stays FAIL.
+
+## Native Calc_RenderObject path compared offline — 2026-09-15
+
+The prior bright-mesh fixture called `BMD::Animation(..., Translate=false)`
+directly, whereas gameplay calls `Calc_RenderObject(&effect,false,0,0)`,
+which sets the BMD scale/world origin, calls `Animation(..., Translate=true)`
+and then native `Transform`. To test that difference without a visible QA
+client, the QA-only `RISE_GL_MAGIC_CALC_RENDER_QA=1` path now builds exact
+Magic01/Root model objects (source scale0.7, Alpha1, no owner), runs the real
+`Calc_RenderObject`/native shader queue and source renderer mesh flags/light
+on a private hidden WGL surface. Staged candidate SHA-256
+`046D6001E7722A14A063808C67609F566CFBAD3CEF4C5CE56F72A9B4857CBFEF`
+has an exact isolated previous-Engine rollback SHA `6DE3A1FE...`.
+Hidden PID10200 exited0 with `calcReady=1`, VAO/index ready and samples
+3147/8466/3147/8466 for `magicpin01`, plus 7708 at each four angles for
+`magicpina01_new`, GL0 and stable release. The direct-pose PID24248 and
+Spin merged-player pose PID14184 also exit0 on this staged candidate.
+`verify_magic_native_fixture_draw.py --pid 10200 --mode calc-render`
+and stage verifier PASS. First attempt PID3088 exited1 with zero meshReady
+because the new flag was accidentally omitted from hidden shader initialization;
+the correction is QA-only and PID10200 provides the valid result.
+
+This rules out a wholly non-rasterizing `Calc_RenderObject` transform path
+**under the fixture origin/camera**. It does not prove caster-foot pixels
+during a target-bound cast: actual actor position, frame-gated creation,
+map terrain depth, camera and post-shader screen visibility remain unobserved.
+The older native fixture log field `sourceScale=1` was mislabeled despite
+fixture BodyScale/RequestScale0.7; the PID-bound verifier now preserves that
+legacy row without treating the label as an actor-scale measurement. Owner
+foot triangle FAIL and intermittent stage0 failure remain acceptance OPEN.
+
 ## Native bright-mesh fixture raster — 2026-09-15 (owner foot still FAIL)
 
 Stock `OGL330MODEL::ConvertOldMeshToVaoMesh` rejects the private model-ID

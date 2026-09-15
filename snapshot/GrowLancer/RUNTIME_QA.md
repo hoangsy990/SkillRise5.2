@@ -1,6 +1,6 @@
 # Grow Lancer isolated runtime QA
 
-Current staged private Engine SHA-256 `95736241063643B58F8ECE167A2B9CFBADB6EAB1FCDBE59CBF06F2CBEDC14643`.
+Current staged private Engine SHA-256 `6DE3A1FECF7A868F428A962851084470FA6F0687527CB575210A5F75740218BF`.
 For one Spin target-bound cast, launch the owned local four-stack first and
 then `start_runtime_qa_client.ps1 -Launch -LocalServer -SpinCrossRasterProbe`.
 Select Spin Step (F6 panel), choose one stationary target, cast F7 once, then
@@ -14,7 +14,7 @@ probe ON/OFF if shader flush affects presentation. There is no new paired F7/F9 
 on this candidate; owner visual remains FAIL. Only 127.0.0.1:44412 is allowed.
 
 Current Wrath black-square diagnostic: the private staged QA client
-95736241... supports opt-in `-LocalServer -WrathPixelProbe` only after the
+6DE3A1FE... supports opt-in `-LocalServer -WrathPixelProbe` only after the
 Grow Lancer-only stack is verified/running. Select Wrath, one F7 at fixed
 camera, F11 flush, and capture the actual owner frame. New rows compare
 `wrath-ground` actual/expected `brocken` GL texture, GL_ONE/GL_ONE state,
