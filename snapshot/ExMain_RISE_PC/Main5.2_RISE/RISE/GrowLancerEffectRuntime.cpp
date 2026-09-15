@@ -2534,9 +2534,12 @@ void CreateObsidianRoots(OBJECT& caster)
 {
     if (!PrepareFixedPlayerAction(caster, 290))
         return;
-    caster.CurrentAction = 290;
-    caster.AnimationFrame = 0.0f;
-    caster.PriorAnimationFrame = 0.0f;
+    // S21 10E46D5 -> 1327DE8 -> 1327D72 selects source action191
+    // unless the verified auxiliary predicate selects alternate317. The
+    // common setter preserves outgoing action/frame on a transition and
+    // leaves an identical action alone. Native SetAction(true) maps only
+    // the proven191->290 branch; native317 compatibility remains closed.
+    SetAction(&caster, 290, true);
     CreateEffect(kObsidianRotatingModel, caster.Position, caster.Angle,
         caster.Light, 0, &caster, -1, 0, kObsidianSkill);
     CreateEffect(kObsidianAuraModel, caster.Position, caster.Angle,

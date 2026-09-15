@@ -1,5 +1,29 @@
 # Obsidian (skill 273) Season 21 client reverse
 
+## Primary action transition corrected — 2026-09-15
+
+The isolated port previously assigned `CurrentAction=290` and zeroed both
+current and prior animation frames on every Obsidian root. That contradicts
+the decoded S21 base-273 chain `10E46D5 -> 1327DE8 -> 1327D72`:
+primary action191/conditional alternate317 both use the common setter,
+which returns without changing a repeated action and preserves outgoing
+action/frame on a real transition. The primary191→private290 branch now uses
+native `SetAction(&caster,290,true)` after fixed-speed preparation; no
+unconditional `PriorAnimationFrame` reset remains. The source/runtime check
+`verify_obsidian_action_reset.py` PASS pins the call arguments, complete
+setter writes and native ordering. Existing source alternate predicate and
+renderer verifiers still PASS. QA/nonQA isolated x86 client links exit0;
+new private staged QA SHA-256
+`0E16EA7059B2FEA8DC89DAFE00F43983CABB3269A0666D9C1EADEC87F9B3E437`
+has exact previous `3DEAC1EE...` rollback and full Data verifier PASS.
+Hidden shader GPU test PID24040 exit0 loads/uploads/releases all 18 private
+visible BMD types, including both Obsidian models; Spin pose-depth regression
+PID23896 exit0/103 pixels/GL0/releaseStable1. These are compilation/asset
+and unrelated-render regression evidence, **not** Obsidian cast/party buff
+or owner hand-lightning PASS. Conditional source317 still lacks a verified
+native auxiliary-state/clip contract and remains explicitly OPEN; the fix
+does not silently alias it to290.
+
 ## Owner S21 hand-lightning observation — 2026-09-15
 
 The owner supplied a native S21 gameplay crop (temporary screenshot SHA-256

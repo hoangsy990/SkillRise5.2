@@ -2,6 +2,26 @@
 
 STATUS: IN_PROCESS
 
+### 2026-09-15 — Obsidian primary action setter corrected, alternate317 still open
+
+- CURRENT PHASE: nine S21 Grow Lancer skills native PC5.2 client/server; equipment/quests1–3 excluded; `IN_PROCESS`.
+- CURRENT TASK: port Obsidian action/hand-lightning with exact S21 chain, preserving distinct conditional action317.
+- CURRENT SUBTASK: remove unconditional native action290/frame reset inconsistent with source setter191 and verify no inferred alternate alias.
+- COMPLETED THIS RUN: decoded/pinned source base273 primary191/conditional317 call through shared 1327DE8→1327D72 retaining prior action/frame. Replaced direct `CurrentAction=290` and zeroing both frames in isolated `CreateObsidianRoots` with native `SetAction(&caster,290,true)` after proven fixed-speed preparation. New `verify_obsidian_action_reset.py`, existing source alternate/renderer verifiers PASS. QA and nonQA isolated Global Release|Win32 links exit0, normal SHA205F4C2B...; staged QA SHA0E16EA70... with exact prior3DEAC1EE... private rollback and full Data stage verifier PASS. Hidden Spin depth PID23896 and private 18-model shader upload PID24040 exit0/verifiers PASS. No visible client/GS/VPS or production/other worktree touched.
+- REVERSE EVIDENCE: S21 call10E46D5 pushes alternate317, primary191; both reach setter1327D72 which returns on identical action, otherwise saves outgoing action/frame and zeroes only new current frame. Source Thunder8 origin remains transformed caster-relative(-10,0,170), not a proven hand bone.
+- CHAIN COVERAGE: Obsidian primary action191→290 transition STATIC/BUILD PASS; conditional317/native auxiliary gate OPEN, Thunder8 native constructor implemented but hand-lightning owner pixels OPEN, party buff GS recipient/duration OPEN.
+- ASSET PROVENANCE: original Obsidian BMD/texture/sound pinned in `OBSIDIAN_REVERSE.md`; current hidden shader PID24040 opens/uploads/releases both native private Obsidian BMDs among18, not gameplay acceptance. No asset changed or production staged.
+- FILES MODIFIED: isolated `ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerEffectRuntime.cpp`, `tools/grow_lancer/verify_obsidian_action_reset.py`, `tools/grow_lancer/verify_runtime_qa_stage.py`, `GrowLancer/OBSIDIAN_REVERSE.md`, `GrowLancer/ACCEPTANCE_GATE_MATRIX.md`, this state. QA Engine/rollback only in task-owned private test paths.
+- LAST STATIC CHECK: Obsidian action selection/reset/renderer and PID23896 Spin-depth/PID24040 18-model shader verifiers exit0; private full Data/hash verifier PASS. These do not prove Obsidian visual or GS cast.
+- LAST BUILD RESULT: QA and nonQA isolated x86 Main.vcxproj links exit0 with known cryptlib LNK4099 missing-PDB only; no GS edit/build/deployment this run.
+- LAST RUNTIME QA: hidden WGL regressions PASS, no new owner gameplay cast by preference; Obsidian hand-lightning/party visuals still OPEN.
+- KNOWN DIFFERENCES: source alternate317 predicate depends on auxiliary record/category64 Muun and temporary suppression; native port currently only proven primary290 and cannot represent317. Direct Thunder8 offset is not confirmed hand-bone attachment.
+- MISSING CHAIN PARTS: native317 condition/clip, actual caster hand-layer pixels, party buff target selection/refresh/duration, class7 learn/cast server authority, S21 same-frame visual and pool/map QA.
+- BLOCKER: owner deferred fresh cast and original S21 protected GS/default-class handler evidence absent; further source/hidden work remains, `IN_PROCESS`.
+- NEXT EXACT ACTION: reverse native auxiliary/Muun state only if it matches source category64/suppression; otherwise continue hand-lightning/Obsidian root render provenance and separate server recipient contract without guessing317. Owner local-only cast later for fixed-camera before/after.
+- NEXT FILE TO OPEN: `GrowLancer/OBSIDIAN_REVERSE.md`, `ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerEffectRuntime.cpp` Obsidian ctor/update and `GrowLancer/CLASS_INTEGRATION_CONTRACT.md`.
+- NEXT FUNCTION TO IMPLEMENT: action317 compatibility adapter only after exact source/native predicate; no nearby-animation substitution.
+
 ### 2026-09-15 — Spin Step native pose ribbon flat-depth fixture corrected
 
 - CURRENT PHASE: nine S21 Grow Lancer skills native PC5.2 client/server; equipment/quests1–3 excluded; `IN_PROCESS`.
