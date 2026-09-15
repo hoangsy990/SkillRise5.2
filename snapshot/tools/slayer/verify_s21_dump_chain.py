@@ -320,6 +320,31 @@ def main() -> int:
        at(0x1BBCB18, 64).split(b"\0", 1)[0] != b"Effect\\bet_grilsshot2gold.jpg":
         raise AssertionError("S21 0x82F9/0x82FA bitmap loader paths drifted")
     print("PASS: S21 0x678 base mesh flag=2; subtype 2/3 red 0x82F9 .6 and subtype 4 gold 0x82FA 1 overlay flag=0x42")
+    # The same registered draw handler transforms the zero vector through
+    # bat bone 7 and creates a sprite only in subtype 1..4. Subtype 3 uses
+    # rand()%20/25 + .2 as a shared RGB light factor.
+    for va, expected in (
+        (0xA51A31, bytes.fromhex("6a30586bc0070500540b0750")),
+        (0xA51A78, bytes.fromhex("68dd7f0000e8885bcd00")),
+        (0xA51C58, bytes.fromhex("68e07f0000e8a859cd00")),
+        (0xA51EC2, bytes.fromhex("68e07f0000e83e57cd00")),
+        (0xA520A8, bytes.fromhex("68787f0000e85855cd00")),
+        (0x18BE506, bytes.fromhex("68dd7f000068989cbb01")),
+        (0x18BE626, bytes.fromhex("68e07f000068989dbb01")),
+        (0x18BE1C6, bytes.fromhex("68787f000068c098bb01")),
+        (0x1B4DF0C, bytes.fromhex("cdcccc3e")),
+        (0x1B4E6E0, bytes.fromhex("9a99993e")),
+        (0x1B4EDE4, bytes.fromhex("0000c841")),
+        (0x1B4DF08, bytes.fromhex("cdcc4c3e")),
+    ):
+        if at(va, len(expected)) != expected:
+            raise AssertionError(f"S21 0x678 bone sprite anchor drifted at {va:#x}")
+    for va, expected in ((0x1BB9C98, b"Effect\\flareBlue.jpg"),
+                         (0x1BB9D98, b"Effect\\flareRed.jpg"),
+                         (0x1BB98C0, b"Effect\\Flare.jpg")):
+        if at(va, 48).split(b"\0", 1)[0] != expected:
+            raise AssertionError(f"S21 0x678 bone sprite texture drifted at {va:#x}")
+    print("PASS: S21 0x678 subtype 1..4 bone-7 sprites 0x7FDD/.4, 0x7FE0/.6/.3, 0x7F78/.6 and subtype-3 light random envelope pinned")
     # Two manager gates still precede the fallback. This table shows the
     # second-manager handlers, not proof that the first never intercepts.
     # The E4 action-init has a bounded actor-Z writer.

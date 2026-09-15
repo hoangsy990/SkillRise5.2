@@ -100,6 +100,10 @@ def main() -> None:
     assert gold.is_file() and sha256(gold) == (
         "9CA43326D7261352C245DA4BE4C0D45272E026C7060D321B966753C5EAD96269"
     ), "S21 Bat subtype-4 gold overlay missing/drifted"
+    flare_red = TARGET / "Data" / "RISE" / "Slayer" / "Effect" / "flareRed.OZJ"
+    assert flare_red.is_file() and sha256(flare_red) == (
+        "FC7B772D1B8685B5B89989838431616D19224E321A1492CC95F9B5369B794A48"
+    ), "S21 Bat subtype-2/3 bone flareRed missing/drifted"
 
     root_data_count = 0
     for source_file in (SOURCE_CLIENT / "Data").iterdir():
@@ -118,6 +122,7 @@ def main() -> None:
     print(f"PASS: complete private Slayer overlay ({slayer_count} files)")
     print("PASS: S21 Master Slayer tree/tooltip/metadata/icon exact hashes")
     print("PASS: S21 Bat subtype-4 0x82FA gold overlay exact hash")
+    print("PASS: S21 Bat subtype-2/3 0x7FE0 bone flareRed exact hash")
     print(f"PASS: complete private base Player tree ({player_count} base files plus Slayer player.bmd)")
     print(f"PASS: complete root Data file set ({root_data_count} files), including login keys")
     print(f"PASS: {len(staged_links)} asset junctions target only frozen Slayer Data")

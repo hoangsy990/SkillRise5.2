@@ -2119,6 +2119,31 @@ bool RenderEffect(OBJECT& effect)
             LogModelRender(effect, model, RENDER_TEXTURE | RENDER_BRIGHT);
 #endif
         }
+        if (effect.SubType >= 1)
+        {
+            // The same registered S21 handler transforms the zero vector
+            // through bat bone 7 after its model pass, then submits a sprite:
+            // 0x7FDD/.4 (mode 1), 0x7FE0/.6 (mode 2), 0x7FE0/.3
+            // (mode 3), or 0x7F78/.6 (mode 4). 5.2's CreateSprite lacks
+            // the native allocator's two trailing presentation arguments;
+            // this is a bounded render adapter, not byte-level API parity.
+            const int spriteTexture = effect.SubType == 1 ?
+                kFlareBlueBitmap : effect.SubType == 4 ?
+                kFlareBitmap : kFlareRedBitmap;
+            if (!Bitmaps.FindTexture(spriteTexture) || model.NumBones <= 7)
+                return false;
+            vec3_t relative, anchor, spriteLight;
+            Vector(0.f, 0.f, 0.f, relative);
+            model.TransformPosition(BoneTransform[7], relative, anchor,
+                false);
+            const float spriteScale = effect.SubType == 1 ? 0.4f :
+                effect.SubType == 3 ? 0.3f : 0.6f;
+            const float intensity = effect.SubType == 3 ?
+                0.2f + (rand() % 20) / 25.f : 1.f;
+            Vector(intensity, intensity, intensity, spriteLight);
+            CreateSprite(spriteTexture, anchor, spriteScale, spriteLight,
+                &effect, 0.f, 0);
+        }
         return true;
     }
     // Registered native handlers 0xA52E26/0xA52FEC/0xA53114 multiply each
@@ -2313,6 +2338,8 @@ void LoadSounds()
         "Data\\RISE\\Slayer\\Effect\\bet_grilsshot2red.jpg", GL_LINEAR, GL_CLAMP);
     RegisterSlayerBitmap(kBetGrilsShot2GoldBitmap,
         "Data\\RISE\\Slayer\\Effect\\bet_grilsshot2gold.jpg", GL_LINEAR, GL_CLAMP);
+    RegisterSlayerBitmap(kFlareRedBitmap,
+        "Data\\RISE\\Slayer\\Effect\\flareRed.jpg", GL_LINEAR, GL_CLAMP);
     RegisterSlayerBitmap(kImpack03Bitmap,
         "Data\\RISE\\Slayer\\Effect\\Impack03.jpg", GL_LINEAR, GL_CLAMP);
     RegisterSlayerBitmap(kPinStarBitmap,

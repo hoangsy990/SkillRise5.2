@@ -847,8 +847,19 @@ whole-body bright pass. The gold OZJ is hash-pinned
 `9CA43326D7261352C245DA4BE4C0D45272E026C7060D321B966753C5EAD96269`
 and staged to the private Slayer overlay; isolated bitmap 33017 is reserved
 before the unnamed allocator. The 5.2 model path now matches these base/
-overlay passes for subtypes 0..4, but the native handler's render-side
-particle branches still need a separate source-to-port audit.
+overlay passes for subtypes 0..4. The same handler transforms the zero vector
+through authored bat bone 7 (`0x132F433`, bone-matrix index `7`) after drawing
+and submits one sprite in each subtype 1..4 through `0x172760A`. Subtype 1
+uses bitmap `0x7FDD` (`Effect\\flareBlue.jpg`) at scale `.4` and white light;
+subtype 2 uses `0x7FE0` (`Effect\\flareRed.jpg`) at `.6` and white light;
+subtype 3 uses the same red bitmap at `.3` with a shared RGB factor
+`rand()%20/25 + .2`; subtype 4 uses `0x7F78` (`Effect\\Flare.jpg`) at `.6`
+and white light. S21 loader paths/IDs and the new `flareRed.OZJ` input SHA-256
+`FC7B772D1B8685B5B89989838431616D19224E321A1492CC95F9B5369B794A48`
+are pinned. The isolated 5.2 renderer now follows bone 7 and sends those
+four sprites to its sprite pool. Native `0x172760A` forwards two extra
+presentation arguments beyond the seven exposed by 5.2 `CreateSprite`;
+the sprite submission is a bounded adapter, not proven full API parity.
 Full basic-block decoding of `0x1887EB0` shows the **fallback** native body
 flag is `2`. This is conditional: `0x1887DDB` first calls special-model
 manager `0x18917BA` and skips the fallback if it returns true; `0x1887E1C`
