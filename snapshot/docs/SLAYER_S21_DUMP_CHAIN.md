@@ -375,8 +375,13 @@ before any world-position mutation is added to the 5.2 port.
 The native `player.bmd` action record for Pierce `0xE4` has seven animation
 keys but its action-level position-track flag is zero; merged action `286`
 preserves both values. The rush/return is therefore not carried as an
-action-record world-position track. Bone-local key motion does not prove an
-actor/world movement path, so the outbound/receive chain is still needed.
+action-record world-position track. The read-only S21 `Bip01` root bone
+positions for those seven keys contain a local-Y excursion from `+0.76`
+to `-18.17` and back to `+0.76` (span `18.92`). The merged 5.2 action `286`
+retains these exact bone bytes, so the authored short visual lunge/return is
+already imported. Bone-local motion does not prove an actor/world XY path
+to the target, so the outbound/receive chain is still needed; adding a
+second speculative local dash would duplicate the imported clip.
 An additional hash-pinned main-image search for `cmp eax,0xE4` found an
 actor-action branch at `0x173F390`: when the owner is playing Pierce action
 `0xE4`, it selects the direct `0x173F3CA` path instead of the following

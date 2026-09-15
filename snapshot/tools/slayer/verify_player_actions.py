@@ -11,6 +11,7 @@ from __future__ import annotations
 import importlib.util
 import hashlib
 import re
+import struct
 import sys
 import zlib
 from pathlib import Path
@@ -78,6 +79,22 @@ def main() -> None:
     assert source.action_records[228][2] == 0
     assert merged.action_records[286][2] == 0
     print("PASS: Pierce action 228/286 keys=7 position-track=absent")
+    # Bone-local translation is separate from the action-level world-position
+    # track. The S21 Bip01 root lunges and returns in this authored clip;
+    # copying it already ports that visual motion, not caster world XY.
+    native_root = source.bone_action_keys[0]
+    imported_root = merged.bone_action_keys[0]
+    assert native_root is not None and imported_root is not None
+    assert native_root[228] == imported_root[286]
+    root_positions = [struct.unpack_from("<3f", native_root[228], key * 12)
+                      for key in range(7)]
+    y_positions = [position[1] for position in root_positions]
+    assert abs(y_positions[0] - y_positions[-1]) < 0.001
+    assert min(y_positions) < -17.0 and max(y_positions) > 0.7
+    assert 18.0 < max(y_positions) - min(y_positions) < 20.0
+    print("PASS: Pierce Bip01 local-Y seven-key lunge/return "
+          f"span={max(y_positions) - min(y_positions):.3f}; "
+          "source/imported bone keys identical, no world-XY claim")
 
 
 if __name__ == "__main__":
