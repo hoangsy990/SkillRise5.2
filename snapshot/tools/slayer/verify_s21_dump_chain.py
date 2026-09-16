@@ -718,6 +718,27 @@ def main() -> int:
             raise AssertionError(f"S21 shared C1:57 call drifted at {call_va:#x}")
     print("PASS: C1:57 is shared by Sword/Pierce/Detection/Demolish, not a Pierce-only position packet")
 
+    # The native inbound head-byte jump table has an actual movement arm.
+    # This establishes a concrete SS21 world-position route but does not
+    # establish that the protected SS21 GS sends it for Pierce rush/return.
+    table_entry = struct.unpack("<I", at(0x130505C + 4 * 0x1E, 4))[0]
+    if table_entry != 0x12FEA84:
+        raise AssertionError("S21 C1:1E dispatcher table entry drifted")
+    movement_bytes = {
+        0x12FEA84: bytes.fromhex("ff7510ff750ce88a99fdff5959e9ab650000"),
+        0x12D8419: bytes.fromhex("558bec83ec288b45088945f48b45f40fb64003c1e0088b4df40fb6490403c1"),
+        0x12D84CB: bytes.fromhex("8b45f40fb640058b4df88981800100008b45f40fb640068b4df8898184010000"),
+        0x12D8599: bytes.fromhex("8b45f88b4df48a490588482d8b45f88b4df48a490688482e"),
+        0x12D86FE: bytes.fromhex("8b45f8ffb0840100008b45f8ffb080010000e87a05050083c41c0fb6"),
+        0x12D877C: bytes.fromhex("8b45f80fb6402d8b4df88981800100008b45f80fb6402e8b4df8898184010000"),
+        0x12D87A7: bytes.fromhex("f30f5905c4deb401f30f5805e0e4b4016a008b4df081c158010000f30f1145dce80258a5fff3"),
+    }
+    for va, expected in movement_bytes.items():
+        if at(va, len(expected)) != expected:
+            raise AssertionError(f"S21 C1:1E movement handler drifted at {va:#x}")
+    print("PASS: S21 head 0x1E dispatches to generic actor movement: key+3/4, target tile+5/6, path search; path-fail recovers OBJ XY from actor tile+2D/2E")
+    print("OPEN: no packet trace ties S21 C1:1E to Pierce rush/return; no guessed 5.2 teleport")
+
     pierce_bytes = {
         0x12A6235: bytes.fromhex("81bd08ebffff26010000"),
         0x12A7A26: bytes.fromhex("688a060000"),

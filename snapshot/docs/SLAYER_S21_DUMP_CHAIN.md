@@ -392,6 +392,22 @@ packet DWORD `+4` into singleton manager `+0x1E4` via `0xBA8389`.
 No caster XY write appears in the direct handler. Thus importing a
 5.2 `C1:15` move assumption as the S21 Pierce rush would be unsupported;
 the actual S21 movement/return route remains OPEN.
+The separate native first-byte dispatch table at `0x130505C` maps head
+`0x1E` to `0x12FEA84`, which directly calls `0x12D8419`. This is a real
+generic actor-movement receiver: `C1` bytes `+3/+4` identify the actor,
+`+5/+6` supply destination tiles, and the handler calls path search
+`0x1328C8F`. For the local hero it writes `CHARACTER+0x180/+0x184`
+destination tiles at `0x12D84CB`; for ordinary actors it copies incoming
+tiles into `CHARACTER+0x2D/+0x2E` at `0x12D8599` before path search.
+If both path-search attempts fail, `0x12D877C..0x12D880A` restores tile
+state from **that actor's already-copied `+0x2D/+0x2E`** and writes
+`OBJECT+0x158` XY at `tile*100 + native offset`. This is an actor-position
+write, but it is path-failure recovery, **not** a demonstrated Pierce
+teleport. The head `0x1E` is incompatible with 5.2's current `0xD4`
+`ReceiveMoveCharacter` route. The protected SS21 GS has not yielded an
+authoritative Pierce-specific rush/return packet trace, so the association
+of this generic receiver with Pierce, its pacing, and the return packet
+remain OPEN. No caster XY mutation is added from this inference.
 The actual Slayer rush/return owner-position chain remains to be traced
 before any world-position mutation is added to the 5.2 port.
 The native `player.bmd` action record for Pierce `0xE4` has seven animation
