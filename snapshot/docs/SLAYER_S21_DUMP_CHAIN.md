@@ -1463,6 +1463,13 @@ isolated Win32 client rebuilt and restaged (SHA-256
 This closes the loader wiring gap, **not** actual avatar or five-skill visual
 acceptance: no unique `admin4` character named `Slayer` exists in the shared
 DB yet, and no shared DB record was changed.
+The legacy `OpenPlayerTextures` loop covers only the original 21 body slots.
+The isolated Slayer build now opens the five body-part textures for the same
+private slots 21..23 used by `OpenPlayers`; otherwise the native Class09 meshes
+remain bound to `BITMAP_UNKNOWN` and render as a solid black actor even though
+their BMD/OZJ files are present. `verify_port_surface.py` pins both halves of
+that model/texture route so a future build cannot silently regress to the
+black-body state.
 The private Class09 body BMDs are **native S21 v0F**, not guessed or v0C
 replacements. The isolated `BMD::Open2` already has a guarded v0F/LEA-256
 reader under `RISE_SLAYER_PORT`; stage validation checks that route, exact

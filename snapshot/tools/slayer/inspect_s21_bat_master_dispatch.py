@@ -48,9 +48,23 @@ def main() -> None:
                     raise AssertionError("S21 781 cmp-site inventory drifted")
                 if skill == 782 and sites:
                     raise AssertionError("S21 782 immediate CMP inventory drifted")
+                short_sites: list[int] = []
+                short_needle = struct.pack("<H", skill)
+                short_index = image.find(short_needle)
+                while short_index >= 0:
+                    # 66 3D = cmp ax, imm16; 66 81 /7 = cmp r/m16, imm16.
+                    if (short_index > 2 and image[short_index - 2:short_index] == b"\x66\x3d") or (
+                        short_index > 3 and image[short_index - 3] == 0x66 and
+                        image[short_index - 2] == 0x81 and
+                        image[short_index - 1] & 0x38 == 0x38
+                    ):
+                        short_sites.append(BASE + short_index)
+                    short_index = image.find(short_needle, short_index + 1)
+                print(f"skill={skill} likely_imm16_cmp_sites={len(short_sites)}")
+                print("16-bit cmp addresses:", [hex(site) for site in short_sites[:80]])
             print("NOTE: the three 781 CMP sites compare OBJECT model Type +0x146, "
-                  "not MagicNumber/skill; no 781/782 cast dispatcher is proved "
-                  "by this imm32 search")
+                  "not MagicNumber/skill; CMP inventories alone do not prove "
+                  "an upgraded 781/782 cast dispatcher")
         finally:
             image.close()
 
