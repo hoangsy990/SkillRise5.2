@@ -2086,6 +2086,12 @@ bool RenderEffect(OBJECT& effect)
     // intentionally has no triangles in the supplied S21 asset.
     if (model.NumMeshs == 0)
         return true;
+    // Native registered model handlers 0xA52E26 (0x688) and 0xA52FEC
+    // (0x691) return handled without submitting a mesh for nonzero subtypes.
+    // 0x694 has a separate native subtype-1 draw at 0xA53247.
+    if ((effect.Type == kBatFlockTrailModel ||
+            effect.Type == kDetectionMarkModel) && effect.SubType != 0)
+        return true;
     if (effect.Type == kBatFlockModel)
     {
         // S21 registered handler 0xA517D5 draws the authored one-mesh bat

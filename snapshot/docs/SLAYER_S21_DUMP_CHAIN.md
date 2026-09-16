@@ -900,7 +900,16 @@ tests bit `0x40` for bright and bit `0x80` for dark; the latter calls
 `0x18E71C3`, which sets `GL_ZERO/GL_ONE_MINUS_SRC_COLOR`. The `0x694` handler
 does this in both subtypes. The first manager may still intercept a given
 instance; these registered paths nevertheless disprove the prior inference
-that these models use the ordinary flag-2 pass. The native alpha
+that these models use the ordinary flag-2 pass. The
+registered `0x688` handler at `0xA52E35..0xA52E3B` and `0x691`
+handler at `0xA52FFB..0xA53001` submit their dark mesh only when
+`OBJECT+0x60` subtype is zero; other subtypes return handled without a
+model draw. The earlier 5.2 adapter drew both models unconditionally.
+The isolated adapter now applies this native subtype gate before `RenderBody`.
+`0x694` is different: it explicitly draws subtypes zero and one at
+`0xA53123..0xA5312D`. This removes a source-proven extra dark submission,
+but does not prove the remaining screenshot black pixels match S21 ingame.
+The native alpha
 allocator at `0x143E759..0x143E797` sets HiddenMesh/BlendMesh to `-1`,
 blend-light to `1`, and both blend-UV offsets to `0`. The ordinary draw
 call at `0x1887E5E..0x1887EBA` forwards those fields plus `OBJECT+0xDC`

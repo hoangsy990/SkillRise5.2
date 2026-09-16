@@ -887,6 +887,8 @@ def main() -> int:
             "S21 0x694 registered dark draw light attenuation")
     require(resources, "VectorScale(effect.Light, effect.Alpha, model.BodyLight);",
             "native 0x688/0x691/0x694 multiply model RGB light by object alpha")
+    require(resources, "effect.Type == kDetectionMarkModel) && effect.SubType != 0)\n        return true;",
+            "native 0x688/0x691 nonzero subtype is handled without dark mesh draw")
     require(resources, "const int quarterTicks = static_cast<int>(initialLife) / 4;",
             "S21 0x691 mark fade uses integer quarter-window ticks")
     if resources.count("const int thirdTicks = static_cast<int>(initialLife) / 3;") != 2:

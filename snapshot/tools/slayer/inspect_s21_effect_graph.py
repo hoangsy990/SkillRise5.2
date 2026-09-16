@@ -87,6 +87,8 @@ def main() -> int:
                         help="locate direct rel32 calls to an absolute VA")
     parser.add_argument("--xref-action-compare", type=lambda value: int(value, 0),
                         help="find decoded native x86 compares against an action id")
+    parser.add_argument("--xref-byte-compare", type=lambda value: int(value, 0),
+                        help="find candidate native x86 CMP r/m8-or-r/m32,imm8 sites")
     parser.add_argument("--address", type=lambda value: int(value, 0),
                         help="decode an arbitrary virtual address")
     args = parser.parse_args()
@@ -205,6 +207,35 @@ def main() -> int:
         print(f"action={args.xref_action_compare:#x} decoded-cmp-sites={len(sites)}")
         for site, instruction in sorted(sites.items()):
             print(f"{site:#x} {instruction}")
+        return 0
+    if args.xref_byte_compare is not None:
+        if not 0 <= args.xref_byte_compare <= 0x7f:
+            raise ValueError("byte compare target must be 0..127")
+        start_offset = 0x00D00000 - IMAGE_BASE
+        end_offset = 0x01800000 - IMAGE_BASE
+        decoder = Cs(CS_ARCH_X86, CS_MODE_32)
+        decoder.detail = True
+        sites = {}
+        for opcode in (0x80, 0x83):
+            cursor = data.find(bytes((opcode,)), start_offset, end_offset)
+            while cursor >= 0:
+                # Group 1 /7 is CMP. Decode the full operand/addressing mode
+                # before accepting the final immediate byte; raw hits can
+                # still start inside another instruction and are only leads.
+                if cursor + 12 < end_offset and data[cursor + 1] & 0x38 == 0x38:
+                    instructions = list(decoder.disasm(
+                        data[cursor:cursor + 12], cursor + IMAGE_BASE, count=1))
+                    if instructions:
+                        instruction = instructions[0]
+                        if (instruction.mnemonic == "cmp" and
+                            instruction.operands[-1].type == X86_OP_IMM and
+                            instruction.operands[-1].imm == args.xref_byte_compare and
+                            data[cursor + instruction.size - 1] == args.xref_byte_compare):
+                            sites[instruction.address] = instruction.op_str
+                cursor = data.find(bytes((opcode,)), cursor + 1, end_offset)
+        print(f"byte={args.xref_byte_compare:#x} candidate-cmp-sites={len(sites)}")
+        for site, operands in sorted(sites.items())[:512 if args.full else 128]:
+            print(f"{site:#x} cmp {operands}")
         return 0
     if args.address is not None:
         for instruction in decode(data, args.address, args.address + args.size):
