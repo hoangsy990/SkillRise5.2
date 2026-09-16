@@ -146,6 +146,16 @@ inline int BatFlockDotDamage(int energy)
         (result <= 0.0 ? 0 : static_cast<int>(result));
 }
 
+inline int BatFlockDotDurationSeconds(int skillId)
+{
+    // S21 SkillSettings.ini owns the five-second base DOT. The 782 tooltip
+    // says that its fixed ten-point mastery extends that DOT, and the retail
+    // value is +10 seconds. Keep the duration keyed by the raw replacement
+    // skill ID: 5.2 replaces 293 -> 781 -> 782 in the active skill slot.
+    // SkillList Damage=23 is attack metadata and is not a duration value.
+    return skillId == kBatFlockMastery ? 15 : 5;
+}
+
 inline int DemolishDurationSeconds()
 {
     // MasterSkillCalc_3rd.lua: SkillTime=60 for Slayer Demolish.

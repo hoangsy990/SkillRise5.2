@@ -172,7 +172,11 @@ class/stats and the 781/10 parent. A private 58-node class-512 tree and UI
 are now mounted, and a class-scoped learning adapter derives 781/782
 slot/group/rank/points/parents/replacement from that S21 overlay. The older
 claim that the UI and learning rows were absent is superseded. This remains
-unaccepted ingame, with mastery point-value/DOT-duration curves unresolved.
+unaccepted ingame. The fixed Bat Flock Mastery node is separated from the
+unresolved general mastery curves: raw casts 293/781 retain the S21
+`BatFlockDotDamageTime = 5`, while fixed ten-point replacement 782 applies
+the retail +10-second extension (15 seconds total). SkillList `Damage=23`
+remains attack metadata and is not reused as seconds.
 The S21 `SkillList.xml` rows 781/782 (SHA-256
 `3E238C786ECAB3445A0DB4756FE3D2A3923FBC0594506BB9C3FF206020A7E0A0`)
 show both Bat mastery nodes as **castable** stage-3 Slayer skills, with

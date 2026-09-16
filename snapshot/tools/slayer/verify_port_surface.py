@@ -275,12 +275,20 @@ def main() -> int:
             "Sword/Bat/Pierce damage uses the fractional S21 rate")
     require(server_overlay, "inline int BatFlockDotDamage(int energy)",
             "S21 Bat Flock has a distinct Energy-based DOT formula")
+    require(server_overlay, "inline int BatFlockDotDurationSeconds(int skillId)",
+            "S21 Bat Flock base/mastery DOT duration selector")
+    require(server_overlay, "skillId == kBatFlockMastery ? 15 : 5",
+            "S21 Bat Flock mastery 782 adds ten seconds to base five")
     require(server_overlay, "((stat - 800.0) * (stat - 500.0) / 200.0)",
             "S21 FormulaData Character 9 offset terms")
     require(server_overlay, "const double result = formula9 / 100.0;",
             "S21 Lua Bat Flock player/monster DOT result")
     require(server, "rise::slayerserver::BatFlockDotDamage(\n",
             "GS Bat Flock DOT uses S21 distinct calculator")
+    require(server, "rise::slayerserver::BatFlockDotDurationSeconds(\n",
+            "GS Bat Flock DOT uses raw replacement-skill duration")
+    if re.search(r"EFFECT_SLAYER_BAT_FLOCK,\s*5,", server):
+        raise AssertionError("Bat Flock DOT duration regressed to fixed base five seconds")
     require(server, "classStage < seed->classRequirement",
             "GS Slayer DB class stage requirement")
     require(server, "rise::slayer::MeetsStats(index, lpObj->Level,",

@@ -5118,6 +5118,8 @@ bool CSkillManager::SkillSlayerBatFlock(int aIndex, int bIndex,
 
 	const int dotDamage = rise::slayerserver::BatFlockDotDamage(
 		caster->Energy + caster->AddEnergy);
+	const int dotDuration = rise::slayerserver::BatFlockDotDurationSeconds(
+		lpSkill->m_index);
 	int affected[rise::slayer::kBatFanoutMaxTargets] = {};
 	int affectedCount = 0;
 	for (int n = 0; n < candidateCount; ++n)
@@ -5136,7 +5138,8 @@ bool CSkillManager::SkillSlayerBatFlock(int aIndex, int bIndex,
 		// so repeat it for the second S21 half-strike on this same target.
 		this->BasicSkillAttack(aIndex, index, lpSkill, false);
 		gEffectManager.AddEffect(&gObj[index], 0, EFFECT_SLAYER_BAT_FLOCK,
-			5, aIndex, 1, SET_NUMBERHW(dotDamage), SET_NUMBERLW(dotDamage));
+			dotDuration, aIndex, 1, SET_NUMBERHW(dotDamage),
+			SET_NUMBERLW(dotDamage));
 		affected[affectedCount++] = index;
 	}
 	if (affectedCount == 0)
