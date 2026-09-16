@@ -859,6 +859,30 @@ Unlike `0x689` lane children, the `0x679` flank creation windows at
 `0x67A/0x67C` children. The 5.2 root keeps actor scale on these flank
 models while using effect scale only for `0x689` lane models.
 
+The former 5.2 reconstruction stopped at those three flank roots and replaced
+their descendants with immediate placeholder sprites. Full case decoding now
+continues through `0x67A..0x680`. Native `0x67A` validates both its `0x679`
+owner and the actor above it, keeps alpha one before frame 6, then uses
+`1-frame/7`; it emits one `0x67B` at frame 1 with scale `.7` and the `0x679`
+owner. A second call site is only an early-animation fallback, not a second
+simultaneous projectile. Native `0x67B` is a 50-unit outbound/return state
+machine: it tracks launch and owner distance, reverses after its target-radius
+threshold, holds lifetime while returning, emits `0x8021` (`Impack03`) and
+`0x8108` (`pin_star`) particles, and creates a fading `0x680` child each
+frame. Loader pointers `0x1BB941C` and `0x1BBC45C` pin those filenames in the
+mapped image. `0x67C` emits `0x67D/0x67E` once and is destroyed immediately;
+the children interpolate toward the endpoint carried by their parent.
+`0x67E` uses signed `[-30,30]` X/Y and `[-15,15]+20` Z offsets and emits
+bitmap `0x80F0` (`pin_star`) subtype 4 with light `(.6,.6,.6)`. `0x680`
+raises Z by 20 and fades linearly. The isolated implementation now preserves
+these timing, owner, motion, texture, and cleanup rules instead of the old
+stationary `Impack03/pin_star` sprites and incorrect `jujug_R` particle.
+
+Because the 5.2 Slayer hook returns before the legacy `MoveEffect` switch, it
+also advances `0x679`'s own animation frame explicitly by its recovered E0
+PlaySpeed. Without that adapter, the decoded frame-4/frame-7 branches were
+present in source but unreachable at runtime.
+
 Bat child `0x685` has a 60-tick initializer with scale `40..50` and signed
 rotation step `-15..15`. Its update rotates for three ticks in each direction,
 advances by `scale/3`, and emits exactly three sequential `0x82E8`

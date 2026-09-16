@@ -553,12 +553,55 @@ def main() -> int:
             "0x679 stale owner destruction")
     require(pierce_root_update, "VectorCopy(effect.StartPosition, effect.Position);",
             "0x679 saved launch-position restore")
+    require(pierce_root_update,
+            "effect.AnimationFrame += effect.Velocity * animationFactor;",
+            "0x679 isolated dispatcher advances the native effect frame")
     require(pierce_root_update, "effect.AnimationFrame >= 4.f",
             "0x679 center root-frame gate")
     require(pierce_root_update, "effect.AnimationFrame >= 7.f",
             "0x679 mirrored flank root-frame gate")
     if "owner->AnimationFrame >=" in pierce_root_update:
         raise AssertionError("0x679 incorrectly gated on owner animation")
+    pierce_67a = resources.split("case kPierce67AController:", 2)[2].split(
+        "case kPierce67BController:", 1)[0]
+    require(pierce_67a, "!owner->Owner->Live",
+            "0x67A two-level owner liveness gate")
+    require(pierce_67a, "effect.AnimationFrame >= 6.f",
+            "0x67A native frame-six alpha gate")
+    require(pierce_67a, "effect.AnimationFrame / 7.f",
+            "0x67A native seven-frame fade denominator")
+    require(pierce_67a, "effect.AnimationFrame >= 1.f",
+            "0x67A native child launch frame")
+    require(pierce_67a,
+            "SpawnChild(kPierce67BController, launch, owner, 0, 0.7f);",
+            "0x67A one 0x67B child with native owner and scale")
+    if pierce_67a.count("SpawnChild(kPierce67BController") != 2:
+        raise AssertionError("0x67A must contain one normal and one early-end fallback launch")
+    pierce_67b = resources.split("case kPierce67BController:", 2)[2].split(
+        "case kPierce67CController:", 1)[0]
+    require(pierce_67b, "effect.Velocity *",
+            "0x67B native velocity-driven flight")
+    require(pierce_67b, "VectorDistance3(effect.Position, effect.StartPosition)",
+            "0x67B outbound distance state")
+    require(pierce_67b, "VectorDistance3(effect.Position, owner->Position)",
+            "0x67B return distance state")
+    require(pierce_67b, "CreateParticle(kImpack03Bitmap",
+            "0x67B native 0x8021 particle route")
+    require(pierce_67b, "CreateParticle(kPinStarBitmap",
+            "0x67B native 0x8108 particle route")
+    require(pierce_67b, "SpawnChild(kPierce680Controller",
+            "0x67B per-frame 0x680 child")
+    require(pierce_67b, "effect.LifeTime += animationFactor;",
+            "0x67B lifetime hold until return completion")
+    pierce_67e = resources.split("case kPierce67EController:", 2)[2].split(
+        "case kSword68CController:", 1)[0]
+    require(pierce_67e, "NativeRandomUnitStep(-30, 30)",
+            "0x67E native signed XY particle spread")
+    require(pierce_67e, "NativeRandomUnitStep(-15, 15) + 20.f",
+            "0x67E native raised Z spread")
+    require(pierce_67e,
+            "CreateParticle(kPinStarBitmap, position, angle, light, 4, 1.f",
+            "0x67E native 0x80F0 subtype-four particle")
     buff_update = resources[resources.index("case kDetectionController:",
         resources.index("void UpdateEffect")):].split("default:", 1)[0]
     require(buff_update, "VectorCopy(effect.StartPosition, effect.Position);",

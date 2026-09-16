@@ -174,15 +174,17 @@ float InitialLife(const OBJECT& effect)
     }
 }
 
-void SpawnChild(int type, const OBJECT& source, OBJECT* owner, int subtype,
+OBJECT* SpawnChild(int type, const OBJECT& source, OBJECT* owner, int subtype,
     float scale)
 {
     vec3_t position, angle, light;
+    OBJECT* child = 0;
     VectorCopy(source.Position, position);
     VectorCopy(source.Angle, angle);
     VectorCopy(source.Light, light);
     CreateEffect(type, position, angle, light, subtype, owner, -1,
-        source.Skill, 0, 0, scale, source.m_sTargetIndex);
+        source.Skill, 0, 0, scale, source.m_sTargetIndex, &child);
+    return child;
 }
 
 void SpawnBitmapChild(int type, const OBJECT& source, OBJECT* owner,
@@ -249,6 +251,24 @@ bool AdvanceSword68BTargetAnimation(OBJECT& effect, OBJECT* target)
     const unsigned short savedAction = model.CurrentAction;
     model.CurrentAction = static_cast<unsigned short>(effect.CurrentAction);
     const float speed = model.Actions[model.CurrentAction].PlaySpeed;
+    const bool playing = model.PlayAnimation(&effect.AnimationFrame,
+        &effect.PriorAnimationFrame, &effect.PriorAction, speed,
+        effect.Position, effect.Angle);
+    model.CurrentAction = savedAction;
+    return playing;
+}
+
+bool AdvanceTargetAnimation(OBJECT& effect, OBJECT* target, float speed)
+{
+    if (!target || !Models || target->Type < 0 ||
+        target->Type >= MAX_MODELS || speed <= 0.f)
+        return false;
+    BMD& model = Models[target->Type];
+    if (model.NumActions <= 0 || !model.Actions ||
+        effect.CurrentAction >= model.NumActions)
+        return false;
+    const unsigned short savedAction = model.CurrentAction;
+    model.CurrentAction = effect.CurrentAction;
     const bool playing = model.PlayAnimation(&effect.AnimationFrame,
         &effect.PriorAnimationFrame, &effect.PriorAction, speed,
         effect.Position, effect.Angle);
@@ -837,6 +857,61 @@ void InitializeEffect(OBJECT& effect, float incomingScale)
             ApplyPlayerActionSpeeds(CharacterAttribute->AttackSpeed);
         effect.Velocity = Models[MODEL_PLAYER].Actions[
             kSwordInertiaAction].PlaySpeed;
+        break;
+    case kPierce67BController:
+        // Native 0x148EEC7: ten-tick projectile, subtype/state 1,
+        // 50-unit velocity, launch origin snapshot and randomized
+        // 90-degree pitch / 0..180 roll.  The updater keeps the object
+        // alive until its outbound/return state machine finishes.
+        effect.SubType = 1;
+        effect.Velocity = 50.f;
+        VectorCopy(effect.Position, effect.StartPosition);
+        effect.Angle[1] = 90.f;
+        effect.Angle[2] = NativeRandomUnitStep(0, 180);
+        DirectionFromAngle(effect);
+        // Native falls back to 600 when the target BMD collision radius
+        // cannot be resolved.  Keep that conservative bound in 5.2.
+        effect.Distance = ResolveTarget(effect.m_sTargetIndex) ? 100.f :
+            600.f;
+        break;
+    case kPierce67DController:
+        // Native subtype-zero branch 0x148F11B: three travel steps,
+        // alpha .3 and a normalized endpoint vector advanced by 50 before
+        // the remaining distance is divided across four updates.
+        effect.SubType = 3;
+        effect.Alpha = 0.3f;
+        if (effect.Owner)
+            VectorCopy(effect.Owner->Direction, effect.StartPosition);
+        VectorSubtract(effect.StartPosition, effect.Position,
+            effect.Direction);
+        VectorNormalize(effect.Direction);
+        effect.Position[0] += effect.Direction[0] * 50.f;
+        effect.Position[1] += effect.Direction[1] * 50.f;
+        effect.Position[2] += effect.Direction[2] * 50.f;
+        {
+            vec3_t stop;
+            stop[0] = effect.StartPosition[0] - effect.Direction[0] * 50.f;
+            stop[1] = effect.StartPosition[1] - effect.Direction[1] * 50.f;
+            stop[2] = effect.StartPosition[2] - effect.Direction[2] * 50.f;
+            effect.Distance = VectorDistance3(effect.Position, stop);
+        }
+        break;
+    case kPierce67EController:
+        // Native 0x148FBBD uses ten interpolation steps toward the same
+        // endpoint carried by its 0x67C owner.
+        effect.SubType = 10;
+        if (effect.Owner)
+            VectorCopy(effect.Owner->Direction, effect.StartPosition);
+        VectorSubtract(effect.StartPosition, effect.Position,
+            effect.Direction);
+        VectorNormalize(effect.Direction);
+        effect.Distance = VectorDistance3(effect.Position,
+            effect.StartPosition);
+        break;
+    case kPierce680Controller:
+        // Native subtype zero starts fully opaque; +Z and alpha are updated
+        // by the dedicated 0x154369F case.
+        effect.Alpha = 1.f;
         break;
     case kPierceSwordLineModel:
     {
@@ -1453,12 +1528,19 @@ void UpdateEffect(OBJECT& effect, float animationFactor)
                 SpawnChild(kSword68FController, effect, &effect, 1, 1.f);
                 SpawnChild(kSword690Controller, effect, &effect, 0, 1.f);
                 effect.Timer = 1.f;
+                // Native 0x1547BA4 destroys 0x68E immediately after the
+                // three children have been allocated.
+                effect.LifeTime = 0.f;
             }
             break;
         case kSword68FController:
             AdvanceSwordFlight(effect, animationFactor);
             effect.Alpha = initialLife > 0.f ?
                 (effect.LifeTime / initialLife) * 0.5f : 0.f;
+            // 0x1547DCD..0x1547DFD runs the same target-model animation
+            // helper as 0x68B and deletes the projectile when it ends.
+            if (!AdvanceSword68BTargetAnimation(effect, target))
+                effect.LifeTime = 0.f;
             break;
         case kSword690Controller:
         {
@@ -1610,6 +1692,11 @@ void UpdateEffect(OBJECT& effect, float animationFactor)
             // own saved vector. 0x15411DF reads the root animation frame
             // (+0xD0), not the owning player's frame.
             VectorCopy(effect.StartPosition, effect.Position);
+            // S21's secondary pool advances the controller frame before
+            // dispatching 0x679.  The isolated 5.2 route bypasses that
+            // common dispatcher, so advance it here with the recovered
+            // action speed; otherwise the frame-4/frame-7 graph never runs.
+            effect.AnimationFrame += effect.Velocity * animationFactor;
             // 0x15411E2 compares that effect frame against exactly 4.0.
             // At that frame the center 0x67B/0x681 pair and the +90-degree
             // 0x67A/0x67C/0x681 group are both created.
@@ -1620,6 +1707,11 @@ void UpdateEffect(OBJECT& effect, float animationFactor)
                 SpawnChild(kPierceSwordLineModel, effect, owner, 0, 1.f);
                 OBJECT flank = effect;
                 OffsetByYaw(flank, 90.f, 200.f, 0.f);
+                // Native writes a second world endpoint into the created
+                // 0x67C record. Its 0x67D/0x67E children interpolate toward
+                // this point rather than staying at the root position.
+                VectorCopy(flank.Position, flank.Direction);
+                OffsetByYaw(flank, 0.f, 200.f, 0.f);
                 const int subtype = rand() & 1;
                 SpawnChild(kPierce67AController, flank, &effect, subtype,
                     owner->Scale);
@@ -1638,6 +1730,8 @@ void UpdateEffect(OBJECT& effect, float animationFactor)
             {
                 OBJECT flank = effect;
                 OffsetByYaw(flank, -90.f, 200.f, 0.f);
+                VectorCopy(flank.Position, flank.Direction);
+                OffsetByYaw(flank, 0.f, 200.f, 0.f);
                 const int subtype = rand() & 1;
                 SpawnChild(kPierce67AController, flank, &effect, subtype,
                     owner->Scale);
@@ -1650,39 +1744,197 @@ void UpdateEffect(OBJECT& effect, float animationFactor)
             }
             break;
         case kPierce67AController:
-            if (effect.Timer < 1.f)
+            // Native 0x1541E69 owns the 0x67B launch only while both the
+            // 0x679 root and its actor owner are live.
+            if (!owner || !owner->Live || !owner->Owner ||
+                !owner->Owner->Live)
             {
-                SpawnChild(kPierce67BController, effect, &effect, 0, 1.f);
-                SpawnChild(kPierce67BController, effect, &effect, 1, 1.f);
-                effect.Timer = 1.f;
+                effect.LifeTime = 0.f;
+                break;
+            }
+            effect.Alpha = effect.AnimationFrame >= 6.f ?
+                Clamp01(1.f - effect.AnimationFrame / 7.f) : 1.f;
+            if (effect.AnimationFrame >= 1.f && effect.CurrentAction == 0)
+            {
+                OBJECT launch = effect;
+                launch.Position[2] += 100.f;
+                SpawnChild(kPierce67BController, launch, owner, 0, 0.7f);
+                effect.CurrentAction = 1;
+            }
+            if (!AdvanceSword68BTargetAnimation(effect, target))
+            {
+                // If the target animation ended before frame one, native
+                // emits the fallback projectile once and then removes 67A.
+                if (effect.CurrentAction == 0)
+                {
+                    OBJECT launch = effect;
+                    launch.Position[2] += 100.f;
+                    SpawnChild(kPierce67BController, launch, owner, 0,
+                        0.7f);
+                }
+                effect.LifeTime = 0.f;
             }
             break;
         case kPierce67BController:
-            if (effect.Timer < 1.f)
+        {
+            if (!owner || !owner->Live)
             {
-                SpawnChild(kPierce680Controller, effect, &effect, 0, 1.f);
-                effect.Timer = 1.f;
+                effect.LifeTime = 0.f;
+                break;
             }
-            CreateSprite(kImpack03Bitmap, effect.Position, 1.5f,
-                effect.Light, &effect, 0.f, 4);
-            CreateSprite(kPinStarBitmap, effect.Position, 1.f,
-                effect.Light, &effect, 0.f, 4);
-            break;
-        case kPierce67CController:
-            if (effect.Timer < 1.f)
+            const float distance = effect.SubType == 1 ?
+                VectorDistance3(effect.Position, effect.StartPosition) :
+                VectorDistance3(effect.Position, owner->Position);
+            int state = 0;
+            vec3_t travel;
+            VectorCopy(effect.Direction, travel);
+            if (distance > 3000.f)
             {
-                SpawnChild(kPierce67DController, effect, &effect, 0, 1.f);
-                SpawnChild(kPierce67EController, effect, &effect, 0, 1.f);
-                effect.Timer = 1.f;
+                effect.LifeTime = 0.f;
+                break;
+            }
+            if (effect.SubType == 1)
+            {
+                if (distance >= effect.Distance)
+                {
+                    ++owner->m_bySkillCount;
+                    effect.SubType = 2;
+                    state = 1;
+                }
+            }
+            else if (effect.CurrentAction > 1)
+                state = distance <= 50.f ? 6 : 5;
+            else if (effect.CurrentAction == 1)
+            {
+                ++effect.CurrentAction;
+                state = 4;
+            }
+            else if (owner->m_bySkillCount > 2)
+            {
+                ++effect.CurrentAction;
+                state = 3;
+            }
+            else
+                state = 2;
+            if (state == 6)
+            {
+                effect.LifeTime = 0.f;
+                break;
+            }
+            if (state == 1)
+            {
+                effect.Direction[0] = -effect.Direction[0];
+                effect.Direction[1] = -effect.Direction[1];
+                effect.Direction[2] = -effect.Direction[2];
+                Vector(0.f, 0.f, 0.f, travel);
+            }
+            else if (state >= 2 && state <= 4)
+                Vector(0.f, 0.f, 0.f, travel);
+            else if (state == 5)
+            {
+                vec3_t destination, home;
+                VectorCopy(owner->Position, destination);
+                destination[2] += 100.f;
+                float ratio = effect.Distance > 0.f ?
+                    distance / effect.Distance : 1.f;
+                ratio = Clamp01(ratio);
+                VectorSubtract(destination, effect.Position, home);
+                VectorNormalize(home);
+                travel[0] = effect.Direction[0] * ratio +
+                    home[0] * (1.f - ratio);
+                travel[1] = effect.Direction[1] * ratio +
+                    home[1] * (1.f - ratio);
+                travel[2] = effect.Direction[2] * ratio +
+                    home[2] * (1.f - ratio);
+                VectorNormalize(travel);
+                VectorCopy(travel, effect.Direction);
+                effect.Alpha = ratio;
+            }
+            effect.Angle[2] += 90.f * animationFactor;
+            effect.Position[0] += travel[0] * effect.Velocity *
+                animationFactor;
+            effect.Position[1] += travel[1] * effect.Velocity *
+                animationFactor;
+            effect.Position[2] += travel[2] * effect.Velocity *
+                animationFactor;
+            vec3_t blue, white;
+            Vector(0.15f, 0.3f, 1.f, blue);
+            Vector(1.f, 1.f, 1.f, white);
+            CreateParticle(kImpack03Bitmap, effect.Position, effect.Angle,
+                blue, 4, 1.5f, &effect);
+            const float starScale = 0.2f +
+                static_cast<float>(rand() % 20) / 32.5f;
+            CreateParticle(kPinStarBitmap, effect.Position, effect.Angle,
+                white, 4, starScale, &effect);
+            OBJECT* glow = SpawnChild(kPierce680Controller, effect, &effect,
+                0, 1.f);
+            if (glow)
+                Vector(0.f, 0.f, 0.f, glow->Angle);
+            // Native increments +0x6C after emitting the trail, cancelling
+            // the pool's common decrement until the return state completes.
+            effect.LifeTime += animationFactor;
+            break;
+        }
+        case kPierce67CController:
+            {
+                OBJECT endpoint = effect;
+                if (VectorDistance3(effect.Direction, effect.Position) < 1.f)
+                {
+                    VectorCopy(effect.Position, endpoint.Direction);
+                    OffsetByYaw(endpoint, 0.f, 200.f, 0.f);
+                }
+                VectorCopy(endpoint.Direction, endpoint.Position);
+                SpawnChild(kPierce67DController, endpoint, &effect, 0,
+                    effect.Scale);
+                SpawnChild(kPierce67EController, endpoint, &effect, 0, 0.f);
+                // Native 0x1543163 destroys 67C in the same update.
+                effect.LifeTime = 0.f;
             }
             break;
         case kPierce67DController:
+        {
+            const float step = effect.Distance /
+                static_cast<float>(effect.SubType + 1);
+            effect.Position[0] += effect.Direction[0] * step *
+                animationFactor;
+            effect.Position[1] += effect.Direction[1] * step *
+                animationFactor;
+            effect.Position[2] += effect.Direction[2] * step *
+                animationFactor;
+            if (!AdvanceTargetAnimation(effect, target, 0.2f))
+                effect.LifeTime = 0.f;
+            break;
+        }
         case kPierce680Controller:
+            if (effect.SubType == 0)
+            {
+                effect.Position[2] += 20.f * animationFactor;
+                effect.Alpha -= animationFactor /
+                    (initialLife > 0.f ? initialLife : 1.f);
+            }
             break;
         case kPierce67EController:
-            CreateParticle(kJujugBitmap, effect.Position, effect.Angle,
-                effect.Light, 0, 1.f, &effect);
+        {
+            const float step = effect.Distance /
+                static_cast<float>(effect.SubType + 1);
+            effect.Position[0] += effect.Direction[0] * step *
+                animationFactor;
+            effect.Position[1] += effect.Direction[1] * step *
+                animationFactor;
+            effect.Position[2] += effect.Direction[2] * step *
+                animationFactor;
+            vec3_t position, angle, light;
+            VectorCopy(effect.Position, position);
+            VectorCopy(effect.Angle, angle);
+            position[0] += NativeRandomUnitStep(-30, 30);
+            position[1] += NativeRandomUnitStep(-30, 30);
+            position[2] += NativeRandomUnitStep(-15, 15) + 20.f;
+            Vector(0.6f, 0.6f, 0.6f, light);
+            // Native 0x1543688 emits bitmap 0x80F0 (pin_star), subtype 4.
+            CreateParticle(kPinStarBitmap, position, angle, light, 4, 1.f,
+                &effect);
             break;
+        }
         case kSword68CController:
         {
             // Native 0x15475B8 does not attach 0x68C to the selected target.
