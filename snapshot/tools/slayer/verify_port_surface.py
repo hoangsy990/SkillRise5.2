@@ -1019,7 +1019,13 @@ def main() -> int:
         for part in ("HELM", "ARMOR", "PANTS", "GLOVES", "BOOTS"):
             require(player_model_loader, f"MODEL_BODY_{part} + skin",
                     f"private Class09 {part.lower()} body loader")
-        print("PASS: isolated Class09/209/309 body loader uses vacant 5.2 slots 21..23 without changing MAX_CLASS=7")
+            require(player_model_loader,
+                    f"gLoadData.OpenTexture(MODEL_BODY_{part} + skin, \"Player\\\\\");",
+                    f"private Class09 {part.lower()} body texture loader")
+        require(player_model_loader,
+                "const int skin = MODEL_BODY_NUM - 3 + stage;",
+                "Class09/209/309 texture loop uses the same vacant body slots")
+        print("PASS: isolated Class09/209/309 body models and textures use vacant 5.2 slots 21..23 without changing MAX_CLASS=7")
         print("OPEN: Class09 avatar visibility and five-skill visuals still need genuine Slayer ingame acceptance")
     elif re.search(r"#define\s+MAX_CLASS\s+7\b", client_defines):
         print("OPEN: class09 body models are staged but the 5.2 MAX_CLASS=7 loader does not load them")

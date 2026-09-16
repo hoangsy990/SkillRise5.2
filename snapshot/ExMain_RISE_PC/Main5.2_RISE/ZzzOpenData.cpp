@@ -519,6 +519,21 @@ void OpenPlayerTextures()
 		}
 	}
 
+	#ifdef RISE_SLAYER_PORT
+	// OpenPlayers loads Class09/209/309 into the three unused tail slots of
+	// every body-part group.  The legacy loop above stops at slot 20, so these
+	// models otherwise keep BITMAP_UNKNOWN and render as a solid black body.
+	for (int stage = 0; stage < 3; ++stage)
+	{
+		const int skin = MODEL_BODY_NUM - 3 + stage;
+		gLoadData.OpenTexture(MODEL_BODY_HELM + skin, "Player\\");
+		gLoadData.OpenTexture(MODEL_BODY_ARMOR + skin, "Player\\");
+		gLoadData.OpenTexture(MODEL_BODY_PANTS + skin, "Player\\");
+		gLoadData.OpenTexture(MODEL_BODY_GLOVES + skin, "Player\\");
+		gLoadData.OpenTexture(MODEL_BODY_BOOTS + skin, "Player\\");
+	}
+	#endif
+
 	for (int i = 0; i < 17; i++)
 	{
 		gLoadData.OpenTexture(MODEL_HELM + i, "Player\\");
