@@ -77,6 +77,16 @@ inline unsigned char ClientClassByteForDbClass(int dbClass)
 		((dbClass % 16) * 16 / 32) + (dbClass / 16) * 32);
 }
 
+inline unsigned char SlayerPreviewClassByteForDbClass(int dbClass)
+{
+	// Preview packets reserve the low three bits for equipment, as the
+	// existing 5.2 PR_* class constants do. Keep the same stage flags as
+	// the character-list/DS class byte without filling those item bits.
+	const int stage = dbClass - kS21SlayerDbClass;
+	return static_cast<unsigned char>(kSlayerClientClassByte +
+		(stage == 2 ? 0x18 : stage == 1 ? 0x10 : 0));
+}
+
 inline bool IsSlayerSkill(int id)
 {
     return id == kSwordInertia || id == kBatFlock || id == kPierceAttack ||

@@ -1317,8 +1317,11 @@ stage bits before the 5.2 client decoded the class. It now reuses the native
 client class `7/15/31`. An isolated Ex603 GS build and wire-stage verifier
 pass; this is packet/class-stage repair, **not** proof of the five skill
 visuals or Class09 avatar. The separate viewport preview helper
-`gObjFixClassPacket` still flattens Slayer stages to `0xE0` and needs the
-corresponding class integration. No shared DB character was changed.
+`gObjFixClassPacket` now encodes `0xE0/0xF0/0xF8` for those same DB stages,
+preserving the lower equipment bits like the legacy 5.2 `PR_*` constants.
+Both DS routes and that viewport route are mirrored in the GitHub snapshot;
+the Class09 body loader still needs the corresponding class integration.
+No shared DB character was changed.
 A read-only query of the live `RISE5.2` DB confirmed there is no character
 named `Slayer` for `admin4`; the QA launcher now rejects that state before
 spawning another non-Slayer preview. The supplied S21 class patch contains

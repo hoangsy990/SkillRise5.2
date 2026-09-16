@@ -36,6 +36,8 @@ def require(text: str, needle: str, label: str) -> None:
 def main() -> int:
     shared = read("ExMain_RISE_PC/Main5.2_RISE/RISE/Slayer/shared/SlayerSkillContractData.h")
     server_catalog = read("ExGameServer/GameServer/RISE/SlayerServerCatalog.h")
+    server_object = read("ExGameServer/GameServer/ObjectManager.cpp")
+    server_ds = read("ExGameServer/GameServer/DSProtocol.cpp")
     require(server_catalog, "const int stageBits = (dbClass - kS21SlayerDbClass) * 16;",
             "Slayer wire class retains its S21 persisted stage")
     require(server_catalog, "stageBits - stageBits / 32",
@@ -49,6 +51,21 @@ def main() -> int:
         if (server_byte, client_byte) != (expected_server, expected_client):
             raise AssertionError(f"Slayer class stage wire drifted for DB {db_class}")
     print("PASS: Slayer DB 144/145/146 encode E0/F0/FF and decode client 7/15/31")
+    require(server_catalog, "stage == 2 ? 0x18 : stage == 1 ? 0x10 : 0",
+            "Slayer viewport preview stage flags spare equipment low bits")
+    require(server_object, "SlayerPreviewClassByteForDbClass(DbClass)",
+            "Slayer viewport class retains Royal/Master stage")
+    if server_ds.count("ClientClassByteForDbClass(") < 2:
+        raise AssertionError("Slayer DS character-list/create stage wire missing")
+    for db_class, expected_server, expected_client in (
+            (144, 0xE0, 7), (145, 0xF0, 15), (146, 0xF8, 31)):
+        stage = db_class - 144
+        server_byte = 0xE0 + (0x18 if stage == 2 else 0x10 if stage == 1 else 0)
+        client_byte = (((server_byte >> 4) & 1) << 3) | \
+            (server_byte >> 5) | (((server_byte >> 3) & 1) << 4)
+        if (server_byte, client_byte) != (expected_server, expected_client):
+            raise AssertionError(f"Slayer viewport stage drifted for DB {db_class}")
+    print("PASS: Slayer viewport DB 144/145/146 encode E0/F0/F8 without equipment-bit spill")
     server = read("ExGameServer/GameServer/SkillManager.cpp")
     server_protocol = read("ExGameServer/GameServer/Protocol.cpp")
     attack = read("ExGameServer/GameServer/Attack.cpp")
