@@ -556,6 +556,17 @@ def main() -> int:
     require(pierce_root_update,
             "effect.AnimationFrame += effect.Velocity * animationFactor;",
             "0x679 isolated dispatcher advances the native effect frame")
+    require(pierce_root_update,
+            "OBJECT* ground = SpawnChild(kPierce67CController, flank,",
+            "0x679 retains the created 0x67C terrain controller")
+    require(pierce_root_update,
+            "VectorCopy(flank.Position, ground->StartPosition);",
+            "0x679 preserves the native 200-unit 0x67C endpoint")
+    require(pierce_root_update,
+            "ground->Position[2] = RequestTerrainHeight(",
+            "0x679 rewrites 0x67C to root terrain height")
+    if "OffsetByYaw(flank, 0.f, 200.f, 0.f);" in pierce_root_update:
+        raise AssertionError("0x679 incorrectly applies a second 200-unit endpoint offset")
     require(pierce_root_update, "effect.AnimationFrame >= 4.f",
             "0x679 center root-frame gate")
     require(pierce_root_update, "effect.AnimationFrame >= 7.f",
@@ -602,6 +613,8 @@ def main() -> int:
     require(pierce_67e,
             "CreateParticle(kPinStarBitmap, position, angle, light, 4, 1.f",
             "0x67E native 0x80F0 subtype-four particle")
+    require(resources, "VectorCopy(effect.Owner->StartPosition, effect.StartPosition);",
+            "0x67D/0x67E inherit the endpoint retained by 0x67C")
     buff_update = resources[resources.index("case kDetectionController:",
         resources.index("void UpdateEffect")):].split("default:", 1)[0]
     require(buff_update, "VectorCopy(effect.StartPosition, effect.Position);",

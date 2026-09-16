@@ -870,8 +870,12 @@ machine: it tracks launch and owner distance, reverses after its target-radius
 threshold, holds lifetime while returning, emits `0x8021` (`Impack03`) and
 `0x8108` (`pin_star`) particles, and creates a fading `0x680` child each
 frame. Loader pointers `0x1BB941C` and `0x1BBC45C` pin those filenames in the
-mapped image. `0x67C` emits `0x67D/0x67E` once and is destroyed immediately;
-the children interpolate toward the endpoint carried by their parent.
+mapped image. `0x67C` is allocated at the single 200-unit flank endpoint;
+the root then overwrites only its live position with root X/Y and terrain Z,
+while the allocation endpoint remains in `OBJECT+0x1D0`. There is no second
+200-unit offset. `0x67C` emits `0x67D/0x67E` once and is destroyed
+immediately; both children start at that terrain position and interpolate
+toward the endpoint retained by their parent.
 `0x67E` uses signed `[-30,30]` X/Y and `[-15,15]+20` Z offsets and emits
 bitmap `0x80F0` (`pin_star`) subtype 4 with light `(.6,.6,.6)`. `0x680`
 raises Z by 20 and fades linearly. The isolated implementation now preserves

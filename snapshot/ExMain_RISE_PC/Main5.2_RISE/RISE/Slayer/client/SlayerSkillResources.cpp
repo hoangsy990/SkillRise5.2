@@ -881,7 +881,7 @@ void InitializeEffect(OBJECT& effect, float incomingScale)
         effect.SubType = 3;
         effect.Alpha = 0.3f;
         if (effect.Owner)
-            VectorCopy(effect.Owner->Direction, effect.StartPosition);
+            VectorCopy(effect.Owner->StartPosition, effect.StartPosition);
         VectorSubtract(effect.StartPosition, effect.Position,
             effect.Direction);
         VectorNormalize(effect.Direction);
@@ -901,7 +901,7 @@ void InitializeEffect(OBJECT& effect, float incomingScale)
         // endpoint carried by its 0x67C owner.
         effect.SubType = 10;
         if (effect.Owner)
-            VectorCopy(effect.Owner->Direction, effect.StartPosition);
+            VectorCopy(effect.Owner->StartPosition, effect.StartPosition);
         VectorSubtract(effect.StartPosition, effect.Position,
             effect.Direction);
         VectorNormalize(effect.Direction);
@@ -1707,18 +1707,25 @@ void UpdateEffect(OBJECT& effect, float animationFactor)
                 SpawnChild(kPierceSwordLineModel, effect, owner, 0, 1.f);
                 OBJECT flank = effect;
                 OffsetByYaw(flank, 90.f, 200.f, 0.f);
-                // Native writes a second world endpoint into the created
-                // 0x67C record. Its 0x67D/0x67E children interpolate toward
-                // this point rather than staying at the root position.
-                VectorCopy(flank.Position, flank.Direction);
-                OffsetByYaw(flank, 0.f, 200.f, 0.f);
                 const int subtype = rand() & 1;
                 SpawnChild(kPierce67AController, flank, &effect, subtype,
                     owner->Scale);
-                SpawnChild(kPierce67CController, flank, &effect, 0,
-                    owner->Scale);
-                flank.Position[2] += 50.f;
-                SpawnChild(kPierceSwordLineModel, flank, owner, subtype + 1,
+                OBJECT* ground = SpawnChild(kPierce67CController, flank,
+                    &effect, 0, owner->Scale);
+                if (ground)
+                {
+                    // Native creates 67C at the 200-unit endpoint, retaining
+                    // that allocation position at +0x1D0, then overwrites
+                    // its live position with the root XY and terrain Z.
+                    VectorCopy(flank.Position, ground->StartPosition);
+                    ground->Position[0] = effect.Position[0];
+                    ground->Position[1] = effect.Position[1];
+                    ground->Position[2] = RequestTerrainHeight(
+                        effect.Position[0], effect.Position[1]);
+                }
+                OBJECT line = flank;
+                line.Position[2] += 50.f;
+                SpawnChild(kPierceSwordLineModel, line, owner, subtype + 1,
                     1.f);
                 effect.Timer = 1.f;
             }
@@ -1730,15 +1737,22 @@ void UpdateEffect(OBJECT& effect, float animationFactor)
             {
                 OBJECT flank = effect;
                 OffsetByYaw(flank, -90.f, 200.f, 0.f);
-                VectorCopy(flank.Position, flank.Direction);
-                OffsetByYaw(flank, 0.f, 200.f, 0.f);
                 const int subtype = rand() & 1;
                 SpawnChild(kPierce67AController, flank, &effect, subtype,
                     owner->Scale);
-                SpawnChild(kPierce67CController, flank, &effect, 0,
-                    owner->Scale);
-                flank.Position[2] += 50.f;
-                SpawnChild(kPierceSwordLineModel, flank, owner, subtype + 1,
+                OBJECT* ground = SpawnChild(kPierce67CController, flank,
+                    &effect, 0, owner->Scale);
+                if (ground)
+                {
+                    VectorCopy(flank.Position, ground->StartPosition);
+                    ground->Position[0] = effect.Position[0];
+                    ground->Position[1] = effect.Position[1];
+                    ground->Position[2] = RequestTerrainHeight(
+                        effect.Position[0], effect.Position[1]);
+                }
+                OBJECT line = flank;
+                line.Position[2] += 50.f;
+                SpawnChild(kPierceSwordLineModel, line, owner, subtype + 1,
                     1.f);
                 effect.Timer = 2.f;
             }
@@ -1877,16 +1891,9 @@ void UpdateEffect(OBJECT& effect, float animationFactor)
         }
         case kPierce67CController:
             {
-                OBJECT endpoint = effect;
-                if (VectorDistance3(effect.Direction, effect.Position) < 1.f)
-                {
-                    VectorCopy(effect.Position, endpoint.Direction);
-                    OffsetByYaw(endpoint, 0.f, 200.f, 0.f);
-                }
-                VectorCopy(endpoint.Direction, endpoint.Position);
-                SpawnChild(kPierce67DController, endpoint, &effect, 0,
+                SpawnChild(kPierce67DController, effect, &effect, 0,
                     effect.Scale);
-                SpawnChild(kPierce67EController, endpoint, &effect, 0, 0.f);
+                SpawnChild(kPierce67EController, effect, &effect, 0, 0.f);
                 // Native 0x1543163 destroys 67C in the same update.
                 effect.LifeTime = 0.f;
             }
