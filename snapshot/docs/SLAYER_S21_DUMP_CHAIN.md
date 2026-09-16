@@ -974,6 +974,14 @@ at `0x1548D5D/0x1548DE0` similarly divides life by two in integer
 registers: subtype one's 35-tick window is 17, not 17.5. The isolated
 port now preserves these windows. This is a dump-backed fade correction,
 not framebuffer evidence that the previously black buff vortex is gone.
+Shared native update exit `0x1594624..0x1594636` checks
+`EFFECT+0x6C LifeTime <= 0` and calls destruction only after the model
+updater; the ordinary final decrement is later at
+`0x15946E3..0x15946ED`. The prior isolated 5.2 bridge decremented first
+and destroyed at zero in that same update, dropping a live/renderable
+zero-life frame from every Slayer effect. It now checks before decrement,
+matching this native order. This is lifecycle parity, not framebuffer
+proof that the old black vortex has disappeared.
 The same integer-window audit finds `0x678` bat subtype 0 at
 `0x154011A` and subtype 2 at `0x1540607` each execute `IDIV 3`
 before alpha fade. Their 40/3 and 50/3 windows are therefore 13 and

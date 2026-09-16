@@ -316,6 +316,14 @@ def main() -> int:
             raise AssertionError(f"S21 registered Bat/buff draw drifted at {va:#x}")
     print("PASS: S21 0x5D8 registry callback returns false; registered 0x688/0x691/0x694 draw flag=0x82 texture|dark, GL_ZERO/GL_ONE_MINUS_SRC_COLOR, model RGB light*=OBJECT alpha")
     print("PASS: S21 0x688/0x691 registered model draws only subtype zero; 0x694 draws subtype zero or one")
+    # The shared S21 updater checks life before the ordinary final decrement.
+    # This pins one extra live/renderable zero-life frame for Slayer children.
+    if at(0x1594624, 20) != bytes.fromhex(
+            "8b450883786c007f0eff7508e8eb21f2ff59e980") or \
+       at(0x15946E3, 13) != bytes.fromhex(
+            "8b45088b406c488b4d0889416c"):
+        raise AssertionError("S21 secondary-effect check-before-decrement order drifted")
+    print("PASS: S21 secondary-effect updater checks life<=0 before its final one-tick decrement")
     # The first native model manager is not a Slayer-only renderer. It first
     # looks up Type-0xAE9, then tests an object special flag. Its fallback
     # map branches are bounded to map 0x66, map 2/type 0x7A and map 8/types

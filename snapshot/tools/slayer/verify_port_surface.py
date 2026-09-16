@@ -78,7 +78,6 @@ def main() -> int:
     runtime = read("ExMain_RISE_PC/Main5.2_RISE/RISE/Slayer/client/SlayerNativeRuntime.cpp")
     resources = read("ExMain_RISE_PC/Main5.2_RISE/RISE/Slayer/client/SlayerSkillResources.cpp")
     effect_allocator = read("ExMain_RISE_PC/Main5.2_RISE/ZzzEffect.cpp")
-    effect_allocator = read("ExMain_RISE_PC/Main5.2_RISE/ZzzEffect.cpp")
     effect_header = read("ExMain_RISE_PC/Main5.2_RISE/ZzzEffect.h")
     joints = read("ExMain_RISE_PC/Main5.2_RISE/ZzzEffectJoint.cpp")
     packet = read("ExMain_RISE_PC/Main5.2_RISE/RISE/Slayer/server/SlayerPacketContract.h")
@@ -475,6 +474,14 @@ def main() -> int:
             "S21 Pierce secondary effect-pool cleanup")
     require(effect_allocator, "rise::slayer::IsEffectType(child->Type)",
             "Pierce cleanup remains private to Slayer effect nodes")
+    slayer_move = effect_allocator.split(
+        "void MoveEffect(OBJECT* o, int iIndex)", 1)[1].split("#endif", 1)[0]
+    if not re.search(
+            r"rise::slayer::UpdateEffect\(\*o, FPS_ANIMATION_FACTOR\);"
+            r"[\s\S]*?if \(o->LifeTime <= 0\.0f\)\s*"
+            r"EffectDestructor\(o\);\s*else\s*"
+            r"o->LifeTime -= FPS_ANIMATION_FACTOR;", slayer_move):
+        raise AssertionError("S21 Slayer effect life must be checked before final tick decrement")
     pierce_cast_action = resources.split("bool ApplyCastAction", 1)[1]
     pierce_cast_action = pierce_cast_action.split(
         "if (skillId == kPierceAttack)", 1)[1].split("return true;", 1)[0]

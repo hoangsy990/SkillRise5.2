@@ -6968,9 +6968,14 @@ void MoveEffect(OBJECT* o, int iIndex)
     if (rise::slayer::IsEffectType(o->Type))
     {
         rise::slayer::UpdateEffect(*o, FPS_ANIMATION_FACTOR);
-        o->LifeTime -= FPS_ANIMATION_FACTOR;
+        // S21 secondary-effect update dispatch checks EFFECT+0x6C for
+        // destruction at 0x1594624, then decrements it at 0x15946E3.
+        // A child reaching zero remains live through this frame; an updater
+        // that explicitly zeroes life is still destroyed immediately.
         if (o->LifeTime <= 0.0f)
             EffectDestructor(o);
+        else
+            o->LifeTime -= FPS_ANIMATION_FACTOR;
         return;
     }
 #endif
