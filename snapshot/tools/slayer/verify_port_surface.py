@@ -84,6 +84,7 @@ def main() -> int:
     packet = read("ExMain_RISE_PC/Main5.2_RISE/RISE/Slayer/server/SlayerPacketContract.h")
     converter = read("tools/slayer/convert_s21_slayers.py")
     player_model_loader = read("ExMain_RISE_PC/Main5.2_RISE/ZzzOpenData.cpp")
+    character_manager = read("ExMain_RISE_PC/Main5.2_RISE/CharacterManager.cpp")
     client_defines_path = ROOT / "ExMain_RISE_PC/Main5.2_RISE/_define.h"
     client_defines = client_defines_path.read_text(encoding="utf-8", errors="replace") if client_defines_path.is_file() else ""
     project = read("ExMain_RISE_PC/Main.vcxproj")
@@ -985,8 +986,16 @@ def main() -> int:
         raise AssertionError("0x68C incorrectly attached to selected target")
     print("PASS: placeholder carriers removed and decoded 0x679..0x690 graph nodes present")
     if re.search(r"#define\s+MAX_CLASS\s+7\b", client_defines) and \
-       "for (int i = 0; i < MAX_CLASS; ++i)" in player_model_loader:
-        print("OPEN: class09 body models are staged but the 5.2 MAX_CLASS=7 loader does not load them; skill-source PASS is not native Slayer avatar acceptance")
+       re.search(r"#define\s+MODEL_BODY_NUM\s+24\b", client_defines) and \
+       "const int slayerBaseBody = MODEL_BODY_NUM - 3;" in player_model_loader and \
+       "return static_cast<BYTE>(MODEL_BODY_NUM - 3 + stage);" in character_manager:
+        for part in ("HELM", "ARMOR", "PANTS", "GLOVES", "BOOTS"):
+            require(player_model_loader, f"MODEL_BODY_{part} + skin",
+                    f"private Class09 {part.lower()} body loader")
+        print("PASS: isolated Class09/209/309 body loader uses vacant 5.2 slots 21..23 without changing MAX_CLASS=7")
+        print("OPEN: Class09 avatar visibility and five-skill visuals still need genuine Slayer ingame acceptance")
+    elif re.search(r"#define\s+MAX_CLASS\s+7\b", client_defines):
+        print("OPEN: class09 body models are staged but the 5.2 MAX_CLASS=7 loader does not load them")
     elif not client_defines:
         print("OPEN: partial snapshot lacks _define.h; native class09 body-loader capacity cannot be certified by this verifier")
     return 0

@@ -1319,18 +1319,23 @@ pass; this is packet/class-stage repair, **not** proof of the five skill
 visuals or Class09 avatar. The separate viewport preview helper
 `gObjFixClassPacket` now encodes `0xE0/0xF0/0xF8` for those same DB stages,
 preserving the lower equipment bits like the legacy 5.2 `PR_*` constants.
-Both DS routes and that viewport route are mirrored in the GitHub snapshot;
-the Class09 body loader still needs the corresponding class integration.
+Both DS routes and that viewport route are mirrored in the GitHub snapshot.
 No shared DB character was changed.
 A read-only query of the live `RISE5.2` DB confirmed there is no character
 named `Slayer` for `admin4`; the QA launcher now rejects that state before
 spawning another non-Slayer preview. The supplied S21 class patch contains
-`ArmorClass09.bmd` and the private QA Player tree has a byte-identical copy,
-but the isolated Slayer source still defines `MAX_CLASS=7` and
-`ZzzOpenData.cpp` loads only the first seven base body models. Thus even a
-newly created Slayer-named character would exercise the compatibility
-avatar until the separate class-body migration is integrated. Skill-graph
-build/stage evidence must not be labelled native Slayer avatar parity.
+all 15 Helm/Armor/Pant/Glove/Boot `Class09/209/309.bmd` files. Their private
+QA Player copies now pass byte-for-byte comparison with that supplied patch.
+The isolated client still keeps `MAX_CLASS=7`, but its 24-body-slot groups
+leave indices 21..23 unused by the original seven classes and three stages.
+`OpenPlayers` now loads the 15 Slayer body files into those three slots;
+`GetSkinModelIndex` maps client class `7/15/31` to them only under
+`RISE_SLAYER_PORT`, leaving the ordinary 5.2 fallback unchanged. The
+isolated Win32 client rebuilt and restaged (SHA-256
+`48B235644EE26921B2780A28BF062DA674400CF1852BAA410693C0DBB134E273`).
+This closes the loader wiring gap, **not** actual avatar or five-skill visual
+acceptance: no unique `admin4` character named `Slayer` exists in the shared
+DB yet, and no shared DB record was changed.
 
 The separate Master Slayer resource conversion is now wired to the client
 master UI. The pinned S21 tree and tooltip convert to 58 private 5.2 records;

@@ -160,6 +160,27 @@ void OpenPlayers()
 		gLoadData.AccessModel(MODEL_BODY_GLOVES + (MAX_CLASS * 2) + i, "Data\\Player\\", "GloveClass3", i + 1);
 		gLoadData.AccessModel(MODEL_BODY_BOOTS + (MAX_CLASS * 2) + i, "Data\\Player\\", "BootClass3", i + 1);
 	}
+	#ifdef RISE_SLAYER_PORT
+	// This isolated Class09 overlay uses the three otherwise unused slots
+	// in each 24-slot body-part group; legacy MAX_CLASS remains seven.
+	const int slayerBaseBody = MODEL_BODY_NUM - 3;
+	for (int stage = 0; stage < 3; ++stage)
+	{
+		const int skin = slayerBaseBody + stage;
+		char helm[16], armor[16], pant[16], glove[16], boot[16];
+		const char* suffix = stage == 0 ? "" : stage == 1 ? "2" : "3";
+		sprintf_s(helm, sizeof(helm), "HelmClass%s", suffix);
+		sprintf_s(armor, sizeof(armor), "ArmorClass%s", suffix);
+		sprintf_s(pant, sizeof(pant), "PantClass%s", suffix);
+		sprintf_s(glove, sizeof(glove), "GloveClass%s", suffix);
+		sprintf_s(boot, sizeof(boot), "BootClass%s", suffix);
+		gLoadData.AccessModel(MODEL_BODY_HELM + skin, "Data\\Player\\", helm, 9);
+		gLoadData.AccessModel(MODEL_BODY_ARMOR + skin, "Data\\Player\\", armor, 9);
+		gLoadData.AccessModel(MODEL_BODY_PANTS + skin, "Data\\Player\\", pant, 9);
+		gLoadData.AccessModel(MODEL_BODY_GLOVES + skin, "Data\\Player\\", glove, 9);
+		gLoadData.AccessModel(MODEL_BODY_BOOTS + skin, "Data\\Player\\", boot, 9);
+	}
+	#endif
 
 	for (int i = 0; i < 10; i++)
 	{

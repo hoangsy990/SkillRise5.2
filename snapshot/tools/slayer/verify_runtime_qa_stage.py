@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import hashlib
 import os
+import zipfile
 from pathlib import Path
 
 
@@ -12,6 +13,7 @@ ROOT = Path(r"D:\RISE-CrossPlatform\Source_PC_Slayer")
 SOURCE_CLIENT = ROOT / "Client"
 PRIVATE_CLIENT = ROOT / "ExMain_RISE_PC" / "Tests" / "SlayerBuild" / "Client"
 TARGET = ROOT / "ExMain_RISE_PC" / "Tests" / "SlayerBuild" / "RuntimeQA" / "Client"
+CLASS_PATCH = Path(r"C:\Users\DELL\Documents\Codex\2026-09-14\d\deliveries\Rise-S21-Patches\Rise-S21-Client-Patch.zip")
 MASTER_SLAYER_HASHES = {
     "Config/MasterSlayerTree.bmd": "00C02A1E4CAA84BFAB603DCAC7545C2B65E05390615BF5A81F867807656CA0DC",
     "Config/MasterSlayerTooltip.bmd": "11ECF321341659F14CC606DDADC1B463D4F3A95B637B2904C2E58F38DFA4CCF3",
@@ -85,6 +87,16 @@ def main() -> None:
         assert target_file.is_file(), f"base Player missing: {relative}"
         assert sha256(target_file) == sha256(source_file), f"base Player hash mismatch: {relative}"
         player_count += 1
+    with zipfile.ZipFile(CLASS_PATCH) as class_patch:
+        for stage in ("09", "209", "309"):
+            for part in ("Helm", "Armor", "Pant", "Glove", "Boot"):
+                name = f"{part}Class{stage}.bmd"
+                expected = hashlib.sha256(class_patch.read(
+                    f"Client/Data/Player/{name}")).hexdigest().upper()
+                asset = TARGET / "Data" / "Player" / name
+                assert asset.is_file() and sha256(asset) == expected, (
+                    f"private S21 Slayer body asset missing/drifted: {name}"
+                )
     base_count = verify_tree(SOURCE_CLIENT / "Data" / "RISE", TARGET / "Data" / "RISE", "base RISE")
     slayer_count = verify_tree(
         PRIVATE_CLIENT / "Data" / "RISE" / "Slayer",
@@ -124,6 +136,7 @@ def main() -> None:
     print("PASS: S21 Bat subtype-4 0x82FA gold overlay exact hash")
     print("PASS: S21 Bat subtype-2/3 0x7FE0 bone flareRed exact hash")
     print(f"PASS: complete private base Player tree ({player_count} base files plus Slayer player.bmd)")
+    print("PASS: all 15 private Class09/209/309 body files match supplied S21 client patch")
     print(f"PASS: complete root Data file set ({root_data_count} files), including login keys")
     print(f"PASS: {len(staged_links)} asset junctions target only frozen Slayer Data")
     print("PASS: Engine-Slayer S21, Player/RISE roots, Mix.bmd and no GrowLancer overlay")
