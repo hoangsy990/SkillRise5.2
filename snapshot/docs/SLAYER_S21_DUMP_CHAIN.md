@@ -378,6 +378,20 @@ does not write back to actor `OBJECT+0x158`. The adjacent action helper
 of a Pierce-only world-position transform. These checks narrow the next
 reverse target to the S21 GS/receive or later actor-update path, without
 justifying a guessed 5.2 teleport.
+The pinned native inbound parser at `0x1303939..0x130399C` selects
+`packet[3]` for `C1` and `packet[4]` for `C2` before its `0x57` comparison
+at `0x1303B01`. The `C1:57` receive arm at `0x130401C` calls
+`0xB18248`, whose direct body selects packet byte 4 values 1..5 and
+formats message text through `0x9609DC`/`0xB4F647`; it does not directly
+write actor XY. This does not prove every server response to a Pierce cast
+uses this arm, nor does it reveal a world-position-update packet.
+The native `C1:15` receive arm is likewise **not** the old 5.2
+`ReceiveMovePosition` path: `0x12FE560..0x12FE5AE` selects C1 byte 3,
+`0x12FE5DB` routes head `0x15` to `0x12BAFDF`, and that function passes
+packet DWORD `+4` into singleton manager `+0x1E4` via `0xBA8389`.
+No caster XY write appears in the direct handler. Thus importing a
+5.2 `C1:15` move assumption as the S21 Pierce rush would be unsupported;
+the actual S21 movement/return route remains OPEN.
 The actual Slayer rush/return owner-position chain remains to be traced
 before any world-position mutation is added to the 5.2 port.
 The native `player.bmd` action record for Pierce `0xE4` has seven animation

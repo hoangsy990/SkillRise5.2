@@ -268,6 +268,24 @@ def main() -> int:
         raise AssertionError("S21 ReceiveMagic/Brand canonicalizer bytes drifted")
     print("PASS: S21 ReceiveMagic Brand canonicalizer 0xBCFF9F resolves Bat 782->781->293")
 
+    # Native packet dispatch is not the 5.2 movement protocol. C1 head is
+    # byte +3 and C2 head is byte +4. These bounded direct handlers do not
+    # prove the later Pierce actor-position update path.
+    for va, expected in (
+        (0x130394D, bytes.fromhex("3dc1000000751b8b450c898564f7ffff8b8564f7ffff0fb640038985bcfcffffeb2d33c0")),
+        (0x130397C, bytes.fromhex("3dc200000075198b450c898560f7ffff8b8560f7ffff0fb640048985bcfcffff8b")),
+        (0x1303B01, bytes.fromhex("83bd70fdffff570f840e05000083")),
+        (0x130401C, bytes.fromhex("ff750ce813d47cff8bc8e8c27981ff8bc8e8164281ff90")),
+        (0xB18282, bytes.fromhex("8b45f48a40048845fc807dfc017429807dfc02745b807dfc030f848900000080")),
+        (0x12FE56D, bytes.fromhex("3dc1000000751b8b450c89851cf8ffff8b851cf8ffff0fb640")),
+        (0x12FE5DB, bytes.fromhex("83bd6cfdffff150f848b02000083")),
+        (0x12FE873, bytes.fromhex("ff750ce864c7fbff59e9")),
+        (0x12BAFDF, bytes.fromhex("558bec83ec0c8b45088945f8e8476481ff8945fc8b45fc8b80e40100008945f48b45f8ff70048b4df4e87cd38eff90c9c3")),
+    ):
+        if at(va, len(expected)) != expected:
+            raise AssertionError(f"S21 inbound protocol byte anchor drifted at {va:#x}")
+    print("PASS: S21 C1:57 inbound message arm and C1:15 singleton arm pinned; neither direct handler proves Pierce caster XY movement")
+
     # Registered S21 custom handlers draw the Bat trail and both buff models
     # with flag 0x82 (texture|dark) after scaling their model RGB light by
     # OBJECT+0xDC Alpha. The earlier flag-2 body is only the fallback.
@@ -277,6 +295,10 @@ def main() -> int:
         (0xA1B9B6, bytes.fromhex("68262ea5006888060000e8212300005959")),
         (0xA1B9E9, bytes.fromhex("68ec2fa5006891060000e8ee2200005959")),
         (0xA1B9FA, bytes.fromhex("681431a5006894060000e8dd2200005959")),
+        (0xA52E35, bytes.fromhex("837dfc007405")),
+        (0xA52FFB, bytes.fromhex("837dfc007405")),
+        (0xA53123, bytes.fromhex("837dfc00740f")),
+        (0xA53129, bytes.fromhex("837dfc01")),
         (0xA52E50, bytes.fromhex("8b4d0cf30f1081dc000000f30f5900")),
         (0xA53016, bytes.fromhex("8b4d0cf30f1081dc000000f30f5900")),
         (0xA53148, bytes.fromhex("8b4d0cf30f1081dc000000f30f5900")),
@@ -293,6 +315,7 @@ def main() -> int:
         if at(va, len(expected)) != expected:
             raise AssertionError(f"S21 registered Bat/buff draw drifted at {va:#x}")
     print("PASS: S21 0x5D8 registry callback returns false; registered 0x688/0x691/0x694 draw flag=0x82 texture|dark, GL_ZERO/GL_ONE_MINUS_SRC_COLOR, model RGB light*=OBJECT alpha")
+    print("PASS: S21 0x688/0x691 registered model draws only subtype zero; 0x694 draws subtype zero or one")
     # The first native model manager is not a Slayer-only renderer. It first
     # looks up Type-0xAE9, then tests an object special flag. Its fallback
     # map branches are bounded to map 0x66, map 2/type 0x7A and map 8/types

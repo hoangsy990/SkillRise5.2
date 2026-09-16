@@ -89,6 +89,13 @@ def main() -> int:
                         help="find decoded native x86 compares against an action id")
     parser.add_argument("--xref-byte-compare", type=lambda value: int(value, 0),
                         help="find candidate native x86 CMP r/m8-or-r/m32,imm8 sites")
+    parser.add_argument("--xref-stack-compare", type=lambda value: int(value, 0),
+                        help="list decoded imm8/imm32 comparisons against one EBP stack displacement")
+    parser.add_argument("--xref-dispatch-jumps", action="store_true",
+                        help="list decoded EAX-indexed jump tables in the native packet-dispatch region")
+    parser.add_argument("--table-address", type=lambda value: int(value, 0),
+                        help="print u32 targets at a pinned native jump-table VA")
+    parser.add_argument("--table-count", type=lambda value: int(value, 0), default=16)
     parser.add_argument("--address", type=lambda value: int(value, 0),
                         help="decode an arbitrary virtual address")
     args = parser.parse_args()
@@ -236,6 +243,59 @@ def main() -> int:
         print(f"byte={args.xref_byte_compare:#x} candidate-cmp-sites={len(sites)}")
         for site, operands in sorted(sites.items())[:512 if args.full else 128]:
             print(f"{site:#x} cmp {operands}")
+        return 0
+    if args.xref_stack_compare is not None:
+        displacement = args.xref_stack_compare
+        if not -0x10000 <= displacement <= 0x10000:
+            raise ValueError("stack displacement is outside a useful packet-dispatch range")
+        # Decode full CMP instructions, never infer a packet head from an
+        # immediate byte alone. This is still a candidate scan: an opcode
+        # may begin inside a preceding instruction's operand.
+        decoder = Cs(CS_ARCH_X86, CS_MODE_32)
+        decoder.detail = True
+        disp = struct.pack("<i", displacement)
+        found = {}
+        for opcode in (0x81, 0x83):
+            pattern = bytes((opcode, 0xBD)) + disp
+            cursor = data.find(pattern, 0x01300000 - IMAGE_BASE,
+                               0x01305000 - IMAGE_BASE)
+            while cursor >= 0:
+                instructions = list(decoder.disasm(
+                    data[cursor:cursor + 12], cursor + IMAGE_BASE, count=1))
+                if instructions and instructions[0].mnemonic == "cmp":
+                    instruction = instructions[0]
+                    if (instruction.operands[-1].type == X86_OP_IMM and
+                        instruction.size == (10 if opcode == 0x81 else 7)):
+                        found[instruction.address] = instruction.op_str
+                cursor = data.find(pattern, cursor + 1,
+                                   0x01305000 - IMAGE_BASE)
+        print(f"stack={displacement:+#x} candidate-cmp-sites={len(found)}")
+        for site, instruction in sorted(found.items()):
+            print(f"{site:#x} cmp {instruction}")
+        return 0
+    if args.xref_dispatch_jumps:
+        decoder = Cs(CS_ARCH_X86, CS_MODE_32)
+        pattern = b"\xff\x24\x85"
+        found = {}
+        cursor = data.find(pattern, 0x012F0000 - IMAGE_BASE,
+                           0x01305000 - IMAGE_BASE)
+        while cursor >= 0:
+            instructions = list(decoder.disasm(
+                data[cursor:cursor + 12], cursor + IMAGE_BASE, count=1))
+            if (instructions and instructions[0].mnemonic == "jmp" and
+                instructions[0].size == 7):
+                found[cursor + IMAGE_BASE] = u32(data, cursor + IMAGE_BASE + 3)
+            cursor = data.find(pattern, cursor + 1,
+                               0x01305000 - IMAGE_BASE)
+        print(f"packet-region eax-jump-tables={len(found)}")
+        for site, table in sorted(found.items()):
+            print(f"{site:#x} table={table:#x}")
+        return 0
+    if args.table_address is not None:
+        if not 0 < args.table_count <= 256:
+            raise ValueError("table count must be 1..256")
+        for index in range(args.table_count):
+            print(f"{index:3d} {u32(data, args.table_address + 4 * index):#x}")
         return 0
     if args.address is not None:
         for instruction in decode(data, args.address, args.address + args.size):
