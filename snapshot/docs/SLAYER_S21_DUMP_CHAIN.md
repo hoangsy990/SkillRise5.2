@@ -1308,6 +1308,18 @@ private junctions without traversing their targets. The stage verifier uses
 `lstat()` rather than `stat()` to detect reparse points, checks the exact
 126-junction set, and rejects any target outside the isolated source.
 
+The September 16 private QA6 login reached the local GS and submitted the
+saved `admin4` credential, but its character list contained only `MainRF`.
+A read-only query of the live `RISE5.2` DB confirmed there is no character
+named `Slayer` for `admin4`; the QA launcher now rejects that state before
+spawning another non-Slayer preview. The supplied S21 class patch contains
+`ArmorClass09.bmd` and the private QA Player tree has a byte-identical copy,
+but the isolated Slayer source still defines `MAX_CLASS=7` and
+`ZzzOpenData.cpp` loads only the first seven base body models. Thus even a
+newly created Slayer-named character would exercise the compatibility
+avatar until the separate class-body migration is integrated. Skill-graph
+build/stage evidence must not be labelled native Slayer avatar parity.
+
 The separate Master Slayer resource conversion is now wired to the client
 master UI. The pinned S21 tree and tooltip convert to 58 private 5.2 records;
 the pinned S21 SkillList adds a third 58-record, 77-byte metadata overlay

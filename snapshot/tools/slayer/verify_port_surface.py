@@ -53,6 +53,9 @@ def main() -> int:
     joints = read("ExMain_RISE_PC/Main5.2_RISE/ZzzEffectJoint.cpp")
     packet = read("ExMain_RISE_PC/Main5.2_RISE/RISE/Slayer/server/SlayerPacketContract.h")
     converter = read("tools/slayer/convert_s21_slayers.py")
+    player_model_loader = read("ExMain_RISE_PC/Main5.2_RISE/ZzzOpenData.cpp")
+    client_defines_path = ROOT / "ExMain_RISE_PC/Main5.2_RISE/_define.h"
+    client_defines = client_defines_path.read_text(encoding="utf-8", errors="replace") if client_defines_path.is_file() else ""
     project = read("ExMain_RISE_PC/Main.vcxproj")
     if project.count("<PostBuildEvent Condition=\"'$(SlayerIsolatedBuild)'!='true'\">") != 2:
         raise AssertionError("isolated Slayer builds can run shared-client post-build xcopy")
@@ -951,6 +954,11 @@ def main() -> int:
     if "case kSword68CController:\n            AttachToTarget" in resources:
         raise AssertionError("0x68C incorrectly attached to selected target")
     print("PASS: placeholder carriers removed and decoded 0x679..0x690 graph nodes present")
+    if re.search(r"#define\s+MAX_CLASS\s+7\b", client_defines) and \
+       "for (int i = 0; i < MAX_CLASS; ++i)" in player_model_loader:
+        print("OPEN: class09 body models are staged but the 5.2 MAX_CLASS=7 loader does not load them; skill-source PASS is not native Slayer avatar acceptance")
+    elif not client_defines:
+        print("OPEN: partial snapshot lacks _define.h; native class09 body-loader capacity cannot be certified by this verifier")
     return 0
 
 
