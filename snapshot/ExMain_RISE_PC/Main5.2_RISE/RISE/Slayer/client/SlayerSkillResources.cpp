@@ -40,6 +40,18 @@ std::map<const OBJECT*, short> gPierceCastTargetIndex;
 std::map<const OBJECT*, float> gPierceActorBaselineZ;
 unsigned char gPierceLaneDirection = 0;
 
+float NativeSlayerLightWave()
+{
+    // S21 0xAACD82 and 0x15A925E read a float millisecond clock, multiply
+    // by a float .005, then convert that float phase to double for the CRT
+    // sine call before rounding the result back to float. 5.2 WorldTime is
+    // double; narrow it first so long sessions do not use a different phase.
+    const float phase = static_cast<float>(WorldTime) * 0.005f;
+    const float sinusoid = static_cast<float>(sin(
+        static_cast<double>(phase)));
+    return (sinusoid + 1.f) * 0.25f + 0.2f;
+}
+
 void RetirePierceActorLift(OBJECT& actor)
 {
     std::map<const OBJECT*, float>::iterator it =
@@ -2049,8 +2061,7 @@ bool RenderEffect(OBJECT& effect)
         {
             // 0x15A925E: mode 6/7 submits 0x7EF7 with a white time wave,
             // not the incoming blue light used during child construction.
-            const float wave = (sinf(WorldTime * 0.005f) + 1.f) *
-                0.25f + 0.2f;
+            const float wave = NativeSlayerLightWave();
             Vector(wave, wave, wave, light);
         }
         else
@@ -2170,8 +2181,7 @@ bool RenderEffect(OBJECT& effect)
         // scales it by (sin(WorldTime*.005)+1)*.25+.2, then draws mesh 0
         // with flag 0x42 (texture|bright). The previous ordinary textured
         // draw made the RGB lines2 background an opaque black cylinder.
-        const float wave = (sinf(WorldTime * 0.005f) + 1.f) *
-            0.25f + 0.2f;
+        const float wave = NativeSlayerLightWave();
         VectorScale(effect.Light, wave, model.BodyLight);
     }
     const int renderFlags = nativeDark ? (RENDER_TEXTURE | RENDER_DARK) :

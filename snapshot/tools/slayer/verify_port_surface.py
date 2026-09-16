@@ -429,8 +429,12 @@ def main() -> int:
             "native Pierce 0x5D8 subtype-1 30-tick life")
     require(resources, "else if (effect.Type == kPierceMarksCylinderModel)",
             "native Pierce 0x5D8 map-independent bright model callback")
-    require(resources, "sinf(WorldTime * 0.005f) + 1.f) *",
+    require(resources, "const float phase = static_cast<float>(WorldTime) * 0.005f;",
+            "S21 float-clock phase before double-precision sine")
+    require(resources, "return (sinusoid + 1.f) * 0.25f + 0.2f;",
             "native Pierce cylinder time-wave light")
+    if resources.count("const float wave = NativeSlayerLightWave();") != 2:
+        raise AssertionError("S21 cylinder and 0x80BA flare must share the pinned light wave")
     require(resources, "VectorScale(effect.Light, wave, model.BodyLight);",
             "native Pierce cylinder callback scales object RGB light")
     require(resources, "Vector(180.f, 0.f, 0.f, turn);",

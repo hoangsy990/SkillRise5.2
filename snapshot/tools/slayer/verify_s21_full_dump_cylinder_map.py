@@ -100,6 +100,10 @@ def main() -> int:
         (0x1B527B4, b"fire_arrow\0"),
         (0xAACD0C, bytes.fromhex("81785cd8050000")),
         (0xAACD82, bytes.fromhex("f30f1005d8530b07f30f5905c8e4b401")),
+        (0xAACD98, bytes.fromhex("e89fd2ebff")),
+        (0x96A040, bytes.fromhex("f30f5a45085151f20f110424e86f8c0b015959d9")),
+        (0x15A925E, bytes.fromhex("f30f1005d8530b07f30f5905c8e4b401")),
+        (0x15A9274, bytes.fromhex("e8c30d3cff")),
         (0xAACDA1, bytes.fromhex(
             "f30f1045d4f30f580548ddb401f30f5905dce6b401f30f580508dfb401")),
         (0xAACEA2, bytes.fromhex("6a426a008b4d0ce805beeb")),

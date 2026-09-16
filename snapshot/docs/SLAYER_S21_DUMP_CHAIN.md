@@ -558,6 +558,13 @@ and false second-registry callback do **not** imply ordinary opaque
 flag-2 rendering. The old 5.2 `RENDER_TEXTURE` cylinder pass was a real
 source mismatch; the isolated adapter now uses the pinned bright pass
 and light wave without changing the authored RGB `lines2` texture.
+The same float clock/`.005`/`0x96A03C` call sequence also appears in
+the Pierce `0x80BA` subtype-6/7 light wave at `0x15A925E..0x15A9298`.
+Native `0x96A03C` converts its incoming float phase to double for the
+CRT trigonometric call, then returns a float result. Because 5.2
+`WorldTime` is double while the S21 clock at `0x70B53D8` is read with
+`movss`, both 5.2 paths now share a helper that rounds the clock/phase
+to float before the double call and rounds the result back to float.
 The callback's adjacent `0x5D7` branch is **not** another Slayer child:
 the native loader at `0xAA99B1..0xAA99DE` names it `fire_arrow` in
 `Data\Effect\`. Do not extend the Slayer model graph from numeric
