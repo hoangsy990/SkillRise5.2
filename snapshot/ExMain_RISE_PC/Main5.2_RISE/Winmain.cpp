@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "RISE/GrowLancerRuntimeCapacity.h"
+#include "RISE/GrowLancerSkillIdCapacity.h"
 #include <shellapi.h>
 
 #define WIN32_LEAN_AND_MEAN
@@ -473,6 +474,9 @@ int g_iMousePopPosition_y = 0;
 
 extern bool EnableFastInput;
 void MainScene(HDC hDC);
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+void WriteCrashBreadcrumb(const char* message);
+#endif
 
 LONG FAR PASCAL WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -561,6 +565,9 @@ LONG FAR PASCAL WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		switch (WSAGETSELECTEVENT(lParam))
 		{
 		case FD_CONNECT:
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+			WriteCrashBreadcrumb("QA game socket: FD_CONNECT");
+#endif
 			break;
 		case FD_READ:
 			SocketClient.nRecv();
@@ -569,6 +576,14 @@ LONG FAR PASCAL WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			SocketClient.FDWriteSend();
 			break;
 		case FD_CLOSE:
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+			{
+				char closeReason[90] = { 0 };
+				_snprintf_s(closeReason, sizeof(closeReason), _TRUNCATE,
+					"QA game socket: FD_CLOSE error=%d", WSAGETSELECTERROR(lParam));
+				WriteCrashBreadcrumb(closeReason);
+			}
+#endif
 			g_pChatListBox->AddText("", GlobalText[3], SEASON3B::TYPE_SYSTEM_MESSAGE);
 #ifdef CONSOLE_DEBUG
 			switch (WSAGETSELECTERROR(lParam))
@@ -868,7 +883,7 @@ HWND StartWindow(HINSTANCE hInstance, int nCmdShow)
 	char* WindowNameMU = new char[MAX_LEN_CHAR];
 	memset(WindowNameMU, 0, sizeof(char) * MAX_LEN_CHAR);
 	#ifdef RISE_GROW_LANCER_RUNTIME_QA
-	strcpy_s(WindowNameMU, MAX_LEN_CHAR, "Engine-Port S21");
+	strcpy_s(WindowNameMU, MAX_LEN_CHAR, "Engine-Port S21 [Grow Lancer QA]");
 	#else
 	memcpy(WindowNameMU, gProtect->m_MainInfo.WindowName, sizeof(char) * MAX_LEN_CHAR);
 	#endif
@@ -1754,15 +1769,42 @@ extern "C"
 	_declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
 }
 
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+#include "RISE/GrowLancerRuntimeQA.h"
+#endif
 int __stdcall APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine, int nCmdShow)
 {
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+	// Isolated QA must resolve Data beside its executable, regardless of the
+	// launching tool's inherited cwd. Do this before WinHook reads Mix.bmd.
+	wchar_t qaModule[MAX_PATH] = {};
+	const DWORD qaLength = GetModuleFileNameW(NULL, qaModule, MAX_PATH);
+	if (!qaLength || qaLength >= MAX_PATH) return 1;
+	wchar_t* qaSlash = wcsrchr(qaModule, L'\\');
+	if (!qaSlash) return 1;
+	*qaSlash = L'\0';
+	if (!SetCurrentDirectoryW(qaModule)) return 1;
+	// Explicit offline asset test: exit before creating windows or connecting.
+	const int lanceProbeResult = rise::growlancer::RunLanceLoadProbeQA();
+	if (lanceProbeResult >= 0) return lanceProbeResult;
+	const int bodyProbeResult = rise::growlancer::RunBodyLoadProbeQA();
+	if (bodyProbeResult >= 0) return bodyProbeResult;
+	const int bodyTextureResult = rise::growlancer::RunBodyTextureProbeQA();
+	if (bodyTextureResult >= 0) return bodyTextureResult;
+#endif
 	/*if (strstr(szCmdLine, "RISELaunch") == NULL)
 	{
 		ShellExecute(NULL, "open", "Launcher.exe", NULL, NULL, SW_SHOWNORMAL);
 		return 0;
 	}*/
 
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+	WriteCrashBreadcrumb("WinMain: before pMain WinHook");
+#endif
 	pMain->WinHook(hInstance);
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+	WriteCrashBreadcrumb("WinMain: after pMain WinHook");
+#endif
 
 	MSG msg;
 	ConfigureWindowsCrashDumps();
@@ -1801,6 +1843,9 @@ int __stdcall APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PST
 	{
 		return false;
 	}
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+	WriteCrashBreadcrumb("WinMain: after OpenMainExe");
+#endif
 
 	VM_START
 	g_SimpleModulusCS.LoadEncryptionKey("Data\\Enc1.dat");
@@ -1811,8 +1856,37 @@ int __stdcall APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PST
 	{
 		return false;
 	}
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+	// OpenInitFile reads the protected client ConnectInfo after WinMain parsed
+	// /u and /p, so the native command-line result was silently overwritten. Only
+	// this isolated QA build may re-apply the exact Grow Lancer loopback route.
+	char qaConnectAddress[50] = { 0 };
+	WORD qaConnectPort = 0;
+	// Util_CheckOption starts scanning at input+1; the WinMain tail begins
+	// with /u and that first slash is skipped. The full command line includes
+	// the executable before /u and is parsed by the same native function.
+	if (GetConnectServerInfo(GetCommandLineA(), qaConnectAddress, &qaConnectPort) &&
+		strcmp(qaConnectAddress, "127.0.0.1") == 0 && qaConnectPort == 44412)
+	{
+		strncpy(szServerIpAddress, qaConnectAddress, 31);
+		szServerIpAddress[31] = '\0';
+		g_ServerPort = qaConnectPort;
+		strncpy(g_RISESharedInfo.ServerIP, szServerIpAddress, sizeof(g_RISESharedInfo.ServerIP) - 1);
+		g_RISESharedInfo.ServerIP[sizeof(g_RISESharedInfo.ServerIP) - 1] = '\0';
+		WriteCrashBreadcrumb("WinMain: Grow Lancer QA loopback ConnectServer override applied");
+	}
+	WriteCrashBreadcrumb("WinMain: after OpenInitFile");
+#endif
 
+	#ifdef RISE_GROW_LANCER_RUNTIME_QA
+	// The legacy working-set trimmer empties the process every five seconds;
+	// that is hostile to an isolated visual QA client (hundreds of MB private
+	// memory but only a few MB resident) and can make the render thread appear
+	// hung.  Keep the production behavior unchanged and omit it only here.
+	WriteCrashBreadcrumb("WinMain: QA skipped StartAddress working-set trim");
+	#else
 	CreateThread(0, 0, (LPTHREAD_START_ROUTINE)StartAddress, 0, 0, 0);
+	#endif
 
 	pMultiLanguage = new CMultiLanguage(g_strSelectedML);
 
@@ -1842,11 +1916,20 @@ int __stdcall APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PST
 
 	delete[] pDevmodes;
 	g_hInst = hInstance;
+	#ifdef RISE_GROW_LANCER_RUNTIME_QA
+	WriteCrashBreadcrumb("WinMain: before StartWindow");
+	#endif
 	g_hWnd = StartWindow(hInstance, nCmdShow);
+	#ifdef RISE_GROW_LANCER_RUNTIME_QA
+	WriteCrashBreadcrumb("WinMain: after StartWindow");
+	#endif
 	if (!CreateOpenglWindow())
 	{
 		return FALSE;
 	}
+	#ifdef RISE_GROW_LANCER_RUNTIME_QA
+	WriteCrashBreadcrumb("WinMain: after CreateOpenglWindow");
+	#endif
 	ShowWindow(g_hWnd, nCmdShow);
 	UpdateWindow(g_hWnd);
 
@@ -1861,7 +1944,13 @@ int __stdcall APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PST
 
 	CInput::Instance().Create(g_hWnd, WindowWidth, WindowHeight);
 
+	#ifdef RISE_GROW_LANCER_RUNTIME_QA
+	WriteCrashBreadcrumb("WinMain: before NewUISystem Create");
+	#endif
 	g_pNewUISystem->Create();
+	#ifdef RISE_GROW_LANCER_RUNTIME_QA
+	WriteCrashBreadcrumb("WinMain: after NewUISystem Create");
+	#endif
 	if (m_MusicOnOff)
 	{
 		wzAudioCreate(g_hWnd);
@@ -1892,7 +1981,7 @@ int __stdcall APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PST
 
 	RendomMemoryDump = new BYTE[rand() % 100 + 1];
 	GateAttribute = new GATE_ATTRIBUTE[MAX_GATES];
-	SkillAttribute = new SKILL_ATTRIBUTE[MAX_SKILLS];
+	SkillAttribute = new SKILL_ATTRIBUTE[rise::growlancer::kSkillAttributeIdCapacity];
 
 	ItemAttRibuteMemoryDump = new ITEM_ATTRIBUTE[MAX_ITEM + 1024];
 	ItemAttribute = ((ITEM_ATTRIBUTE*)ItemAttRibuteMemoryDump) + rand() % 1024;
@@ -1902,11 +1991,15 @@ int __stdcall APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PST
 	CharacterMachine = new CHARACTER_MACHINE;
 	memset(GateAttribute, 0, sizeof(GATE_ATTRIBUTE) * (MAX_GATES));
 	memset(ItemAttribute, 0, sizeof(ITEM_ATTRIBUTE) * (MAX_ITEM));
-	memset(SkillAttribute, 0, sizeof(SKILL_ATTRIBUTE) * (MAX_SKILLS));
+	memset(SkillAttribute, 0, sizeof(SKILL_ATTRIBUTE) *
+		rise::growlancer::kSkillAttributeIdCapacity);
 	memset(CharacterMachine, 0, sizeof(CHARACTER_MACHINE));
 	CharacterAttribute = &CharacterMachine->Character;
 	CharacterMachine->Init();
 	Hero = &CharactersClient[0];
+	#ifdef RISE_GROW_LANCER_RUNTIME_QA
+	WriteCrashBreadcrumb("WinMain: after character globals");
+	#endif
 	if (g_iChatInputType == 1)
 	{
 		g_pMercenaryInputBox = new CUIMercenaryInputBox;
@@ -1950,6 +2043,9 @@ int __stdcall APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PST
 		SystemParametersInfo(SPI_GETSCREENSAVETIMEOUT, 0, &g_iScreenSaverOldValue, 0);
 		SystemParametersInfo(SPI_SETSCREENSAVETIMEOUT, 300 * 60, NULL, 0);
 	}
+	#ifdef RISE_GROW_LANCER_RUNTIME_QA
+	WriteCrashBreadcrumb("WinMain: before message loop");
+	#endif
 
 #ifdef SAVE_PACKET
 	DeleteFile(PACKET_SAVE_FILE);

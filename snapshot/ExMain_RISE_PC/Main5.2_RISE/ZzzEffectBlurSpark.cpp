@@ -14,6 +14,9 @@
 #include "DSPlaySound.h"
 #include "WSClient.h"
 #include "RISE/GrowLancerResources.h"
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+#include "RISE/GrowLancerRuntimeQA.h"
+#endif
 #include "RISE/GrowLancerHarshWind.h"
 
 #define MAX_BLURS      100
@@ -200,6 +203,18 @@ typedef struct
 OBJECT_BLUR ObjectBlur[MAX_OBJECTBLURS];
 static rise::growlancer::HarshBlurClock g_harshBlurClocks[MAX_OBJECTBLURS];
 
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+int CountStyleOneObjectBlursQA()
+{
+    int live = 0;
+    for (int i = 0; i < MAX_OBJECTBLURS; ++i)
+        if (ObjectBlur[i].Live && ObjectBlur[i].RenderStyle == 1 &&
+            ObjectBlur[i].Type == 1 && ObjectBlur[i].SubType == 0)
+            ++live;
+    return live;
+}
+#endif
+
 void ClearAllObjectBlurs()
 {
 	for(int i = 0; i < MAX_OBJECTBLURS; ++i)
@@ -320,6 +335,16 @@ void RenderObjectBlurs()
 			{
 				nTexture = BITMAP_LAVA;
 			}
+			if (b->RenderStyle == 1 && b->Type == 1 && b->Owner &&
+				b->Owner->Type == rise::growlancer::kSpinControllerModel)
+			{
+				// S21 mode-1 ribbon uses motion_blur NEAREST/CLAMP, unlike
+				// stock SS6 BITMAP_BLUR+1 NEAREST/CLAMP_TO_EDGE. The resource
+				// was loaded at emission; never mutate the shared SS6 texture.
+				if (!Bitmaps.FindTexture(rise::growlancer::kSpinMotionBlurBitmap))
+					continue;
+				nTexture = rise::growlancer::kSpinMotionBlurBitmap;
+			}
 
             EnableAlphaBlend();
 
@@ -370,6 +395,15 @@ void RenderObjectBlurs()
 					}
 					glEnd();
 				}
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+                if (b->RenderStyle == 1 && b->Owner && b->Owner->Live &&
+                    b->Owner->Type == rise::growlancer::kSpinControllerModel &&
+                    b->Owner->SubType == 0)
+                    rise::growlancer::RecordSpinBlurDrawQA(b->Owner,
+                        b->Number - 1, b->LifeTime, nTexture,
+                        b->p1[0], b->p2[0], b->p1[b->Number - 1],
+                        b->p2[b->Number - 1]);
+#endif
 			}
 		}
 	}

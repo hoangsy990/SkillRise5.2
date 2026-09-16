@@ -1244,6 +1244,14 @@ int RunBodyTextureProbeQA()
     const bool magicTerrainProbe = GetEnvironmentVariableA("RISE_GL_MAGIC_TERRAIN_DEPTH_QA",
         magicTerrainEnabled, sizeof(magicTerrainEnabled)) == 1 &&
         magicTerrainEnabled[0] == '1';
+    char clashDrawEnabled[4] = {};
+    const bool clashDrawProbe = GetEnvironmentVariableA(
+        "RISE_GL_CLASH_NATIVE_DRAW_QA", clashDrawEnabled,
+        sizeof(clashDrawEnabled)) == 1 && clashDrawEnabled[0] == '1';
+    char clashCullOffEnabled[4] = {};
+    const bool clashCullOffProbe = GetEnvironmentVariableA(
+        "RISE_GL_CLASH_CULL_OFF_QA", clashCullOffEnabled,
+        sizeof(clashCullOffEnabled)) == 1 && clashCullOffEnabled[0] == '1';
     char spinCrossDrawEnabled[4] = {};
     const bool spinCrossDrawProbe = GetEnvironmentVariableA(
         "RISE_GL_SPIN_CROSS_DRAW_QA", spinCrossDrawEnabled,
@@ -1262,13 +1270,15 @@ int RunBodyTextureProbeQA()
         sizeof(spinPoseDepthEnabled)) == 1 && spinPoseDepthEnabled[0] == '1';
     if (!bodyProbe && !circleProbe && !spinProbe && !wrathProbe &&
         !privateModelsProbe && !magicDrawProbe && !magicCalcProbe &&
-        !magicTerrainProbe && !spinCrossDrawProbe &&
+        !magicTerrainProbe && !clashDrawProbe && !spinCrossDrawProbe &&
         !spinBlurDrawProbe && !spinPoseBlurProbe &&
         !spinPoseDepthProbe) return -1;
+    if (clashCullOffProbe && !clashDrawProbe) return 2;
     if (static_cast<int>(bodyProbe) + static_cast<int>(circleProbe) +
         static_cast<int>(spinProbe) + static_cast<int>(wrathProbe) +
         static_cast<int>(privateModelsProbe) + static_cast<int>(magicDrawProbe) +
         static_cast<int>(magicCalcProbe) + static_cast<int>(magicTerrainProbe) +
+        static_cast<int>(clashDrawProbe) +
         static_cast<int>(spinCrossDrawProbe) + static_cast<int>(spinBlurDrawProbe) +
         static_cast<int>(spinPoseBlurProbe) +
         static_cast<int>(spinPoseDepthProbe) != 1)
@@ -1325,7 +1335,7 @@ int RunBodyTextureProbeQA()
     } shaderLifetime; // released before the hidden WGL context
     char shaderEnabled[4] = {};
     shaderProbe = wrathProbe || privateModelsProbe || magicDrawProbe ||
-        magicCalcProbe || magicTerrainProbe ||
+        magicCalcProbe || magicTerrainProbe || clashDrawProbe ||
         spinCrossDrawProbe ||
         (GetEnvironmentVariableA("RISE_GL_BODY_GPU_QA",
         shaderEnabled, sizeof(shaderEnabled)) == 1 && shaderEnabled[0] == '1');
@@ -1636,7 +1646,8 @@ int RunBodyTextureProbeQA()
         AppendQALog(line);
         return valid && released ? 0 : 1;
     }
-    if (magicDrawProbe || magicCalcProbe || magicTerrainProbe || spinCrossDrawProbe)
+    if (magicDrawProbe || magicCalcProbe || magicTerrainProbe ||
+        clashDrawProbe || spinCrossDrawProbe)
     {
         if (Models || !GMMeshShader) return 2;
         const DWORD bytesBefore = Bitmaps.GetUsedTextureMemory();
@@ -1654,10 +1665,14 @@ int RunBodyTextureProbeQA()
             glMatrixMode(GL_MODELVIEW); glLoadIdentity();
             glRotatef(-90.0f, 1.0f, 0.0f, 0.0f);
             const int types[] = {spinCrossDrawProbe ? kSpinCrossModel :
-                kMagicPin01Model, spinCrossDrawProbe ? -1 : kMagicPinRootModel};
+                (clashDrawProbe ? kClashFrontModel : kMagicPin01Model),
+                spinCrossDrawProbe ? -1 :
+                (clashDrawProbe ? kClashRearModel : kMagicPinRootModel)};
             for (int type : types)
             {
                 if (type < 0) continue;
+                const float clashScale = type == kClashFrontModel ? 0.89f : 1.25f;
+                const float clashAlpha = type == kClashFrontModel ? 0.65f : 0.90f;
                 const bool opened = EnsureModel(type);
                 BMD& model = Models[type];
                 float pose[MAX_BONES][3][4] = {};
@@ -1669,21 +1684,28 @@ int RunBodyTextureProbeQA()
                     meshReady = mesh.VAO != 0 && mesh.IndexCount > 0;
                     model.CurrentAction = 0;
                     model.BodyScale = model.RequestScale =
-                        spinCrossDrawProbe ? 8.5f : 0.7f;
+                        spinCrossDrawProbe ? 8.5f :
+                        (clashDrawProbe ? clashScale : 0.7f);
                     Vector(0.0f, 0.0f, 0.0f, model.BodyOrigin);
-                    if (spinCrossDrawProbe)
+                    if (clashDrawProbe)
+                        Vector(1.0f * clashAlpha, 1.5f * clashAlpha,
+                            1.5f * clashAlpha, model.BodyLight);
+                    else if (spinCrossDrawProbe)
                         Vector(0.2f, 0.6f, 1.0f, model.BodyLight);
                     else
                         Vector(0.48f, 0.73f, 1.0f, model.BodyLight);
                     model.LightEnable = false;
                 }
-                const int rotations[] = {0, 90, 180, 270};
+                const int rotations[] = {0, 45, 90, 135, 180, 225, 270, 315};
                 for (int rotation : rotations)
                 {
+                    if (!clashDrawProbe && rotation % 90 != 0) continue;
                     for (int plane = 0; plane <= (magicTerrainProbe ? 1 : 0); ++plane)
                     {
                     unsigned samples = 0;
                     bool calcReady = false;
+                    bool clashEdgeOn = false;
+                    int cullDuringDraw = glIsEnabled(GL_CULL_FACE) ? 1 : 0;
                     GLfloat centerDepth = 1.0f;
                     GLfloat groundDepth = 1.0f;
                     if (meshReady)
@@ -1692,15 +1714,17 @@ int RunBodyTextureProbeQA()
                             static_cast<float>(rotation);
                         OBJECT nativeEffect = {};
                         calcReady = true;
-                        if (magicCalcProbe || magicTerrainProbe)
+                        if (magicCalcProbe || magicTerrainProbe || clashDrawProbe)
                         {
                             nativeEffect.Type = type;
                             nativeEffect.Live = true;
-                            nativeEffect.Alpha = 1.0f;
-                            nativeEffect.Scale = 0.7f;
+                            nativeEffect.Alpha = clashDrawProbe ? clashAlpha : 1.0f;
+                            nativeEffect.Scale = clashDrawProbe ? clashScale : 0.7f;
                             nativeEffect.CurrentAction = 0;
                             VectorCopy(angle, nativeEffect.Angle);
                             Vector(0.0f, 0.0f, 0.0f, nativeEffect.Position);
+                            if (clashDrawProbe)
+                                Vector(1.0f, 1.5f, 1.5f, nativeEffect.Light);
                         }
                         else
                             model.Animation(pose, 0.0f, 0.0f, 0, angle,
@@ -1749,33 +1773,87 @@ int RunBodyTextureProbeQA()
                         glGenQueries(1, &query);
                         if (query)
                         {
+                            const bool restoreCull = clashCullOffProbe &&
+                                glIsEnabled(GL_CULL_FACE) == GL_TRUE;
+                            if (clashCullOffProbe) glDisable(GL_CULL_FACE);
+                            cullDuringDraw = glIsEnabled(GL_CULL_FACE) ? 1 : 0;
                             glBeginQuery(GL_SAMPLES_PASSED, query);
                             GMMeshShader->BeginScope();
-                            if (magicCalcProbe || magicTerrainProbe)
+                            if (magicCalcProbe || magicTerrainProbe || clashDrawProbe)
                             {
                                 calcReady = Calc_RenderObject(&nativeEffect, false, 0, 0);
-                                // The production Magic path overwrites BodyLight
-                                // after Calc_RenderObject; keep that source renderer
-                                // light contract in this isolated native probe.
-                                Vector(0.48f, 0.73f, 1.0f, model.BodyLight);
+                                // Production Magic and Clash paths overwrite
+                                // BodyLight after Calc_RenderObject.  Keep the
+                                // source renderer light contract private here.
+                                if (clashDrawProbe)
+                                    Vector(1.0f * clashAlpha, 1.5f * clashAlpha,
+                                        1.5f * clashAlpha, model.BodyLight);
+                                else
+                                    Vector(0.48f, 0.73f, 1.0f, model.BodyLight);
                             }
                             else
                                 GMMeshShader->AddBoneTransform(&model, pose, false);
                             // Exact mesh flags/peak alpha and source model
                             // scale; only owner position/camera are fixtures.
+                            if (clashDrawProbe && type == kClashRearModel &&
+                                calcReady && model.NumMeshs == 1 &&
+                                model.Meshs[0].NumVertices == 6)
+                            {
+                                // Same root bone matrices consumed by the
+                                // native shader upload. Camera -90deg X maps
+                                // transformed Z to fixture screen Y.
+                                Mesh_t& mesh = model.Meshs[0];
+                                vec3_t world[6] = {};
+                                float xMin = 999999.0f, xMax = -999999.0f;
+                                float zMin = 999999.0f, zMax = -999999.0f;
+                                for (int vertex = 0; vertex < 6; ++vertex)
+                                {
+                                    Vertex_t& source = mesh.Vertices[vertex];
+                                    VectorTransform(source.Position,
+                                        BoneTransform[source.Node], world[vertex]);
+                                    xMin = min(xMin, world[vertex][0]);
+                                    xMax = max(xMax, world[vertex][0]);
+                                    zMin = min(zMin, world[vertex][2]);
+                                    zMax = max(zMax, world[vertex][2]);
+                                }
+                                float projectedArea = 0.0f;
+                                for (int triangle = 0; triangle < mesh.NumTriangles; ++triangle)
+                                {
+                                    const Triangle_t& face = mesh.Triangles[triangle];
+                                    const float* a = world[face.VertexIndex[0]];
+                                    const float* b = world[face.VertexIndex[1]];
+                                    const float* c = world[face.VertexIndex[2]];
+                                    projectedArea += fabsf((b[0] - a[0]) *
+                                        (c[2] - a[2]) - (c[0] - a[0]) *
+                                        (b[2] - a[2]));
+                                }
+                                clashEdgeOn = projectedArea < 0.1f;
+                                char projection[256] = {};
+                                sprintf_s(projection,
+                                    "event=clash-native-bone-projection type=%d rotation=%d xMin=%.3f xMax=%.3f screenYMin=%.3f screenYMax=%.3f doubledArea=%.3f fixtureCamera=1",
+                                    type, rotation, xMin, xMax, zMin, zMax,
+                                    projectedArea);
+                                AppendQALog(projection);
+                            }
                             if (calcReady)
                                 model.RenderMesh(0, RENDER_TEXTURE | RENDER_BRIGHT,
-                                    1.0f, 0, 1.0f, 0.0f, 0.0f, -1);
+                                    clashDrawProbe ? clashAlpha : 1.0f, 0,
+                                    clashDrawProbe ? clashAlpha : 1.0f,
+                                    clashDrawProbe && type == kClashFrontModel ? -0.05f : 0.0f,
+                                    clashDrawProbe && type == kClashFrontModel ? -0.01f : 0.0f,
+                                    -1);
                             GMMeshShader->EndScope();
                             glEndQuery(GL_SAMPLES_PASSED);
                             glGetQueryObjectuiv(query, GL_QUERY_RESULT, &samples);
                             glDeleteQueries(1, &query);
+                            if (restoreCull) glEnable(GL_CULL_FACE);
                         }
                         GMMeshShader->AddBoneTransform(NULL, NULL, false);
                     }
                     const GLenum error = glGetError();
                     unsigned litPixels = 0;
-                    if (spinCrossDrawProbe && meshReady && error == GL_NO_ERROR)
+                    if ((spinCrossDrawProbe || clashDrawProbe) && meshReady &&
+                        error == GL_NO_ERROR)
                     {
                         unsigned char pixels[256 * 256 * 4] = {};
                         glReadPixels(0, 0, 256, 256, GL_RGBA, GL_UNSIGNED_BYTE,
@@ -1785,7 +1863,16 @@ int RunBodyTextureProbeQA()
                                 pixels[pixel * 4 + 2]) ++litPixels;
                     }
                     char line[320] = {};
-                    if (spinCrossDrawProbe)
+                    if (clashDrawProbe)
+                        sprintf_s(line,
+                            "event=clash-native-fixture-draw type=%d rotation=%d scale=%.2f alpha=%.2f calcReady=%d opened=%d meshReady=%d samples=%u litPixels=%u cull=%d depth=%d glError=%u fixturePosition=1 gameplayCamera=0",
+                            type, rotation, static_cast<double>(clashScale),
+                            static_cast<double>(clashAlpha), calcReady ? 1 : 0,
+                            opened ? 1 : 0, meshReady ? 1 : 0,
+                            samples, litPixels, cullDuringDraw,
+                            glIsEnabled(GL_DEPTH_TEST) ? 1 : 0,
+                            static_cast<unsigned>(error));
+                    else if (spinCrossDrawProbe)
                         sprintf_s(line,
                             "event=spin-cross-native-fixture-draw type=%d cameraSweep=%d sourceAngle=120 sourceScale=8.5 opened=%d meshReady=%d samples=%u litPixels=%u glError=%u fixturePose=1 gameplayCamera=0",
                             type, rotation, opened ? 1 : 0, meshReady ? 1 : 0,
@@ -1811,9 +1898,13 @@ int RunBodyTextureProbeQA()
                             type, rotation, opened ? 1 : 0, meshReady ? 1 : 0,
                             samples, static_cast<unsigned>(error));
                     AppendQALog(line);
+                    const bool expectedClashRaster = !clashDrawProbe ||
+                        (clashEdgeOn ? samples == 0 && litPixels == 0 :
+                            samples > 0 && litPixels > 0);
                     valid = valid && opened && meshReady &&
-                        (magicTerrainProbe || samples > 0) &&
+                        (magicTerrainProbe || clashDrawProbe || samples > 0) &&
                         error == GL_NO_ERROR &&
+                        expectedClashRaster &&
                         (!spinCrossDrawProbe || litPixels > 0);
                     }
                 }
@@ -1821,7 +1912,10 @@ int RunBodyTextureProbeQA()
         }
         const bool released = bytesBefore == Bitmaps.GetUsedTextureMemory() &&
             countBefore == Bitmaps.GetNumberOfTexture() && Models == NULL;
-        AppendQALog(spinCrossDrawProbe ?
+        AppendQALog(clashDrawProbe ?
+            (released ? "event=clash-native-fixture-release stable=1" :
+                "event=clash-native-fixture-release stable=0") :
+            spinCrossDrawProbe ?
             (released ? "event=spin-cross-native-fixture-release stable=1" :
                 "event=spin-cross-native-fixture-release stable=0") :
             (released ? "event=magic-native-fixture-release stable=1" :

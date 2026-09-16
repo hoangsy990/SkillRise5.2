@@ -4,6 +4,31 @@ Status: `STATIC_EVIDENCE_COMPLETE` for the local S21 builders used by base
 skills 271..279. Translation to RISE 5.2 remains disabled because S21 opcodes
 must not be copied over the older protocol namespace.
 
+## Player stat/join opcode numbering is not portable — 2026-09-16
+
+The pinned S21 head table `130505C` maps plain head `0x03` to `12FEA31`
+and head `0xF3` to `12FF92C`. The F3 dispatcher uses subtype byte+3 for
+C1 or byte+4 for C2; subtype `0x03` goes to `12FFB21` and calls wrapper
+`12884DB`, then indirect/status switch `986942`. Plain head03 goes to
+`1297213`, whose continuation crosses an obfuscated/protected branch and
+does not supply a complete initial-stat chain in this dump. This does not
+establish that the native 5.2 `C1:F3:03` join packet has the same S21 meaning
+or layout. `verify_s21_join_opcode_boundary.py` pins these handlers and
+the native named join-speed assignment, but deliberately leaves S21 join
+semantics and speed delivery OPEN. The separate S21 head82/sub04 handler
+`1296442` is the proved global-speed WORD update; it cannot be mapped to a
+native DWORD receive merely by field name.
+
+2026-09-16 selected opcode82/sub04 byte-offset boundary: pinned
+`verify_s21_speed_packet_offset_boundary.py` shows C1 subtype at raw byte+3,
+C2 subtype at raw byte+4, both dispatch sub04 to `1296442` with the unchanged
+raw buffer pointer. That receiver always reads WORD speed fields at raw+4
+and raw+8. The selected branch does not compare packet-length bytes; upstream
+validation remains unknown. For C2, raw+4 is also the subtype byte, so no
+actual C2 sub04 payload compatibility can be asserted without sender/runtime
+proof. Neither opcode/width nor this fixed layout was transplanted into
+native 5.2; initial S21 sender and rate remain OPEN.
+
 ## Common target packet: `C1:35`
 
 Harsh Strike 276, Spin Step 271, Circle Shield 272, Magic Pin 274, Obsidian
@@ -57,6 +82,16 @@ other callers, so its opcode is not named from these two skills alone.
 
 ## Clash movement packet: `C1:59`
 
+2026-09-15 focused byte-level continuation: `verify_clash_movement_payload.py`
+pins contiguous terrain/send/local-move block `10E4CB5..10E4E21`, the
+`0x95DB09` one-byte writer and `0xD8DC5A` C1 builder. The six writer calls
+consume the six stack inputs in reverse push order, so the listed wire order
+is verified rather than inferred from push order. A dormant, opcode-free
+`Shared/GrowLancerClashMovementPayload.h` encodes seven payload bytes and
+rejects terrain flags masked by `0x1C`; focused x86 `/W4 /WX` test PASS.
+No native opcode registration, client send, GS handler or movement authority
+is enabled by this pure contract.
+
 After calculating and terrain-validating its destination tile, Clash 275
 builds `C1:59` at `0x10E4D3C`. It first appends byte 1, then appends six source
 bytes through the chained byte writer in this exact wire order:
@@ -68,9 +103,13 @@ bytes through the chained byte writer in this exact wire order:
 5. destination X byte;
 6. destination Y byte.
 
-After sending, `0xD6DC05(destinationX,destinationY)` performs the local movement
-edge. The server-side collision/push/rollback handler is not present in the
-available inputs and remains open.
+Correction after complete `0xD6DC05..0xD6DCA3` decode: this helper builds and
+sends a SECOND `C1:31` packet with destination X/Y. It does not mutate the
+local character position. Therefore Clash emits `C1:59` followed by `C1:31`;
+the earlier "local movement edge" reading of the call was wrong. Native 5.2
+top-level `C1:31` invokes `CGNpcTalkCloseRecv`, while native movement uses
+`C1:D4`. Neither S21 packet may be forwarded by numeric equivalence. Exact
+S21 siege/movement GS handler and server collision/push/rollback remain OPEN.
 
 ## RISE 5.2 mapping boundary
 

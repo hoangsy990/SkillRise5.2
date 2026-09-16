@@ -4,6 +4,14 @@ STATUS: IN_PROCESS
 
 ## RECOVERY UPDATE — 2026-09-13
 
+Preview launch after restoration: reconciled stage verifier ENGINE_SHA to the
+already-recorded E6FED7D0 build after independent Bin/Client hash checks.
+Full stage check PASS: 2658 base RISE files, 79 Grow Lancer overlay files,
+3 root Data files, EXE/Player hashes and merged-player CRC. Launched only the
+isolated Engine-Port S21 client, PID 20032, using its Client working directory.
+Process was responsive and exposed the Engine-Port S21 window. No new cast,
+login or visual acceptance is claimed by this launch check.
+
 Both zero-filled documents have now been restored to their original paths by
 replaying successful writes from this task's local history. The damaged originals
 were preserved on C: before restoration. See `GrowLancer/DOCUMENT_RECOVERY.md`

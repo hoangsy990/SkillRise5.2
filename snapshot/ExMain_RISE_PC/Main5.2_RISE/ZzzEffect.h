@@ -20,6 +20,10 @@ void CreateObjectBlur(OBJECT *Owner,vec3_t p1,vec3_t p2,vec3_t Light,int Type,bo
 void MoveObjectBlurs();
 void RenderObjectBlurs();
 void RemoveObjectBlurs(OBJECT *Owner,int SubType = 0);
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+// Diagnostic count of the isolated Spin Step-style object-blur records.
+int CountStyleOneObjectBlursQA();
+#endif
 void CreateSpark(int Type,CHARACTER *tc,vec3_t Position,vec3_t Angle);
 void CreateBlood(OBJECT *o);
 

@@ -21,7 +21,11 @@
 #include "RISE/GrowLancerResources.h"
 #include "RISE/GrowLancerTick.h"
 #include "RISE/GrowLancerMagicPinTick.h"
+#include "RISE/GrowLancerEffectRuntime.h"
+#include "../../GrowLancer/compat/ParticleBirthOrder.h"
 #include "RISE/GrowLancerWrathParticle.h"
+#include "RISE/GrowLancerWrathPersistentTick.h"
+#include "RISE/GrowLancerCirclePersistent.h"
 #include "RISE/GrowLancerObsidianTick.h"
 #include "RISE/GrowLancerFireParticle.h"
 #include "RISE/GrowLancerSpinParticle.h"
@@ -44,6 +48,7 @@ namespace
     float g_magicThunderRemainder[MAX_PARTICLES] = {};
     float g_magicShockwaveRemainder[MAX_PARTICLES] = {};
     float g_magicSmokeRemainder[MAX_PARTICLES] = {};
+    rise::growlancer::ParticleBirthOrder<MAX_PARTICLES> g_magicParticleBirthOrder;
     float g_wrathParticleRemainder[MAX_PARTICLES] = {};
     float g_obsidianThunderRemainder[MAX_PARTICLES] = {};
 }
@@ -105,6 +110,47 @@ int CreateParticle(int Type, vec3_t Position, vec3_t Angle, vec3_t Light, int Su
     return result < 0 ? 0 : result; // Preserve the legacy public convention.
 }
 
+int rise::growlancer::CreateMagicPinParticle(int type, float* position,
+    float* angle, float* light, int subtype, float scale, OBJECT* owner)
+{
+    const bool supported = (type == BITMAP_CLUD64 && subtype == 19) ||
+        (type == kShockwave2Bitmap && subtype == 1) ||
+        (type == BITMAP_ENERGY && (subtype == 9 || subtype == 10));
+    if (!supported || !position || !angle || !light)
+        return -1;
+    const int slot = CreateParticleInternal(type, position, angle, light,
+        subtype, scale, owner, false);
+    if (slot >= 0 && slot < MAX_PARTICLES)
+        g_magicParticleBirthOrder.Append(static_cast<unsigned>(slot));
+    return slot;
+}
+
+bool rise::growlancer::IsMagicPinParticleSlot(int index)
+{
+    return index >= 0 && index < MAX_PARTICLES &&
+        Particles[index].Live && g_magicParticleBirthOrder.Contains(static_cast<unsigned>(index));
+}
+
+void rise::growlancer::StepMagicPinParticles()
+{
+    // Keep native MoveParticles option semantics in the opt-in timing path.
+    if (!g_pOption->GetRenderAllEffects() || !g_pOption->GetRenderSkillEffects())
+        return;
+    // These three selected bodies do not allocate or change particle Type.
+    // Provenance list excludes Shining's shared smoke19 and ordinary SS6.
+    auto update = [](PARTICLE& particle, float)
+    {
+        if (particle.Type == BITMAP_CLUD64 && particle.SubType == 19)
+            UpdateMagicSmokeTick(particle);
+        else if (particle.Type == kShockwave2Bitmap && particle.SubType == 1)
+            UpdateMagicShockwaveTick(particle);
+        else if (particle.Type == BITMAP_ENERGY &&
+            (particle.SubType == 9 || particle.SubType == 10))
+            UpdateMagicThunderTick(particle);
+    };
+    StepOrderedParticlePhase(g_magicParticleBirthOrder, Particles, update);
+}
+
 int rise::growlancer::CreateBrecheFireParticle(int variant, float* position,
     float* angle, float* light, float scale)
 {
@@ -113,6 +159,52 @@ int rise::growlancer::CreateBrecheFireParticle(int variant, float* position,
     const int types[] = {BITMAP_FIRE_HIK1, BITMAP_FIRE_CURSEDLICH, BITMAP_FIRE_HIK3};
     return CreateParticleInternal(types[variant], position, angle, light,
         variant == 1 ? 4 : 0, scale, NULL, true);
+}
+
+void rise::growlancer::RetireWrathPersistentParticles(OBJECT* owner)
+{
+    if (!owner) return;
+    for (int i = 0; i < MAX_PARTICLES; ++i)
+    {
+        PARTICLE& p = Particles[i];
+        if (p.Target == owner && p.Type >= kWrathMono01Bitmap && p.Type <= kWrathMono03Bitmap)
+        {
+            p.Live = false;
+            p.Target = NULL;
+            g_wrathParticleRemainder[i] = 0.f;
+        }
+    }
+}
+
+int rise::growlancer::CreateWrathScatterParticle(int variant, float* position,
+    float* angle, float* light, float scale)
+{
+    if (variant < 0 || variant > 2 || !position || !angle || !light ||
+        !EnsureWrathScatterBitmaps()) return -1;
+    return CreateParticleInternal(kWrathScatter01Bitmap + variant,
+        position, angle, light, 0, scale, NULL, false);
+}
+
+int rise::growlancer::CreateWrathPersistentParticle(int variant, int attachment,
+    float* position, float* angle, float* light, float scale, OBJECT* owner)
+{
+    if (variant < 0 || variant > 2 || attachment < 0 || attachment > 1 ||
+        !owner || !owner->Live || !position || !angle || !light)
+        return -1;
+    if (!EnsureWrathPersistentBitmaps())
+        return -1;
+    const int types[] = {kWrathMono01Bitmap, kWrathMono02Bitmap, kWrathMono03Bitmap};
+    return CreateParticleInternal(types[variant], position, angle, light,
+        (variant == 1 ? 14 : 13) + attachment, scale, owner, false);
+}
+
+int rise::growlancer::CreateCircleUpperArmParticle(float* position,
+    float* angle, float* light, float scale)
+{
+    if (!position || !angle || !light || !EnsureCirclePersistentBitmap())
+        return -1;
+    return CreateParticleInternal(kCircleUpperArmMonoBitmap, position, angle,
+        light, kCircleMonoSubType, scale, NULL, false);
 }
 
 static int CreateParticleInternal(int Type, vec3_t Position, vec3_t Angle,
@@ -155,6 +247,8 @@ static int CreateParticleInternal(int Type, vec3_t Position, vec3_t Angle,
             g_magicThunderRemainder[i] = 0.f;
             g_magicShockwaveRemainder[i] = 0.f;
             g_magicSmokeRemainder[i] = 0.f;
+            // Clear on EVERY allocation, including ordinary/shared smoke use.
+            g_magicParticleBirthOrder.Remove(static_cast<unsigned>(i));
             g_wrathParticleRemainder[i] = 0.f;
             g_obsidianThunderRemainder[i] = 0.f;
             g_particleCreateCursor = i + 1;
@@ -185,6 +279,43 @@ static int CreateParticleInternal(int Type, vec3_t Position, vec3_t Angle,
             float Matrix[3][4];
             switch (o->Type)
             {
+            case rise::growlancer::kWrathScatter01Bitmap:
+            case rise::growlancer::kWrathScatter02Bitmap:
+            case rise::growlancer::kWrathScatter03Bitmap:
+                o->LifeTime = 5;
+                o->Rotation = static_cast<float>(rand() % 360);
+                o->Alpha = 1.f;
+                VectorCopy(Light, o->TurningForce);
+                Vector(0.f, 0.f, 0.f, o->Light);
+                break;
+            case rise::growlancer::kWrathMono01Bitmap:
+            case rise::growlancer::kCircleUpperArmMonoBitmap:
+                o->LifeTime = rand() % 5 + 27;
+                o->Scale = (rand() % 72 + 52) * .01f * Scale;
+                o->Rotation = static_cast<float>(rand() % 360);
+                o->Gravity = (rand() % 14 + 20) * .1f;
+                o->Alpha = 0.f;
+                VectorCopy(Light, o->TurningForce);
+                Vector(0.f, 0.f, 0.f, o->Light);
+                Vector(0.f, 0.f, 0.f, o->StartPosition);
+                break;
+            case rise::growlancer::kWrathMono02Bitmap:
+                o->LifeTime = rand() % 12 + 8;
+                o->Scale = (rand() % 30 + 20) * .01f;
+                o->Rotation = static_cast<float>(rand() % 360);
+                o->Gravity = (rand() % 15 + 15) * .01f;
+                // This selected branch does not consume Alpha/TurningForce.
+                // Initialize unused native fields to avoid stale slot data.
+                o->Alpha = 1.f;
+                VectorCopy(Light, o->TurningForce);
+                Vector(0.f, 0.f, 0.f, o->StartPosition);
+                break;
+            case rise::growlancer::kWrathMono03Bitmap:
+                o->LifeTime = 15;
+                o->Rotation = static_cast<float>(rand() % 360);
+                o->Alpha = 1.f;
+                VectorCopy(Light, o->TurningForce);
+                break;
             case rise::growlancer::kWrathComboBitmap:
                 // SS21 0x168ED1D..0x168EED3, effect texture 0x81E4.
                 if (o->SubType == 0)
@@ -4099,6 +4230,59 @@ void MoveParticles()
         if (o->Live)
         {
             count++;
+            if (rise::growlancer::MagicPinFrameOwnsParticles() &&
+                rise::growlancer::IsMagicPinParticleSlot(i)) continue;
+            if (o->Type >= rise::growlancer::kWrathScatter01Bitmap &&
+                o->Type <= rise::growlancer::kWrathScatter03Bitmap)
+            {
+                rise::growlancer::AdvanceParticleWholeTicks(*o,
+                    g_wrathParticleRemainder[i], FPS_ANIMATION_FACTOR,
+                    [](PARTICLE& p, float) { rise::growlancer::UpdateWrathScatterTick(p); });
+                continue;
+            }
+            if (o->Type == rise::growlancer::kCircleUpperArmMonoBitmap &&
+                o->SubType == rise::growlancer::kCircleMonoSubType)
+            {
+                rise::growlancer::AdvanceParticleWholeTicks(*o,
+                    g_wrathParticleRemainder[i], FPS_ANIMATION_FACTOR,
+                    [](PARTICLE& p, float) {
+                        rise::growlancer::UpdateCircleUpperArmMonoTick(p,
+                            [](){ return rand(); });
+                    });
+                continue;
+            }
+            if (o->Type >= rise::growlancer::kWrathMono01Bitmap &&
+                o->Type <= rise::growlancer::kWrathMono03Bitmap)
+            {
+                rise::growlancer::AdvanceParticleWholeTicks(*o,
+                    g_wrathParticleRemainder[i], FPS_ANIMATION_FACTOR,
+                    [](PARTICLE& p, float) {
+                        OBJECT* owner = p.Target;
+                        const int baseSubtype = p.Type == rise::growlancer::kWrathMono02Bitmap ? 14 : 13;
+                        const int attachment = p.SubType - baseSubtype;
+                        // Scoped compatibility guard: no stale/global bone fallback.
+                        if (!owner || !owner->Live || !Models || owner->Type < 0 ||
+                            owner->Type >= MAX_MODELS || !owner->BoneTransform ||
+                            attachment < 0 || attachment > 1)
+                        { p.Live = false; p.LifeTime = 0; return; }
+                        BMD& model = Models[owner->Type];
+                        const int bone = attachment == 0 ? 29 : 38;
+                        if (bone >= model.NumBones)
+                        { p.Live = false; p.LifeTime = 0; return; }
+                        vec3_t position;
+                        const float savedScale = model.BodyScale;
+                        model.BodyScale = owner->Scale;
+                        model.TransformByObjectBone(position, owner, bone);
+                        model.BodyScale = savedScale;
+                        if (p.Type == rise::growlancer::kWrathMono01Bitmap)
+                            rise::growlancer::UpdateWrathMono01Tick(p,p.StartPosition,position,true,[](){return rand();});
+                        else if (p.Type == rise::growlancer::kWrathMono02Bitmap)
+                            rise::growlancer::UpdateWrathMono02Tick(p,p.StartPosition,position,[](){return rand();});
+                        else
+                            rise::growlancer::UpdateWrathMono03Tick(p,position);
+                    });
+                continue;
+            }
             if (o->Type == BITMAP_ENERGY && o->SubType == 8)
             {
                 rise::growlancer::AdvanceParticleWholeTicks(*o,
@@ -9285,9 +9469,9 @@ void RenderParticles(BYTE byRenderOneMore)
             {
                 rise::growlancer::RenderBrecheFireSprite(o->TexType,
                     o->Position, Width, Height, o->Light, o->Rotation);
-                continue;
             }
-
+            else
+            {
             if (o->Type == BITMAP_LIGHT && o->SubType == 6)
             {
                 EnableDepthTest();
@@ -9299,6 +9483,16 @@ void RenderParticles(BYTE byRenderOneMore)
             int Frame;
             switch (o->Type)
             {
+            case rise::growlancer::kWrathScatter01Bitmap:
+            case rise::growlancer::kWrathScatter02Bitmap:
+            case rise::growlancer::kWrathScatter03Bitmap:
+            case rise::growlancer::kWrathMono01Bitmap:
+            case rise::growlancer::kWrathMono02Bitmap:
+            case rise::growlancer::kWrathMono03Bitmap:
+            case rise::growlancer::kCircleUpperArmMonoBitmap:
+                RenderSprite(o->TexType, o->Position, Width, Height,
+                    o->Light, o->Rotation);
+                break;
             case rise::growlancer::kWrathComboBitmap:
                 // Particle dispatcher 0x1621347..0x16213A7 falls through to
                 // 0x1640DD2: render its own texture, light and rotation.
@@ -9663,6 +9857,7 @@ void RenderParticles(BYTE byRenderOneMore)
             default:
                 RenderSprite(o->TexType, o->Position, Width, Height, o->Light, o->Rotation);
                 break;
+            }
             }
 
             if (o->LifeTime < 0)

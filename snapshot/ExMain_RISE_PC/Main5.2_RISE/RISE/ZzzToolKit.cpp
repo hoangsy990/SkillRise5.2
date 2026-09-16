@@ -127,7 +127,7 @@ void CGToolKit::WindowRename()
 
 	char WindowName[500];
 	#ifdef RISE_GROW_LANCER_RUNTIME_QA
-	const char* baseWindowName = "Engine-Port S21";
+	const char* baseWindowName = "Engine-Port S21 [Grow Lancer QA]";
 	#else
 	const char* baseWindowName = gProtect->m_MainInfo.WindowName;
 	#endif

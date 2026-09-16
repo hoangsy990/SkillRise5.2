@@ -1,8 +1,23 @@
 {
   "sourceBranch": "feature/grow-lancer-skills-s21",
   "baseCommit": "f2e8e558874005708312becbb8273ecb8d7d61bf",
-  "scope": "Changed source files and task-specific text files only; NOT standalone complete RISE checkout.",
+  "scope": "Grow Lancer changed source, descriptors, docs, focused tests and tools only; not a standalone RISE checkout.",
   "files": [
+    {
+      "path": "snapshot/ExGameServer/GameServer/CustomStartItem.h",
+      "bytes": 1369,
+      "sha256": "f65a1db58170d70c8855119f8188c18ee8f255158294ab60ea9fcc3111fa6724"
+    },
+    {
+      "path": "snapshot/ExGameServer/GameServer/CustomStartItemDame.h",
+      "bytes": 656,
+      "sha256": "c6af37abba6b89538f0dca06a0b5f0fb7678b7dcf83044ede9218ae55e325c70"
+    },
+    {
+      "path": "snapshot/ExGameServer/GameServer/DefaultClassInfo.h",
+      "bytes": 1252,
+      "sha256": "8d212d990efbb08bf0e2ef59eab0ee5ddfb330ccdca79b6354d3662a5a2875a7"
+    },
     {
       "path": "snapshot/ExGameServer/GameServer/ItemBagEx.cpp",
       "bytes": 9840,
@@ -10,13 +25,28 @@
     },
     {
       "path": "snapshot/ExGameServer/GameServer/ItemManager.cpp",
-      "bytes": 124144,
-      "sha256": "384ff47e87a553ce5d629a389e03de863d52baed734beda575cb12352fcc7066"
+      "bytes": 124140,
+      "sha256": "9edaef1949ed81c1f594c4a321dd4a2db363b67612cf45b2821ab7c7bdcdcd9f"
     },
     {
       "path": "snapshot/ExGameServer/GameServer/MasterSkillTree.cpp",
       "bytes": 59271,
       "sha256": "80345c817f8f149189ba47d512d802053aca0e17253042b174923a6828847945"
+    },
+    {
+      "path": "snapshot/ExGameServer/GameServer/MemoryAllocatorInfo.cpp",
+      "bytes": 2465,
+      "sha256": "2f5362de5359dce9d4ba917fa55f3ab27b70bc8a1ebe06aac2dac73264ade57d"
+    },
+    {
+      "path": "snapshot/ExGameServer/GameServer/ObjectManager.cpp",
+      "bytes": 144247,
+      "sha256": "734ee66f5aa0f0efa2efeabc6aad6bdf53dacb56259f7c1179cecfd87295924c"
+    },
+    {
+      "path": "snapshot/ExGameServer/GameServer/Protocol.cpp",
+      "bytes": 133671,
+      "sha256": "cd4a2b7c755aaa7da2f7508217b09a63f24ed127e87572e7974514e1ef2e6b9a"
     },
     {
       "path": "snapshot/ExGameServer/GameServer/Quest.cpp",
@@ -49,19 +79,59 @@
       "sha256": "e643ba5a00d359ce35dfa6e39d67463761cf135f796ab0e8312b97c67b1e0625"
     },
     {
+      "path": "snapshot/ExGameServer/GameServer/RISE/GrowLancerAbilityGauge.h",
+      "bytes": 550,
+      "sha256": "05cef9a072ca836893a0e03749428b4e36151810dca8eb372a02e6109044ce06"
+    },
+    {
+      "path": "snapshot/ExGameServer/GameServer/RISE/GrowLancerBuffDelivery.h",
+      "bytes": 942,
+      "sha256": "97178643f316531891301c39ddd332820c4e9682652eb57ccd3e98aafd2fbacc"
+    },
+    {
       "path": "snapshot/ExGameServer/GameServer/RISE/GrowLancerServerCatalog.h",
       "bytes": 1323,
       "sha256": "3621644b8d10b22ace0490dfb61d64544d6aa184a840bad378a394c3cb000c63"
     },
     {
+      "path": "snapshot/ExGameServer/GameServer/RISE/GrowLancerSourceDamage.h",
+      "bytes": 797,
+      "sha256": "46505ec85bff53ba55ba56be420e5716480a4256c0cfbb719659c4945aeeca12"
+    },
+    {
       "path": "snapshot/ExGameServer/GameServer/SkillManager.cpp",
-      "bytes": 160889,
-      "sha256": "a4cec3a5b125765d8abfb3d1113504e86a5d33f5bf6afea624b3465f27d841b1"
+      "bytes": 162901,
+      "sha256": "3bb1a68ce2c9d9826ca4e590c3e2c6baf005fcd62fb9a278f4ea7fecfa67f305"
     },
     {
       "path": "snapshot/ExGameServer/GameServer/SkillManager.h",
-      "bytes": 17594,
-      "sha256": "590fca0849a003cbdc84ce943239aaf304401129ec919890e02a2faf3e396f3b"
+      "bytes": 18483,
+      "sha256": "c28473044c5ee7e641e12690abb0551a5e0980ecf1ae684332d807c4b347ba8e"
+    },
+    {
+      "path": "snapshot/ExGameServer/GameServer/User.cpp",
+      "bytes": 100340,
+      "sha256": "23d486f2d531cff95b3d69deaea5737a192e90eafc62922509d0f9b0067e8f7b"
+    },
+    {
+      "path": "snapshot/ExGameServer/GameServer/User.h",
+      "bytes": 32254,
+      "sha256": "69036e68d29ed5ab327a4a1e24e0a2725659267b9e61f6bedb06c8aa6f951e5b"
+    },
+    {
+      "path": "snapshot/ExGameServer/Tests/fixtures/legacy_class_columns.txt",
+      "bytes": 224,
+      "sha256": "60747dc7699f162de1110c4ec3de393648957c0f2e595e78c88924c69bcefa87"
+    },
+    {
+      "path": "snapshot/ExGameServer/Tests/fixtures/legacy_full_skill_rows.txt",
+      "bytes": 416,
+      "sha256": "eccd5141fb1453b8a2d784d543d6403db1de00adfe77a230c3f34ac2019dc4a1"
+    },
+    {
+      "path": "snapshot/ExGameServer/Tests/GrowLancerAbilityGaugeTest.cpp",
+      "bytes": 496,
+      "sha256": "7312131c5fee65beaa8d0337628e74812bfb5d3a7be9945f032fe00820653961"
     },
     {
       "path": "snapshot/ExGameServer/Tests/GrowLancerLegacyColumnsTest.cpp",
@@ -75,8 +145,13 @@
     },
     {
       "path": "snapshot/ExGameServer/Tests/GrowLancerServerContractTest.cpp",
-      "bytes": 4407,
-      "sha256": "17182f0980e25021c36663313d865fb408a5d44e2587d3bd2596df6b7fd9947d"
+      "bytes": 5785,
+      "sha256": "f13a1dbcc01a98000563cad121ff537ceccf812913843f8c239bf2416a9e082f"
+    },
+    {
+      "path": "snapshot/ExGameServer/Tests/GrowLancerSourceDamageTest.cpp",
+      "bytes": 743,
+      "sha256": "7e55bdf7f147f440dd8c17e5fcf7a3ba19bc3b6ef0e1fc8dce257f57a2463446"
     },
     {
       "path": "snapshot/ExGameServer/Tests/RunGrowLancerServerContractTest.cmd",
@@ -84,29 +159,49 @@
       "sha256": "417a43f95f95b23d7daf120ae65e7ee4833cb768aa5df075d7b88edc3a8a1d40"
     },
     {
-      "path": "snapshot/ExGameServer/Tests/fixtures/legacy_class_columns.txt",
-      "bytes": 224,
-      "sha256": "60747dc7699f162de1110c4ec3de393648957c0f2e595e78c88924c69bcefa87"
-    },
-    {
-      "path": "snapshot/ExGameServer/Tests/fixtures/legacy_full_skill_rows.txt",
-      "bytes": 416,
-      "sha256": "eccd5141fb1453b8a2d784d543d6403db1de00adfe77a230c3f34ac2019dc4a1"
-    },
-    {
       "path": "snapshot/ExMain_RISE_PC/Main.vcxproj",
-      "bytes": 81383,
-      "sha256": "f45fab5f8fefa40c50e46942408dc3834e5a360fca51792fb38b9c996803e0b1"
+      "bytes": 82127,
+      "sha256": "df158ff8e981fd7db57da4775d553a93bda48098527b7f0cb6611bf27128a054"
     },
     {
       "path": "snapshot/ExMain_RISE_PC/Main.vcxproj.filters",
-      "bytes": 120799,
-      "sha256": "1cb70cc3f2f1fa3620343ee628f84b73fa6196628558eef44b09e95472f02a0b"
+      "bytes": 121366,
+      "sha256": "8e6712124c0593a09a5299d3aa1034e58847e54d73ed238e5c9665beeefdf5b3"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/CharacterManager.cpp",
+      "bytes": 11617,
+      "sha256": "37c20defe49c6f42e9ac72121085e268c2481daaf1c8e9bd1373877423ab83ac"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/CharacterManager.h",
+      "bytes": 1246,
+      "sha256": "769467b96748ebcc956f2f2d7aba8b5e83f4319227f2cadfbcebe93938eae851"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/CSItemOption.cpp",
+      "bytes": 41647,
+      "sha256": "c3ea0b4f9bc896bfcfac317121d04636861830cc8e2ab0c1342f5d11c7638b51"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/CSQuest.cpp",
+      "bytes": 15077,
+      "sha256": "47815f80ed38b3566e9cf3fb3bfdd2648c9ba99b423f0a8151491b062093f4a4"
     },
     {
       "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/DSplaysound.cpp",
       "bytes": 13704,
       "sha256": "ab7a1cb2aec109effa35d3bea523905a26f9dd0374f9b71ad3049f19ed470376"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/MapManager.cpp",
+      "bytes": 90441,
+      "sha256": "20d37ce1270290113456b808f914d01855f54023cad6daf993d7b7658bfa7152"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/NewUIBuffWindow.cpp",
+      "bytes": 10574,
+      "sha256": "0c581ae01862edf4fe8afd9895d285b4069aa6a79e3943eb549ca5e2a72eb616"
     },
     {
       "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/NewUIHotKey.cpp",
@@ -115,8 +210,8 @@
     },
     {
       "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/NewUIMainFrameWindow.cpp",
-      "bytes": 72010,
-      "sha256": "d87535f4c33746de84e984203c584c204ef0851c78ddbb54ff895f48467373ba"
+      "bytes": 74041,
+      "sha256": "2c46ab425f6efb35f33da66fe47be2707b4a2b8ef4deeb346db5703430a810ed"
     },
     {
       "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/NewUIMainFrameWindow.h",
@@ -124,14 +219,54 @@
       "sha256": "15cebdcfa9dba6f0e85b01e3b2af7bc22a94e41fd140146d88684a9f0d2f16a5"
     },
     {
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/NewUIMasterSkillTree.cpp",
+      "bytes": 35798,
+      "sha256": "e99c8fb696499508861c368536331503e174cb27f4cc4a77c435286a0a06bd90"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/NewUIMuHelper.cpp",
+      "bytes": 57362,
+      "sha256": "b933166fcf38ce8ed53985c4ca3cdf3f40272aea7b0f39a0d617d3907ee99833"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/NewUIMyInventory.cpp",
+      "bytes": 92968,
+      "sha256": "05eb68c58cf6f9a92ff8796e55553f7a83333da77f7e83bea879b3efa6338757"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/NewUINPCQuest.cpp",
+      "bytes": 11872,
+      "sha256": "2cd17e512d68580444a8ffa33bc617cc4cd7c1958833a85b466d7c37a321ba1d"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/resource.rc",
+      "bytes": 3515,
+      "sha256": "f9d7e1920296343570769f0a5dce7aa6a7354bece2c39f6148c1a4a95f9d3c6e"
+    },
+    {
       "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerBrecheGround.h",
       "bytes": 779,
       "sha256": "a96c126979a104f54e11d8e81d5036d8c1d8b4c34e1552bcb8270ea4190bd3d1"
     },
     {
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerBuffCountdown.h",
+      "bytes": 1161,
+      "sha256": "166118cf00337f1d5dcd51e6e811039b628f66b8b1e5db989fcdd58b0638bb0c"
+    },
+    {
       "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerCircleJoint.h",
       "bytes": 2174,
       "sha256": "9707facca28d7afd6d22dd370bb73be6852f454490b4de5caa512ac86542fa63"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerCirclePersistent.h",
+      "bytes": 1528,
+      "sha256": "57963f7e68cffbcccf2cb8f3d58d3064dbb8dd62b36616562acf25e680d304b6"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerCirclePreviewGate.h",
+      "bytes": 675,
+      "sha256": "62004fc7d9767e54ce0ea542b3678baf97ca4d7ea190431f68dbb9862272b806"
     },
     {
       "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerCircleShiny.h",
@@ -144,14 +279,24 @@
       "sha256": "163f85275cd98746aa4e319bf9e284245add0b5f7090395f3ce8b14838914f71"
     },
     {
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerClassBodyCaller.h",
+      "bytes": 640,
+      "sha256": "9392dadbba3ea52dda19571608c3eb7b625379c8105bb2b676b7222354fc4732"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerClassIdentity.h",
+      "bytes": 380,
+      "sha256": "df54f5ca6dc820af46f6cbf37446cbd0aa5090f33360706cc4a9ada79862077b"
+    },
+    {
       "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerEffectRuntime.cpp",
-      "bytes": 71117,
-      "sha256": "74f1f7f4cc4e966db2a87a4ab7680ffe2ceabc2b57f7fd6247fa00ea9714933e"
+      "bytes": 110957,
+      "sha256": "b2d7a84e2a1ce507db398e5ca1754914ba7d2397b4e0cea530b54b89e7c7dbfc"
     },
     {
       "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerEffectRuntime.h",
-      "bytes": 1896,
-      "sha256": "eea7812a391feb64b698f885ce04b2975f2b1ce8bd8488d31020852fe7980539"
+      "bytes": 4135,
+      "sha256": "9ff339422ffdc846cbb6d9d02f8fbd61cc11b8b439eeadb32987a5685d7ffbb8"
     },
     {
       "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerFireParticle.h",
@@ -169,9 +314,14 @@
       "sha256": "3efcbf77df4ca15122af3eb36fce9cf7f027389bc15772261d2ba663f6510bde"
     },
     {
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerItemRequirements.generated.h",
+      "bytes": 14248,
+      "sha256": "d001f8d3d81bbe624f12bb952b237f6fc97689bc5b2df9ce85dd44d736d2939b"
+    },
+    {
       "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerMagicPinTick.h",
-      "bytes": 2739,
-      "sha256": "1ba8e580d43431ef829a4539b7c18f9b9106bb696fdb36a8b318226d9bedcd2e"
+      "bytes": 3182,
+      "sha256": "474666ecac1a4f69f6624bc075e5fbc91f097cfd36d75b9d43f836311c2a3def"
     },
     {
       "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerObsidianTick.h",
@@ -185,33 +335,38 @@
     },
     {
       "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerResources.cpp",
-      "bytes": 9072,
-      "sha256": "0a02b6ee67e18c5ed9dd8050852568641e764393dc7435b6416b160eafafca24"
+      "bytes": 24514,
+      "sha256": "c9444e0a84da64bb0af95e92ec1fc3857eb5fe264a0133f77a1937a5fe0959bd"
     },
     {
       "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerResources.h",
-      "bytes": 5192,
-      "sha256": "f12de603d375546e73545519fea3a06b282bfc2fdb439114e3d6949081f19f0a"
+      "bytes": 8185,
+      "sha256": "bf38236f3e9702582972fe5542545df222355d36190d33b91372f7d6981d7c52"
     },
     {
       "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerRuntimeCapacity.h",
-      "bytes": 845,
-      "sha256": "7d3565ab399f226dde62a6c6338a744f4ccf71507b1588d91b0fd218e53e38cc"
+      "bytes": 1303,
+      "sha256": "2af4343235baa87918ae5b2bc6423367e936a553a2b197cd9be6cd7b571a067f"
     },
     {
       "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerRuntimeQA.cpp",
-      "bytes": 10766,
-      "sha256": "e8041719f0dc9f60a520f2c4b799c9843218b127f0e6c0319d8b8c833e59f1b2"
+      "bytes": 124649,
+      "sha256": "3888bda4dea7e469e729580cdef7ce12e08db7830fbaad4bc8712d63376407d8"
     },
     {
       "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerRuntimeQA.h",
-      "bytes": 249,
-      "sha256": "62dfc4518f2d9bbd004405db03ff51ca4bb747eea264a71f1a3af825d2c79f9f"
+      "bytes": 5106,
+      "sha256": "917c1cc479825a5576206720df9d314888f6a88038d3be04813eb9e82262ffb0"
     },
     {
       "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerShiningMesh.h",
       "bytes": 750,
       "sha256": "0a48f998869b7089a7351135342618e4087d760be8b8fe121b905ffb4defd2b2"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerSkillIdCapacity.h",
+      "bytes": 334,
+      "sha256": "9fee0129cca4d4fc60a0219e9ffaf16e7c0a681d3f7c01421ba6480630158b2c"
     },
     {
       "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerSpinCross.h",
@@ -235,8 +390,8 @@
     },
     {
       "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerSpriteAdapter.h",
-      "bytes": 1420,
-      "sha256": "b16935572d0ce1b170c9d801d4f4fc9e9b2320e533cce6b74f5a3f7888211e2a"
+      "bytes": 1950,
+      "sha256": "10aef701b9bd7271c6e640b227e0effce1989533b954941549177c225f3546fa"
     },
     {
       "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerTerrainAdapter.h",
@@ -245,8 +400,23 @@
     },
     {
       "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerTick.h",
-      "bytes": 1562,
-      "sha256": "1198919355e4e0605d172e1cc9b415220fb96196afce7001cedd0ffca67c671b"
+      "bytes": 3345,
+      "sha256": "4c02c53e3ba7b8391ac383ab31783b37eb72e1660e4bdc7259253d92f1c8eebe"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerWrathBuffMetadata.h",
+      "bytes": 1286,
+      "sha256": "963a8991ba36d3e8224f8cae7789141942c78ad8f37fefdbdbd5964b3598d768"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerWrathEmission.h",
+      "bytes": 783,
+      "sha256": "6254a31aa13cea96d084137f194dc68fa95b1d48a21644e231fce121a4827d2f"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerWrathGroundPulse.h",
+      "bytes": 2009,
+      "sha256": "4320bb1dc9e139711eba2104f1ec9e9641fea097990383745c359c9deba13a09"
     },
     {
       "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerWrathParticle.h",
@@ -254,44 +424,124 @@
       "sha256": "f4a596a4991c13aed9e486249d1cbcfab5ad10f46f4fc5992210a741df2f487d"
     },
     {
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerWrathPersistentTick.h",
+      "bytes": 2666,
+      "sha256": "f04882cc9e88fc29e99acb8b54ddfc8db05ad1efbd6c8b5dc24fe686df6f79f6"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerWrathReceipt.h",
+      "bytes": 1636,
+      "sha256": "b832c2d23fa9306c6333590c973e6da4b043a86ae854d33116b82e2c7f322238"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerWrathReset.h",
+      "bytes": 934,
+      "sha256": "790e63586de42992de029a4400a2fa55509c5f85e344f37537834a51955d2540"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerWrathScale.h",
+      "bytes": 604,
+      "sha256": "d42605fab4ffb23f9f566ef9e8df9e1d899fe0121263c99d63fb26fe33ff1a96"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerWrathSprites.h",
+      "bytes": 753,
+      "sha256": "a6df19ee1aede8fd683b4fcee428661bead0ae77cbda3fe3201d5a09c8e8479c"
+    },
+    {
       "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/RISE/GrowLancerXsuper.h",
       "bytes": 280,
       "sha256": "3f2d8184297905176659673f2e3883c93f15d93d0eed7021336ba24e917d1dc8"
     },
     {
-      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/RISE/ZzzToolKit.cpp",
-      "bytes": 23624,
-      "sha256": "57930c90d22a86c904d9bc33fcf1600c4a06e299dc9e9b956ad969dc2f431d68"
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/RISE/MainProtocol.cpp",
+      "bytes": 4916,
+      "sha256": "09f29f6e0c836dfc67c88c11b56645d13297a6859453eb086e076adf1b41aeea"
     },
     {
-      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/WSclient.cpp",
-      "bytes": 435116,
-      "sha256": "e83fb0fbff57d2c2e4a1f37eb24543890ebfb82f4ed6c7a5acfce7b9da98efbc"
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/RISE/Reconnect.cpp",
+      "bytes": 9452,
+      "sha256": "295bbb3924355b27317a2de14522714592576b9d8d66a3c07e175ff5ecf2a139"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/RISE/ZzzToolKit.cpp",
+      "bytes": 23641,
+      "sha256": "18b0d31a6b85a7c864a694f25d3258058918839ccfeb4e2e53eb83f0a148a722"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/SkillManager.cpp",
+      "bytes": 10706,
+      "sha256": "440a4e3e8e48d315bc859c84a18298b1e79fdf7797914cc3cd0d08f7a3781a88"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/UIGuildInfo.cpp",
+      "bytes": 24950,
+      "sha256": "e63a795b7ef27f53842d7bc9d90d9efd358187c696d268b9a05dda7437e2d129"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/w_BuffScriptLoader.cpp",
+      "bytes": 6162,
+      "sha256": "03a975f626efcbee425a156b00974c7def574e10838c39dc6ac912062d80a64c"
     },
     {
       "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/Winmain.cpp",
-      "bytes": 51875,
-      "sha256": "45ee6bcb7a48b5ba85d3d9f84a5330678037521d945c21ee0cf99c81ac58714c"
+      "bytes": 55983,
+      "sha256": "b061b5ff6dcc814e09c0b5b0da802296869b5b634d6a36febd1d41fc4fd03552"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/WSclient.cpp",
+      "bytes": 442433,
+      "sha256": "86653ddc733d565bd5fc66489cf916323ec5d743f3b420a50ae5e28ef135f71a"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/WSclient.h",
+      "bytes": 115710,
+      "sha256": "b310eac2841152834e28b00e673dafb9989f20db4d94a0e16faefcc86ab627e4"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/WSctlc.cpp",
+      "bytes": 12605,
+      "sha256": "1c25b16d5994a6eab0514e1d77b6b14596c2b99a740ff90174f374a7bc2b3039"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/wsctlc.h",
+      "bytes": 4219,
+      "sha256": "093afa91034a55cfe3ec27a4a96f78368cca8c79fa598191e106a5de8c288236"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/ZzzBMD.cpp",
+      "bytes": 111390,
+      "sha256": "d301e66d4ce719ea8a1a0154abeb7664ccfd489cab56f7676a134ea686e5397c"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/ZzzBMD.h",
+      "bytes": 13358,
+      "sha256": "208bd2db6540fbbae67c4d060a45b71f9ccf979dc444adb6eaf89cccaf9eea1d"
     },
     {
       "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/ZzzCharacter.cpp",
-      "bytes": 605044,
-      "sha256": "34fe708542b254743107783645841b0691f8c0e4be15265ee9485c10317e4328"
+      "bytes": 614568,
+      "sha256": "90a381a109ae9cbfbb66eb79d5699a887afec80ba5414c1d0e5366ce59a91388"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/ZzzCharacter.h",
+      "bytes": 3628,
+      "sha256": "e0c1ed5cc1bbc265f40f50dd633cf5c196469e5c5d5fb370ac40ddc949884351"
     },
     {
       "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/ZzzEffect.cpp",
-      "bytes": 797131,
-      "sha256": "b318c4e00816eb886844ebfec58c4cb47b3bf7687110a3df94ef6402f6aa7742"
+      "bytes": 799359,
+      "sha256": "560a1f7c2e5790604c621442cbf60d07ccc87575d52e6ce6d37d8f1e74da38b5"
     },
     {
       "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/ZzzEffect.h",
-      "bytes": 6880,
-      "sha256": "ac8d75f16d127d814f592512a394ef1182c4e549de0806fc4c78148de1d56392"
+      "bytes": 7027,
+      "sha256": "3e7e2f6f18af4603af83aef865016a9664846d06830971a1089c33996cf8e769"
     },
     {
       "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/ZzzEffectBlurSpark.cpp",
-      "bytes": 16722,
-      "sha256": "27d9c7c1c75a1e2a952be7d48c15571a902963fa48f11e863e12eec2df8bffb3"
+      "bytes": 18062,
+      "sha256": "ee72129398b44d030d9d7af7a42b5eb4c2063a54281a4421d77f234a1ffca436"
     },
     {
       "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/ZzzEffectJoint.cpp",
@@ -300,13 +550,18 @@
     },
     {
       "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/ZzzEffectParticle.cpp",
-      "bytes": 441932,
-      "sha256": "381cf0df7dc96e5495547c2bfa503f3c53728f345c9ebb4ffe5353095ccb0579"
+      "bytes": 451392,
+      "sha256": "40742a71f15c988cfe980970642a6648ed325e8517699a74e4d7b7514bd37ef0"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/zzzeffectsprite.cpp",
+      "bytes": 6678,
+      "sha256": "6816fe5e5d32d3a7f71b5a7cb04aff3f2aeb076f3af65418d269b9353f233c05"
     },
     {
       "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/ZzzInfomation.cpp",
-      "bytes": 148579,
-      "sha256": "0aa5d82dba606c87252443f6228a5a703546f7a2294287decf05af3b82955dc3"
+      "bytes": 148919,
+      "sha256": "8c3156342ddac4739d3afa90026298d993b18d01df7d8983f5cdb93b7a93c2ab"
     },
     {
       "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/ZzzOpenData.cpp",
@@ -314,14 +569,54 @@
       "sha256": "e7951a49eaa7d33030c9bab2dc97cf2a082395670a91cf2936b243e302218fb0"
     },
     {
-      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/zzzeffectsprite.cpp",
-      "bytes": 4503,
-      "sha256": "b993591ba50393a7944bae8e2e5bee6e4b76dc45ee9b6fec714aef817570d311"
+      "path": "snapshot/ExMain_RISE_PC/Main5.2_RISE/ZzzScene.cpp",
+      "bytes": 67839,
+      "sha256": "47857be3e068ef0070c746b33e07825243e6bdd2f334352db73d8aac43550a44"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerAnimationActorIdentityTest.cpp",
+      "bytes": 810,
+      "sha256": "213db59bcf54e22b6fea9a89e3be6d15cae2aac211722426708097e3b18cb2f7"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerAnimationSampleBatchTest.cpp",
+      "bytes": 4020,
+      "sha256": "3b7f72a4dbbe7982bd6eed74bcf24ce0baed8ca1a3d554f8bb951442311ee1c9"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerAnimationSampleSlotTest.cpp",
+      "bytes": 893,
+      "sha256": "9015a0f42c35b70a51e896acf336759f78dc133c2e90e7bd5bd0cb96ef936d37"
     },
     {
       "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerBrecheGroundTest.cpp",
       "bytes": 2144,
       "sha256": "5699cce7c9e348a0e35e9fafc2bab60bf0c1f95c2860facccb156ec24e7e6191"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerBuffCountdownTest.cpp",
+      "bytes": 1268,
+      "sha256": "b1f2aad201791f9e9bab86686d07af19650fce5d9152342919e673f5626efd4e"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerBuffEnvelopeTest.cpp",
+      "bytes": 1547,
+      "sha256": "1900e7fb64970878007457f624b8ca66464f17cac941f8f80584ff59f9d9265d"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerBuffHandshakeTest.cpp",
+      "bytes": 2716,
+      "sha256": "ae5f2e69d2d3a59101200591d645580057fe2f6ab7368546f7cd27d1060537f9"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerBuffSessionTest.cpp",
+      "bytes": 2039,
+      "sha256": "dca2798dc065fe2519a760cd44d39149f6478fbe462378cabdaae8093c7900d4"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerBuffStatusCodecTest.cpp",
+      "bytes": 1675,
+      "sha256": "7903b396c7165a7c0c169b2ea5c86d1a2ae2c1eb2b2005e1e88339565a7da75a"
     },
     {
       "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerCastActionEndTest.cpp",
@@ -334,6 +629,11 @@
       "sha256": "26276e969adce67758a841f869650767c6a59be5f109b889cb4f225e42dfb399"
     },
     {
+      "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerChildTickOrderTest.cpp",
+      "bytes": 1347,
+      "sha256": "32ffc23871483a727c012764bfb33e65c2cf351ea7d78dfe5157db60f86d7540"
+    },
+    {
       "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerCircleContactGatesTest.cpp",
       "bytes": 2576,
       "sha256": "6164fe8eb0a2010e1dfab31b1ae9619d189885430b66401184bf91b799c5d9b2"
@@ -344,6 +644,16 @@
       "sha256": "a82f14ac1d6f7686d2c90df66000ce7ed5f1cae2493fe268b9e16849486add5c"
     },
     {
+      "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerCirclePersistentTest.cpp",
+      "bytes": 1523,
+      "sha256": "45df3722fd519b1635ef50f6074fcb22fd692c9b997c8006207f546e2eb34cde"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerCirclePreviewGateTest.cpp",
+      "bytes": 1080,
+      "sha256": "482dd8f616b7317c4b0ceab1effd0aa3d6b31a66fedc7d53af13db015f820cac"
+    },
+    {
       "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerCircleShinyTest.cpp",
       "bytes": 2463,
       "sha256": "79016e4169e69e4148fb16c5ed896e414735b5baf5f9dc71a8cbe28d506ef32f"
@@ -352,6 +662,26 @@
       "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerClashTickTest.cpp",
       "bytes": 3785,
       "sha256": "108134ee723eefd119913b4927d799036f776d1d6d79030319d2638724d19b1c"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerClassBodyAppearanceTest.cpp",
+      "bytes": 940,
+      "sha256": "64afbd7fa14497392092d82e49250f457189b88a1384ac3c9e304de3a202533c"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerClassBodyCallerTest.cpp",
+      "bytes": 1181,
+      "sha256": "963942f43fd4c6927a1b7bbd88c3235943ef99b623cbbf1414e79b1c55a3fd4c"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerClassBodyCapacityTest.cpp",
+      "bytes": 701,
+      "sha256": "7d2323c1089949478f83a966b073a2f5017c4c262a024c72e4dfd7c3ddd17b37"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerClassBodyDescriptorTest.cpp",
+      "bytes": 1181,
+      "sha256": "3e2fb2a41fd51cade7f81585cb66f8b763400324dc45b100d62e36279b596447"
     },
     {
       "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerFlareParticleTest.cpp",
@@ -374,6 +704,21 @@
       "sha256": "68ee64ac7542fda24e885478968386233a5ceec1c0d3bf51d2f690e84c92b323"
     },
     {
+      "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerMagicQuantumClockTest.cpp",
+      "bytes": 1767,
+      "sha256": "2315d998e85bee69fc084092b5f2b594b1399d879d7c6550a015df915bfec278"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerMagicQuantumSequenceTest.cpp",
+      "bytes": 1219,
+      "sha256": "fb25bd87615ffb61dfbccd376004a2f130bdc6ec08b05ac7fb3055f35baf2bd8"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerMagicRecordedGateTest.cpp",
+      "bytes": 2038,
+      "sha256": "f722288623fbac39c3b86c644d26648c230df2015420f5ac5f7cf664dfa7cccc"
+    },
+    {
       "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerMountedReactionTest.cpp",
       "bytes": 2741,
       "sha256": "2a076e4db6154aeeed087e021dbba9781177c397bbf741b0d19fc1670b037725"
@@ -384,6 +729,21 @@
       "sha256": "98832fc25ae2814e1f11cd8e95b6d9bd916e4fe0b31974609dd77bffe50c0b9f"
     },
     {
+      "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerOrderedParticlePhaseTest.cpp",
+      "bytes": 1641,
+      "sha256": "21b96845f258d890f45c403719fe978ea1eee48c41cce29ded13441238f381e4"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerParticleBirthOrderTest.cpp",
+      "bytes": 1563,
+      "sha256": "a4354ff89e0199f78b9eaa3e474af5cb624d4e61bf3bf8e51e27741761c164dc"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerParticleSingleTickTest.cpp",
+      "bytes": 1036,
+      "sha256": "8aa9ad4ed4cbfe069608d1132ac27cbcecc29693572017cd9aa3519970cf468e"
+    },
+    {
       "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerParticleTickTest.cpp",
       "bytes": 3781,
       "sha256": "52aec10b7cf64a59be5330b66e7d89b5727709c0841e824f7d96bd60fc90e68f"
@@ -392,6 +752,11 @@
       "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerPinJointTest.cpp",
       "bytes": 1643,
       "sha256": "6c1a90153e6d33a5e6234b9dc69383f093a9a967b152f3c7c28a4dc67d74fe8b"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerPrimaryModelPhaseTest.cpp",
+      "bytes": 1438,
+      "sha256": "1dd53108a6ca10a8eaae018e77fedaa8e44c317d3d7a12247164446f8dc2817b"
     },
     {
       "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerShiningMeshTest.cpp",
@@ -424,9 +789,49 @@
       "sha256": "be96533d18b1c0662ab43e8d73c6e4579a8ba3bafd04e1549dd13ea61adddf26"
     },
     {
+      "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerWrathBuffMetadataTest.cpp",
+      "bytes": 1743,
+      "sha256": "e6f21820673b5b6a1b403ba59f3e687db428ec533e23c092ca33fbdc8f0f2f85"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerWrathEmissionTest.cpp",
+      "bytes": 1738,
+      "sha256": "e102ba4bcc02b44e260cecd691887fd6f14042bd9e90fd1792ac6391154269ab"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerWrathGroundPulseTest.cpp",
+      "bytes": 2852,
+      "sha256": "f7dd57fd156f1832d7fabc1e331ab8feb98df2a67ba84f2130e16b8b09fa6120"
+    },
+    {
       "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerWrathParticleTest.cpp",
       "bytes": 4211,
       "sha256": "81b480601102b24edd5149d6b225c63d4418310abbfa8546e962b2b692036893"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerWrathPersistentTickTest.cpp",
+      "bytes": 2634,
+      "sha256": "05038ba649cdfa8a2866c7a1eacb29718a74f60a1b01b610867bdb97bde28aea"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerWrathReceiptTest.cpp",
+      "bytes": 1612,
+      "sha256": "2e05efeda4f7ec21c4635c9b7d08dad96200e2be384520d54dcb5abaea09bf7f"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerWrathResetTest.cpp",
+      "bytes": 1242,
+      "sha256": "89bd4347213cc293f51f4e689c9b8a413ee4afb21fa4c7296f906786d808877a"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerWrathScaleTest.cpp",
+      "bytes": 1143,
+      "sha256": "4cb52c2ebaeef6f3000f5816a5f360ab542d91a087ce7ee416f15c9d4cb48f2e"
+    },
+    {
+      "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerWrathSpritesTest.cpp",
+      "bytes": 1185,
+      "sha256": "17808552ef2b42f371d34af025e79d5fb87e43e6051e1ffc7e26c400709f2b18"
     },
     {
       "path": "snapshot/ExMain_RISE_PC/Tests/GrowLancerXsuperTest.cpp",
@@ -435,18 +840,28 @@
     },
     {
       "path": "snapshot/GROW_LANCER_RECOVERY_STATE.md",
-      "bytes": 3061,
-      "sha256": "beceadc7ba982d299dae785ad07ac3bdbace9b2daf55a3da7f734838b1d84a72"
+      "bytes": 3583,
+      "sha256": "e6d5bf1011a1cd8e97ece2148ae4f546e3cefc439b2fb27454c66e4483c83f1c"
     },
     {
       "path": "snapshot/GROW_LANCER_STATE.md",
-      "bytes": 355022,
-      "sha256": "578f704d6718ff976374472aad9150039358863fa51baf2945c2e56e4708a8dc"
+      "bytes": 1135207,
+      "sha256": "93554ec9220afe7a16d0dd76feada3b15a595b930c8669fc30f1f7397b3d7d18"
     },
     {
       "path": "snapshot/GrowLancer/ACCEPTANCE_GATE_MATRIX.md",
-      "bytes": 10360,
-      "sha256": "8b1c34d2592688e3fc7ff5f298f9db461098dd3f03a74e7a3a39d54b2f13c5f7"
+      "bytes": 28560,
+      "sha256": "99247ba1ace2d11edadfcbc27d95ce0f507481ae91c18715f6721d333859f5cb"
+    },
+    {
+      "path": "snapshot/GrowLancer/ADD_CLASSES_CROSS_TASK_AUDIT.md",
+      "bytes": 2002,
+      "sha256": "ae9f7ed310c227e5bfb5100b9a5e83b0f317b051e469e5e1b2ac799110b96f12"
+    },
+    {
+      "path": "snapshot/GrowLancer/asset_provenance.json",
+      "bytes": 57645,
+      "sha256": "d82b852f6d9d596e2f5036de07a45e9a83275145cc578f82f34cd7c3ea380d1f"
     },
     {
       "path": "snapshot/GrowLancer/AUXILIARY_STATUS_MAPPING.md",
@@ -455,38 +870,113 @@
     },
     {
       "path": "snapshot/GrowLancer/BRECHE_CHILDREN_REVERSE.md",
-      "bytes": 66630,
-      "sha256": "921fb3927f09cc6300aab6433e512366315fc4b47d2a8bfdee43e2fbbf0b32f5"
+      "bytes": 75780,
+      "sha256": "ea6507727c0cd45993c7a63015f46514dc975bf89623e399bdc75d5bf21f9929"
     },
     {
       "path": "snapshot/GrowLancer/BRECHE_REVERSE.md",
-      "bytes": 23591,
-      "sha256": "2466a6d91567ffdc6a894f47d1e3fff40f1c372c7f5dc3a8fb0f2623a4ed741c"
+      "bytes": 35630,
+      "sha256": "c7a0dc7a4742bb66308a36b2b5f10e8f1327ce1032a402f25ee2cafd96d70ca4"
+    },
+    {
+      "path": "snapshot/GrowLancer/BUFF_DELIVERY_CONTRACT.md",
+      "bytes": 13376,
+      "sha256": "1f62b40cbc808263f64e97146e21fd27db83c5e2ca16a5d3f009a13f3c6a6fd4"
     },
     {
       "path": "snapshot/GrowLancer/CIRCLE_SHIELD_REVERSE.md",
-      "bytes": 17269,
-      "sha256": "032480d800a2d3f2e9258fb21c071b3a6f7603e08ebe60fd91518f921284886f"
+      "bytes": 33500,
+      "sha256": "42ee9aa6db56d669a974450500ab3e81b74c66a2b53c89e201cb8b08d8bac76e"
     },
     {
       "path": "snapshot/GrowLancer/CLASH_REVERSE.md",
-      "bytes": 11709,
-      "sha256": "3053cb0a3e56963e37bc10d11ba5de2868bdc031a2d621b1e108c0268f133f74"
+      "bytes": 20804,
+      "sha256": "f0787f2af79bf8bb06060d2a4f06dcbc6ed07bb40cb5100e5325c9e9b143bd3c"
+    },
+    {
+      "path": "snapshot/GrowLancer/CLASS_CONSUMER_CAPACITY_AUDIT.md",
+      "bytes": 4955,
+      "sha256": "4bc7746d3969a51ea4a5289ea8fed795f7a3839a4b437a1a30d548ff2f1bd210"
     },
     {
       "path": "snapshot/GrowLancer/CLASS_INTEGRATION_CONTRACT.md",
-      "bytes": 19278,
-      "sha256": "2c178214ea1254ec7d6e7b6deee3ab5c83170575e914bb9b79e86a82ebf70b80"
+      "bytes": 69372,
+      "sha256": "8b041c58d91c7ea87c35d9e011eccd85e1bb45984047222435cd97c1aa05e266"
     },
     {
       "path": "snapshot/GrowLancer/CLIENT_PACKET_REVERSE.md",
-      "bytes": 3440,
-      "sha256": "984ffc90824429f8fbc6fe77a5b1ccb52dc41c316c58598d04af1a9fac590ad3"
+      "bytes": 7143,
+      "sha256": "5090888113cc7bfa09f2bb44582d8b635126b18d84b97ee210792ff94fcf7984"
     },
     {
       "path": "snapshot/GrowLancer/CLIENT_SERVER_CATALOG_DIFF.md",
-      "bytes": 2445,
-      "sha256": "72d8f0083535b23b8e19de5dedb948ca8454c1f9b02839946169cdb1b5eaaa89"
+      "bytes": 3911,
+      "sha256": "63fdf6745c035f8d46b11971e8186800e0c386b3edeb742ac676e5a03de3d91e"
+    },
+    {
+      "path": "snapshot/GrowLancer/compat/AnimationActorIdentity.h",
+      "bytes": 763,
+      "sha256": "e4a773c5ad83cf28f0056e067658cc183f90e94a91ab6d2c0322762a75685c29"
+    },
+    {
+      "path": "snapshot/GrowLancer/compat/AnimationSampleBatch.h",
+      "bytes": 3818,
+      "sha256": "40e91f3a46197a4fe4e61675118ac4e303c5ea27c119e66d51850c8adb184a37"
+    },
+    {
+      "path": "snapshot/GrowLancer/compat/AnimationSampleSlot.h",
+      "bytes": 621,
+      "sha256": "8cf1f0e5a9be44571891b9d530026c8775151a0705c476cf2c92ecbf3530190b"
+    },
+    {
+      "path": "snapshot/GrowLancer/compat/ClassBodyAppearance.h",
+      "bytes": 979,
+      "sha256": "32f7b8ac18556708b2670a6d0e17763ee54dbec7588ce25be82d6bcfa158571c"
+    },
+    {
+      "path": "snapshot/GrowLancer/compat/ClassBodyDescriptor.h",
+      "bytes": 1836,
+      "sha256": "43b94c71d875feebaa82855860a0abe7e3e620673621cd3f5b687369edd43b9b"
+    },
+    {
+      "path": "snapshot/GrowLancer/compat/GrowLancerClassAdapter.h",
+      "bytes": 2227,
+      "sha256": "8279ceba9af79ab42d8a93835afc424606ff69ed357505cede1ed58f5f9f4ae9"
+    },
+    {
+      "path": "snapshot/GrowLancer/compat/MagicQuantumClock.h",
+      "bytes": 1300,
+      "sha256": "1917771bc66ae0f0a480276a7b7c1429c501ae4806037c84823a10cb77ea07bd"
+    },
+    {
+      "path": "snapshot/GrowLancer/compat/MagicQuantumSequence.h",
+      "bytes": 594,
+      "sha256": "5250eb8f25637260705a952ac2102c28b8eaf1d78f21b557cccc37ce1ade51cb"
+    },
+    {
+      "path": "snapshot/GrowLancer/compat/ParticleBirthOrder.h",
+      "bytes": 1633,
+      "sha256": "62f366b3b369df32f93bad42a8e286f2116ba879db48af84dbdedac5b23f0216"
+    },
+    {
+      "path": "snapshot/GrowLancer/compat/S21CastAnimationSpeed.h",
+      "bytes": 1823,
+      "sha256": "cca606aac8a7d095a1decd60bf8afc10d0d4e097ea1ba7d13244c685ee0e637c"
+    },
+    {
+      "path": "snapshot/GrowLancer/compat/S21CastSpeedProducer.h",
+      "bytes": 1095,
+      "sha256": "cdf1bfa2a112860623771fcdde0e8c3652beec334fb872eddccbd0bf61d0490a"
+    },
+    {
+      "path": "snapshot/GrowLancer/compat/S21GiantPulse.h",
+      "bytes": 865,
+      "sha256": "48319452589b4a39ad5a62df39088fa80823e7a6920cf0780ee6b1e97a2da5c8"
+    },
+    {
+      "path": "snapshot/GrowLancer/compat/S21MountedReaction.h",
+      "bytes": 2175,
+      "sha256": "494ead091ed57adef778983b223c7609ae28ef66ec3f4be3154a64f03dcab0b1"
     },
     {
       "path": "snapshot/GrowLancer/DK_QA_LAUNCH_CHECKPOINT.md",
@@ -499,24 +989,59 @@
       "sha256": "becec3dfa5d65da3e87e9890bb93c6147870f5511fa2095134d86d1373227605"
     },
     {
+      "path": "snapshot/GrowLancer/GL_ITEM_REQUIREMENT_PROVENANCE.md",
+      "bytes": 2392,
+      "sha256": "18e030dadec486b170841390fe5989a764dd8f5e1f37b339ab5ee9622e764e1b"
+    },
+    {
+      "path": "snapshot/GrowLancer/GL_LANCE_ASSET_PROVENANCE.md",
+      "bytes": 3720,
+      "sha256": "771d97b697eb815498e0099bb1d5492fbdfbe64e08a556091b91421a696c7278"
+    },
+    {
+      "path": "snapshot/GrowLancer/grow_lancer_skills_descriptor.json",
+      "bytes": 60376,
+      "sha256": "744b4070b955ba35d9c7d3715e6532220c97a65e0952988cfc776f621fe7564d"
+    },
+    {
       "path": "snapshot/GrowLancer/HARSH_STRIKE_REVERSE.md",
-      "bytes": 14757,
-      "sha256": "d6308de2a2ca8c207f5db1999da5a62cd52592eaa9fb2bac9bb3b4408bd099af"
+      "bytes": 15456,
+      "sha256": "70dc2baca3a07d6faeed3e8de52152d4c560a82bc769ddd06ac86821ffb9829c"
+    },
+    {
+      "path": "snapshot/GrowLancer/ISOLATED_SERVER_QA.md",
+      "bytes": 1691,
+      "sha256": "8578d8febb80f7df1c8b4b4ace2c24d2623913768367ecf45604032289396d79"
+    },
+    {
+      "path": "snapshot/GrowLancer/LOCAL_DB_CLASS_PROFILE_REVERSE.md",
+      "bytes": 3698,
+      "sha256": "d4c88475c7328733b2541802f794cacaeb766c84d52398b8775d48207d8662bd"
     },
     {
       "path": "snapshot/GrowLancer/MAGIC_PIN_REVERSE.md",
-      "bytes": 26695,
-      "sha256": "ab2dbe73c16af064b8996cb5a8b4a58f79c12ce1395dc42de3a9f3ff7a0efe27"
+      "bytes": 79319,
+      "sha256": "269a538ccaa266736f885f303568513063f94b0ec70150b0767d80f17aa1406c"
     },
     {
       "path": "snapshot/GrowLancer/MASTER_SKILL_REVERSE.md",
-      "bytes": 3267,
-      "sha256": "cd664ed39bf169f911274d62dfe16d332e6c4af05cfa91b6d105ee3e471a28ff"
+      "bytes": 5445,
+      "sha256": "0c8440de551caf9fa01aed090c9df827d7b9bce7edfdef3e344e7bc427e0249b"
+    },
+    {
+      "path": "snapshot/GrowLancer/mounted_reaction_candidate.json",
+      "bytes": 1947,
+      "sha256": "e9f600d19bb1a8b082dd227a99509fca48342a53f0292e4eaeb519e9fea5fb06"
+    },
+    {
+      "path": "snapshot/GrowLancer/NEWER_SOURCE_CLASS_REFERENCE.md",
+      "bytes": 4175,
+      "sha256": "182177671e6bab9756ec780cb510fb9d48b3eb84ee971abee8d9b23c433e10d2"
     },
     {
       "path": "snapshot/GrowLancer/OBSIDIAN_REVERSE.md",
-      "bytes": 16187,
-      "sha256": "684790fc4cb1d02449c4b1aefb994ce4babd10fe6a8c91573c6d3ca9ae8ef1fd"
+      "bytes": 18635,
+      "sha256": "d7390bfc73e67dc41549c50a0b2da175884507160da8eb7d05418ce8cfc1fcc1"
     },
     {
       "path": "snapshot/GrowLancer/PLAYER_ACTIONS_REVERSE.md",
@@ -525,8 +1050,18 @@
     },
     {
       "path": "snapshot/GrowLancer/RUNTIME_QA.md",
-      "bytes": 7731,
-      "sha256": "c05dfedc29ac86fe4f5a057e99b096c536a8797e24922e652f6f7abaf3024f73"
+      "bytes": 24759,
+      "sha256": "1865320332c521dd1bb01ef172243cf0d29fb33a8731f723b38b8fa1ccb4ab10"
+    },
+    {
+      "path": "snapshot/GrowLancer/S21_CLASS_DEFAULT_DB_AUDIT.md",
+      "bytes": 2482,
+      "sha256": "4a65f0abd09962db509f6d8c60f52ad121d2c331a190c6b4ee4ec8c5a49c3119"
+    },
+    {
+      "path": "snapshot/GrowLancer/S21_GROW_LANCER_CLASS_DATA.md",
+      "bytes": 2720,
+      "sha256": "d698b02952fee513447b57a6d4083044c785b65ca874246332584058578a3644"
     },
     {
       "path": "snapshot/GrowLancer/S21_LIVE_CRASH_20260913.md",
@@ -535,23 +1070,23 @@
     },
     {
       "path": "snapshot/GrowLancer/S21_NATIVE_REFERENCE.md",
-      "bytes": 5080,
-      "sha256": "8a0d71a2c9eb8f1b2ce7487a0fba9e32db975f208557e30d5e23d32fb746c2fb"
+      "bytes": 5499,
+      "sha256": "c63d834e0f07928e9a06c6f741b742cf5b0208ef8f21f2ae740493ae21daa2d8"
     },
     {
       "path": "snapshot/GrowLancer/S21_SERVER_EVIDENCE_LIMIT.md",
-      "bytes": 1409,
-      "sha256": "71607fc54a727beefa42732d5c50da48d1a9f46489d749d754c8748c4a58ef2a"
+      "bytes": 1772,
+      "sha256": "f724bbc1d51f996ceaea97dfec41a3ca306a4d89998305006e3df21428808ead"
     },
     {
       "path": "snapshot/GrowLancer/SERVER_RULES_REVERSE.md",
-      "bytes": 9582,
-      "sha256": "5d5b9257ed3af29fdbd1fceda8ed25235040134e1586df03f75c2c782231666a"
+      "bytes": 16953,
+      "sha256": "8f85ad1d3cca48a200e18ca5954c36efd49df4c03609e92d59f3a46f6dad36e2"
     },
     {
       "path": "snapshot/GrowLancer/SHINING_PEAK_REVERSE.md",
-      "bytes": 31084,
-      "sha256": "005c5c563fff9381b19693d372da3ebbce5e0297b7f64064d5ac7cdc95087bea"
+      "bytes": 33362,
+      "sha256": "00784aaf3f4fae2d2245760c430c06de67f387c4d59fb5d817eaf690191c06ed"
     },
     {
       "path": "snapshot/GrowLancer/SKILL_ICON_REVERSE.md",
@@ -560,8 +1095,8 @@
     },
     {
       "path": "snapshot/GrowLancer/SPIN_STEP_REVERSE.md",
-      "bytes": 16096,
-      "sha256": "2e311d89467803ba7fceaf1f6387faaf791018db836bf5440c545002e75ff5d8"
+      "bytes": 35212,
+      "sha256": "45f278901982cd816345dd3632e77f334fee59483190caf2837fbb3a4a621e79"
     },
     {
       "path": "snapshot/GrowLancer/TICK_HARNESS.md",
@@ -590,43 +1125,43 @@
     },
     {
       "path": "snapshot/GrowLancer/WRATH_REVERSE.md",
-      "bytes": 11125,
-      "sha256": "41441c7ed82eaf652dfe2f9d52b7e84b251149ee216287ce3610ba50c44c59e7"
+      "bytes": 77741,
+      "sha256": "8aba93f54a57d84f5fea160042dab1152e68c112829faf9af7a7f2b49b94289b"
     },
     {
-      "path": "snapshot/GrowLancer/asset_provenance.json",
-      "bytes": 49660,
-      "sha256": "16bbf3f635cbaf23af3cc47e8cb56f93e7ae99d732e55f49e21890f0ffe34907"
+      "path": "snapshot/Shared/GrowLancerBuffEnvelope.h",
+      "bytes": 2187,
+      "sha256": "267599822ae591bcbf1f3b90235c7e7c870eadc7b63654dca4d867b267b942bc"
     },
     {
-      "path": "snapshot/GrowLancer/compat/S21CastAnimationSpeed.h",
-      "bytes": 1683,
-      "sha256": "a0d38f350d673ccdc51ca497056de78dbeeb693b224a49e72c154cb761910699"
+      "path": "snapshot/Shared/GrowLancerBuffHandshake.h",
+      "bytes": 1353,
+      "sha256": "a16e32cb677cb4d5bf5bf39e997be3e952d4ddf8648a1627e1c45572c38c8864"
     },
     {
-      "path": "snapshot/GrowLancer/compat/S21GiantPulse.h",
-      "bytes": 865,
-      "sha256": "48319452589b4a39ad5a62df39088fa80823e7a6920cf0780ee6b1e97a2da5c8"
+      "path": "snapshot/Shared/GrowLancerBuffSession.h",
+      "bytes": 2135,
+      "sha256": "f78ff9284a77b2ae4f86420bc58a4471130ae3b0f8783137ec8f20c9a6bcf1cb"
     },
     {
-      "path": "snapshot/GrowLancer/compat/S21MountedReaction.h",
-      "bytes": 2175,
-      "sha256": "494ead091ed57adef778983b223c7609ae28ef66ec3f4be3154a64f03dcab0b1"
+      "path": "snapshot/Shared/GrowLancerBuffStatusCodec.h",
+      "bytes": 1965,
+      "sha256": "15abbb70c7b3caba058073068641db36d075aec6980a327bea4e0f20da25d039"
     },
     {
-      "path": "snapshot/GrowLancer/grow_lancer_skills_descriptor.json",
-      "bytes": 49051,
-      "sha256": "d7118167ae9279eb64a4b7d7ed837e366a1ca37a53f63ae9adae24f3c96696bc"
+      "path": "snapshot/Shared/GrowLancerClashDestination.h",
+      "bytes": 1502,
+      "sha256": "fe2a256b7918c5bca722b4592df9dea5b03146509fc2f5da6ed9aaa125a37ae0"
     },
     {
-      "path": "snapshot/GrowLancer/mounted_reaction_candidate.json",
-      "bytes": 1947,
-      "sha256": "e9f600d19bb1a8b082dd227a99509fca48342a53f0292e4eaeb519e9fea5fb06"
+      "path": "snapshot/Shared/GrowLancerClashMovementPayload.h",
+      "bytes": 914,
+      "sha256": "fc5b9e491eb20f9e4ea4274c994b58d1cae0b19823ca41f10f0442d8464b7b7b"
     },
     {
       "path": "snapshot/Shared/GrowLancerSkillContractData.h",
-      "bytes": 8725,
-      "sha256": "3892c87f9ae31c32d242e3789c5a19a17fbc6cd158bdbd918cbce57ed62f7c96"
+      "bytes": 10210,
+      "sha256": "fd405dca9a9a9390881ca5693fcfbdf1664e7ce54783f99150f28f802558fd3b"
     },
     {
       "path": "snapshot/Shared/LegacySkillClassColumns.h",
@@ -634,29 +1169,9 @@
       "sha256": "bb3f9ac2aee1895c5dc469271e25f9b0708f73e18ce7b161290b1f4f88501d3c"
     },
     {
-      "path": "snapshot/tools/grow_lancer/Run-S21-Full-Dump-Once.cmd",
-      "bytes": 160,
-      "sha256": "4e82c0bfd16601c63b0f6eea2801836130383a8cad9094069ed9d6bae142ebc9"
-    },
-    {
-      "path": "snapshot/tools/grow_lancer/Run-S21-Full-Dump-Once.ps1",
-      "bytes": 835,
-      "sha256": "08db4d17c1915c0c97ced1981fa48e4cc363f2fba2273d3bc9cb162faa1af132"
-    },
-    {
-      "path": "snapshot/tools/grow_lancer/Run-S21-ReadOnly-Preflight.cmd",
-      "bytes": 166,
-      "sha256": "b4c4667c57455308f34ee2c697100a4bd7335ebe4edfb7642c9b5b3efb5ae1b6"
-    },
-    {
-      "path": "snapshot/tools/grow_lancer/Run-S21-ReadOnly-Preflight.ps1",
-      "bytes": 1515,
-      "sha256": "8abdd1436fa1020e5b9b0f8d25aabadbd0ac9c215bae57145a6d9330f0603ed0"
-    },
-    {
-      "path": "snapshot/tools/grow_lancer/Test-LegacyClassTokenizer.ps1",
-      "bytes": 1689,
-      "sha256": "12c5ab370ba0a7a86ca44600f6e1bad3fd06b729a0c39fd36870280d8e7d9d3b"
+      "path": "snapshot/tools/grow_lancer/audit_qa_cast_restarts.py",
+      "bytes": 1152,
+      "sha256": "b20c93f34dc602baadf5dc865a472f66a9d587ad537fa540b3fd8e8a05208bdb"
     },
     {
       "path": "snapshot/tools/grow_lancer/capture_s21_full_once.py",
@@ -685,8 +1200,8 @@
     },
     {
       "path": "snapshot/tools/grow_lancer/convert_s21_bmd_v0f_to_rise_v0c.py",
-      "bytes": 7597,
-      "sha256": "16dc415c58f7d3004ddb851af25e1a01986d58884831476d7822ca3c7baaed8b"
+      "bytes": 8304,
+      "sha256": "717fbd04327b06867b49430bc22269a30d29aa324fb3bfd3e3fb5a2f602e944c"
     },
     {
       "path": "snapshot/tools/grow_lancer/disasm_s21_window.py",
@@ -699,6 +1214,11 @@
       "sha256": "d7c1c606f9cb2f856aabf6ee754d6d31f69b005ae800e2617fda18962d8b3ebb"
     },
     {
+      "path": "snapshot/tools/grow_lancer/extract_gl_item_requirements.py",
+      "bytes": 5381,
+      "sha256": "3f13b33690a5be580b232e50ad770cc836c2fcc2908eb20a280d96a1b5264463"
+    },
+    {
       "path": "snapshot/tools/grow_lancer/find_s21_rel32_xrefs.py",
       "bytes": 1112,
       "sha256": "795f68ae340fbb4ba63d3474cd46544db617f27dfe95a3a4995cabfdaeec57b4"
@@ -707,6 +1227,11 @@
       "path": "snapshot/tools/grow_lancer/find_s21_u32_refs.py",
       "bytes": 899,
       "sha256": "cad3f83dbba7f2ce4e3a906b3e6b4ae22affb5babf54ea7413f9a53ebd68d9f8"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/format_bmd_legacy_comments.py",
+      "bytes": 2836,
+      "sha256": "31413e61c837e8eb58e993dda4900d47e2db1b6fe9533273190ae66f3476b4dd"
     },
     {
       "path": "snapshot/tools/grow_lancer/inspect_bmd_strings.py",
@@ -729,9 +1254,19 @@
       "sha256": "55fadcf71704dc8b69c26dc0742bb08adf776373bf5a9cfa325a23f0aa611677"
     },
     {
+      "path": "snapshot/tools/grow_lancer/inspect_clash_rear_geometry.py",
+      "bytes": 2918,
+      "sha256": "c8d65dbb929f42b7be549ea8edea1cabcc054ad69dc6ca30a4610ea0f578bc32"
+    },
+    {
       "path": "snapshot/tools/grow_lancer/inspect_damage_receiver_candidates.py",
       "bytes": 1743,
       "sha256": "1df53be9dfeade7157a0969dfa90be91b76351bf65a204efbed305a92d41a237"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/inspect_delayed_controller_log.py",
+      "bytes": 1404,
+      "sha256": "54954b778551d6ba5d199e17395cbd6189730e20150e9cccbfceeaf8b76a8b4d"
     },
     {
       "path": "snapshot/tools/grow_lancer/inspect_equipment_meshes.py",
@@ -744,9 +1279,44 @@
       "sha256": "20ae386860872fec7147ad010084eff369f348ba5988238f58a564fc63f51be2"
     },
     {
+      "path": "snapshot/tools/grow_lancer/inspect_gl_body_dependencies.py",
+      "bytes": 5881,
+      "sha256": "2b6a3a26f0c6324b738447814bc0f3e6619917d7404a9209e8415b3a775016b8"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/inspect_gl_lance_item_chain.py",
+      "bytes": 5746,
+      "sha256": "f252c85afb80a2cb3d4cfafcc81000c32b2084159b4e2bb733deab4531c7a087"
+    },
+    {
       "path": "snapshot/tools/grow_lancer/inspect_grow_lancer_weapon_categories.py",
       "bytes": 2275,
       "sha256": "7e6df5e245597640f8d496c8d961dbd56e5cb7af5e6c1a1bb7cd006f78a4ac26"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/inspect_magic_frame_log.py",
+      "bytes": 4196,
+      "sha256": "8f2e8ef5082c39e9a01f7564a28ffa99f386fd396fe24ef2c20510885c01bbf0"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/inspect_magic_pin_material_alpha.py",
+      "bytes": 1632,
+      "sha256": "e6ebbb4685aff95064058fe76ee1426db10a18c5efbb223904ea48cceea55437"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/inspect_magic_pin_model_geometry.py",
+      "bytes": 7246,
+      "sha256": "76b5c45587affa0273059d682386c40e0b701593d8ae7ed0f73df13bcc6202d2"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/inspect_magic_pin_uv_alpha.py",
+      "bytes": 3414,
+      "sha256": "0bf08bed6261a67c66192033934cf31173212ef5f872d39081d04ea61fe91a6b"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/inspect_magic_pin_world_z.py",
+      "bytes": 2897,
+      "sha256": "b74dd3327810240e0c95ac4aab8f5fc0a3cf44a0e0e0edc7a3492c9ed60ba390"
     },
     {
       "path": "snapshot/tools/grow_lancer/inspect_obsidian_metadata_snapshot.py",
@@ -769,9 +1339,74 @@
       "sha256": "4962b83438674bdbcf7a1760f006b710ca4eedd5f9d438fa93aa7c279efd61ff"
     },
     {
+      "path": "snapshot/tools/grow_lancer/inspect_spin_blur_draw_log.py",
+      "bytes": 3818,
+      "sha256": "7877bc3f7671a206ae049813b90d816668eb1b396fc17a2f62612d94703714da"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/inspect_spin_controller_log.py",
+      "bytes": 2315,
+      "sha256": "c2e49f64cfa92798e13bc881eb4f011b764168648eedb9991800993b377fa473"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/inspect_spin_cross_model_geometry.py",
+      "bytes": 1780,
+      "sha256": "7fddc04bf6ae0dd4f5770ada98776ed648996fcb7ffab36394599c300e63fbc3"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/inspect_target_skill_render_log.py",
+      "bytes": 2332,
+      "sha256": "63a94dc523f4501c1cbeec11af9c34746a98758db4a1fe15eb66ad98eded0949"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/inspect_wrath_buff_avm1.py",
+      "bytes": 4883,
+      "sha256": "3cd11ad9628fc3e6f5be116c31aab43e2fe92c638d66681e6e6c0868d749707e"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/inspect_wrath_buff_gfx.py",
+      "bytes": 5838,
+      "sha256": "0dd2c3c6f30f73c853554e41a9cd899dfd6eabd0ea34738b0f1986f3c4727bb0"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/inspect_wrath_buff_pool_log.py",
+      "bytes": 3787,
+      "sha256": "10eea0533a7f2e48e2ec91045ada71f24330dec61f58527268d21f19888e5b7a"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/inspect_wrath_buff_snapshot.py",
+      "bytes": 5324,
+      "sha256": "d6967cccee5c7b33400a2b34032bdfa16d36eda35a48c25c6f641377e5a9758d"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/inspect_wrath_buff_visual_log.py",
+      "bytes": 2845,
+      "sha256": "bf00c73516ed1112367f636dd1dd941ccf91bf95ee7edbadf9e18602512a1791"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/map_s21_joint_renderer_imports.py",
+      "bytes": 2027,
+      "sha256": "dfe10adffbe7398f7a7a4372efa3953eb778a9330b1fdc326688dc948c282028"
+    },
+    {
       "path": "snapshot/tools/grow_lancer/merge_player_actions.py",
       "bytes": 8218,
       "sha256": "9010e9060044ec7d2eeab5e44a6fec3c27b6b9501eb036a9a08db046935d61ff"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/normalize_character_manager_encoding.ps1",
+      "bytes": 2156,
+      "sha256": "fe54536611eb935db70a52e0a8460ad140ce82b8dba128ab9691a4c3ca580faf"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/normalize_muhelper_comment_encoding.ps1",
+      "bytes": 1964,
+      "sha256": "d88d07f81a18a60c59bb9801cb9909cb84448796a26d243ccd74e121d80d1d07"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/normalize_npc_quest_encoding.ps1",
+      "bytes": 2034,
+      "sha256": "1ca0c312eacee7e9b0585c4ee755556998e051da588f1b7aafb02f4b12de7e09"
     },
     {
       "path": "snapshot/tools/grow_lancer/preflight_s21_live.py",
@@ -780,13 +1415,13 @@
     },
     {
       "path": "snapshot/tools/grow_lancer/prepare_isolated_client.ps1",
-      "bytes": 3419,
-      "sha256": "cbeda774a1bafa16658c869fe436dbe3f05fd3b2826e8104a21f005b8cbc81d8"
+      "bytes": 3440,
+      "sha256": "b8f51ac570d51b247cd1609c84c544ac896e866fc275762c4038e5d3f615e06e"
     },
     {
       "path": "snapshot/tools/grow_lancer/prepare_runtime_qa_client.ps1",
-      "bytes": 5095,
-      "sha256": "3216ab8bffa93eb81d305be3b36abe7848081e58454c15aad2f57be2faa27947"
+      "bytes": 7188,
+      "sha256": "7bbf123606e3883955589313ce5b2e70e994ee213229d1a681b81015a1c4f94a"
     },
     {
       "path": "snapshot/tools/grow_lancer/read_dump_floats.py",
@@ -794,14 +1429,69 @@
       "sha256": "7f49c97ca792812e11c37debb720faaa0c3682d45cc0868298af1c3b85867d46"
     },
     {
+      "path": "snapshot/tools/grow_lancer/run_offline_harnesses.ps1",
+      "bytes": 2143,
+      "sha256": "cb7b779655c763e5f2ed9ffab9fbd65149b913835513ebd87c99c0f6ea84b85f"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/Run-S21-Full-Dump-Once.cmd",
+      "bytes": 160,
+      "sha256": "4e82c0bfd16601c63b0f6eea2801836130383a8cad9094069ed9d6bae142ebc9"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/Run-S21-Full-Dump-Once.ps1",
+      "bytes": 835,
+      "sha256": "08db4d17c1915c0c97ced1981fa48e4cc363f2fba2273d3bc9cb162faa1af132"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/Run-S21-ReadOnly-Preflight.cmd",
+      "bytes": 166,
+      "sha256": "b4c4667c57455308f34ee2c697100a4bd7335ebe4edfb7642c9b5b3efb5ae1b6"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/Run-S21-ReadOnly-Preflight.ps1",
+      "bytes": 1515,
+      "sha256": "8abdd1436fa1020e5b9b0f8d25aabadbd0ac9c215bae57145a6d9330f0603ed0"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/scan_s21_joint_a44_operands.py",
+      "bytes": 5842,
+      "sha256": "e7fbc52a0662783cdaee2548f53efa29dcdb40c652973b6e07099f2b84b4d50a"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/scan_s21_stat_pointer_refs.py",
+      "bytes": 1381,
+      "sha256": "32e6dcae299dde99c317be37a4cb25f64543df4c05ed0a9d977bf93a436f5226"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/stage_body_rollback_fixture.ps1",
+      "bytes": 2216,
+      "sha256": "2c8120941e4ce3f523e3402c0798b317b8c7a9664b4284dde98ed7012fe38aaa"
+    },
+    {
       "path": "snapshot/tools/grow_lancer/stage_breche_assets.ps1",
       "bytes": 1944,
       "sha256": "bc139f51f9d986d1f2ecf7c00493006808d68b44c7cca840feeb4d8a5f480752"
     },
     {
+      "path": "snapshot/tools/grow_lancer/stage_breche_owner_assets.ps1",
+      "bytes": 3616,
+      "sha256": "2953161cd73b86fbd21938f1683dd5631ef4a90c48b59372948147f43af1c3d8"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/stage_circle_preview_qa_candidate.ps1",
+      "bytes": 7326,
+      "sha256": "935c197e65d5b58a662ae56676d147912c2c883e7949d1eb9433c92528f6a824"
+    },
+    {
       "path": "snapshot/tools/grow_lancer/stage_circle_shield_assets.ps1",
-      "bytes": 3088,
-      "sha256": "a3a36647bf354e7401949243b7cb896f6bb150e44554d77836781bc0435932b7"
+      "bytes": 3522,
+      "sha256": "3e89f6db44c040557a09f57eae4980eb0e72e214a703b1241dae6d1e52528c6f"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/stage_clash_angle_candidate.ps1",
+      "bytes": 2522,
+      "sha256": "1069f1ab5a1ba7cc30a403bf29e80d87e75b31840b95a5880830950a56af105b"
     },
     {
       "path": "snapshot/tools/grow_lancer/stage_clash_assets.ps1",
@@ -809,9 +1499,84 @@
       "sha256": "01d18c31f29e83a493d9d4004a10feab80505457760966366e6c2f501154125d"
     },
     {
+      "path": "snapshot/tools/grow_lancer/stage_clash_cull_candidate.ps1",
+      "bytes": 2258,
+      "sha256": "01707cc6f243534372b00763c5356016440136ac0300e41fe092a42437b07576"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/stage_clash_edgeon_candidate.ps1",
+      "bytes": 2264,
+      "sha256": "952a6a218cb3202f2b0c0b751f2494cc528f09ff2ce01b4e25008e828f33e92e"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/stage_clash_fixture_candidate.ps1",
+      "bytes": 2627,
+      "sha256": "dec1671ef7d5221990caa7eeca919b464823f26ae71fdd4de6b6d16e22372ab7"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/stage_clash_projection_candidate.ps1",
+      "bytes": 2268,
+      "sha256": "e01da06d67769e3d1f4b5af7eeb21ecf684ea29acdeece0db8c975dad192776d"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/stage_current_isolated_gs.ps1",
+      "bytes": 2665,
+      "sha256": "90d3a70e6a0564abf95c6f009b1f56d04bc2be88cba57c1455625bf39b5bade0"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/stage_gl_body_candidates.py",
+      "bytes": 4920,
+      "sha256": "f9686de073b3fe58ec3cd01098d7fd23879dbe8541b7b14759f09a232488e96e"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/stage_gl_body_runtime.ps1",
+      "bytes": 2767,
+      "sha256": "dec261cf90addada0ec6563e5d2fc414c216e2e67777ecc1e6065fc33fc9307d"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/stage_gl_lance_candidates.py",
+      "bytes": 5974,
+      "sha256": "70009acec6a01334d0a2c52d5c85c64744795fb9624ebea3e3c5a1ccbb0311a2"
+    },
+    {
       "path": "snapshot/tools/grow_lancer/stage_harsh_strike_assets.ps1",
       "bytes": 4085,
       "sha256": "1b0d283ebd6dc2216b1cc776803ecc34803192f73a68af6bdf838e6c22231804"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/stage_local_antistream_optout_candidate.ps1",
+      "bytes": 2300,
+      "sha256": "7ec613b6c71b5ea148c05dfbda3da455dabdcd76e15a8d68304cf88b26f26671"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/stage_local_cs_receive_trace_candidate.ps1",
+      "bytes": 2289,
+      "sha256": "d3d02a2b02139c56edff356224e17a9bcc91ee27102a2e279266df92911906ae"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/stage_local_qa_route_candidate.ps1",
+      "bytes": 2282,
+      "sha256": "4475ed0eae527e409a65665560cd9322c91d1b3b51cc3a30dfe942cf9af9e70c"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/stage_local_qa_slash_parser_candidate.ps1",
+      "bytes": 2284,
+      "sha256": "ac9011db89f86c90dbd9c853c3ad48beba16bd5efaf5102a754968be0805a15f"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/stage_local_qa_socket_guard_candidate.ps1",
+      "bytes": 2296,
+      "sha256": "9ccd3c556f2b3b9e2c9532cb7fced91da2449b0ac0d44ca93674f58d839b4218"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/stage_magic_clock_guard_candidate.ps1",
+      "bytes": 2676,
+      "sha256": "4a49f94eef05382a9977f17dd457fdc940452b18c6e1c70ca67fb3a34fec15fb"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/stage_magic_material_probe_candidate.ps1",
+      "bytes": 2673,
+      "sha256": "a79e92611f8ca8f78ee562930956c5319a2fca7b1befcc323d7b925b494d2809"
     },
     {
       "path": "snapshot/tools/grow_lancer/stage_magic_pin_assets.ps1",
@@ -819,14 +1584,54 @@
       "sha256": "ef646e4ac34d99ffdfdac85badcca31d782384275e912cc066c49b5fc2d4a8cc"
     },
     {
+      "path": "snapshot/tools/grow_lancer/stage_magic_probe_candidate.ps1",
+      "bytes": 2670,
+      "sha256": "f21bc445c5f3401b7f624ae096f66ab7fffd01c11efd706f3dedf6c3c1bf3df1"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/stage_magic_timing_candidate.ps1",
+      "bytes": 3344,
+      "sha256": "cb9f758d3d50a17379682255b30b0cc5faea091e87c318375ad727c84c86f748"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/stage_native_loopback_qa_candidate.ps1",
+      "bytes": 2290,
+      "sha256": "0cfd16ea5cbbd510b3a7731b1757342b49110027ed9b717c64ceed688a5febd5"
+    },
+    {
       "path": "snapshot/tools/grow_lancer/stage_obsidian_assets.ps1",
       "bytes": 3353,
       "sha256": "47b411aa4924189e00ef168ddadd1ab502494aebd81399b38364ab5b15088838"
     },
     {
+      "path": "snapshot/tools/grow_lancer/stage_qa_dk_class_gate_candidate.ps1",
+      "bytes": 2274,
+      "sha256": "d507835372cdd863c5ab8053a134cc4c9330b837aeef6939acb41b2f426a4df6"
+    },
+    {
       "path": "snapshot/tools/grow_lancer/stage_shining_peak_assets.ps1",
       "bytes": 5033,
       "sha256": "33d98cf7180ed7b2772f01dfbab1a7a21a1a362c207b87f05bc3dc53a3ff2102"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/stage_skillrise_backup_snapshot.ps1",
+      "bytes": 3998,
+      "sha256": "731b462d493fecf5994ad08213f2eb544791a3368163085f28cd458a0e354a77"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/stage_spin_blur_candidate.ps1",
+      "bytes": 2563,
+      "sha256": "63e3947e854471447262d2a4cc8105b9699abe8c74515cadfcef4e76d8858dd1"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/stage_spin_motion_blur_sampler_asset.ps1",
+      "bytes": 2539,
+      "sha256": "b13cf15b2aa37374096881ea7c22d893f7f5f15dfa1bc4bb40dbdf78398a1313"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/stage_spin_outcome_candidate.ps1",
+      "bytes": 2489,
+      "sha256": "dd075c2fb31ec44c4313490679f7821b80ad9f1c20a998194a38a6746fd145cc"
     },
     {
       "path": "snapshot/tools/grow_lancer/stage_spin_step_assets.ps1",
@@ -839,9 +1644,69 @@
       "sha256": "b88f06ce9ac6f76d0adad0906f158d4c846f54b9b21883ee8be83714526ab06a"
     },
     {
+      "path": "snapshot/tools/grow_lancer/stage_wrath_buff_atlas.py",
+      "bytes": 1539,
+      "sha256": "a057dbb2e1c5d143d77714c1949f0bb290dca99f60eae633e99a2538bba46fe1"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/stage_wrath_master_disabled_candidate.ps1",
+      "bytes": 2180,
+      "sha256": "fe10b5eb6a7d0abe6b57493bae966a16b106368cf4021135fbd7f98a558c13be"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/stage_wrath_master_icon_candidate.ps1",
+      "bytes": 2127,
+      "sha256": "400f7ac542b84f66cab3cbab7f9bcd9ca05dbf951022690082bbd36f2b1b44f9"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/stage_wrath_mono_assets.ps1",
+      "bytes": 2178,
+      "sha256": "9eda943aa1499769ac1d5ce069d31d106e9095b01f494cfe54afa95513cee178"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/start_concurrent_local_qa_stack.ps1",
+      "bytes": 5107,
+      "sha256": "61c5c626d591920dce42e666e6f8fd02d2e25f47ba819ecaf08ad416088cec07"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/start_isolated_server_stack.ps1",
+      "bytes": 2548,
+      "sha256": "400aed863096b34d0efbb61a49298d8bf671258903ca6947b58ceb159163a8cc"
+    },
+    {
       "path": "snapshot/tools/grow_lancer/start_runtime_qa_client.ps1",
-      "bytes": 1293,
-      "sha256": "7b39f4bdabb0ac820fb4d596743b11c5a3b342e4e195455807a667669b9de875"
+      "bytes": 6117,
+      "sha256": "4db26cf020aab35f64e39fa818aeec1684f54b45e7c2068e0f0c996e3ccdb22e"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/stop_isolated_server_stack.ps1",
+      "bytes": 851,
+      "sha256": "09275f7f064acce35f76d940adeeec6726b1b12cf180da6909815a7e5458c0a3"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/test_body_serialized_abi.py",
+      "bytes": 1599,
+      "sha256": "578aaaa06d972e1d397228426a84ea00f6794b38af8da4ab63f10eee740fc2f3"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/test_circle_target_reuse.py",
+      "bytes": 2625,
+      "sha256": "064591caa6cba7286cc2f12004b2f2c274605a5c6acb3570eb122d1f7a56f7d9"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/test_clash_destination.cpp",
+      "bytes": 1108,
+      "sha256": "7f60be801c1e94d4196a97903405e7eab8d33e5ca672d28d1d2f78e1a03ce696"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/test_clash_movement_payload.cpp",
+      "bytes": 1151,
+      "sha256": "de82dc275dc4fe57357b4a270d6e61785070f6fc3525f052f8eeb8922bd52944"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/test_controller_qa_sampler.py",
+      "bytes": 7154,
+      "sha256": "4b52879e694aaaf701de5d71f9c992a0ab7bf450b9412114b467a6be5e4e229f"
     },
     {
       "path": "snapshot/tools/grow_lancer/test_equipment_bones.py",
@@ -854,6 +1719,41 @@
       "sha256": "cef4fd6e18b2c5504b5833de22df25ac6885dff88995ae68b1c4f1f3388fe3e3"
     },
     {
+      "path": "snapshot/tools/grow_lancer/test_gl_body_dependencies.py",
+      "bytes": 2161,
+      "sha256": "3a82e7ebb56a22e2d27d8ed712ac0c19c392611d19042270d58a95e8498a53c1"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/test_magic_frame_log.py",
+      "bytes": 2527,
+      "sha256": "b8ef74d5cbd92c0133eb12429fabf1fdd64c34fe63dc321519bdc8d273ca60ae"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/test_magic_frame_sampler.py",
+      "bytes": 2570,
+      "sha256": "a57cef502175ce9a9cff94c914b1f381b926e7e6480ca26bb3469711afd1de97"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/test_magic_frame_transitions.py",
+      "bytes": 5768,
+      "sha256": "1b09778e0af09fb9de7a4852dccbaaafd12ee8f6c48986fb1cba91353c7510b9"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/test_magic_particle_options.py",
+      "bytes": 2751,
+      "sha256": "c88156fde755e88e8e5ec26313980c0a6b94362e7fe9c435eeb9cef8302edc6b"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/test_native_animation_baseline.py",
+      "bytes": 3815,
+      "sha256": "c48eaff4787074b61795d50b4cb75163ff865033b1292432b707caa3d5bb847b"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/test_s21_cast_speed_producer.cpp",
+      "bytes": 766,
+      "sha256": "7aaca2f284779b8ba6362c9bf803720caf6d4cdfafac020c3bc26aa1a7002aea"
+    },
+    {
       "path": "snapshot/tools/grow_lancer/test_sprite_adapter.cpp",
       "bytes": 1927,
       "sha256": "21582896b400ae36dc60dc86f0fdc672f8bdf6dc0efcaef84f95693e7a11008d"
@@ -862,6 +1762,31 @@
       "path": "snapshot/tools/grow_lancer/test_terrain_adapter.cpp",
       "bytes": 3087,
       "sha256": "fa4b0775c59b2985486bbb203bf063b729820950a916aef344dd127242147734"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/test_wrath_ground_sampler.py",
+      "bytes": 3293,
+      "sha256": "029bfb1917cce94b197c14ee775c267f366924311f4448b3b9e96c63d9e2c68d"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/test_wrath_particle_retirement.py",
+      "bytes": 2492,
+      "sha256": "2b988f13662c67a8f80acf971a16296d17d8aec1c1c2cd909144e365ca1179ed"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/Test-LegacyClassTokenizer.ps1",
+      "bytes": 1689,
+      "sha256": "12c5ab370ba0a7a86ca44600f6e1bad3fd06b729a0c39fd36870280d8e7d9d3b"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_animation_observation_hook.py",
+      "bytes": 2559,
+      "sha256": "fbf3acbbf99418ed7206fbc9cb567f621be7e7b275da39a268c4fa2835dba171"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_animation_sample_lifecycle_sites.py",
+      "bytes": 2845,
+      "sha256": "fd553d3e8823baaa09cf0842e54d0857e0cb1fbc1f452be89ae46a5bc4a7dcc4"
     },
     {
       "path": "snapshot/tools/grow_lancer/verify_auxiliary_buff_names.py",
@@ -874,14 +1799,109 @@
       "sha256": "670dd9dc79c7e88b19e9167a450fc4f37ec9598a99c0f666fdf34c36da694d53"
     },
     {
+      "path": "snapshot/tools/grow_lancer/verify_body_probe_wiring.py",
+      "bytes": 1622,
+      "sha256": "c8303eea4a5052773bcee5474813e3b6ba84f87a215195f0a28957e95be7502d"
+    },
+    {
       "path": "snapshot/tools/grow_lancer/verify_breche_dispatch_tables.py",
-      "bytes": 3828,
-      "sha256": "0b66a9ab09dffc9614eb4417007e060cb7b452cb98c6612db0560adb3a54fc6b"
+      "bytes": 5409,
+      "sha256": "209a396084bdff1350cc582efdddd1d45705a52bd935c13cb9243638178429b7"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_breche_duration_echo.py",
+      "bytes": 4004,
+      "sha256": "b2fe5b41e6b29f0071922efd40005fb9485b111b23a3a78a24e533ed7cc0c6c9"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_breche_emitter_contract.py",
+      "bytes": 2293,
+      "sha256": "61f1567375639fe0be1b2b71c0399309b4c8abaf51d65b3394244384434684b5"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_breche_emitter_dump_contract.py",
+      "bytes": 5094,
+      "sha256": "3acbfe3d63b9b75d882c2d341bcca24a1b2b547b832f2c22ad3cbc991b9904d2"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_breche_flare_render_contract.py",
+      "bytes": 3225,
+      "sha256": "1fa465bdc8c3c48948cb3e85522932eea18163a63219a72c2b3b9160efaa5336"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_breche_ground_render.py",
+      "bytes": 2673,
+      "sha256": "c3fe9d0c4e630ae690e231d0c31ce917f9ed2515e9fffd83e39258b444386530"
     },
     {
       "path": "snapshot/tools/grow_lancer/verify_breche_model_config.py",
       "bytes": 1627,
       "sha256": "1564c3319b2448ebad536b73fa8a7af623ef31285fe1b9f3fa3bfe7d2735b46d"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_breche_owner_adapter.py",
+      "bytes": 9620,
+      "sha256": "019c2c4b500b7340560bfdc50e98a6210ed86a11ccf1cd9bf58fda6abfd86451"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_breche_owner_primary_dump_contract.py",
+      "bytes": 10316,
+      "sha256": "423e9c24653e866967ee974122a25afda8ff519fb7de2d1dcd144236e5d58aea"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_breche_owner_resource_gate_qa.py",
+      "bytes": 3378,
+      "sha256": "83571c5d2a90e4498f466a037b82eeb01fa7f4cbfc135719afa9ec180078b7db"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_breche_particle_contract.py",
+      "bytes": 5174,
+      "sha256": "fd56aeda17a3d62313f7aa983acc412afcc1b51d4856da1c92852f4dd5b39058"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_breche_particle_render_contract.py",
+      "bytes": 4310,
+      "sha256": "e373d9ed4e3c21d6371a366a6dc287d760089c5377a0dc6d94f2226325cf7f18"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_breche_pool_retirement_dump.py",
+      "bytes": 3267,
+      "sha256": "49aeb9a798286b6f1e0b1c4457a1bf4e7f471c43db53d4989b765e60da94947a"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_breche_receive_render_wiring.py",
+      "bytes": 1396,
+      "sha256": "6c323434094699773ac8a627b23d5986fa79a652d90d7cba2982c424bb97b713"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_breche_retirement_contract.py",
+      "bytes": 4402,
+      "sha256": "d9cc7194b0a233b00b97429d5d8962e4cb7cde81abc8889922eff6f7d9ba0d3e"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_breche_root_contract.py",
+      "bytes": 3411,
+      "sha256": "b65f2860456fb087f95972d5c4fa0f8d462da9c9c4f53815f18055c2042753a3"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_breche_s21_recast_reference.py",
+      "bytes": 1603,
+      "sha256": "01a31560335e08368ef76c0448fb42b83825694bd671208837e371f273aedda8"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_breche_sprite_envelope.py",
+      "bytes": 2356,
+      "sha256": "3e4e22a367a2abfc01e32c1d609966ff8322591f0301036c7100925e876460fd"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_breche_stationary_offset.py",
+      "bytes": 3350,
+      "sha256": "ab0a49637f955a83bed0ae92b59adc0e376b9b1a01ebf29fc41ad0cbacbbe9fe"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_breche_tick_schedule.py",
+      "bytes": 1286,
+      "sha256": "3db774200a6d0d57e872174cec978716995ed872477fb223069466a14b0f8c3c"
     },
     {
       "path": "snapshot/tools/grow_lancer/verify_buff_storage_contract.py",
@@ -900,13 +1920,23 @@
     },
     {
       "path": "snapshot/tools/grow_lancer/verify_cast_speed_registration.py",
-      "bytes": 7049,
-      "sha256": "68c84844c95d87110eec606ac3c0b82f168b96d74c4642666646966cf02a4afb"
+      "bytes": 7734,
+      "sha256": "18f7d137d2210aacb5c7650cff9a73cd61a2cc786dbc496ab97c408ee5cfa36e"
     },
     {
       "path": "snapshot/tools/grow_lancer/verify_catalog_profiles.py",
-      "bytes": 2886,
-      "sha256": "a2ac9d008e5599b061af953ccb9ae2e30c2e1887584a282377d31fd63f36ce43"
+      "bytes": 2887,
+      "sha256": "032adf31d86f07ce587b2c9724a6afe98c509008c9c44cbb202c59c1ec1323b1"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_character_animation_step.py",
+      "bytes": 2572,
+      "sha256": "7556d2a254d84e0cdbc75b3678636b57238537fc2eb921dbd799ae862f6fb589"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_circle_emission_qa_contract.py",
+      "bytes": 2124,
+      "sha256": "5550940ee4b8a773525ac6ba7fbbdefd168cf6b6c655508e2f93a91e74ca52df"
     },
     {
       "path": "snapshot/tools/grow_lancer/verify_circle_joint_renderer.py",
@@ -914,14 +1944,124 @@
       "sha256": "07385e6aeebc38c88172ccc2acf46274ede9ec25a5c23dfa3b217ddc5a840d75"
     },
     {
+      "path": "snapshot/tools/grow_lancer/verify_circle_mono_renderer_contract.py",
+      "bytes": 2722,
+      "sha256": "227e5c91c5c19a74db70c4ae2e07cf8d98f661932bf4e52a361c0f2bbab2d41a"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_circle_persistent_source.py",
+      "bytes": 5689,
+      "sha256": "1430f7de60cea2121ee326ea5c00bc2f2357946c28ee204bc0abdd52aede1ba3"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_circle_pool_boundary.py",
+      "bytes": 2937,
+      "sha256": "c34d7f30feb47fa3dbc40b4dfc11e8b7005a1413a7fbbf8843b3de03938fe9d2"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_circle_pool_snapshot_contract.py",
+      "bytes": 1064,
+      "sha256": "b958709421b951c1dee112c8fbd2c25286609f100c9f6b41a5eb54e2ceadccb1"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_circle_receive_action_order.py",
+      "bytes": 2401,
+      "sha256": "02045564acfe1e8b99ec97a6420bb81f322bb14eb1ec7bfeb91e0088b611d683"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_circle_sprite_visibility.py",
+      "bytes": 5951,
+      "sha256": "b90a9c4d051601d35fe29bb46ed7059ef714cba6f184d882c2a7da2a364dac13"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_clash_action_setter.py",
+      "bytes": 2598,
+      "sha256": "88aff877d0eea75f459b93a4166e5e0c37b97b56e12f7b1a55fe42f68b8863e2"
+    },
+    {
       "path": "snapshot/tools/grow_lancer/verify_clash_emission_gate.py",
       "bytes": 2568,
       "sha256": "0c468fab53a26b4fcd4047023eb23f066f501a658685e343973f383b32c09eb8"
     },
     {
+      "path": "snapshot/tools/grow_lancer/verify_clash_model_pipeline.py",
+      "bytes": 3732,
+      "sha256": "842644eb5fb16947df1b10e3bcbacc05aa5d4b338866ddfce574ffab0adf4e2f"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_clash_movement_payload.py",
+      "bytes": 2973,
+      "sha256": "616cc5e8d997bdf314be63b0bc5378111b0e8518e174d1c19d6e7ae60378c533"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_clash_native_blend_cull.py",
+      "bytes": 1387,
+      "sha256": "5093a6fa85a2f22b24f5e13bec1a449bbc04ae5798c4140b00ef6a1e13c392d7"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_clash_native_fixture_draw.py",
+      "bytes": 4277,
+      "sha256": "b979fd163a0147b7c597abc083e96703bbf04819c07a394861d2c6c0d475de80"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_clash_rear_angle_origin.py",
+      "bytes": 2666,
+      "sha256": "2d4b52e09a217afb8ed1c452cbecbe27c51a6d36e7eaf78746a00fcb10d04b32"
+    },
+    {
       "path": "snapshot/tools/grow_lancer/verify_clash_renderer.py",
       "bytes": 1978,
       "sha256": "d21244e897b0e88cb5ac1ec629b044375921edd050fc2eeb69d7f1dadbafb45c"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_clash_vector_and_followup.py",
+      "bytes": 3837,
+      "sha256": "3362f6c8f69defbcce67a026c6c34cc0af78eea351d02c2405a4a7d45ee52e62"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_class_adapter_contract.py",
+      "bytes": 2195,
+      "sha256": "b4ab997db5df3c06311776269d45561cd6a95b81f94a2e81c49852dfb3afee15"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_class_body_dispatch_boundary.py",
+      "bytes": 1455,
+      "sha256": "2f5a37b20c6f08674ff0934f76dc3b10d9b2dddd4ce44c586e4705c406395612"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_class_body_gameplay_caller.py",
+      "bytes": 2050,
+      "sha256": "8e84d9e6fc79959bd68a737f62cac1ea2ad8f75aca0944dfed8ad43dfc97fce1"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_class_body_gpu_runtime.py",
+      "bytes": 3952,
+      "sha256": "33731e30e95fb3013606fb1445047104ec271ea2c86a248581612bb3ac216d0f"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_class_body_gpu.py",
+      "bytes": 1662,
+      "sha256": "e1b8df467d974e8a46372bf9b89a5bbe013ba3367180eb13dcc257e121624c21"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_class_body_loader.py",
+      "bytes": 1648,
+      "sha256": "016413b8f1683ace1426329a737cb2020c373cbac9ad53b422319a038137ffc1"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_class_body_submit.py",
+      "bytes": 1212,
+      "sha256": "34a203bae4200237a7420ad89f8a5e1fe03c579c176b0711d0ef820c73bdf739"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_class_consumer_capacity.py",
+      "bytes": 3985,
+      "sha256": "30621e9e98a342706230810472f24369b16507ad36f72136a916ae517d7e2ef6"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_class_skin_boundary.py",
+      "bytes": 2462,
+      "sha256": "064d89461c717406a698f106462bb10cae6c061eeb9d0d0bbe19eae656e8cb1d"
     },
     {
       "path": "snapshot/tools/grow_lancer/verify_class_source_profiles.py",
@@ -930,8 +2070,28 @@
     },
     {
       "path": "snapshot/tools/grow_lancer/verify_class_table_migration_boundary.py",
-      "bytes": 3804,
-      "sha256": "ddefc04b9d2678e55017380d07ddc6ca1c73c23ee86e9e301e4618d4fa1500e7"
+      "bytes": 3822,
+      "sha256": "a2561df03ef92cc6ec49c8de4bbb801fd294ecf78f744850580bd4e996e1ef78"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_class7_join_speed_chain.py",
+      "bytes": 2904,
+      "sha256": "0c1d246cfdbf95d7e6f49faeeec8d3fd3946004ec0d3eaec57b9a52a8153c719"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_class7_speed_packet_capacity.py",
+      "bytes": 2250,
+      "sha256": "a2e5b76dc39cdf716a120b4d887f4a0b49ea7e8dc0937f287753b0e342bba826"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_class7_speed_recalculation_gap.py",
+      "bytes": 2116,
+      "sha256": "f00a7a083705815c8b185a8d7877a3b636b5cc59668dc6af0fe54c1f2bbebb04"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_client_class_identity.py",
+      "bytes": 2558,
+      "sha256": "324aaab025a7a07e6c753cc5876137b872424d7ab6282b9967c34053668b8d21"
     },
     {
       "path": "snapshot/tools/grow_lancer/verify_client_icon_contract.py",
@@ -939,14 +2099,64 @@
       "sha256": "f8d2b325dd6632cede01f6fb8b5b2a5c788e8e8ce6751b76b5f26ef5aa40268e"
     },
     {
+      "path": "snapshot/tools/grow_lancer/verify_client_legacy_class_lookups.py",
+      "bytes": 3296,
+      "sha256": "68f3a191797b93a886703ed0b28fee36a58d9e5544b390cd353d40161108b855"
+    },
+    {
       "path": "snapshot/tools/grow_lancer/verify_damage_route_boundary.py",
       "bytes": 4707,
       "sha256": "b9a2dc1ab6ed1d3e51210a2571ca4cdf0ad1a5116245a83dbe99d6428dd90e79"
     },
     {
+      "path": "snapshot/tools/grow_lancer/verify_effect_pool_tick_order.py",
+      "bytes": 1760,
+      "sha256": "73bb07b2ca4ae25b9d32913203c30817e823b0f49d52564708971a8277d9c211"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_fixed_action_actor_class_gate.py",
+      "bytes": 1793,
+      "sha256": "dc3ce43021978fbfc340edd5880a24f83a7ce3e755fa9db8f9ea067150cdd272"
+    },
+    {
       "path": "snapshot/tools/grow_lancer/verify_giant_render_passes.py",
       "bytes": 5335,
       "sha256": "3583907a943e3598c4381a62e0ab0617611fde9823c0406c1726e83e8e8223d4"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_gl_lance_item_id_collision.py",
+      "bytes": 2248,
+      "sha256": "573d7ebc8fcbcbcb79ba5dc8aad27bf7d7190a7a5870a01af6476f609458c305"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_gl_lance_native_probe.py",
+      "bytes": 2559,
+      "sha256": "c51f65e582e13d3ac55dc28826675823ad19ba5eddeee2850196834050bf5d54"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_gl_source_damage.py",
+      "bytes": 1612,
+      "sha256": "d28e22adb5d1979e573039c354dd221307235e9984cbb8692436437dd549a9c6"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_grow_lancer_class_boundary.py",
+      "bytes": 4366,
+      "sha256": "e63fcb9e08c9ebc04df7787c6f12d3b5126dc639086d404829bd11721ce09380"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_grow_lancer_default_candidate.py",
+      "bytes": 2300,
+      "sha256": "f3e5a047e5f9ab626d68f79ecaa50fcb496b0ea34fbd06dc4b57719aa99811dc"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_gs_class_capacity.py",
+      "bytes": 1796,
+      "sha256": "9c84d4034e1f58923f665b98fd99c2a12a188d6f6f1410d06bef9e697e01c243"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_harsh_action_setter.py",
+      "bytes": 2239,
+      "sha256": "0df8f727ba774e8d8a1d57fb67382322afd7fbea8eb724daceed4ed34f0207c2"
     },
     {
       "path": "snapshot/tools/grow_lancer/verify_harsh_blur_pool.py",
@@ -959,6 +2169,41 @@
       "sha256": "7c2784ab5d1b0a0d2fd6f3b97d1159edbe1d468035c8d3247701bfad1d82ee1c"
     },
     {
+      "path": "snapshot/tools/grow_lancer/verify_isolated_server_stack.py",
+      "bytes": 3458,
+      "sha256": "e3fd6b57db7598f370f51c59165be74207b422b008b822adc54ec948fd4b963b"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_legacy_skill_source_gap.py",
+      "bytes": 2476,
+      "sha256": "aa4447e63714b25ef6f3c97e94df6888f5d58f7b57a0e85db70606dd81adfc74"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_local_db_class_seed.sql",
+      "bytes": 2151,
+      "sha256": "cba32ba3736b24d2a9be67f9c12bbd1dc2db0727b5049e4a9276447c62d5f966"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_local_loopback_socket_qa.py",
+      "bytes": 1057,
+      "sha256": "712433216128bc749e7e995dc5c0c67c905b9fb0dcca434f8ff9f9cc780e8d96"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_local_server_list_group.py",
+      "bytes": 2136,
+      "sha256": "0e5e7fad89762bc435d0b67d4de4ea6369908e311e0beb857599a9951434e37c"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_magic_action_reset.py",
+      "bytes": 2816,
+      "sha256": "06b979a93ed060346e804b4ed629010bc6ca6ae6f9beee21717d16ed95c6ee4c"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_magic_actor_quantum.py",
+      "bytes": 1799,
+      "sha256": "38073be5f5d89dc2add2154271ec0bcd1eb08df2d237de21878062c4f4c068f1"
+    },
+    {
       "path": "snapshot/tools/grow_lancer/verify_magic_blend_shader.py",
       "bytes": 3130,
       "sha256": "0337f4257b4c834aefb680dce3dc3822f9b50aef2d7521a3e19e40cf208da56d"
@@ -969,9 +2214,29 @@
       "sha256": "49b8f9acc39505e6a32b6d1ae63af2d09036ff0f7dba9d06c13ce596530e7215"
     },
     {
+      "path": "snapshot/tools/grow_lancer/verify_magic_frame_ownership.py",
+      "bytes": 3216,
+      "sha256": "f61a5cc2dd8c232821d411154fb49345df2fe84ee90c5c1e9d7a0cd28fed26ad"
+    },
+    {
       "path": "snapshot/tools/grow_lancer/verify_magic_hit_receive.py",
       "bytes": 3942,
       "sha256": "e511bf1f29bac14e448b14010e85c81e32189ddf065577a9017ed7308dab426a"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_magic_native_fixture_draw.py",
+      "bytes": 3295,
+      "sha256": "42e20d4001c9db2320e67be0c254299dc833470d5a1ded4960c440bd0534d6b4"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_magic_normal_activation_gap.py",
+      "bytes": 2368,
+      "sha256": "0e9c051135316f56a56de405bc52883997403d0f2b39098170e084121ae4319f"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_magic_particle_provenance.py",
+      "bytes": 2284,
+      "sha256": "96040c9668e6f6e120fabb85f1eb3e37ac1332ab0fcd2dc708fe428ddd31acfa"
     },
     {
       "path": "snapshot/tools/grow_lancer/verify_magic_pin01_alpha.py",
@@ -979,9 +2244,29 @@
       "sha256": "8ff57afbaa1a40b4e7b5dbfd0dc634c8861b0b43a3cd363acb102439f7a8cac1"
     },
     {
+      "path": "snapshot/tools/grow_lancer/verify_magic_pool_routing.py",
+      "bytes": 2438,
+      "sha256": "9c72c64a5118f903d2acbd4dac3b7c75fcd787d79479bb6d34df0e88a2bf19e3"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_magic_primitive_phase_order.py",
+      "bytes": 1959,
+      "sha256": "b492b52f6c8e11e6a31ebd15ca91b15c24079cc75a3ffd85d11bc93ef9f3c668"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_magic_raster_probe_contract.py",
+      "bytes": 2288,
+      "sha256": "1527c4445d11ad3a25e03d82a6d28bfe0ea33b72267813f17e57ceb129ee9a76"
+    },
+    {
       "path": "snapshot/tools/grow_lancer/verify_magic_shockwave_prefix.py",
       "bytes": 2700,
       "sha256": "d4c65c408dbd8f78d61c00f359a3da229a1936e80ca90193be489b28a48a61a3"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_magic_terrain_depth_fixture.py",
+      "bytes": 2957,
+      "sha256": "53a9205005ff9d8a5b12f209358b3413d51a903574996f8c733aec18af9eb86e"
     },
     {
       "path": "snapshot/tools/grow_lancer/verify_magic_thunder_renderer.py",
@@ -1004,6 +2289,11 @@
       "sha256": "2794aa72a71544c44ae850c32f023f53efcc6f783b32fcb0f58c30faf1c99dca"
     },
     {
+      "path": "snapshot/tools/grow_lancer/verify_native_animation_cadence.py",
+      "bytes": 3639,
+      "sha256": "bb2c09a009c165b6acdbdd9caa66ed581de02229973f3fe7cd9c42ba4359143e"
+    },
+    {
       "path": "snapshot/tools/grow_lancer/verify_native_class_encoding.py",
       "bytes": 1725,
       "sha256": "9042b5a80066700607c4ff34a8791d035c9690ba9dc966ab0979c2c6e59dc429"
@@ -1012,6 +2302,21 @@
       "path": "snapshot/tools/grow_lancer/verify_native_speed_boundary.py",
       "bytes": 3018,
       "sha256": "ad7ec6dfef49496198a27bdaa421d27829a8552169e99072332418343cecd48f"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_newer_class_reference.py",
+      "bytes": 2854,
+      "sha256": "5dd95e705b1525ff2a5b3f852630950cbbcee895a638f7e01c85f32533f4fa9e"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_nine_skill_descriptor_contract.py",
+      "bytes": 1915,
+      "sha256": "56fbc2785eebaa12dcd5b5739b9a33055abd4fb7dd3993c485458132feb34d73"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_obsidian_action_reset.py",
+      "bytes": 2574,
+      "sha256": "c7ec44f42700dd08cb7b98be2388cb7534b682449d23ccd80da1a92e35b21154"
     },
     {
       "path": "snapshot/tools/grow_lancer/verify_obsidian_action_selection.py",
@@ -1034,6 +2339,11 @@
       "sha256": "f741561fbb989fc9086176673dff9a1da194b4b3d55eff60705f0c9c300af6f9"
     },
     {
+      "path": "snapshot/tools/grow_lancer/verify_particle_iteration_order.py",
+      "bytes": 2820,
+      "sha256": "f17c06c34542965abe0a8ce737fccd2fd86ac3f222ee8010169497f507750f2d"
+    },
+    {
       "path": "snapshot/tools/grow_lancer/verify_pin_joint_contract.py",
       "bytes": 6609,
       "sha256": "ca0995d515a39134080d5f22b12f220cfee9c5d36e6541bc207786e19abc0c63"
@@ -1049,14 +2359,54 @@
       "sha256": "771863168ee63bb1585a00a2125a33d06648b42cd78e12f368033280af5cff78"
     },
     {
+      "path": "snapshot/tools/grow_lancer/verify_private_model_gpu_log.py",
+      "bytes": 2127,
+      "sha256": "9a8f505af3b600aaa2e58c6e402c7c54fd8191843ddbf2e14d16b23d33335260"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_private_model_shader_upload.py",
+      "bytes": 1430,
+      "sha256": "3e66807defb40bb05a1b8f840be7e710674dbb77ca56b80ce2ccb2065a2f6737"
+    },
+    {
       "path": "snapshot/tools/grow_lancer/verify_project_integration.py",
       "bytes": 3937,
       "sha256": "d395b6ac59ce0af0ef8a54fd5bca2382ffb1750206961432f789b7933b714df9"
     },
     {
+      "path": "snapshot/tools/grow_lancer/verify_qa_dk_fixture_gate.py",
+      "bytes": 1156,
+      "sha256": "a5282a433d54a00a7be4275ca7d6f105d7672f3e03fa2b1b1c78e1dccf20530b"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_qa_no_vps_game_socket.py",
+      "bytes": 1843,
+      "sha256": "b1a0771b30901ae30cfc2f18b4c9f32d8e1de77d412e8ccafd6b9f3aa4d36c97"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_regular_skill_lua_formula_port.py",
+      "bytes": 3926,
+      "sha256": "e751600cc41545599e12bf45d38aedf12cdd7f49d0a5a6a7e16c91cd2325a1d5"
+    },
+    {
       "path": "snapshot/tools/grow_lancer/verify_runtime_qa_stage.py",
-      "bytes": 3887,
-      "sha256": "3b1c6ecc867fbc824645ffa5b60927db5a5779f5b8552776056f4b022b8483b7"
+      "bytes": 5428,
+      "sha256": "39c8c74cc03da3094ccac92449e42c8ef9cddc70a9eba55f70a9e57006311f61"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_s21_body_registration.py",
+      "bytes": 3161,
+      "sha256": "0bbf0b541723b2f9ff0c56082a7d976b1ae984f51ed0521488f8025ce3482a4d"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_s21_body_texture_dispatch.py",
+      "bytes": 4596,
+      "sha256": "a5b7fb8a04737e1d71c76751180aa0a3471aaee7f23209e96be037b9e485b474"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_s21_cast_speed_producer.py",
+      "bytes": 2797,
+      "sha256": "c59ff0c89c8504cfa19f9b04e7eace7565f109148c0b79d94a62b68911b0013d"
     },
     {
       "path": "snapshot/tools/grow_lancer/verify_s21_class_damage_rates.py",
@@ -1064,14 +2414,89 @@
       "sha256": "a805ff467e2759fabcd66f138e83aeb7d18524d272119e2143d2c4a05b5414bf"
     },
     {
+      "path": "snapshot/tools/grow_lancer/verify_s21_duplicate_regular_skill_lua.py",
+      "bytes": 2522,
+      "sha256": "6d123afb99002532b197c80c72c857c274cb69151f9fbeb69c61f33377614a22"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_s21_gl_ability_gauge_adapter.py",
+      "bytes": 1524,
+      "sha256": "c1d02bcac9e57788d05592c1c32f8c446eb4b3bd3bf7b3a1c946f19ab7c4cc27"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_s21_global_speed_owner.py",
+      "bytes": 2575,
+      "sha256": "98a2144e2127418bc94aff7d32a36ef59b41960337ea148f6a57b2f902a7bb03"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_s21_global_stat_lifecycle.py",
+      "bytes": 1822,
+      "sha256": "4b86da0e7022b84016cdc4514d6c099b4eeb0ec64a139ea441aca902d27a3ec2"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_s21_grow_lancer_class_data.py",
+      "bytes": 3457,
+      "sha256": "9119aac94c796ef2c1e165adfb0a7377d03ca302174d81ae62de83ece9e1fb90"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_s21_itemlist_scroll_mapping.py",
+      "bytes": 3992,
+      "sha256": "5e9983d47b1e8d802e56d4830cb3ca895510efccdfcb3cc489ecc5ece68ab1f0"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_s21_join_opcode_boundary.py",
+      "bytes": 2459,
+      "sha256": "790efdf94e063323d0d3cec29f7ea7f7e93eb2937f1eb00607ab82f15bad9ee4"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_s21_no_circle_clash_scroll.py",
+      "bytes": 3221,
+      "sha256": "f148ddc5ff8f14b6d39a7db94598612fae149d41f93d3b5d6361a4d49ac91e9d"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_s21_server_binary_boundary.py",
+      "bytes": 1626,
+      "sha256": "94eff92d5d937ca4adcc7cb5facced9209a196df540b7bb4484065f6ff50302f"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_s21_server_tree.py",
+      "bytes": 5059,
+      "sha256": "5dae9d755a0f3e3cbe9b1472cd7bc5a673e0f241e4ea71b1e4bc5a8cd00cab4f"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_s21_speed_flag_priority.py",
+      "bytes": 1831,
+      "sha256": "a60912d3e051d297bfeec70ce3426a0dd8a8cb1a9f6b521717ac35facd473b75"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_s21_speed_packet_offset_boundary.py",
+      "bytes": 2067,
+      "sha256": "367f6d11b2a799dd4d446fba1b4e877c9e68dfb50e7f492a031f2e660f76d5ed"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_s21_speed_pointer_candidate_roles.py",
+      "bytes": 3833,
+      "sha256": "88fb03292224a8cbc02a21c63d2120955a808f718211a4eb95134b9173777c11"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_s21_speed_temp_packet.py",
+      "bytes": 1991,
+      "sha256": "29029392946847e8b58ec403b1f8e754748b2ca450f5b55ac07d4b245089f508"
+    },
+    {
       "path": "snapshot/tools/grow_lancer/verify_server_contracts.py",
-      "bytes": 9802,
-      "sha256": "2b9dedcbb1f951ab9a91a9b83b943ceae6b859688111ba128d58b2ab804ca058"
+      "bytes": 9803,
+      "sha256": "bc4018f3e3929d2f4da4bf004dcdd65b2dc9efd3e673b2cd804fb2e55c9ba400"
     },
     {
       "path": "snapshot/tools/grow_lancer/verify_server_dispatch_guard.py",
       "bytes": 1560,
       "sha256": "162f0dbbf006bcf838525dcab0dca6fb6d1b753e2f366f5118dbbe5e2291425a"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_shining_action_setter.py",
+      "bytes": 2120,
+      "sha256": "224b7273e2313b91ba2284c1bee64ce3aec8d00a8b40a72dd33eaafe8f9a264b"
     },
     {
       "path": "snapshot/tools/grow_lancer/verify_shining_mesh_render_calls.py",
@@ -1080,8 +2505,8 @@
     },
     {
       "path": "snapshot/tools/grow_lancer/verify_shining_qa_sampling.py",
-      "bytes": 1244,
-      "sha256": "4b9c07d050c0c9faf4abf402e78ad2a30a49a40abb1d83052b5e754e206ae0c1"
+      "bytes": 1461,
+      "sha256": "505e5a2e95f7468eca629db1cc0c20183ae905f2ead83497776c118e3723a92a"
     },
     {
       "path": "snapshot/tools/grow_lancer/verify_shining_shockwave_renderer.py",
@@ -1089,9 +2514,59 @@
       "sha256": "922e91e198d067e12cc8c982fb2eb7892957f2fcefbe0ac6418ce666e7cde823"
     },
     {
+      "path": "snapshot/tools/grow_lancer/verify_skill_delay_id_capacity.py",
+      "bytes": 3492,
+      "sha256": "894c06566ad30f3c23e949377bb33377ff3af59b8b83d27eab108bcc43f084cd"
+    },
+    {
       "path": "snapshot/tools/grow_lancer/verify_source_animation_step.py",
       "bytes": 7537,
       "sha256": "82a4003b0085e345f2f3dc925b93c3493c1352298a1fcf5e3fe7134343343545"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_spin_action_reset.py",
+      "bytes": 2955,
+      "sha256": "1566fb8ea17bdeb79f78c457d1c6672867e48fdaffcf00333c1b299c284b1c43"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_spin_blur_lifecycle.py",
+      "bytes": 2403,
+      "sha256": "a731aeeec187a7282b2986f1568efa868d613e64e204ab6a53b84a7d942d161b"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_spin_blur_world_transform.py",
+      "bytes": 2829,
+      "sha256": "c0ef995c068636a915d29bb4ed944afc30c9141ebd23317be75a7f2bfc8c81dd"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_spin_caster_bone_33.py",
+      "bytes": 2362,
+      "sha256": "e60b30ce699a1e6e6ecb2e600e91f97d6b6b66bccc00a529de83d30ec83495a0"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_spin_cross_gameplay_query_scope.py",
+      "bytes": 2247,
+      "sha256": "0a8cc7bf016cb3e3404efaf09f7f12c5adf461ab999f78a69289e1e85d54af2a"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_spin_cross_native_fixture_draw.py",
+      "bytes": 2240,
+      "sha256": "8f8c2624cfd4d61a52ba475489d9b1b5b591b959b4988a2e3a353cb2f323a60b"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_spin_historical_cadence.py",
+      "bytes": 3181,
+      "sha256": "d370b49fd8ed5c2a4dc64983a3c171f0b45b180f30d094260e9d7e5eda588cce"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_spin_native_blur_fixture.py",
+      "bytes": 3076,
+      "sha256": "bb93efeb448bc517a90e0c2988fab58b29bd8fadc717d17201b8b9535f48a835"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_spin_private_sampler_contract.py",
+      "bytes": 5242,
+      "sha256": "f1fc21fdfa05fef3d079d92ac00608eeb278f5ea4d4ef36dc190f4585f4769f0"
     },
     {
       "path": "snapshot/tools/grow_lancer/verify_spin_renderer_binding.py",
@@ -1099,9 +2574,39 @@
       "sha256": "ba67574e05b56198961398b59bba1c3a660dd89636bb299833721e4a494e9aac"
     },
     {
+      "path": "snapshot/tools/grow_lancer/verify_spin_selected_target_render_qa.py",
+      "bytes": 3017,
+      "sha256": "40f732b86049646c79b9682edd2e5887a03b872392e879f2924993d979f40ce9"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_spin_two_message_visual_contract.py",
+      "bytes": 2167,
+      "sha256": "09c17109f83f467fdf145060b4b6f87367331c09d638143fc198698b5c023f6e"
+    },
+    {
       "path": "snapshot/tools/grow_lancer/verify_staged_action_clips.py",
-      "bytes": 2559,
-      "sha256": "07046794c83e8ae389ee80217e89f6382e722ff13b9d6b4a5e02d9a4d990c8b2"
+      "bytes": 2816,
+      "sha256": "2a7bb3b49cb3dc39765fda3b87c22ab3489fa248d9afdf0635cff45e6c49e6c5"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_supplied_gs_codeview.py",
+      "bytes": 1460,
+      "sha256": "86eb54953ac63cf9b0832f3f27774b499d67c53b02b38013c9a333bd9cc84453"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_target_skill_render_qa.py",
+      "bytes": 2227,
+      "sha256": "0b19cd788ead1514df186a070309a1c6c75740715cb71e97d91d890833ff2c44"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_wrath_action_selection.py",
+      "bytes": 2190,
+      "sha256": "80ed9dd6c41759f3540102ec601355e989922b0c6bb05dfb8887cf87a0c91c7f"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_wrath_asset_edge_alpha.py",
+      "bytes": 3716,
+      "sha256": "dcfc8fd21b4e0a5b4d36a5a80222aee373cce055472b5499c3f505e34e5fc82e"
     },
     {
       "path": "snapshot/tools/grow_lancer/verify_wrath_aura_renderer.py",
@@ -1109,18 +2614,108 @@
       "sha256": "2702b82114067b3db45533ff6fb750b730cd831a3310c0636ccb9b452e8997d8"
     },
     {
+      "path": "snapshot/tools/grow_lancer/verify_wrath_buff_exception.py",
+      "bytes": 2255,
+      "sha256": "fac079d437b2d83ee6aff404ccad154cac43d14e85928673e60ff9e9f9773635"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_wrath_buff_visual_qa.py",
+      "bytes": 3779,
+      "sha256": "3099f6bcb918f035f9e12fd056fe5c62887d530c25d98b3507c8ed7713343f84"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_wrath_buff_visual_sequence.py",
+      "bytes": 4830,
+      "sha256": "1ba741776394fad63c316e2f4006438606ed47ebd7a13a77b68294d7fdc99f3d"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_wrath_character_scale.py",
+      "bytes": 4789,
+      "sha256": "70ea3203b39a7b957d6f3d1ce51225f3f608180a52f925ab3bf3cd342034b381"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_wrath_cleanup.py",
+      "bytes": 3725,
+      "sha256": "1dc6ce8426eb5af391d75b60e23c50058d0e92ec16244aa60c7f4fd9af5eaf0a"
+    },
+    {
       "path": "snapshot/tools/grow_lancer/verify_wrath_dispatch_tables.py",
       "bytes": 923,
       "sha256": "6c97573a5aa8b3d9c3e48fb985e73c552a3b7498a64fe6027e76f64ba7cf7478"
     },
     {
+      "path": "snapshot/tools/grow_lancer/verify_wrath_flare_native_adapter.py",
+      "bytes": 2704,
+      "sha256": "339a16f1f6e2e140f6369035a64a206212c2ae41a3c90e048e4016f6679271e4"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_wrath_ground_blend_restore.py",
+      "bytes": 1463,
+      "sha256": "2823d97757d2ff19415dd09f4d1e6a35eb683d0c1672fae20493847a96551016"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_wrath_ground_blend.py",
+      "bytes": 2231,
+      "sha256": "a220f5f460e77fcdc68ad4e83b9ef80fd06fa5e466db94e64f022e07f6d3c95d"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_wrath_ground_pixel_probe.py",
+      "bytes": 3095,
+      "sha256": "f6d59ed774ec16b1a052e03e302527554ec8bffa3c6c27985dd931e9ac8e58a4"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_wrath_logical_detour.py",
+      "bytes": 4165,
+      "sha256": "de753ba40980e54a14f9f2d35a94224d54c77055c6d54a41d0a1dda4ea6ba0bf"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_wrath_master_icon_route.py",
+      "bytes": 6072,
+      "sha256": "c3146b82425b5370bb0623778cf34b9113c80c0ca26f476db44a09cbc170e797"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_wrath_membership.py",
+      "bytes": 6172,
+      "sha256": "f1cd8155fc5cc3d07f073599a9f472fb4b2bec38342c26cadde1a570f007f64e"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_wrath_model_material_identity.py",
+      "bytes": 1956,
+      "sha256": "de9c8c5772b59667a3ae9ce1b0ec7249ec320143191c8a841f7fab5b55201a7b"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_wrath_mono_assets.py",
+      "bytes": 1114,
+      "sha256": "44297c8844fbf88fa2f2aa2a7221c0d26491c9a6262964e99d6afd2f2f853ac7"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_wrath_mono_native_adapter.py",
+      "bytes": 4152,
+      "sha256": "fc1a228151fd2fc20effc9e55578919ed9abdbf6b05197b2fa8a35c737d4f0a5"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_wrath_persistent_sprites.py",
+      "bytes": 5869,
+      "sha256": "ff18763ec374ec4ea05183bcbd4be6936f73e47f442991055d73582867d59203"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_wrath_persistent_tail.py",
+      "bytes": 10615,
+      "sha256": "8a8566f39329d13894d24796ae2e2a607559d5399f69fc34fdd508604d2a2253"
+    },
+    {
       "path": "snapshot/tools/grow_lancer/verify_wrath_server_formula.py",
-      "bytes": 1419,
-      "sha256": "c6325c69c154795e7b0943a7c561ac197baefa25e2a25ff46b43b07204783c02"
+      "bytes": 2829,
+      "sha256": "ecccd87f6ed4362b28469c7fce404f9cd42738383fa6a471be2eca0f6ad0d5d2"
+    },
+    {
+      "path": "snapshot/tools/grow_lancer/verify_wrath_status_dispatch.py",
+      "bytes": 4304,
+      "sha256": "7e9fe391d20a10afe8c7b6f8a49a4cf658ed614cb2e3edf4154e25afc1ef4a98"
     }
   ],
   "reviewRequired": [],
-  "omitted": "Git history; raw memory dumps; executable outputs; client/data assets; production configuration; runtime captures.",
+  "omitted": "Git history; S21 memory dumps; EXE/DLL/build output; client/data assets; production config; runtime captures.",
   "initialDamagedDocuments": [
     {
       "path": "GROW_LANCER_STATE.md",
@@ -1143,5 +2738,6 @@
     "report": "snapshot/GrowLancer/DOCUMENT_RECOVERY.md",
     "preCorruptionHashAvailable": false,
     "preservedDamagedOriginals": "Local-only; not uploaded."
-  }
+  },
+  "backupUpdatedAtUtc": "2026-09-16T02:33:31Z"
 }

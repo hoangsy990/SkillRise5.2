@@ -3,6 +3,9 @@
 
 #include "stdafx.h"
 #include "RISE/GrowLancerEffectRuntime.h"
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+#include "RISE/GrowLancerRuntimeQA.h"
+#endif
 #include "RISE/GrowLancerTick.h"
 #include "RISE/GrowLancerResources.h"
 #include "ZzzOpenglUtil.h"
@@ -232,12 +235,20 @@ void CreateForce(OBJECT* o, vec3_t Pos)
 
 void EffectDestructor(OBJECT* o)
 {
+    rise::growlancer::ResetEffectAnimationSamples(o);
     switch (o->Type)
     {
     case MODEL_EFFECT_FLAME_STRIKE:
         RemoveObjectBlurs(o, 1);
         RemoveObjectBlurs(o, 2);
         RemoveObjectBlurs(o, 3);
+        break;
+    case rise::growlancer::kSpinControllerModel:
+        // The weapon ribbon is owned by this private controller slot. Retire
+        // it before the native pool can reuse the slot for another effect.
+        // No SS6 blur owner or other Grow Lancer effect is changed.
+        if (o->SubType == 0)
+            RemoveObjectBlurs(o, 0);
         break;
     case MODEL_SUMMONER_SUMMON_LAGUL:
         for (int i = 48; i <= 53; ++i)
@@ -463,6 +474,7 @@ void CreateEffect(int Type, vec3_t Position, vec3_t Angle, vec3_t Light, int Sub
 
         if (!o->Live)
         {
+            rise::growlancer::ResetEffectAnimationSamples(o);
             o->Live = true;
             o->Type = Type;
             o->SubType = SubType;
@@ -6923,6 +6935,7 @@ void MoveCharacter(CHARACTER* c, OBJECT* o);
 
 void MoveEffect(OBJECT* o, int iIndex)
 {
+    if (rise::growlancer::MagicPinFrameOwnsModel(*o)) return;
     if (rise::growlancer::IsBrecheEffectType(o->Type) ||
         rise::growlancer::IsSpinFlareEffect(*o) ||
         rise::growlancer::IsSpinGroundEffect(*o) ||
@@ -18430,6 +18443,36 @@ void RenderEffects(bool bRenderBlendMesh)
             if (gMapManager.WorldActive == WD_39KANTURU_3RD)
                 if (o->Type == MODEL_STORM3 || o->Type == MODEL_MAYASTAR)
                     o->Visible = true;
+
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+            if (!bRenderBlendMesh && o->Type == rise::growlancer::kSpinCrossModel)
+            {
+                const BMD& diagnosticModel = Models[o->Type];
+                rise::growlancer::RecordSpinRenderQA(*o,
+                    o->Visible ? "cross-visible" : "cross-culled",
+                    o->Visible ? 1 : 0, diagnosticModel.NumMeshs,
+                    diagnosticModel.NumBones, diagnosticModel.NumActions,
+                    diagnosticModel.NumMeshs > 0 ?
+                    static_cast<int>(diagnosticModel.IndexTexture[0]) : 0);
+            }
+            if (!bRenderBlendMesh &&
+                (o->Type == rise::growlancer::kClashFrontModel ||
+                 o->Type == rise::growlancer::kClashRearModel ||
+                 rise::growlancer::IsBrecheEffectType(o->Type)))
+            {
+                const BMD& diagnosticModel = Models[o->Type];
+                const int skill = o->Type == rise::growlancer::kClashFrontModel ||
+                    o->Type == rise::growlancer::kClashRearModel ? 275 : 279;
+                const char* stage = o->Visible ?
+                    (skill == 275 ? "clash-visible" : "breche-visible") :
+                    (skill == 275 ? "clash-culled" : "breche-culled");
+                rise::growlancer::RecordTargetSkillRenderQA(*o, skill, stage,
+                    o->Visible ? 1 : 0, diagnosticModel.NumMeshs,
+                    diagnosticModel.NumBones, diagnosticModel.NumActions,
+                    diagnosticModel.NumMeshs > 0 ?
+                        static_cast<int>(diagnosticModel.IndexTexture[0]) : 0);
+            }
+#endif
 
             if (o->Visible)
             {

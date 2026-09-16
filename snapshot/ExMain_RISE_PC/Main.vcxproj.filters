@@ -195,10 +195,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\Addon\256.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="..\Addon\48.ico">
+    <Image Include="..\Addon\GrowLancerQA.ico">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
@@ -2601,6 +2598,15 @@
     <ClInclude Include="Main5.2_RISE\RISE\GrowLancerWrathParticle.h" />
     <ClInclude Include="Main5.2_RISE\RISE\GrowLancerObsidianTick.h" />
     <ClInclude Include="Main5.2_RISE\RISE\GrowLancerClashTick.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerBuffCountdown.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerWrathBuffMetadata.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerWrathEmission.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerWrathGroundPulse.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerWrathPersistentTick.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerWrathReceipt.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerWrathReset.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerWrathScale.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerWrathSprites.h" />
     <ClInclude Include="Main5.2_RISE\RISE\StructSendGs.h">
       <Filter>MU\Client\Header Files</Filter>
     </ClInclude>

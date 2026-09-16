@@ -290,6 +290,11 @@ int CSkillManager::GetSkillNumber(int index, int level)
 		return SKILL_FITNESS;
 	case GET_ITEM(15, 36):
 		return SKILL_GREATER_DEFENSE_SUCCESS_RATE;
+	// S21 ItemList.xml maps seven exact named scrolls by group/index.  The
+	// item index is not the skill id after the first row (e.g. item 272 is
+	// Obsidian -> skill 273).  Circle Shield 272 and Clash 275 have no proven
+	// scroll row, so they intentionally remain absent here until their learn
+	// path/class contract is recovered.
 	case GET_ITEM(12, 271):
 		return SKILL_SPIN_STEP;
 	case GET_ITEM(12, 272):
@@ -392,6 +397,10 @@ bool CSkillManager::CheckSkillFrustrum(int* SkillFrustrumX, int* SkillFrustrumY,
 }
 bool CSkillManager::CheckSkillDelay(LPOBJ lpObj, int index)
 {
+	if (index < 0 || index >= MAX_SKILL_DELAY_ID)
+	{
+		return false;
+	}
 	// Receiver paths check delay before class authorization. Rejected GL casts
 	// must not consume a cooldown or take the RF continuation bypass.
 	if (!rise::growlancer::HasProvenServerRuntimeHandler(index))
@@ -1122,6 +1131,34 @@ void CSkillManager::UseDurationSkillAttack(int aIndex, int bIndex, CSkill* lpSki
 	if (lpObj->SkillNovaState != 0 && lpSkill->m_skill != SKILL_NOVA && this->GetSkill(lpObj, SKILL_NOVA) != 0)
 	{
 		this->RunningSkill(aIndex, 0, this->GetSkill(lpObj, SKILL_NOVA), x, y, 0, combo);
+		return;
+	}
+	const bool growLancerPositionSkill =
+		lpSkill->m_skill == SKILL_SHINING_PEAK || lpSkill->m_skill == SKILL_BRECHE;
+	// Do not visually accept a Grow Lancer cast before resource and dedicated
+	// handler validation.  Stock SS6 duration skills keep their prior echo order.
+	if (growLancerPositionSkill)
+	{
+		if (lpObj->Type == OBJECT_USER &&
+			(this->CheckSkillMana(lpObj, lpSkill->m_index) == 0 ||
+			 this->CheckSkillBP(lpObj, lpSkill->m_index) == 0))
+		{
+			return;
+		}
+		if (this->RunningSkill(aIndex, bIndex, lpSkill, x, y, angle, combo) == 0)
+		{
+			return;
+		}
+		this->GCGrowLancerDurationSkillAttackSend(lpObj, lpSkill->m_index,
+			bIndex, x, y, dir);
+		if (lpObj->Type == OBJECT_USER)
+		{
+			lpObj->Mana -= ((this->GetSkillMana(lpSkill->m_index) *
+				lpObj->MPConsumptionRate) / 100);
+			lpObj->BP -= ((this->GetSkillBP(lpSkill->m_index) *
+				lpObj->BPConsumptionRate) / 100);
+			GCManaSend(aIndex, 0xFF, (int)lpObj->Mana, lpObj->BP);
+		}
 		return;
 	}
 	this->GCDurationSkillAttackSend(lpObj, lpSkill->m_index, x, y, dir);
@@ -4829,6 +4866,26 @@ void CSkillManager::GCDurationSkillAttackSend(LPOBJ lpObj, int skill, BYTE x, BY
 	pMsg.x = x;
 	pMsg.y = y;
 	pMsg.dir = dir;
+	if (lpObj->Type == OBJECT_USER)
+	{
+		DataSend(lpObj->Index, (BYTE*)&pMsg, pMsg.header.size);
+	}
+	MsgSendV2(lpObj, (BYTE*)&pMsg, pMsg.header.size);
+}
+void CSkillManager::GCGrowLancerDurationSkillAttackSend(LPOBJ lpObj, int skill,
+	int target, BYTE x, BYTE y, BYTE dir)
+{
+	PMSG_GROW_LANCER_DURATION_SKILL_ATTACK_SEND pMsg;
+	pMsg.header.set(0x1E, sizeof(pMsg));
+	pMsg.skill[0] = SET_NUMBERHB(skill);
+	pMsg.skill[1] = SET_NUMBERLB(skill);
+	pMsg.index[0] = SET_NUMBERHB(lpObj->Index);
+	pMsg.index[1] = SET_NUMBERLB(lpObj->Index);
+	pMsg.x = x;
+	pMsg.y = y;
+	pMsg.dir = dir;
+	pMsg.target[0] = SET_NUMBERHB(target);
+	pMsg.target[1] = SET_NUMBERLB(target);
 	if (lpObj->Type == OBJECT_USER)
 	{
 		DataSend(lpObj->Index, (BYTE*)&pMsg, pMsg.header.size);

@@ -2,6 +2,406 @@
 
 STATUS: IN_PROCESS
 
+### 2026-09-16 — Fixed S21 action clips scoped to owning class7 actor
+
+- CURRENT PHASE: nine S21 Grow Lancer skills/class7/GS; `IN_PROCESS`.
+- CURRENT TASK: close the native actor identity boundary for verified constant-speed clips without guessing the dynamic class7 rate.
+- CURRENT SUBTASK: ensure ordinary received actor prep cannot borrow Hero stats or attach private GL actions to an unrelated SS6 class.
+- COMPLETED THIS RUN: package-private normal-client `IsExactGrowLancerBaseActor` checks main scene/live player, matches Hero or a CharactersClient pool object by pointer identity, then accepts only named S21 base-class byte7; unknown/evolved/SS6 classes fail closed. `PrepareFixedPlayerAction` calls this before writing the source-backed fixed clip speed. Explicit RuntimeQA DK preview keeps its prior behavior. S21 action188->isolated287 clip hash provenance remains pinned; source/native algebra verifier separately confirms candidate DB112->wire224->client base7 and UI selector18, but create/login/persistence are not established. Dynamic `PrepareLocalQADynamicAction` still returns false in ordinary builds; no rate formula was inserted. No staging, production, other-task worktree, equipment or quest edits.
+- REVERSE EVIDENCE: `CLASS_INTEGRATION_CONTRACT.md`, S21 supplied Lua class7 source, `PLAYER_ACTIONS_REVERSE.md`, native CharacterManager conversion and WSclient join actor-class assignment. The DB112/wire224 path is candidate algebra, not original S21 runtime packet proof.
+- CHAIN COVERAGE: fixed-action owning-class guard STATIC/BUILD PASS; normal dynamic Magic/Spin/Harsh/Shining actor/stat timing, class7 create/login and owner visual OPEN.
+- ASSET PROVENANCE: no asset changed. Isolated appended player BMD SHA0CC3D22D... retains source S21 clip188 in private action287; no normal client Data stage.
+- FILES MODIFIED: isolated `GrowLancerEffectRuntime.cpp`, `verify_fixed_action_actor_class_gate.py`, `CLASS_INTEGRATION_CONTRACT.md`, `ACCEPTANCE_GATE_MATRIX.md`, this state.
+- LAST STATIC CHECK: new actor-class source guard exit0; existing candidate wire/client identity verifiers exit0; no runtime/packet claim.
+- LAST BUILD RESULT: isolated x86 normal client exit0 SHA F352A9C53E92AFCAFD0CDE1EE6723CA1228C0331F907FF1D3B63E2879B8C097C; isolated x86 RuntimeQA exit0 SHA6C4B52E04D7286FB1F2FFDB823042F9110E5594A643DEF3EDF582B36196C9E9C; cryptlib LNK4099 PDB-only warnings, no post-build deployment.
+- LAST RUNTIME QA: none new; user deferred visible QA. Prior synthetic Magic/Clash hidden fixture evidence is narrower than owner skill PASS.
+- KNOWN DIFFERENCES: ordinary fixed actions now fail for wrong/unknown class rather than playing GL clips on another SS6 player; QA DK preview still deliberately exempt. Normal dynamic action speed and class7 server transport remain unknown.
+- MISSING CHAIN PARTS: initial class7 GS/client stat producer/rate/rounding, create/login/default/persistence and actor clip playback; ordinary 40 ms Magic caller activation and owner foot/contact pixels; all nine server/visual acceptance.
+- BLOCKER: protected S21 sender/database authority and deferred owner gameplay cast; source-algebra/static work can continue, `IN_PROCESS`.
+- NEXT EXACT ACTION: trace class7 create/login actor-class byte and speed-value ownership end-to-end in isolated native GS/client plus S21 source. Do not use DB112 candidate or DEX/20 anti-hack script as rate authority. Then gate normal dynamic action prep and Magic tick caller only when actor/stat/clip source is sufficient; otherwise advance private real-camera foot diagnostic without claiming parity.
+- NEXT FILE TO OPEN: `GrowLancer/CLASS_INTEGRATION_CONTRACT.md` join/packet/default gates, native `WSclient.cpp::ReceiveJoinMapServer`, `CharacterManager.cpp::ChangeServerClassTypeToClientClassType`, GS class-create/login handlers, `GrowLancer/MAGIC_PIN_REVERSE.md` normal boundary.
+- NEXT FUNCTION TO IMPLEMENT: class7-scoped source-backed native speed initialization/actor ownership path, or a narrowly isolated foot GL transform diagnostic; no guessed rate or global SS6 packet expansion.
+
+### 2026-09-16 — Magic Pin tick caller re-audited; ordinary activation still OPEN
+
+- CURRENT PHASE: nine S21 Grow Lancer skills/class7/GS; `IN_PROCESS`.
+- CURRENT TASK: follow Magic Pin caster-foot/timing chain without selecting an unverified class7 speed rate.
+- CURRENT SUBTASK: inspect the existing actor/model/particle tick-major caller and native foot-raster probe before adding any adapter.
+- COMPLETED THIS RUN: confirmed QA-only `MoveMainScene` already calls Begin before character traversal and Run before model/joint/particle traversal; `RunMagicPinQuanta` already orders actor -> five private models -> tagged particles per 40 ms quantum, with legacy actor/model/particle skip gates and live-model continuation. `BeginMagicPinFrame` is QA macro plus explicit process opt-in; `CreateMagicPinRoots` still fails before ordinary-client activation through `PrepareLocalQADynamicAction`. Existing angular-strip/root GL samples probe is opt-in, peak-alpha gated and flushes the native shader queue inside its query. Read-only hashes reconfirm S21 player BMD E0F4CB5A... and isolated appended-player BMD 0CC3D22D..., whose descriptor maps S21 action188 to private287; this establishes clip provenance, not class7 stat/playback parity. No source-backed reason was found to duplicate the tick caller or broaden the stage windows. No new gameplay cast, asset, build, staging, server or other worktree mutation.
+- REVERSE EVIDENCE: S21 scene `18F4140` selected characters -> model effects -> joints -> particle wrapper; Magic `5E6/5E8` native bright-mesh renderer and prior hash-pinned BMD/material/hidden WGL records in `MAGIC_PIN_REVERSE.md`. Existing fixture camera/origin is synthetic and owner foot pixels remain FAIL.
+- CHAIN COVERAGE: QA clock/caller/legacy-exclusion STATIC PASS; ordinary class7 actor/stat/clip activation and real gameplay foot raster/attribution OPEN. The prior NEXT FUNCTION TO IMPLEMENT was stale: QA caller already exists, but it is not a normal-client port.
+- ASSET PROVENANCE: no source or staged asset changed; prior four private Magic BMD plaintext equal original and bitmap hashes remain recorded.
+- FILES MODIFIED: this isolated state only.
+- LAST STATIC CHECK: `verify_magic_frame_ownership.py`, `test_magic_frame_transitions.py`, `verify_magic_normal_activation_gap.py`, `verify_magic_primitive_phase_order.py` all exit0; PASS values are scoped static/controlled tests.
+- LAST BUILD RESULT: none new; prior isolated RuntimeQA SHA06CBE3D6... exit0, no ordinary-client activation build.
+- LAST RUNTIME QA: none new; user deferred visible cast. Prior hidden Magic Calc/terrain fixtures PASS under synthetic camera; owner foot triangle and target burst still FAIL/OPEN.
+- KNOWN DIFFERENCES: S21 class7 action/speed source differs from QA local DK surrogate; normal path returns before roots. Current native query may establish GPU samples under a cast but cannot itself establish visible owner pixels or S21 visual parity.
+- MISSING CHAIN PARTS: class7 exact actor/stat/clip rate and coherent ordinary 40 ms activation; owner gameplay camera/pose raster evidence for foot, internal-281 contact producer; GS authoritative behavior and nine-skill acceptance.
+- BLOCKER: exact class7 initial speed producer/rate and owner gameplay pixels are unavailable; safe source/isolated diagnostics remain, so `IN_PROCESS`.
+- NEXT EXACT ACTION: inspect class7 action/clip and native player-model ownership contract needed by `PrepareLocalQADynamicAction`; keep ordinary activation fail-closed until source-backed. Separately narrow the real caster-foot transform/GL queue contract from existing QA instrumentation; do not use a synthetic fixture as owner PASS. Return to S21 sender/rate if new evidence appears.
+- NEXT FILE TO OPEN: `GrowLancer/CLASS_INTEGRATION_CONTRACT.md`, `GrowLancer/MAGIC_PIN_REVERSE.md` ordinary-client boundary, `ZzzCharacter.cpp::StepMagicPinActor`, `GrowLancerRuntimeQA.cpp::BeginMagicPinFootSamplesQA`.
+- NEXT FUNCTION TO IMPLEMENT: class7-scoped normal actor/stat/clip preparation only after exact ownership/rate is proved, or narrower private caster-foot diagnostic with source-backed parameters; no duplicated QA tick caller.
+
+### 2026-09-16 — S21 opcode82/sub04 raw-buffer byte boundary pinned
+
+- CURRENT PHASE: nine S21 Grow Lancer native PC5.2/SS6 skills/class7/GS; `IN_PROCESS`.
+- CURRENT TASK: classify original S21 speed stat packet validity/shape before selecting any native transport/rate.
+- CURRENT SUBTASK: decode head82 subtype C1/C2 split, raw handler argument and fixed speed WORD offsets.
+- COMPLETED THIS RUN: pinned head82 C1 subtype at raw+3 and C2 at raw+4; both sub04 dispatch unchanged raw buffer to `1296442`, which reads WORDs at raw+4/+8. Selected branch compares subtype but not packet-length bytes; upstream validation unproven. For C2, raw+4 is itself subtype byte, so actual C2 sub04 payload support cannot be asserted from this chain. Source S21 cast-speed producer remains global stat `1E04FBC` consumer, not initial writer. No original sender/rate/rounding, normal code activation, build/runtime/production/other worktree change.
+- REVERSE EVIDENCE: dump SHA6422CB4E... exact selected handler bytes in `verify_s21_speed_packet_offset_boundary.py`, prior receiver/global ownership/cast producer verifiers. No synthetic packet was treated as runtime evidence.
+- CHAIN COVERAGE: selected inbound sub04 fixed byte offsets STATIC PASS; upstream length guard, C2 use, initial GS sender/rate and native wire mapping OPEN; class7/Magic and nine skill acceptance OPEN.
+- ASSET PROVENANCE: no Data/BMD/texture/sound or staged private QA change.
+- FILES MODIFIED: isolated `verify_s21_speed_packet_offset_boundary.py`, `CLIENT_PACKET_REVERSE.md`, `ACCEPTANCE_GATE_MATRIX.md`, this state only.
+- LAST STATIC CHECK: new head82 offset-boundary verifier exit0; prior exact17 pointer-role and native capacity verifiers separate PASS.
+- LAST BUILD RESULT: none new; reverse-only, no normal implementation. Prior isolated RuntimeQA SHA06CBE3D6... exit0.
+- LAST RUNTIME QA: none new; owner deferred visible QA; prior hidden Clash fixture PID972 narrower PASS.
+- KNOWN DIFFERENCES: S21 fixed raw+4/+8 WORD shape cannot be mapped onto native join DWORD or 14-byte F3:ED divisor table. Numeric opcode reuse would conflict with SS6.
+- MISSING CHAIN PARTS: original sender/packet capture/rounding/base rate and class7 native scoped update route; ordinary Magic owner foot/tick-major, GS/owner acceptance for all nine.
+- BLOCKER: protected original GS and no packet capture; owner visible QA deferred. Safe Magic client-side dump/QA work remains, so `IN_PROCESS`.
+- NEXT EXACT ACTION: keep class7 rate/transport fail-closed; advance Magic Pin ordinary client tick-major and caster-foot raster chain using existing S21 phase/asset evidence, then static/build/hidden isolated QA. Return to server rate if original sender evidence appears.
+- NEXT FILE TO OPEN: `GrowLancer/MAGIC_PIN_REVERSE.md`, native `GrowLancerEffectRuntime.cpp::PrepareLocalQADynamicAction`/`StepMagicPinModels/Particles`, `GrowLancerRuntimeQA.cpp` foot probe.
+- NEXT FUNCTION TO IMPLEMENT: source-backed Magic actor/model/particle coordinated tick caller/legacy-skip gate with regression, or narrower foot diagnostic first; no guessed class7 rate.
+
+### 2026-09-16 — S21 direct global speed-pointer candidates classified, sender OPEN
+
+- CURRENT PHASE: nine S21 Grow Lancer native PC5.2/SS6 skills/class7/GS; `IN_PROCESS`.
+- CURRENT TASK: find original S21 initial speed stat writer/packet or server calculation authority for class7.
+- CURRENT SUBTASK: decode 17 literal global stat-pointer near-speed candidates by selected basic-block role and check QA logs for packet evidence.
+- COMPLETED THIS RUN: hash-pinned 266 MB main dump literal pointer scan found782 occurrences; narrow `+1B6/+1C2` proximity subset exactly17. Capstone verifier classifies selected blocks: opcode82/sub04 `1296442` writes both global WORD speeds; `B553/B56D` display, `127D95D` push, `1408580` cast and four `14140/14155` visual-scalar paths read; `F62506` indexed member+1E6 and `B552BD/D5` flag+1A6 are different members. Supplied scoped S21 QA logs are skill/crash traces, no speed packet capture proving initial send/caller. No S21/client/GS execution/patch, runtime/build/deploy or other worktree change.
+- REVERSE EVIDENCE: dump SHA6422CB4E... exact17 candidate set/selected instructions in `verify_s21_speed_pointer_candidate_roles.py`, prior constructor/global member and receiver82/sub04 verifiers. This is a bounded literal-pointer subset, not entire writer closure.
+- CHAIN COVERAGE: selected direct-pointer roles STATIC PASS; indirect alias writers, S21 sender/rate/rounding/packet timing OPEN; native class7 pair/GS rate/ordinary Magic OPEN.
+- ASSET PROVENANCE: no Data/BMD/texture/sound or private staged QA executable changed.
+- FILES MODIFIED: isolated `verify_s21_speed_pointer_candidate_roles.py`, `CLASS_INTEGRATION_CONTRACT.md`, `ACCEPTANCE_GATE_MATRIX.md`, this state only.
+- LAST STATIC CHECK: new exact17 role verifier exit0; native F3:ED capacity/join gap verifiers exit0; no original GS rate proof.
+- LAST BUILD RESULT: none new, reverse-only; prior isolated RuntimeQA SHA06CBE3D6... exit0. No production deploy.
+- LAST RUNTIME QA: none new; owner deferred visible test; prior hidden Clash fixture narrower PASS.
+- KNOWN DIFFERENCES: S21 speed updated by opcode82/sub04 WORD receiver while native class7 lacks base rate/F3:ED pair14/15; xref absence in 200-byte subset cannot imply no alias writer.
+- MISSING CHAIN PARTS: S21 original GS CalcAttackSpeed caller/base rate/wire rounding/packet sequence; native class7 scoped update/recalc/defaults/ordinary Magic; nine skills full owner/server acceptance.
+- BLOCKER: protected original GS and no supplied speed packet capture; owner visible QA deferred, but safe alias/source and other skill audits possible, `IN_PROCESS`.
+- NEXT EXACT ACTION: trace S21 opcode82/sub04 inbound branch/packet validity and class7 cast-speed snapshot ownership, then audit native GS class7 attribute/rate config alternatives. If sender unavailable, leave rate fail-closed and advance another unclosed client layer, never guess.
+- NEXT FILE TO OPEN: S21 head82 branch `1303939..1303D29`, receiver `1296442`, `GrowLancer/MAGIC_PIN_REVERSE.md` ordinary activation gap and native `ZzzInfomation.cpp::CalculateAttackSpeed`.
+- NEXT FUNCTION TO IMPLEMENT: source-backed class7 rate/packet adapter only after authority; otherwise next safe Magic foot/tick-major client primitive with dump evidence.
+
+### 2026-09-16 — class7 speed divisor packet/table capacity isolated
+
+- CURRENT PHASE: nine S21 Grow Lancer native PC5.2/SS6 skills/class7/GS; `IN_PROCESS`.
+- CURRENT TASK: resolve class7 speed-update ownership and packet/table width before code activation.
+- CURRENT SUBTASK: audit native F3:ED rate-pair payload, GS config and final-speed sender, compare S21 direct stat-pointer xrefs.
+- COMPLETED THIS RUN: pinned native GS F3:ED `PMSG_ATTACK_SEND` and client `GetValueSpeedAttack`/`pMain->ThisValue` exactly14 bytes, GS fills pairs0..13, client copies14; base-class lookup0..12 has no class7 pair14/15 or GS config rate fields. F3:ED sends divisors, not final stat updates; join separate DWORD speeds are the only named final-speed GS sends found in scoped source search. No packet width changed. Read-only hash-pinned S21 global stat-pointer byte inventory found782 candidates, narrowed17 with nearby speed offsets; direct receiver `1296442` appears, other candidates require full block/object classification and may be readers/data, so initial producer still OPEN. No visible/hidden runtime, build, production or other worktree edit.
+- REVERSE EVIDENCE: `verify_class7_speed_packet_capacity.py` exit0; native `Protocol.h/.cpp`, `WSclient.h`, `RISE/MainProtocol.h/.cpp`, `ZzzInfomation.cpp`, `ServerInfo.h`; S21 `scan_s21_stat_pointer_refs.py --near-speed` hash-pinned count17 only candidate inventory.
+- CHAIN COVERAGE: native speed divisor packet/table capacity STATIC PASS, class7 pair/GS rate missing; native final-speed update sender and S21 initial GS caller/wire OPEN. Nine-skill/client visual/GS gates unchanged.
+- ASSET PROVENANCE: no asset/Data/QA staged executable change.
+- FILES MODIFIED: isolated `verify_class7_speed_packet_capacity.py`, `scan_s21_stat_pointer_refs.py`, `CLASS_INTEGRATION_CONTRACT.md`, `ACCEPTANCE_GATE_MATRIX.md`, this state only.
+- LAST STATIC CHECK: new F3:ED exact14 verifier exit0; S21 pointer inventory script exit0 count17 candidates, not writer proof.
+- LAST BUILD RESULT: no new build, static reverse only; prior isolated RuntimeQA SHA06CBE3D6... exit0, no deploy.
+- LAST RUNTIME QA: none new; prior hidden Clash synthetic fixture PID972 PASS, owner/gameplay OPEN.
+- KNOWN DIFFERENCES: native F3:ED divisor table14 and join DWORD final speeds are distinct; S21 opcode82/sub04 WORD stat update is not proven equivalent. Increasing lookup to16 without rate/compatibility would be a global behavior risk.
+- MISSING CHAIN PARTS: S21 initial stat speed writer and original GS caller/rate/rounding; native class7 rate pair and scoped update protocol/compatibility; class7 defaults, ordinary Magic, nine skill GS/visual parity.
+- BLOCKER: protected S21 GS/default, no original S21 packet capture and owner visible QA deferred; further safe dump/source candidate classification possible, `IN_PROCESS`.
+- NEXT EXACT ACTION: decode the 17 S21 global-pointer near-speed candidate basic blocks and distinguish receiver/readers/indirect aliases; trace S21 opcode82/sub04 upstream sender or packet sequence from available logs if any. Then design opt-in class7-only native speed packet/rate path with regression and no SS6 global width change, only after authority.
+- NEXT FILE TO OPEN: S21 dump candidates `B55316/B56DBB/127D95D/1296442/1408580/1414022`, existing `verify_cast_speed_receive.py`; native `Protocol.cpp::GCSendAttackSend`/`RISE/MainProtocol.cpp`.
+- NEXT FUNCTION TO IMPLEMENT: source-backed class7 rate/update ownership adapter once packet/rate evidence closes; no blind F3:ED expansion or DEX/20 gameplay math.
+
+### 2026-09-16 — native class7 final-speed join/recalc collision pinned
+
+- CURRENT PHASE: nine S21 Grow Lancer skills and native class7/GS on PC5.2/SS6; `IN_PROCESS`, equipment/quests1–3 excluded.
+- CURRENT TASK: trace source-backed class7 speed producer/delivery before ordinary Magic timing.
+- CURRENT SUBTASK: native GS final-speed join field through client Hero setup and additive recalc; S21 caller/rate boundary.
+- COMPLETED THIS RUN: focused native source verifier pins GS computed `PhysiSpeed/MagicSpeed` -> join DWORD fields -> client speed assignment -> second `SetCharacterClass(c)` after `Hero=c` -> `CalculateAll/CalculateAttackSpeed`. Client class7 has no base setter, so additive weapon/ability/buff path can reuse already-final GS speed; GS class7 base setter absent. Supplied S21 Lua DEX/20 carries anti-hack/version qualifier; protected original GS EXE has no plain `CalcAttackSpeed` string, so gameplay caller/rate unproven. No speculative class7 math/activation, visible/VPS QA, build, production or other worktree edit.
+- REVERSE EVIDENCE: isolated `verify_class7_join_speed_chain.py` exit0, GS `ObjectManager.cpp`/`DSProtocol.cpp`, client `WSclient.cpp`/`ZzzCharacter.cpp`/`ZzzInfomation.cpp`; prior S21 receiver82/sub04 WORD fields and native DWORD join non-equivalence separate.
+- CHAIN COVERAGE: native class7 packet-to-recalc ownership collision STATIC PASS; S21 initial sender/rate/rounding/client stat bridge OPEN; Magic foot/ordinary action, Clash owner and nine GS skill gates OPEN.
+- ASSET PROVENANCE: no asset/Data/client staging change; prior private QA hashes preserved.
+- FILES MODIFIED: isolated `verify_class7_join_speed_chain.py`, `CLASS_INTEGRATION_CONTRACT.md`, `ACCEPTANCE_GATE_MATRIX.md`, this state only.
+- LAST STATIC CHECK: new native GS/join/recalc verifier exit0; qualified S21 Lua/hash gap verifier prior PASS, no original GS caller proof.
+- LAST BUILD RESULT: none new, reverse/contract only; prior isolated RuntimeQA SHA06CBE3D6... exit0. No deploy.
+- LAST RUNTIME QA: none new; owner deferred visible test; hidden Clash fixture PID972 narrower PASS.
+- KNOWN DIFFERENCES: native join carries GS final DWORD speeds while S21 opcode82/sub04 writes WORD global stat; final join speed is not an additive client base. Class7 may double-count modifiers and lacks GS base setter.
+- MISSING CHAIN PARTS: original S21 server rate/rounding/caller, native class7 sender/update packet ownership, default/create/login, ordinary Magic dynamic clock/triangle and nine-skill visual/server tests.
+- BLOCKER: protected S21 GS/default authority and owner QA deferred, but safe S21 client/stat and native packet audit remains; `IN_PROCESS`.
+- NEXT EXACT ACTION: trace original S21 initial client speed stat writer or GS CalcAttackSpeed caller via safe dump/config, and native class7 stat-update sender packets. Determine whether final GS speed bypasses client additives or requires a separate base packet before scoped code change. Keep class7 fail-closed pending rate/wire authority.
+- NEXT FILE TO OPEN: S21 opcode82/sub04 `1296442` caller/head table and source stat setup docs; native `WSclient.cpp::ReceiveJoinMapServer`, `RISE/MainProtocol.cpp::SpeedAttack`, GS `DSProtocol.cpp` stat-update packets.
+- NEXT FUNCTION TO IMPLEMENT: scoped class7 speed ownership guard after final/base/update packet contract; ordinary Magic action clock afterward. No blind Lua DEX/20 insertion.
+
+### 2026-09-16 — Clash rear caster angle/origin source comparison pinned
+
+- CURRENT PHASE: nine S21 Grow Lancer skills/class7/GS native PC5.2/SS6; `IN_PROCESS`.
+- CURRENT TASK: compare S21 rear `5FC` render/action inputs with isolated native package before touching gameplay behavior.
+- CURRENT SUBTASK: decode actual S21 `157DEB2..157DED0` call arguments, helper identity and native named-field adapter; separate shared raster state.
+- COMPLETED THIS RUN: pinned S21 rear call passes caster object+0x164 angle pointer through identity helper `D2DFF6`, computed position temp, caster owner, target index+0x364 and model5FC. Native `CreateEffect(kClashRearModel, position, effect.Owner->Angle, light,...effect.m_sTargetIndex)` maps behavior using native fields. Native flags texture2|bright40=0x42 match selected S21 `A4A24A` mesh call's numeric0x42; actual S21 shared blend/cull/camera remains unverified. Added focused hash-pinned verifier PASS, no new build/visible/hidden QA/production/other worktree/client S21 edit. Read-only S21 GS character Lua search reaffirmed GL DEX/20 anti-hack branch only, not gameplay caller/wire proof.
+- REVERSE EVIDENCE: dump SHA6422CB4E... exact push/call addresses and `D2DFF6` identity; native private effect source and `ZzzBMD.h` flag constants. `verify_clash_rear_angle_origin.py` PASS; prior `verify_clash_renderer.py` mesh arguments PASS.
+- CHAIN COVERAGE: Clash rear angle/origin/owner/target named-field mapping STATIC PASS; synthetic native mesh/GPU/edge-on fixture PASS; S21 actual raster/camera, owner siege and GS push OPEN. Class7/Magic speed contract OPEN.
+- ASSET PROVENANCE: no asset or private staged client change; prior Clash hashes/rollback preserved.
+- FILES MODIFIED: isolated `verify_clash_rear_angle_origin.py`, `CLASH_REVERSE.md`, `ACCEPTANCE_GATE_MATRIX.md`, this state only.
+- LAST STATIC CHECK: new rear source/native call+flags verifier exit0; prior strict PID972 projection/native blend verifiers remain narrower PASS.
+- LAST BUILD RESULT: no new build; prior isolated RuntimeQA SHA06CBE3D6... exit0. No normal package semantic change/deployment.
+- LAST RUNTIME QA: none new; prior hidden native fixture PID972 Exit0, owner gameplay OPEN.
+- KNOWN DIFFERENCES: S21 object offsets/VA are evidence only, not copied into native; same 0x42 flag number does not establish same S21 shared raster state. Native class7 speed recalc still lacks base setter, can compound modifiers.
+- MISSING CHAIN PARTS: S21 actual Clash render state and owner fixed/360 reference pixels, siege GS movement/protocol; class7 rate/wire/default and ordinary Magic foot; remaining nine-skill acceptance.
+- BLOCKER: owner defers visible QA, original S21 GS/default authority protected/missing; safe read-only/hidden work remains, `IN_PROCESS`.
+- NEXT EXACT ACTION: trace S21 client class7 speed stat delivery and actual producer/caller or original GS rate/rounding; only then implement scoped class7 base reset/ordinary Magic action clock. Separately source-audit Clash shared renderer `968CB3` if safely decodable, no guessed cull behavior.
+- NEXT FILE TO OPEN: `CLASS_INTEGRATION_CONTRACT.md`, S21 stat receiver `1296442` and source `CalcCharacter.lua` caller evidence, native `ZzzInfomation.cpp::CalculateAttackSpeed` and `ObjectManager.cpp` class base branch.
+- NEXT FUNCTION TO IMPLEMENT: evidence-backed class7 base speed/recalc guard and ordinary Magic preparation; no blind DEX/20 or packet mapping.
+
+### 2026-09-16 — Clash native edge-on fixture contract PASS, owner parity OPEN
+
+- CURRENT PHASE: nine S21 Grow Lancer skills and native class7/GS on PC5.2/SS6; `IN_PROCESS`, no equipment/quests1–3.
+- CURRENT TASK: resolve Clash rear synthetic 0°/180° pixel gap with native bone and renderer evidence.
+- CURRENT SUBTASK: project hash-pinned rear wedges using actual `Calc_RenderObject(false)` bone matrices and fixed QA camera; correct QA raster acceptance.
+- COMPLETED THIS RUN: source audit pinned `BMD::Animation`→`BMD::Transform`→shader bone upload, `New_RenderBMD` texture+bright→`EnableAlphaBlend` which disables cull/depth mask. QA-only rear bone projection records native transformed area `<0.1` at 0°/180° and `>100000` at six other angles, exactly corresponding to zero/positive GPU rows. Changed private fixture to accept zero fragments only when measured projection is edge-on. Isolated Win32 build exit0, staged hash-pinned SHA06CBE3D6... with prior E43AA160... rollback and full stage verifier PASS; hidden PID972 Exit0, 16 draw/projection rows/GL0/release stable1, focused projection/renderer verifiers PASS. No owner cast, VPS, production, S21 client/server or other worktree edit.
+- REVERSE EVIDENCE: source S21 `A4A24A` mesh0 flags0x42 and hash-pinned rear geometry; native RISE `Calc_RenderObject` bone transform, shader upload and bright renderer contract in `verify_clash_native_blend_cull.py`; strict PID972 `verify_clash_native_fixture_draw.py --require-projection`. The older QA cull field was prequeue/postqueue, not actual raster-state authority; cull toggle alone did not prove cause. S21 camera/render-state parity still OPEN.
+- CHAIN COVERAGE: Clash two-model native load/GPU/release and synthetic edge-on projection fixture PASS; owner fixed/360 cast, S21 visual comparison and siege GS movement/packet authority OPEN. Magic Pin caster-foot owner visual FAIL; other skill/class gates OPEN.
+- ASSET PROVENANCE: staged Clash files unchanged and hash-pinned; private QA client candidate/stage SHA06CBE3D64304E0D43810BC448BC7E1611DB553DD7D6D40D582CC012B038E1FE5, prior E43AA160... rollback `Bin\Engine-Port S21.before-clash-edgeon-E43AA160.exe` retained.
+- FILES MODIFIED: isolated `GrowLancerRuntimeQA.cpp`, `stage_clash_projection_candidate.ps1`, `stage_clash_edgeon_candidate.ps1`, `verify_clash_native_fixture_draw.py`, `verify_clash_native_blend_cull.py`, `CLASH_REVERSE.md`, `ACCEPTANCE_GATE_MATRIX.md`, this state. No normal package/server render semantics changed.
+- LAST STATIC CHECK: native blend/cull verifier exit0; pinned rear raw geometry verifier exit0; PID972 strict fixture projection verifier exit0. S21 renderer selected arguments verifier exit0 but no S21 actual cull/camera proof.
+- LAST BUILD RESULT: isolated PC Win32 RuntimeQA MSBuild exit0; SHA06CBE3D6..., cryptlib LNK4099 PDB-only warnings. No deploy.
+- LAST RUNTIME QA: hidden local WGL PID972 Exit0: native 16/16 model-angle rows, rear edge-on 0/180 area<0.1 and zero fragments as expected, six positive, front eight positive, GL0/resource release stable. No gameplay actor/GS QA.
+- KNOWN DIFFERENCES: fixture camera fixed orthographic -90° X, not S21 gameplay camera; class7 actor/target/owner pose and S21 frame/pixel parity unverified. Synthetic edge-on is not evidence of in-game visual regression.
+- MISSING CHAIN PARTS: S21 actual draw-state/camera and owner fixed/360 Clash parity, siege GS push/protocol, class7 default/stat/action bridge, ordinary Magic foot, other eight skill visual/server gates.
+- BLOCKER: owner defers visible QA and protected S21 GS/default authority absent; safe static/hidden work remains, `IN_PROCESS`.
+- NEXT EXACT ACTION: inspect S21 `A4A24A` shared renderer flags0x42 and actor rear angle/origin/attachment against native package at source level, then pursue hidden class7/Magic ordinary-cast speed gap without guessing rates. Do not conclude S21 visual PASS from synthetic WGL.
+- NEXT FILE TO OPEN: `CLASH_REVERSE.md`, S21 renderer dump `A4A24A`, native `GrowLancerEffectRuntime.cpp::RenderClash` and `CLASS_INTEGRATION_CONTRACT.md`.
+- NEXT FUNCTION TO IMPLEMENT: source-backed scoped Clash adapter only if source mismatch found; otherwise class7 base-speed reset/ordinary Magic adapter after rate/packet proof.
+
+### 2026-09-16 — hidden Clash face-cull differential did not close rear gap
+
+- CURRENT PHASE: nine S21 Grow Lancer native PC5.2/SS6 skills/class/server; `IN_PROCESS`.
+- CURRENT TASK: classify Clash rear zero-pixel fixture angles without changing gameplay renderer.
+- CURRENT SUBTASK: compare exact native draw with GL face-cull enabled vs temporarily disabled inside isolated hidden QA, restoring state afterward.
+- COMPLETED THIS RUN: QA-only `RISE_GL_CLASH_CULL_OFF_QA` guard paired with Clash fixture; isolated Win32 build exit0, candidate/staged SHA965A799A... and prior SHA23F59832... private rollback, full stage verifier PASS. Hidden PID9060 Exit1 and strict differential verifier: cull0 still front8/8 positive, rear6/8 positive, rear0°/180° zero, exactly matching cull1 PID17292; GL0/release stable1. No visible client/VPS/production/other worktree/GS or original asset edit.
+- REVERSE EVIDENCE: unchanged source model/flags/asset rows in `CLASH_REVERSE.md`; cull differential sampled state before queued mesh flush and does NOT independently prove actual raster cull behavior. Hash-pinned decoded `crasha02.SMD` has six node0 vertices/four nonzero-area triangles. Later PID972 bone-projection checkpoint supersedes the unknown fixture-projection status; S21 camera/pose remain OPEN.
+- CHAIN COVERAGE: isolated front/rear native GPU rows PARTIAL, rear two synthetic angles FAIL under both cull modes; owner gameplay/S21 parity, class7/GS OPEN.
+- ASSET PROVENANCE: four pinned Clash assets unchanged; private QA candidate/stage SHA965A799AF4675BE57AA082AE22ACC9071DF0E314724CE1F553317FC6A7A727FB, previous stage SHA23F59832... at `Bin\Engine-Port S21.before-clash-cull-23F59832.exe`.
+- FILES MODIFIED: isolated `GrowLancerRuntimeQA.cpp`, `stage_clash_cull_candidate.ps1`, `verify_clash_native_fixture_draw.py`, `inspect_clash_rear_geometry.py`, this state and Clash docs/matrix. No normal renderer/server code.
+- LAST STATIC CHECK: verifier PID17292 cull1 and PID9060 cull0 exit0 for integrity; pinned rear geometry/triangle verifier exit0; rear fixture zero-angle FAIL preserved, no visual PASS.
+- LAST BUILD RESULT: isolated PC Win32 RuntimeQA MSBuild exit0, SHA965A799A..., cryptlib LNK4099 PDB-only warnings. No deployment.
+- LAST RUNTIME QA: hidden local WGL PID9060 Exit1, 14/16 angle rows positive and exact rear0/180 zero, GL0/stable release. No owner gameplay cast.
+- KNOWN DIFFERENCES: synthetic actor bone transform/camera may view rear wedge edge-on or clip it; raw rear triangles have nonzero area; disabling face cull has no effect. No source-backed reason to alter normals/model rotation or SS6 global state.
+- MISSING CHAIN PARTS: rear triangle/bone/projection evidence and S21 reference pixels, owner stationary/360 Clash cast, siege GS push/protocol, native class7/stat/ordinary Magic and other skill gates.
+- BLOCKER: owner deferred visible QA and S21 protected server/default authority absent, but read-only geometry/source checks remain; `IN_PROCESS`.
+- NEXT EXACT ACTION: inspect native `Calc_RenderObject` bone transforms/fixture view and derive 0/180 projected area/clipping for the hash-pinned wedges; compare S21 renderer orientation/pass before scoped adapter decision. Do not fake double-sided draw.
+- NEXT FILE TO OPEN: native `ZzzBMD.cpp::Calc_RenderObject`/BMD transform and S21 `A4A24A` renderer dump, `inspect_clash_rear_geometry.py`.
+- NEXT FUNCTION TO IMPLEMENT: geometry/projection verifier only, no normal skill adapter change until evidence.
+
+### 2026-09-16 — hidden Clash two-mesh 360 fixture exposes rear visibility gap
+
+- CURRENT PHASE: nine S21 Grow Lancer skills native PC5.2/SS6 client/server; `IN_PROCESS`, equipment/quests1–3 excluded.
+- CURRENT TASK: hidden native GPU verification of Clash root/children, separate from owner siege cast.
+- CURRENT SUBTASK: source-contract front/rear `Calc_RenderObject(false)` and mesh0 draw at eight synthetic rotations.
+- COMPLETED THIS RUN: added QA-only `RISE_GL_CLASH_NATIVE_DRAW_QA` fixture, built isolated Win32 client exit0, hash-pinned staging `9F150003...` to candidate `23F59832...` with private rollback, complete staged Data/asset verifier PASS, hidden local PID17292 and strict 16-row verifier PASS for integrity. Front10135 produced samples/pixels all eight angles; rear10136 drew six but samples/pixels0 at 0°/180°, though Open2/model/Calc ready, cull/depth1, GL0 and release stable1. This is a fixture angle gap, not owner gameplay/S21 parity proof. No VPS, visible client, production, other worktree, GS or asset mutation.
+- REVERSE EVIDENCE: `CLASH_REVERSE.md` source mesh0 flags0x42/peak alpha/front UV; staged `crasha01`91 vertices/160 triangles vs `crasha02`6 vertices/4 triangles suggest sparse angle-sensitive geometry but do not prove cause. S21 render-state/camera parity OPEN.
+- CHAIN COVERAGE: Clash native two-model upload/render/GPU diagnostic PARTIAL; rear 0°/180° fixture zero pixels FAIL; owner cast, siege movement and GS authority OPEN. Magic caster-foot owner triangle FAIL.
+- ASSET PROVENANCE: four Clash assets unchanged/hash-pinned; private client candidate SHA23F59832..., staged prior SHA9F150003... retained `Bin\Engine-Port S21.before-clash-angle-9F150003.exe`; older SHA3E9DFCD6 rollback retained.
+- FILES MODIFIED: isolated `GrowLancerRuntimeQA.cpp`, `stage_clash_angle_candidate.ps1`, `verify_clash_native_fixture_draw.py`, `CLASH_REVERSE.md`, `ACCEPTANCE_GATE_MATRIX.md`, this state. No normal renderer/GS skill code changed.
+- LAST STATIC CHECK: `verify_clash_native_fixture_draw.py --pid 17292` exit0, exact16 rows/release; reports rear angle gap rather than visual PASS.
+- LAST BUILD RESULT: isolated PC x86 RuntimeQA MSBuild exit0, SHA23F598327786F6788476AC557CB0DA976AA15DEAF0CBAAA2D1D1C37D785A3893; existing cryptlib LNK4099 PDB warnings only. No deployment.
+- LAST RUNTIME QA: hidden isolated synthetic GPU PID17292 Exit1 because rear two zero-pixel rotations; 16/16 models loaded/GL0, 14/16 angles positive, stable pool/cache release. No local GS/owner gameplay cast.
+- KNOWN DIFFERENCES: fixture uses synthetic origin/camera, not S21 native camera; rear mesh may be edge-on or culled. S21 renderer/culling evidence required before behavior change.
+- MISSING CHAIN PARTS: rear real camera/owner pixels and S21 parity, Clash push/siege GS/packets, class7 default/stat/action bridge, ordinary Magic foot and eight other skill owner/server gates.
+- BLOCKER: owner defers visible test, protected S21 GS/default and rear S21 cull/orientation evidence absent; safe static/hidden checks remain, `IN_PROCESS`.
+- NEXT EXACT ACTION: pin rear `crasha02` triangle normals/bone transforms and S21 `A4A24A` render state; run scoped QA-only cull diagnostic to classify zeros, not production renderer change.
+- NEXT FILE TO OPEN: pinned isolated `crasha02.bmd` payload and S21 effect renderer `A4A24A`; `GrowLancerRuntimeQA.cpp::RunBodyTextureProbeQA`.
+- NEXT FUNCTION TO IMPLEMENT: none in normal package until source/render proof; bounded QA-only orientation/cull diagnostic next.
+
+### 2026-09-16 — native F3:03 join number is not S21 speed evidence
+
+- CURRENT PHASE: nine S21 Grow Lancer skills native PC5.2/SS6 client/server, equipment/quests1–3 excluded; `IN_PROCESS`.
+- CURRENT TASK: identify real S21 player join/stat delivery without copying native opcode numbers.
+- CURRENT SUBTASK: decode S21 head table plain03/F3 and F3 subtype03 target versus native C1:F3:03 join speed assignment.
+- COMPLETED THIS RUN: pinned S21 head03→`12FEA31`→`1297213` (protected continuation OPEN) and headF3→`12FF92C`, C1 subtype byte+3/C2 subtype byte+4, sub03→wrapper `12884DB`→indirect/status switch `986942`. This does not prove native 5.2 C1:F3:03 join semantic/wire equivalence. Native join writes named DWORD SpeedAttack/MagicAttack before class recalculation, which for class7 currently has no base setter and may compound modifiers. Added focused source/native opcode-boundary verifier exit0; no S21 or native packet transport activated. Existing historical Magic stage0/caster-foot QA artifacts still lack fresh owner pixels. No client launched/VPS/production/other worktree edit.
+- REVERSE EVIDENCE: SHA6422CB4E... S21 head table/dual handlers and exact F3 subtype03 chain in `verify_s21_join_opcode_boundary.py`; native isolated `WSclient.cpp::ReceiveJoinMapServer` named speed assignment and class recalculation ordering.
+- CHAIN COVERAGE: S21 plain03 vs F3/sub03 dispatch distinction STATIC PASS; initial global speed join/rate/wire rounding and normal class7 action-speed bridge OPEN; Magic owner triangle FAIL.
+- ASSET PROVENANCE: no asset/Data/BMD/texture/sound changed or staged.
+- FILES MODIFIED: isolated `verify_s21_join_opcode_boundary.py`, `CLIENT_PACKET_REVERSE.md`, `CLASS_INTEGRATION_CONTRACT.md`, this state only.
+- LAST STATIC CHECK: new head/subtype source-native verifier exit0; prior global stat lifecycle, receiver/temp and class7 gap verifiers separate PASS.
+- LAST BUILD RESULT: none new; reverse/verifier only, no client/GS runtime-semantic change.
+- LAST RUNTIME QA: none new; user deferred visible cast, hidden-only request retained.
+- KNOWN DIFFERENCES: native C1:F3:03 join carries named DWORD speeds while S21 F3/sub03 route is indirect status switch and head82/sub04 writes WORD globals; numeric opcode/offset equivalence unproven.
+- MISSING CHAIN PARTS: complete S21 join/stat packet and GS sender/rate/rounding, class7 native reset/default/create/login, ordinary Magic actor/40ms/foot pixels, nine-skill GS and owner acceptance.
+- BLOCKER: protected S21 plain03 continuation/GS/default authority and owner visual cast absent; further static source-handler audit possible, `IN_PROCESS`.
+- NEXT EXACT ACTION: identify S21 initial character-stat packet by full handler payload/global member writer/owner evidence, not presumed F3:03 or plain03; check protected continuation safe dump and source GS config. Separately replay historical Magic stage0 frames with exact source speed producer to rule timing causes before visible QA.
+- NEXT FILE TO OPEN: S21 dump plain03 `1297213` protected continuation, head82/sub04 `1296442` and global stat owner `1E04FBC`; `GrowLancer/MAGIC_PIN_REVERSE.md` historical frame rows.
+- NEXT FUNCTION TO IMPLEMENT: class7 base-speed reset and ordinary Magic287 action/clock only after exact stat contract; no blind opcode or raw DK fallback.
+
+### 2026-09-16 — S21 global speed stat member lifecycle pinned
+
+- CURRENT PHASE: nine S21 Grow Lancer skills native PC5.2/SS6 client/server; `IN_PROCESS`, equipment/quests1–3 excluded.
+- CURRENT TASK: prove actual global speed stat owner and source initialization before class7 normal timing integration.
+- CURRENT SUBTASK: complete outer allocation/member constructor/global assignments/receiver, distinguish prior C2:AE temporary.
+- COMPLETED THIS RUN: pinned source outer allocation 0x2DF0 at `12787A2`, outer constructor `A07788`, member+8 constructor `A09F4B`, global outer pointer `1E04FB8` and stat pointer `1E04FBC=outer+8` at `12787E8..12787F5`; member constructor zeros speed WORDs +1B6/+1C2, later opcode82/sub04 receiver `1296442` writes these same member fields from incoming WORD payload. New focused verifier exit0. The minidump 273/273 is post-construction, not default. Read-only search found no direct 66:89 +15E/+1EC producer for the separate C2:AE source object; numeric absence is not producer proof. No visible QA/client/VPS, no production or other task/worktree edit.
+- REVERSE EVIDENCE: SHA6422CB4E... exact allocator/constructor/member/global/zero/receiver pins in `verify_s21_global_stat_lifecycle.py`; prior C2:AE temporary verifier and minidump snapshot separate.
+- CHAIN COVERAGE: S21 global stat pointer ownership and zero initialization STATIC PASS; join/receive update order, source GS sender/rate/wire rounding and native class7 numerical bridge OPEN; Magic triangle owner FAIL.
+- ASSET PROVENANCE: no BMD/texture/sound/Data changed or staged.
+- FILES MODIFIED: isolated `verify_s21_global_stat_lifecycle.py`, `CLASS_INTEGRATION_CONTRACT.md`, this state only.
+- LAST STATIC CHECK: new complete owner lifecycle verifier exit0; prior separate receiver/temp/minidump/class7-gap checks remain narrower PASS.
+- LAST BUILD RESULT: none new; reverse/verification only, no client/GS semantic edit.
+- LAST RUNTIME QA: none new; user requested hidden checks and deferred visible cast.
+- KNOWN DIFFERENCES: S21 member speed fields WORD, native named join fields DWORD; S21 stat zero constructor then incoming update must not be equated to native class7 DEX/20 from qualified anti-hack Lua alone.
+- MISSING CHAIN PARTS: actual source GS calculation/receiver join, native class7 speed initialization/bonus/cap, ordinary Magic 40ms/foot visual and nine-skill authoritative/runtime acceptance.
+- BLOCKER: protected S21 GS/default source and owner visible QA absent, though more safe client dump/source work remains; `IN_PROCESS`.
+- NEXT EXACT ACTION: trace source player join/update handlers that populate the global stat member after zero constructor and their packet shape, then compare native `WSclient.cpp` join/recalculation ordering. Search source self+15E/+1EC field producer only after object identity/caller proof; do not infer from numeric xrefs.
+- NEXT FILE TO OPEN: S21 dump stat handler `1296442` upstream opcode82 join calls and outer member `A09F4B` runtime setters; native `WSclient.cpp` join, `GrowLancer/MAGIC_PIN_REVERSE.md` stage0 evidence.
+- NEXT FUNCTION TO IMPLEMENT: source-backed class7 base-speed reset/ordinary Magic dynamic preparation after numeric and owner bridge; no borrowed DK or blind DEX/20 path.
+
+### 2026-09-16 — S21 same-offset outbound buffer separated from global speed
+
+- CURRENT PHASE: nine S21 Grow Lancer skills native PC5.2 client/server; `IN_PROCESS`, no equipment/quests1–3.
+- CURRENT TASK: trace actual S21 speed stat input/producer without conflating numeric offsets.
+- CURRENT SUBTASK: complete receiver, candidate writer function and direct caller decode; hidden/read-only source QA.
+- COMPLETED THIS RUN: decoded source `1296442` receiver WORD payload+4/+8 → GLOBAL `1E04FBC` stat+1B6/+1C2; candidate `95C0C1` was NOT a global initializer: it copies object+15E/+1EC WORDs to caller stack temp+1B6/+1C2, and `9572A6` constructs C2:AE buffer with 0x200-byte temp. Added focused pinned verifier, exit0; existing receiver and snapshot verifiers exit0. Source stat snapshot has values273/273 and profile cap273 but does not reveal the preceding GS calculation or last writer. Read-only S21 GS EXE SHA134BAEBF... PE has virtualized `.vm_sec/.winlice/.boot` sections; no execution/patch or inferred Lua caller. No visible QA, VPS, production or other worktree change.
+- REVERSE EVIDENCE: SHA6422CB4E... S21 dump exact `95C0C1` self/stack-temp/offset writes and direct caller `9572E8`, C2:AE builder; separate actual receiver `1296442`; minidump SHA374D1ECB... stat/profile snapshot; GS EXE static section/hash observation.
+- CHAIN COVERAGE: same-offset identity distinction STATIC PASS; initial global speed join, source object+15E/+1EC producer, full S21 outbound and GS rate/rounding OPEN; Magic owner triangle FAIL.
+- ASSET PROVENANCE: no asset/Data staged or changed.
+- FILES MODIFIED: isolated `verify_s21_speed_temp_packet.py`, `CLASS_INTEGRATION_CONTRACT.md`, `ACCEPTANCE_GATE_MATRIX.md`, this state only.
+- LAST STATIC CHECK: new source/caller verifier, receiver verifier and minidump snapshot verifier exit0; no packet/runtime parity conclusion.
+- LAST BUILD RESULT: none new; reverse/verifier only, no normal client/GS semantic edit.
+- LAST RUNTIME QA: none; owner defers visible cast, hidden-only request retained.
+- KNOWN DIFFERENCES: source receiver writes WORDs but native 5.2 join supplies DWORD named speed fields; numeric+1B6 match in outbound stack temp does not establish global stat writer or packet mapping.
+- MISSING CHAIN PARTS: true S21 global speed initial writer/GS Lua caller/wire rounding, native class7 base speed reset, adjusted bonus/Tornado/cap, ordinary Magic clock/triangle owner pixels, full GS/visual acceptance.
+- BLOCKER: protected S21 GS authority/defaults missing, owner visible QA deferred; further client stat initialization xref work safe, `IN_PROCESS`.
+- NEXT EXACT ACTION: trace global `1E04FBC` stat setup/copy callsites and object+15E/+1EC producer with complete function ownership; do not call C2:AE stack serialization the receiver82 stat writer. Then assess source-backed class7 scoped base reset only with numeric/wire proof.
+- NEXT FILE TO OPEN: S21 dump `A0A0EE` stat-object constructor vs `1E04FBC` ownership and `95C0C1` source-object producer; `GrowLancer/MAGIC_PIN_REVERSE.md` hidden stage0 records.
+- NEXT FUNCTION TO IMPLEMENT: class7 speed reset and ordinary Magic287 dynamic preparation only after source rate/owner proof; no DEX/20 shortcut.
+
+### 2026-09-16 — class7 base speed omitted in both native recalculation paths
+
+- CURRENT PHASE: nine S21 Grow Lancer skills native PC5.2 client/server, equipment/quests1–3 excluded; `IN_PROCESS`.
+- CURRENT TASK: resolve ordinary class7 speed/timing contract before activating dynamic skills.
+- CURRENT SUBTASK: source-qualified client/GS base-speed recalculation audit; hidden checks only at owner's request.
+- COMPLETED THIS RUN: pinned S21 `CalcCharacter.lua` SHA9DA500... class7 DEX/20 branch and its preceding anti-hack/version qualifier; native `ZzzInfomation.cpp::CalculateAttackSpeed` supports class0..6 only and leaves class7 speed values unchanged before item/ability/buff additions; isolated GS `ObjectManager.cpp` likewise omits class7 base assignment before additive terms. Added scoped verifier, exit0. This identifies a stale/compounding-stat risk, not authorization to copy the Lua rate into native client animation. No client opened, visible cast, VPS, production or other worktree touched.
+- REVERSE EVIDENCE: hash-pinned S21 Lua branch/comment; native seven-case client base setter and GS seven-case base setter in `verify_class7_speed_recalculation_gap.py`.
+- CHAIN COVERAGE: class7 native base-speed omission STATIC PASS; exact S21 GS caller/rounding/client stat producer and Magic caster-foot pixels OPEN/FAIL.
+- ASSET PROVENANCE: no Data/BMD/texture/sound asset changed or staged.
+- FILES MODIFIED: isolated `verify_class7_speed_recalculation_gap.py`, `CLASS_INTEGRATION_CONTRACT.md`, `ACCEPTANCE_GATE_MATRIX.md`, this state only.
+- LAST STATIC CHECK: new hash/source/client/GS verifier, existing class source-profile, native speed boundary and Magic ordinary-activation gap verifiers all exit0; these prove static boundaries only, not runtime parity.
+- LAST BUILD RESULT: none new; audit-only, prior focused x86 and isolated links remain narrower checkpoints.
+- LAST RUNTIME QA: none new; owner requested hidden-only checks and deferred visible local QA cast.
+- KNOWN DIFFERENCES: native class7 recalculation may add modifiers to stale attack/magic speeds; S21 Lua DEX/20 is qualified anti-hack source, not proven animation speed mapping.
+- MISSING CHAIN PARTS: class7 native rate/rounding/GS caller and join/update contract, adjusted bonus/Tornado/cap, Magic triangle actual caster-camera timing/pixels, GS nine-skill authority and owner visual/pool acceptance.
+- BLOCKER: protected S21 default-class/GS handler and exact client stat-base bridge absent; source/runtime hidden audit remains possible, `IN_PROCESS`.
+- NEXT EXACT ACTION: trace S21 stat words `+1B6/+1C2` backward from opcode82/sub04 and supplied S21 GS Lua caller/config to determine class7 numeric rate and wire rounding; only then implement scoped client/GS base reset and regression without affecting classes0..6. Continue hidden Magic stage0/foot diagnosis from existing QA logs.
+- NEXT FILE TO OPEN: S21 pinned dump receiver `1296442` and its packet producer/writers; `D:\GameServer S21\Data\CalcCharacter.ini`; native `WSclient.cpp` join speed assignment.
+- NEXT FUNCTION TO IMPLEMENT: class7-scoped base-speed recalculation only after rate/rounding producer proof; ordinary Magic287 dynamic preparation remains fail-closed.
+
+### 2026-09-16 — dynamic speed uses S21 global stat base, actor only for Tornado
+
+- CURRENT PHASE: nine S21 Grow Lancer skills native PC5.2 client/server, equipment/quests1–3 excluded; `IN_PROCESS`.
+- CURRENT TASK: clarify source actor/stat ownership before normal class7 action registration.
+- CURRENT SUBTASK: decode complete S21 player-model speed producer and native global PlaySpeed boundary, not infer remote per-actor stats.
+- COMPLETED THIS RUN: complete source `1408580..14087C8` reads base speed words `+1B6/+1C2` via GLOBAL `1E04FBC` and actor argument only at optional Tornado gate `1408716/1408721`; caller `140DD63..140DD87` checks player model0xA94 and passes actor object. Native `SetAttackSpeed()` likewise derives global player-model PlaySpeed from local `CharacterAttribute`; native join C1:03 assigns named DWORD `SpeedAttack/MagicAttack`. Focused complete-block/native verifier PASS. This retracts an overbroad requirement for per-remote base speed in THIS chain; source/natively equal values and last-writer/Tornado remain unproven. No live class7 normal activation, packet, GS, production or visible QA change.
+- REVERSE EVIDENCE: pinned S21 dump SHA6422CB4E..., exact only-two actor reads/global stat loads/caller in `verify_s21_global_speed_owner.py`; native `WSclient.cpp` join and `ZzzCharacter.cpp::SetAttackSpeed` source checks.
+- CHAIN COVERAGE: S21 global base stat/actor Tornado role STATIC PASS; remote per-actor base stat not proven or required by reviewed chain. Normal class7 global local stat value/bonus/cap equivalence and Magic owner foot FAIL still OPEN.
+- ASSET PROVENANCE: no BMD/texture/sound/Data changed or staged.
+- FILES MODIFIED: isolated `verify_s21_global_speed_owner.py`, `CLASS_INTEGRATION_CONTRACT.md`, `MAGIC_PIN_REVERSE.md`, this state only.
+- LAST STATIC CHECK: complete source/caller/native owner verifier exit0; prior speed bonus/flag tests separate PASS. No client/GS code change.
+- LAST BUILD RESULT: none new; prior focused x86 composer compile and isolated client/GS links are narrower checkpoints.
+- LAST RUNTIME QA: none by owner hidden-only preference; no class7 caster/remote model/global PlaySpeed sample.
+- KNOWN DIFFERENCES: native join uses DWORD named speeds while S21 opcode82/sub04 writes WORD fields; exact numeric/wire equivalence and update timing not proven. Actor-specific Tornado can affect global model action-speed writer; last-writer/reuse requires QA.
+- MISSING CHAIN PARTS: class7 local value/default/bonus/cap correspondence, actor Tornado native state, normal action registration/40ms actor cadence, GS learning/cast/damage, nine-skill owner visual/pool QA.
+- BLOCKER: protected S21 default-class/GS authority absent and visible owner cast deferred; further native stat/source config audit possible, `IN_PROCESS`.
+- NEXT EXACT ACTION: compare native `CharacterMachine::CalculateAttackSpeed` source contributions to S21 global stat receive/update and manager bonus composition, then prepare scoped class7 local global speed bridge only if double-count/cap policy is proven. Check class7 GS defaults/DB authority read-only.
+- NEXT FILE TO OPEN: `ExMain_RISE_PC/Main5.2_RISE/ZzzInfomation.cpp::CalculateAttackSpeed`, `WSclient.cpp::ReceiveJoinMapServer`, `GrowLancer/CLASS_INTEGRATION_CONTRACT.md`.
+- NEXT FUNCTION TO IMPLEMENT: normal class7 local/global dynamic action preparation only after actual source/natively-adjusted input parity; no raw DK shortcut.
+
+### 2026-09-16 — S21 two-speed bonus producer arithmetic pinned
+
+- CURRENT PHASE: nine S21 Grow Lancer skills native PC5.2 client/server, equipment/quests1–3 excluded; `IN_PROCESS`.
+- CURRENT TASK: recover full source adjusted-speed producer before enabling normal class7 dynamic cast.
+- CURRENT SUBTASK: pin two initial stat words, manager three-slot bonus, optional lookup1008 and order before flag/Tornado/cap.
+- COMPLETED THIS RUN: decoded complete source `1408580..14086AA` plus `C5B813..C5B8B3`, `B60918..B60931`, `10FC071..10FC0BA`. Unsigned-word `+1B6/+1C2` initialize two speed locals; manager-present type1 walk sums matching integer descriptor values across three active slots and adds ONE returned sum to BOTH; optional lookup0x3F0 returns0 on miss and adds its integer result to each before source flag/Tornado/cap. Added isolated dormant `S21CastSpeedProducer.h` composer with explicit source-domain inputs, source/callee verifier PASS and actual VS18 Insiders x86 `/W4 /WX` four-case static-assert compile PASS. No native stat mapping, nonQA activation, client/GS deployment, visible QA or production change.
+- REVERSE EVIDENCE: pinned S21 dump SHA6422CB4E..., contiguous producer, three-slot c5b813, lookup B60918→10FC071 zero-on-miss in `verify_s21_cast_speed_producer.py`; flag priority separately pinned in earlier checkpoint.
+- CHAIN COVERAGE: SOURCE two-local additive order STATIC/X86 PURE PASS; manager slot semantic/native class7 stat bridge and remote actor adjusted input OPEN; Magic ordinary activation/owner foot still FAIL/OPEN.
+- ASSET PROVENANCE: no asset/Data changed or staged, existing Magic source hashes unchanged.
+- FILES MODIFIED: isolated `GrowLancer/compat/S21CastSpeedProducer.h`, `tools/grow_lancer/test_s21_cast_speed_producer.cpp`, `verify_s21_cast_speed_producer.py`, `CLASS_INTEGRATION_CONTRACT.md`, `MAGIC_PIN_REVERSE.md`, this state.
+- LAST STATIC CHECK: complete source/callee verifier exit0; x86 W4/WX static-assert compile exit0. Earlier flag-priority/source action checks separate PASS.
+- LAST BUILD RESULT: focused x86 compile PASS only; no full client/GS build for a dormant unreferenced composer.
+- LAST RUNTIME QA: none per owner hidden-only choice; no class7 actor/bonus runtime sample.
+- KNOWN DIFFERENCES: package nonQA dynamic preparation still returns false; current local-DK QA uses raw native AttackSpeed cap and cannot claim full source producer parity. Manager type1/lookup1008 native meaning and double-count avoidance unproven.
+- MISSING CHAIN PARTS: exact source manager/type and native buff/stat correspondence, per-actor remote stats/cap/Tornado, class7 DB/default/GS create/cast, nine-skill owner visual/cleanup.
+- BLOCKER: original protected S21 default-class/GS handler missing; independent native/stat-field auditing remains, `IN_PROCESS`.
+- NEXT EXACT ACTION: map source `+1B6/+1C2` and producer manager/lookup IDs to actual native client per-actor fields and class7 actor ownership, without using the local DK shortcut. Independently check class7 GameServer source/default/rate gaps and other-task merge readiness read-only.
+- NEXT FILE TO OPEN: `GrowLancer/CLASS_INTEGRATION_CONTRACT.md`, S21 dump `1408580..14087C8`, `ExMain_RISE_PC/Main5.2_RISE/ZzzCharacter.h`/`CharacterManager.cpp` and receive packet actor setup.
+- NEXT FUNCTION TO IMPLEMENT: class7 normal per-actor adjusted-speed bridge only after field/bonus provenance; no approximate AttackSpeed fallback.
+
+### 2026-09-16 — S21 cast-speed flag1/flag8 priority proved
+
+- CURRENT PHASE: nine S21 Grow Lancer skills native PC5.2 client/server, equipment/quests1–3 excluded; `IN_PROCESS`.
+- CURRENT TASK: establish class7 ordinary action-speed inputs before enabling dynamic skills outside local DK QA.
+- CURRENT SUBTASK: decode complete source `1408580` flag priority instead of extrapolating from isolated xrefs.
+- COMPLETED THIS RUN: pinned S21 `14086AA..1408716`: bit1 branch adds20 to both speed locals and jumps directly past bit8 test; only if bit1 is clear does bit8 add20. Flags9 therefore add20 once. A draft double-add edit was immediately reverted on seeing `14086DF jmp 1408716`, before build/stage/deploy; retained OR-mask tail now has explicit priority comment. New source verifier PASS and existing cast-speed static assertions compiled with actual VS18 Insiders x86 `/W4 /WX` exit0. Read-only class7 receive/normal gate still cannot borrow raw native AttackSpeed because S21 speed locals include manager/skill bonuses, source status flags, optional Tornado and cap before action formula. No normal skill activation, visible QA, GS or production change.
+- REVERSE EVIDENCE: pinned S21 dump SHA6422CB4E..., complete branch/JMP/constant20 verification in `verify_s21_speed_flag_priority.py`; source initial locals unsignedWORD `+1B6/+1C2` in existing `verify_cast_speed_registration.py`.
+- CHAIN COVERAGE: cast-speed flag priority SOURCE/X86 PURE PASS; producer bonus identity, remote actor adjusted input and native class7 stat bridge OPEN; ordinary `PrepareLocalQADynamicAction` still returns false in nonQA.
+- ASSET PROVENANCE: no BMD/texture/sound/Data changed or staged; no private Engine update.
+- FILES MODIFIED: isolated `S21CastAnimationSpeed.h` comment, new `verify_s21_speed_flag_priority.py`, `CLASS_INTEGRATION_CONTRACT.md`, this state. Test expectations returned to source-correct original; no persistent double-add code.
+- LAST STATIC CHECK: complete flag source verifier exit0; x86 W4/WX `GrowLancerCastAnimationSpeedTest.cpp` compile exit0. Prior class/source verifiers remain separate.
+- LAST BUILD RESULT: focused x86 compile PASS, no new client/GS full build for a dormant comment/verifier.
+- LAST RUNTIME QA: none per owner hidden-only choice; no raw native speed/flag value assumed from owner screenshots.
+- KNOWN DIFFERENCES: source has priority flag1→flag8, not two independent writes. Normal native action preparation still lacks source-adjusted input producer and class7 actor/default authority.
+- MISSING CHAIN PARTS: source bonus functions/receiver actor stats/cap policy, verified native class7 stat/evolution/default/GS authorizer, nine-skill owner visual and cleanup.
+- BLOCKER: protected S21 default-class/handler evidence absent and owner visible QA deferred; further source/native bonus audit available, `IN_PROCESS`.
+- NEXT EXACT ACTION: trace `1408580` bonus producer calls and remote/local input ownership, then compare native class7 record fields; implement ordinary dynamic action only on exact adjusted-speed contract. Independently inspect class7 GS defaults/learning capacity without guessing values.
+- NEXT FILE TO OPEN: S21 dump `1408580..14087C8`, `GrowLancer/compat/S21CastAnimationSpeed.h`, native `CharacterAttribute`/receive player-stat setup.
+- NEXT FUNCTION TO IMPLEMENT: real class7 adjusted-speed bridge only after source bonus/status/cap/actor ownership proof; no local-DK QA shortcut.
+
+### 2026-09-16 — Clash destination math ported as dormant pure helper
+
+- CURRENT PHASE: nine S21 Grow Lancer skills native PC5.2 client/server, equipment/quests1–3 excluded; `IN_PROCESS`.
+- CURRENT TASK: map the fully decoded Clash source destination quantization without enabling conflicting packet routes.
+- CURRENT SUBTASK: source-order-verified pure float/tile adapter and actual x86 focused regression.
+- COMPLETED THIS RUN: added isolated `Shared/GrowLancerClashDestination.h`: float32 XY delta/square, double sqrt cast back to float32, ±1e-6 zero-aware normalization, scale by integer-truncated ORIGINAL length, per-axis half-away ±0.5 rounding and caster tile addition. Extra private 256x256 bounds rejection protects terrain lookup (not proven as a source check). Extended pinned source verifier for helper operation order PASS. VS18 Insiders `vcvars32` x86 `/W4 /WX` test compiled/ran PASS seven zero/cardinal/diagonal/non-Pythagorean/negative/map-edge cases; initial edge expectation254 was corrected to source math255 before acceptance. Read-only native `CGMoveRecv` requires D4 path/dir nibble/connected/no-regen/no-teleport/terrain/100ms/stun checks, so S21 bare C1:31 coordinate send cannot be translated numerically. No live client/GS packet activation, visible QA or production changes.
+- REVERSE EVIDENCE: previous complete dump producer/callee/constants in `verify_clash_vector_and_followup.py` SHA6422CB4E..., helper operation order and x86 numeric cases; native client `SendMove` delegates `SendCharacterMove` with path/direction, GS `CGMoveRecv` consumes x/y/path[8] not a two-byte S21 C1:31 shape.
+- CHAIN COVERAGE: Clash pure source destination and seven-byte payload STATIC/X86 PASS; class7 actor cursor/caster ownership, native path/packet mapping, protected siege GS collision/push/rollback and owner movement remain OPEN.
+- ASSET PROVENANCE: no asset/Data changed or staged; private QA Engine3E9DFCD6... still historical and does not include dormant helper.
+- FILES MODIFIED: isolated `Shared/GrowLancerClashDestination.h`, `tools/grow_lancer/test_clash_destination.cpp`, `verify_clash_vector_and_followup.py`, `CLASH_REVERSE.md`, `ACCEPTANCE_GATE_MATRIX.md`, this state only.
+- LAST STATIC CHECK: pinned source/native-order verifier exit0; focused x86 `/W4 /WX` numeric test compile/run exit0. Earlier payload test separate PASS; no full build for dormant unreferenced header.
+- LAST BUILD RESULT: actual x86 VS18 Insiders focused test PASS; no new client/GS full link or deployment.
+- LAST RUNTIME QA: none per owner hidden-only preference; no source/5.2 movement packet forwarded.
+- KNOWN DIFFERENCES: helper rejects out-of-map destination beyond S21 shown checks; C1:31 source two-coordinate shape is incompatible with native D4 path movement and native0x31 NPC-close. Numeric helper has no gameplay caller.
+- MISSING CHAIN PARTS: class7 normal class/default/stat and caster/cursor tile bridge, paired source packets/GS siege handler, push/rollback, runtime movement pixels, nine-skill visual regression.
+- BLOCKER: protected original siege GS/default-class authority absent; further class7/source/client work remains, `IN_PROCESS`.
+- NEXT EXACT ACTION: audit class7 normal client receive/action speed ownership and native source/DB class progression; implement only a proven class-specific bridge, leave local-DK QA and siege transport dormant until inputs are justified.
+- NEXT FILE TO OPEN: `GrowLancer/CLASS_INTEGRATION_CONTRACT.md`, `GrowLancer/MAGIC_PIN_REVERSE.md` speed audit, `GrowLancerEffectRuntime.cpp::PrepareLocalQADynamicAction` and real receive packet path.
+- NEXT FUNCTION TO IMPLEMENT: real class7 dynamic action preparation only after adjusted-speed producer/actor ownership proof; no borrowed DK AttackSpeed.
+
+### 2026-09-15 — Clash follow-up is SECOND C1:31 send, not local move
+
+- CURRENT PHASE: nine S21 Grow Lancer skills native PC5.2 client/server, equipment/quests1–3 excluded; `IN_PROCESS`.
+- CURRENT TASK: correct Clash movement/packet chain before any native transport registration.
+- CURRENT SUBTASK: fully decode source vector producer and `D6DC05` callee, then compare real native opcode behavior.
+- COMPLETED THIS RUN: pinned `10E4B67..10E4CB5` and callees: cursor-minus-caster XY/Z0, original Euclidean length captured before ±1e-6-aware normalization, unit-vector scaled by integer-truncated original length, each component rounded half away from zero with ±0.5 and `cvttss2si`, caster tile added for destination. Crucial correction: complete `D6DC05..D6DCA3` constructs/sends SECOND `C1:31` containing destination X/Y; it does NOT locally mutate character position. Native 5.2 `C1:31` closes NPC talk, native move is `C1:D4`, so both S21 numeric opcodes remain disabled. New focused source/callee verifier PASS, earlier seven-byte payload verifier retitled as follow-up call, no client/server transport edit or visible QA.
+- REVERSE EVIDENCE: S21 pinned dump SHA6422CB4E..., contiguous producer/callee/constants/second sender in `verify_clash_vector_and_followup.py`, native `Protocol.cpp::0x31` NPC-close and `wsclientinline.h` move0xD4.
+- CHAIN COVERAGE: Clash source vector math/packet sequencing STATIC PASS, private byte payload test PASS; native vector rounding/transport, GS siege validation/push/rollback and owner movement OPEN. Prior description of `D6DC05` as local movement is retracted.
+- ASSET PROVENANCE: no asset/Data changed; no private QA Engine staged for this source correction.
+- FILES MODIFIED: isolated `verify_clash_vector_and_followup.py`, `verify_clash_movement_payload.py`, `CLIENT_PACKET_REVERSE.md`, `CLASH_REVERSE.md`, `ACCEPTANCE_GATE_MATRIX.md`, this state.
+- LAST STATIC CHECK: new complete source/callee verifier exit0; previous payload x86 test/source verifier remain valid after wording correction. No full client/GS build for source-only changes.
+- LAST BUILD RESULT: previous isolated QA/nonQA x86 client action setter links and focused seven-byte payload test PASS in earlier checkpoints; no new build this subtask.
+- LAST RUNTIME QA: none; owner deferred visible cast, and no source packet was forwarded to local GS/VPS.
+- KNOWN DIFFERENCES: source sends two packets C1:59 then C1:31; native 5.2 0x31 NPC-close and 0xD4 move routing differ. Pure payload is dormant; mapping source two-packet handler to native protocol not yet proven.
+- MISSING CHAIN PARTS: exact source server receiver for BOTH packets, siege/player collision/push/rollback, native destination math test, class7 normal activation and owner visual parity.
+- BLOCKER: protected S21 siege GS receiver/default-class source absent; independent native vector/pure math and class7 audits remain possible, `IN_PROCESS`.
+- NEXT EXACT ACTION: port source-derived destination math as dormant skill-local pure helper with source-bound x86 test and compare native path/movement tile ownership; retain packet/GS activation fail-closed. Then continue class7 source/default audit.
+- NEXT FILE TO OPEN: `GrowLancer/CLASH_REVERSE.md`, `Shared/GrowLancerClashMovementPayload.h` and native move sender/server `Protocol.cpp::CGMoveRecv`.
+- NEXT FUNCTION TO IMPLEMENT: source-aligned pure destination quantization helper, not live opcode routing without GS handler.
+
+### 2026-09-15 — Clash movement payload/terrain contract pinned, transport disabled
+
+- CURRENT PHASE: nine S21 Grow Lancer skills native PC5.2 client/server, equipment/quests1–3 excluded; `IN_PROCESS`.
+- CURRENT TASK: recover Clash movement and server-routing edge without colliding with SS6 packet opcodes.
+- CURRENT SUBTASK: pin S21 terrain gate, C1:59 payload byte order and send→local-move sequence; keep transport dormant pending authoritative GS handler.
+- COMPLETED THIS RUN: decoded contiguous `10E4CB5..10E4E21` after Clash root, plus complete C1 builder `D8DC5A` and single-byte writer `95DB09`. Destination terrain mask0x1C rejects before packet. Builder writes mode1, then target high, skill high, target low, skill low, destination X/Y; sends before `D6DC05` local movement. Added isolated, opcode-free `Shared/GrowLancerClashMovementPayload.h`, focused source verifier and x86 `/W4 /WX` encoder/terrain test; both exit0. No live client/GS, opcode registration, production, other task or S21 original touched.
+- REVERSE EVIDENCE: pinned S21 dump SHA6422CB4E..., contiguous terrain/packet/send/move and nested byte-writer proof in `verify_clash_movement_payload.py`; `CLIENT_PACKET_REVERSE.md` wire order now independently checked.
+- CHAIN COVERAGE: Clash terrain/byte-level payload STATIC/X86 TEST PASS, but vector quantization, native packet mapping, siege GS validation/pushback/rollback and owner movement still OPEN. Nine-skill normal cast/GS/visual gates OPEN.
+- ASSET PROVENANCE: no BMD/texture/sound/Data changed or staged; existing private QA Engine3E9DFCD6... predates this dormant contract.
+- FILES MODIFIED: isolated shared `GrowLancerClashMovementPayload.h`, `tools/grow_lancer/test_clash_movement_payload.cpp`, `verify_clash_movement_payload.py`, `CLIENT_PACKET_REVERSE.md`, `CLASH_REVERSE.md`, `ACCEPTANCE_GATE_MATRIX.md`, this state.
+- LAST STATIC CHECK: pinned source verifier exit0; focused actual VS18 Insiders x86 `/W4 /WX` payload test compile/run exit0. Earlier client builds relate to action setter only, not this dormant shared helper.
+- LAST BUILD RESULT: focused x86 test link/run PASS; no new client/GS full build required for a header not included by live dispatch.
+- LAST RUNTIME QA: none per owner hidden-only preference; byte contract and old fixture cannot prove siege movement.
+- KNOWN DIFFERENCES: S21 opcode0x59 cannot be forwarded numerically into SS6; dormant payload is not sent. Destination vector normalization/float-to-tile conversion and GS collision behavior not yet ported.
+- MISSING CHAIN PARTS: source vector quantization, exact native adapter opcode+server handler, siege target/terrain/rollback authority, owner stationary/moving pixels and class7 ordinary activation.
+- BLOCKER: protected S21 siege GS handler/default-class dump absent and owner gameplay cast deferred; further safe source reverse remains, `IN_PROCESS`.
+- NEXT EXACT ACTION: decode S21 direction/vector normalization and `0xD6DC05` local-move consumer with native 5.2 movement boundary; map only matching behavior, retain GS transport fail-closed. Independently audit class7 normal activation.
+- NEXT FILE TO OPEN: S21 dump windows `10E4B67..10E4CB5`, `D6DC05` and native client movement sender/server handler sources.
+- NEXT FUNCTION TO IMPLEMENT: Clash movement vector/terrain skill-local adapter only after source/native quantization proof; no guessed opcode or GS handler.
+
 ### 2026-09-15 — Clash last direct action reset removed
 
 - CURRENT PHASE: nine S21 Grow Lancer skills native PC5.2 client/server, equipment/quests1–3 excluded; `IN_PROCESS`.

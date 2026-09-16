@@ -1861,6 +1861,7 @@ bool SEASON3B::CNewUISkillList::Render()
 		for (int icon = 0; icon < 9; ++icon)
 		{
 			const int skillId = rise::growlancer::kSpinStepSkill + icon;
+			const float iconX = startX + icon * (iconWidth + gap);
 			const float u = (skillId % rise::growlancer::kSkillIconAtlasColumns) *
 				rise::growlancer::kSkillIconWidth /
 				static_cast<float>(rise::growlancer::kSkillIconAtlasSize);
@@ -1868,19 +1869,59 @@ bool SEASON3B::CNewUISkillList::Render()
 				rise::growlancer::kSkillIconHeight /
 				static_cast<float>(rise::growlancer::kSkillIconAtlasSize);
 			RenderBitmap(rise::growlancer::kSkillIconAtlasBitmap,
-				startX + icon * (iconWidth + gap), baseY - 64.f,
+				iconX, baseY - 64.f,
 				iconWidth, iconHeight, u, v,
 				rise::growlancer::kSkillIconWidth /
 					static_cast<float>(rise::growlancer::kSkillIconAtlasSize),
 				rise::growlancer::kSkillIconHeight /
 					static_cast<float>(rise::growlancer::kSkillIconAtlasSize));
 			RenderBitmap(rise::growlancer::kDisabledSkillIconAtlasBitmap,
-				startX + icon * (iconWidth + gap), baseY - 34.f,
+				iconX, baseY - 34.f,
 				iconWidth, iconHeight, u, v,
 				rise::growlancer::kSkillIconWidth /
 					static_cast<float>(rise::growlancer::kSkillIconAtlasSize),
 				rise::growlancer::kSkillIconHeight /
 					static_cast<float>(rise::growlancer::kSkillIconAtlasSize));
+			// QA-only selection feedback: a pulsing gold outline makes the
+			// F6-selected icon unambiguous without tinting the skill artwork.
+			if (skillId == rise::growlancer::RuntimeQASelectedSkillId())
+			{
+				const bool bright = ((GetTickCount() / 250) & 1) == 0;
+				const float alpha = bright ? 1.0f : 0.45f;
+				const float outline = 2.0f;
+				EnableAlphaTest();
+				glColor4f(1.0f, 0.82f, 0.12f, alpha);
+				RenderColor(iconX - outline, baseY - 64.f - outline,
+					iconWidth + outline * 2.0f, outline);
+				RenderColor(iconX - outline, baseY - 64.f + iconHeight,
+					iconWidth + outline * 2.0f, outline);
+				RenderColor(iconX - outline, baseY - 64.f,
+					outline, iconHeight);
+				RenderColor(iconX + iconWidth, baseY - 64.f,
+					outline, iconHeight);
+				EndRenderColor();
+				glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+			}
+		}
+		// The QA panel is intentionally separate from the production skill bar.
+		// Always show the selected name and ID so F6/F7 cannot be mistaken for a
+		// neighboring Grow Lancer icon.
+		if (g_pRenderText)
+		{
+			char selectedLabel[96] = {};
+			sprintf_s(selectedLabel, sizeof(selectedLabel),
+				"QA: %s [%d]  Target:%s  F6=next F7=cast F9=hit",
+				rise::growlancer::RuntimeQASelectedSkillName(),
+				rise::growlancer::RuntimeQASelectedSkillId(),
+				rise::growlancer::RuntimeQASelectedTargetLive() ? "selected" : "none");
+			g_pRenderText->SetFont(g_hFont);
+			g_pRenderText->SetTextColor(255, 220, 120, 255);
+			g_pRenderText->SetBgColor(0, 0, 0, 180);
+			g_pRenderText->RenderText(static_cast<int>(startX),
+				static_cast<int>(baseY - 86.f), selectedLabel,
+				static_cast<int>(rowWidth), 0, RT3_SORT_CENTER);
+			g_pRenderText->SetTextColor(255, 255, 255, 255);
+			g_pRenderText->SetBgColor(0);
 		}
 	}
 #endif
@@ -2371,11 +2412,15 @@ void SEASON3B::CNewUISkillList::RenderSkillIcon(int iIndex, float x, float y, fl
 			{
 				if (bCantSkill == true)
 				{
-					SEASON3B::RenderImage(BITMAP_INTERFACE_MASTER_BEGIN + 3, x, y, width, height, GetXY.CalcX, GetXY.CalcY, 0.0390625, 0.053710938); //Non
+					const int iconAtlas = bySkillType == rise::growlancer::kWrathMasterSkillId ?
+						rise::growlancer::kWrathMasterDisabledIconAtlasBitmap : BITMAP_INTERFACE_MASTER_BEGIN + 3;
+					SEASON3B::RenderImage(iconAtlas, x, y, width, height, GetXY.CalcX, GetXY.CalcY, 0.0390625, 0.053710938); //Non
 				}
 				else
 				{
-					SEASON3B::RenderImage(BITMAP_INTERFACE_MASTER_BEGIN + 2, x, y, width, height, GetXY.CalcX, GetXY.CalcY, 0.0390625, 0.053710938);
+					const int iconAtlas = bySkillType == rise::growlancer::kWrathMasterSkillId ?
+						rise::growlancer::kWrathMasterIconAtlasBitmap : BITMAP_INTERFACE_MASTER_BEGIN + 2;
+					SEASON3B::RenderImage(iconAtlas, x, y, width, height, GetXY.CalcX, GetXY.CalcY, 0.0390625, 0.053710938);
 				}
 			}
 		}

@@ -5,6 +5,7 @@
 #include "../../../GrowLancer/compat/MagicQuantumClock.h"
 #include "GrowLancerRuntimeQA.h"
 #include "GrowLancerResources.h"
+#include "GrowLancerClassIdentity.h"
 #include "ZzzBMD.h"
 #include "ZzzAI.h"
 #include "ZzzCharacter.h"
@@ -128,6 +129,29 @@ bool CanPlayAction(const OBJECT& actor, unsigned short action)
         Models[actor.Type].NumActions > action;
 }
 
+#ifndef RISE_GROW_LANCER_RUNTIME_QA
+bool IsExactGrowLancerBaseActor(const OBJECT& actor)
+{
+    // S21's verified unevolved class byte is 7. Resolve class through the
+    // CHARACTER that actually owns this OBJECT, never through local Hero stats
+    // for a received remote cast. Unknown/evolved classes remain fail-closed.
+    if (SceneFlag != MAIN_SCENE || actor.Type != MODEL_PLAYER || !actor.Live)
+        return false;
+    if (Hero && &Hero->Object == &actor)
+        return Hero->Class == kGrowLancerSourceBaseClass;
+    if (!CharactersClient)
+        return false;
+    for (int i = 0; i < MAX_CHARACTERS_CLIENT; ++i)
+    {
+        const CHARACTER& candidate = CharactersClient[i];
+        if (&candidate.Object == &actor)
+            return candidate.Object.Live &&
+                candidate.Class == kGrowLancerSourceBaseClass;
+    }
+    return false;
+}
+#endif
+
 bool PrepareFixedPlayerAction(const OBJECT& actor, unsigned short action)
 {
     // Only the isolated merged player clips185..194 ->284..293.
@@ -135,6 +159,12 @@ bool PrepareFixedPlayerAction(const OBJECT& actor, unsigned short action)
     if (actor.Type != MODEL_PLAYER || action < 284 || action > 293 ||
         !CanPlayAction(actor, action) || !Models[MODEL_PLAYER].Actions)
         return false;
+#ifndef RISE_GROW_LANCER_RUNTIME_QA
+    // QA's local DK preview is explicit and isolated. Ordinary received
+    // actions must not attach Grow Lancer clips to an unrelated SS6 class.
+    if (!IsExactGrowLancerBaseActor(actor))
+        return false;
+#endif
     const float speed = S21FixedCastAnimationSpeed(action - 284 + 185);
     if (speed <= 0.0f)
         return false;

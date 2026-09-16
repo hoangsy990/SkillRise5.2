@@ -28,6 +28,49 @@ treated as authorization to enable Grow Lancer cast. The ZIP was not modified.
 
 ## Verified source identity
 
+### Cast-speed flags priority pinned — 2026-09-16
+
+Producer follow-up: complete source `0x1408580..0x14086AA` initializes
+two unsigned-word speed locals from record `+1B6/+1C2`. A manager-present
+path calls `0xC5B813(1)`, whose complete body walks three active slots,
+compares descriptor type to argument1 and sums matching integer `+1C`
+values. That ONE returned sum is added to BOTH speed locals. A separate
+optional record selects a lookup, then calls `0xB60918(0x3F0)` for each
+local; its `0x10FC071` callee returns zero on miss. Both returns are
+again added before source flags/Tornado/cap. This proves the arithmetic
+shape, not that native AttackSpeed already contains/excludes these values
+or what manager slot type1/lookup1008 mean. New dormant
+`S21CastSpeedProducer.h` composes SOURCE-DOMAIN values only;
+`verify_s21_cast_speed_producer.py` pins producer/callees and actual x86
+`/W4 /WX` static-assert compile PASS. Ordinary class7 activation remains
+fail-closed until actor/bonus source→native mapping is proven.
+
+Owner/input correction (2026-09-16): complete source
+`0x1408580..0x14087C8` reads base words `+1B6/+1C2` through GLOBAL
+stat pointer `0x1E04FBC`; it reads the actor argument only at the
+optional Tornado presence gate `0x1408716/0x1408721`. The source
+player-model caller `0x140DD63..0x140DD87` tests model0xA94 and passes
+its actor object, but no per-remote speed words are read in this
+producer. Native `SetAttackSpeed` also writes global player-model
+action speed from local `CharacterAttribute`; native join packet supplies
+named DWORD `SpeedAttack/MagicAttack`. Thus per-remote base stat
+transport is NOT a prerequisite proved by this S21 chain. Class7
+local/global stat value equivalence, packet width, manager bonus
+double-count, actor-specific Tornado and global model last-writer
+behavior remain OPEN. `verify_s21_global_speed_owner.py` pins both
+complete source/caller blocks and native ownership boundary.
+
+Complete S21 `0x14086AA..0x1408716` basic blocks prove bit1 and bit8
+each can add20 to both source speed locals, but the bit1-true branch
+JUMPS over the bit8 test at `0x14086DF`. Therefore flags value9 adds
+20 once, not40. The existing dormant `S21AdjustCastSpeedTail` OR-mask
+formula was correct; a draft double-add interpretation was immediately
+reverted after full-block decode, before any build/stage/deployment.
+`verify_s21_speed_flag_priority.py` pins branch/jump/writes/constant and
+the flags9 pure test; actual VS18 x86 `/W4 /WX` compile PASS. This
+clarifies source math but does not map source speed `+1B6/+1C2`, manager
+bonuses, Tornado/cap or real class7 actor into native 5.2 fields.
+
 Protected supplied S21 file `D:\GameServer S21\Data\Scripts\Character\CalcCharacter.lua`
 line21 declares `CLASS_GROWLANCER = 7`. SHA256:
 `9DA5000449CCEC0B3DA0CD2ADE11E55863B5CC0C56EC4063C5A64F78414C0A70`.
@@ -35,6 +78,142 @@ This proves the supplied calculation-script base class number, not all S21
 network/DB encodings or evolution IDs.
 
 ## Current native boundaries
+
+### Fixed-action owning-class guard — 2026-09-16
+
+The isolated ordinary client now resolves the `CHARACTER` that owns a received
+player `OBJECT` (Hero by pointer identity first, otherwise the live
+`CharactersClient` pool in the main scene) before preparing one of the verified
+constant-speed S21 clips. Only exact unevolved class byte `7` may receive this
+fixed-action preparation. Unknown/evolved bytes and SS6 classes fail closed;
+the explicit RuntimeQA local Dark Knight preview path retains its prior scope.
+The guard never substitutes local `CharacterAttribute` for a remote actor and
+does not widen `MAX_CLASS` or the skill slots. Source verifier
+`verify_fixed_action_actor_class_gate.py` PASS; isolated Win32 normal and QA
+client links exit0, hashes F352A9C5... and 6C4B52E0... respectively. The
+comparison uses the package's existing named source-class constant, distinct
+from the native UI selector `18`. This
+protects fixed-action dispatch from attaching GL clips to unrelated classes;
+it does **not** initialize class7, establish the dynamic-speed Magic/Spin/
+Harsh/Shining rate, validate server learning/cast, or prove gameplay pixels.
+No QA executable/Data was staged and no production client was touched.
+
+### Class-7 base speed recalculation gap — 2026-09-16
+
+`CharacterMachine::CalculateAttackSpeed` initializes attack/magic speed only
+for seven SS6 class indices 0..6 before item, ability and buff additions.
+For base class7, `index=-1` leaves the previous `Character.AttackSpeed` and
+`Character.MagicSpeed` untouched and then adds the ordinary modifiers. The
+isolated GS `ObjectManager.cpp` similarly lacks a `CLASS_GL` base-speed
+assignment before drink/effect/item additions. A repeated class7 calculation
+can therefore carry stale values and compound modifiers; it is not a valid
+normal dynamic-action input. `verify_class7_speed_recalculation_gap.py`
+pins both native boundaries and the hash-pinned S21 Lua branch.
+
+S21 `CalcCharacter.lua::CalcAttackSpeed` selects DEX/20 for class7, but its
+own preceding comment calls this an anti-hack speed calculation with a
+version-applicability qualifier. The script branch alone does not prove
+the S21 GameServer caller, integer/packet rounding, or the client animation
+stat producer. No DEX/20 branch was inserted into the ordinary client/GS;
+class7 activation and action-speed parity remain fail-closed pending those
+contracts. This audit does not change the local DK visual QA path.
+
+### Native join-to-recalculation speed ownership — 2026-09-16
+
+`verify_class7_join_speed_chain.py` pins the isolated GS's final
+`lpObj->PhysiSpeed/MagicSpeed` copy into join `DWORD SpeedAttack/MagicAttack`,
+client named-field assignment, then the second join `SetCharacterClass(c)`
+after `Hero=c`, which calls `CalculateAll/CalculateAttackSpeed`. Class7 has
+no base assignment in GS or client; client speed then adds weapon/ability/
+buff terms to the just-received final GS value. This is a concrete source
+path for stale/double-counted class7 speed, not measured runtime magnitude.
+Ordinary item/stat/buff consumers also call `CalculateAll` repeatedly.
+
+Native join fields are GS final speed, not a source-backed class7 DEX divisor.
+S21 head82/sub04 receives WORD speed into a global member, but its initial
+sender, actual GS rate/rounding and opcode equivalence to native join remain
+unproven. Do not implement DEX/20 solely from qualified anti-hack Lua or
+reuse final GS join value as an additive client base. Class7 activation
+remains fail-closed until scoped packet/recalc ownership is established.
+
+### Native speed divisor packet capacity and update ownership — 2026-09-16
+
+`verify_class7_speed_packet_capacity.py` pins the separate native F3:ED
+speed-divisor message: client/server packet structs and `pMain->ThisValue`
+are exactly 14 bytes, GS sender fills pairs0..13 for seven SS6 classes and
+client receiver copies exactly14. `CalculateAttackSpeed` selects the same
+base-class indices0,2,...12. Class7 would need pair14/15 only if this
+same-table scheme is retained; neither pair nor GS config keys exist. This
+is a lookup/packet-width issue, not the character's skill-slot count or
+skill-ID capacity. Expanding F3:ED globally without rate/compatibility proof
+could regress existing SS6 clients; no packet or global count was changed.
+
+The GS sender calls F3:ED during character calculation, but this packet
+contains divisors only, not updated final speeds. Within the isolated GS
+source, `SpeedAttack/MagicAttack` final DWORD fields are populated for join;
+no separate named final-speed update sender was found in the searched GS
+source. S21 opcode82/sub04 WORD speed update is a distinct packet chain,
+not a verified drop-in native opcode. Thus class7 item/stat/buff changes
+need a source-backed local recalc rate or an explicitly scoped authoritative
+speed-update design. Both remain open.
+
+### S21 direct global-speed pointer candidate classification — 2026-09-16
+
+`scan_s21_stat_pointer_refs.py --near-speed` hashes the 266 MB S21 mapped
+main dump and narrows 782 literal `1E04FBC` occurrences to 17 candidates
+whose following 200 bytes also mention `+1B6/+1C2`. Focused
+`verify_s21_speed_pointer_candidate_roles.py` decodes selected blocks:
+`1296442` is the proved opcode82/sub04 receiver writing both WORD fields;
+`B553/B56D`, `127D95D`, `1408580` and four `14140/14155` visual-scalar
+paths read them; `F62506` reads indexed member+1E6, and `B552BD/D5` read
+flag+1A6. This is a bounded literal-pointer/proximity classification, not
+complete alias/write proof. Constructor zero writes precede global assignment.
+
+No packet capture or original GS `CalcAttackSpeed` caller was found in the
+scoped supplied S21 QA evidence; existing logs are skill/crash traces. Initial
+sender/rate/rounding/packet timing remain OPEN. Numeric pointer xrefs alone
+must not become class7 speed authority.
+
+### Same-offset outbound stat buffer is not the global speed writer — 2026-09-16
+
+The pinned S21 `1296442` opcode82/sub04 receiver really writes WORDs from
+its input `+4/+8` to **global** stat pointer `1E04FBC` at `+1B6/+1C2`, then
+refreshes the display; it does not directly recalculate PlaySpeed. A raw
+numeric xref at `95C0C1` had the same destination offsets, but full function
+and caller decode shows `ECX` is a separate object, `[EBP+8]` is caller stack
+temporary `9572A6` at `[EBP-210]`, and the copy takes source object WORDs
+`+15E/+1EC` into temporary `+1B6/+1C2`. On a successful copy the caller
+constructs a `C2:AE` buffer and appends the 0x200-byte temporary. This is
+not the initial write of the global speed words or proof of receiver82 wire
+equivalence. `verify_s21_speed_temp_packet.py` pins this source/caller and
+the only direct call lead `9572E8`; `verify_cast_speed_receive.py` separately
+pins the actual global receiver. The field producer, full outbound transport,
+initial global stat join and S21 GS rate/rounding remain OPEN. Supplied GS
+`IGC.GameServer2_R.exe` SHA134BAEBF... has virtualized `.vm_sec`, `.winlice`
+and `.boot` sections; static file checks did not recover its Lua caller, and
+the protected executable was not executed or patched.
+
+### Global S21 speed-stat member lifecycle — 2026-09-16
+
+Complete source `127879C..1278805` allocates 0x2DF0-byte outer record,
+calls outer constructor `A07788`, assigns the outer pointer to global
+`1E04FB8`, and assigns `outer+8` to **global stat pointer** `1E04FBC`.
+The outer constructor calls `A09F4B` on exactly `this+8`; its member
+constructor zeros WORD fields `+1B6/+1C2`. Hence the same member is what
+the opcode82/sub04 handler `1296442` later updates from incoming WORDs.
+`verify_s21_global_stat_lifecycle.py` pins allocation, both constructors,
+global assignments, zero writes and receiver ownership in SHA6422CB4E...
+dump. It does **not** show the initial character-join speed packet, all
+subsequent writes, source GS rate/rounding, or native 5.2 DWORD mapping.
+The read-only minidump's later 273/273 words are not constructor defaults.
+
+The next candidate native 5.2 join opcode `C1:F3:03` must not be assumed
+equal to S21: S21 head-F3/sub03 dispatches through `12884DB` into an
+indirect/status switch `986942`, while plain head03 dispatches to a different
+protected continuation `1297213`. `verify_s21_join_opcode_boundary.py`
+pins both paths. Neither path has yet supplied a complete initial S21
+global-speed delivery/wire-rate chain; ordinary class7 speed reset remains
+fail-closed.
 
 ### Scoped native base-body gameplay caller — 2026-09-15
 

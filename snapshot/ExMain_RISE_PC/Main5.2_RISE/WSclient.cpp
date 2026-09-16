@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "RISE/GrowLancerEffectRuntime.h"
+#include "RISE/GrowLancerWrathScale.h"
 #include "RISE/GrowLancerResources.h"
 #include "UIManager.h"
 #include "GuildCache.h"
@@ -184,6 +185,20 @@ void AddDebugText(const unsigned char* Buffer, int Size)
 
 BOOL CreateSocket(char* IpAddr, unsigned short Port)
 {
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+	char localQA[4] = { 0 };
+	if (GetEnvironmentVariableA("RISE_GL_LOCAL_SERVER_QA", localQA, sizeof(localQA)) == 1 && localQA[0] == '1')
+	{
+		char route[160] = { 0 };
+		_snprintf_s(route, sizeof(route), _TRUNCATE, "Grow Lancer local QA CreateSocket: %s:%u", IpAddr ? IpAddr : "(null)", Port);
+		WriteCrashBreadcrumb(route);
+		if (!IpAddr || strcmp(IpAddr, "127.0.0.1") != 0 || (Port != 44412 && Port != 55910))
+		{
+			WriteCrashBreadcrumb("Grow Lancer local QA: refused non-isolated socket destination");
+			return FALSE;
+		}
+	}
+#endif
 	g_pReconnect->ReconnectCreateConnection(IpAddr, Port);
 
 	BOOL bResult = TRUE;
@@ -203,11 +218,17 @@ BOOL CreateSocket(char* IpAddr, unsigned short Port)
 	SocketClient.Create(g_hWnd, TRUE);
 	if (SocketClient.Connect(IpAddr, Port, WM_ASYNCSELECTMSG) == FALSE)
 	{
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+		WriteCrashBreadcrumb("QA game socket: synchronous Connect failed");
+#endif
 		CUIMng::Instance().PopUpMsgWin(MESSAGE_SERVER_LOST);
 		bResult = FALSE;
 	}
 	g_byPacketSerialSend = 0;
 	g_byPacketSerialRecv = 0;
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+	WriteCrashBreadcrumb(bResult ? "QA game socket: Connect queued" : "QA game socket: Connect returned failure");
+#endif
 
 	return (bResult);
 }
@@ -305,6 +326,9 @@ BOOL Util_CheckOption(char* lpszCommandLine, unsigned char cOption, char* lpszSt
 
 void ReceiveServerList(const BYTE* ReceiveBuffer)
 {
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+	WriteCrashBreadcrumb("QA ConnectServer: received server list");
+#endif
 	auto Data = (LPPHEADER_DEFAULT_SUBCODE_WORD)ReceiveBuffer;
 	int Offset = sizeof(PHEADER_DEFAULT_SUBCODE_WORD);
 
@@ -360,6 +384,9 @@ static bool IsRisePrivateServerAddress(const char* ip)
 
 void ReceiveServerConnect(const BYTE* ReceiveBuffer) //Recebe informação do ConnectServer sobre a sala e envia a conexão para a sala escolhida
 {
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+	WriteCrashBreadcrumb("QA ConnectServer: received selected GameServer address");
+#endif
 	auto Data = (LPPRECEIVE_SERVER_ADDRESS)ReceiveBuffer;
 	char IP[16];
 	memset(IP, 0, 16);
@@ -526,6 +553,7 @@ void ReceiveChangePassword(const BYTE* ReceiveBuffer)
 
 void ReceiveCharacterList(const BYTE* ReceiveBuffer)
 {
+	SocketClient.ResetGrowLancerBuffSession();
 	InitGuildWar();
 
 	g_pReconnect->ReconnectOnCharacterList();
@@ -930,6 +958,8 @@ BOOL ReceiveJoinMapServer(const BYTE* ReceiveBuffer, BOOL bEncrypted)
 	}
 
 	matchEvent::CreateEventMatch(gMapManager.WorldActive);
+	// Join-map replaces the local owner slot even when the socket survives.
+	SocketClient.ResetGrowLancerBuffSession();
 	HeroIndex = rand() % MAX_CHARACTERS_CLIENT;
 	CHARACTER* c = &CharactersClient[HeroIndex];
 	CreateCharacterPointer(c, MODEL_PLAYER, Data->PositionX, Data->PositionY, ((float)Data->Angle - 1.f) * 45.f);
@@ -1469,6 +1499,9 @@ void ReceiveChat(const BYTE* ReceiveBuffer)
 {
 	if (SceneFlag == LOG_IN_SCENE)
 	{
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+		WriteCrashBreadcrumb("QA ConnectServer: received greeting; request list");
+#endif
 		CrashReportOnConnectServer();
 		SendRequestServerList();
 	}
@@ -3830,8 +3863,8 @@ BOOL ReceiveMagic(BYTE* ReceiveBuffer, int Size, BOOL bEncrypted)
 	switch (MagicNumber)
 	{
 	case rise::growlancer::kSpinStepSkill:
-		rise::growlancer::CreateSpinStepRoot(*so, static_cast<short>(TargetIndex));
-		sc->AttackTime = 1;
+		if (rise::growlancer::CreateSpinStepRoot(*so, static_cast<short>(TargetIndex)))
+			sc->AttackTime = 1;
 		break;
 	case rise::growlancer::kSpinStepExplosionSkill:
 		rise::growlancer::CreateSpinStepHit(*to);
@@ -3845,8 +3878,8 @@ BOOL ReceiveMagic(BYTE* ReceiveBuffer, int Size, BOOL bEncrypted)
 		sc->AttackTime = 1;
 		break;
 	case rise::growlancer::kMagicPinSkill:
-		rise::growlancer::CreateMagicPinRoots(*so);
-		sc->AttackTime = 1;
+		if (rise::growlancer::CreateMagicPinRoots(*so))
+			sc->AttackTime = 1;
 		break;
 	case rise::growlancer::kMagicPinExplosionSkill:
 		rise::growlancer::CreateMagicPinHit(*to);
@@ -4922,17 +4955,58 @@ BOOL ReceiveMagic(BYTE* ReceiveBuffer, int Size, BOOL bEncrypted)
 
 BOOL ReceiveMagicContinue(BYTE* ReceiveBuffer, int Size, BOOL bEncrypted)
 {
-
-
+	if (!ReceiveBuffer || Size < static_cast<int>(sizeof(PRECEIVE_MAGIC_CONTINUE)))
+		return FALSE;
 	LPPRECEIVE_MAGIC_CONTINUE Data = (LPPRECEIVE_MAGIC_CONTINUE)ReceiveBuffer;
 	int Key = ((int)(Data->KeyH) << 8) + Data->KeyL;
 	WORD MagicNumber = ((WORD)(Data->MagicH) << 8) + Data->MagicL;
+	// A short Grow Lancer echo must not mutate the caster before its selected
+	// target bytes have been validated.  SS6 keeps its native packet length.
+	if (MagicNumber == rise::growlancer::kBrecheSkill &&
+		Size < static_cast<int>(sizeof(PRECEIVE_GROW_LANCER_MAGIC_CONTINUE)))
+		return FALSE;
 
-	CHARACTER* sc = &CharactersClient[FindCharacterIndex(Key)];
+	const int SourceIndex = FindCharacterIndex(Key);
+	if (SourceIndex == MAX_CHARACTERS_CLIENT)
+		return TRUE;
+	CHARACTER* sc = &CharactersClient[SourceIndex];
 	OBJECT* so = &sc->Object;
 
-	sc->Skill = MagicNumber;
+	// S21 Breche's positional cast carries a selected target in addition to
+	// caster tile/angle.  The isolated GS adapter appends those two bytes to the
+	// native 0x1E prefix, avoiding the occupied S21 numeric opcode 0x57.
+	if (MagicNumber == rise::growlancer::kBrecheSkill)
+	{
+		if (!so->Live)
+			return TRUE;
+		LPPRECEIVE_GROW_LANCER_MAGIC_CONTINUE GrowLancerData =
+			(LPPRECEIVE_GROW_LANCER_MAGIC_CONTINUE)ReceiveBuffer;
+		const int TargetKey = ((int)(GrowLancerData->TargetKeyH) << 8) +
+			GrowLancerData->TargetKeyL;
+		const int TargetIndex = FindCharacterIndex(TargetKey);
+		if (TargetIndex == MAX_CHARACTERS_CLIENT)
+			return TRUE;
+		CHARACTER* tc = &CharactersClient[TargetIndex];
+		OBJECT* to = &tc->Object;
+		if (!to->Live)
+			return TRUE;
 
+		sc->Skill = MagicNumber;
+		so->Angle[2] = CreateAngle2D(so->Position, to->Position);
+		sc->TargetCharacter = TargetIndex;
+		rise::growlancer::CreateBrecheAction(*so);
+		rise::growlancer::CreateBrecheHit(*to);
+		sc->AttackTime = 1;
+		sc->AttackFlag = ATTACK_FAIL;
+		sc->SkillX = Data->PositionX;
+		sc->SkillY = Data->PositionY;
+		g_ConsoleDebug->Write(MCD_RECEIVE,
+			"0x1E [ReceiveGrowLancerBreche(%d, target=%d)]",
+			MagicNumber, TargetKey);
+		return TRUE;
+	}
+
+	sc->Skill = MagicNumber;
 	so->Angle[2] = (Data->Angle / 255.f) * 360.f;
 
 	if (so->Type == MODEL_PLAYER)
@@ -12019,8 +12093,15 @@ void Action(CHARACTER* c, OBJECT* o, bool Now);
 BOOL TranslateProtocol(int HeadCode, BYTE* ReceiveBuffer, int Size, BOOL bEcrypted);
 void TranslateChattingProtocol(DWORD dwWindowUIID, int HeadCode, BYTE* ReceiveBuffer, int Size, BOOL bEcrypted);
 
+#include "../../Shared/GrowLancerBuffHandshake.h"
+static bool ApplyGrowLancerWrathStatus(CWsctlc& connection,
+    const rise::growlancer::WrathStatusMessage& message);
+static void ReconcileGrowLancerWrathReset(CWsctlc& connection);
+
 void ProtocolCompiler(CWsctlc* pSocketClient, int iTranslation, int iParam)
 {
+	if (pSocketClient == &SocketClient && iTranslation != 1)
+		ReconcileGrowLancerWrathReset(*pSocketClient);
 	//if(CurrentProtocolState >= RECEIVE_JOIN_MAP_SERVER)
 	//	return;
 	int HeadCode;
@@ -12028,7 +12109,8 @@ void ProtocolCompiler(CWsctlc* pSocketClient, int iTranslation, int iParam)
 
 	while (1)
 	{
-		BYTE* ReceiveBuffer = pSocketClient->GetReadMsg();
+		int actualPacketSize = 0;
+		BYTE* ReceiveBuffer = pSocketClient->GetReadMsg(&actualPacketSize);
 		if (ReceiveBuffer == NULL)
 		{
 			break;
@@ -12036,6 +12118,23 @@ void ProtocolCompiler(CWsctlc* pSocketClient, int iTranslation, int iParam)
 		else
 		{
 			BOOL bEncrypted = FALSE;
+			// Extension consumes only its reserved plaintext C1 frame. Use queue
+			// length, not the untrusted size byte; leave legacy decoding untouched.
+			if (actualPacketSize >= 3 && ReceiveBuffer[0] == 0xC1 && ReceiveBuffer[2] == 0xFC)
+			{
+				if (pSocketClient == &SocketClient && iTranslation != 1)
+				{
+					constexpr bool featureReady = false; // Metadata/lifecycle not wired yet.
+					// Keep receipt metadata in the same reset domain as handshake.
+					if (!featureReady) pSocketClient->ResetGrowLancerBuffSession();
+					rise::growlancer::ReceiveBuffServerFrame(pSocketClient->GrowLancerBuffSession(),
+						ReceiveBuffer, static_cast<std::size_t>(actualPacketSize), featureReady,
+						[pSocketClient](const rise::growlancer::WrathStatusMessage& message) {
+							return ApplyGrowLancerWrathStatus(*pSocketClient, message);
+						});
+				}
+				continue;
+			}
 			BYTE byDec[MAX_SPE_BUFFERSIZE_];
 			if (ReceiveBuffer[0] == 0xC1)
 			{
@@ -14796,6 +14895,14 @@ void ClearBuffLogicalEffect(eBuffState buff, OBJECT* o)
 
 void InsertBuffPhysicalEffect(eBuffState buff, OBJECT* o)
 {
+	if (rise::growlancer::HasWrathBuffClassification(static_cast<int>(buff)))
+	{
+		// Native Chaos Castle covers the mapped source exception worlds.
+		// S21 world97 mapping and separate effect cleanup remain evidence-gated;
+		// this scale hook does not enable the negotiated buff transport.
+		if (o) o->Scale = rise::growlancer::WrathAddedScale(o->Scale, gMapManager.InChaosCastle());
+		return;
+	}
 	switch (buff)
 	{
 	case eBuff_CursedTempleProdection:
@@ -15015,6 +15122,13 @@ void InsertBuffPhysicalEffect(eBuffState buff, OBJECT* o)
 
 void ClearBuffPhysicalEffect(eBuffState buff, OBJECT* o)
 {
+	if (rise::growlancer::HasWrathBuffClassification(static_cast<int>(buff)))
+	{
+		// Source removal has no matching world guard and does not restore a
+		// remembered class baseline. A later class refresh is a separate event.
+		if (o) o->Scale = rise::growlancer::WrathRemovedScale();
+		return;
+	}
 	switch (buff)
 	{
 	case eBuff_CursedTempleProdection:
@@ -15237,6 +15351,58 @@ void UnRegisterBuff(eBuffState buff, OBJECT* o)
 	{
 		g_CharacterUnRegisterBuff(o, buff);
 		ClearBuffLogicalEffect(buff, o);
+	}
+}
+
+static bool ApplyGrowLancerWrathStatus(CWsctlc& connection,
+    const rise::growlancer::WrathStatusMessage& message)
+{
+	// A character-list/join-map frame may reset the session earlier in this
+	// same queue drain. Consume the old owner before binding any new receipt.
+	ReconcileGrowLancerWrathReset(connection);
+	// Invoked only after bounded envelope/session validation. v1 is local owner
+	// only; never resolve an arbitrary viewport owner from this payload.
+	if (&connection != &SocketClient || SceneFlag != MAIN_SCENE || !Hero ||
+		HeroIndex < 0 || HeroIndex >= MAX_CHARACTERS_CLIENT ||
+		Hero != &CharactersClient[HeroIndex] || Hero->Key != HeroKey ||
+		!Hero->Object.Live || Hero->Object.Type != MODEL_PLAYER ||
+		!rise::growlancer::IsWrathStatusId(message.buff)) return false;
+	OBJECT* owner = &Hero->Object;
+	const eBuffState buff = static_cast<eBuffState>(message.buff);
+	if (g_IsBuffClass(buff) != eBuffClass_Buff) return false;
+	const bool wasMember = g_isCharacterBuff(owner, buff);
+	auto previous = connection.GrowLancerWrathReceipts();
+	auto next = previous;
+	if (!next.Receive(message, timeGetTime(), wasMember)) return false;
+	if (!connection.BindWrathReceiptOwner(HeroIndex, HeroKey)) return false;
+	const float previousScale = owner->Scale;
+	connection.GrowLancerWrathReceipts() = next;
+	if (message.remove) UnRegisterBuff(buff, owner);
+	else RegisterBuff(buff, owner, 0);
+	// High IDs have no native logical timer case. Do not narrow uint32 seconds
+	// through RegisterBuff(int); the full value remains in the receipt countdown.
+	if (g_isCharacterBuff(owner, buff) != !message.remove)
+	{
+		connection.GrowLancerWrathReceipts() = previous;
+		owner->Scale = previousScale;
+		return false;
+	}
+	return true;
+}
+
+static void ReconcileGrowLancerWrathReset(CWsctlc& connection)
+{
+	int index = -1, key = -1;
+	const unsigned mask = connection.TakeWrathResetOwner(index, key);
+	if (!mask || index < 0 || index >= MAX_CHARACTERS_CLIENT || !Hero ||
+		Hero != &CharactersClient[index] || HeroIndex != index || HeroKey != key ||
+		Hero->Key != key || !Hero->Object.Live) return;
+	OBJECT* owner = &Hero->Object;
+	for (unsigned bit = 0; bit < 2; ++bit)
+	{
+		const eBuffState buff = static_cast<eBuffState>(424 + bit);
+		if ((mask & (1u << bit)) && g_isCharacterBuff(owner, buff))
+			UnRegisterBuff(buff, owner);
 	}
 }
 

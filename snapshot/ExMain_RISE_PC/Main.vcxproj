@@ -250,6 +250,7 @@ xcopy /Y /D /E /I "$(ProjectDir)Assets\EquipmentItems\Data\*.*" "$(ProjectDir)..
       <IgnoreSpecificDefaultLibraries>libc.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <ProgramDatabaseFile Condition="'$(GrowLancerRuntimeQA)'=='true'">$(OutDir)Engine-Port S21-qa.pdb</ProgramDatabaseFile>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>$(OutDir)$(TargetName).map</MapFileName>
       <MapExports>true</MapExports>
@@ -284,8 +285,7 @@ xcopy /Y /D /E /I "$(ProjectDir)Assets\EquipmentItems\Data\*.*" "$(ProjectDir)..
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Image Include="..\Addon\256.ico" />
-    <Image Include="..\Addon\48.ico" />
+    <Image Include="..\Addon\GrowLancerQA.ico" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Main5.2_RISE\resource.rc">
@@ -1216,6 +1216,15 @@ xcopy /Y /D /E /I "$(ProjectDir)Assets\EquipmentItems\Data\*.*" "$(ProjectDir)..
     <ClInclude Include="Main5.2_RISE\RISE\GrowLancerWrathParticle.h" />
     <ClInclude Include="Main5.2_RISE\RISE\GrowLancerObsidianTick.h" />
     <ClInclude Include="Main5.2_RISE\RISE\GrowLancerClashTick.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerBuffCountdown.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerWrathBuffMetadata.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerWrathEmission.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerWrathGroundPulse.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerWrathPersistentTick.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerWrathReceipt.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerWrathReset.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerWrathScale.h" />
+    <ClInclude Include="Main5.2_RISE\RISE\GrowLancerWrathSprites.h" />
     <ClInclude Include="Main5.2_RISE\RISE\SystemPKSend.h" />
     <ClInclude Include="Main5.2_RISE\RISE\WideData.h" />
     <ClInclude Include="Main5.2_RISE\RISE\ZzzToolKit.h" />

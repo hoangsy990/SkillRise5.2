@@ -3,6 +3,9 @@
 #include "Protocol.h"
 #include "User.h"
 #define MAX_SKILL 629
+// Indexed cooldown table capacity; not the character's 60 owned-skill slots
+// and not the 629-entry skill editor count. S21 active Wrath master uses 895.
+#define MAX_SKILL_DELAY_ID 896
 #define MAX_SKILL_LIST 60
 #define MAX_MASTER_SKILL_LIST 120
 #define CHECK_SKILL_ATTACK_COUNT(x) (((++x)>=10)?0:1)
@@ -235,6 +238,23 @@ struct PMSG_DURATION_SKILL_ATTACK_SEND
 	BYTE y;
 	BYTE dir;
 };
+// RISE 5.2's native 0x1E echo omits the selected target.  S21 Breche and
+// Shining Peak require that already-validated target in their receive chain,
+// so append it only for those Grow Lancer skills.  The legacy prefix and all
+// existing SS6 packet sizes remain unchanged.
+struct PMSG_GROW_LANCER_DURATION_SKILL_ATTACK_SEND
+{
+	PBMSG_HEAD header;
+	BYTE skill[2];
+	BYTE index[2];
+	BYTE x;
+	BYTE y;
+	BYTE dir;
+	BYTE target[2];
+};
+static_assert(sizeof(PMSG_GROW_LANCER_DURATION_SKILL_ATTACK_SEND) ==
+	sizeof(PMSG_DURATION_SKILL_ATTACK_SEND) + 2,
+	"Grow Lancer duration echo must preserve the native C1:1E prefix");
 struct PMSG_RAGE_FIGHTER_SKILL_ATTACK_SEND
 {
 	PBMSG_HEAD header;
@@ -459,6 +479,7 @@ public:
 	void GCSkillAttackSend(LPOBJ lpObj,int skill,int aIndex,BYTE type);
 	void GCSkillCancelSend(LPOBJ lpObj,int skill);
 	void GCDurationSkillAttackSend(LPOBJ lpObj,int skill,BYTE x,BYTE y,BYTE dir);
+	void GCGrowLancerDurationSkillAttackSend(LPOBJ lpObj,int skill,int target,BYTE x,BYTE y,BYTE dir);
 	void GCRageFighterSkillAttackSend(LPOBJ lpObj,int skill,int aIndex,BYTE type);
 	void GCSkillAddSend(int aIndex,BYTE slot,int skill,BYTE level,BYTE type);
 	void GCSkillDelSend(int aIndex,BYTE slot,int skill,BYTE level,BYTE type);

@@ -59,6 +59,42 @@ remains `IN_PROCESS` and owner visual acceptance is OPEN.
 
 ## Local movement and packet edge
 
+Byte-level continuation (2026-09-15): `verify_clash_movement_payload.py`
+pins terrain word mask `0x1C`, `C1:59` packet initializer, first payload
+byte 1, six nested single-byte writes (target high, skill high, target low,
+skill low, destination X, destination Y), send call and only then native
+follow-up call `0xD6DC05(destinationX,destinationY)`. Complete decode of
+that helper proves it SENDS a second two-coordinate `C1:31`, not a local
+position update. Native 5.2 `C1:31` closes NPC talk, and its move request
+uses `C1:D4`; numeric forwarding is forbidden. The dormant
+shared payload encoder and x86 `/W4 /WX` test reproduce these seven bytes
+and terrain gate without registering S21 opcode59 in SS6. Vector
+normalization/quantization, server siege validation, collision, push and
+rollback are still OPEN; no gameplay movement PASS is inferred.
+
+Vector follow-up: source `0x10E4B67..0x10E4CB5` subtracts caster tile
+`+0x180/+0x184` from cursor tile globals, constructs XY/Z0, CAPTURES the
+Euclidean length before normalizing with a ±1e-6 near-zero guard, scales
+the unit vector by the integer-truncated original length, rounds each
+component half away from zero via ±0.5 plus `cvttss2si`, and adds caster
+tiles to produce destination. `verify_clash_vector_and_followup.py` pins
+the producer and all relevant callees/constants plus second C1:31 sender.
+Pure numeric/native movement mapping and GS authority remain OPEN.
+
+2026-09-16 dormant numeric adapter: `Shared/GrowLancerClashDestination.h`
+now mirrors the decoded float32 squared length→double sqrt→float32
+capture, ±1e-6 near-zero normalization, integer-truncated ORIGINAL
+length scaling, per-axis half-away rounding and caster-tile addition.
+It rejects an out-of-256x256 destination before terrain indexing (private
+fail-closed safety; the S21 block itself does not show a range check).
+`verify_clash_vector_and_followup.py` now pins helper operation order to
+the complete dump/callee chain. Actual VS18 Insiders x86 `/W4 /WX`
+`test_clash_destination.cpp` passes seven zero, cardinal, diagonal,
+non-Pythagorean, negative and map-edge cases. The first map-edge test
+incorrectly expected254; exact float/trunc/half-away math yields255,
+and the corrected x86 test passes. This is source-aligned pure math,
+not player movement or server handler acceptance.
+
 - After root creation the local branch subtracts caster map coordinates
   (`object +0x180/+0x184`) from the current cursor map coordinates
   (`0x0B51ECD4/0x0B51ECD8`), normalizes the vector and derives a destination
@@ -236,3 +272,62 @@ This closes the source/staging contract only.  `BMD::RenderMesh` may use the
 native shader queue or its existing legacy fallback; no renderer replacement
 or S21 pointer transplant is allowed.  GPU pixels, pool/cache reuse and a
 selected-target owner cast remain open.
+
+### Hidden two-mesh native fixture — 2026-09-16
+
+QA-only `RISE_GL_CLASH_NATIVE_DRAW_QA=1` renders the exact two Clash models
+with native `Open2`, `Calc_RenderObject(false)` and mesh0 flags `0x42`, source
+light/alpha/scales and front-only UV subtraction. Origin and camera are
+synthetic, not S21 gameplay comparison. Isolated x86 build/stage SHA
+`23F598327786F6788476AC557CB0DA976AA15DEAF0CBAAA2D1D1C37D785A3893`
+and hidden PID17292 produced 16 exact draws, GL0 and stable resource release.
+Front10135 produced samples/pixels at all eight 45-degree steps. Rear10136
+yielded zero samples/pixels at 0°/180° but positive at the other six, with
+logged cull/depth both enabled after that queued draw. This log is not the
+actual draw-state proof. `verify_clash_native_fixture_draw.py --pid 17292`
+validates row integrity while preserving this fixture visibility FAIL, not a
+Clash visual PASS. Converted rear mesh has six vertices/four triangles;
+edge-on/cull is a hypothesis requiring S21 renderer/pose evidence.
+
+In a separate hidden candidate SHA `965A799AF4675BE57AA082AE22ACC9071DF0E314724CE1F553317FC6A7A727FB`,
+QA-only `RISE_GL_CLASH_CULL_OFF_QA=1` disabled GL face culling solely around
+each diagnostic draw and restored it. PID9060 returned the same front8/8,
+rear6/8 and rear0°/180° zero samples/pixels, GL0/stable release. Thus face
+culling toggle before queue did not change those two synthetic-camera zeros.
+This QA `cull` field was sampled before mesh queue flush, so the differential
+alone does not establish raster cull state or rule out cull. Native source
+`New_RenderBMD.cpp` selects `EnableAlphaBlend` for texture+bright; native
+`ZzzOpenglUtil.cpp::EnableAlphaBlend` itself calls `DisableCullFace` and
+`DisableDepthMask`. `verify_clash_native_blend_cull.py` pins this RISE path,
+not S21 draw state. No production render-state change is justified.
+
+Read-only `inspect_clash_rear_geometry.py` pins the staged rear SHA
+`315E549CBC13846EE2921CD9141EEAAC60A4C2810CD6B495978D92FD16D6C191`
+and decoded round-trip SHA, one mesh/bone/action, six node0 vertices and four
+valid nonzero-area triangles (two Y-spanning wedges, X≈±49.76, Z0..206.18).
+Therefore the two zero-pixel angles do not reflect an empty/degenerate raw
+mesh. The fixture actor bone transform/projection/clip and S21 native camera
+remain unverified; this inventory alone cannot determine parity.
+
+Actual native bone projection was then measured QA-only at the same fixture
+camera. Rear `crasha02` doubled projected triangle area is `<0.1` at actor
+angles 0°/180° and `>100000` at the six diagonal/perpendicular angles;
+GPU samples/pixels follow exactly. This proves the earlier two zero rows are
+an expected edge-on result of the native bone transform under this synthetic
+orthographic view, not missing BMD/material or pool leak. Candidate SHA
+`06CBE3D64304E0D43810BC448BC7E1611DB553DD7D6D40D582CC012B038E1FE5`,
+hidden PID972 Exit0 and strict projection/draw/release verifier PASS. Fixture
+acceptance now permits zero fragments only when the measured projected area
+is `<0.1`, never as an arbitrary skipped angle. This closes native fixture
+geometry, not S21 gameplay-camera/caster/target pixel parity or siege GS.
+
+Pinned S21 call-argument follow-up: `157DEB2..157DED0` passes the caster
+object+`0x164` through identity helper `D2DFF6` as rear `0x5FC` angle, the
+computed position temp `-0x2C4C`, caster owner and target index `+0x364`.
+Native private `CreateEffect(kClashRearModel, position, effect.Owner->Angle,
+light, ..., effect.m_sTargetIndex)` matches the behavior-level mapping, not
+the S21 pointer/layout. `verify_clash_rear_angle_origin.py` pins exact call
+sites and native `RENDER_TEXTURE=0x02 | RENDER_BRIGHT=0x40 = 0x42` against
+S21 `A4A24A`'s `0x42` argument. S21 shared renderer's actual cull/blend
+state and gameplay camera remain unverified; equal numeric flags do not
+authorize a blanket renderer parity claim.

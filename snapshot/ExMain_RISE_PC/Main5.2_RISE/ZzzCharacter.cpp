@@ -6,6 +6,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "RISE/GrowLancerWrathScale.h"
 #include "_enum.h"
 #include <eh.h>
 #include "UIManager.h"
@@ -23,6 +24,11 @@
 #include "ZzzEffect.h"
 #include "RISE/CustomRenderEffect.h"
 #include "RISE/GrowLancerEffectRuntime.h"
+#include "RISE/GrowLancerResources.h"
+#include "RISE/GrowLancerClassBodyCaller.h"
+#include "RISE/GrowLancerRuntimeQA.h"
+#include "RISE/GrowLancerWrathPersistentTick.h"
+#include "RISE/GrowLancerCirclePersistent.h"
 #include "ZzzOpenData.h"
 #include "ZzzScene.h"
 #include "DSPlaySound.h"
@@ -2263,6 +2269,11 @@ bool CheckMonsterSkill(CHARACTER* pCharacter, OBJECT* pObject)
 
 bool CharacterAnimation(CHARACTER* c, OBJECT* o)
 {
+    return CharacterAnimationStep(c, o, FPS_ANIMATION_FACTOR);
+}
+
+bool CharacterAnimationStep(CHARACTER* c, OBJECT* o, float stepFactor)
+{
     bool Play;
     BMD* b = &Models[o->Type];
 
@@ -2276,13 +2287,13 @@ bool CharacterAnimation(CHARACTER* c, OBJECT* o)
             PlaySpeed *= 1.5f;
         if (o->CurrentAction == PLAYER_SKILL_VITALITY && o->AnimationFrame > 6.f)
         {
-            PlaySpeed *= pow(1.0f / (2.f), FPS_ANIMATION_FACTOR);
+            PlaySpeed *= pow(1.0f / (2.f), stepFactor);
         }
         else if ((o->CurrentAction == PLAYER_ATTACK_TELEPORT || o->CurrentAction == PLAYER_ATTACK_RIDE_TELEPORT
             || o->CurrentAction == PLAYER_FENRIR_ATTACK_DARKLORD_TELEPORT
             ) && o->AnimationFrame > 5.5f)
         {
-            PlaySpeed *= pow(1.0f / (10.f), FPS_ANIMATION_FACTOR);
+            PlaySpeed *= pow(1.0f / (10.f), stepFactor);
         }
         else if (gCharacterManager.GetBaseClass(c->Class) == CLASS_DARK_LORD &&
             (o->CurrentAction == PLAYER_SKILL_FLASH || o->CurrentAction == PLAYER_ATTACK_RIDE_ATTACK_FLASH
@@ -2292,16 +2303,16 @@ bool CharacterAnimation(CHARACTER* c, OBJECT* o)
         {
             if (g_pPartyManager->IsPartyMemberChar(c) == false)
             {
-                PlaySpeed *= pow(1.0f / (2.f), FPS_ANIMATION_FACTOR);
+                PlaySpeed *= pow(1.0f / (2.f), stepFactor);
             }
             else
             {
-                PlaySpeed *= pow(1.0f / (8.f), FPS_ANIMATION_FACTOR);
+                PlaySpeed *= pow(1.0f / (8.f), stepFactor);
             }
         }
         if (o->CurrentAction == PLAYER_SKILL_HELL_BEGIN)
         {
-            PlaySpeed *= powf(1.0f / (2.f), FPS_ANIMATION_FACTOR);
+            PlaySpeed *= powf(1.0f / (2.f), stepFactor);
         }
         if (o->Type != MODEL_PLAYER)
         {
@@ -2309,7 +2320,7 @@ bool CharacterAnimation(CHARACTER* c, OBJECT* o)
             {
             case MODEL_MONSTER01 + 64:
                 if (o->CurrentAction == MONSTER01_DIE && o->AnimationFrame > 6)
-                    PlaySpeed *= pow(4.0f, FPS_ANIMATION_FACTOR);
+                    PlaySpeed *= pow(4.0f, stepFactor);
                 break;
             case MODEL_FACE:
             case MODEL_FACE + 1:
@@ -2318,23 +2329,42 @@ bool CharacterAnimation(CHARACTER* c, OBJECT* o)
             case MODEL_FACE + 4:
             case MODEL_FACE + 5:
             case MODEL_FACE + 6:
-                PlaySpeed *= powf(2.0f, FPS_ANIMATION_FACTOR);
+                PlaySpeed *= powf(2.0f, stepFactor);
                 break;
             }
         }
         if (o->Type == MODEL_MONSTER01 + 87)
         {
             if (o->CurrentAction == MONSTER01_DIE)
-                PlaySpeed *= pow(1.0f / (2.f), FPS_ANIMATION_FACTOR);
+                PlaySpeed *= pow(1.0f / (2.f), stepFactor);
         }
     }
 
     if (g_isCharacterBuff(o, eDeBuff_Stun) || g_isCharacterBuff(o, eDeBuff_Sleep))
     {
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+        if (o->Type == MODEL_PLAYER && c == Hero && o->CurrentAction == 289)
+        {
+            rise::growlancer::RecordBrecheActionBoundaryQA(*o,
+                "stun-sleep-guard", 289, 289, false);
+        }
+#endif
         return false;
     }
 
-    Play = b->PlayAnimation(&o->AnimationFrame, &o->PriorAnimationFrame, &o->PriorAction, PlaySpeed, o->Position, o->Angle);
+    Play = b->PlayAnimationStep(&o->AnimationFrame, &o->PriorAnimationFrame, &o->PriorAction, PlaySpeed, o->Position, o->Angle, stepFactor);
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+    if (o->Type == MODEL_PLAYER && c == Hero && o->CurrentAction == 289)
+    {
+        rise::growlancer::RecordBrecheActionStopQA(*o, c->Skill,
+            static_cast<int>(c->AttackTime),
+            b->Actions && b->NumActions > o->CurrentAction ?
+                b->Actions[o->CurrentAction].NumAnimationKeys : 0,
+            b->Actions && b->NumActions > o->CurrentAction ?
+                b->Actions[o->CurrentAction].PlaySpeed : 0.0f,
+            Play);
+    }
+#endif
     if (o->CurrentAction == PLAYER_CHANGE_UP)
     {
         if (Play == false)
@@ -2365,7 +2395,8 @@ int GetAttackTimeForClass(BYTE Class)
 {
     int AttackSpeedForClass = 15;
 
-    if (gProtect->m_MainInfo.MaxAttackSpeed[Class] > 0xFFFF)
+	// The protected SS6 config still serializes seven attack-speed entries.
+	if (Class < MAX_CLASS && gProtect->m_MainInfo.MaxAttackSpeed[Class] > 0xFFFF)
     {
         switch (Class)
         {
@@ -3259,6 +3290,15 @@ void PlayerStopAnimationSetting(CHARACTER* c, OBJECT* o)
         rise::growlancer::IsImportedCastAction(o->CurrentAction) &&
         Models[MODEL_PLAYER].NumActions > o->CurrentAction)
     {
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+        if (o->CurrentAction == 289 && c == Hero && Models[MODEL_PLAYER].Actions)
+        {
+            const Action_t& action = Models[MODEL_PLAYER].Actions[o->CurrentAction];
+            rise::growlancer::RecordBrecheActionStopQA(*o, c->Skill,
+                static_cast<int>(c->AttackTime), action.NumAnimationKeys,
+                action.PlaySpeed, false);
+        }
+#endif
         SetPlayerStop(c);
         return;
     }
@@ -3494,7 +3534,7 @@ void EtcStopAnimationSetting(CHARACTER* c, OBJECT* o)
             }
 }
 
-void AnimationCharacter(CHARACTER* c, OBJECT* o, BMD* b)
+void AnimationCharacterStep(CHARACTER* c, OBJECT* o, BMD* b, float stepFactor)
 {
     bool bEventNpc = false;
     if (o->Kind == KIND_NPC && (gMapManager.WorldActive == WD_0LORENCIA || gMapManager.WorldActive == WD_2DEVIAS) && o->Type == MODEL_PLAYER && (o->SubType >= MODEL_SKELETON1 && o->SubType <= MODEL_SKELETON3))
@@ -3513,7 +3553,7 @@ void AnimationCharacter(CHARACTER* c, OBJECT* o, BMD* b)
 
     OnlyNpcChatProcess(c, o);
 
-    bool Play = CharacterAnimation(c, o);
+    bool Play = CharacterAnimationStep(c, o, stepFactor);
 
     if (!Play)
     {
@@ -3528,7 +3568,14 @@ void AnimationCharacter(CHARACTER* c, OBJECT* o, BMD* b)
             }
             else
             {
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+                const unsigned short actionBeforeStop = o->CurrentAction;
+#endif
                 PlayerStopAnimationSetting(c, o);
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+                rise::growlancer::RecordBrecheActionBoundaryQA(*o,
+                    "player-stop", actionBeforeStop, o->CurrentAction, Play);
+#endif
             }
         }
         else
@@ -3565,6 +3612,35 @@ void AnimationCharacter(CHARACTER* c, OBJECT* o, BMD* b)
         }
         break;
     }
+}
+
+void AnimationCharacter(CHARACTER* c, OBJECT* o, BMD* b)
+{
+    AnimationCharacterStep(c, o, b, FPS_ANIMATION_FACTOR);
+}
+
+bool rise::growlancer::StepMagicPinActor(OBJECT& actor)
+{
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+    if (!Hero || &actor != &Hero->Object || !actor.Live ||
+        actor.Type != MODEL_PLAYER || SceneFlag != MAIN_SCENE ||
+        actor.CurrentAction != 287 || !Models)
+        return false;
+    BMD& model = Models[MODEL_PLAYER];
+    if (!model.Actions || model.NumActions <= actor.CurrentAction)
+        return false;
+    // Mirror MoveCharacter's setup for EVERY quantum. BMD is shared, and
+    // action completion may change actor.CurrentAction between quantum calls.
+    VectorCopy(actor.Position, model.BodyOrigin);
+    model.BodyScale = actor.Scale;
+    model.CurrentAction = actor.CurrentAction;
+    AnimationCharacterStep(Hero, &actor, &model, 1.0f);
+    PublishCharacterAnimationObservation(actor);
+    return true;
+#else
+    (void)actor;
+    return false;
+#endif
 }
 
 void CreateWeaponBlur(CHARACTER* c, OBJECT* o, BMD* b)
@@ -3867,7 +3943,11 @@ void MoveCharacter(CHARACTER* c, OBJECT* o)
         c->Freeze -= 0.03f;
     }
 
-    AnimationCharacter(c, o, b);
+    if (!rise::growlancer::MagicPinFrameOwnsActor(*o))
+    {
+        AnimationCharacter(c, o, b);
+        rise::growlancer::PublishCharacterAnimationObservation(*o);
+    }
 
     if (c->Dead > 0)
     {
@@ -8406,7 +8486,16 @@ void RenderCharacter(CHARACTER* c, OBJECT* o, int Select)
     }
 
     if (byRender == CHARACTER_ANIMATION)
+    {
         Calc_ObjectAnimation(o, Translate, Select);
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+        // First native render boundary after the action clip advances. This
+        // proves whether action 289 reaches the player model; it adds no FX.
+        rise::growlancer::RecordBrecheCasterRenderQA(*o, "after-calc-animation", -1, o->Type,
+            b->NumMeshs, b->NumBones, b->NumActions,
+            o->CurrentAction == 289 ? 1 : 0);
+#endif
+    }
 
     if (o->Alpha >= 0.5f && c->HideShadow == false)
     {
@@ -8431,6 +8520,22 @@ void RenderCharacter(CHARACTER* c, OBJECT* o, int Select)
                     int Type = p->Type;
 
                     RenderPartObject(&c->Object, Type, p, c->Light, o->Alpha, 0, 0, 0, false, false, Translate);
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+                    // Keep the action-specific equipment evidence separate
+                    // from the aggregate body submit record.  Breche's S21
+                    // caster look is selected per body-part model; recording
+                    // the actual Type/mesh tuple lets the isolated QA trace
+                    // prove (or reject) the whitelist without changing the
+                    // native renderer or selecting a substitute model.
+                    if (o->CurrentAction == 289)
+                    {
+                        const BMD& partModel = Models[Type];
+                        rise::growlancer::RecordBrecheCasterRenderQA(*o,
+                            "body-part-submit", i, Type, partModel.NumMeshs,
+                            partModel.NumBones, partModel.NumActions,
+                            partModel.NumMeshs > 0 ? 1 : 0);
+                    }
+#endif
                 }
                 else
                 {
@@ -8452,6 +8557,16 @@ void RenderCharacter(CHARACTER* c, OBJECT* o, int Select)
                     int Type = p->Type;
 
                     RenderPartObject(&c->Object, Type, p, c->Light, o->Alpha, 0, 0, 0, false, false, Translate);
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+                    if (o->CurrentAction == 289)
+                    {
+                        const BMD& partModel = Models[Type];
+                        rise::growlancer::RecordBrecheCasterRenderQA(*o,
+                            "weapon-part-submit", i, Type, partModel.NumMeshs,
+                            partModel.NumBones, partModel.NumActions,
+                            partModel.NumMeshs > 0 ? 1 : 0);
+                    }
+#endif
                 }
             }
             o->EnableShadow = false;
@@ -9441,6 +9556,34 @@ void RenderCharacter(CHARACTER* c, OBJECT* o, int Select)
                 {
                     int Type = p->Type;
 
+                    if (c->Class == rise::growlancer::kGrowLancerSourceBaseClass
+                        && SceneFlag == MAIN_SCENE && o->Kind == KIND_PLAYER
+                        && o->Type == MODEL_PLAYER && i >= BODYPART_HELM
+                        && i <= BODYPART_BOOTS)
+                    {
+                        const int legacyBaseType[] = {
+                            MODEL_BODY_HELM + 7, MODEL_BODY_ARMOR + 7,
+                            MODEL_BODY_PANTS + 7, MODEL_BODY_GLOVES + 7,
+                            MODEL_BODY_BOOTS + 7
+                        };
+                        const bool hasEquipment = Type != legacyBaseType[i - BODYPART_HELM];
+                        const auto choice = rise::growlancer::ChooseNativeBaseBody(
+                            c->Class, static_cast<unsigned>(i), hasEquipment,
+                            g_pOption->GetRenderEquipMent() != 0, false);
+                        if (choice == rise::growlancer::BaseBodyChoice::PrivateBase)
+                        {
+                            // The native actor supplies its borrowed animated bone pose;
+                            // private BMD loading and synchronous rendering stay native.
+                            rise::growlancer::SubmitClassBaseBody(c->Class,
+                                static_cast<unsigned>(i - BODYPART_HELM), o,
+                                Models[MODEL_PLAYER].NumBones, c->Light, false,
+                                Translate, GL_LINEAR, GL_REPEAT);
+                            // Even an unavailable private asset must not fall through
+                            // to the unregistered MODEL_BODY_*+7 SS6 placeholder.
+                            continue;
+                        }
+                    }
+
                     if (CLASS_SUMMONER == gCharacterManager.GetBaseClass(c->Class))
                     {
                         int nItemType = (Type - MODEL_ITEM) / MAX_ITEM_INDEX;
@@ -9531,6 +9674,18 @@ void RenderCharacter(CHARACTER* c, OBJECT* o, int Select)
                     }
                 }
             }
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+            if (o->CurrentAction == 289)
+            {
+                const int armorType = c->BodyPart[BODYPART_ARMOR].Type;
+                BMD* armorModel = armorType >= 0 ? &Models[armorType] : NULL;
+                rise::growlancer::RecordBrecheCasterRenderQA(*o, "body-submit-complete", -1,
+                    armorType, armorModel ? armorModel->NumMeshs : 0,
+                    armorModel ? armorModel->NumBones : 0,
+                    armorModel ? armorModel->NumActions : 0,
+                    armorModel && armorModel->NumMeshs > 0 ? 1 : 0);
+            }
+#endif
         }
 
         if (gMapManager.InChaosCastle() == false)
@@ -10649,6 +10804,30 @@ void RenderCharacter(CHARACTER* c, OBJECT* o, int Select)
             CreateSprite(BITMAP_LIGHT, vWorldPos, 1.5f, vLight, o, 0.f);
         }
 
+        // S21 MODEL_PLAYER branch 13E7DF2 -> 13E7E03 contains the Wrath
+        // membership block 13EB9DA, outside the earlier back-item Bind block.
+        // Native renderer has already resolved this character's bone pose.
+        // Preserve the source millisecond clock domain, not WorldTime.
+        if (g_isCharacterBuff(o, static_cast<eBuffState>(424)) ||
+            g_isCharacterBuff(o, static_cast<eBuffState>(425)))
+        {
+            rise::growlancer::SubmitWrathPersistentVisuals(*o,
+                static_cast<float>(timeGetTime()));
+        }
+
+        // S21 character traversal 13ECB52 follows Wrath and checks the
+        // actual Circle Shield buff statuses 216/221/222, not Spin Step.
+        if (g_isCharacterBuff(o, static_cast<eBuffState>(216)) ||
+            g_isCharacterBuff(o, static_cast<eBuffState>(221)) ||
+            g_isCharacterBuff(o, static_cast<eBuffState>(222))
+#ifdef RISE_GROW_LANCER_RUNTIME_QA
+            || rise::growlancer::IsCirclePersistentPreviewQA(*o)
+#endif
+            )
+        {
+            rise::growlancer::SubmitCirclePersistentVisuals(*o);
+        }
+
         if (g_isCharacterBuff(o, eBuff_Attack) || g_isCharacterBuff(o, eBuff_HelpNpc))
         {
             if (!g_isCharacterBuff(o, eBuff_Cloaking))
@@ -11405,6 +11584,8 @@ void DeleteCharacter(int Key)
         OBJECT* o = &c->Object;
         if (o->Live && c->Key == Key)
         {
+            rise::growlancer::RetireCharacterAnimationSamples(o);
+            rise::growlancer::RetireWrathPersistentParticles(o);
             o->Live = false;
 
             BoneManager::UnregisterBone(c);
@@ -11425,6 +11606,8 @@ void DeleteCharacter(int Key)
 
 void DeleteCharacter(CHARACTER* c, OBJECT* o)
 {
+    rise::growlancer::RetireCharacterAnimationSamples(o);
+    rise::growlancer::RetireWrathPersistentParticles(o);
     o->Live = false;
 
     BoneManager::UnregisterBone(c);
@@ -11526,6 +11709,16 @@ void ReleaseCharacters(void)
 void CreateCharacterPointer(CHARACTER* c, int Type, unsigned char PositionX, unsigned char PositionY, float Rotation)
 {
     OBJECT* o = &c->Object;
+    rise::growlancer::RetireCharacterAnimationSamples(o);
+    // Circle contact keeps a borrowed target pointer. A dead character slot
+    // can be reused before MoveJoints observes !Live; retire only its imported
+    // contact subtype before reactivation. Same-live-key refresh stays native.
+    rise::growlancer::RetireCircleCharacterEffects(*o);
+    if (!o->Live)
+    {
+        rise::growlancer::RetireWrathPersistentParticles(o);
+        DeleteJoint(BITMAP_FORCEPILLAR, o, 3);
+    }
     c->PositionX = PositionX;
     c->PositionY = PositionY;
     c->TargetX = PositionX;
@@ -12053,6 +12246,16 @@ void SetCharacterScale(CHARACTER* c)
 #ifdef PJH_NEW_SERVER_SELECT_MAP
     }
 #endif //PJH_NEW_SERVER_SELECT_MAP
+
+    // Isolated gameplay mapping of the S21 membership override. Preserve
+    // native selection-scene scales and the existing Change early return.
+    if (SceneFlag == MAIN_SCENE && !gMapManager.InChaosCastle())
+    {
+        OBJECT* wrathOwner = &c->Object;
+        c->Object.Scale = rise::growlancer::WrathRefreshedScale(c->Object.Scale,
+            g_isCharacterBuff(wrathOwner, static_cast<eBuffState>(424)),
+            g_isCharacterBuff(wrathOwner, static_cast<eBuffState>(425)), true);
+    }
 }
 
 void SetCharacterClass(CHARACTER* c)

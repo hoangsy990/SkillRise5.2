@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include "RISE/GrowLancerResources.h"
+#include "RISE/GrowLancerSkillIdCapacity.h"
 #include "ZzzInfomation.h"
 #include "ZzzBMD.h"
 #include "ZzzObject.h"
@@ -298,7 +299,7 @@ void OpenSkillScript(char* FileName)
 
 BOOL IsValidateSkillIdx(INT iSkillIdx)
 {
-	if (iSkillIdx >= MAX_SKILLS || iSkillIdx < 0)
+	if (iSkillIdx >= rise::growlancer::kSkillAttributeIdCapacity || iSkillIdx < 0)
 	{
 		return FALSE;
 	}
@@ -3318,10 +3319,14 @@ bool IsRequireEquipItem(ITEM* pItem)
 	}
 
 	ITEM_ATTRIBUTE* pItemAttr = &ItemAttribute[pItem->Type];
+	BYTE byFirstClass = gCharacterManager.GetBaseClass(Hero->Class);
+	// Do not index the fixed SS6 seven-class requirement record with GL base7.
+	if (byFirstClass >= MAX_CLASS)
+		return false;
 
 	bool bEquipable = false;
 
-	if (pItemAttr->RequireClass[gCharacterManager.GetBaseClass(Hero->Class)]) {
+	if (pItemAttr->RequireClass[byFirstClass]) {
 		bEquipable = true;
 	}
 	else if (gCharacterManager.GetBaseClass(Hero->Class) == CLASS_MAGIC && pItemAttr->RequireClass[CLASS_WIZARD]
@@ -3329,7 +3334,6 @@ bool IsRequireEquipItem(ITEM* pItem)
 		bEquipable = true;
 	}
 
-	BYTE byFirstClass = gCharacterManager.GetBaseClass(Hero->Class);
 	BYTE byStepClass = gCharacterManager.GetStepClass(Hero->Class);
 	if (pItemAttr->RequireClass[byFirstClass] > byStepClass)
 	{
@@ -3500,6 +3504,8 @@ char* getMonsterName(int type)
 
 void CreateClassAttribute(int Class, int Strength, int Dexterity, int Vitality, int Energy, int Life, int Mana, int LevelLife, int LevelMana, int VitalityToLife, int EnergyToMana)
 {
+	if (Class < 0 || Class >= MAX_CLASS)
+		return; // no write into the SS6 seven-entry class-default table
 	CLASS_ATTRIBUTE* c = &ClassAttribute[Class];
 	c->Strength = Strength;
 	c->Dexterity = Dexterity;
@@ -3598,6 +3604,8 @@ void CHARACTER_MACHINE::InitAddValue()
 
 void CHARACTER_MACHINE::SetCharacter(BYTE Class)
 {
+	if (Class >= MAX_CLASS)
+		return; // GL requires its own source-backed starter profile
 	CLASS_ATTRIBUTE* c = &ClassAttribute[Class];
 	Character.Class = Class;
 	Character.Level = 1;

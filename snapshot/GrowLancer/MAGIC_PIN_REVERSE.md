@@ -579,6 +579,26 @@ term used by action188. This identifies the source data path, not semantic
 stat-name/SS6 field equivalence; bonus producers and actual cast value remain
 open. Both verifiers PASS. No new client mutation or live capture in this audit.
 
+2026-09-16 bonus arithmetic continuation: source `C5B813(type1)` walks
+three active manager slots and sums matching descriptor integer values;
+one returned sum feeds BOTH speed locals. Optional `B60918(0x3F0)` lookup
+returns zero on miss and its integer value is added to each local before
+source flag/Tornado/cap tail. `verify_s21_cast_speed_producer.py` pins the
+complete producer/callees; dormant pure source-domain composer and x86
+W4/WX static tests PASS. Semantic manager/native class7 actor/stat mapping
+is still OPEN, so this does not enable ordinary Magic Pin or guarantee
+third-gate/foot pixels.
+
+Further owner audit: `verify_s21_global_speed_owner.py` confirms the
+entire player-model source producer reads base speeds from GLOBAL
+`0x1E04FBC` and reads the actor argument only for optional Tornado.
+It does not require or prove a separate per-remote base speed packet;
+native player-model PlaySpeed is likewise global/local-stat-derived.
+Actual source/natively recalculated value and the actor-specific
+Tornado/global last-writer case still need runtime evidence. This
+narrows the normal activation prerequisite but is not a foot or
+third-child visual PASS.
+
 2026-09-13 action transition correction: local10E4170 pushes alternate action-1
 and primary188 before1327DE8. Its alternate sentinel branch selects1327D72.
 Complete setter decode proves identical action returns without frame writes;

@@ -11,6 +11,8 @@ constexpr float S21AdjustCastSpeedTail(float speedAfterBonuses,
     unsigned char sourceFlags, bool tornadoPresent, bool hasCap, float cap)
 {
     float speed = speedAfterBonuses;
+    // S21 bit1 true jumps over the bit8 test at 14086DF. Both set add
+    // only +20; this is a priority OR, not two independent bonuses.
     if ((sourceFlags & 0x09u) != 0)
         speed += 20.0f;
     if (tornadoPresent)
