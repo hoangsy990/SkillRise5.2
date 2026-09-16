@@ -680,7 +680,7 @@ def main() -> int:
         if at(va, len(expected)) != expected:
             raise AssertionError(f"S21 0x5D8 first-manager gate drifted at {va:#x}")
     print("PASS: new S21 0x5D8 effect resets OBJECT+0x3B8=0 before subtype1 init; first-manager fast special-draw path is not enabled by that init")
-    print("OPEN: Type-0xAE9 first-manager map keys not recovered; fallback flag2 is not asserted unconditionally")
+    print("OPEN: mapped main alone lacks Type-0xAE9 map heap nodes; optional full-dump verifier checks the owner-pinned snapshot, not all later states")
     for va in (0x147DB3D, 0x147DCFE, 0x147DEBA):
         if at(va, 5) != bytes.fromhex("68ba800000"):
             raise AssertionError(f"S21 Pierce 0x80BA subtype-7 flare call drifted at {va:#x}")

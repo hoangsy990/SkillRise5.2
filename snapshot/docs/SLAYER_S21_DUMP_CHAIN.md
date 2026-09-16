@@ -529,9 +529,18 @@ second-manager callback for `0x5D8` is the trivial false handler
 The first manager `0x18917BA` looks up `Type-0xAE9` and tests an object
 special flag before its fallback. Its direct map-specific branches are
 map `0x66`, map `2`/type `0x7A`, and map `8`/types `0x5D`/`0x65`; none
-directly selects model `0x5D8`. The registered keys of its lookup are
-not yet recovered, so its interception is still unproven; this is not a
-claim that `0x5D8` always takes the flag-2 fallback.
+directly selects model `0x5D8`. The owner-authorized Grow Lancer full-memory
+snapshot (local SHA-256
+`374D1ECB06719389416938E0BE27A32596E91E0A5B5D5A7C6F8DF690C326EFED`)
+supplies the heap nodes missing from the mapped-main image. Offline
+`verify_s21_full_dump_cylinder_map.py` traverses the entire first-manager
+red-black tree: 4,950 unique signed keys, range `0..10759`, no negative
+keys. `0x5D8-0xAE9=-1297` is therefore absent **at that snapshot**. Four
+code anchors in the full dump agree byte-for-byte with the separately
+SHA-pinned main image, including this lookup and the Pierce child call.
+This excludes that map's interception for the sampled runtime state, not
+every map-independent special-render helper or later mutation. The full
+process dump remains local and is not included in the GitHub branch.
 The fast special-draw flag is now bounded more tightly. Native
 `CreateEffect` calls `OBJECT` reset `0x1315E97` at `0x143E71F`; that
 reset calls `0x131679A`, which clears byte `OBJECT+0x3B8`. The generic
@@ -539,13 +548,10 @@ first manager tests that byte through `0x18A2107` at `0x18918E1` before
 entering its map branch. The decoded `0x5D8` subtype-1 initializer
 `0x147ED07..0x147EDDB` sets life, scale, alpha, clock and RGB but does
 not re-enable `+0x3B8`. Thus this child does not enter the fast special
-path immediately after creation. This still does **not** enumerate the
-separate `Type-0xAE9` map keys or establish that no later operation can
-select another special draw. The isolated mapped-main snapshot stores a
-heap pointer for that map, not the heap nodes in this pinned image; the
-lookup result for `0x5D8` cannot be inferred from an absent direct compare.
-The 5.2
-adapter uses `RENDER_TEXTURE` for this child instead of adding an
+path immediately after creation. The mapped-main snapshot alone stores
+only a heap pointer for the separate map, so the full-memory check above
+is needed for its captured key set. The 5.2 adapter uses `RENDER_TEXTURE`
+for this child instead of adding an
 unrequested bright pass; material parity still needs the later ingame gate.
 The hash-pinned v0F-to-v0C conversion reports one mesh, two bones, one
 action (`marks_cylinder.SMD`), and its sole material `lines2.jpg` from
@@ -564,7 +570,7 @@ been removed, including its bitmap API. Fresh and resident paths require
 the single authored `lines2` material to remain three-component RGB; the
 S21 BMD/OZJ bytes remain unchanged. This is not proof that this specific
 node caused every pixel of an older screenshot, nor that native fallback
-flag `2` is always selected by the unresolved first-manager lookup.
+flag `2` is always selected after every other special-render helper.
 The earlier rebuilt/staged private Win32 client SHA-256 was
 `6B4AEB81B8BDD351AFC76EED13DB267CEEB46423CE085F8F1618BC4891F02006`;
 its runtime appearance has not been checked.
