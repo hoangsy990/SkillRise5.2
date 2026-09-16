@@ -427,8 +427,12 @@ def main() -> int:
             "native Pierce 0x5D8 subtype-1 model child creation")
     require(resources, "case kPierceMarksCylinderModel: return 30.f;",
             "native Pierce 0x5D8 subtype-1 30-tick life")
-    require(resources, "effect.Type == kPierceMarksCylinderModel ? RENDER_TEXTURE :",
-            "native Pierce 0x5D8 ordinary textured model adapter")
+    require(resources, "else if (effect.Type == kPierceMarksCylinderModel)",
+            "native Pierce 0x5D8 map-independent bright model callback")
+    require(resources, "sinf(WorldTime * 0.005f) + 1.f) *",
+            "native Pierce cylinder time-wave light")
+    require(resources, "VectorScale(effect.Light, wave, model.BodyLight);",
+            "native Pierce cylinder callback scales object RGB light")
     require(resources, "Vector(180.f, 0.f, 0.f, turn);",
             "native Pierce three 0x80BA subtype-7 lanes use fixed 180-degree transform")
     require(resources, "SpawnBitmapChild(kPierce80BAEffect, flareLane, effect.Owner,",
@@ -910,6 +914,8 @@ def main() -> int:
         raise AssertionError("S21 0x691 nonzero subtype must exit without fade")
     require(resources, "nativeDark ? (RENDER_TEXTURE | RENDER_DARK) :",
             "native 0x82 is textured subtractive dark, not textured bright")
+    if "effect.Type == kPierceMarksCylinderModel ? RENDER_TEXTURE :" in resources:
+        raise AssertionError("old opaque 0x5D8 cylinder fallback remains active")
     require(resources, "(RENDER_TEXTURE | RENDER_BRIGHT);",
             "Slayer shaped bat model retains isolated additive body pass")
     require(resources, "model.RenderBody(renderFlags, effect.Alpha,",

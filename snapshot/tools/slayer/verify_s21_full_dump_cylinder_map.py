@@ -27,6 +27,7 @@ MAIN_IMAGE = Path(
 )
 MAIN_SHA256 = "6422CB4EBA9432130EB247B47723EA6FC0014F5100EA0C6E63DB8350F9275637"
 MAP_GLOBAL = 0x1FAEB00
+SPECIAL_MANAGER_GLOBAL = 0x1E057D8
 EXPECTED_COUNT = 4950
 CYLINDER_NATIVE_TYPE = 0x5D8
 MAP_KEY_BIAS = 0xAE9
@@ -81,9 +82,39 @@ def main() -> int:
     candidate = CYLINDER_NATIVE_TYPE - MAP_KEY_BIAS
     if candidate in keys or any(key < 0 for key in keys):
         raise AssertionError("S21 cylinder unexpectedly enters first-manager key map")
+    # A separate map-independent manager runs after the key-map branch.
+    # Its second live virtual callback handles 0x5D8 directly. The mapped
+    # image contains the code, while this full dump resolves the heap-owned
+    # four-slot virtual dispatch table actually installed in this snapshot.
+    managers = struct.unpack("<4I", reader.read(SPECIAL_MANAGER_GLOBAL, 16))
+    if not all(managers):
+        raise AssertionError("S21 special-render manager slot is empty")
+    callbacks = tuple(struct.unpack("<I", reader.read(
+        struct.unpack("<I", reader.read(manager, 4))[0] + 0x1C, 4))[0]
+        for manager in managers)
+    if callbacks != (0xAA8859, 0xAABC91, 0xAA33CA, 0xAA30CE):
+        raise AssertionError(f"S21 virtual render callbacks drifted: {callbacks}")
+    for va, expected in (
+        (0xAACD0C, bytes.fromhex("81785cd8050000")),
+        (0xAACD82, bytes.fromhex("f30f1005d8530b07f30f5905c8e4b401")),
+        (0xAACDA1, bytes.fromhex(
+            "f30f1045d4f30f580548ddb401f30f5905dce6b401f30f580508dfb401")),
+        (0xAACEA2, bytes.fromhex("6a426a008b4d0ce805beeb")),
+    ):
+        offset = va - 0x400000
+        if image[offset:offset + len(expected)] != expected or \
+                reader.read(va, len(expected)) != expected:
+            raise AssertionError(f"S21 cylinder special draw code drifted at {va:#x}")
+    factors = tuple(struct.unpack("<f", reader.read(va, 4))[0]
+        for va in (0x1B4E4C8, 0x1B4DD48, 0x1B4E6DC, 0x1B4DF08))
+    if any(abs(got - wanted) > 1e-6 for got, wanted in
+           zip(factors, (0.005, 1.0, 0.25, 0.2))):
+        raise AssertionError(f"S21 cylinder light wave drifted: {factors}")
     print(f"PASS: owner-pinned S21 first-manager map count={count}, key range=0..10759; "
           f"0x5D8-0xAE9={candidate} absent at this snapshot; main code anchors agree")
-    print("OPEN: other map-independent special-render helpers and later runtime changes "
+    print("PASS: live S21 special-manager callback 0xAABC91 handles 0x5D8; "
+          "light *= (sin(WorldTime*.005)+1)*.25+.2; mesh0 flag=0x42 texture|bright")
+    print("OPEN: later runtime map/manager changes and ingame frame parity "
           "are not excluded by this snapshot")
     return 0
 

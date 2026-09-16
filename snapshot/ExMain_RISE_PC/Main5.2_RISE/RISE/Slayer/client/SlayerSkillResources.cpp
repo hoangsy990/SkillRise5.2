@@ -2160,9 +2160,21 @@ bool RenderEffect(OBJECT& effect)
         effect.Type == kDetectionMarkModel ||
         effect.Type == kDetectionImpactModel;
     if (nativeDark)
+    {
         VectorScale(effect.Light, effect.Alpha, model.BodyLight);
+    }
+    else if (effect.Type == kPierceMarksCylinderModel)
+    {
+        // Native map-independent callback 0xAABC91 -> 0xAACD0C handles
+        // 0x5D8 before the ordinary model fallback. It copies OBJECT light,
+        // scales it by (sin(WorldTime*.005)+1)*.25+.2, then draws mesh 0
+        // with flag 0x42 (texture|bright). The previous ordinary textured
+        // draw made the RGB lines2 background an opaque black cylinder.
+        const float wave = (sinf(WorldTime * 0.005f) + 1.f) *
+            0.25f + 0.2f;
+        VectorScale(effect.Light, wave, model.BodyLight);
+    }
     const int renderFlags = nativeDark ? (RENDER_TEXTURE | RENDER_DARK) :
-        effect.Type == kPierceMarksCylinderModel ? RENDER_TEXTURE :
         (RENDER_TEXTURE | RENDER_BRIGHT);
     model.RenderBody(renderFlags, effect.Alpha,
         effect.BlendMesh, effect.BlendMeshLight,

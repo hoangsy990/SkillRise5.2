@@ -546,8 +546,18 @@ keys. `0x5D8-0xAE9=-1297` is therefore absent **at that snapshot**. Four
 code anchors in the full dump agree byte-for-byte with the separately
 SHA-pinned main image, including this lookup and the Pierce child call.
 This excludes that map's interception for the sampled runtime state, not
-every map-independent special-render helper or later mutation. The full
+the map-independent render manager or later mutation. The full
 process dump remains local and is not included in the GitHub branch.
+Further offline virtual-table resolution changes the render conclusion:
+the manager at `0x1E057D8` has four live callback slots, and its second
+slot points to `0xAABC91`. At `0xAACD0C` that callback **directly compares
+model type `0x5D8`**, copies the object's RGB light, scales it by
+`(sin(WorldTime * 0.005) + 1) * 0.25 + 0.2`, and submits mesh zero with
+flag `0x42` (texture plus bright) at `0xAACEA2`. Thus the absent map key
+and false second-registry callback do **not** imply ordinary opaque
+flag-2 rendering. The old 5.2 `RENDER_TEXTURE` cylinder pass was a real
+source mismatch; the isolated adapter now uses the pinned bright pass
+and light wave without changing the authored RGB `lines2` texture.
 The fast special-draw flag is now bounded more tightly. Native
 `CreateEffect` calls `OBJECT` reset `0x1315E97` at `0x143E71F`; that
 reset calls `0x131679A`, which clears byte `OBJECT+0x3B8`. The generic
@@ -557,9 +567,9 @@ entering its map branch. The decoded `0x5D8` subtype-1 initializer
 not re-enable `+0x3B8`. Thus this child does not enter the fast special
 path immediately after creation. The mapped-main snapshot alone stores
 only a heap pointer for the separate map, so the full-memory check above
-is needed for its captured key set. The 5.2 adapter uses `RENDER_TEXTURE`
-for this child instead of adding an
-unrequested bright pass; material parity still needs the later ingame gate.
+is needed for its captured key set. The separate virtual callback above
+proves the bright pass for the same captured S21 build; ingame frame
+parity still needs the later acceptance gate.
 The hash-pinned v0F-to-v0C conversion reports one mesh, two bones, one
 action (`marks_cylinder.SMD`), and its sole material `lines2.jpg` from
 S21 `lines2.OZJ` SHA-256
@@ -569,15 +579,16 @@ The `0x5D8` material is an authored dark-field
 source: its single S21 mesh reaches `Z=214.582`, and its `lines2.jpg` UV
 range wraps `V=0..6.6296` around the cylinder. The hash-pinned S21
 `lines2.OZJ` decodes to 32x64 RGB; 1,095 of 2,048 pixels have peak RGB
-`<=16`, with dark corners at gray 38 and 68 as well. A 5.2 `RENDER_TEXTURE`
-submission of this RGB texture can paint the repeated dark field opaque.
+`<=16`, with dark corners at gray 38 and 68 as well. The earlier 5.2
+`RENDER_TEXTURE` submission could paint the repeated dark field opaque;
+the pinned S21 callback instead submits it with flag `0x42`.
 The earlier in-memory RGBA floor-16 conversion of `lines2` was a 5.2
 compatibility experiment with no native SS21 loader evidence and has now
 been removed, including its bitmap API. Fresh and resident paths require
 the single authored `lines2` material to remain three-component RGB; the
 S21 BMD/OZJ bytes remain unchanged. This is not proof that this specific
-node caused every pixel of an older screenshot, nor that native fallback
-flag `2` is always selected after every other special-render helper.
+node caused every pixel of an older screenshot or that the corrected
+5.2 framebuffer now matches SS21 ingame.
 The earlier rebuilt/staged private Win32 client SHA-256 was
 `6B4AEB81B8BDD351AFC76EED13DB267CEEB46423CE085F8F1618BC4891F02006`;
 its runtime appearance has not been checked.
