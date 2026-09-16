@@ -8,12 +8,15 @@ import os
 import zipfile
 from pathlib import Path
 
+from verify_s21_buff_model_pose import converter, parse
+
 
 ROOT = Path(r"D:\RISE-CrossPlatform\Source_PC_Slayer")
 SOURCE_CLIENT = ROOT / "Client"
 PRIVATE_CLIENT = ROOT / "ExMain_RISE_PC" / "Tests" / "SlayerBuild" / "Client"
 TARGET = ROOT / "ExMain_RISE_PC" / "Tests" / "SlayerBuild" / "RuntimeQA" / "Client"
 CLASS_PATCH = Path(r"C:\Users\DELL\Documents\Codex\2026-09-14\d\deliveries\Rise-S21-Patches\Rise-S21-Client-Patch.zip")
+NATIVE_PLAYER = Path(r"D:\MU FICA Season 21\Data\Player")
 MASTER_SLAYER_HASHES = {
     "Config/MasterSlayerTree.bmd": "00C02A1E4CAA84BFAB603DCAC7545C2B65E05390615BF5A81F867807656CA0DC",
     "Config/MasterSlayerTooltip.bmd": "11ECF321341659F14CC606DDADC1B463D4F3A95B637B2904C2E58F38DFA4CCF3",
@@ -87,15 +90,41 @@ def main() -> None:
         assert target_file.is_file(), f"base Player missing: {relative}"
         assert sha256(target_file) == sha256(source_file), f"base Player hash mismatch: {relative}"
         player_count += 1
+    s21_bmd = converter()
+    s21_bmd.verify_reference_vector()
+    bmd_reader = (ROOT / "ExMain_RISE_PC" / "Main5.2_RISE" / "ZzzBMD.cpp").read_text(
+        encoding="utf-8", errors="replace")
+    assert "else if (Version == 0x0F)" in bmd_reader and \
+        "DecryptS21Lea256Payload(decrypted, Data + DataPtr, encodedSize);" in bmd_reader, (
+        "isolated client no longer opens native S21 v0F Class09 models"
+    )
     with zipfile.ZipFile(CLASS_PATCH) as class_patch:
         for stage in ("09", "209", "309"):
             for part in ("Helm", "Armor", "Pant", "Glove", "Boot"):
                 name = f"{part}Class{stage}.bmd"
-                expected = hashlib.sha256(class_patch.read(
-                    f"Client/Data/Player/{name}")).hexdigest().upper()
+                native = (NATIVE_PLAYER / name).read_bytes()
+                expected = hashlib.sha256(native).hexdigest().upper()
+                assert hashlib.sha256(class_patch.read(
+                    f"Client/Data/Player/{name}")).hexdigest().upper() == expected, (
+                    f"supplied class patch differs from native S21: {name}"
+                )
                 asset = TARGET / "Data" / "Player" / name
                 assert asset.is_file() and sha256(asset) == expected, (
                     f"private S21 Slayer body asset missing/drifted: {name}"
+                )
+                plaintext = s21_bmd.decrypt_s21_payload(
+                    s21_bmd.parse_s21_container(native))
+                meshes, _, _ = parse(plaintext)
+                material = "HQSkinClass309.jpg" if stage == "309" else "HQSkinClass109.jpg"
+                assert meshes and all(mesh[4].lower() == material.lower() for mesh in meshes), (
+                    f"unexpected native Slayer body material: {name}"
+                )
+                texture = material.replace(".jpg", ".OZJ")
+                native_texture = NATIVE_PLAYER / texture
+                staged_texture = TARGET / "Data" / "Player" / texture
+                assert staged_texture.is_file() and \
+                    sha256(staged_texture) == sha256(native_texture), (
+                    f"native Slayer body texture missing/drifted: {texture}"
                 )
     base_count = verify_tree(SOURCE_CLIENT / "Data" / "RISE", TARGET / "Data" / "RISE", "base RISE")
     slayer_count = verify_tree(
@@ -136,7 +165,7 @@ def main() -> None:
     print("PASS: S21 Bat subtype-4 0x82FA gold overlay exact hash")
     print("PASS: S21 Bat subtype-2/3 0x7FE0 bone flareRed exact hash")
     print(f"PASS: complete private base Player tree ({player_count} base files plus Slayer player.bmd)")
-    print("PASS: all 15 private Class09/209/309 body files match supplied S21 client patch")
+    print("PASS: all 15 native v0F Class09/209/309 bodies match S21 and supplied patch; two authored HQSkin textures match S21")
     print(f"PASS: complete root Data file set ({root_data_count} files), including login keys")
     print(f"PASS: {len(staged_links)} asset junctions target only frozen Slayer Data")
     print("PASS: Engine-Slayer S21, Player/RISE roots, Mix.bmd and no GrowLancer overlay")

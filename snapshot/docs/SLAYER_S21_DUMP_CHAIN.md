@@ -1336,6 +1336,15 @@ isolated Win32 client rebuilt and restaged (SHA-256
 This closes the loader wiring gap, **not** actual avatar or five-skill visual
 acceptance: no unique `admin4` character named `Slayer` exists in the shared
 DB yet, and no shared DB record was changed.
+The private Class09 body BMDs are **native S21 v0F**, not guessed or v0C
+replacements. The isolated `BMD::Open2` already has a guarded v0F/LEA-256
+reader under `RISE_SLAYER_PORT`; stage validation checks that route, exact
+bytes for all 15 files against both the read-only S21 Player tree and the
+supplied patch, and plaintext mesh materials. All base/Royal meshes name
+`HQSkinClass109.jpg`; all Master meshes name `HQSkinClass309.jpg`. Both
+staged OZJ textures match the native S21 Player files by SHA-256. This
+eliminates a missing-body-material explanation for a future black Slayer
+avatar, but a visible ingame rendering check is still required.
 
 The separate Master Slayer resource conversion is now wired to the client
 master UI. The pinned S21 tree and tooltip convert to 58 private 5.2 records;

@@ -117,7 +117,9 @@ def parse(plain: bytes):
             offset += keys * 12 * 2
         bone_rows.append((bone_index, name, parent, starts,
                           position_ranges, rotation_ranges))
-    if offset > len(plain) or len(plain) - offset > 15:
+    # S21's 16-byte LEA block alignment can leave a full trailing block in
+    # a body-part BMD; mesh/material parsing must not reject that envelope.
+    if offset > len(plain) or len(plain) - offset > 16:
         raise AssertionError(f"BMD structure/padding mismatch: {offset}/{len(plain)}")
     return mesh_rows, actions, bone_rows
 
