@@ -408,6 +408,13 @@ teleport. The head `0x1E` is incompatible with 5.2's current `0xD4`
 authoritative Pierce-specific rush/return packet trace, so the association
 of this generic receiver with Pierce, its pacing, and the return packet
 remain OPEN. No caster XY mutation is added from this inference.
+The pinned S21 `Data\Skills\SkillSettings.ini` also sets
+`RushSkillsCheckTargetPosition = 1` and describes a guard against landing
+on another player's tile. That is source evidence for a generic rush
+safety setting, **not** proof that Pierce uses the generic `C1:1E`
+receiver or a numeric rush/return schedule. A 5.2 position adapter must
+preserve this collision constraint once its actual SS21 packet chain is
+identified.
 The actual Slayer rush/return owner-position chain remains to be traced
 before any world-position mutation is added to the 5.2 port.
 The native `player.bmd` action record for Pierce `0xE4` has seven animation
