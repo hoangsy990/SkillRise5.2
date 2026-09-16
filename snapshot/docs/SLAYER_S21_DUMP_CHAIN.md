@@ -558,6 +558,10 @@ and false second-registry callback do **not** imply ordinary opaque
 flag-2 rendering. The old 5.2 `RENDER_TEXTURE` cylinder pass was a real
 source mismatch; the isolated adapter now uses the pinned bright pass
 and light wave without changing the authored RGB `lines2` texture.
+The callback's adjacent `0x5D7` branch is **not** another Slayer child:
+the native loader at `0xAA99B1..0xAA99DE` names it `fire_arrow` in
+`Data\Effect\`. Do not extend the Slayer model graph from numeric
+adjacency alone.
 The fast special-draw flag is now bounded more tightly. Native
 `CreateEffect` calls `OBJECT` reset `0x1315E97` at `0x143E71F`; that
 reset calls `0x131679A`, which clears byte `OBJECT+0x3B8`. The generic

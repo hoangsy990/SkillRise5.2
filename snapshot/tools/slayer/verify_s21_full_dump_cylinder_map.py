@@ -95,6 +95,9 @@ def main() -> int:
     if callbacks != (0xAA8859, 0xAABC91, 0xAA33CA, 0xAA30CE):
         raise AssertionError(f"S21 virtual render callbacks drifted: {callbacks}")
     for va, expected in (
+        (0xAA99BD, bytes.fromhex("68d7050000")),
+        (0xAABCA8, bytes.fromhex("81785cd7050000")),
+        (0x1B527B4, b"fire_arrow\0"),
         (0xAACD0C, bytes.fromhex("81785cd8050000")),
         (0xAACD82, bytes.fromhex("f30f1005d8530b07f30f5905c8e4b401")),
         (0xAACDA1, bytes.fromhex(
@@ -114,6 +117,7 @@ def main() -> int:
           f"0x5D8-0xAE9={candidate} absent at this snapshot; main code anchors agree")
     print("PASS: live S21 special-manager callback 0xAABC91 handles 0x5D8; "
           "light *= (sin(WorldTime*.005)+1)*.25+.2; mesh0 flag=0x42 texture|bright")
+    print("PASS: adjacent callback model 0x5D7 is loader-named fire_arrow, not a Slayer child")
     print("OPEN: later runtime map/manager changes and ingame frame parity "
           "are not excluded by this snapshot")
     return 0

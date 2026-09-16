@@ -314,7 +314,7 @@ def main() -> int:
     ):
         if at(va, len(expected)) != expected:
             raise AssertionError(f"S21 registered Bat/buff draw drifted at {va:#x}")
-    print("PASS: S21 0x5D8 registry callback returns false; registered 0x688/0x691/0x694 draw flag=0x82 texture|dark, GL_ZERO/GL_ONE_MINUS_SRC_COLOR, model RGB light*=OBJECT alpha")
+    print("PASS: S21 0x5D8 second-registry callback returns false; first-manager virtual 0x5D8 bright draw is checked separately by verify_s21_full_dump_cylinder_map.py; registered 0x688/0x691/0x694 draw flag=0x82 texture|dark")
     print("PASS: S21 0x688/0x691 registered model draws only subtype zero; 0x694 draws subtype zero or one")
     # The shared S21 updater checks life before the ordinary final decrement.
     # This pins one extra live/renderable zero-life frame for Slayer children.
@@ -663,7 +663,7 @@ def main() -> int:
     if at(0x147ED19, 4) != bytes.fromhex("83786001"):
         raise AssertionError("S21 0x5D8 subtype-1 initializer selector drifted")
     if at(0x15AE9A2, 12) != bytes.fromhex("6aff6aff6a006a006a00ffb5"):
-        raise AssertionError("S21 0x5D8 ordinary model render wrapper drifted")
+        raise AssertionError("S21 0x5D8 generic model render wrapper drifted")
     print("PASS: S21 Pierce 0x5D8 subtype1 marks_cylinder model init/update/render jump-table paths pinned")
     # The generic model wrapper first tests OBJECT+0x3B8. Every new
     # secondary effect calls the OBJECT reset, which clears that flag.
