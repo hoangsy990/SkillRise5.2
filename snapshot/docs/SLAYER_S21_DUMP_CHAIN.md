@@ -1310,6 +1310,15 @@ private junctions without traversing their targets. The stage verifier uses
 
 The September 16 private QA6 login reached the local GS and submitted the
 saved `admin4` credential, but its character list contained only `MainRF`.
+The Slayer-specific DS character-list/create adapter formerly encoded S21
+DB classes `144/145/146` all as server byte `0xE0`, erasing Royal/Master
+stage bits before the 5.2 client decoded the class. It now reuses the native
+5.2 stage arithmetic with reserved base slot 7: `0xE0/0xF0/0xFF` decode to
+client class `7/15/31`. An isolated Ex603 GS build and wire-stage verifier
+pass; this is packet/class-stage repair, **not** proof of the five skill
+visuals or Class09 avatar. The separate viewport preview helper
+`gObjFixClassPacket` still flattens Slayer stages to `0xE0` and needs the
+corresponding class integration. No shared DB character was changed.
 A read-only query of the live `RISE5.2` DB confirmed there is no character
 named `Slayer` for `admin4`; the QA launcher now rejects that state before
 spawning another non-Slayer preview. The supplied S21 class patch contains

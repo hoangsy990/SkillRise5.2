@@ -36,6 +36,19 @@ def require(text: str, needle: str, label: str) -> None:
 def main() -> int:
     shared = read("ExMain_RISE_PC/Main5.2_RISE/RISE/Slayer/shared/SlayerSkillContractData.h")
     server_catalog = read("ExGameServer/GameServer/RISE/SlayerServerCatalog.h")
+    require(server_catalog, "const int stageBits = (dbClass - kS21SlayerDbClass) * 16;",
+            "Slayer wire class retains its S21 persisted stage")
+    require(server_catalog, "stageBits - stageBits / 32",
+            "Slayer wire class uses the existing 5.2 stage packing")
+    for db_class, expected_server, expected_client in (
+            (144, 0xE0, 7), (145, 0xF0, 15), (146, 0xFF, 31)):
+        stage_bits = (db_class - 144) * 16
+        server_byte = 0xE0 + stage_bits - stage_bits // 32
+        client_byte = (((server_byte >> 4) & 1) << 3) | \
+            (server_byte >> 5) | (((server_byte >> 3) & 1) << 4)
+        if (server_byte, client_byte) != (expected_server, expected_client):
+            raise AssertionError(f"Slayer class stage wire drifted for DB {db_class}")
+    print("PASS: Slayer DB 144/145/146 encode E0/F0/FF and decode client 7/15/31")
     server = read("ExGameServer/GameServer/SkillManager.cpp")
     server_protocol = read("ExGameServer/GameServer/Protocol.cpp")
     attack = read("ExGameServer/GameServer/Attack.cpp")

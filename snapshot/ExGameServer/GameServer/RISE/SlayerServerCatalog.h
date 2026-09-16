@@ -63,9 +63,18 @@ inline int LegacyArrayClassForDbClass(int dbClass)
 
 inline unsigned char ClientClassByteForDbClass(int dbClass)
 {
-	return IsSlayerDbClass(dbClass) ? kSlayerClientClassByte :
-		static_cast<unsigned char>((dbClass % 16) * 16 - ((dbClass % 16) * 16 / 32) +
-			(dbClass / 16) * 32);
+	// Reserve base slot 7 but preserve the ordinary 5.2 stage encoding.
+	// S21 DB 144/145/146 therefore become E0/F0/FF, which decode to
+	// client class 7/15/31 (Slayer/Royal/Master) instead of flattening
+	// every character to base Slayer and hiding Master-Level state.
+	if (IsSlayerDbClass(dbClass))
+	{
+		const int stageBits = (dbClass - kS21SlayerDbClass) * 16;
+		return static_cast<unsigned char>(kSlayerClientClassByte +
+			stageBits - stageBits / 32);
+	}
+	return static_cast<unsigned char>((dbClass % 16) * 16 -
+		((dbClass % 16) * 16 / 32) + (dbClass / 16) * 32);
 }
 
 inline bool IsSlayerSkill(int id)
