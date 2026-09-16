@@ -531,7 +531,20 @@ special flag before its fallback. Its direct map-specific branches are
 map `0x66`, map `2`/type `0x7A`, and map `8`/types `0x5D`/`0x65`; none
 directly selects model `0x5D8`. The registered keys of its lookup are
 not yet recovered, so its interception is still unproven; this is not a
-claim that `0x5D8` always takes the flag-2 fallback. The 5.2
+claim that `0x5D8` always takes the flag-2 fallback.
+The fast special-draw flag is now bounded more tightly. Native
+`CreateEffect` calls `OBJECT` reset `0x1315E97` at `0x143E71F`; that
+reset calls `0x131679A`, which clears byte `OBJECT+0x3B8`. The generic
+first manager tests that byte through `0x18A2107` at `0x18918E1` before
+entering its map branch. The decoded `0x5D8` subtype-1 initializer
+`0x147ED07..0x147EDDB` sets life, scale, alpha, clock and RGB but does
+not re-enable `+0x3B8`. Thus this child does not enter the fast special
+path immediately after creation. This still does **not** enumerate the
+separate `Type-0xAE9` map keys or establish that no later operation can
+select another special draw. The isolated mapped-main snapshot stores a
+heap pointer for that map, not the heap nodes in this pinned image; the
+lookup result for `0x5D8` cannot be inferred from an absent direct compare.
+The 5.2
 adapter uses `RENDER_TEXTURE` for this child instead of adding an
 unrequested bright pass; material parity still needs the later ingame gate.
 The hash-pinned v0F-to-v0C conversion reports one mesh, two bones, one

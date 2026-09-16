@@ -665,6 +665,22 @@ def main() -> int:
     if at(0x15AE9A2, 12) != bytes.fromhex("6aff6aff6a006a006a00ffb5"):
         raise AssertionError("S21 0x5D8 ordinary model render wrapper drifted")
     print("PASS: S21 Pierce 0x5D8 subtype1 marks_cylinder model init/update/render jump-table paths pinned")
+    # The generic model wrapper first tests OBJECT+0x3B8. Every new
+    # secondary effect calls the OBJECT reset, which clears that flag.
+    # The 0x5D8 subtype-1 initializer does not enable the fast special
+    # path; the separate Type-0xAE9 map lookup still needs its keys.
+    cylinder_gate_bytes = {
+        0x143E719: bytes.fromhex("8b8dc8ceffffe87377edff6a018b8dc8"),
+        0x1316137: bytes.fromhex("8b4dfce85b0600008b45"),
+        0x13167A1: bytes.fromhex("8b4dfc81c1bc030000e8931f00008b45fcc680b803000000c9c3"),
+        0x18918E1: bytes.fromhex("8b4d0ce81e0801000fb6c085c0746f8b4d0ce899411aff50"),
+        0x189195F: bytes.fromhex("837dc0000f84d21300008b45c00fb6805002000083f80c0f85bf1300008b45c00fb6805102000085c0"),
+    }
+    for va, expected in cylinder_gate_bytes.items():
+        if at(va, len(expected)) != expected:
+            raise AssertionError(f"S21 0x5D8 first-manager gate drifted at {va:#x}")
+    print("PASS: new S21 0x5D8 effect resets OBJECT+0x3B8=0 before subtype1 init; first-manager fast special-draw path is not enabled by that init")
+    print("OPEN: Type-0xAE9 first-manager map keys not recovered; fallback flag2 is not asserted unconditionally")
     for va in (0x147DB3D, 0x147DCFE, 0x147DEBA):
         if at(va, 5) != bytes.fromhex("68ba800000"):
             raise AssertionError(f"S21 Pierce 0x80BA subtype-7 flare call drifted at {va:#x}")
